@@ -1,9 +1,13 @@
 ---
 const today = new Date();
+import { FooterVisitStats } from "./react/FooterVisitStats";
 ---
 
 <footer>
     &copy; {today.getFullYear()} Dohyeon Ju. All rights reserved.
+    <div class="visit-stats">
+        <FooterVisitStats client:only />
+    </div>
     <div class="social-links">
         <a href="https://github.com/dohyeon2" target="_blank">
             <span class="sr-only">Go to Dohyeon's GitHub</span>
@@ -27,6 +31,11 @@ const today = new Date();
         background: linear-gradient(var(--gray-gradient)) no-repeat;
         color: rgb(var(--gray));
         text-align: center;
+    }
+    .visit-stats {
+        margin-top: 0.75em;
+        display: flex;
+        justify-content: center;
     }
     .social-links {
         display: flex;

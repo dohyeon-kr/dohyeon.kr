@@ -14,5 +14,11 @@ export default defineConfig({
     vite: {
         // @ts-ignore
         plugins: [tailwindcss()],
+        server: {
+            proxy: {
+                // 로컬 개발에서 Astro(4321/4322) → Fastify(3000)로 /api 요청을 프록시
+                '/api': 'http://127.0.0.1:3000',
+            },
+        },
     },
 });

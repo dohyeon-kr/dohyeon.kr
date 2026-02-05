@@ -21,16 +21,20 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          # better-sqlite3 안정성을 위해 LTS 사용 권장
+          node-version: 20
 
       - name: Enable corepack & pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@9 --activate
+          corepack prepare pnpm@10 --activate
 
       # 4️⃣ 의존성 설치
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Install server dependencies
+        run: pnpm --dir server install --frozen-lockfile
 
       # 6️⃣ semantic-release 실행
       - name: Semantic Release
@@ -44,9 +48,33 @@ jobs:
       - name: Build Astro
         run: pnpm build
 
+      - name: Build server
+        run: pnpm --dir server build
+
       # 8️⃣ 배포 (예시: rsync)
       - name: Deploy Astro
         run: |
           rsync -avz --delete \
             dist/ \
             /var/www/astro-app/
+
+      - name: Deploy server
+        run: |
+          mkdir -p /var/www/astro-app/server
+          rsync -avz --delete \
+            --exclude 'node_modules/' \
+            --exclude 'data/' \
+            server/ \
+            /var/www/astro-app/server/
+
+      - name: Install production server deps
+        run: |
+          cd /var/www/astro-app/server
+          pnpm install --prod --frozen-lockfile
+
+      - name: Restart server via pm2
+        run: |
+          pm2 -v
+          cd /var/www/astro-app/server
+          pm2 startOrReload ecosystem.config.cjs --update-env
+          pm2 save
