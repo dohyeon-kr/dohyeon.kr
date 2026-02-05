@@ -73,8 +73,37 @@ jobs:
           pnpm install --prod --frozen-lockfile
 
       - name: Restart server via pm2
+        env:
+          # pm2는 "계정별"로 동작합니다.
+          # 서버에서 실제로 pm2를 돌리고 있는 유저가 따로 있다면 Actions Secrets에 PM2_USER를 설정하세요.
+          # 예) ubuntu, ec2-user, node 등
+          PM2_USER: ${{ secrets.PM2_USER }}
         run: |
-          pm2 -v
-          cd /var/www/astro-app/server
-          pm2 startOrReload ecosystem.config.cjs --update-env
-          pm2 save
+          set -euo pipefail
+          echo "Runner user: $(whoami)"
+          echo "PM2_USER: ${PM2_USER:-<empty>}"
+
+          if [ -n "${PM2_USER:-}" ]; then
+            # 로그인 셸로 실행해서 PATH/PM2_HOME 등을 해당 유저 환경으로 맞춥니다.
+            sudo -iu "$PM2_USER" bash -lc '
+              set -euo pipefail
+              command -v pm2
+              pm2 -v
+              cd /var/www/astro-app/server
+              pm2 startOrReload ecosystem.config.cjs --update-env
+              pm2 save
+              pm2 status
+            '
+          else
+            command -v pm2
+            pm2 -v
+            cd /var/www/astro-app/server
+            pm2 startOrReload ecosystem.config.cjs --update-env
+            pm2 save
+            pm2 status
+          fi
+
+      - name: Health check
+        run: |
+          set -euo pipefail
+          curl -fsS http://127.0.0.1:3000/api/visit >/dev/null
