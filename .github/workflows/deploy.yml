@@ -90,8 +90,8 @@ jobs:
 
           cd /var/www/astro-app/server
 
-          # ecosystem.config.js 파일 생성
-          cat > ecosystem.config.js << 'EOF'
+          # ecosystem.config.cjs 파일 생성 (server/package.json의 type=module 영향 회피)
+          cat > ecosystem.config.cjs << 'EOF'
           module.exports = {
             apps: [
               {
@@ -108,7 +108,7 @@ jobs:
           };
           EOF
 
-          pm2 startOrReload ecosystem.config.js
+          pm2 startOrReload ecosystem.config.cjs
           pm2 save
           pm2 status
 
