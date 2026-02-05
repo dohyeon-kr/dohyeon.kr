@@ -21,8 +21,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          # better-sqlite3 안정성을 위해 LTS 사용 권장
-          node-version: 20
+          node-version: 24
 
       - name: Enable corepack & pnpm
         run: |
