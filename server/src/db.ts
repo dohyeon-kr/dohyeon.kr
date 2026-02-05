@@ -23,6 +23,32 @@ function getDbPath(): string {
 const dbPath = getDbPath();
 ensureDir(path.dirname(dbPath));
 
+// #region agent log
+// better-sqlite3는 파일이 없으면 open 시점에 생성합니다.
+// 따라서 open 이전의 존재 여부를 남겨야 \"배포 때 DB가 날아갔는지\"를 판별할 수 있습니다.
+let existedBeforeOpen = false;
+let statBefore: { size: number; mtimeMs: number } | null = null;
+try {
+    existedBeforeOpen = fs.existsSync(dbPath);
+    if (existedBeforeOpen) {
+        const s = fs.statSync(dbPath);
+        statBefore = { size: s.size, mtimeMs: s.mtimeMs };
+    }
+    console.log("[visit-stats][db] beforeOpen", {
+        dbPath,
+        cwd: process.cwd(),
+        existedBeforeOpen,
+        size: statBefore?.size ?? null,
+        mtimeMs: statBefore?.mtimeMs ?? null,
+    });
+} catch (e) {
+    console.log("[visit-stats][db] beforeOpen log failed", {
+        dbPath,
+        cwd: process.cwd(),
+    });
+}
+// #endregion
+
 export const db = new Database(dbPath);
 db.pragma("journal_mode = WAL");
 

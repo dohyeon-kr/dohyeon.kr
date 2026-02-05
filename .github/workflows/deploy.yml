@@ -102,11 +102,17 @@ jobs:
                   NODE_ENV: 'production',
                   HOST: '127.0.0.1',
                   PORT: '3020',
+                  // 배포 디렉토리(/var/www/...) 밖에 DB를 두어 빌드/rsync로 초기화되는 문제를 방지
+                  DB_PATH: '/var/lib/dohyeon-kr/visits.sqlite',
                 },
               },
             ],
           };
           EOF
+
+          # DB 디렉토리 보장(영구 저장소)
+          sudo mkdir -p /var/lib/dohyeon-kr
+          sudo chown -R "$(whoami)":"$(id -gn)" /var/lib/dohyeon-kr
 
           pm2 startOrReload ecosystem.config.cjs
           pm2 save
