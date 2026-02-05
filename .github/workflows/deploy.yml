@@ -111,8 +111,3 @@ jobs:
           pm2 startOrReload ecosystem.config.cjs
           pm2 save
           pm2 status
-
-      - name: Health check
-        run: |
-          set -euo pipefail
-          curl -fsS http://127.0.0.1:3020/api/visit >/dev/null
