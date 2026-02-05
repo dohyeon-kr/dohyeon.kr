@@ -23,55 +23,10 @@ function getDbPath(): string {
 const dbPath = getDbPath();
 ensureDir(path.dirname(dbPath));
 
-// #region agent log
-// better-sqlite3는 파일이 없으면 open 시점에 생성합니다.
-// 따라서 open 이전의 존재 여부를 남겨야 \"배포 때 DB가 날아갔는지\"를 판별할 수 있습니다.
-let existedBeforeOpen = false;
-let statBefore: { size: number; mtimeMs: number } | null = null;
-try {
-    existedBeforeOpen = fs.existsSync(dbPath);
-    if (existedBeforeOpen) {
-        const s = fs.statSync(dbPath);
-        statBefore = { size: s.size, mtimeMs: s.mtimeMs };
-    }
-    console.log("[visit-stats][db] beforeOpen", {
-        dbPath,
-        cwd: process.cwd(),
-        existedBeforeOpen,
-        size: statBefore?.size ?? null,
-        mtimeMs: statBefore?.mtimeMs ?? null,
-    });
-} catch (e) {
-    console.log("[visit-stats][db] beforeOpen log failed", {
-        dbPath,
-        cwd: process.cwd(),
-    });
-}
-// #endregion
-
 export const db = new Database(dbPath);
 db.pragma("journal_mode = WAL");
 
 export function initSchema() {
-    // #region agent log
-    try {
-        const exists = fs.existsSync(dbPath);
-        const stat = exists ? fs.statSync(dbPath) : null;
-        console.log("[visit-stats][db] initSchema", {
-            dbPath,
-            cwd: process.cwd(),
-            exists,
-            size: stat?.size ?? null,
-            mtimeMs: stat?.mtimeMs ?? null,
-        });
-    } catch (e) {
-        console.log("[visit-stats][db] initSchema log failed", {
-            dbPath,
-            cwd: process.cwd(),
-        });
-    }
-    // #endregion
-
     db.exec(`
 CREATE TABLE IF NOT EXISTS stats_total (
   id INTEGER PRIMARY KEY CHECK (id = 1),
@@ -94,21 +49,6 @@ CREATE TABLE IF NOT EXISTS stats_daily (
             "INSERT INTO stats_total (id, total, updated_at) VALUES (1, 0, ?)"
         ).run(new Date().toISOString());
     }
-
-    // #region agent log
-    try {
-        const after = db
-            .prepare("SELECT total, updated_at FROM stats_total WHERE id = 1")
-            .get() as { total: number; updated_at: string } | undefined;
-        console.log("[visit-stats][db] schemaReady", {
-            dbPath,
-            total: after?.total ?? null,
-            updatedAt: after?.updated_at ?? null,
-        });
-    } catch (e) {
-        console.log("[visit-stats][db] schemaReady log failed", { dbPath });
-    }
-    // #endregion
 }
 
 export function getVisitStats(now = new Date()): VisitStats {
