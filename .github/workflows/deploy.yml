@@ -67,9 +67,26 @@ jobs:
             /var/www/astro-app/server/
 
       - name: Install production server deps
+        env:
+          # pm2를 돌리는 유저(대개 ec2-user) 환경에서 설치해야 better-sqlite3 ABI가 맞습니다.
+          PM2_USER: ${{ secrets.PM2_USER }}
         run: |
-          cd /var/www/astro-app/server
-          pnpm install --prod --frozen-lockfile
+          set -euo pipefail
+          echo "Runner user: $(whoami)"
+          echo "PM2_USER: ${PM2_USER:-<empty>}"
+
+          if [ -n "${PM2_USER:-}" ]; then
+            sudo -iu "$PM2_USER" bash -lc '
+              set -euo pipefail
+              cd /var/www/astro-app/server
+              corepack enable
+              corepack prepare pnpm@10 --activate
+              pnpm install --prod --frozen-lockfile
+            '
+          else
+            cd /var/www/astro-app/server
+            pnpm install --prod --frozen-lockfile
+          fi
 
       - name: Restart server via pm2
         env:
@@ -105,4 +122,4 @@ jobs:
       - name: Health check
         run: |
           set -euo pipefail
-          curl -fsS http://127.0.0.1:3000/api/visit >/dev/null
+          curl -fsS http://127.0.0.1:3020/api/visit >/dev/null
