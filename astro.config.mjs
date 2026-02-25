@@ -11,10 +11,6 @@ import react from "@astrojs/react";
 export default defineConfig({
     site: "https://dohyeon.kr",
     integrations: [mdx(), sitemap(), react()],
-    i18n: {
-        defaultLocale: "ko",
-        locales: ["ko", "en"],
-    },
     vite: {
         // @ts-ignore
         plugins: [tailwindcss()],

@@ -1,0 +1,293 @@
+---
+title: "StackedSticky 개발기"
+description: "StackedSticky 개발기"
+pubDate: 2025-05-16
+category: "OSS"
+---
+
+import asIsVideo from "./videos/as-is.mp4";
+import toBeVideo from "./videos/to-be.mp4";
+
+# StackedSticky 개발기
+
+<aside>
+💡
+
+TLDR;  
+Sticky가 쌓이는 StackedSticky를 제작했습니다.  
+본질에 집중해서 명확한 목표와 가장 효율적인 솔루션을 고민한 내용입니다.  
+결과는 맨 아래를 참고하세요.
+
+</aside>
+
+# Stacked Sticky를 만들고 싶어.
+
+웹 개발을 진행하다보면, 아래 영상과 같은 디자인을 구현해야하는 경우가 생깁니다. sticky되는 요소가 차례로 쌓이는 것과 같은 형태입니다.
+
+구현을 위해 sticky를 대충 넣어서 행동을 시험해보기도 하고, ChatGPT와 대화를 통해 방법들을 강구해봤습니다. css를 통해 달성하는 방법을 주로 사용해보고자 했으나 GPT의 대답은 불만족스러웠습니다.
+
+‘sticky wrapper를 통해 sticky scope를 분리’하거나 ‘이전 요소의 height값을 top에 삽입’하는 등의 지나치게 context에 의존하는 형태였습니다.
+
+그리 오래지않아, ‘선언적인 인터페이스를 제공하면서 css만으로는 구현하는 것은 불가능하겠다.’는 결론에 이르렀습니다.
+
+<video controls style="max-width: 500px;">
+    <source src={asIsVideo} type="video/mp4" />
+</video>
+
+sticky와 top을 적용하여 stacked sticky를 구현한 사례
+
+## CSS를 통해 StackedSticky를 제공하는 경우
+
+### sticky wrapper의 경우
+
+sticky wrapper는 ‘도저히 행동을 예상할 수 없다’는 css의 한계를 다시금 떠올리게 만들었습니다. GPT는 height를 설정하면 독립적인 sticky scope를 구성할 수 있다고 하였으나, 세팅 후에도 마찬가지로 예상한대로 동작하지 않았습니다.
+
+이해하기도 어려웠고, 브라우저별로 동일한 동작을 할것이라는 믿음도 가지기 어려웠습니다.
+
+### 그럼 top으로 요소의 위치를 정적으로 지정하자.
+
+1. sticky적용 후 top:0을 적용한 경우
+
+![image.png](./images/StackedSticky%20%EA%B0%9C%EB%B0%9C%EA%B8%B0/image.png)
+
+1. sticky적용 후 이전 sticky의 height값을 입력해야 제대로 적용이 가능하다.
+
+![image.png](./images/StackedSticky%20%EA%B0%9C%EB%B0%9C%EA%B8%B0/image%201.png)
+
+해당 방법은 유효하고, 원하는 동작을 제공했지만, 요소가 다른 요소의 상황을 인지해야하는 맥락의 강결합을 강요했습니다. 특히 윈도우와 엘레멘트의 사이즈가 디바이스나 상황에 따라 시시각각 변동하는 웹페이지 환경에서 이런 강결합은 재사용에 있어 치명적입니다.
+
+특히나 sticky같은 경우는 특정 유즈케이스에서만 한정적으로 쓰이는게 아니라 유틸리티에 가까운 ui다보니, 이런점은 도저히 용남할 수가 없었습니다.
+
+## 결국 JS, 나만의 인터페이스로
+
+결국 인터페이스의 문제입니다. 그리고 css가 제공하는 인터페이스는 극명한 한계를 가지고 있었습니다.
+
+JS를 통해 일관된 인터페이스의 제공을 목표로 간단한 라이브러리 제작에 돌입했습니다. container와 element구조를 떠올리는건 어렵지 않았습니다. container가 context를 관리하고, element가 참조하면서 element의 top값을 동적으로 변동하는, 비교적 단순한 구조였습니다.
+
+구조가 단순한 만큼 구현이 관건이었습니다. container가 모든 element를 탐색하는 것은 지나친 과부하를 일으킬 것이고, container의 context가 rendering에 직접적인 영향을 끼쳐도 성능에 부정적인 결과로 이어질 것이라고 에상했습니다.
+
+대략적으로 그리는 그림을 GPT와 상의 했더니, register, unregister 인터페이스를 제공하는 subscription형식의 디자인에 대한 아이디어를 주었습니다. event와 같은 비동기 작업을 많이 하지 않다보니, ‘container가 맥락을 통제해야한다.’는 이상한 선입견에 빠져서 자칫 container가 모든 node를 탐험해서 재귀적으로 알맞은 element를 찾아내는 큰 실수를 저지를뻔 했습니다.
+
+해당 패턴을 뼈대로 잡고, 전반적으로 state에 의존하지 않고 컴포넌트를 구성했습니다. 왜냐하면 container가 state를 변경하게 되면 모든 자식노드가 리렌더링 될 거고, 최적화가 잘된 react라고 하더라도 좋지않은 영향을 끼칠것이라고 생각했기 때문입니다.
+
+state보다는 event를 중심으로 서비스를 구성했고, EventTarget, ResizeObserver등을 통해 사이즈의 변경을 추적하고 등록된 element의 top값을 동적으로 변경시킬 수 있었습니다. mount, unmount시의 메모리를 관리해주는 useRef도 적극적으로 활용하여 구성했습니다.
+
+## 그리고 ‘철학’
+
+구성 후 GPT에게 피드백을 받았는데, ‘StackedSticky element의 등록의 순서가 암시적으로 mount순서에만 의존한다.’는 점을 지적했습니다. 이에대해 여러대안도 같이 고민을 했는데, 암시성을 유지하면서 order interface를 제공하는게 어떠냐하는 의견도 있었습니다.
+
+잠깐 좋은 인터페이스가 될 수 있을까 생각했지만, ‘몇몇은 암시적으로, 몇몇은 명시적으로’라는 이중적인 인터페이스가 오히려 복잡함을 증가시키고 있다고 생각했습니다.
+
+그리고 이 라이브러리의 목적을 생각했을 때, 처리가 ‘로직을 interface에 위임하고 선언적으로 재활용하기 위함’임을 떠올렸고, 이내 mount를 기점으로한 암시적인 순서 설정도 크게 나쁘지 않겠다고 생각했습니다.
+
+그리고 결국 이런 선택은 어떤 논리적 추론의 결론 보다는 ‘우리가 가고자 하는 방향’에 대한 의지라는 생각을 했고, 이에 중요한 것은 당위성에 대한 이해관계자간의 합의라는 결론을 도출할 수 있었습니다.
+
+그리고 이런 점들이 ‘문서’와 ‘테스트’코드의 목적성이 되어야 한다는 것도 다시금 마음에 새길 수 있었습니다.
+
+고민의 결과물을 아래에 공유합니다.
+
+<video controls style="max-width: 500px;">
+    <source src={toBeVideo} type="video/mp4" />
+</video>
+---
+
+```tsx
+//StackedStickyProvider.tsx
+"use client";
+
+import React, {
+    createContext,
+    PropsWithChildren,
+    useCallback,
+    useLayoutEffect,
+    useRef,
+} from "react";
+
+type unregister = () => void;
+
+export const StackedStickyContext = createContext<{
+    register: (element: HTMLElement) => unregister;
+} | null>(null);
+
+class StackedStickyRegisterEvent extends Event {
+    element: HTMLElement;
+    constructor(init: EventInit & { element: HTMLElement }) {
+        super("ssticky:register", init);
+        this.element = init.element;
+    }
+}
+
+class StackedStickyUnregisterEvent extends Event {
+    element: HTMLElement;
+    constructor(init: EventInit & { element: HTMLElement }) {
+        super("ssticky:unregister", init);
+        this.element = init.element;
+    }
+}
+
+export const StackedStickyProvider: React.FC<PropsWithChildren> = ({
+    children,
+}) => {
+    const stackedElements = useRef<HTMLElement[]>([]);
+    const eventTarget = useRef<EventTarget>(new EventTarget());
+    const observer = useRef<ResizeObserver | null>(null);
+
+    const unregister = useCallback((element: HTMLElement) => {
+        stackedElements.current = stackedElements.current.filter(
+            (e) => e !== element
+        );
+
+        eventTarget.current.dispatchEvent(
+            new StackedStickyUnregisterEvent({ element })
+        );
+    }, []);
+
+    const handleResize = () => {
+        const accumulatedTop = { value: 0 };
+        stackedElements.current.forEach((element) => {
+            const elementTop = accumulatedTop.value;
+            element.style.setProperty(
+                "--stacked-sticky-top",
+                `${elementTop}px`
+            );
+            element.style.top = `var(--stacked-sticky-top)`;
+            accumulatedTop.value += element.offsetHeight;
+        });
+    };
+
+    const register = useCallback(
+        (element: HTMLElement) => {
+            stackedElements.current.push(element);
+            eventTarget.current.dispatchEvent(
+                new StackedStickyRegisterEvent({ element })
+            );
+
+            return () => {
+                unregister(element);
+            };
+        },
+        [unregister]
+    );
+
+    const connectObserver = useCallback(() => {
+        observer.current = new ResizeObserver(handleResize);
+        stackedElements.current.forEach((element) => {
+            observer.current?.observe(element);
+        });
+
+        return () => {
+            observer.current?.disconnect();
+        };
+    }, []);
+
+    const observeElement = useCallback((element: HTMLElement) => {
+        observer.current?.observe(element);
+    }, []);
+
+    const unobserveElement = useCallback((element: HTMLElement) => {
+        observer.current?.unobserve(element);
+    }, []);
+
+    useLayoutEffect(() => {
+        const registerListener = (e: Event) => {
+            if (e instanceof StackedStickyRegisterEvent) {
+                observeElement(e.element);
+                handleResize();
+            }
+        };
+
+        const unregisterListener = (e: Event) => {
+            if (e instanceof StackedStickyUnregisterEvent) {
+                unobserveElement(e.element);
+                handleResize();
+            }
+        };
+
+        eventTarget.current.addEventListener(
+            "ssticky:register",
+            registerListener
+        );
+
+        eventTarget.current.addEventListener(
+            "ssticky:unregister",
+            unregisterListener
+        );
+
+        const disconnect = connectObserver();
+
+        return () => {
+            eventTarget.current.removeEventListener(
+                "ssticky:register",
+                registerListener
+            );
+            eventTarget.current.removeEventListener(
+                "ssticky:unregister",
+                unregisterListener
+            );
+            disconnect();
+        };
+    }, [
+        register,
+        unregister,
+        connectObserver,
+        observeElement,
+        unobserveElement,
+    ]);
+
+    return (
+        <StackedStickyContext.Provider value={{ register }}>
+            {children}
+        </StackedStickyContext.Provider>
+    );
+};
+```
+
+```tsx
+//StackedSticky.tsx
+"use client";
+
+import { mergeClassName } from "@/utilities/class-names/mergeClassName";
+import React, {
+    PropsWithChildren,
+    useContext,
+    useLayoutEffect,
+    useRef,
+} from "react";
+import { StackedStickyContext } from "./StackedStickyProvider";
+
+interface Props {
+    className?: string;
+}
+
+export const StackedSticky: React.FC<PropsWithChildren<Props>> = ({
+    children,
+    className,
+}) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const context = useContext(StackedStickyContext);
+
+    if (!context) {
+        throw new Error(
+            "StackedSticky must be used within a StackedStickyProvider"
+        );
+    }
+
+    useLayoutEffect(() => {
+        if (!ref.current) return;
+        const unregister = context.register(ref.current);
+        return () => unregister();
+    }, [context]);
+
+    return (
+        <div
+            ref={ref}
+            style={{
+                position: "sticky",
+            }}
+            className={mergeClassName(className)}
+        >
+            {children}
+        </div>
+    );
+};
+```
