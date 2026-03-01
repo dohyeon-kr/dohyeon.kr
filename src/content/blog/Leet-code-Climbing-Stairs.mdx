@@ -1,0 +1,64 @@
+---
+title: "Leet code Problem: Climbing Stairs"
+description: "Leet code Problem: Climbing Stairs"
+pubDate: 2026-03-01
+category: "알고리즘"
+---
+
+import { Image } from "astro:assets";
+import 러버덕_디버깅_AI from "./images/러버덕/러버덕 with ChatGPT.png";
+
+# Leet code Problem: Climbing Stairs
+
+## Problem
+
+> You are climbing a staircase. It takes n steps to reach the top.
+> Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+## 후기 겸 풀이
+
+Easy레벨 문제를 풀었다. 보자마자 DP가 떠올랐다. 쉬운 레벨에서는 DP 같은 알고리즘을 사용하는 걸 본적이 없어서, 혹시 더 쉬운 방법이 있나 잠깐 생각했다. 방법을 궁리해도 떠오르지 않길래, DP로 일단 풀어보았다. 그런데 솔루션이 통과되지 않았다. 내가 DP를 잘 모르고 있었던 탓이다. 풀자면 사실 어려운 문제는 아니다. 완전탐색을 통해서 풀자면 풀겠지만, 시간복잡도상 통과가 불가능해보였다. (물론, 대부분의 문제가 완전탐색을 배제한다.) 그래서 결국 공부부족을 인정하고 해설을 펼쳤다. 그리고, 그에 상응하는 일종의 벌(?)로써 글을 통해 기억 속에 남기려고한다.
+
+```java
+class Solution {
+    public int climbStairs(int n) {
+        if (n < 3) {
+            // If n is less than 3 there are n ways.
+            return n;
+        }
+
+        // There is one way to reach the first stair.
+        int nMinus2 = 1;
+        // There are two ways to reach the second stair.
+        int nMinus1 = 2;
+
+        int nZero = nMinus1 + nMinus2;
+
+        for (int step = 3; step <= n; step++) {
+            // To reach the third stair, it must come from the first stair or the second stair.
+            // The number of ways to reach the nth stair is the sum of those of the (n-1)th stair and those of the (n-2)th stair.
+            nZero = nMinus1 + nMinus2;
+
+            nMinus2 = nMinus1;
+            nMinus1 = nZero;
+        }
+
+        // A separate variable name is used to distinguish between nZero and nMinus1 so that the nth value is explicit
+        return nZero;
+    }
+}
+```
+
+특히, 이 문제의 경우 n = (n - 1) + (n - 2) 이라는 점에서 `피보나치 수열`을 구하는 공식과 같다는 사실을 알 수 있다. 피보나치 수열 또한 DP의 단골 예제 중 하나다. 무언가 기초체력이 부족한 달리기 선수가 된 것 같은 기분이다. 역시 아는 것에서 그치지 않고 계속해서 친해지려는 노력이 필요한 것 같다. 특히 DP인건 알아챘어도 어떤 상태가 기록되어야하는지 잘 고민해봐야 할 것 같다.
+
+## 러버덕
+
+[러버덕 디버깅 AI 소개 영상](https://www.youtube.com/watch?v=uxbOwUdg2lk&t=34s)
+
+위 영상은 LLM을 이용하여 러버덕 디버깅을 진행하는 방법을 소개하는 영상이다. 우연히 숏츠를 보다가 알게되었는데, 괜찮은 방법인 것 같아서 사용해보기로 했다. 핵심은 AI에게 답을 구하는게 아니라 AI의 질문을 통해서 스스로 생각하여 문제를 해결하는 방식이다. 이전부터 러버덕 디버깅이라는 학습방법이 있었는데, 이걸 LLM에 적용한 버전이라고 생각하면 된다. 마치 좋은 선생님이 가르치는 방법과 같다고 느껴진다.
+
+알고리즘에 대해 직접적으로 묻지는 않고, 영어 주석에 대해 물으며 바르게 영작을 하는 방법을 익히고자 했다.
+
+<Image src={러버덕_디버깅_AI} alt="러버덕 디버깅 AI" />
+
+조금 열받는 말투를 쓰기도하고, 중간중간 잘 몰라서 대답하지 못하는 부분도 나왔다. 그래도 꽤 도움이 많이 되는 학습 방법인 것 같다. 실제로도 인고지능을 통해 무언가 학습하고자 할 때, 인공지능이 내가 생각해야하는 부분을 모두 채워버려서 난감했던 적이 있다. 러버덕 프롬프트를 사용하면 그런 부분의 불편함을 해소할 수 있을 것 같다. 대신 말투라던지, 설명이 너무 적은 부분이라던지, 질문이 너무 직접적이라던지 하는 부분은 프롬프트적으로 좀 커스텀을 해보면 좋을 것 같다. 애초에 소개를 받은 프롬프트도 클로드코드용으로 작성된듯 하다. 모쪼록 써보고 싶은 분이 있다면, 해당 링크를 통해 한번 시도해보기 바란다.
