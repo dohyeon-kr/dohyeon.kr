@@ -17,7 +17,7 @@ const { Content, headings } = await render(post);
 const minDepth = Math.min(...headings.map((heading) => heading.depth));
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} slug={post.id}>
     <ul class="text-base font-bold space-y-2 mb-5">
         <li><strong class="text-lg font-bold text-gray-900">개요</strong></li>
         {

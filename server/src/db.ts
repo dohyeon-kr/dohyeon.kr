@@ -8,6 +8,10 @@ export type VisitStats = {
     total: number;
 };
 
+export type PostViewStats = {
+    total: number;
+};
+
 function ensureDir(dir: string) {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
@@ -36,6 +40,12 @@ CREATE TABLE IF NOT EXISTS stats_total (
 
 CREATE TABLE IF NOT EXISTS stats_daily (
   day TEXT PRIMARY KEY,
+  total INTEGER NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS stats_post_views (
+  slug TEXT PRIMARY KEY,
   total INTEGER NOT NULL,
   updated_at TEXT NOT NULL
 );
@@ -97,5 +107,45 @@ export function incrementVisit(now = new Date()): VisitStats {
     const nowIso = now.toISOString();
     const day = getKstDateId(now);
     return incrementTx(nowIso, day);
+}
+
+function isValidSlug(slug: string): boolean {
+    return (
+        slug.length > 0 &&
+        !slug.includes("/") &&
+        !slug.includes("..")
+    );
+}
+
+export function getPostViewStats(slug: string): PostViewStats {
+    if (!isValidSlug(slug)) {
+        return { total: 0 };
+    }
+    const row = db
+        .prepare("SELECT total FROM stats_post_views WHERE slug = ?")
+        .get(slug) as { total: number } | undefined;
+    return { total: row?.total ?? 0 };
+}
+
+const incrementPostViewTx = db.transaction((slug: string, nowIso: string) => {
+    db.prepare(
+        `
+INSERT INTO stats_post_views (slug, total, updated_at)
+VALUES (?, 1, ?)
+ON CONFLICT(slug) DO UPDATE SET total = total + 1, updated_at = excluded.updated_at
+    `.trim()
+    ).run(slug, nowIso);
+
+    const row = db
+        .prepare("SELECT total FROM stats_post_views WHERE slug = ?")
+        .get(slug) as { total: number } | undefined;
+    return { total: row?.total ?? 0 } satisfies PostViewStats;
+});
+
+export function incrementPostView(slug: string, now = new Date()): PostViewStats {
+    if (!isValidSlug(slug)) {
+        return { total: 0 };
+    }
+    return incrementPostViewTx(slug, now.toISOString());
 }
 
