@@ -15,7 +15,9 @@ type Props = {
 const { posts } = Astro.props;
 
 const filteredPosts = posts.filter((post) => !post.data.WIP);
-const renderReadyPosts = filteredPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const renderReadyPosts = filteredPosts.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <!doctype html>
@@ -24,7 +26,8 @@ const renderReadyPosts = filteredPosts.sort((a, b) => b.data.pubDate.valueOf() -
         <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
         <style>
             main {
-                width: 960px;
+                max-width: 1280px;
+                width: 100%;
             }
             h6 {
                 font-weight: bold;
@@ -44,18 +47,32 @@ const renderReadyPosts = filteredPosts.sort((a, b) => b.data.pubDate.valueOf() -
             </section>
             <section>
                 <h6>Posts</h6>
-                <ul class="grid">
+                <ul
+                    class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4"
+                >
                     {
                         renderReadyPosts.map((post) => (
-                            <li class="first:border-t border-b border-gray-300 py-5">
-                                {post.data.heroImage && (
-                                    <Image
-                                        width={720}
-                                        height={360}
-                                        src={post.data.heroImage}
-                                        alt=""
-                                    />
-                                )}
+                            <li class="border-b border-gray-300 py-5 space-y-3">
+                                <a
+                                    href={`/blog/post/${post.id}/`}
+                                    class="block"
+                                >
+                                    {post.data.heroImage ? (
+                                        <Image
+                                            width={720}
+                                            height={360}
+                                            src={post.data.heroImage}
+                                            alt=""
+                                        />
+                                    ) : (
+                                        <img
+                                            src={`/og/${post.id}.png`}
+                                            alt=""
+                                            width={720}
+                                            height={360}
+                                        />
+                                    )}
+                                </a>
                                 <a
                                     href={`/blog/c/${post.data.category}/`}
                                     class="hover:text-gray-700 text-gray-500! text-sm block"

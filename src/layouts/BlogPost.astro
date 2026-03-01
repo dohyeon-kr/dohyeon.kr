@@ -6,18 +6,42 @@ import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
 import { PostViewStats } from "../components/react/PostViewStats";
-import { notFound } from "astro:i18n";
 
 type Props = CollectionEntry<"blog">["data"] & { slug?: string };
 
-const { title, description, pubDate, updatedDate, heroImage, category, tags, WIP, slug } =
-    Astro.props;
+const {
+    title,
+    description,
+    pubDate,
+    updatedDate,
+    heroImage,
+    category,
+    tags,
+    WIP,
+    slug,
+} = Astro.props;
 
 const isWIP = WIP;
 
 if (isWIP) {
     return null;
 }
+
+const ogImage = heroImage
+    ? {
+          src: heroImage.src,
+          width: heroImage.width,
+          height: heroImage.height,
+          format: heroImage.format,
+      }
+    : slug
+      ? {
+            src: `/og/${slug}.png`,
+            width: 1200,
+            height: 630,
+            format: "png" as const,
+        }
+      : undefined;
 ---
 
 <html lang="en">
@@ -26,6 +50,7 @@ if (isWIP) {
             title={title}
             description={description +
                 (tags?.length ? " - " + tags?.join(", ") : "")}
+            image={ogImage}
         />
         {tags && <meta name="keywords" content={tags.join(", ")} />}
         <style>
@@ -44,7 +69,7 @@ if (isWIP) {
             }
             .prose {
                 width: 100%;
-                max-width: 1080px;
+                max-width: 1280px;
                 margin: auto;
                 color: rgb(var(--gray-dark));
             }
@@ -66,10 +91,10 @@ if (isWIP) {
                 font-style: italic;
             }
             @media (max-width: 720px) {
-                :root{
+                :root {
                     font-size: 90%;
                 }
-                .title h1{
+                .title h1 {
                     font-size: 2.5rem;
                 }
             }
@@ -80,18 +105,6 @@ if (isWIP) {
         <Header />
         <main>
             <article>
-                <div class="hero-image">
-                    {
-                        heroImage && (
-                            <Image
-                                width={1020}
-                                height={510}
-                                src={heroImage}
-                                alt=""
-                            />
-                        )
-                    }
-                </div>
                 <div class="prose">
                     <div class="title">
                         <a
@@ -101,12 +114,17 @@ if (isWIP) {
                         <h1 class="my-4!">{title}</h1>
                         <div class="date">
                             <FormattedDate date={pubDate} />
-                            {slug && (
-                                <>
-                                    {" · "}
-                                    <PostViewStats slug={slug} client:only />
-                                </>
-                            )}
+                            {
+                                slug && (
+                                    <>
+                                        {" · "}
+                                        <PostViewStats
+                                            slug={slug}
+                                            client:only
+                                        />
+                                    </>
+                                )
+                            }
                             {
                                 updatedDate && (
                                     <div class="last-updated-on">
@@ -136,8 +154,7 @@ if (isWIP) {
                 data-lang="ko"
                 data-loading="lazy"
                 crossorigin="anonymous"
-                async
-            ></script>
+                async></script>
         </main>
         <Footer />
     </body>

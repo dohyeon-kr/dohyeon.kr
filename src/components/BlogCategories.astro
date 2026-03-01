@@ -14,11 +14,12 @@ const categories = posts
         return acc;
     }, new Map<string, number>());
 
-const countMap = Array.from(categories.entries()).toSorted((a, b) => b[1] - a[1]);
-
+const countMap = Array.from(categories.entries()).toSorted(
+    (a, b) => b[1] - a[1]
+);
 ---
 
-<ul>
+<ul class="flex flex-wrap gap-3">
     {
         countMap.map(([category, count]) => (
             <li>
