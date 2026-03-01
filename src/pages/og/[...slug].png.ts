@@ -82,7 +82,7 @@ export const GET: APIRoute = async function get({ params }) {
                           {
                               key: "category",
                               style: {
-                                  fontSize: 24,
+                                  fontSize: 48,
                                   color: "#64748b",
                                   marginBottom: 16,
                                   textTransform: "uppercase",
@@ -98,7 +98,7 @@ export const GET: APIRoute = async function get({ params }) {
                 {
                     key: "title",
                     style: {
-                        fontSize: 48,
+                        fontSize: 80,
                         fontWeight: 700,
                         color: "#1e293b",
                         lineHeight: 1.3,
