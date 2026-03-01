@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import AboutHeroImage from "../assets/about/profile.png";
+import AboutHeroImage from "../assets/about/profile-gen.png";
 import Layout from "../layouts/BlogPost.astro";
 ---
 
@@ -9,31 +9,40 @@ import Layout from "../layouts/BlogPost.astro";
     description="안녕하세요. 개발자 주도현입니다."
     pubDate={new Date("2026-01-03")}
 >
-    <Image
-        src={AboutHeroImage}
-        alt="About Hero Image"
-        class="w-full aspect-video object-contain object-top mb-4 bg-stone-200"
-    />
-    <h3>주도현</h3>
-    <ul class="mb-2 list-disc list-inside space-y-2">
-        <li>1994년 4월 17일 출생</li>
-        <li>안산공업고등학교 졸업</li>
-        <li>경희대학교 시각디자인과 졸업</li>
-        <li>방송통신대학교 컴퓨터과학과 재학</li>
-    </ul>
-    <div class="h-4"></div>
-    <div>
-        <h5>Contacts</h5>
-        <ul class="mb-2 list-disc list-inside space-y-2">
-            <li>
-                Email: <a href="mailto:syate@naver.com">syate@naver.com</a>
-            </li>
-            <li>
-                GitHub: <a href="https://github.com/dohyeon2"
-                    >https://github.com/dohyeon2</a
-                >
-            </li>
-        </ul>
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(360px,1fr))] gap-10">
+        <Image
+            src={AboutHeroImage}
+            alt="About Hero Image"
+            class="w-full aspect-video object-contain object-top mb-4 bg-stone-200"
+            style={{
+                aspectRatio: `${AboutHeroImage.width} / ${AboutHeroImage.height}`,
+            }}
+        />
+        <div>
+            <h3>주도현</h3>
+            <ul class="mb-2 list-disc list-inside space-y-2">
+                <li>1994년 4월 17일 출생</li>
+                <li>안산공업고등학교 졸업</li>
+                <li>경희대학교 시각디자인과 졸업</li>
+                <li>방송통신대학교 컴퓨터과학과 재학</li>
+            </ul>
+            <div class="h-4"></div>
+            <div>
+                <h5>Contacts</h5>
+                <ul class="mb-2 list-disc list-inside space-y-2">
+                    <li>
+                        Email: <a href="mailto:syate@naver.com"
+                            >syate@naver.com</a
+                        >
+                    </li>
+                    <li>
+                        GitHub: <a href="https://github.com/dohyeon2"
+                            >https://github.com/dohyeon2</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <br />
     <p>
