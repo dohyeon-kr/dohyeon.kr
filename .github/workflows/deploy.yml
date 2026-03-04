@@ -43,6 +43,14 @@ jobs:
         run: |
           pnpm semantic-release || echo "NO_RELEASE=true" >> $GITHUB_ENV
 
+      # 6️⃣-1 semantic-release가 릴리즈하지 않았을 때 버전 설정 (최신 태그 또는 package.json)
+      - name: Set version for build
+        run: |
+          if [ -z "${RELEASE_VERSION:-}" ]; then
+            VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")
+            echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+          fi
+
       # 7️⃣ Astro 빌드
       - name: Build Astro
         run: pnpm build

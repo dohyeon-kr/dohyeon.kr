@@ -10,14 +10,19 @@ import BlogCategories from "../components/BlogCategories.astro";
 
 type Props = {
     posts: CollectionEntry<"blog">[];
+    /** 카테고리 목록용 전체 포스트 (카테고리 필터 시 필수) */
+    allPosts?: CollectionEntry<"blog">[];
 };
 
-const { posts } = Astro.props;
+const { posts, allPosts } = Astro.props;
 
 const filteredPosts = posts.filter((post) => !post.data.WIP);
 const renderReadyPosts = filteredPosts.sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+const postsForCategories = allPosts
+    ? allPosts.filter((p) => !p.data.WIP)
+    : renderReadyPosts;
 ---
 
 <!doctype html>
@@ -42,7 +47,7 @@ const renderReadyPosts = filteredPosts.sort(
                 <div
                     class="text-base **:[a]:text-gray-500! **:[a]:hover:text-gray-700!"
                 >
-                    <BlogCategories posts={renderReadyPosts} />
+                    <BlogCategories posts={postsForCategories} />
                 </div>
             </section>
             <section>
