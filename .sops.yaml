@@ -1,0 +1,5 @@
+creation_rules:
+  - path_regex: ^secrets/.*\.env\.enc$
+    input_type: dotenv
+    output_type: dotenv
+    age: age1lcgsswm7ycfpnlwyul6yh4g84l6lwhmwzehu5sxfhs06vdnjusxqma938u

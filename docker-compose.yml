@@ -1,0 +1,18 @@
+services:
+  ghost:
+    image: ghost:5-alpine
+    container_name: dohyeon-ghost
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${GHOST_PORT:-2368}:2368"
+    environment:
+      url: ${GHOST_URL:-https://blog.dohyeon.kr}
+      NODE_ENV: ${GHOST_NODE_ENV:-development}
+      database__client: sqlite3
+      database__connection__filename: /var/lib/ghost/content/data/ghost.db
+      server__host: 0.0.0.0
+      server__port: 2368
+      mail__transport: ${GHOST_MAIL_TRANSPORT:-Direct}
+      logging__transports: '["stdout"]'
+    volumes:
+      - ${GHOST_CONTENT_DIR:-./content}:/var/lib/ghost/content

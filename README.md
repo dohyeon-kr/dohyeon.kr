@@ -1,88 +1,141 @@
-# Astro Starter Kit: Blog
+# dohyeon.kr Ghost CMS
+
+This repository now deploys Ghost CMS for `https://blog.dohyeon.kr`.
+`https://dohyeon.kr` redirects to the Ghost site.
+
+The previous Astro source is still in the repository for reference and content
+migration, but the active deployment path is Docker Compose + Ghost.
+
+## Stack
+
+- Ghost 5 Docker image
+- SQLite content database for the initial setup
+- Nginx reverse proxy on `blog.dohyeon.kr`
+- Nginx redirect from `dohyeon.kr` to `blog.dohyeon.kr`
+- GitHub Actions deploying to `ssh dohyeon.kr`
+
+## Local Run
 
 ```sh
-pnpm create astro@latest -- --template blog
+cp .env.example .env
+docker compose up -d
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Ghost will be available at:
 
-Features:
+- Site: `http://localhost:2368`
+- Admin: `http://localhost:2368/ghost`
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+## Server Layout
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+The GitHub Actions workflow deploys these files to `/var/www/ghost-blog` on the
+`dohyeon.kr` server:
 
 ```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+/var/www/ghost-blog/
+├── docker-compose.yml
+├── .env
+├── .env.example
+├── blog.dohyeon.kr.conf
+├── secrets/
+│   └── ghost.env.enc
+└── content/
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`content/` is the persistent Ghost volume. It contains uploaded images, themes,
+logs, and the SQLite database at `content/data/ghost.db`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Secrets
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Secrets are managed with SOPS + age.
 
-Any static assets, like images, can be placed in the `public/` directory.
+Committed files:
 
-## 🧞 Commands
+```text
+.sops.yaml
+secrets/ghost.env.enc
+```
 
-All commands are run from the root of the project, from a terminal:
+Plaintext secret files are ignored by git:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+```text
+secrets/*.env
+.env
+```
 
-## Footer 방문 통계(Today/Total)
+The current server has its age private key at:
 
-이 프로젝트는 Astro SSG를 유지하면서, 별도 Fastify 서버(`server/`) + SQLite로 방문 통계를 집계해 푸터에 표시합니다.
+```text
+~/.config/sops/age/keys.txt
+```
 
-### 로컬 개발 실행
+To edit Ghost environment values from a machine that has the age private key,
+decrypt to an ignored file, edit, then re-encrypt:
 
-- 백엔드(터미널 1):
-  - `pnpm --dir server install`
-  - `pnpm --dir server dev` (기본 `http://127.0.0.1:3000`)
-- 프론트(터미널 2):
-  - `pnpm install`
-  - `pnpm dev`
+```sh
+sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > secrets/ghost.env
+sops --encrypt --input-type dotenv --output-type dotenv --filename-override secrets/ghost.env.enc --output secrets/ghost.env.enc secrets/ghost.env
+```
 
-Astro dev 서버는 `astro.config.mjs`의 proxy 설정으로 `/api/*` 요청을 백엔드로 프록시합니다.
+To apply the encrypted env manually on the server:
 
-### 서버 환경변수(선택)
+```sh
+ssh dohyeon.kr 'cd /var/www/ghost-blog && SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env && chmod 600 .env'
+```
 
-- `DB_PATH`: SQLite 파일 경로 (기본: `server/data/visits.sqlite`)
-- `PORT`: 서버 포트 (기본: `3000`)
-- `HOST`: 바인딩 호스트 (기본: `127.0.0.1`)
+## Deployment
 
-### 배포(EC2) 요약
+Push to `main` or run the `Release & Deploy Ghost` workflow manually.
 
-- Nginx(또는 Caddy)에서 `/api/`는 Fastify로 프록시, 그 외는 `dist/` 정적 파일 서빙
-- 서버는 systemd 또는 pm2로 상시 실행
+The workflow:
 
-## 👀 Want to learn more?
+1. runs semantic-release
+2. creates `/var/www/ghost-blog/content` on `dohyeon.kr`
+3. ensures `sops` and `age` are available on the server
+4. uploads `docker-compose.yml`, `.env.example`, the encrypted env, and the Nginx sample config
+5. decrypts `secrets/ghost.env.enc` to `/var/www/ghost-blog/.env`
+6. runs `docker compose pull && docker compose up -d`
+7. disables the legacy Astro Nginx vhost
+8. applies the Ghost Nginx vhost and reloads Nginx
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Useful server commands:
 
-## Credit
+```sh
+ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose ps'
+ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose logs -f ghost'
+ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose pull && docker compose up -d'
+```
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+## Nginx
+
+The sample config is in `deploy/nginx/blog.dohyeon.kr.conf`. The current server
+already has a Let's Encrypt certificate at
+`/etc/letsencrypt/live/blog.dohyeon.kr`.
+
+Apply it on the server:
+
+```sh
+ssh dohyeon.kr 'sudo cp /var/www/ghost-blog/blog.dohyeon.kr.conf /etc/nginx/sites-available/blog.dohyeon.kr'
+ssh dohyeon.kr 'sudo ln -sf /etc/nginx/sites-available/blog.dohyeon.kr /etc/nginx/sites-enabled/blog.dohyeon.kr'
+ssh dohyeon.kr 'sudo nginx -t && sudo systemctl reload nginx'
+```
+
+If rebuilding this on a fresh server, issue a certificate after DNS for
+`blog.dohyeon.kr` points to the server:
+
+```sh
+ssh dohyeon.kr 'sudo certbot --nginx -d blog.dohyeon.kr'
+```
+
+## SQLite Note
+
+This setup intentionally uses SQLite for the first Ghost install:
+
+```env
+GHOST_NODE_ENV=development
+database__client=sqlite3
+```
+
+Ghost's supported production database is MySQL 8. Before treating this as a real
+production blog, migrate the compose file to MySQL 8 and set
+`GHOST_NODE_ENV=production`.
