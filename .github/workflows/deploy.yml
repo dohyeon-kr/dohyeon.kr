@@ -36,41 +36,56 @@ jobs:
         run: |
           pnpm semantic-release || echo "NO_RELEASE=true" >> $GITHUB_ENV
 
-      - name: Prepare remote directories
+      - name: Prepare deployment directories
         run: |
-          ssh dohyeon.kr 'mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets'
+          mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets
 
       - name: Ensure SOPS tools are available
         run: |
-          ssh dohyeon.kr 'set -euo pipefail; if ! command -v age >/dev/null 2>&1; then sudo apt-get update && sudo apt-get install -y age; fi; if ! command -v sops >/dev/null 2>&1; then tmp=$(mktemp); curl -fsSL -o "$tmp" https://github.com/getsops/sops/releases/download/v3.13.1/sops-v3.13.1.linux.amd64; sudo install -m 0755 "$tmp" /usr/local/bin/sops; rm -f "$tmp"; fi; test -f "$HOME/.config/sops/age/keys.txt"'
+          set -euo pipefail
+          if ! command -v age >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y age
+          fi
+          if ! command -v sops >/dev/null 2>&1; then
+            tmp=$(mktemp)
+            curl -fsSL -o "$tmp" https://github.com/getsops/sops/releases/download/v3.13.1/sops-v3.13.1.linux.amd64
+            sudo install -m 0755 "$tmp" /usr/local/bin/sops
+            rm -f "$tmp"
+          fi
+          test -f "$HOME/.config/sops/age/keys.txt"
 
       - name: Deploy Ghost compose files
         run: |
-          rsync -avz \
-            docker-compose.yml \
-            .env.example \
-            deploy/nginx/blog.dohyeon.kr.conf \
-            dohyeon.kr:/var/www/ghost-blog/
-          rsync -avz \
-            secrets/ghost.env.enc \
-            dohyeon.kr:/var/www/ghost-blog/secrets/
+          cp docker-compose.yml .env.example deploy/nginx/blog.dohyeon.kr.conf /var/www/ghost-blog/
+          cp secrets/ghost.env.enc /var/www/ghost-blog/secrets/
 
-      - name: Decrypt remote env file
+      - name: Decrypt env file
         run: |
-          ssh dohyeon.kr 'cd /var/www/ghost-blog && SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env && chmod 600 .env'
+          cd /var/www/ghost-blog
+          SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env
+          chmod 600 .env
 
       - name: Start Ghost with Docker Compose
         run: |
-          ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose pull && docker compose up -d'
+          cd /var/www/ghost-blog
+          docker compose pull
+          docker compose up -d
 
       - name: Disable legacy Astro Nginx config
         run: |
-          ssh dohyeon.kr 'if [ -f /etc/nginx/conf.d/astro.conf ]; then sudo mv /etc/nginx/conf.d/astro.conf /etc/nginx/conf.d/astro.conf.disabled; fi'
+          if [ -f /etc/nginx/conf.d/astro.conf ]; then
+            sudo mv /etc/nginx/conf.d/astro.conf /etc/nginx/conf.d/astro.conf.disabled
+          fi
 
       - name: Apply Nginx config
         run: |
-          ssh dohyeon.kr 'sudo cp /var/www/ghost-blog/blog.dohyeon.kr.conf /etc/nginx/sites-available/blog.dohyeon.kr && sudo ln -sf /etc/nginx/sites-available/blog.dohyeon.kr /etc/nginx/sites-enabled/blog.dohyeon.kr && sudo nginx -t && sudo systemctl reload nginx'
+          sudo cp /var/www/ghost-blog/blog.dohyeon.kr.conf /etc/nginx/sites-available/blog.dohyeon.kr
+          sudo ln -sf /etc/nginx/sites-available/blog.dohyeon.kr /etc/nginx/sites-enabled/blog.dohyeon.kr
+          sudo nginx -t
+          sudo systemctl reload nginx
 
       - name: Show Ghost status
         run: |
-          ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose ps'
+          cd /var/www/ghost-blog
+          docker compose ps
