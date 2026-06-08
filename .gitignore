@@ -17,6 +17,12 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Ghost persistent content volume
+content/
+
+# Plaintext secret files. Commit only SOPS-encrypted *.env.enc files.
+secrets/*.env
+
 # macOS-specific files
 .DS_Store
 

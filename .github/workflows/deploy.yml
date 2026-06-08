@@ -1,4 +1,4 @@
-name: Release & Deploy Astro
+name: Release & Deploy Ghost
 
 on:
   push:
@@ -11,13 +11,11 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # 1️⃣ 코드 체크아웃
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # semantic-release 필수
+          fetch-depth: 0
 
-      # 2️⃣ Node 설정
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -28,14 +26,9 @@ jobs:
           corepack enable
           corepack prepare pnpm@10 --activate
 
-      # 4️⃣ 의존성 설치
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install server dependencies
-        run: pnpm --dir server install --frozen-lockfile
-
-      # 6️⃣ semantic-release 실행
       - name: Semantic Release
         id: semrel
         env:
@@ -43,85 +36,41 @@ jobs:
         run: |
           pnpm semantic-release || echo "NO_RELEASE=true" >> $GITHUB_ENV
 
-      # 6️⃣-1 semantic-release가 릴리즈하지 않았을 때 버전 설정 (최신 태그 또는 package.json)
-      - name: Set version for build
+      - name: Prepare remote directories
         run: |
-          if [ -z "${RELEASE_VERSION:-}" ]; then
-            VERSION=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")
-            echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
-          fi
+          ssh dohyeon.kr 'mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets'
 
-      # 7️⃣ Astro 빌드
-      - name: Build Astro
-        run: pnpm build
-
-      - name: Build server
-        run: pnpm --dir server build
-
-      # 8️⃣ 배포 (예시: rsync)
-      - name: Deploy Astro
+      - name: Ensure SOPS tools are available
         run: |
-          rsync -avz --delete \
-            dist/ \
-            /var/www/astro-app/
+          ssh dohyeon.kr 'set -euo pipefail; if ! command -v age >/dev/null 2>&1; then sudo apt-get update && sudo apt-get install -y age; fi; if ! command -v sops >/dev/null 2>&1; then tmp=$(mktemp); curl -fsSL -o "$tmp" https://github.com/getsops/sops/releases/download/v3.13.1/sops-v3.13.1.linux.amd64; sudo install -m 0755 "$tmp" /usr/local/bin/sops; rm -f "$tmp"; fi; test -f "$HOME/.config/sops/age/keys.txt"'
 
-      - name: Deploy server
+      - name: Deploy Ghost compose files
         run: |
-          mkdir -p /var/www/astro-app/server
-          rsync -avz --delete \
-            --exclude 'node_modules/' \
-            --exclude 'data/' \
-            server/ \
-            /var/www/astro-app/server/
+          rsync -avz \
+            docker-compose.yml \
+            .env.example \
+            deploy/nginx/blog.dohyeon.kr.conf \
+            dohyeon.kr:/var/www/ghost-blog/
+          rsync -avz \
+            secrets/ghost.env.enc \
+            dohyeon.kr:/var/www/ghost-blog/secrets/
 
-      - name: Install production server deps
+      - name: Decrypt remote env file
         run: |
-          set -euo pipefail
-          export NVM_DIR="$HOME/.nvm"
-          # shellcheck disable=SC1090
-          source "$NVM_DIR/nvm.sh"
-          nvm use 24
+          ssh dohyeon.kr 'cd /var/www/ghost-blog && SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env && chmod 600 .env'
 
-          corepack enable
-          corepack prepare pnpm@10 --activate
-
-          cd /var/www/astro-app/server
-          pnpm install --prod --frozen-lockfile
-
-      - name: Restart server via pm2
+      - name: Start Ghost with Docker Compose
         run: |
-          set -euo pipefail
+          ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose pull && docker compose up -d'
 
-          export NVM_DIR="$HOME/.nvm"
-          # shellcheck disable=SC1090
-          source "$NVM_DIR/nvm.sh"
+      - name: Disable legacy Astro Nginx config
+        run: |
+          ssh dohyeon.kr 'if [ -f /etc/nginx/conf.d/astro.conf ]; then sudo mv /etc/nginx/conf.d/astro.conf /etc/nginx/conf.d/astro.conf.disabled; fi'
 
-          cd /var/www/astro-app/server
+      - name: Apply Nginx config
+        run: |
+          ssh dohyeon.kr 'sudo cp /var/www/ghost-blog/blog.dohyeon.kr.conf /etc/nginx/sites-available/blog.dohyeon.kr && sudo ln -sf /etc/nginx/sites-available/blog.dohyeon.kr /etc/nginx/sites-enabled/blog.dohyeon.kr && sudo nginx -t && sudo systemctl reload nginx'
 
-          # ecosystem.config.cjs 파일 생성 (server/package.json의 type=module 영향 회피)
-          cat > ecosystem.config.cjs << 'EOF'
-          module.exports = {
-            apps: [
-              {
-                name: 'dohyeon-kr-server',
-                script: 'pnpm',
-                args: 'run start',
-                env: {
-                  NODE_ENV: 'production',
-                  HOST: '127.0.0.1',
-                  PORT: '3020',
-                  // 배포 디렉토리(/var/www/...) 밖에 DB를 두어 빌드/rsync로 초기화되는 문제를 방지
-                  DB_PATH: '/var/lib/dohyeon-kr/visits.sqlite',
-                },
-              },
-            ],
-          };
-          EOF
-
-          # DB 디렉토리 보장(영구 저장소)
-          sudo mkdir -p /var/lib/dohyeon-kr
-          sudo chown -R "$(whoami)":"$(id -gn)" /var/lib/dohyeon-kr
-
-          pm2 startOrReload ecosystem.config.cjs
-          pm2 save
-          pm2 status
+      - name: Show Ghost status
+        run: |
+          ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose ps'
