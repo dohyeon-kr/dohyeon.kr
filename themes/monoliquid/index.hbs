@@ -1,0 +1,48 @@
+{{!< default}}
+
+<main class="site-main">
+    <section class="hero">
+        <div class="hero__copy">
+            <p class="eyebrow">Ghost theme concept / Personal tech magazine</p>
+            <h1>{{@site.title}}</h1>
+            {{#if @site.description}}
+                <p class="hero__dek">{{@site.description}}</p>
+            {{else}}
+                <p class="hero__dek">개발, 제품, 의사결정에 관한 긴 호흡의 기록.</p>
+            {{/if}}
+            <div class="hero__actions">
+                <a class="button button--primary" href="#posts">Read latest</a>
+                <a class="button button--secondary" href="/about/">About</a>
+            </div>
+        </div>
+        <div class="hero__metal" aria-hidden="true">
+            <span>Monoliquid</span>
+        </div>
+    </section>
+
+    {{#if @site.members_enabled}}
+        <section class="newsletter-band">
+            <div>
+                <p class="eyebrow eyebrow--inverse">Subscribe</p>
+                <h2>새 글을 조용히 받아보기</h2>
+                <p>제품, 코드, 의사결정에 관한 긴 글을 보냅니다.</p>
+            </div>
+            <a class="button button--inverse" href="#/portal/signup">Subscribe</a>
+        </section>
+    {{/if}}
+
+    <section id="posts" class="post-index">
+        <div class="section-heading">
+            <p class="eyebrow">Latest</p>
+            <h2>최근 글</h2>
+        </div>
+
+        <div class="post-grid">
+            {{#foreach posts}}
+                {{> "post-card"}}
+            {{/foreach}}
+        </div>
+    </section>
+
+    {{pagination}}
+</main>

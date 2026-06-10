@@ -38,7 +38,7 @@ jobs:
 
       - name: Prepare remote directories
         run: |
-          ssh dohyeon.kr 'mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets'
+          ssh dohyeon.kr 'mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets /var/www/ghost-blog/themes'
 
       - name: Ensure SOPS tools are available
         run: |
@@ -54,6 +54,9 @@ jobs:
           rsync -avz \
             secrets/ghost.env.enc \
             dohyeon.kr:/var/www/ghost-blog/secrets/
+          rsync -avz --delete \
+            themes/monoliquid \
+            dohyeon.kr:/var/www/ghost-blog/themes/
 
       - name: Decrypt remote env file
         run: |
