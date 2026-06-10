@@ -38,7 +38,7 @@ jobs:
 
       - name: Prepare deployment directories
         run: |
-          mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets
+          mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets /var/www/ghost-blog/themes
 
       - name: Ensure SOPS tools are available
         run: |
@@ -57,8 +57,17 @@ jobs:
 
       - name: Deploy Ghost compose files
         run: |
-          cp docker-compose.yml .env.example deploy/nginx/blog.dohyeon.kr.conf /var/www/ghost-blog/
-          cp secrets/ghost.env.enc /var/www/ghost-blog/secrets/
+          rsync -avz \
+            docker-compose.yml \
+            .env.example \
+            deploy/nginx/blog.dohyeon.kr.conf \
+            dohyeon.kr:/var/www/ghost-blog/
+          rsync -avz \
+            secrets/ghost.env.enc \
+            dohyeon.kr:/var/www/ghost-blog/secrets/
+          rsync -avz --delete \
+            themes/monoliquid \
+            dohyeon.kr:/var/www/ghost-blog/themes/
 
       - name: Decrypt env file
         run: |

@@ -1,0 +1,19 @@
+<header class="site-header">
+    <nav class="site-nav" aria-label="Main navigation">
+        <a class="site-brand" href="{{@site.url}}">
+            {{#if @site.logo}}
+                <img src="{{@site.logo}}" alt="{{@site.title}}">
+            {{else}}
+                <span>{{@site.title}}</span>
+            {{/if}}
+        </a>
+
+        {{navigation}}
+
+        <div class="site-nav__actions">
+            {{#if @site.members_enabled}}
+                <a class="button button--small" href="#/portal/signup">Subscribe</a>
+            {{/if}}
+        </div>
+    </nav>
+</header>

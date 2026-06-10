@@ -1,0 +1,21 @@
+{{!< default}}
+
+<main class="site-main">
+    <section class="archive-header">
+        {{#tag}}
+            <p class="eyebrow">Tag archive</p>
+            <h1>{{name}}</h1>
+            {{#if description}}
+                <p>{{description}}</p>
+            {{/if}}
+        {{/tag}}
+    </section>
+
+    <div class="post-grid">
+        {{#foreach posts}}
+            {{> "post-card"}}
+        {{/foreach}}
+    </div>
+
+    {{pagination}}
+</main>

@@ -1,0 +1,51 @@
+{{!< default}}
+
+<main class="site-main">
+    {{#post}}
+        <article class="article {{post_class}}">
+            <header class="article-header">
+                <div class="article-header__meta">
+                    {{#primary_tag}}
+                        <a href="{{url}}">{{name}}</a>
+                    {{/primary_tag}}
+                    <span>{{date format="YYYY.MM.DD"}}</span>
+                </div>
+                <h1>{{title}}</h1>
+                {{#if custom_excerpt}}
+                    <p class="article-header__dek">{{custom_excerpt}}</p>
+                {{/if}}
+            </header>
+
+            {{#if feature_image}}
+                <figure class="article-image">
+                    <img
+                        srcset="{{img_url feature_image size="s"}} 300w,
+                                {{img_url feature_image size="m"}} 720w,
+                                {{img_url feature_image size="l"}} 1200w,
+                                {{img_url feature_image size="xl"}} 2000w"
+                        sizes="(min-width: 980px) 860px, calc(100vw - 40px)"
+                        src="{{img_url feature_image size="l"}}"
+                        alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                    >
+                    {{#if feature_image_caption}}
+                        <figcaption>{{feature_image_caption}}</figcaption>
+                    {{/if}}
+                </figure>
+            {{else}}
+                <div class="article-metal" aria-hidden="true"></div>
+            {{/if}}
+
+            <section class="gh-content">
+                {{content}}
+            </section>
+
+            <footer class="article-footer">
+                <div class="tag-row">
+                    {{#foreach tags}}
+                        <a href="{{url}}">{{name}}</a>
+                    {{/foreach}}
+                </div>
+            </footer>
+        </article>
+    {{/post}}
+</main>
