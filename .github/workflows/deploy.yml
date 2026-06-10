@@ -61,13 +61,13 @@ jobs:
             docker-compose.yml \
             .env.example \
             deploy/nginx/blog.dohyeon.kr.conf \
-            dohyeon.kr:/var/www/ghost-blog/
+            /var/www/ghost-blog/
           rsync -avz \
             secrets/ghost.env.enc \
-            dohyeon.kr:/var/www/ghost-blog/secrets/
+            /var/www/ghost-blog/secrets/
           rsync -avz --delete \
             themes/monoliquid \
-            dohyeon.kr:/var/www/ghost-blog/themes/
+            /var/www/ghost-blog/themes/
 
       - name: Decrypt env file
         run: |
