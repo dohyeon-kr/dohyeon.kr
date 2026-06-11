@@ -1,10 +1,10 @@
 # dohyeon.kr Ghost CMS
 
-This repository now deploys Ghost CMS for `https://blog.dohyeon.kr`.
+This repository deploys Ghost CMS for `https://blog.dohyeon.kr`.
 `https://dohyeon.kr` redirects to the Ghost site.
 
-The previous Astro source is still in the repository for reference and content
-migration, but the active deployment path is Docker Compose + Ghost.
+The repository intentionally contains only the active Ghost deployment assets and
+theme files. Legacy static-site/runtime code has been removed.
 
 ## Stack
 
@@ -44,6 +44,39 @@ The GitHub Actions workflow deploys these files to `/var/www/ghost-blog` on the
 
 `content/` is the persistent Ghost volume. It contains uploaded images, themes,
 logs, and the SQLite database at `content/data/ghost.db`.
+
+
+## Mail
+
+Ghost needs SMTP for reliable transactional mail, including staff invites,
+password resets, member sign-in links, and member signup emails. The compose
+file reads `.env` as an `env_file`, so you can pass Ghost's native
+nested mail config keys directly with double underscores.
+
+For example, configure SMTP values in `.env` or `secrets/ghost.env` before
+encrypting it with SOPS:
+
+```dotenv
+GHOST_MAIL_TRANSPORT=SMTP
+mail__from='dohyeon.kr <noreply@blog.dohyeon.kr>'
+mail__options__service=Mailgun
+mail__options__host=smtp.mailgun.org
+mail__options__port=465
+mail__options__secure=true
+mail__options__auth__user=postmaster@example.mailgun.org
+mail__options__auth__pass=replace-me
+```
+
+`GHOST_MAIL_TRANSPORT=Direct` is only a bootstrap/default value. Most cloud
+servers block or rate-limit direct outbound mail, and direct mail has poor
+deliverability without SMTP-provider reputation, SPF, DKIM, and DMARC.
+
+After changing mail values on the server, recreate the Ghost container so Docker
+Compose injects the updated environment:
+
+```sh
+ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose up -d --force-recreate ghost'
+```
 
 ## Secrets
 
@@ -95,7 +128,7 @@ The workflow:
 4. uploads `docker-compose.yml`, `.env.example`, the encrypted env, and the Nginx sample config
 5. decrypts `secrets/ghost.env.enc` to `/var/www/ghost-blog/.env`
 6. runs `docker compose pull && docker compose up -d`
-7. disables the legacy Astro Nginx vhost
+7. disables any leftover legacy Nginx vhost
 8. applies the Ghost Nginx vhost and reloads Nginx
 
 Useful server commands:
