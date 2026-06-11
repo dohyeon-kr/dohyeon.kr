@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:${GHOST_PORT:-2368}:2368"
+    env_file:
+      - .env
     environment:
       url: ${GHOST_URL:-https://blog.dohyeon.kr}
       NODE_ENV: ${GHOST_NODE_ENV:-development}

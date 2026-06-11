@@ -1,38 +1,19 @@
 {
-    "name": "",
-    "type": "module",
-    "version": "0.0.1",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/dohyeon-kr/dohyeon.kr.git"
-    },
-    "scripts": {
-        "dev": "astro dev",
-        "build": "astro build",
-        "preview": "astro preview",
-        "astro": "astro"
-    },
-    "dependencies": {
-        "@astrojs/mdx": "^4.3.13",
-        "@astrojs/react": "^4.4.2",
-        "@astrojs/rss": "^4.0.14",
-        "@astrojs/sitemap": "^3.6.0",
-        "@tailwindcss/vite": "^4.1.18",
-        "@types/react": "^19.2.7",
-        "@types/react-dom": "^19.2.3",
-        "astro": "^5.16.6",
-        "lucide-react": "^0.562.0",
-        "react": "^19.2.3",
-        "react-dom": "^19.2.3",
-        "satori": "^0.19.2",
-        "sharp": "^0.34.3",
-        "tailwindcss": "^4.1.18"
-    },
-    "devDependencies": {
-        "@semantic-release/commit-analyzer": "^13.0.1",
-        "@semantic-release/exec": "^7.1.0",
-        "@semantic-release/github": "^12.0.2",
-        "@semantic-release/release-notes-generator": "^14.1.0",
-        "semantic-release": "^25.0.2"
-    }
+  "name": "dohyeon-kr-ghost",
+  "type": "module",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dohyeon-kr/dohyeon.kr.git"
+  },
+  "scripts": {
+    "release": "semantic-release"
+  },
+  "devDependencies": {
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/github": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "semantic-release": "^25.0.2"
+  }
 }
