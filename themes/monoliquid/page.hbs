@@ -4,7 +4,7 @@
     {{#post}}
         <article class="article {{post_class}}">
             {{#if @page.show_title_and_feature_image}}
-                <header class="article-header">
+                <header class="article-header wrapper--ticks">
                     <p class="eyebrow">Page</p>
                     <h1>{{title}}</h1>
                     {{#if custom_excerpt}}
@@ -25,7 +25,7 @@
                     </figure>
                 {{/if}}
             {{/if}}
-            <section class="gh-content">
+            <section class="gh-content wrapper--ticks">
                 {{content}}
             </section>
         </article>
