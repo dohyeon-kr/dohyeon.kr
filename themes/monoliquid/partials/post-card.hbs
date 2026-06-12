@@ -1,32 +1,42 @@
-<article class="post-card tick-right {{post_class}}">
-    <a class="post-card__media" href="{{url}}" aria-label="{{title}}">
-        {{#if feature_image}}
-            <img
-                srcset="{{img_url feature_image size="s"}} 300w,
-                        {{img_url feature_image size="m"}} 720w,
-                        {{img_url feature_image size="l"}} 1200w"
-                sizes="(min-width: 980px) 33vw, calc(100vw - 40px)"
-                src="{{img_url feature_image size="m"}}"
-                alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
-                loading="lazy"
-                width="720"
-                height="315"
-            >
-        {{else}}
-            <span class="post-card__metal" aria-hidden="true"></span>
-        {{/if}}
-    </a>
+<article class="post-card {{post_class}}">
+    <div class="post-card__titlebar">
+        <a href="{{url}}">{{title}}</a>
+    </div>
 
     <div class="post-card__body">
-        <div class="post-card__meta">
-            {{#primary_tag}}
-                <a href="{{url}}">{{name}}</a>
-            {{/primary_tag}}
-            <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY.MM.DD"}}</time>
+        <div class="post-card__copy">
+            <div class="post-card__meta">
+                {{#primary_tag}}
+                    <a href="{{url}}">{{name}}</a>
+                {{/primary_tag}}
+                <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY.MM.DD"}}</time>
+            </div>
+            {{#if excerpt}}
+                <p>{{excerpt words="24"}}</p>
+            {{/if}}
+            <a class="button-text-link" href="{{url}}">Read Entry</a>
         </div>
-        <a class="post-card__title" href="{{url}}">{{title}}</a>
-        {{#if excerpt}}
-            <p>{{excerpt words="24"}}</p>
+
+        <a class="post-card__media" href="{{url}}" aria-label="{{title}}">
+            {{#if feature_image}}
+                <img
+                    srcset="{{img_url feature_image size="s"}} 300w,
+                            {{img_url feature_image size="m"}} 720w,
+                            {{img_url feature_image size="l"}} 1200w"
+                    sizes="(min-width: 980px) 220px, calc(100vw - 48px)"
+                    src="{{img_url feature_image size="m"}}"
+                    alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                    loading="lazy"
+                    width="720"
+                    height="405"
+                >
+            {{else}}
+                <span class="post-card__metal" aria-hidden="true"></span>
+            {{/if}}
+        </a>
+
+        {{#if featured}}
+            <span class="new-sticker">NEW!</span>
         {{/if}}
     </div>
 </article>
