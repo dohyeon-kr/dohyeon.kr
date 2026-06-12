@@ -1,13 +1,17 @@
 <header class="site-header">
-    <nav class="site-nav wrapper--ticks" aria-label="Main navigation">
-        <a class="site-brand" href="{{@site.url}}">
+    <div class="top-banner">
+        <a class="site-brand" href="{{@site.url}}" translate="no">
             {{#if @site.logo}}
                 <img src="{{@site.logo}}" alt="{{@site.title}}" width="160" height="32">
             {{else}}
                 <span>{{@site.title}}</span>
             {{/if}}
         </a>
+        <p class="top-banner__line">BUILD / DEBUG / SHIP. ONLINE.</p>
+        <a class="buy-sticker" href="#posts">READ IT NOTES</a>
+    </div>
 
+    <nav class="site-nav" aria-label="Main navigation">
         {{navigation}}
 
         <div class="site-nav__actions">
