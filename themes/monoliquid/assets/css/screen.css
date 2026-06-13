@@ -217,6 +217,7 @@ button:focus-visible {
   position: sticky;
   top: 0;
   z-index: 10;
+  overflow: clip;
   border-bottom: 1px solid var(--color-frame);
   background: var(--color-canvas);
 }
@@ -231,6 +232,8 @@ iframe[src*="announcement-bar"] {
 }
 
 .top-banner {
+  position: relative;
+  z-index: 3;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -320,13 +323,14 @@ iframe[src*="announcement-bar"] {
 }
 
 .site-nav {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0;
   max-height: 36px;
   padding: 0 12px;
-  overflow: hidden;
   background: var(--color-paper);
   transform: translateY(0);
   transition:
@@ -337,7 +341,7 @@ iframe[src*="announcement-bar"] {
 
 .site-header--nav-hidden .site-nav {
   max-height: 0;
-  transform: translateY(-100%);
+  transform: translateY(calc(-100% - 1px));
 }
 
 .nav {
@@ -1238,6 +1242,20 @@ iframe[src*="announcement-bar"] {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .post-card.newsletter-card .newsletter-card__body {
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .post-card.newsletter-card .post-card__copy,
+  .post-card.newsletter-card .newsletter-card__cta {
+    width: 100%;
+  }
+
+  .post-card.newsletter-card .newsletter-card__cta {
+    min-height: 44px;
   }
 
   .post-card__media {
