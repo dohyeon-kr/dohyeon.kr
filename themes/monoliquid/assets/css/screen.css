@@ -41,10 +41,7 @@ html {
 body {
   min-width: 320px;
   margin: 0;
-  background-color: var(--color-frame);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 280px auto;
+  background: var(--color-frame);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -161,10 +158,7 @@ button:focus-visible {
   min-height: 64px;
   padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
   border-bottom: 1px solid var(--color-frame);
-  background-color: var(--color-frame);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 260px auto;
+  background: var(--color-frame);
   color: var(--color-canvas);
 }
 
@@ -211,9 +205,6 @@ button:focus-visible {
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
-  box-shadow:
-    1px 1px 0 var(--color-canvas) inset,
-    -1px -1px 0 var(--color-metal-2) inset;
   transition:
     background-color 120ms var(--ease-out),
     color 120ms var(--ease-out),
@@ -314,9 +305,10 @@ button:focus-visible {
 }
 
 .button--primary {
-  background: var(--color-frame);
+  background:
+    var(--pattern-blackmetal) center / 220px auto repeat,
+    var(--color-frame);
   color: var(--color-canvas);
-  box-shadow: 4px 4px 0 var(--color-metal);
 }
 
 .button--primary:hover {
@@ -328,7 +320,6 @@ button:focus-visible {
 .button--inverse {
   background: var(--color-canvas);
   color: var(--color-ink);
-  box-shadow: 3px 3px 0 var(--color-frame);
 }
 
 .button--secondary:hover,
@@ -367,10 +358,7 @@ button:focus-visible {
   min-width: 0;
   padding: 16px;
   border: 1px solid var(--color-frame);
-  background-color: var(--color-metal-4);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 240px auto;
+  background: var(--color-metal-4);
   color: var(--color-canvas);
 }
 
@@ -420,10 +408,7 @@ button:focus-visible {
 }
 
 .section-eyebrow--mercury {
-  background-color: var(--color-metal);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 220px auto;
+  background: var(--color-metal);
   color: var(--color-frame);
 }
 
@@ -432,10 +417,7 @@ button:focus-visible {
   grid-template-columns: minmax(0, 1fr) 310px;
   gap: 16px;
   padding: 18px;
-  background-color: var(--color-paper);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 520px auto;
+  background: var(--color-paper);
 }
 
 .hero h1,
@@ -512,10 +494,7 @@ button:focus-visible {
   margin-bottom: 40px;
   padding: 16px;
   border: 1px solid var(--color-frame);
-  background-color: var(--color-frame);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 260px auto;
+  background: var(--color-frame);
   color: var(--color-canvas);
 }
 
@@ -640,17 +619,11 @@ button:focus-visible {
 }
 
 .post-card:nth-child(4n + 3) .post-card__body {
-  background-color: var(--color-metal);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 460px auto;
+  background: var(--color-metal);
 }
 
 .post-card:nth-child(4n + 4) .post-card__body {
-  background-color: var(--color-metal-4);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 300px auto;
+  background: var(--color-metal-4);
   color: var(--color-canvas);
 }
 
@@ -702,7 +675,6 @@ button:focus-visible {
   background: var(--color-canvas);
   color: var(--color-ink);
   text-decoration: underline;
-  box-shadow: 3px 3px 0 var(--color-frame);
 }
 
 .post-card__media {
@@ -732,10 +704,7 @@ button:focus-visible {
 
 .post-card__metal {
   display: block;
-  background-color: var(--color-frame);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: cover;
+  background: var(--color-frame);
 }
 
 .new-sticker {
@@ -756,10 +725,7 @@ button:focus-visible {
   margin-bottom: 0;
   padding: 18px;
   border: 1px solid var(--color-frame);
-  background-color: var(--color-metal);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: 320px auto;
+  background: var(--color-metal);
 }
 
 .article-header h1 {
@@ -793,10 +759,7 @@ button:focus-visible {
 
 .article-metal {
   height: 220px;
-  background-color: var(--color-frame);
-  background-image: var(--pattern-blackmetal);
-  background-position: center;
-  background-size: cover;
+  background: var(--color-frame);
 }
 
 .article-image figcaption {
