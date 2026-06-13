@@ -404,11 +404,16 @@ button:focus-visible {
 }
 
 .post-index__marquee span {
+  display: inline-block;
   flex: 0 0 auto;
-  padding: 8px 18px;
+  margin-inline: 8px;
+  padding: 8px 14px;
   font-size: 12px;
+  font-stretch: expanded;
   font-weight: 900;
   line-height: 1;
+  transform: scaleX(1.32);
+  transform-origin: center;
   text-transform: uppercase;
   white-space: nowrap;
 }
