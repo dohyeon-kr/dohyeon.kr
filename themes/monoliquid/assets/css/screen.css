@@ -438,6 +438,15 @@ iframe[src*="announcement-bar"] {
   animation: marquee-latest 16s linear infinite;
 }
 
+.site-announcement-marquee .post-index__marquee-track {
+  animation-duration: 32s;
+}
+
+.site-announcement-marquee:hover .post-index__marquee-track,
+.site-announcement-marquee:focus-within .post-index__marquee-track {
+  animation-play-state: paused;
+}
+
 .site-announcement-marquee span,
 .post-index__marquee span {
   display: inline-block;
