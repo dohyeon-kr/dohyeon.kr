@@ -432,6 +432,15 @@ iframe[src*="announcement-bar"] {
   color: var(--color-canvas);
 }
 
+.site-announcement-marquee {
+  cursor: pointer;
+}
+
+.site-announcement-marquee:focus-visible {
+  outline: 2px solid var(--color-canvas);
+  outline-offset: -4px;
+}
+
 .post-index__marquee-track {
   display: flex;
   width: max-content;
