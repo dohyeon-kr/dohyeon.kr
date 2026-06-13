@@ -265,12 +265,6 @@ button:focus-visible {
   color: var(--color-canvas);
 }
 
-.site-nav__actions {
-  display: flex;
-  justify-content: flex-end;
-  min-width: 0;
-}
-
 .button,
 .button-text-link {
   display: inline-flex;
@@ -328,13 +322,6 @@ button:focus-visible {
   color: var(--color-canvas);
 }
 
-.button--small {
-  min-height: 34px;
-  padding-inline: 12px;
-  background: var(--color-frame);
-  color: var(--color-canvas);
-}
-
 .eyebrow {
   margin: 0 0 10px;
   color: var(--color-muted);
@@ -358,34 +345,6 @@ button:focus-visible {
   line-height: 0.98;
   text-transform: uppercase;
   text-wrap: balance;
-}
-
-.newsletter-band {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 12px;
-  margin-bottom: 40px;
-  padding: 16px;
-  border: 1px solid var(--color-frame);
-  background: var(--color-frame);
-  color: var(--color-canvas);
-}
-
-.newsletter-band h2 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 900;
-  line-height: 1.1;
-  text-wrap: balance;
-}
-
-.newsletter-band p:last-child {
-  margin: 8px 0 0;
-  color: var(--color-paper-2);
-  font-size: 14px;
-  font-weight: 700;
 }
 
 .post-index {
@@ -505,6 +464,49 @@ button:focus-visible {
 .post-card:nth-child(4n + 4) .post-card__meta,
 .post-card:nth-child(4n + 4) p {
   color: var(--color-canvas);
+}
+
+.post-card.newsletter-card .newsletter-card__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--color-frame);
+  color: var(--color-canvas);
+}
+
+.post-card.newsletter-card:hover .newsletter-card__body {
+  background: var(--color-metal-4);
+}
+
+.post-card.newsletter-card .post-card__meta,
+.post-card.newsletter-card p {
+  color: var(--color-canvas);
+}
+
+.post-card.newsletter-card p {
+  margin-bottom: 0;
+}
+
+.newsletter-card__cta {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-canvas);
+  color: var(--color-canvas);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.post-card.newsletter-card:hover .newsletter-card__cta {
+  background: var(--color-canvas);
+  color: var(--color-frame);
 }
 
 .post-card__copy {
@@ -932,7 +934,6 @@ button:focus-visible {
   }
 
   .post-card__body,
-  .newsletter-band,
   .site-footer {
     display: flex;
     align-items: flex-start;

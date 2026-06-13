@@ -1,17 +1,6 @@
 {{!< default}}
 
 <main id="main-content" class="site-main">
-    {{#if @site.members_enabled}}
-        <section class="newsletter-band">
-            <div>
-                <p class="eyebrow eyebrow--inverse">Subscribe</p>
-                <h2>새 글을 조용히 받아보기</h2>
-                <p>제품, 코드, 의사결정에 관한 긴 글을 보냅니다.</p>
-            </div>
-            <a class="button button--inverse" href="#/portal/signup">Subscribe</a>
-        </section>
-    {{/if}}
-
     <section id="posts" class="post-index">
         <div class="section-heading">
             <p class="eyebrow">Latest</p>
@@ -19,7 +8,25 @@
         </div>
 
         <div class="post-grid">
-            {{#foreach posts}}
+            {{#foreach posts to="5"}}
+                {{> "post-card"}}
+            {{/foreach}}
+
+            {{#if @site.members_enabled}}
+                <a class="post-card newsletter-card" href="#/portal/signup">
+                    <div class="post-card__body newsletter-card__body">
+                        <div class="post-card__copy">
+                            <div class="post-card__meta">
+                                <span>Newsletter</span>
+                            </div>
+                            <p>새 글을 조용히 받아보기. 제품, 코드, 의사결정에 관한 긴 글을 보냅니다.</p>
+                        </div>
+                        <span class="newsletter-card__cta">Subscribe</span>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#foreach posts from="6"}}
                 {{> "post-card"}}
             {{/foreach}}
         </div>
