@@ -15,12 +15,27 @@
   --content-prose: 760px;
   --pattern-blackmetal: url("../images/blackmetal-pattern.png");
   --font-sans:
-    Helvetica,
-    Arial,
+    "Pretendard",
     "Apple SD Gothic Neo",
+    Arial,
     "Noto Sans KR",
+    Helvetica,
+    sans-serif;
+  --font-extended:
+    "Archivo Expanded",
+    "Pretendard",
+    "Apple SD Gothic Neo",
+    Arial,
     sans-serif;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 45 920;
+  font-display: swap;
+  src: url("../fonts/pretendard-variable.woff2") format("woff2-variations");
 }
 
 @font-face {
@@ -98,12 +113,17 @@ body {
   }
 
   .article-header.wrapper--ticks::before,
-  .article-header.wrapper--ticks::after,
-  .article-footer.wrapper--ticks::before,
-  .article-footer.wrapper--ticks::after {
+  .article-header.wrapper--ticks::after {
     top: auto;
     bottom: 0;
     transform: translateY(50%);
+  }
+
+  .article-footer.wrapper--ticks::before,
+  .article-footer.wrapper--ticks::after {
+    top: 0;
+    bottom: auto;
+    transform: translateY(-50%);
   }
 
   .article-header.wrapper--ticks::before,
@@ -423,7 +443,7 @@ button:focus-visible {
   flex: 0 0 auto;
   margin-inline: 8px;
   padding: 8px 12px;
-  font-family: "Archivo Expanded", var(--font-sans);
+  font-family: var(--font-extended);
   font-size: 12px;
   font-stretch: 125%;
   font-weight: 900;
@@ -434,19 +454,25 @@ button:focus-visible {
 
 .archive-header {
   border: 1px solid var(--color-frame);
-  background: var(--color-metal);
+  background: var(--color-frame);
+  color: var(--color-canvas);
 }
 
 .archive-header {
   max-width: none;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   padding: 18px;
+}
+
+.archive-header .eyebrow,
+.archive-header h1 {
+  color: var(--color-canvas);
 }
 
 .archive-header p:not(.eyebrow) {
   max-width: 720px;
   margin: 14px 0 0;
-  color: var(--color-ink);
+  color: var(--color-canvas);
   font-size: 18px;
   font-weight: 700;
   text-wrap: pretty;
@@ -486,7 +512,9 @@ button:focus-visible {
   display: block;
   padding: 8px 12px;
   color: var(--color-ink);
+  font-family: var(--font-extended);
   font-size: 16px;
+  font-stretch: 125%;
   font-weight: 900;
   line-height: 1.18;
   overflow-wrap: anywhere;
@@ -540,12 +568,15 @@ button:focus-visible {
 }
 
 .post-grid > .post-index__marquee + .post-card,
+.post-grid > .post-card:first-child,
 .post-grid > .post-card + .post-card {
   position: relative;
 }
 
 .post-grid > .post-index__marquee + .post-card::before,
 .post-grid > .post-index__marquee + .post-card::after,
+.post-grid > .post-card:first-child::before,
+.post-grid > .post-card:first-child::after,
 .post-grid > .post-card + .post-card::before,
 .post-grid > .post-card + .post-card::after {
   content: "";
@@ -559,6 +590,7 @@ button:focus-visible {
 }
 
 .post-grid > .post-index__marquee + .post-card::before,
+.post-grid > .post-card:first-child::before,
 .post-grid > .post-card + .post-card::before {
   left: 0;
   border-top: 6px solid transparent;
@@ -568,6 +600,7 @@ button:focus-visible {
 }
 
 .post-grid > .post-index__marquee + .post-card::after,
+.post-grid > .post-card:first-child::after,
 .post-grid > .post-card + .post-card::after {
   right: 0;
   border-top: 6px solid transparent;
@@ -577,15 +610,19 @@ button:focus-visible {
 }
 
 [data-theme="dark"] .post-grid > .post-index__marquee + .post-card::before,
+[data-theme="dark"] .post-grid > .post-card:first-child::before,
 [data-theme="dark"] .post-grid > .post-card + .post-card::before,
 .dark:not([data-theme]) .post-grid > .post-index__marquee + .post-card::before,
+.dark:not([data-theme]) .post-grid > .post-card:first-child::before,
 .dark:not([data-theme]) .post-grid > .post-card + .post-card::before {
   border-left-color: var(--color-nickel);
 }
 
 [data-theme="dark"] .post-grid > .post-index__marquee + .post-card::after,
+[data-theme="dark"] .post-grid > .post-card:first-child::after,
 [data-theme="dark"] .post-grid > .post-card + .post-card::after,
 .dark:not([data-theme]) .post-grid > .post-index__marquee + .post-card::after,
+.dark:not([data-theme]) .post-grid > .post-card:first-child::after,
 .dark:not([data-theme]) .post-grid > .post-card + .post-card::after {
   border-right-color: var(--color-nickel);
 }
@@ -601,7 +638,7 @@ button:focus-visible {
 
 .post-card.newsletter-card .post-card__meta,
 .post-card.newsletter-card .newsletter-card__cta {
-  font-family: "Archivo Expanded", var(--font-sans);
+  font-family: var(--font-extended);
   font-stretch: 125%;
 }
 
@@ -642,7 +679,9 @@ button:focus-visible {
   align-items: center;
   margin-bottom: 10px;
   color: var(--color-muted);
+  font-family: var(--font-extended);
   font-size: 12px;
+  font-stretch: 125%;
   font-weight: 900;
   line-height: 1.2;
   text-transform: uppercase;
@@ -672,6 +711,8 @@ button:focus-visible {
   padding: 0 10px;
   background: var(--color-canvas);
   color: var(--color-ink);
+  font-family: var(--font-extended);
+  font-stretch: 125%;
   text-decoration: underline;
 }
 
