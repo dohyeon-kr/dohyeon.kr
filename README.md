@@ -59,12 +59,11 @@ encrypting it with SOPS:
 ```dotenv
 GHOST_MAIL_TRANSPORT=SMTP
 mail__from='dohyeon.kr <noreply@blog.dohyeon.kr>'
-mail__options__service=Mailgun
-mail__options__host=smtp.mailgun.org
+mail__options__host=smtp.resend.com
 mail__options__port=465
 mail__options__secure=true
-mail__options__auth__user=postmaster@example.mailgun.org
-mail__options__auth__pass=replace-me
+mail__options__auth__user=resend
+mail__options__auth__pass=re_replace_with_resend_api_key
 ```
 
 `GHOST_MAIL_TRANSPORT=Direct` is only a bootstrap/default value. Most cloud
