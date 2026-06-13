@@ -219,7 +219,6 @@ button:focus-visible {
 
 .top-banner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 12px;
   min-height: 64px;
@@ -247,18 +246,6 @@ button:focus-visible {
   filter: invert(1) grayscale(1) contrast(1.2);
 }
 
-.top-banner__line {
-  margin: 0;
-  color: var(--color-canvas);
-  font-size: 14px;
-  font-weight: 900;
-  line-height: 1.15;
-  text-align: right;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.buy-sticker,
 .new-sticker {
   display: inline-flex;
   align-items: center;
@@ -278,7 +265,6 @@ button:focus-visible {
     transform 120ms var(--ease-out);
 }
 
-.buy-sticker:hover,
 .new-sticker:hover {
   background: var(--color-canvas);
   color: var(--color-ink);
@@ -1073,11 +1059,6 @@ button:focus-visible {
 
   .top-banner {
     grid-template-columns: 1fr;
-  }
-
-  .top-banner__line {
-    text-align: left;
-    white-space: normal;
   }
 
   .site-nav {
