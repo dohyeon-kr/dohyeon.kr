@@ -1,25 +1,16 @@
 :root {
   --color-frame: #000000;
   --color-canvas: #ffffff;
-  --color-paper: #f4f4ef;
+  --color-paper: #f3f3f3;
+  --color-paper-2: #e5e5e5;
   --color-ink: #000000;
-  --color-muted: #4d5356;
-  --color-line: #000000;
-  --color-liquid-1: #f1f4f3;
-  --color-liquid-2: #c7cdcf;
-  --color-liquid-3: #899196;
-  --color-liquid-4: #33383b;
-  --color-nickel: #9ba3a7;
-  --color-signal: #7b84ff;
-  --color-signal-ink: #101426;
-  --color-sticker: #f4ef5f;
-  --color-danger: #e91d2a;
-  --color-link: #0000ee;
-  --tint-mercury: #dfe4e3;
-  --tint-tin: #c1c9cb;
-  --tint-steel: #9aa6ab;
-  --tint-smoke: #747c81;
-  --tint-graphite: #2c3032;
+  --color-muted: #4c4c4c;
+  --color-muted-2: #737373;
+  --color-metal: #c9c9c9;
+  --color-metal-2: #a8a8a8;
+  --color-metal-3: #6f6f6f;
+  --color-metal-4: #292929;
+  --color-nickel: #9f9f9f;
   --content-wide: 1100px;
   --content-prose: 760px;
   --pattern-blackmetal: url("../images/blackmetal-pattern.png");
@@ -48,13 +39,12 @@ html {
 }
 
 body {
-  margin: 0;
   min-width: 320px;
-  background:
-    linear-gradient(90deg, rgb(255 255 255 / 0.08) 1px, transparent 1px),
-    linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px),
-    var(--color-frame);
-  background-size: 16px 16px;
+  margin: 0;
+  background-color: var(--color-frame);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 280px auto;
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -64,11 +54,11 @@ body {
   overflow-wrap: break-word;
   text-rendering: optimizeLegibility;
   word-break: keep-all;
-  -webkit-tap-highlight-color: rgb(123 132 255 / 0.28);
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0.22);
 }
 
 ::selection {
-  background: var(--color-signal);
+  background: var(--color-frame);
   color: var(--color-canvas);
 }
 
@@ -117,7 +107,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--color-signal);
+  outline: 3px solid var(--color-metal-2);
   outline-offset: 3px;
 }
 
@@ -128,8 +118,8 @@ button:focus-visible {
   z-index: 100;
   transform: translateY(-150%);
   padding: 8px 12px;
-  border: 2px solid var(--color-frame);
-  background: var(--color-sticker);
+  border: 1px solid var(--color-frame);
+  background: var(--color-canvas);
   color: var(--color-ink);
   font-size: 13px;
   font-weight: 900;
@@ -144,8 +134,9 @@ button:focus-visible {
   width: min(var(--content-wide), calc(100% - 32px));
   min-height: calc(100vh - 32px);
   margin: 16px auto;
-  border: 8px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   background: var(--color-canvas);
+  box-shadow: 0 0 0 7px var(--color-frame);
 }
 
 .site-main {
@@ -158,7 +149,7 @@ button:focus-visible {
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 2px solid var(--color-frame);
+  border-bottom: 1px solid var(--color-frame);
   background: var(--color-canvas);
 }
 
@@ -169,10 +160,11 @@ button:focus-visible {
   gap: 12px;
   min-height: 64px;
   padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
-  border-bottom: 2px solid var(--color-frame);
-  background:
-    linear-gradient(90deg, var(--color-frame) 0 58%, var(--color-liquid-4) 58% 100%),
-    var(--color-frame);
+  border-bottom: 1px solid var(--color-frame);
+  background-color: var(--color-frame);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 260px auto;
   color: var(--color-canvas);
 }
 
@@ -212,16 +204,16 @@ button:focus-visible {
   justify-content: center;
   min-height: 34px;
   padding: 6px 10px;
-  border: 2px solid var(--color-frame);
-  background: var(--color-sticker);
+  border: 1px solid var(--color-frame);
+  background: var(--color-paper);
   color: var(--color-ink);
   font-size: 12px;
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
   box-shadow:
-    2px 2px 0 var(--color-canvas) inset,
-    -2px -2px 0 #9c9300 inset;
+    1px 1px 0 var(--color-canvas) inset,
+    -1px -1px 0 var(--color-metal-2) inset;
   transition:
     background-color 120ms var(--ease-out),
     color 120ms var(--ease-out),
@@ -294,7 +286,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 900;
@@ -324,11 +316,11 @@ button:focus-visible {
 .button--primary {
   background: var(--color-frame);
   color: var(--color-canvas);
-  box-shadow: 5px 5px 0 var(--color-liquid-2);
+  box-shadow: 4px 4px 0 var(--color-metal);
 }
 
 .button--primary:hover {
-  background: var(--color-signal);
+  background: var(--color-metal-4);
   color: var(--color-canvas);
 }
 
@@ -336,7 +328,7 @@ button:focus-visible {
 .button--inverse {
   background: var(--color-canvas);
   color: var(--color-ink);
-  box-shadow: 4px 4px 0 var(--color-frame);
+  box-shadow: 3px 3px 0 var(--color-frame);
 }
 
 .button--secondary:hover,
@@ -374,8 +366,11 @@ button:focus-visible {
 .home-rail {
   min-width: 0;
   padding: 16px;
-  border: 2px solid var(--color-frame);
-  background: var(--color-danger);
+  border: 1px solid var(--color-frame);
+  background-color: var(--color-metal-4);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 240px auto;
   color: var(--color-canvas);
 }
 
@@ -397,24 +392,25 @@ button:focus-visible {
   width: 78px;
   height: 78px;
   margin-bottom: 18px;
-  border: 7px solid var(--color-canvas);
+  border: 1px solid var(--color-canvas);
   border-radius: 999px;
   background: var(--color-frame);
   color: var(--color-canvas);
   font-size: 24px;
   font-weight: 900;
   line-height: 1;
+  box-shadow: 0 0 0 6px var(--color-frame);
 }
 
 .hero {
   min-width: 0;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   background: var(--color-canvas);
 }
 
 .section-eyebrow {
   padding: 18px 16px;
-  border-bottom: 2px solid var(--color-frame);
+  border-bottom: 1px solid var(--color-frame);
   color: var(--color-ink);
   font-size: 34px;
   font-weight: 900;
@@ -424,9 +420,10 @@ button:focus-visible {
 }
 
 .section-eyebrow--mercury {
-  background:
-    linear-gradient(90deg, var(--color-liquid-1), var(--color-liquid-3) 46%, var(--color-liquid-1) 47% 54%, var(--color-liquid-4)),
-    var(--tint-mercury);
+  background-color: var(--color-metal);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 220px auto;
   color: var(--color-frame);
 }
 
@@ -435,10 +432,10 @@ button:focus-visible {
   grid-template-columns: minmax(0, 1fr) 310px;
   gap: 16px;
   padding: 18px;
-  background:
-    linear-gradient(90deg, transparent 0 18px, rgb(0 0 0 / 0.08) 18px 19px, transparent 19px 100%),
-    linear-gradient(var(--color-paper), var(--color-canvas));
-  background-size: 38px 100%, auto;
+  background-color: var(--color-paper);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 520px auto;
 }
 
 .hero h1,
@@ -474,17 +471,17 @@ button:focus-visible {
 .command-card {
   align-self: start;
   min-width: 0;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   background: var(--color-frame);
   color: var(--color-canvas);
-  box-shadow: 8px 8px 0 var(--color-liquid-2);
+  box-shadow: 6px 6px 0 var(--color-metal);
 }
 
 .command-card__bar {
   margin: 0;
   padding: 8px 10px;
-  border-bottom: 2px solid var(--color-canvas);
-  background: var(--color-liquid-2);
+  border-bottom: 1px solid var(--color-canvas);
+  background: var(--color-metal);
   color: var(--color-frame);
   font-size: 12px;
   font-weight: 900;
@@ -514,10 +511,11 @@ button:focus-visible {
   margin-top: 12px;
   margin-bottom: 40px;
   padding: 16px;
-  border: 2px solid var(--color-frame);
-  background:
-    linear-gradient(90deg, var(--color-frame), var(--color-liquid-4)),
-    var(--color-frame);
+  border: 1px solid var(--color-frame);
+  background-color: var(--color-frame);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 260px auto;
   color: var(--color-canvas);
 }
 
@@ -531,7 +529,7 @@ button:focus-visible {
 
 .newsletter-band p:last-child {
   margin: 8px 0 0;
-  color: var(--color-liquid-1);
+  color: var(--color-paper-2);
   font-size: 14px;
   font-weight: 700;
 }
@@ -542,8 +540,8 @@ button:focus-visible {
 
 .section-heading,
 .archive-header {
-  border: 2px solid var(--color-frame);
-  background: var(--tint-tin);
+  border: 1px solid var(--color-frame);
+  background: var(--color-metal);
 }
 
 .section-heading {
@@ -558,7 +556,7 @@ button:focus-visible {
   align-items: center;
   margin: 0;
   padding: 12px;
-  border-right: 2px solid var(--color-frame);
+  border-right: 1px solid var(--color-frame);
   background: var(--color-frame);
   color: var(--color-canvas);
 }
@@ -597,13 +595,13 @@ button:focus-visible {
 
 .post-card {
   min-width: 0;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   background: var(--color-canvas);
 }
 
 .post-card__titlebar {
   min-width: 0;
-  border-bottom: 2px solid var(--color-frame);
+  border-bottom: 1px solid var(--color-frame);
   background: var(--color-canvas);
 }
 
@@ -634,27 +632,25 @@ button:focus-visible {
   gap: 12px;
   min-width: 0;
   padding: 14px 12px;
-  background:
-    linear-gradient(90deg, var(--tint-mercury), var(--tint-steel)),
-    var(--tint-mercury);
+  background: var(--color-paper);
 }
 
 .post-card:nth-child(4n + 2) .post-card__body {
-  background:
-    linear-gradient(90deg, var(--tint-tin), var(--color-liquid-1)),
-    var(--tint-tin);
+  background: var(--color-paper-2);
 }
 
 .post-card:nth-child(4n + 3) .post-card__body {
-  background:
-    linear-gradient(90deg, var(--tint-steel), var(--color-liquid-2)),
-    var(--tint-steel);
+  background-color: var(--color-metal);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 460px auto;
 }
 
 .post-card:nth-child(4n + 4) .post-card__body {
-  background:
-    linear-gradient(90deg, var(--color-liquid-4), var(--tint-smoke)),
-    var(--color-liquid-4);
+  background-color: var(--color-metal-4);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 300px auto;
   color: var(--color-canvas);
 }
 
@@ -704,7 +700,7 @@ button:focus-visible {
   min-height: 32px;
   padding: 0 10px;
   background: var(--color-canvas);
-  color: var(--color-link);
+  color: var(--color-ink);
   text-decoration: underline;
   box-shadow: 3px 3px 0 var(--color-frame);
 }
@@ -713,7 +709,7 @@ button:focus-visible {
   display: block;
   align-self: center;
   min-width: 0;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   background: var(--color-frame);
   aspect-ratio: 16 / 9;
   filter: drop-shadow(4px 4px 0 var(--color-frame));
@@ -736,10 +732,10 @@ button:focus-visible {
 
 .post-card__metal {
   display: block;
-  background:
-    linear-gradient(110deg, rgb(255 255 255 / 0.14), transparent 32%, rgb(255 255 255 / 0.18) 45%, transparent 62%),
-    var(--pattern-blackmetal) center / cover,
-    var(--color-frame);
+  background-color: var(--color-frame);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: cover;
 }
 
 .new-sticker {
@@ -759,10 +755,11 @@ button:focus-visible {
 .article-header {
   margin-bottom: 0;
   padding: 18px;
-  border: 2px solid var(--color-frame);
-  background:
-    linear-gradient(90deg, var(--color-liquid-1), var(--color-liquid-3) 55%, var(--color-liquid-4)),
-    var(--tint-mercury);
+  border: 1px solid var(--color-frame);
+  background-color: var(--color-metal);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: 320px auto;
 }
 
 .article-header h1 {
@@ -789,23 +786,23 @@ button:focus-visible {
 .article-metal {
   width: 100%;
   overflow: hidden;
-  border-right: 2px solid var(--color-frame);
-  border-left: 2px solid var(--color-frame);
+  border-right: 1px solid var(--color-frame);
+  border-left: 1px solid var(--color-frame);
   object-fit: cover;
 }
 
 .article-metal {
   height: 220px;
-  background:
-    linear-gradient(110deg, rgb(255 255 255 / 0.12), transparent 34%, rgb(255 255 255 / 0.16) 48%, transparent 70%),
-    var(--pattern-blackmetal) center / cover,
-    var(--color-frame);
+  background-color: var(--color-frame);
+  background-image: var(--pattern-blackmetal);
+  background-position: center;
+  background-size: cover;
 }
 
 .article-image figcaption {
   padding: 8px 10px;
-  border-right: 2px solid var(--color-frame);
-  border-left: 2px solid var(--color-frame);
+  border-right: 1px solid var(--color-frame);
+  border-left: 1px solid var(--color-frame);
   background: var(--color-paper);
   color: var(--color-muted);
   font-size: 12px;
@@ -816,7 +813,7 @@ button:focus-visible {
 .gh-content {
   max-width: none;
   padding: 28px 18px;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   border-top: 0;
   background: var(--color-canvas);
   color: var(--color-ink);
@@ -854,7 +851,7 @@ button:focus-visible {
 .gh-content h2 {
   margin-top: 2.2em;
   padding-bottom: 6px;
-  border-bottom: 2px solid var(--color-frame);
+  border-bottom: 1px solid var(--color-frame);
   font-size: 30px;
 }
 
@@ -864,7 +861,7 @@ button:focus-visible {
 }
 
 .gh-content a {
-  color: var(--color-link);
+  color: var(--color-ink);
   font-weight: 800;
   text-decoration: underline;
   text-decoration-color: currentColor;
@@ -882,9 +879,8 @@ button:focus-visible {
 .gh-content blockquote {
   margin: 2em auto;
   padding: 16px 18px;
-  border: 2px solid var(--color-frame);
-  border-left-width: 12px;
-  background: var(--tint-tin);
+  border: 1px solid var(--color-frame);
+  background: var(--color-paper-2);
   color: var(--color-ink);
   font-size: 20px;
   font-weight: 900;
@@ -894,7 +890,7 @@ button:focus-visible {
 .gh-content pre {
   overflow-x: auto;
   padding: 16px;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   background: var(--color-frame);
   color: var(--color-canvas);
   font-family: var(--font-sans);
@@ -924,7 +920,7 @@ button:focus-visible {
 .gh-content img,
 .kg-image-card img,
 .kg-gallery-image img {
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
 }
 
 .kg-card figcaption {
@@ -951,7 +947,7 @@ button:focus-visible {
 .article-footer {
   margin-top: 0;
   padding: 16px 18px;
-  border: 2px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
   background: var(--color-paper);
 }
 
@@ -1000,7 +996,7 @@ button:focus-visible {
   gap: 14px;
   align-items: center;
   padding: 14px;
-  border-top: 2px solid var(--color-frame);
+  border-top: 1px solid var(--color-frame);
   background: var(--color-canvas);
   color: var(--color-ink);
   font-size: 13px;
@@ -1049,7 +1045,7 @@ button:focus-visible {
   .site-shell {
     width: min(100% - 16px, var(--content-wide));
     margin: 8px auto;
-    border-width: 4px;
+    box-shadow: 0 0 0 3px var(--color-frame);
   }
 
   .top-banner {
@@ -1088,7 +1084,7 @@ button:focus-visible {
   }
 
   .command-card {
-    box-shadow: 5px 5px 0 var(--color-liquid-2);
+    box-shadow: 4px 4px 0 var(--color-metal);
   }
 
   .post-card__body {
@@ -1143,7 +1139,7 @@ button:focus-visible {
 
   .section-heading .eyebrow {
     border-right: 0;
-    border-bottom: 2px solid var(--color-frame);
+    border-bottom: 1px solid var(--color-frame);
   }
 
   .post-card__media {
