@@ -53,6 +53,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   background: var(--color-frame);
   color: var(--color-ink);
@@ -215,6 +219,15 @@ button:focus-visible {
   z-index: 10;
   border-bottom: 1px solid var(--color-frame);
   background: var(--color-canvas);
+}
+
+/* Ghost injects its own announcement app through ghost_head; this theme renders
+   the same data as a metal marquee in the header instead. */
+#ghost-announcement-bar,
+.gh-announcement-bar,
+[data-announcement-bar-root],
+iframe[src*="announcement-bar"] {
+  display: none !important;
 }
 
 .top-banner {
@@ -418,6 +431,7 @@ button:focus-visible {
   margin-top: 0;
 }
 
+.site-announcement-marquee,
 .post-index__marquee {
   width: 100%;
   margin-right: 0;
@@ -431,12 +445,31 @@ button:focus-visible {
   color: var(--color-canvas);
 }
 
+.site-announcement-marquee {
+  cursor: pointer;
+}
+
+.site-announcement-marquee:focus-visible {
+  outline: 2px solid var(--color-canvas);
+  outline-offset: -4px;
+}
+
 .post-index__marquee-track {
   display: flex;
   width: max-content;
   animation: marquee-latest 16s linear infinite;
 }
 
+.site-announcement-marquee .post-index__marquee-track {
+  animation-duration: 32s;
+}
+
+.site-announcement-marquee:hover .post-index__marquee-track,
+.site-announcement-marquee:focus-within .post-index__marquee-track {
+  animation-play-state: paused;
+}
+
+.site-announcement-marquee span,
 .post-index__marquee span {
   display: inline-block;
   flex: 0 0 auto;
