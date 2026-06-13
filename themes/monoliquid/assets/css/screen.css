@@ -300,8 +300,8 @@ iframe[src*="announcement-bar"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 12px;
+  gap: 0;
+  padding: 0 12px;
   background: var(--color-paper);
 }
 
@@ -310,11 +310,64 @@ iframe[src*="announcement-bar"] {
   flex: 1;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 0;
   min-width: 0;
   padding: 0;
-  margin: 0;
+  margin: -1px 0;
   list-style: none;
+}
+
+.nav li {
+  position: relative;
+  display: flex;
+}
+
+.nav li:hover,
+.nav-current {
+  z-index: 2;
+}
+
+.nav li + li {
+  margin-left: -1px;
+}
+
+.nav li + li::before,
+.nav li + li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.nav li + li::before {
+  top: 0;
+  border-top: 4px solid var(--color-frame);
+  border-right: 4px solid transparent;
+  border-bottom: 0;
+  border-left: 4px solid transparent;
+  transform: translateX(-50%);
+}
+
+.nav li + li::after {
+  bottom: 0;
+  border-top: 0;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid var(--color-frame);
+  border-left: 4px solid transparent;
+  transform: translateX(-50%);
+}
+
+[data-theme="dark"] .nav li + li::before,
+.dark:not([data-theme]) .nav li + li::before {
+  border-top-color: var(--color-nickel);
+}
+
+[data-theme="dark"] .nav li + li::after,
+.dark:not([data-theme]) .nav li + li::after {
+  border-bottom-color: var(--color-nickel);
 }
 
 .nav a {
@@ -864,6 +917,7 @@ iframe[src*="announcement-bar"] {
   padding: 24px 18px;
   border: 1px solid var(--color-frame);
   border-top: 0;
+  border-bottom: 0;
   background: var(--color-canvas);
 }
 
