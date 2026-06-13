@@ -1,61 +1,48 @@
 {{!< default}}
 
 <main id="main-content" class="site-main">
-    <section class="home-layout">
-        <aside class="home-rail" aria-label="Site brief">
-            <div class="seal" aria-hidden="true">IT</div>
-            <p class="eyebrow">Monoliquid / IT Blog</p>
-            <p>코드, 제품, 배포, 의사결정에 관한 기술 기록을 금속 카탈로그처럼 빠르게 훑습니다.</p>
-            <a class="button button--primary" href="#posts">Read Latest</a>
-        </aside>
-
-        <section class="hero">
-            <div class="section-eyebrow section-eyebrow--mercury">MONO + LIQUID + METAL</div>
-            <div class="hero__body">
-                <div>
-                    <p class="eyebrow">Personal Engineering Logbook</p>
-                    <h1>{{@site.title}}</h1>
-                    {{#if @site.description}}
-                        <p class="hero__dek">{{@site.description}}</p>
-                    {{else}}
-                        <p class="hero__dek">개발, 제품, 의사결정에 관한 긴 호흡의 기록.</p>
-                    {{/if}}
-                    <div class="hero__actions">
-                        <a class="button button--secondary" href="/about/">About</a>
-                        {{#if @site.members_enabled}}
-                            <a class="button button--secondary" href="#/portal/signup">Subscribe</a>
-                        {{/if}}
-                    </div>
-                </div>
-                <div class="command-card" aria-label="Developer command example">
-                    <p class="command-card__bar">TERMINAL / QUICK START</p>
-                    <pre><code>$ open latest-note
-$ debug product-thinking
-$ ship quieter-systems</code></pre>
-                </div>
-            </div>
-        </section>
-    </section>
-
-    {{#if @site.members_enabled}}
-        <section class="newsletter-band">
-            <div>
-                <p class="eyebrow eyebrow--inverse">Subscribe</p>
-                <h2>새 글을 조용히 받아보기</h2>
-                <p>제품, 코드, 의사결정에 관한 긴 글을 보냅니다.</p>
-            </div>
-            <a class="button button--inverse" href="#/portal/signup">Subscribe</a>
-        </section>
-    {{/if}}
-
     <section id="posts" class="post-index">
-        <div class="section-heading">
-            <p class="eyebrow">Latest</p>
-            <h2>최근 글</h2>
-        </div>
-
         <div class="post-grid">
-            {{#foreach posts}}
+            <div class="post-index__marquee" aria-label="Latest">
+                <div class="post-index__marquee-track" aria-hidden="true">
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                </div>
+            </div>
+
+            {{#foreach posts to="5"}}
+                {{> "post-card"}}
+            {{/foreach}}
+
+            {{#if @site.members_enabled}}
+                <a class="post-card newsletter-card" href="#/portal/signup">
+                    <div class="post-card__body newsletter-card__body">
+                        <div class="post-card__copy">
+                            <div class="post-card__meta">
+                                <span>Newsletter</span>
+                            </div>
+                            <p>흥미로운 IT 소식을 이메일로 받아보세요</p>
+                        </div>
+                        <span class="newsletter-card__cta">Subscribe</span>
+                    </div>
+                </a>
+            {{/if}}
+
+            {{#foreach posts from="6"}}
                 {{> "post-card"}}
             {{/foreach}}
         </div>
