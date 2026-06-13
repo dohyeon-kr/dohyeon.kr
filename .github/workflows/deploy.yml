@@ -6,9 +6,13 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   release:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -36,65 +40,29 @@ jobs:
         run: |
           pnpm semantic-release || echo "NO_RELEASE=true" >> $GITHUB_ENV
 
-      - name: Prepare deployment directories
-        run: |
-          mkdir -p /var/www/ghost-blog/content /var/www/ghost-blog/secrets /var/www/ghost-blog/themes
+  deploy:
+    runs-on: self-hosted
+    needs: release
 
-      - name: Ensure SOPS tools are available
-        run: |
-          set -euo pipefail
-          if ! command -v age >/dev/null 2>&1; then
-            sudo apt-get update
-            sudo apt-get install -y age
-          fi
-          if ! command -v sops >/dev/null 2>&1; then
-            tmp=$(mktemp)
-            curl -fsSL -o "$tmp" https://github.com/getsops/sops/releases/download/v3.13.1/sops-v3.13.1.linux.amd64
-            sudo install -m 0755 "$tmp" /usr/local/bin/sops
-            rm -f "$tmp"
-          fi
-          test -f "$HOME/.config/sops/age/keys.txt"
+    steps:
+      - name: Checkout deploy assets
+        uses: actions/checkout@v4
 
-      - name: Deploy Ghost compose files
-        run: |
-          rsync -avz \
-            docker-compose.yml \
-            .env.example \
-            deploy/nginx/blog.dohyeon.kr.conf \
-            /var/www/ghost-blog/
-          rsync -avz \
-            secrets/ghost.env.enc \
-            /var/www/ghost-blog/secrets/
-          rsync -avz --delete \
-            themes/monoliquid \
-            /var/www/ghost-blog/themes/
+      - name: Import SOPS age key from Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://vault.dohyeon.kr
+          method: jwt
+          path: jwt
+          role: dohyeon-kr-deploy
+          jwtGithubAudience: vault.dohyeon.kr
+          secrets: |
+            kv/data/sops/dohyeon-kr age_key | SOPS_AGE_KEY
 
       - name: Decrypt env file
         run: |
-          cd /var/www/ghost-blog
-          SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env
+          sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env
           chmod 600 .env
 
-      - name: Start Ghost with Docker Compose
-        run: |
-          cd /var/www/ghost-blog
-          docker compose pull
-          docker compose up -d
-
-      - name: Disable legacy Astro Nginx config
-        run: |
-          if [ -f /etc/nginx/conf.d/astro.conf ]; then
-            sudo mv /etc/nginx/conf.d/astro.conf /etc/nginx/conf.d/astro.conf.disabled
-          fi
-
-      - name: Apply Nginx config
-        run: |
-          sudo cp /var/www/ghost-blog/blog.dohyeon.kr.conf /etc/nginx/sites-available/blog.dohyeon.kr
-          sudo ln -sf /etc/nginx/sites-available/blog.dohyeon.kr /etc/nginx/sites-enabled/blog.dohyeon.kr
-          sudo nginx -t
-          sudo systemctl reload nginx
-
-      - name: Show Ghost status
-        run: |
-          cd /var/www/ghost-blog
-          docker compose ps
+      - name: Deploy Ghost
+        run: sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
