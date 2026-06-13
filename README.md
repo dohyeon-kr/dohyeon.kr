@@ -70,6 +70,23 @@ mail__options__auth__pass=re_replace_with_resend_api_key
 servers block or rate-limit direct outbound mail, and direct mail has poor
 deliverability without SMTP-provider reputation, SPF, DKIM, and DMARC.
 
+Resend accepts SMTP authentication before the sending domain is verified, but
+the message will still fail during `DATA` with `550 The blog.dohyeon.kr domain
+is not verified`. Add these public DNS records for `blog.dohyeon.kr` at the DNS
+provider before expecting Ghost mail to work:
+
+```text
+TXT  resend._domainkey.blog  p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHgS5GQF+OrQ+91sAoBtrDW0xDvWtKdGSZN8KJL0ejpTgLn3XIpyU21xcledwAPgrxYe45JpPfQox7xNEiYKc2SLqRAbU6lYxRlpdJTmTCSls/2+jEpUbemkgm+QIE43EGxIpgGJKg7mEaxIwu0OwcuwYsINijbFtP++ZXj65qSQIDAQAB
+MX   send.blog               feedback-smtp.us-east-1.amazonses.com  priority 10
+TXT  send.blog               v=spf1 include:amazonses.com ~all
+```
+
+Check DNS propagation from the server:
+
+```sh
+ssh dohyeon.kr 'dig +short TXT resend._domainkey.blog.dohyeon.kr; dig +short MX send.blog.dohyeon.kr; dig +short TXT send.blog.dohyeon.kr'
+```
+
 After changing mail values on the server, recreate the Ghost container so Docker
 Compose injects the updated environment:
 
