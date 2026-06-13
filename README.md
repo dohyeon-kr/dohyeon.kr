@@ -66,6 +66,20 @@ mail__options__auth__user=resend
 mail__options__auth__pass=re_replace_with_resend_api_key
 ```
 
+Until `blog.dohyeon.kr` is verified in Resend, use Resend's default sender as a
+temporary admin-login fallback:
+
+```dotenv
+mail__from='dohyeon.kr <onboarding@resend.dev>'
+```
+
+After the DNS records below verify, switch `mail__from` back to the branded
+sender:
+
+```dotenv
+mail__from='dohyeon.kr <noreply@blog.dohyeon.kr>'
+```
+
 `GHOST_MAIL_TRANSPORT=Direct` is only a bootstrap/default value. Most cloud
 servers block or rate-limit direct outbound mail, and direct mail has poor
 deliverability without SMTP-provider reputation, SPF, DKIM, and DMARC.
