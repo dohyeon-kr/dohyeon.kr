@@ -2,12 +2,28 @@
 
 <main id="main-content" class="site-main">
     <section id="posts" class="post-index">
-        <div class="section-heading">
-            <p class="eyebrow">Latest</p>
-            <h2>최근 글</h2>
-        </div>
-
         <div class="post-grid">
+            <div class="post-index__marquee" aria-label="Latest">
+                <div class="post-index__marquee-track" aria-hidden="true">
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                    <span>Latest</span>
+                </div>
+            </div>
+
             {{#foreach posts to="5"}}
                 {{> "post-card"}}
             {{/foreach}}
@@ -19,7 +35,7 @@
                             <div class="post-card__meta">
                                 <span>Newsletter</span>
                             </div>
-                            <p>새 글을 조용히 받아보기. 제품, 코드, 의사결정에 관한 긴 글을 보냅니다.</p>
+                            <p>흥미로운 IT 소식을 이메일로 받아보세요</p>
                         </div>
                         <span class="newsletter-card__cta">Subscribe</span>
                     </div>
