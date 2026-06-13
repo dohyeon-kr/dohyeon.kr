@@ -219,6 +219,7 @@ button:focus-visible {
 
 .top-banner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
   min-height: 64px;
@@ -233,6 +234,7 @@ button:focus-visible {
   align-items: center;
   min-width: 0;
   color: var(--color-canvas);
+  font-family: var(--font-extended);
   font-size: 28px;
   font-weight: 900;
   line-height: 1;
@@ -244,6 +246,17 @@ button:focus-visible {
   width: auto;
   max-height: 32px;
   filter: invert(1) grayscale(1) contrast(1.2);
+}
+
+.top-banner__line {
+  margin: 0;
+  color: var(--color-canvas);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.15;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .new-sticker {
@@ -1059,6 +1072,11 @@ button:focus-visible {
 
   .top-banner {
     grid-template-columns: 1fr;
+  }
+
+  .top-banner__line {
+    text-align: left;
+    white-space: normal;
   }
 
   .site-nav {
