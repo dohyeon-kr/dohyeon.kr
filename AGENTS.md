@@ -27,3 +27,35 @@ fix: restore branded Resend sender
 
 For documentation-only or maintenance changes that should not publish a release,
 use non-release types such as `docs:` or `chore:`.
+
+## Deployment And Secrets
+
+The Ghost deployment workflow is split by trust boundary:
+
+- The `release` job runs on `ubuntu-latest`.
+- The `deploy` job runs on the self-hosted runner.
+- GitHub Actions must not depend on repository or organization secrets for the
+  Ghost SOPS key. The deploy job authenticates to Vault with GitHub OIDC and
+  reads `SOPS_AGE_KEY` from `kv/sops/dohyeon-kr`.
+- Do not reintroduce `/home/dohyeon/.config/sops/age/keys.txt`; the local age
+  key file was removed after the Vault migration.
+- The self-hosted runner should not directly run privileged deployment steps
+  such as `sudo cp`, `sudo systemctl`, `docker compose`, or writes under
+  `/etc/nginx` and `/var/www`.
+- Deployment from GitHub Actions must go through the restricted wrapper:
+
+```sh
+sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
+```
+
+The runner sudo allowlist is intentionally narrow. For this repository, assume
+only these wrappers are allowed:
+
+```text
+/usr/local/sbin/deploy-ghost-blog
+/usr/local/sbin/deploy-meal-planner
+```
+
+If deployment behavior needs to change, update the server wrapper and sudoers
+configuration deliberately instead of expanding privileged commands inline in
+`.github/workflows/deploy.yml`.
