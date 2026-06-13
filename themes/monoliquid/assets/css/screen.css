@@ -23,6 +23,15 @@
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+@font-face {
+  font-family: "Archivo Expanded";
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: 125%;
+  font-display: swap;
+  src: url("../fonts/archivo-expanded-black-latin.woff2") format("woff2");
+}
+
 *,
 *::before,
 *::after {
@@ -407,13 +416,12 @@ button:focus-visible {
   display: inline-block;
   flex: 0 0 auto;
   margin-inline: 8px;
-  padding: 8px 14px;
+  padding: 8px 12px;
+  font-family: "Archivo Expanded", var(--font-sans);
   font-size: 12px;
-  font-stretch: expanded;
+  font-stretch: 125%;
   font-weight: 900;
   line-height: 1;
-  transform: scaleX(1.32);
-  transform-origin: center;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -583,6 +591,12 @@ button:focus-visible {
 .post-card.newsletter-card .post-card__meta,
 .post-card.newsletter-card p {
   color: var(--color-canvas);
+}
+
+.post-card.newsletter-card .post-card__meta,
+.post-card.newsletter-card .newsletter-card__cta {
+  font-family: "Archivo Expanded", var(--font-sans);
+  font-stretch: 125%;
 }
 
 .post-card.newsletter-card p {
