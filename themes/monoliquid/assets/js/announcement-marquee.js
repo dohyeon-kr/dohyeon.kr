@@ -6,13 +6,62 @@
     return;
   }
 
+  function textFromHtml(rawText) {
+    var parser = document.createElement('div');
+    parser.innerHTML = rawText;
+
+    return (parser.textContent || parser.innerText || rawText).trim();
+  }
+
+  function normalizeAnnouncementEntry(entry) {
+    var rawText = '';
+
+    if (typeof entry === 'string') {
+      rawText = entry;
+    } else if (entry && typeof entry.announcement === 'string') {
+      rawText = entry.announcement;
+    }
+
+    return rawText ? textFromHtml(rawText) : '';
+  }
+
+  function normalizeAnnouncements(payload) {
+    var announcement = payload && payload.announcement;
+    var entries = Array.isArray(announcement) ? announcement : [announcement];
+    var texts = [];
+
+    entries.forEach(function (entry) {
+      var text = normalizeAnnouncementEntry(entry);
+
+      if (text) {
+        texts.push(text);
+      }
+    });
+
+    return texts;
+  }
+
+  function renderAnnouncements(texts) {
+    var repeatCount = Math.max(2, Math.ceil(12 / texts.length));
+
+    track.textContent = '';
+
+    for (var index = 0; index < repeatCount; index += 1) {
+      texts.forEach(function (text) {
+        var item = document.createElement('span');
+        item.textContent = text;
+        track.appendChild(item);
+      });
+    }
+  }
+
   function storageKey(text) {
-    return 'monoliquid:announcement-dismissed:' + encodeURIComponent(text);
+    return 'monoliquid:announcement-session-dismissed:' + encodeURIComponent(text);
   }
 
   function isDismissed(text) {
     try {
-      return window.localStorage.getItem(storageKey(text)) === 'true';
+      return window.sessionStorage.getItem(storageKey(text)) === 'true';
     } catch (error) {
       return false;
     }
@@ -22,7 +71,7 @@
     root.hidden = true;
 
     try {
-      window.localStorage.setItem(storageKey(text), 'true');
+      window.sessionStorage.setItem(storageKey(text), 'true');
     } catch (error) {
       return;
     }
@@ -37,40 +86,32 @@
       return response.ok ? response.json() : null;
     })
     .then(function (payload) {
-      var announcement = payload && payload.announcement && payload.announcement[0];
-      var text = announcement && announcement.announcement;
+      var texts = normalizeAnnouncements(payload);
+      var dismissValue = texts.join(' | ');
 
-      if (!text || !text.trim()) {
+      if (!texts.length) {
         return;
       }
 
-      text = text.trim();
-
-      if (isDismissed(text)) {
+      if (isDismissed(dismissValue)) {
         return;
       }
 
-      track.textContent = '';
+      renderAnnouncements(texts);
 
-      for (var index = 0; index < 12; index += 1) {
-        var item = document.createElement('span');
-        item.textContent = text;
-        track.appendChild(item);
-      }
-
-      root.setAttribute('aria-label', text);
+      root.setAttribute('aria-label', dismissValue);
       root.setAttribute('role', 'button');
       root.setAttribute('tabindex', '0');
       root.hidden = false;
 
       root.addEventListener('click', function () {
-        dismiss(text);
+        dismiss(dismissValue);
       });
 
       root.addEventListener('keydown', function (event) {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
-          dismiss(text);
+          dismiss(dismissValue);
         }
       });
     })
