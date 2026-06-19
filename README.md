@@ -12,7 +12,7 @@ theme files. Legacy static-site/runtime code has been removed.
 - SQLite content database for the initial setup
 - Nginx reverse proxy on `blog.dohyeon.kr`
 - Nginx redirect from `dohyeon.kr` to `blog.dohyeon.kr`
-- GitHub Actions deploying to `ssh dohyeon.kr`
+- GitHub Actions deploying through the restricted server wrapper
 
 ## Local Run
 
@@ -38,7 +38,8 @@ The GitHub Actions workflow deploys these files to `/var/www/ghost-blog` on the
 ├── .env.example
 ├── blog.dohyeon.kr.conf
 ├── secrets/
-│   └── ghost.env.enc
+│   └── prod/
+│       └── ghost.env.enc
 └── content/
 ```
 
@@ -53,8 +54,8 @@ password resets, member sign-in links, and member signup emails. The compose
 file reads `.env` as an `env_file`, so you can pass Ghost's native
 nested mail config keys directly with double underscores.
 
-For example, configure SMTP values in `.env` or `secrets/ghost.env` before
-encrypting it with SOPS:
+For example, configure SMTP values in `.env` or the ignored
+`secrets/ghost.env` staging file before encrypting it with SOPS:
 
 ```dotenv
 GHOST_MAIL_TRANSPORT=SMTP
@@ -96,13 +97,22 @@ ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose up -d --force-recreate 
 
 ## Secrets
 
-Secrets are managed with SOPS + age.
+Secrets are managed with SOPS + age. This service repository stores only public
+age recipients and encrypted secret files. The age private key is stored in
+Vault and is fetched only at decrypt/edit time.
 
 Committed files:
 
 ```text
 .sops.yaml
-secrets/ghost.env.enc
+secrets/prod/ghost.env.enc
+```
+
+Vault location:
+
+```text
+kv/sops/dohyeon-kr/prod
+field: age_key
 ```
 
 Plaintext secret files are ignored by git:
@@ -110,26 +120,36 @@ Plaintext secret files are ignored by git:
 ```text
 secrets/*.env
 .env
+.env.local
+.age.key
+*.agekey
+*.decrypted.*
 ```
 
-The current server has its age private key at:
-
-```text
-~/.config/sops/age/keys.txt
-```
-
-To edit Ghost environment values from a machine that has the age private key,
-decrypt to an ignored file, edit, then re-encrypt:
+To decrypt the Ghost env for local Docker after authenticating to Vault:
 
 ```sh
-sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > secrets/ghost.env
-sops --encrypt --input-type dotenv --output-type dotenv --filename-override secrets/ghost.env.enc --output secrets/ghost.env.enc secrets/ghost.env
+vault login
+make secrets
 ```
 
-To apply the encrypted env manually on the server:
+This fetches the age private key from Vault into `SOPS_AGE_KEY` for a single
+process and writes the decrypted prod dotenv file to ignored `.env`.
+
+To edit the encrypted Ghost environment file in place:
 
 ```sh
-ssh dohyeon.kr 'cd /var/www/ghost-blog && SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env && chmod 600 .env'
+vault login
+make secrets-edit
+```
+
+To create or replace the encrypted file from an ignored plaintext dotenv file:
+
+```sh
+cp .env.example secrets/ghost.env
+$EDITOR secrets/ghost.env
+make secrets-encrypt
+rm secrets/ghost.env
 ```
 
 ## Deployment
@@ -139,13 +159,23 @@ Push to `main` or run the `Release & Deploy Ghost` workflow manually.
 The workflow:
 
 1. runs semantic-release
-2. creates `/var/www/ghost-blog/content` on `dohyeon.kr`
-3. ensures `sops` and `age` are available on the server
-4. uploads `docker-compose.yml`, `.env.example`, the encrypted env, and the Nginx sample config
-5. decrypts `secrets/ghost.env.enc` to `/var/www/ghost-blog/.env`
-6. runs `docker compose pull && docker compose up -d`
-7. disables any leftover legacy Nginx vhost
-8. applies the Ghost Nginx vhost and reloads Nginx
+2. authenticates to Vault with GitHub OIDC
+3. reads the SOPS age private key from `kv/sops/dohyeon-kr/prod`
+4. decrypts `secrets/prod/ghost.env.enc` to a workspace `.env`
+5. runs the restricted deployment wrapper:
+
+```sh
+sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
+```
+
+The self-hosted runner must not run privileged deployment steps directly from
+this workflow. If deployment behavior needs to change, update the server wrapper
+and sudoers configuration deliberately instead of adding inline privileged
+commands to `.github/workflows/deploy.yml`.
+
+Docker registry credentials for future CI jobs should follow the
+`dohyeon-base` Vault OIDC example instead of GitHub repository secrets. This
+Ghost deployment does not currently need a Docker registry login step.
 
 Useful server commands:
 
@@ -157,17 +187,9 @@ ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose pull && docker compose 
 
 ## Nginx
 
-The sample config is in `deploy/nginx/blog.dohyeon.kr.conf`. The current server
-already has a Let's Encrypt certificate at
-`/etc/letsencrypt/live/blog.dohyeon.kr`.
-
-Apply it on the server:
-
-```sh
-ssh dohyeon.kr 'sudo cp /var/www/ghost-blog/blog.dohyeon.kr.conf /etc/nginx/sites-available/blog.dohyeon.kr'
-ssh dohyeon.kr 'sudo ln -sf /etc/nginx/sites-available/blog.dohyeon.kr /etc/nginx/sites-enabled/blog.dohyeon.kr'
-ssh dohyeon.kr 'sudo nginx -t && sudo systemctl reload nginx'
-```
+The sample config is in `deploy/nginx/blog.dohyeon.kr.conf`. The deployment
+wrapper is responsible for applying it on the server. The current server already
+has a Let's Encrypt certificate at `/etc/letsencrypt/live/blog.dohyeon.kr`.
 
 If rebuilding this on a fresh server, issue a certificate after DNS for
 `blog.dohyeon.kr` points to the server:

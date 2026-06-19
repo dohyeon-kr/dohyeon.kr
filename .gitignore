@@ -15,6 +15,7 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.local
 .env.production
 
 # Ghost persistent content volume
@@ -22,6 +23,12 @@ content/
 
 # Plaintext secret files. Commit only SOPS-encrypted *.env.enc files.
 secrets/*.env
+.age.key
+*.agekey
+*.decrypted.*
+
+# SOPS config render output
+.sops.rendered.yaml
 
 # macOS-specific files
 .DS_Store

@@ -57,11 +57,11 @@ jobs:
           role: dohyeon-kr-deploy
           jwtGithubAudience: vault.dohyeon.kr
           secrets: |
-            kv/data/sops/dohyeon-kr age_key | SOPS_AGE_KEY
+            kv/data/sops/dohyeon-kr/prod age_key | SOPS_AGE_KEY
 
       - name: Decrypt env file
         run: |
-          sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env
+          sops -d --input-type dotenv --output-type dotenv secrets/prod/ghost.env.enc > .env
           chmod 600 .env
 
       - name: Deploy Ghost
