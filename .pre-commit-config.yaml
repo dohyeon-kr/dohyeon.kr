@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: no-age-private-keys
+        name: Block private secret material
+        entry: scripts/check-no-private-secrets.sh
+        language: script
+        pass_filenames: false

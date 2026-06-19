@@ -61,8 +61,11 @@ jobs:
 
       - name: Decrypt env file
         run: |
-          sops -d --input-type dotenv --output-type dotenv secrets/ghost.env.enc > .env
+          sops -d --input-type dotenv --output-type dotenv secrets/prod/ghost.env.enc > .env
           chmod 600 .env
+
+      - name: Prepare wrapper inputs
+        run: cp secrets/prod/ghost.env.enc secrets/ghost.env.enc
 
       - name: Deploy Ghost
         run: sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
