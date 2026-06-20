@@ -18,4 +18,4 @@ services:
       logging__transports: '["stdout"]'
     volumes:
       - ${GHOST_CONTENT_DIR:-./content}:/var/lib/ghost/content
-      - ./themes/monoliquid:/var/lib/ghost/content/themes/monoliquid:ro
+      - ./themes/monoliquid:/var/lib/ghost/content/themes/monoliquid
