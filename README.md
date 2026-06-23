@@ -168,6 +168,16 @@ The workflow:
 sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
 ```
 
+`Deploy Meeting Recorder` is a separate manual workflow for
+`https://meetings.dohyeon.kr`. It deploys an already-built image, for example:
+
+```text
+registry.dohyeon.kr/meeting-recorder:latest
+```
+
+The server must provide `/usr/local/sbin/deploy-meeting-recorder`, backed by the
+meeting recorder compose file and nginx config on the host.
+
 The self-hosted runner must not run privileged deployment steps directly from
 this workflow. If deployment behavior needs to change, update the server wrapper
 and sudoers configuration deliberately instead of adding inline privileged

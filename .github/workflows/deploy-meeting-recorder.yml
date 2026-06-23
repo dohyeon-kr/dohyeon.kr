@@ -1,0 +1,20 @@
+name: Deploy Meeting Recorder
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: Image to deploy, for example registry.dohyeon.kr/meeting-recorder:latest
+        required: true
+        default: registry.dohyeon.kr/meeting-recorder:latest
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    timeout-minutes: 10
+    steps:
+      - name: Deploy meeting recorder
+        run: sudo /usr/local/sbin/deploy-meeting-recorder "${{ inputs.image }}"
