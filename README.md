@@ -168,16 +168,10 @@ The workflow:
 sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
 ```
 
-`Deploy Meeting Recorder` is a separate manual workflow for
-`https://meetings.dohyeon.kr`. It deploys an already-built image, for example:
-
-```text
-registry.dohyeon.kr/meeting-recorder:latest
-```
-
-The self-hosted runner deploys it directly with Docker Compose using
-`/opt/meeting-recorder/docker-compose.yml`. The runner must be allowed to access
-the Docker daemon.
+`https://meetings.dohyeon.kr` is deployed outside this repository by the
+internal polling deploy agent. The agent watches
+`registry.dohyeon.kr/meeting-recorder:deploy-main` and runs Docker Compose on
+the server when the tag digest changes.
 
 The Ghost workflow should not run privileged deployment steps directly. If Ghost
 deployment behavior needs to change, update the server wrapper and sudoers
