@@ -10,11 +10,36 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+
+env:
+  REGISTRY: registry.dohyeon.kr
 
 jobs:
   deploy:
     runs-on: self-hosted
     timeout-minutes: 10
     steps:
+      - name: Read Docker registry credentials from Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://vault.dohyeon.kr
+          method: jwt
+          secrets: |
+            kv/data/registry/github-actions username | REGISTRY_USERNAME ;
+            kv/data/registry/github-actions password | REGISTRY_PASSWORD
+
+      - name: Docker login
+        run: |
+          echo "$REGISTRY_PASSWORD" | docker login "$REGISTRY" \
+            --username "$REGISTRY_USERNAME" \
+            --password-stdin
+
       - name: Deploy meeting recorder
-        run: sudo /usr/local/sbin/deploy-meeting-recorder "${{ inputs.image }}"
+        env:
+          MEETING_RECORDER_IMAGE: ${{ inputs.image }}
+          MEETING_RECORDER_PORT: "5175"
+        run: |
+          docker compose -f /opt/meeting-recorder/docker-compose.yml pull
+          docker compose -f /opt/meeting-recorder/docker-compose.yml up -d --remove-orphans
+          docker compose -f /opt/meeting-recorder/docker-compose.yml ps

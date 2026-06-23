@@ -175,13 +175,14 @@ sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
 registry.dohyeon.kr/meeting-recorder:latest
 ```
 
-The server must provide `/usr/local/sbin/deploy-meeting-recorder`, backed by the
-meeting recorder compose file and nginx config on the host.
+The self-hosted runner deploys it directly with Docker Compose using
+`/opt/meeting-recorder/docker-compose.yml`. The runner must be allowed to access
+the Docker daemon.
 
-The self-hosted runner must not run privileged deployment steps directly from
-this workflow. If deployment behavior needs to change, update the server wrapper
-and sudoers configuration deliberately instead of adding inline privileged
-commands to `.github/workflows/deploy.yml`.
+The Ghost workflow should not run privileged deployment steps directly. If Ghost
+deployment behavior needs to change, update the server wrapper and sudoers
+configuration deliberately instead of adding inline privileged commands to
+`.github/workflows/deploy.yml`.
 
 Docker registry credentials for future CI jobs should follow the
 `dohyeon-base` Vault OIDC example instead of GitHub repository secrets. This
