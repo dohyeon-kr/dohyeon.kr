@@ -159,14 +159,37 @@ Push to `main` or run the `Release & Deploy Ghost` workflow manually.
 The workflow:
 
 1. runs semantic-release
-2. authenticates to Vault with GitHub OIDC
-3. reads the SOPS age private key from `kv/sops/dohyeon-kr`
-4. decrypts `secrets/prod/ghost.env.enc` to a workspace `.env`
-5. runs the restricted deployment wrapper:
+2. enters the protected GitHub `production` environment
+3. passes only the triggering 40-character commit SHA to the restricted deployment wrapper:
 
 ```sh
-sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
+sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"
 ```
+
+The self-hosted job has no repository or OIDC permissions and does not check out
+the repository, contact Vault, run SOPS, or provide its workspace to root. The
+root-owned wrapper independently verifies that the SHA is the public
+`dohyeon-kr/dohyeon.kr` `main` HEAD over HTTPS, downloads that exact GitHub
+archive into a private root temporary directory, and installs only the validated
+Compose file, nginx config, and theme. It reuses the existing root-owned
+`/var/www/ghost-blog/.env`; a missing, linked, non-root-owned, or overly
+permissive file aborts deployment.
+
+Before enabling the new wrapper on an existing host, move the two deployment
+asset directories out of the runner account's ownership. Do not recursively
+change the Ghost content directory:
+
+```sh
+sudo chown root:root /var/www/ghost-blog /var/www/ghost-blog/themes
+sudo chmod 755 /var/www/ghost-blog /var/www/ghost-blog/themes
+sudo test -f /var/www/ghost-blog/.env
+test "$(sudo stat -c %u /var/www/ghost-blog/.env)" = 0
+sudo chmod 600 /var/www/ghost-blog/.env
+```
+
+The sudoers entry for the self-hosted runner must keep environment resetting
+enabled and allow only `/usr/local/sbin/deploy-ghost-blog`; the wrapper itself
+rejects extra arguments and non-SHA input.
 
 `https://meetings.dohyeon.kr` is deployed outside this repository by the
 internal polling deploy agent. The agent watches
@@ -180,12 +203,7 @@ configuration deliberately instead of adding inline privileged commands to
 
 Docker registry credentials for future CI jobs should follow the
 `dohyeon-base` Vault OIDC example instead of GitHub repository secrets. This
-Ghost deployment does not currently need a Docker registry login step.
-
-The `dohyeon-base` standard path for new services is
-`kv/sops/<project>/<environment>`. This repository still reads the deploy key
-from `kv/sops/dohyeon-kr` because that is the Vault path currently granted to
-the `dohyeon-kr-deploy` GitHub OIDC role.
+Ghost deployment does not access Vault or need a Docker registry login step.
 
 Useful server commands:
 

@@ -7,12 +7,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  id-token: write
+  contents: read
+
+concurrency:
+  group: ghost-production
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -33,39 +38,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Test deployment safeguards
+        run: ./scripts/check-deploy-workflow.sh
+
       - name: Semantic Release
         id: semrel
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          pnpm semantic-release || echo "NO_RELEASE=true" >> $GITHUB_ENV
+        run: pnpm semantic-release
 
   deploy:
     runs-on: self-hosted
     needs: release
+    environment: production
+    permissions: {}
 
     steps:
-      - name: Checkout deploy assets
-        uses: actions/checkout@v4
-
-      - name: Import SOPS age key from Vault
-        uses: hashicorp/vault-action@v3
-        with:
-          url: https://vault.dohyeon.kr
-          method: jwt
-          path: jwt
-          role: dohyeon-kr-deploy
-          jwtGithubAudience: vault.dohyeon.kr
-          secrets: |
-            kv/data/sops/dohyeon-kr age_key | SOPS_AGE_KEY
-
-      - name: Decrypt env file
-        run: |
-          sops -d --input-type dotenv --output-type dotenv secrets/prod/ghost.env.enc > .env
-          chmod 600 .env
-
-      - name: Prepare wrapper inputs
-        run: cp secrets/prod/ghost.env.enc secrets/ghost.env.enc
-
-      - name: Deploy Ghost
-        run: sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
+      - name: Deploy verified main revision
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+        run: sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"
