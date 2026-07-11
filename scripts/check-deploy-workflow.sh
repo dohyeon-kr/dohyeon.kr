@@ -9,6 +9,11 @@ deploy_job="$(sed -n '/^  deploy:/,$p' "$workflow")"
 grep -Fq "  group: ghost-production" "$workflow"
 grep -Fq "  cancel-in-progress: false" "$workflow"
 grep -Fq "permissions:" "$workflow"
+[[ "$(grep -Fc "    if: github.ref == 'refs/heads/main'" "$workflow")" == 2 ]]
+grep -Fq "          persist-credentials: false" "$workflow"
+grep -Fq "          node-version: 24.18.0" "$workflow"
+grep -Fq "          corepack prepare pnpm@10.13.1 --activate" "$workflow"
+grep -Fq "        run: pnpm install --frozen-lockfile --ignore-scripts" "$workflow"
 grep -Fq "      contents: write" "$workflow"
 if grep -Eq '^  (contents: write|id-token: write)$' "$workflow"; then
   echo "Write and OIDC permissions must be scoped to the job that needs them." >&2
