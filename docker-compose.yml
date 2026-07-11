@@ -1,8 +1,19 @@
 services:
   ghost:
-    image: ghost:5-alpine
+    image: ${GHOST_IMAGE:?GHOST_IMAGE must be an exact digest reference}
+    pull_policy: never
     container_name: dohyeon-ghost
     restart: unless-stopped
+    init: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
     ports:
       - "127.0.0.1:${GHOST_PORT:-2368}:2368"
     env_file:
@@ -19,3 +30,23 @@ services:
     volumes:
       - ${GHOST_CONTENT_DIR:-./content}:/var/lib/ghost/content
       - ./themes/monoliquid:/var/lib/ghost/content/themes/monoliquid
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >-
+          require('http').get('http://127.0.0.1:2368/', (response) =>
+          process.exit(response.statusCode < 500 ? 0 : 1))
+          .on('error', () => process.exit(1))
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 1m
+    stop_grace_period: 1m
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: "5"
+        compress: "true"

@@ -8,7 +8,7 @@ theme files. Legacy static-site/runtime code has been removed.
 
 ## Stack
 
-- Ghost 5 Docker image
+- Ghost 5 Docker image selected by an exact local digest
 - SQLite content database for the initial setup
 - Nginx reverse proxy on `blog.dohyeon.kr`
 - Nginx redirect from `dohyeon.kr` to `blog.dohyeon.kr`
@@ -18,6 +18,8 @@ theme files. Legacy static-site/runtime code has been removed.
 
 ```sh
 cp .env.example .env
+docker pull ghost:5-alpine
+export GHOST_IMAGE="$(docker image inspect --format '{{index .RepoDigests 0}}' ghost:5-alpine)"
 docker compose up -d
 ```
 
@@ -45,6 +47,11 @@ The GitHub Actions workflow deploys these files to `/var/www/ghost-blog` on the
 
 `content/` is the persistent Ghost volume. It contains uploaded images, themes,
 logs, and the SQLite database at `content/data/ghost.db`.
+
+The server also has `/etc/ghost-blog/image.env`, a root-owned mode `0600` file
+containing exactly one `GHOST_IMAGE=ghost@sha256:<64 hex>` assignment. It is
+separate from the service `.env`, so deployment metadata is not injected into
+the Ghost process.
 
 
 ## Mail
@@ -174,7 +181,9 @@ root-owned wrapper independently verifies that the SHA is the public
 archive into a private root temporary directory, and installs only the validated
 Compose file, nginx config, and theme. It reuses the existing root-owned
 `/var/www/ghost-blog/.env`; a missing, linked, non-root-owned, or overly
-permissive file aborts deployment.
+permissive file aborts deployment. It also requires the exact digest in the
+root-owned `/etc/ghost-blog/image.env` to exist locally. The wrapper never pulls
+a mutable tag and waits for the digest-pinned container health check.
 
 Before enabling the new wrapper on an existing host, move the two deployment
 asset directories out of the runner account's ownership. Do not recursively
@@ -186,6 +195,11 @@ sudo chmod 755 /var/www/ghost-blog /var/www/ghost-blog/themes
 sudo test -f /var/www/ghost-blog/.env
 test "$(sudo stat -c %u /var/www/ghost-blog/.env)" = 0
 sudo chmod 600 /var/www/ghost-blog/.env
+sudo install -d -o root -g root -m 0755 /etc/ghost-blog
+# Populate image.env from the currently reviewed local Ghost image digest.
+sudo test -f /etc/ghost-blog/image.env
+test "$(sudo stat -c %u /etc/ghost-blog/image.env)" = 0
+sudo chmod 600 /etc/ghost-blog/image.env
 ```
 
 The sudoers entry for the self-hosted runner must keep environment resetting
@@ -211,8 +225,11 @@ Useful server commands:
 ```sh
 ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose ps'
 ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose logs -f ghost'
-ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose pull && docker compose up -d'
 ```
+
+Do not run an ad hoc server-side `docker compose pull`. Image updates require a
+reviewed digest in `/etc/ghost-blog/image.env`, an explicit backup, and a normal
+wrapper deployment of the current public `main` SHA.
 
 ## Nginx
 

@@ -3,6 +3,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "$0")/.." && pwd)"
 workflow="$repo_root/.github/workflows/deploy.yml"
+compose="$repo_root/docker-compose.yml"
 deploy_job="$(sed -n '/^  deploy:/,$p' "$workflow")"
 
 grep -Fq "  group: ghost-production" "$workflow"
@@ -37,5 +38,17 @@ fi
 if [[ "$(grep -Ec '^      - name:' <<<"$deploy_job")" != 1 ]] || \
   [[ "$(grep -Ec '^        run:' <<<"$deploy_job")" != 1 ]]; then
   echo "The self-hosted deploy job must contain only the SHA deployment step." >&2
+  exit 1
+fi
+
+grep -Fq '    image: ${GHOST_IMAGE:?GHOST_IMAGE must be an exact digest reference}' "$compose"
+grep -Fq '    pull_policy: never' "$compose"
+grep -Fq '      - no-new-privileges:true' "$compose"
+grep -Fq '      - ALL' "$compose"
+grep -Fq '    healthcheck:' "$compose"
+grep -Fq '    logging:' "$compose"
+
+if grep -Eq '^[[:space:]]+image:[[:space:]]+ghost:[^[:space:]]+' "$compose"; then
+  echo "The production Compose file must not use a mutable Ghost tag." >&2
   exit 1
 fi
