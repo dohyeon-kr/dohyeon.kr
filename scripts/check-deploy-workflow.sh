@@ -18,12 +18,15 @@ if grep -Eq 'semantic-release.*\|\|' "$workflow"; then
   echo "Semantic Release failures must stop deployment." >&2
   exit 1
 fi
+grep -Fq '      deploy_sha: ${{ steps.deploy-revision.outputs.sha }}' "$workflow"
+grep -Fq '          remote_line="$(git ls-remote --exit-code origin refs/heads/main)"' "$workflow"
+grep -Fq '          printf '\''sha=%s\n'\'' "${deploy_sha}" >> "${GITHUB_OUTPUT}"' "$workflow"
 
 grep -Fq "    runs-on: self-hosted" <<<"$deploy_job"
 grep -Fq "    needs: release" <<<"$deploy_job"
 grep -Fq "    environment: production" <<<"$deploy_job"
 grep -Fq "    permissions: {}" <<<"$deploy_job"
-grep -Fq '          DEPLOY_SHA: ${{ github.sha }}' <<<"$deploy_job"
+grep -Fq '          DEPLOY_SHA: ${{ needs.release.outputs.deploy_sha }}' <<<"$deploy_job"
 grep -Fxq '        run: sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"' <<<"$deploy_job"
 
 if grep -Eqi '^[[:space:]]+uses:|actions/checkout|vault-action|sops|GITHUB_WORKSPACE|id-token|contents:|\$\{\{[[:space:]]*(secrets|vars)\.' <<<"$deploy_job"; then

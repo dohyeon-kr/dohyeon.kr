@@ -160,7 +160,8 @@ The workflow:
 
 1. runs semantic-release
 2. enters the protected GitHub `production` environment
-3. passes only the triggering 40-character commit SHA to the restricted deployment wrapper:
+3. resolves the public `main` HEAD after semantic-release and passes only that
+   40-character commit SHA to the restricted deployment wrapper:
 
 ```sh
 sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"

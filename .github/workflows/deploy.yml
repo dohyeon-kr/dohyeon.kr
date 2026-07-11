@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      deploy_sha: ${{ steps.deploy-revision.outputs.sha }}
 
     steps:
       - name: Checkout
@@ -47,6 +49,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm semantic-release
 
+      - name: Resolve deployed main revision
+        id: deploy-revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          remote_line="$(git ls-remote --exit-code origin refs/heads/main)"
+          deploy_sha="${remote_line%%$'\t'*}"
+          [[ "${deploy_sha}" =~ ^[0-9a-f]{40}$ ]]
+          printf 'sha=%s\n' "${deploy_sha}" >> "${GITHUB_OUTPUT}"
+
   deploy:
     runs-on: self-hosted
     needs: release
@@ -56,5 +68,5 @@ jobs:
     steps:
       - name: Deploy verified main revision
         env:
-          DEPLOY_SHA: ${{ github.sha }}
+          DEPLOY_SHA: ${{ needs.release.outputs.deploy_sha }}
         run: sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"
