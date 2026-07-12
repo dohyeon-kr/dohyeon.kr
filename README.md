@@ -8,7 +8,7 @@ theme files. Legacy static-site/runtime code has been removed.
 
 ## Stack
 
-- Ghost 5 Docker image selected by an exact local digest
+- Ghost 6.51.0 Alpine 3.23 Docker image selected by an exact local digest
 - SQLite content database for the initial setup
 - Nginx reverse proxy on `blog.dohyeon.kr`
 - Nginx redirect from `dohyeon.kr` to `blog.dohyeon.kr`
@@ -18,8 +18,8 @@ theme files. Legacy static-site/runtime code has been removed.
 
 ```sh
 cp .env.example .env
-docker pull ghost:5-alpine
-export GHOST_IMAGE="$(docker image inspect --format '{{index .RepoDigests 0}}' ghost:5-alpine)"
+docker pull ghost:6.51.0-alpine3.23
+export GHOST_IMAGE="$(docker image inspect --format '{{index .RepoDigests 0}}' ghost:6.51.0-alpine3.23)"
 docker compose up -d
 ```
 
