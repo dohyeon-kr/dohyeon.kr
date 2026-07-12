@@ -12,7 +12,7 @@ grep -Fq "permissions:" "$workflow"
 [[ "$(grep -Fc "    if: github.ref == 'refs/heads/main'" "$workflow")" == 2 ]]
 grep -Fq "          persist-credentials: false" "$workflow"
 grep -Fq "          node-version: 24.18.0" "$workflow"
-grep -Fq "          corepack prepare pnpm@10.13.1 --activate" "$workflow"
+grep -Fq "          corepack prepare pnpm@10.34.0 --activate" "$workflow"
 grep -Fq "        run: pnpm install --frozen-lockfile --ignore-scripts" "$workflow"
 grep -Fq "      contents: write" "$workflow"
 if grep -Eq '^  (contents: write|id-token: write)$' "$workflow"; then
