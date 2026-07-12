@@ -11,6 +11,7 @@ deploy_job="$(sed -n '/^  deploy:/,$p' "$workflow")"
 grep -Fq "  group: ghost-production" "$workflow"
 grep -Fq "  cancel-in-progress: false" "$workflow"
 grep -Fq "permissions:" "$workflow"
+grep -Fq "    if: github.ref == 'refs/heads/main' && vars.GHOST_PRODUCTION_MYSQL_READY == 'true'" "$workflow"
 [[ "$(grep -Fc "    if: github.ref == 'refs/heads/main'" "$workflow")" == 2 ]]
 grep -Fq "          persist-credentials: false" "$workflow"
 grep -Fq "          node-version: 24.18.0" "$workflow"
