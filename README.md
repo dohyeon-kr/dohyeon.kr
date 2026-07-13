@@ -8,7 +8,7 @@ theme files. Legacy static-site/runtime code has been removed.
 
 ## Stack
 
-- Ghost 5 Docker image
+- Ghost 5 Docker image selected by an exact local digest
 - SQLite content database for the initial setup
 - Nginx reverse proxy on `blog.dohyeon.kr`
 - Nginx redirect from `dohyeon.kr` to `blog.dohyeon.kr`
@@ -18,6 +18,8 @@ theme files. Legacy static-site/runtime code has been removed.
 
 ```sh
 cp .env.example .env
+docker pull ghost:5-alpine
+export GHOST_IMAGE="$(docker image inspect --format '{{index .RepoDigests 0}}' ghost:5-alpine)"
 docker compose up -d
 ```
 
@@ -45,6 +47,11 @@ The GitHub Actions workflow deploys these files to `/var/www/ghost-blog` on the
 
 `content/` is the persistent Ghost volume. It contains uploaded images, themes,
 logs, and the SQLite database at `content/data/ghost.db`.
+
+The server also has `/etc/ghost-blog/image.env`, a root-owned mode `0600` file
+containing exactly one `GHOST_IMAGE=ghost@sha256:<64 hex>` assignment. It is
+separate from the service `.env`, so deployment metadata is not injected into
+the Ghost process.
 
 
 ## Mail
@@ -159,14 +166,45 @@ Push to `main` or run the `Release & Deploy Ghost` workflow manually.
 The workflow:
 
 1. runs semantic-release
-2. authenticates to Vault with GitHub OIDC
-3. reads the SOPS age private key from `kv/sops/dohyeon-kr`
-4. decrypts `secrets/prod/ghost.env.enc` to a workspace `.env`
-5. runs the restricted deployment wrapper:
+2. enters the protected GitHub `production` environment
+3. resolves the public `main` HEAD after semantic-release and passes only that
+   40-character commit SHA to the restricted deployment wrapper:
 
 ```sh
-sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
+sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"
 ```
+
+The self-hosted job has no repository or OIDC permissions and does not check out
+the repository, contact Vault, run SOPS, or provide its workspace to root. The
+root-owned wrapper independently verifies that the SHA is the public
+`dohyeon-kr/dohyeon.kr` `main` HEAD over HTTPS, downloads that exact GitHub
+archive into a private root temporary directory, and installs only the validated
+Compose file, nginx config, and theme. It reuses the existing root-owned
+`/var/www/ghost-blog/.env`; a missing, linked, non-root-owned, or overly
+permissive file aborts deployment. It also requires the exact digest in the
+root-owned `/etc/ghost-blog/image.env` to exist locally. The wrapper never pulls
+a mutable tag and waits for the digest-pinned container health check.
+
+Before enabling the new wrapper on an existing host, move the two deployment
+asset directories out of the runner account's ownership. Do not recursively
+change the Ghost content directory:
+
+```sh
+sudo chown root:root /var/www/ghost-blog /var/www/ghost-blog/themes
+sudo chmod 755 /var/www/ghost-blog /var/www/ghost-blog/themes
+sudo test -f /var/www/ghost-blog/.env
+test "$(sudo stat -c %u /var/www/ghost-blog/.env)" = 0
+sudo chmod 600 /var/www/ghost-blog/.env
+sudo install -d -o root -g root -m 0755 /etc/ghost-blog
+# Populate image.env from the currently reviewed local Ghost image digest.
+sudo test -f /etc/ghost-blog/image.env
+test "$(sudo stat -c %u /etc/ghost-blog/image.env)" = 0
+sudo chmod 600 /etc/ghost-blog/image.env
+```
+
+The sudoers entry for the self-hosted runner must keep environment resetting
+enabled and allow only `/usr/local/sbin/deploy-ghost-blog`; the wrapper itself
+rejects extra arguments and non-SHA input.
 
 `https://meetings.dohyeon.kr` is deployed outside this repository by the
 internal polling deploy agent. The agent watches
@@ -180,20 +218,18 @@ configuration deliberately instead of adding inline privileged commands to
 
 Docker registry credentials for future CI jobs should follow the
 `dohyeon-base` Vault OIDC example instead of GitHub repository secrets. This
-Ghost deployment does not currently need a Docker registry login step.
-
-The `dohyeon-base` standard path for new services is
-`kv/sops/<project>/<environment>`. This repository still reads the deploy key
-from `kv/sops/dohyeon-kr` because that is the Vault path currently granted to
-the `dohyeon-kr-deploy` GitHub OIDC role.
+Ghost deployment does not access Vault or need a Docker registry login step.
 
 Useful server commands:
 
 ```sh
 ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose ps'
 ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose logs -f ghost'
-ssh dohyeon.kr 'cd /var/www/ghost-blog && docker compose pull && docker compose up -d'
 ```
+
+Do not run an ad hoc server-side `docker compose pull`. Image updates require a
+reviewed digest in `/etc/ghost-blog/image.env`, an explicit backup, and a normal
+wrapper deployment of the current public `main` SHA.
 
 ## Nginx
 

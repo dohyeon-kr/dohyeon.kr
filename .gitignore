@@ -23,6 +23,7 @@ content/
 
 # Plaintext secret files. Commit only SOPS-encrypted *.env.enc files.
 secrets/*.env
+secrets/**/*.env
 .age.key
 *.agekey
 *.decrypted.*

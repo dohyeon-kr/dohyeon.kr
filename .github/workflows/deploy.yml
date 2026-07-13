@@ -7,65 +7,69 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  id-token: write
+  contents: read
+
+concurrency:
+  group: ghost-production
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    outputs:
+      deploy_sha: ${{ steps.deploy-revision.outputs.sha }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 24
+          node-version: 24.18.0
 
       - name: Enable corepack & pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@10 --activate
+          corepack prepare pnpm@10.13.1 --activate
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Test deployment safeguards
+        run: ./scripts/check-deploy-workflow.sh
 
       - name: Semantic Release
         id: semrel
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm semantic-release
+
+      - name: Resolve deployed main revision
+        id: deploy-revision
+        shell: bash
         run: |
-          pnpm semantic-release || echo "NO_RELEASE=true" >> $GITHUB_ENV
+          set -euo pipefail
+          remote_line="$(git ls-remote --exit-code origin refs/heads/main)"
+          deploy_sha="${remote_line%%$'\t'*}"
+          [[ "${deploy_sha}" =~ ^[0-9a-f]{40}$ ]]
+          printf 'sha=%s\n' "${deploy_sha}" >> "${GITHUB_OUTPUT}"
 
   deploy:
     runs-on: self-hosted
     needs: release
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    permissions: {}
 
     steps:
-      - name: Checkout deploy assets
-        uses: actions/checkout@v4
-
-      - name: Import SOPS age key from Vault
-        uses: hashicorp/vault-action@v3
-        with:
-          url: https://vault.dohyeon.kr
-          method: jwt
-          path: jwt
-          role: dohyeon-kr-deploy
-          jwtGithubAudience: vault.dohyeon.kr
-          secrets: |
-            kv/data/sops/dohyeon-kr age_key | SOPS_AGE_KEY
-
-      - name: Decrypt env file
-        run: |
-          sops -d --input-type dotenv --output-type dotenv secrets/prod/ghost.env.enc > .env
-          chmod 600 .env
-
-      - name: Prepare wrapper inputs
-        run: cp secrets/prod/ghost.env.enc secrets/ghost.env.enc
-
-      - name: Deploy Ghost
-        run: sudo /usr/local/sbin/deploy-ghost-blog "$GITHUB_WORKSPACE"
+      - name: Deploy verified main revision
+        env:
+          DEPLOY_SHA: ${{ needs.release.outputs.deploy_sha }}
+        run: sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"
