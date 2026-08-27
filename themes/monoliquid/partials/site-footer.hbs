@@ -1,6 +1,11 @@
 <footer class="site-footer wrapper--ticks">
-    <div>
+    <div class="site-footer__identity">
         <a class="site-footer__brand" href="{{@site.url}}">{{@site.title}}</a>
+        <p class="site-footer__visitors" data-visit-counter aria-live="polite">
+            오늘 <span data-visit-today>—</span>
+            <span aria-hidden="true">/</span>
+            전체 <span data-visit-total>—</span>
+        </p>
     </div>
     <p class="site-footer__fine">&copy; {{date format="YYYY"}} {{@site.title}}</p>
 </footer>
