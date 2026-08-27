@@ -12,6 +12,7 @@ theme files. Legacy static-site/runtime code has been removed.
 - SQLite content database for the initial setup
 - Nginx reverse proxy on `blog.dohyeon.kr`
 - Nginx redirect from `dohyeon.kr` to `blog.dohyeon.kr`
+- Loopback-only Python/SQLite visitor counter on `127.0.0.1:2370`
 - GitHub Actions deploying through the restricted server wrapper
 
 ## Local Run
@@ -52,6 +53,13 @@ The server also has `/etc/ghost-blog/image.env`, a root-owned mode `0600` file
 containing exactly one `GHOST_IMAGE=ghost@sha256:<64 hex>` assignment. It is
 separate from the service `.env`, so deployment metadata is not injected into
 the Ghost process.
+
+The footer visitor totals are served by `ghost-visit-counter.service`. It keeps
+the legacy Astro totals in `/var/lib/dohyeon-kr/visits.sqlite`; Nginx exposes
+only `GET` and `POST /api/visit`. Browsers increment at most once per 30 minutes
+when local storage is available. The service binds only to loopback and runs as
+the unprivileged `dohyeon` account with systemd filesystem and capability
+restrictions.
 
 
 ## Mail

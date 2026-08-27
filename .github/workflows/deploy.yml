@@ -45,6 +45,9 @@ jobs:
       - name: Test deployment safeguards
         run: ./scripts/check-deploy-workflow.sh
 
+      - name: Test visitor counter
+        run: python3 -m unittest discover -s services/visit-counter -p 'test_*.py' -v
+
       - name: Semantic Release
         id: semrel
         env:

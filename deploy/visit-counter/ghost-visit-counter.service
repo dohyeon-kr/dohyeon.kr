@@ -1,0 +1,41 @@
+[Unit]
+Description=dohyeon.kr visitor counter
+After=network.target
+
+[Service]
+Type=simple
+User=dohyeon
+Group=dohyeon
+WorkingDirectory=/opt/ghost-visit-counter
+ExecStart=/usr/bin/python3 /opt/ghost-visit-counter/visit_counter.py
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=VISIT_COUNTER_HOST=127.0.0.1
+Environment=VISIT_COUNTER_PORT=2370
+Environment=VISIT_COUNTER_DB=/var/lib/dohyeon-kr/visits.sqlite
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/dohyeon-kr
+CapabilityBoundingSet=
+AmbientCapabilities=
+LockPersonality=true
+MemoryDenyWriteExecute=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectProc=invisible
+ProtectHostname=true
+RestrictAddressFamilies=AF_UNIX AF_INET
+RestrictNamespaces=true
+RestrictRealtime=true
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+
+[Install]
+WantedBy=multi-user.target
