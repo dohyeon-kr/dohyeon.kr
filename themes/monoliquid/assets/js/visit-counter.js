@@ -10,6 +10,20 @@
   const cachedStatsKey = "visitStats:cachedStats";
   const incrementTtl = 30 * 60 * 1000;
   const numberFormatter = new Intl.NumberFormat("ko-KR");
+  const readStorage = (key) => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  };
+  const writeStorage = (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      // The counter still works when storage is unavailable.
+    }
+  };
 
   const render = (stats) => {
     const nextToday = Number(stats?.today);
@@ -22,13 +36,13 @@
   };
 
   try {
-    const cached = JSON.parse(localStorage.getItem(cachedStatsKey) || "null");
+    const cached = JSON.parse(readStorage(cachedStatsKey) || "null");
     render(cached);
   } catch {
-    localStorage.removeItem(cachedStatsKey);
+    // Ignore malformed cache data.
   }
 
-  const lastIncrementAt = Number(localStorage.getItem(lastIncrementKey));
+  const lastIncrementAt = Number(readStorage(lastIncrementKey));
   const shouldIncrement =
     !Number.isFinite(lastIncrementAt) || Date.now() - lastIncrementAt > incrementTtl;
 
@@ -42,9 +56,9 @@
     })
     .then((stats) => {
       if (!render(stats)) throw new Error("Invalid visit statistics");
-      localStorage.setItem(cachedStatsKey, JSON.stringify(stats));
+      writeStorage(cachedStatsKey, JSON.stringify(stats));
       if (shouldIncrement) {
-        localStorage.setItem(lastIncrementKey, String(Date.now()));
+        writeStorage(lastIncrementKey, String(Date.now()));
       }
     })
     .catch(() => {
