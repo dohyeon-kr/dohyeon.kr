@@ -48,6 +48,9 @@ jobs:
       - name: Test visitor counter
         run: python3 -m unittest discover -s services/visit-counter -p 'test_*.py' -v
 
+      - name: Verify generated thumbnails
+        run: pnpm thumbnails:check
+
       - name: Semantic Release
         id: semrel
         env:

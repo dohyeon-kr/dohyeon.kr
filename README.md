@@ -62,6 +62,22 @@ the unprivileged `dohyeon` account with systemd filesystem and capability
 restrictions. Per-post totals use the compatible
 `GET`/`POST /api/visit/post/:slug` endpoint and the same browser-side interval.
 
+## Generated thumbnails
+
+Posts without a Ghost feature image use the restored Astro thumbnail design:
+a 1200×630 PNG rendered with Satori, Sharp, and the bundled Pretendard fonts.
+The same image is used by list cards, article headers, and social metadata.
+
+Edit `scripts/thumbnail-manifest.json` when adding a published post, then run:
+
+```sh
+pnpm thumbnails
+pnpm thumbnails:check
+```
+
+If an image has not been generated yet, the list card removes its media column
+after the image request fails instead of leaving an empty thumbnail region.
+
 
 ## Mail
 

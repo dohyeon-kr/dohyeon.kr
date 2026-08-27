@@ -7,13 +7,17 @@
     "url": "https://github.com/dohyeon-kr/dohyeon.kr.git"
   },
   "scripts": {
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "thumbnails": "node scripts/generate-thumbnails.mjs",
+    "thumbnails:check": "node scripts/generate-thumbnails.mjs --check"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/github": "^12.0.2",
     "@semantic-release/release-notes-generator": "^14.1.0",
-    "semantic-release": "^25.0.2"
+    "satori": "0.19.2",
+    "semantic-release": "^25.0.2",
+    "sharp": "0.34.3"
   }
 }

@@ -1,0 +1,19 @@
+[
+  {"slug":"mugeunbon-junieoyi-joheun-kodeu","title":"무근본 주니어의 좋은 코드","category":"에세이"},
+  {"slug":"jinjeonghan-yimiyi-peuropesyeoneol","title":"진정한 의미의 프로페셔널","category":"에세이"},
+  {"slug":"eoddeohge-haneunji-boda-mueoseul-haneunji","title":"어떻게 하는지 보다 무엇을 하는지","category":"에세이"},
+  {"slug":"hanae-jibjunghagi","title":"하나에 집중하기","category":"에세이"},
+  {"slug":"stackedsticky-gaebalgi","title":"StackedSticky 개발기","category":"OSS"},
+  {"slug":"mogpyoyi-gucehwa","title":"목표의 구체화","category":"에세이"},
+  {"slug":"gaebaliran-mueosinga","title":"개발이란 무엇인가","category":"에세이"},
+  {"slug":"creating-the-blog","title":"블로그 만들기","category":"블로그"},
+  {"slug":"developing-the-modal","title":"Promise 기반의 Headless Modal API 개발기","category":"OSS"},
+  {"slug":"use-json-localstorage","title":"useJsonLocalStorage: JSON 형식으로 LocalStorage를 다루는 React Hook 개발기","category":"OSS"},
+  {"slug":"use-json-localstorage-copy","title":"혼돈과 질서의 중간, 딱 그쯤이면 좋겠다.","category":"에세이"},
+  {"slug":"yisagyeoljeongyi-gijune-daehayeo","title":"팀에서의 의사결정 룰 : 같이 일하는 개발자로 성장하기","category":"에세이"},
+  {"slug":"storybookgwa-playwrightro-comaegrag-teseuteu-hwangyeong-seoljeong","title":"인공지능으로 서비스 개발하기","category":"개발"},
+  {"slug":"ijigeul-junbihamyeo-neugginjeom-myeocgaji-hoego","title":"이직을 준비하며 느낀점 몇가지 회고","category":"에세이"},
+  {"slug":"aireul-umjigineun-suhag","title":"[도서리뷰] AI를 움직이는 수학이야기 : 거인의 어깨위에 올라타자","category":"도서 리뷰"},
+  {"slug":"leet-code-climbing-stairs","title":"Leet code Problem: Climbing Stairs","category":"알고리즘"},
+  {"slug":"about-seamless-works","title":"경계 없는 기여에 대해서","category":"에세이"}
+]

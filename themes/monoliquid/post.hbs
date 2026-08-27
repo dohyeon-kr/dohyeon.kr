@@ -36,7 +36,15 @@
                     {{/if}}
                 </figure>
             {{else}}
-                <div class="article-metal" aria-hidden="true"></div>
+                <figure class="article-image" data-generated-thumbnail>
+                    <img
+                        src="/assets/images/generated-thumbnails/{{slug}}.png"
+                        alt="{{title}}"
+                        width="1200"
+                        height="630"
+                        fetchpriority="high"
+                    >
+                </figure>
             {{/if}}
 
             <section class="gh-content gh-content--with-footer">
@@ -44,6 +52,7 @@
             </section>
 
             <section class="article-comments">
+                <h2 class="article-comments__title">댓글</h2>
                 {{comments}}
             </section>
 
