@@ -59,7 +59,8 @@ the legacy Astro totals in `/var/lib/dohyeon-kr/visits.sqlite`; Nginx exposes
 only `GET` and `POST /api/visit`. Browsers increment at most once per 30 minutes
 when local storage is available. The service binds only to loopback and runs as
 the unprivileged `dohyeon` account with systemd filesystem and capability
-restrictions.
+restrictions. Per-post totals use the compatible
+`GET`/`POST /api/visit/post/:slug` endpoint and the same browser-side interval.
 
 
 ## Mail

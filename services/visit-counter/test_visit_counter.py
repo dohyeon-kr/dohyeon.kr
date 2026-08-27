@@ -29,6 +29,26 @@ class VisitStoreTest(unittest.TestCase):
             self.assertEqual(store.get(now), {"today": 0, "total": 0})
             self.assertEqual(store.get(now), {"today": 0, "total": 0})
 
+    def test_preserves_and_increments_post_views(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+
+            self.assertEqual(store.get_post("about-seamless-works"), {"total": 0})
+            self.assertEqual(
+                store.increment_post("about-seamless-works"), {"total": 1}
+            )
+            self.assertEqual(
+                store.increment_post("about-seamless-works"), {"total": 2}
+            )
+            self.assertEqual(store.get_post("about-seamless-works"), {"total": 2})
+
+    def test_rejects_invalid_post_slugs(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+
+            with self.assertRaises(ValueError):
+                store.increment_post("../ghost.db")
+
 
 if __name__ == "__main__":
     unittest.main()
