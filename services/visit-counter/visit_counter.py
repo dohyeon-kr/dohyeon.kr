@@ -5,12 +5,13 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import signal
 import sqlite3
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 from zoneinfo import ZoneInfo
 
 
@@ -40,6 +41,11 @@ class VisitStore:
                 );
                 CREATE TABLE IF NOT EXISTS stats_daily (
                     day TEXT PRIMARY KEY,
+                    total INTEGER NOT NULL CHECK (total >= 0),
+                    updated_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS stats_post_views (
+                    slug TEXT PRIMARY KEY,
                     total INTEGER NOT NULL CHECK (total >= 0),
                     updated_at TEXT NOT NULL
                 );
@@ -105,6 +111,43 @@ class VisitStore:
             ).fetchone()[0]
         return {"today": int(today), "total": int(total)}
 
+    @staticmethod
+    def valid_slug(slug: str) -> bool:
+        return re.fullmatch(r"[A-Za-z0-9_-]{1,191}", slug) is not None
+
+    def get_post(self, slug: str) -> dict[str, int]:
+        if not self.valid_slug(slug):
+            raise ValueError("invalid post slug")
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT total FROM stats_post_views WHERE slug = ?", (slug,)
+            ).fetchone()
+        return {"total": int(row[0]) if row else 0}
+
+    def increment_post(
+        self, slug: str, now: datetime | None = None
+    ) -> dict[str, int]:
+        if not self.valid_slug(slug):
+            raise ValueError("invalid post slug")
+        current = now or datetime.now(KST)
+        updated_at = current.astimezone().isoformat()
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                """
+                INSERT INTO stats_post_views (slug, total, updated_at)
+                VALUES (?, 1, ?)
+                ON CONFLICT(slug) DO UPDATE SET
+                    total = total + 1,
+                    updated_at = excluded.updated_at
+                """,
+                (slug, updated_at),
+            )
+            total = connection.execute(
+                "SELECT total FROM stats_post_views WHERE slug = ?", (slug,)
+            ).fetchone()[0]
+        return {"total": int(total)}
+
 
 class VisitServer(ThreadingHTTPServer):
     daemon_threads = True
@@ -133,6 +176,17 @@ class VisitHandler(BaseHTTPRequestHandler):
     def _path(self) -> str:
         return urlsplit(self.path).path
 
+    def _post_slug(self) -> str | None:
+        prefix = "/api/visit/post/"
+        path = self._path()
+        if not path.startswith(prefix):
+            return None
+        try:
+            slug = unquote(path[len(prefix) :], errors="strict")
+        except UnicodeDecodeError:
+            return None
+        return slug if self.server.store.valid_slug(slug) else None
+
     def do_GET(self) -> None:  # noqa: N802
         if self._path() == "/healthz":
             self._send_json(200, {"status": "ok"})
@@ -140,10 +194,15 @@ class VisitHandler(BaseHTTPRequestHandler):
         if self._path() == "/api/visit":
             self._send_json(200, self.server.store.get())
             return
+        post_slug = self._post_slug()
+        if post_slug is not None:
+            self._send_json(200, self.server.store.get_post(post_slug))
+            return
         self._send_json(404, {"error": "not_found"})
 
     def do_POST(self) -> None:  # noqa: N802
-        if self._path() != "/api/visit":
+        post_slug = self._post_slug()
+        if self._path() != "/api/visit" and post_slug is None:
             self._send_json(404, {"error": "not_found"})
             return
 
@@ -157,7 +216,10 @@ class VisitHandler(BaseHTTPRequestHandler):
             return
         if content_length:
             self.rfile.read(content_length)
-        self._send_json(200, self.server.store.increment())
+        if post_slug is not None:
+            self._send_json(200, self.server.store.increment_post(post_slug))
+        else:
+            self._send_json(200, self.server.store.increment())
 
     def log_message(self, message: str, *args: object) -> None:
         print(f"visitor-counter: {self.address_string()} {message % args}", flush=True)
