@@ -3,7 +3,7 @@
         <a href="{{url}}">{{title}}</a>
     </div>
 
-    <div class="post-card__body{{#unless feature_image}} post-card__body--without-media{{/unless}}">
+    <div class="post-card__body">
         <div class="post-card__copy">
             <div class="post-card__meta">
                 {{#primary_tag}}
@@ -29,6 +29,16 @@
                     loading="lazy"
                     width="720"
                     height="405"
+                >
+            </a>
+        {{else}}
+            <a class="post-card__media" data-generated-thumbnail href="{{url}}" aria-label="{{title}}">
+                <img
+                    src="/assets/images/generated-thumbnails/{{slug}}.png"
+                    alt="{{title}}"
+                    loading="lazy"
+                    width="1200"
+                    height="630"
                 >
             </a>
         {{/if}}

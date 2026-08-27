@@ -945,6 +945,16 @@ iframe[src*="announcement-bar"] {
   background: var(--color-canvas);
 }
 
+.article-comments__title {
+  width: min(var(--content-prose), 100%);
+  margin: 0 auto 16px;
+  font-family: var(--font-extended);
+  font-size: 20px;
+  font-stretch: 125%;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .gh-content > * {
   max-width: var(--content-prose);
   margin-right: auto;

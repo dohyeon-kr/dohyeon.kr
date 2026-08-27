@@ -6,6 +6,16 @@
     <meta name="theme-color" content="#000000">
     <title>{{meta_title}}</title>
     <link rel="stylesheet" href="{{asset "css/screen.css"}}">
+    {{#is "post"}}
+        {{#post}}
+            {{#unless feature_image}}
+                <meta property="og:image" content="{{@site.url}}/assets/images/generated-thumbnails/{{slug}}.png">
+                <meta property="og:image:width" content="1200">
+                <meta property="og:image:height" content="630">
+                <meta name="twitter:image" content="{{@site.url}}/assets/images/generated-thumbnails/{{slug}}.png">
+            {{/unless}}
+        {{/post}}
+    {{/is}}
     {{ghost_head}}
 </head>
 <body class="{{body_class}}">
@@ -16,6 +26,7 @@
         {{> "site-footer"}}
     </div>
     <script defer src="{{asset "js/announcement-marquee.js"}}"></script>
+    <script defer src="{{asset "js/generated-thumbnails.js"}}"></script>
     <script defer src="{{asset "js/infinite-scroll.js"}}"></script>
     <script defer src="{{asset "js/post-view-counter.js"}}"></script>
     <script defer src="{{asset "js/site-header.js"}}"></script>
