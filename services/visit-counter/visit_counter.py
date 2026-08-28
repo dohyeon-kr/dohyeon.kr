@@ -245,15 +245,15 @@ class VisitStore:
 class CommentGuard:
     def __init__(self) -> None:
         self._lock = threading.Lock()
-        self._challenges: dict[str, tuple[float, str]] = {}
+        self._challenges: dict[str, float] = {}
         self._submissions: dict[str, list[float]] = {}
 
     def issue(self, client_key: str) -> str:
         token = secrets.token_urlsafe(24)
         now = time.monotonic()
         with self._lock:
-            self._challenges[token] = (now, client_key)
-            self._challenges = {key: value for key, value in self._challenges.items() if now - value[0] < 3600}
+            self._challenges[token] = now
+            self._challenges = {key: issued_at for key, issued_at in self._challenges.items() if now - issued_at < 3600}
         return token
 
     def consume(self, token: object, client_key: str) -> bool:
@@ -261,8 +261,8 @@ class CommentGuard:
             return False
         now = time.monotonic()
         with self._lock:
-            challenge = self._challenges.pop(token, None)
-            if challenge is None or challenge[1] != client_key or not 1 <= now - challenge[0] <= 3600:
+            issued_at = self._challenges.pop(token, None)
+            if issued_at is None or not 1 <= now - issued_at <= 3600:
                 return False
             recent = [stamp for stamp in self._submissions.get(client_key, []) if now - stamp < 600]
             if len(recent) >= 8:
