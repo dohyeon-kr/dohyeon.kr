@@ -3,10 +3,19 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from visit_counter import VisitStore
+from visit_counter import CommentGuard, VisitStore
 
 
 class VisitStoreTest(unittest.TestCase):
+    def test_comment_challenge_survives_proxy_edge_change(self) -> None:
+        guard = CommentGuard()
+        token = guard.issue("edge-a")
+        with guard._lock:
+            guard._challenges[token] -= 2
+
+        self.assertTrue(guard.consume(token, "edge-b"))
+        self.assertFalse(guard.consume(token, "edge-b"))
+
     def test_preserves_total_and_counts_by_kst_day(self) -> None:
         with TemporaryDirectory() as directory:
             store = VisitStore(Path(directory) / "visits.sqlite")
