@@ -15,6 +15,7 @@ import threading
 import time
 import unicodedata
 import uuid
+from http.client import HTTPConnection
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -241,6 +242,44 @@ class VisitStore:
             )
         return True
 
+    def admin_list_comments(self) -> list[dict[str, str]]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT id, post_slug, display_name, body, status, created_at,
+                       COALESCE(deleted_at, '')
+                FROM anonymous_comments
+                ORDER BY created_at DESC, id DESC
+                LIMIT 500
+                """
+            ).fetchall()
+        return [
+            {
+                "id": row[0],
+                "postSlug": row[1],
+                "displayName": row[2],
+                "body": row[3],
+                "status": row[4],
+                "createdAt": row[5],
+                "deletedAt": row[6],
+            }
+            for row in rows
+        ]
+
+    def admin_delete_comment(self, comment_id: str) -> bool:
+        if not re.fullmatch(r"[0-9a-f]{32}", comment_id):
+            raise ValueError("invalid comment")
+        with self._connect() as connection:
+            cursor = connection.execute(
+                """
+                UPDATE anonymous_comments
+                SET status = 'deleted', display_name = '', body = '', deleted_at = ?
+                WHERE id = ? AND status = 'visible'
+                """,
+                (datetime.now().astimezone().isoformat(), comment_id),
+            )
+        return cursor.rowcount == 1
+
 
 class CommentGuard:
     def __init__(self) -> None:
@@ -326,6 +365,38 @@ class VisitHandler(BaseHTTPRequestHandler):
         comment_id = parts[1] if len(parts) == 2 else None
         return slug, comment_id
 
+    def _comment_admin_id(self) -> str | None:
+        prefix = "/ghost/api/comments-admin/"
+        path = self._path()
+        if not path.startswith(prefix):
+            return None
+        comment_id = path[len(prefix) :]
+        return comment_id if re.fullmatch(r"[0-9a-f]{32}", comment_id) else None
+
+    def _is_ghost_admin(self) -> bool:
+        cookie = self.headers.get("Cookie")
+        if not cookie or len(cookie) > 8192:
+            return False
+        connection = HTTPConnection("127.0.0.1", 2368, timeout=3)
+        try:
+            connection.request(
+                "GET",
+                "/ghost/api/admin/users/me/",
+                headers={
+                    "Cookie": cookie,
+                    "Host": "blog.dohyeon.kr",
+                    "X-Forwarded-Proto": "https",
+                    "User-Agent": self.headers.get("User-Agent", "comment-admin"),
+                },
+            )
+            response = connection.getresponse()
+            response.read()
+            return response.status == 200
+        except OSError:
+            return False
+        finally:
+            connection.close()
+
     def _client_key(self) -> str:
         value = f"{self.headers.get('X-Real-IP', self.client_address[0])}|{self.headers.get('User-Agent', '')}"
         return hashlib.sha256(value.encode()).hexdigest()
@@ -354,6 +425,13 @@ class VisitHandler(BaseHTTPRequestHandler):
             return
         if self._path() == "/api/visit":
             self._send_json(200, self.server.store.get())
+            return
+        if self._path() == "/ghost/api/comments-admin":
+            if not self._is_ghost_admin():
+                self._send_json(401, {"error": "ghost_admin_required"})
+                return
+            comments = self.server.store.admin_list_comments()
+            self._send_json(200, {"comments": comments, "count": len(comments)})
             return
         post_slug = self._post_slug()
         if post_slug is not None:
@@ -407,6 +485,16 @@ class VisitHandler(BaseHTTPRequestHandler):
             self._send_json(200, self.server.store.increment())
 
     def do_DELETE(self) -> None:  # noqa: N802
+        admin_comment_id = self._comment_admin_id()
+        if admin_comment_id is not None:
+            if not self._valid_origin() or not self._is_ghost_admin():
+                self._send_json(401, {"error": "ghost_admin_required"})
+                return
+            if not self.server.store.admin_delete_comment(admin_comment_id):
+                self._send_json(404, {"error": "comment_not_found"})
+                return
+            self._send_json(200, {"status": "deleted"})
+            return
         comment_route = self._comment_route()
         if comment_route is None or comment_route[1] is None:
             self._send_json(404, {"error": "not_found"})

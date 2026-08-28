@@ -77,6 +77,18 @@ class VisitStoreTest(unittest.TestCase):
             )
             self.assertEqual(store.list_comments("about-seamless-works"), [])
 
+    def test_admin_lists_and_deletes_comments(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+            comment, _ = store.create_comment("post", "방문자", "관리 대상 댓글")
+
+            listed = store.admin_list_comments()
+            self.assertEqual(listed[0]["postSlug"], "post")
+            self.assertEqual(listed[0]["status"], "visible")
+            self.assertTrue(store.admin_delete_comment(comment["id"]))
+            self.assertFalse(store.admin_delete_comment(comment["id"]))
+            self.assertEqual(store.admin_list_comments()[0]["status"], "deleted")
+
     def test_rejects_invalid_comment_content(self) -> None:
         with TemporaryDirectory() as directory:
             store = VisitStore(Path(directory) / "visits.sqlite")
