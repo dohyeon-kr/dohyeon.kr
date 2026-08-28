@@ -607,10 +607,10 @@ iframe[src*="announcement-bar"] {
 .post-grid {
   position: relative;
   display: grid;
-  gap: 0;
+  gap: 12px;
   padding: 0;
-  border-top: 1px solid var(--color-frame);
-  border-bottom: 1px solid var(--color-frame);
+  border: 1px solid var(--color-frame);
+  background: var(--color-canvas);
 }
 
 .post-card {
@@ -620,12 +620,8 @@ iframe[src*="announcement-bar"] {
 }
 
 .post-grid > .post-card {
-  border-top: 0;
-  border-bottom: 0;
-}
-
-.post-grid > .post-card + .post-card {
-  border-top: 1px solid var(--color-frame);
+  border-right: 0;
+  border-left: 0;
 }
 
 .post-card__titlebar {
@@ -805,6 +801,12 @@ iframe[src*="announcement-bar"] {
   color: inherit;
 }
 
+.article-admin-edit {
+  margin-left: auto;
+  padding: 4px 8px;
+  border: 1px solid currentColor;
+}
+
 .post-card p {
   display: -webkit-box;
   margin: 0 0 14px;
@@ -953,6 +955,124 @@ iframe[src*="announcement-bar"] {
   font-stretch: 125%;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.article-comments__inner {
+  width: min(var(--content-prose), 100%);
+  margin: 0 auto;
+}
+
+.article-comments__header {
+  margin-bottom: 18px;
+}
+
+.article-comments__header .article-comments__title,
+.article-comments__header p {
+  width: auto;
+  margin: 0;
+}
+
+.article-comments__header p,
+.comment-form__footer,
+.comment-empty {
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.comment-list {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.comment-item {
+  padding: 14px;
+  border: 1px solid var(--color-frame);
+  background: var(--color-paper);
+}
+
+.comment-item__meta,
+.comment-form__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.comment-item__meta {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.comment-item__body {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.comment-item__delete {
+  padding: 2px 6px;
+  border: 1px solid var(--color-frame);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.comment-form {
+  display: grid;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-frame);
+}
+
+.comment-form label {
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.comment-form label span {
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-frame);
+  border-radius: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font: inherit;
+}
+
+.comment-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.comment-form button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--color-frame);
+  background: var(--color-frame);
+  color: var(--color-canvas);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.comment-form button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.comment-form__honeypot {
+  position: absolute;
+  left: -10000px;
 }
 
 .gh-content > * {
