@@ -49,6 +49,38 @@ class VisitStoreTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 store.increment_post("../ghost.db")
 
+    def test_anonymous_comment_lifecycle(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+
+            comment, delete_token = store.create_comment(
+                "about-seamless-works", "", "좋은 글 감사합니다."
+            )
+            self.assertEqual(comment["displayName"], "익명")
+            self.assertEqual(store.list_comments("about-seamless-works"), [comment])
+            self.assertFalse(
+                store.delete_comment("about-seamless-works", comment["id"], "wrong")
+            )
+            self.assertTrue(
+                store.delete_comment(
+                    "about-seamless-works", comment["id"], delete_token
+                )
+            )
+            self.assertEqual(store.list_comments("about-seamless-works"), [])
+
+    def test_rejects_invalid_comment_content(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+
+            with self.assertRaises(ValueError):
+                store.create_comment("post", "name\nadmin", "valid body")
+            with self.assertRaises(ValueError):
+                store.create_comment("post", "name", "x")
+            with self.assertRaises(ValueError):
+                store.create_comment(
+                    "post", "name", "https://a.test https://b.test https://c.test"
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

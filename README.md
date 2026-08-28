@@ -62,6 +62,18 @@ the unprivileged `dohyeon` account with systemd filesystem and capability
 restrictions. Per-post totals use the compatible
 `GET`/`POST /api/visit/post/:slug` endpoint and the same browser-side interval.
 
+The same loopback service provides login-free, plain-text comments at
+`GET`/`POST /api/comments/:slug` and owner deletion at
+`DELETE /api/comments/:slug/:id`. Delete tokens stay in the commenter's browser;
+only their hashes are stored in SQLite. Comment creation requires a same-origin
+request, a short-lived challenge, an empty honeypot, and passes length, link,
+and rate limits. The Ghost-native member comments helper is not rendered.
+
+Post edit links are hidden by default. An authenticated administrator can open
+any post once with `?admin-tools=1` to enable them in that browser, or use
+`?admin-tools=0` to hide them again. Ghost Admin still enforces authentication
+when the editor link is opened.
+
 ## Generated thumbnails
 
 Posts without a Ghost feature image use the restored Astro thumbnail design:
