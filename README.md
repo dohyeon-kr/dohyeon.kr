@@ -74,6 +74,12 @@ any post once with `?admin-tools=1` to enable them in that browser, or use
 `?admin-tools=0` to hide them again. Ghost Admin still enforces authentication
 when the editor link is opened.
 
+The same admin-tools mode exposes `/ghost/comments-admin/`. Its API lives under
+the Ghost cookie path and verifies the current Ghost staff session against the
+loopback Ghost Admin API before returning comment data or accepting a deletion.
+The management page lists the latest 500 comments and can optionally include
+soft-deleted records.
+
 ## Generated thumbnails
 
 Posts without a Ghost feature image use the restored Astro thumbnail design:
