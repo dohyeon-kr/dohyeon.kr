@@ -25,6 +25,9 @@
         {{{body}}}
         {{> "site-footer"}}
     </div>
+    <button class="back-to-top" type="button" data-back-to-top aria-label="맨 위로 이동" title="맨 위로" hidden>
+        <span aria-hidden="true">↑</span>
+    </button>
     <script defer src="{{asset "js/announcement-marquee.js"}}"></script>
     <script defer src="{{asset "js/admin-tools.js"}}"></script>
     <script defer src="{{asset "js/anonymous-comments.js"}}"></script>
@@ -33,6 +36,7 @@
     <script defer src="{{asset "js/post-view-counter.js"}}"></script>
     <script defer src="{{asset "js/site-header.js"}}"></script>
     <script defer src="{{asset "js/visit-counter.js"}}"></script>
+    <script defer src="{{asset "js/back-to-top.js"}}"></script>
     {{ghost_foot}}
 </body>
 </html>

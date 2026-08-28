@@ -198,6 +198,8 @@ button:focus-visible {
 }
 
 .site-shell {
+  display: flex;
+  flex-direction: column;
   width: min(var(--content-wide), calc(100% - 32px));
   min-height: calc(100vh - 32px);
   margin: 16px auto;
@@ -211,6 +213,7 @@ button:focus-visible {
   width: 100%;
   padding: var(--site-main-padding);
   scroll-margin-top: 128px;
+  flex: 1 0 auto;
 }
 
 .site-header {
@@ -1332,6 +1335,44 @@ iframe[src*="announcement-bar"] {
   font-weight: 700;
 }
 
+.back-to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 20;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  transform: translateY(12px);
+  border: 1px solid var(--color-canvas);
+  border-radius: 50%;
+  background: var(--color-frame);
+  box-shadow: 0 0 0 2px var(--color-frame);
+  color: var(--color-canvas);
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  transition:
+    opacity 140ms var(--ease-out),
+    transform 140ms var(--ease-out);
+}
+
+.back-to-top.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  background: var(--color-canvas);
+  color: var(--color-frame);
+}
+
 .site-footer__brand {
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -1437,6 +1478,13 @@ iframe[src*="announcement-bar"] {
 @media (max-width: 560px) {
   body {
     font-size: 15px;
+  }
+
+  .back-to-top {
+    right: 12px;
+    bottom: 12px;
+    width: 42px;
+    height: 42px;
   }
 
   .site-main {
