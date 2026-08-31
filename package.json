@@ -17,7 +17,7 @@
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/github": "^12.0.2",
     "@semantic-release/release-notes-generator": "^14.1.0",
-    "satori": "0.19.2",
+    "satori": "0.33.4",
     "semantic-release": "^25.0.2",
     "sharp": "0.34.3"
   }
