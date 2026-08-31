@@ -19,6 +19,6 @@
     "@semantic-release/release-notes-generator": "^14.1.0",
     "satori": "0.19.2",
     "semantic-release": "^25.0.2",
-    "sharp": "0.34.3"
+    "sharp": "0.35.4"
   }
 }
