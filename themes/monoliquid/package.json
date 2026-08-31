@@ -3,7 +3,7 @@
   "description": "Monochrome liquid blackmetal Ghost theme for dohyeon.kr",
   "version": "0.1.0",
   "engines": {
-    "ghost": ">=5.0.0"
+    "ghost": ">=6.0.0 <7.0.0"
   },
   "license": "UNLICENSED",
   "keywords": [

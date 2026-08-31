@@ -669,15 +669,6 @@ iframe[src*="announcement-bar"] {
   grid-template-columns: minmax(0, 1fr);
 }
 
-.post-card.newsletter-card .newsletter-card__body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  background: var(--color-frame);
-  color: var(--color-canvas);
-}
-
 .post-grid > .post-index__marquee + .post-card,
 .post-grid > .post-card:first-child,
 .post-grid > .post-card + .post-card {
@@ -736,46 +727,6 @@ iframe[src*="announcement-bar"] {
 .dark:not([data-theme]) .post-grid > .post-card:first-child::after,
 .dark:not([data-theme]) .post-grid > .post-card + .post-card::after {
   border-right-color: var(--color-nickel);
-}
-
-.post-card.newsletter-card:hover .newsletter-card__body {
-  background: var(--color-metal-4);
-}
-
-.post-card.newsletter-card .post-card__meta,
-.post-card.newsletter-card p {
-  color: var(--color-canvas);
-}
-
-.post-card.newsletter-card .post-card__meta,
-.post-card.newsletter-card .newsletter-card__cta {
-  font-family: var(--font-extended);
-  font-stretch: 125%;
-}
-
-.post-card.newsletter-card p {
-  margin-bottom: 0;
-}
-
-.newsletter-card__cta {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  min-height: 32px;
-  padding: 0 10px;
-  border: 1px solid var(--color-canvas);
-  color: var(--color-canvas);
-  font-size: 12px;
-  font-weight: 900;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.post-card.newsletter-card:hover .newsletter-card__cta {
-  background: var(--color-canvas);
-  color: var(--color-frame);
 }
 
 .post-card__copy {
@@ -1505,20 +1456,6 @@ iframe[src*="announcement-bar"] {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .post-card.newsletter-card .newsletter-card__body {
-    align-items: stretch;
-    text-align: left;
-  }
-
-  .post-card.newsletter-card .post-card__copy,
-  .post-card.newsletter-card .newsletter-card__cta {
-    width: 100%;
-  }
-
-  .post-card.newsletter-card .newsletter-card__cta {
-    min-height: 44px;
   }
 
   .post-card__media {
