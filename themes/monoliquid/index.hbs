@@ -28,20 +28,6 @@
                 {{> "post-card"}}
             {{/foreach}}
 
-            {{#if @site.members_enabled}}
-                <a class="post-card newsletter-card" href="#/portal/signup">
-                    <div class="post-card__body newsletter-card__body">
-                        <div class="post-card__copy">
-                            <div class="post-card__meta">
-                                <span>Newsletter</span>
-                            </div>
-                            <p>흥미로운 IT 소식을 이메일로 받아보세요</p>
-                        </div>
-                        <span class="newsletter-card__cta">Subscribe</span>
-                    </div>
-                </a>
-            {{/if}}
-
             {{#foreach posts from="6"}}
                 {{> "post-card"}}
             {{/foreach}}
