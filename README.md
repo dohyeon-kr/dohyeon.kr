@@ -12,6 +12,7 @@ theme files. Legacy static-site/runtime code has been removed.
 - SQLite content database for the initial setup
 - Nginx reverse proxy on `blog.dohyeon.kr`
 - Nginx redirect from `dohyeon.kr` to `blog.dohyeon.kr`
+- Loopback-only Python/SQLite visitor counter on `127.0.0.1:2370`
 - GitHub Actions deploying through the restricted server wrapper
 
 ## Local Run
@@ -52,6 +53,48 @@ The server also has `/etc/ghost-blog/image.env`, a root-owned mode `0600` file
 containing exactly one `GHOST_IMAGE=ghost@sha256:<64 hex>` assignment. It is
 separate from the service `.env`, so deployment metadata is not injected into
 the Ghost process.
+
+The footer visitor totals are served by `ghost-visit-counter.service`. It keeps
+the legacy Astro totals in `/var/lib/dohyeon-kr/visits.sqlite`; Nginx exposes
+only `GET` and `POST /api/visit`. Browsers increment at most once per 30 minutes
+when local storage is available. The service binds only to loopback and runs as
+the unprivileged `dohyeon` account with systemd filesystem and capability
+restrictions. Per-post totals use the compatible
+`GET`/`POST /api/visit/post/:slug` endpoint and the same browser-side interval.
+
+The same loopback service provides login-free, plain-text comments at
+`GET`/`POST /api/comments/:slug` and owner deletion at
+`DELETE /api/comments/:slug/:id`. Delete tokens stay in the commenter's browser;
+only their hashes are stored in SQLite. Comment creation requires a same-origin
+request, a short-lived challenge, an empty honeypot, and passes length, link,
+and rate limits. The Ghost-native member comments helper is not rendered.
+
+Post edit links are hidden by default. An authenticated administrator can open
+any post once with `?admin-tools=1` to enable them in that browser, or use
+`?admin-tools=0` to hide them again. Ghost Admin still enforces authentication
+when the editor link is opened.
+
+The same admin-tools mode exposes `/ghost/comments-admin/`. Its API lives under
+the Ghost cookie path and verifies the current Ghost staff session against the
+loopback Ghost Admin API before returning comment data or accepting a deletion.
+The management page lists the latest 500 comments and can optionally include
+soft-deleted records.
+
+## Generated thumbnails
+
+Posts without a Ghost feature image use the restored Astro thumbnail design:
+a 1200×630 PNG rendered with Satori, Sharp, and the bundled Pretendard fonts.
+The same image is used by list cards, article headers, and social metadata.
+
+Edit `scripts/thumbnail-manifest.json` when adding a published post, then run:
+
+```sh
+pnpm thumbnails
+pnpm thumbnails:check
+```
+
+If an image has not been generated yet, the list card removes its media column
+after the image request fails instead of leaving an empty thumbnail region.
 
 
 ## Mail

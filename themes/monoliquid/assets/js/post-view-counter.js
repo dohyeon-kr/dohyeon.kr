@@ -1,13 +1,10 @@
 (() => {
-  const counter = document.querySelector("[data-visit-counter]");
-  if (!counter) return;
+  const counter = document.querySelector("[data-post-view-counter]");
+  const slug = counter?.dataset.postSlug;
+  if (!counter || !slug) return;
 
-  const today = counter.querySelector("[data-visit-today]");
-  const total = counter.querySelector("[data-visit-total]");
-  if (!today || !total) return;
-
-  const lastIncrementKey = "visitStats:lastIncrementAt";
-  const cachedStatsKey = "visitStats:cachedStats";
+  const lastIncrementKey = `postViewStats:${slug}:lastIncrementAt`;
+  const cachedTotalKey = `postViewStats:${slug}:cachedTotal`;
   const incrementTtl = 30 * 60 * 1000;
   const numberFormatter = new Intl.NumberFormat("ko-KR");
   const readStorage = (key) => {
@@ -24,29 +21,21 @@
       // The counter still works when storage is unavailable.
     }
   };
-
-  const render = (stats) => {
-    const nextToday = Number(stats?.today);
-    const nextTotal = Number(stats?.total);
-    if (!Number.isFinite(nextToday) || !Number.isFinite(nextTotal)) return false;
-
-    today.textContent = numberFormatter.format(nextToday);
-    total.textContent = numberFormatter.format(nextTotal);
+  const render = (value) => {
+    const total = Number(value);
+    if (!Number.isFinite(total)) return false;
+    counter.textContent = `조회수 ${numberFormatter.format(total)}`;
     return true;
   };
 
-  try {
-    const cached = JSON.parse(readStorage(cachedStatsKey) || "null");
-    render(cached);
-  } catch {
-    // Ignore malformed cache data.
-  }
+  const cachedTotal = readStorage(cachedTotalKey);
+  if (cachedTotal !== null) render(cachedTotal);
 
   const lastIncrementAt = Number(readStorage(lastIncrementKey));
   const shouldIncrement =
     !Number.isFinite(lastIncrementAt) || Date.now() - lastIncrementAt > incrementTtl;
 
-  fetch("/api/visit", {
+  fetch(`/api/visit/post/${encodeURIComponent(slug)}`, {
     method: shouldIncrement ? "POST" : "GET",
     headers: { Accept: "application/json" },
   })
@@ -55,8 +44,8 @@
       return response.json();
     })
     .then((stats) => {
-      if (!render(stats)) throw new Error("Invalid visit statistics");
-      writeStorage(cachedStatsKey, JSON.stringify(stats));
+      if (!render(stats?.total)) throw new Error("Invalid post view statistics");
+      writeStorage(cachedTotalKey, String(stats.total));
       if (shouldIncrement) {
         writeStorage(lastIncrementKey, String(Date.now()));
       }

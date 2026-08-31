@@ -17,8 +17,8 @@
             <a class="button-text-link" href="{{url}}">Read Entry</a>
         </div>
 
-        <a class="post-card__media" href="{{url}}" aria-label="{{title}}">
-            {{#if feature_image}}
+        {{#if feature_image}}
+            <a class="post-card__media" href="{{url}}" aria-label="{{title}}">
                 <img
                     srcset="{{img_url feature_image size="s"}} 300w,
                             {{img_url feature_image size="m"}} 720w,
@@ -30,10 +30,18 @@
                     width="720"
                     height="405"
                 >
-            {{else}}
-                <span class="post-card__metal" aria-hidden="true"></span>
-            {{/if}}
-        </a>
+            </a>
+        {{else}}
+            <a class="post-card__media" data-generated-thumbnail href="{{url}}" aria-label="{{title}}">
+                <img
+                    src="/assets/images/generated-thumbnails/{{slug}}.png"
+                    alt="{{title}}"
+                    loading="lazy"
+                    width="1200"
+                    height="630"
+                >
+            </a>
+        {{/if}}
 
         {{#if featured}}
             <span class="new-sticker">NEW!</span>

@@ -78,6 +78,9 @@
         var followingLink = documentFromNextPage.querySelector(
           '.pagination .older-posts'
         );
+        var followingPath = followingLink
+          ? followingLink.getAttribute('href')
+          : '';
 
         if (!cards.length) {
           finish();
@@ -88,7 +91,7 @@
           grid.appendChild(document.importNode(card, true));
         });
 
-        nextUrl = followingLink ? followingLink.href : '';
+        nextUrl = followingPath ? new URL(followingPath, nextUrl).href : '';
         sentinel.textContent = nextUrl ? 'Scroll to load more' : 'All posts loaded';
 
         if (!nextUrl) {

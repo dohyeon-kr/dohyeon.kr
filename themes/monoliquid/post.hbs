@@ -9,6 +9,9 @@
                         <a href="{{url}}">{{name}}</a>
                     {{/primary_tag}}
                     <span>{{date format="YYYY.MM.DD"}}</span>
+                    <span data-post-view-counter data-post-slug="{{slug}}" aria-live="polite">조회수 —</span>
+                    <a class="article-admin-edit" href="/ghost/#/editor/post/{{id}}" data-admin-edit hidden>편집</a>
+                    <a class="article-admin-edit" href="/ghost/comments-admin/" data-admin-edit hidden>댓글 관리</a>
                 </div>
                 <h1>{{title}}</h1>
                 {{#if custom_excerpt}}
@@ -35,15 +38,39 @@
                     {{/if}}
                 </figure>
             {{else}}
-                <div class="article-metal" aria-hidden="true"></div>
+                <figure class="article-image" data-generated-thumbnail>
+                    <img
+                        src="/assets/images/generated-thumbnails/{{slug}}.png"
+                        alt="{{title}}"
+                        width="1200"
+                        height="630"
+                        fetchpriority="high"
+                    >
+                </figure>
             {{/if}}
 
             <section class="gh-content gh-content--with-footer">
                 {{content}}
             </section>
 
-            <section class="article-comments">
-                {{comments}}
+            <section class="article-comments" data-anonymous-comments data-post-slug="{{slug}}">
+                <div class="article-comments__inner">
+                    <header class="article-comments__header">
+                        <h2 class="article-comments__title">댓글 <span data-comment-count>0</span></h2>
+                        <p>로그인 없이 익명으로 남길 수 있습니다.</p>
+                    </header>
+                    <div class="comment-list" data-comment-list aria-live="polite"></div>
+                    <form class="comment-form" data-comment-form>
+                        <label>이름 <span>(선택)</span><input name="displayName" maxlength="30" autocomplete="nickname" placeholder="익명"></label>
+                        <label>댓글<textarea name="body" minlength="2" maxlength="2000" required placeholder="댓글을 입력해 주세요."></textarea></label>
+                        <label class="comment-form__honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+                        <div class="comment-form__footer">
+                            <span data-comment-status aria-live="polite">댓글을 불러오는 중…</span>
+                            <button type="submit" disabled>댓글 남기기</button>
+                        </div>
+                    </form>
+                    <noscript>댓글을 보거나 작성하려면 JavaScript를 켜 주세요.</noscript>
+                </div>
             </section>
 
             <footer class="article-footer wrapper--ticks">
