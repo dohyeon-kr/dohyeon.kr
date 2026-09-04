@@ -77,6 +77,20 @@ const textFromHtml = (html) =>
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
+const extractGhostContent = (html) => {
+  const opening = /<section\s+class=["'][^"']*\bgh-content\b[^"']*["'][^>]*>/i.exec(html);
+  if (!opening) throw new Error('Could not locate the Ghost post body (.gh-content).');
+
+  const bodyStart = opening.index + opening[0].length;
+  const comments = /<section\s+class=["'][^"']*\barticle-comments\b[^"']*["'][^>]*>/i.exec(
+    html.slice(bodyStart),
+  );
+  if (!comments) throw new Error('Could not locate the end of the Ghost post body.');
+
+  const beforeComments = html.slice(bodyStart, bodyStart + comments.index).trimEnd();
+  return beforeComments.replace(/<\/section>\s*$/i, '');
+};
+
 const fetchPost = async (rawUrl) => {
   const url = new URL(rawUrl);
   if (!allowedHosts.has(url.hostname)) {
@@ -98,14 +112,10 @@ const fetchPost = async (rawUrl) => {
   const html = await response.text();
   const titleMatch = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
   const ogTitleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i);
-  const contentMatch = html.match(
-    /<section class=["'][^"']*gh-content[^"']*["'][^>]*>([\s\S]*?)<\/section>\s*<section class=["']article-comments/i,
-  );
-
-  if (!contentMatch) throw new Error('Could not locate the Ghost post body (.gh-content).');
+  const contentHtml = extractGhostContent(html);
 
   const title = textFromHtml(titleMatch?.[1] ?? ogTitleMatch?.[1] ?? finalUrl.pathname);
-  const body = textFromHtml(contentMatch[1]);
+  const body = textFromHtml(contentHtml);
   if (body.length < 120) throw new Error('Post body is unexpectedly short.');
 
   return {url: finalUrl.toString(), title, body};
