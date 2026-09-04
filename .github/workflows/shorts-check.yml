@@ -31,6 +31,18 @@ jobs:
           cp scripts/thumbnail-fonts/Pretendard-Bold.woff shorts/public/fonts/
           cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
 
-      - name: Render preview frame
+      - name: Render template preview frames
         working-directory: shorts
-        run: npx remotion still src/index.tsx ShortVideo "${RUNNER_TEMP}/shorts-preview.png" --public-dir=public --frame=30
+        run: |
+          mkdir -p "${RUNNER_TEMP}/shorts-template-preview"
+          npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/01-cover.png" --public-dir=public --frame=30
+          npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/02-chart.png" --public-dir=public --frame=145
+          npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/03-flow.png" --public-dir=public --frame=260
+          npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/04-type.png" --public-dir=public --frame=680
+
+      - name: Upload template preview frames
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+        with:
+          name: shorts-template-preview-${{ github.event.pull_request.number }}
+          path: ${{ runner.temp }}/shorts-template-preview/*.png
+          retention-days: 7
