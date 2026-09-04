@@ -24,6 +24,8 @@ const LAYOUTS = [
   'outro-minimal',
 ];
 
+const TRANSITIONS = ['fade', 'slide-up', 'slide-left', 'zoom', 'wipe', 'none'];
+
 const VisualSchema = z.object({
   type: z.enum(['photo', 'diagram', 'symbol', 'number', 'none']),
   motif: z.string().nullable(),
@@ -37,6 +39,7 @@ const SceneSchema = z.object({
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
   layout: z.enum(LAYOUTS),
   visual: VisualSchema,
+  transition: z.enum(TRANSITIONS),
   headline: z.string(),
   subline: z.string().nullable(),
   narration: z.string(),
@@ -83,6 +86,7 @@ const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으�
 - 추상 개념을 억지 스톡사진으로 표현하지 않는다. 추상 개념은 diagram 또는 symbol을 우선한다.
 - visual.type이 photo일 때만 query를 채운다. 그 외에는 query를 null로 둔다.
 - visual.type이 diagram/symbol일 때 motif는 아래 시각 언어 중 가장 가까운 값을 사용한다. 정확히 맞는 것이 없으면 의미가 분명한 짧은 kebab-case 이름을 쓴다.
+- Shorts/Reels UI가 덮는 오른쪽 액션 바와 하단 채널/설명 영역에는 핵심 텍스트나 도식을 배치하지 않는 전제를 따른다. full-bleed 사진 배경만 해당 영역까지 확장 가능하다.
 
 권장 개념 → 시각 언어:
 - ROI / 효율 / 비용 대비 효과 → roi-curve
@@ -103,17 +107,27 @@ const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으�
 - 반복 / 피드백 → feedback-loop
 
 layout 사용 지침:
-- photo-top-right: 우상단 사진 + 좌하단 문장. 기본 사진 장면.
+- photo-top-right: 상단 우측의 안전 영역 안에 사진 + 좌하단 문장. 기본 사진 장면.
 - photo-full-bleed: 화면 전체 사진 + 텍스트 오버레이. 강한 전환에만 사용하고 영상당 최대 1~2회.
 - photo-split-left: 왼쪽 사진 + 오른쪽 문장.
 - photo-strip: 중앙 가로 사진 띠 + 위/아래 텍스트.
 - diagram-centered: 그래프/도식이 중심인 장면.
-- symbol-right: 오른쪽 큰 상징 + 왼쪽 문장.
+- symbol-right: 오른쪽 안전 영역 안의 큰 상징 + 왼쪽 문장.
 - statement-giant: 강한 한 문장을 화면 대부분에 크게. 과용하지 않는다.
 - statement-offset: 비대칭 타이포그래피 + 작은 시각 요소.
 - compare-columns: 두 개념을 나란히 비교.
 - compare-versus: 양쪽 개념의 충돌/선택을 강하게 대비.
 - outro-minimal: 마지막 결론용.
+
+transition 사용 지침:
+- fade: 차분한 연결, 결론, 호흡 전환.
+- slide-up: 설명이 한 단계 진행되는 느낌.
+- slide-left: 비교, 이동, 다음 단계로 넘어가는 느낌.
+- zoom: 첫 장면이나 확대/정밀도 개념에 제한적으로 사용.
+- wipe: 도식/그래프/강한 논리 전환에 사용.
+- none: 이미 화면 자체가 충분히 강한 경우만 사용.
+- 같은 transition을 2개 이상 연속으로 사용하지 않는다.
+- 모든 장면에 과한 움직임을 넣지 않는다. 영상 전체에서 fade/slide 계열을 중심으로 하고 zoom/wipe는 강조 장면에만 쓴다.
 
 compare 장면은 comparisonLeft/comparisonRight를 반드시 채운다. 다른 장면은 null로 둔다.
 visual.value는 number 타입 또는 숫자가 시각적으로 중요한 경우에만 사용한다.
@@ -280,7 +294,7 @@ const main = async () => {
   const response = await client.responses.parse({
     model: process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-luna',
     instructions: SYSTEM_PROMPT,
-    input: `아래 블로그 글에서 서로 겹치지 않는 숏츠 후보를 정확히 ${count}개 만들어라. 각 후보는 내용뿐 아니라 장면별 시각 연출과 레이아웃 리듬까지 완성해야 한다.\n\n제목: ${post.title}\nURL: ${post.url}\n\n본문:\n${post.body}`,
+    input: `아래 블로그 글에서 서로 겹치지 않는 숏츠 후보를 정확히 ${count}개 만들어라. 각 후보는 내용뿐 아니라 장면별 시각 연출, 레이아웃 리듬, 트랜지션까지 완성해야 한다.\n\n제목: ${post.title}\nURL: ${post.url}\n\n본문:\n${post.body}`,
     text: {
       format: zodTextFormat(PlanSchema, 'blog_shorts_candidates_v2'),
     },
@@ -319,6 +333,7 @@ const main = async () => {
         theme: 'monochrome-editorial',
         visualDensity: 'high',
         subtitles: 'burned-in',
+        safeArea: 'shorts-reels',
       },
       scenes: candidate.scenes,
     };
@@ -338,7 +353,7 @@ const main = async () => {
     .join('\n');
   await fs.writeFile(
     path.join(outputDir, 'README.md'),
-    `# Shorts candidates — ${post.title}\n\nSource: ${post.url}\n\n${summary}\n\nEach scene includes a layout and a visual strategy. Edit or delete candidates before merging the generated PR. Merging a candidate JSON triggers rendering.\n`,
+    `# Shorts candidates — ${post.title}\n\nSource: ${post.url}\n\n${summary}\n\nEach scene includes a layout, visual strategy, and transition. Edit or delete candidates before merging the generated PR. Merging a candidate JSON triggers rendering.\n`,
     'utf8',
   );
 

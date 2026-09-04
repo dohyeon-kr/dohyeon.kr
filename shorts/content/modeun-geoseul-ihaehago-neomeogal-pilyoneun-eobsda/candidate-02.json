@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "candidate-02",
   "status": "candidate",
   "source": {
@@ -23,12 +23,23 @@
   },
   "style": {
     "theme": "monochrome-editorial",
-    "imagePlacement": "upper-right",
-    "textPlacement": "lower-left"
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels"
   },
   "scenes": [
     {
       "kind": "hero",
+      "layout": "photo-full-bleed",
+      "transition": "zoom",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "person studying desk notebook",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "끝까지 이해해야\n다음으로 넘어갈 수 있을까?",
       "subline": "완벽주의 학습의 숨은 비용",
       "narration": "모르는 개념이 나오면 반드시 가장 작은 원리까지 내려가야 할까요?",
@@ -51,6 +62,16 @@
     },
     {
       "kind": "compare",
+      "layout": "compare-versus",
+      "transition": "slide-left",
+      "visual": {
+        "type": "diagram",
+        "motif": "compare",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "한 점의 깊이 vs\n전체 구조의 넓이",
       "subline": null,
       "narration": "한 가지 사실을 완전히 이해하는 데 열 시간을 쓰는 대신, 같은 시간에 여러 개념의 구조를 파악하고 연결할 수도 있습니다.",
@@ -61,6 +82,16 @@
     },
     {
       "kind": "photo",
+      "layout": "photo-strip",
+      "transition": "wipe",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "server room computer storage",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "페이지를 이해하다\n운영체제까지 내려간다면",
       "subline": "지식은 늘지만, 목표에서는 멀어질 수 있다",
       "narration": "페이지를 이해하려다 디스크와 메모리로, 다시 파일 시스템과 운영체제로 내려가면 원래 배우려던 목표를 놓칠 수 있습니다.",
@@ -83,6 +114,16 @@
     },
     {
       "kind": "compare",
+      "layout": "compare-columns",
+      "transition": "slide-up",
+      "visual": {
+        "type": "diagram",
+        "motif": "compare",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "모든 빈틈을 채우기 vs\n지금 필요한 깊이만 확보하기",
       "subline": null,
       "narration": "학습의 선택지는 모르는 것을 전부 없애는 것만이 아닙니다. 지금의 목표에 필요한 깊이까지만 이해하고, 나머지는 잠시 남겨둘 수도 있습니다.",
@@ -93,6 +134,16 @@
     },
     {
       "kind": "statement",
+      "layout": "diagram-centered",
+      "transition": "fade",
+      "visual": {
+        "type": "diagram",
+        "motif": "map-network",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "처음엔 정밀함보다\n전체 그림",
       "subline": "뼈대가 있어야 세부도 들어간다",
       "narration": "그림도 처음부터 눈동자를 정교하게 그리지 않습니다. 먼저 전체 구도와 비례를 잡아야 세부 묘사가 들어갈 자리를 알 수 있습니다.",
@@ -103,6 +154,16 @@
     },
     {
       "kind": "statement",
+      "layout": "symbol-right",
+      "transition": "slide-left",
+      "visual": {
+        "type": "symbol",
+        "motif": "leverage",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "학습 부채도\n레버리지가 된다",
       "subline": "일부 빈틈을 남겨 더 빠르게 앞으로 간다",
       "narration": "부채가 레버리지를 제공하듯, 학습 부채도 학습 속도에 레버리지가 됩니다. 지금 당장 필요하지 않은 깊이는 잠시 남겨두고, 더 넓은 구조를 먼저 연결할 수 있습니다.",
@@ -113,6 +174,16 @@
     },
     {
       "kind": "photo",
+      "layout": "photo-split-left",
+      "transition": "fade",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "open book bookmark notes desk",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "다만 부채는\n관리해야 한다",
       "subline": "무엇을 모르고 있는지는 기억한다",
       "narration": "학습 부채는 모르는 것을 잊어버리자는 뜻이 아닙니다. 지금은 넘어가더라도 무엇을 모르고 있는지 표시해두면, 필요해진 순간 더 적은 비용으로 다시 돌아갈 수 있습니다.",
@@ -135,6 +206,16 @@
     },
     {
       "kind": "statement",
+      "layout": "symbol-right",
+      "transition": "zoom",
+      "visual": {
+        "type": "symbol",
+        "motif": "magnifier",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "headline": "정확도는\n나중에 높일 수 있다",
       "subline": "방향을 잃은 시간은 돌아오지 않는다",
       "narration": "세부 원리가 중요하지 않다는 뜻은 아닙니다. 전체 구조를 먼저 만들고, 실제로 필요해지는 지점에서 해상도를 높이자는 뜻입니다.",
@@ -145,6 +226,16 @@
     },
     {
       "kind": "outro",
+      "layout": "diagram-centered",
+      "transition": "fade",
+      "visual": {
+        "type": "diagram",
+        "motif": "roi-curve",
+        "query": null,
+        "value": null,
+        "xLabel": "학습 시간",
+        "yLabel": "학습 효용"
+      },
       "headline": "먼저 전체를 보고,\n필요할 때 확대하라",
       "subline": "잘 배우는 것은 모든 빈틈을 없애는 일이 아니다",
       "narration": "완벽한 이해를 기다리느라 멈추기보다, 필요한 만큼 이해하고 연결하면서 앞으로 가는 것. 그게 더 높은 학습 ROI를 만들 수 있습니다.",
