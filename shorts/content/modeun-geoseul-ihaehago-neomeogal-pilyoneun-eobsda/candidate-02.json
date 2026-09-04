@@ -61,28 +61,28 @@
       }
     },
     {
-      "kind": "compare",
-      "layout": "compare-versus",
+      "kind": "statement",
+      "layout": "diagram-centered",
       "transition": "slide-left",
       "visual": {
         "type": "diagram",
-        "motif": "compare",
+        "motif": "depth-vs-breadth",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "headline": "한 점의 깊이 vs\n전체 구조의 넓이",
-      "subline": null,
+      "subline": "하나는 아래로 파고들고, 하나는 옆으로 연결한다",
       "narration": "한 가지 사실을 완전히 이해하는 데 열 시간을 쓰는 대신, 같은 시간에 여러 개념의 구조를 파악하고 연결할 수도 있습니다.",
       "imageQuery": null,
-      "comparisonLeft": "한 개념을 끝까지 파고들기",
-      "comparisonRight": "여러 개념의 구조 연결하기",
+      "comparisonLeft": null,
+      "comparisonRight": null,
       "image": null
     },
     {
       "kind": "photo",
-      "layout": "photo-strip",
+      "layout": "photo-full-bleed",
       "transition": "wipe",
       "visual": {
         "type": "photo",
@@ -113,28 +113,28 @@
       }
     },
     {
-      "kind": "compare",
-      "layout": "compare-columns",
+      "kind": "statement",
+      "layout": "diagram-centered",
       "transition": "slide-up",
       "visual": {
         "type": "diagram",
-        "motif": "compare",
+        "motif": "map-network",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
-      "headline": "모든 빈틈을 채우기 vs\n지금 필요한 깊이만 확보하기",
-      "subline": null,
+      "headline": "모든 빈틈을\n당장 채울 필요는 없다",
+      "subline": "지금 목표에 필요한 연결부터 확보한다",
       "narration": "학습의 선택지는 모르는 것을 전부 없애는 것만이 아닙니다. 지금의 목표에 필요한 깊이까지만 이해하고, 나머지는 잠시 남겨둘 수도 있습니다.",
       "imageQuery": null,
-      "comparisonLeft": "모든 의문을 즉시 해결",
-      "comparisonRight": "현재 목표에 필요한 것만 해결",
+      "comparisonLeft": null,
+      "comparisonRight": null,
       "image": null
     },
     {
       "kind": "photo",
-      "layout": "photo-top-right",
+      "layout": "photo-full-bleed",
       "transition": "fade",
       "visual": {
         "type": "photo",
@@ -186,7 +186,7 @@
     },
     {
       "kind": "photo",
-      "layout": "photo-split-left",
+      "layout": "photo-full-bleed",
       "transition": "fade",
       "visual": {
         "type": "photo",
