@@ -25,9 +25,14 @@ const WHITE = '#ffffff';
 const GRAY = '#8a8a8a';
 const DARK_GRAY = '#242424';
 
+// 1080x1920 Shorts/Reels safe area.
+// Full-bleed background photos may extend into dead zones, but meaningful content may not.
+const SAFE_TOP = 220;
 const SAFE_LEFT = 64;
 const SAFE_RIGHT = 188;
 const SAFE_BOTTOM = 370;
+const CHROME_TOP = SAFE_TOP + 22;
+const CONTENT_TOP = SAFE_TOP + 220;
 const SAFE_CONTENT_RIGHT = 1080 - SAFE_RIGHT;
 const SAFE_CONTENT_WIDTH = SAFE_CONTENT_RIGHT - SAFE_LEFT;
 
@@ -177,7 +182,7 @@ const BlogChrome: React.FC<{index: number; total: number; sourceTitle: string; i
       <div
         style={{
           position: 'absolute',
-          top: 58,
+          top: CHROME_TOP,
           left: SAFE_LEFT,
           right: SAFE_RIGHT + 18,
           zIndex: 20,
@@ -278,7 +283,7 @@ const ComparePanel: React.FC<{scene: RenderScene; reveal: number; versus: boolea
   <div
     style={{
       position: 'absolute',
-      top: 360,
+      top: CONTENT_TOP,
       left: SAFE_LEFT,
       right: SAFE_RIGHT + 22,
       display: 'grid',
@@ -378,7 +383,7 @@ const SceneFrame: React.FC<{
           <div
             style={{
               position: 'absolute',
-              top: 338,
+              top: CONTENT_TOP,
               left: SAFE_LEFT,
               width: SAFE_CONTENT_WIDTH - 22,
               height: layout === 'diagram-centered' ? 560 : 490,
