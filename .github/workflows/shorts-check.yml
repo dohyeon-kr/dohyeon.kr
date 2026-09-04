@@ -1,0 +1,36 @@
+name: Shorts pipeline check
+
+on:
+  pull_request:
+    paths:
+      - 'shorts/**'
+      - '.github/workflows/*shorts*.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Install shorts dependencies
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Prepare preview fonts
+        run: |
+          mkdir -p shorts/public/fonts
+          cp scripts/thumbnail-fonts/Pretendard-Bold.woff shorts/public/fonts/
+          cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
+
+      - name: Render preview frame
+        working-directory: shorts
+        run: npx remotion still src/index.tsx ShortVideo "${RUNNER_TEMP}/shorts-preview.png" --public-dir=public --frame=30

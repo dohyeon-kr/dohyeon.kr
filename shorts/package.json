@@ -1,0 +1,18 @@
+{
+  "name": "@dohyeon-kr/blog-shorts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate-candidates.mjs",
+    "render": "node scripts/render.mjs",
+    "studio": "remotion studio src/index.tsx --public-dir=public"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.520",
+    "openai": "7.9.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "remotion": "4.0.520",
+    "zod": "4.5.4"
+  }
+}
