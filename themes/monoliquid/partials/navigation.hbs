@@ -1,7 +1,14 @@
 <ul class="nav">
     {{#foreach navigation}}
         <li class="nav-{{slug}}{{#if current}} nav-current{{/if}}">
-            <a href="{{url absolute="true"}}">{{label}}</a>
+            <a href="{{url absolute="true"}}">
+                {{label}}
+                {{#match url "https://portfolio.dohyeon.kr/"}}
+                    <svg class="nav-external-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M14 5h5v5M19 5l-9 9M19 14v5H5V5h5" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/>
+                    </svg>
+                {{/match}}
+            </a>
         </li>
     {{/foreach}}
 </ul>

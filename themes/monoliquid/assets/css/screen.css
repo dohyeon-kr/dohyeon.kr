@@ -415,6 +415,7 @@ iframe[src*="announcement-bar"] {
 .nav a {
   display: inline-flex;
   align-items: center;
+  gap: 5px;
   min-height: 34px;
   max-width: 18ch;
   padding: 6px 10px;
@@ -431,6 +432,10 @@ iframe[src*="announcement-bar"] {
     background-color 120ms var(--ease-out),
     color 120ms var(--ease-out),
     transform 120ms var(--ease-out);
+}
+
+.nav-external-icon {
+  flex: 0 0 auto;
 }
 
 .nav-current a,
