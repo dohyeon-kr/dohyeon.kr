@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "candidate-03",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/modeun-geoseul-ihaehago-neomeogal-pilyoneun-eobsda/",
+    "title": "모든 것을 이해하고 넘어갈 필요는 없다"
+  },
+  "candidate": {
+    "angle": "rule",
+    "hook": "모르는 걸 바로 파고드는 습관, 잠깐 멈춰야 한다",
+    "title": "지금 알아야 할 것만 구분하라",
+    "rationale": "모든 빈틈을 즉시 메우려는 학습 습관에서 벗어나 현재의 방향과 필요한 깊이를 기준으로 판단하자는 실천 규칙에 초점을 맞췄다.",
+    "viralScore": 86,
+    "suggestedCaption": "모르는 것을 모두 없애는 대신, 지금 알아야 할 것과 나중에 알아도 될 것을 구분해보자.",
+    "hashtags": [
+      "#학습전략",
+      "#공부습관",
+      "#생산성",
+      "#개발공부",
+      "#커리어"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial",
+    "imagePlacement": "upper-right",
+    "textPlacement": "lower-left"
+  },
+  "scenes": [
+    {
+      "kind": "hero",
+      "headline": "모르는 걸 발견했다고\n당장 파고들 필요는 없다",
+      "subline": "먼저 방향부터 확인하자",
+      "narration": "궁금한 원리가 생길 때마다 그 자리에서 끝까지 파고들고 있나요?",
+      "imageQuery": "open notebook desk arrow",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "photo",
+      "headline": "질문 하나가\n또 다른 지하로 이어진다",
+      "subline": "DB에서 디스크와 운영체제로",
+      "narration": "페이지를 이해하려다 디스크와 메모리로, 다시 파일 시스템과 운영체제로 내려가면 원래 배우려던 목표를 놓칠 수 있습니다.",
+      "imageQuery": "staircase underground corridor",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "compare",
+      "headline": "모든 빈틈을 채우기 vs\n필요한 빈틈만 남기기",
+      "subline": null,
+      "narration": "학습의 선택지는 모르는 것을 전부 없애는 것만이 아닙니다. 지금 필요한 깊이만 확보하고 나머지는 남겨둘 수도 있습니다.",
+      "imageQuery": null,
+      "comparisonLeft": "모든 의문을 즉시 해결",
+      "comparisonRight": "현재 방향에 필요한 것만 해결",
+      "image": null
+    },
+    {
+      "kind": "statement",
+      "headline": "판단 기준은 하나",
+      "subline": "지금 가는 방향에 필요한가?",
+      "narration": "새로운 원리를 만났을 때, 먼저 지금의 학습 방향에 필요한지 물어보세요. 필요하지 않다면 일단 접어둘 수 있습니다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "photo",
+      "headline": "남겨둔 빈틈은\n나중의 단서가 된다",
+      "subline": "미래의 학습 위치를 표시한다",
+      "narration": "이해하지 못한 부분을 남겨두는 일이 반드시 학습의 부채는 아닙니다. 나중에 어디로 돌아가야 하는지 알려주는 단서가 될 수도 있습니다.",
+      "imageQuery": "bookmark in textbook close up",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "outro",
+      "headline": "모든 것을 이해한 뒤\n움직이는 게 아니다",
+      "subline": "먼저 연결하고, 필요할 때 확대한다",
+      "narration": "잘 배운다는 것은 모든 빈틈을 채우는 일이 아니라, 일부를 남긴 채 계속 앞으로 나아갈 수 있는 상태를 만드는 일인지도 모릅니다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    }
+  ]
+}
