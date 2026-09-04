@@ -85,6 +85,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
+          SHORTS_PLAYBACK_RATE: 1.5
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
         shell: bash
         run: |
@@ -92,7 +93,7 @@ jobs:
           while IFS= read -r manifest; do
             [[ -n "${manifest}" ]] || continue
             [[ -f "${manifest}" ]] || continue
-            node shorts/scripts/render.mjs "${manifest}"
+            node shorts/scripts/render-reels.mjs "${manifest}"
           done < "${LIST_FILE}"
 
       - name: Upload rendered shorts
@@ -103,5 +104,7 @@ jobs:
             shorts/out/*.mp4
             shorts/out/*.srt
             shorts/out/*-MEDIA.md
+            shorts/out/*-REELS.txt
+            shorts/out/*-SCRIPT.txt
           if-no-files-found: warn
           retention-days: 14
