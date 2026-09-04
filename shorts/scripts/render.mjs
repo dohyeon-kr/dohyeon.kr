@@ -12,6 +12,7 @@ const outputRoot = path.join(shortsRoot, 'out');
 const tempRoot = path.join(shortsRoot, '.tmp');
 const FPS = 30;
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+const SCENE_TAIL_SECONDS = 0.28;
 const imageExtensions = new Map([
   ['image/jpeg', '.jpg'],
   ['image/jpg', '.jpg'],
@@ -78,7 +79,7 @@ const downloadImage = async (scene, destinationBase) => {
     try {
       const response = await fetch(url, {
         redirect: 'follow',
-        headers: {'user-agent': 'dohyeon.kr-shorts/1.0 (+https://dohyeon.kr)'},
+        headers: {'user-agent': 'dohyeon.kr-shorts/2.0 (+https://dohyeon.kr)'},
       });
       if (!response.ok) continue;
 
@@ -105,6 +106,116 @@ const downloadImage = async (scene, destinationBase) => {
 
 const relativeStaticPath = (absolutePath) => path.relative(publicRoot, absolutePath).split(path.sep).join('/');
 
+const legacyVisual = (scene) => {
+  if (scene.visual) return scene.visual;
+  if ((scene.kind === 'photo' || scene.kind === 'hero') && (scene.image || scene.imageQuery)) {
+    return {type: 'photo', motif: null, query: scene.imageQuery ?? scene.image?.query ?? null, value: null, xLabel: null, yLabel: null};
+  }
+  if (scene.kind === 'compare') {
+    return {type: 'diagram', motif: 'compare', query: null, value: null, xLabel: null, yLabel: null};
+  }
+  return {type: 'none', motif: null, query: null, value: null, xLabel: null, yLabel: null};
+};
+
+const legacyLayout = (scene) => {
+  if (scene.layout) return scene.layout;
+  if (scene.kind === 'compare') return 'compare-columns';
+  if (scene.kind === 'outro') return 'outro-minimal';
+  if (scene.kind === 'photo' || scene.kind === 'hero') return 'photo-top-right';
+  return 'statement-offset';
+};
+
+const normalizeScene = (scene) => ({
+  ...scene,
+  layout: legacyLayout(scene),
+  visual: legacyVisual(scene),
+});
+
+const splitLongCaption = (text, maxChars = 18) => {
+  const tokens = text.trim().split(/\s+/).filter(Boolean);
+  if (!tokens.length) return [];
+  const chunks = [];
+  let current = '';
+  for (const token of tokens) {
+    const next = current ? `${current} ${token}` : token;
+    if (next.replace(/\s/g, '').length > maxChars && current) {
+      chunks.push(current);
+      current = token;
+    } else {
+      current = next;
+    }
+  }
+  if (current) chunks.push(current);
+  return chunks;
+};
+
+const splitCaptionText = (narration) => {
+  const sentences = narration
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(/(?<=[.!?。！？])\s+|\s*(?=[—–])\s*/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  const chunks = [];
+  for (const sentence of sentences.length ? sentences : [narration]) {
+    const clauses = sentence
+      .split(/(?<=[,，;；:])\s+/)
+      .map((part) => part.trim())
+      .filter(Boolean);
+    for (const clause of clauses.length ? clauses : [sentence]) chunks.push(...splitLongCaption(clause));
+  }
+  return chunks.filter(Boolean);
+};
+
+const buildCaptionCues = (narration, durationSeconds) => {
+  if (!narration?.trim() || !durationSeconds) return [];
+  const chunks = splitCaptionText(narration);
+  if (!chunks.length) return [];
+
+  const weights = chunks.map((chunk) => Math.max(1, chunk.replace(/\s/g, '').length));
+  const totalWeight = weights.reduce((sum, value) => sum + value, 0);
+  const usableDuration = Math.max(0.6, durationSeconds - 0.08);
+  let cursor = 0;
+
+  return chunks.map((text, index) => {
+    const proportional = (usableDuration * weights[index]) / totalWeight;
+    const end = index === chunks.length - 1 ? usableDuration : Math.min(usableDuration, cursor + proportional);
+    const cue = {
+      startSeconds: Number(cursor.toFixed(3)),
+      endSeconds: Number(Math.max(cursor + 0.12, end).toFixed(3)),
+      text,
+    };
+    cursor = end;
+    return cue;
+  });
+};
+
+const srtTimestamp = (seconds) => {
+  const ms = Math.max(0, Math.round(seconds * 1000));
+  const hours = Math.floor(ms / 3_600_000);
+  const minutes = Math.floor((ms % 3_600_000) / 60_000);
+  const secs = Math.floor((ms % 60_000) / 1000);
+  const millis = ms % 1000;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')},${String(millis).padStart(3, '0')}`;
+};
+
+const buildSrt = (scenes) => {
+  const entries = [];
+  let sceneCursor = 0;
+  let index = 1;
+  for (const scene of scenes) {
+    for (const cue of scene.captions ?? []) {
+      entries.push(
+        `${index}\n${srtTimestamp(sceneCursor + cue.startSeconds)} --> ${srtTimestamp(sceneCursor + cue.endSeconds)}\n${cue.text}\n`,
+      );
+      index += 1;
+    }
+    sceneCursor += Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS);
+  }
+  return `${entries.join('\n')}\n`;
+};
+
 const main = async () => {
   const manifestArg = process.argv[2];
   if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json>');
@@ -130,7 +241,8 @@ const main = async () => {
   const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
   const renderScenes = [];
 
-  for (const [index, scene] of manifest.scenes.entries()) {
+  for (const [index, rawScene] of manifest.scenes.entries()) {
+    const scene = normalizeScene(rawScene);
     const prefix = `scene-${String(index + 1).padStart(2, '0')}`;
     const imageFile = await downloadImage(scene, path.join(assetDir, prefix));
 
@@ -157,6 +269,7 @@ const main = async () => {
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
       audioDurationSeconds,
+      captions: buildCaptionCues(scene.narration, audioDurationSeconds ?? 3.6),
     });
   }
 
@@ -165,7 +278,7 @@ const main = async () => {
   await fs.writeFile(propsFile, `${JSON.stringify(renderManifest, null, 2)}\n`, 'utf8');
 
   const totalSeconds = renderScenes.reduce(
-    (sum, scene) => sum + Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + 0.28),
+    (sum, scene) => sum + Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS),
     0,
   );
   const durationFrames = Math.ceil(totalSeconds * FPS);
@@ -188,6 +301,8 @@ const main = async () => {
     ],
     {cwd: shortsRoot, env: process.env},
   );
+
+  await fs.writeFile(path.join(outputRoot, `${slug}-${candidateId}.srt`), buildSrt(renderScenes), 'utf8');
 
   const attributionLines = [
     `# Media sources — ${manifest.candidate?.title ?? candidateId}`,
@@ -219,7 +334,7 @@ const main = async () => {
     'utf8',
   );
 
-  console.log(`Rendered ${path.relative(repoRoot, outputFile)}`);
+  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with burned-in captions and SRT.`);
 };
 
 await main();

@@ -4,7 +4,7 @@ import {ShortVideo} from './ShortVideo';
 import type {RenderManifest} from './types';
 
 const defaultProps: RenderManifest = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   id: 'preview',
   status: 'candidate',
   source: {url: 'https://dohyeon.kr', title: 'dohyeon.kr'},
@@ -19,15 +19,24 @@ const defaultProps: RenderManifest = {
   },
   style: {
     theme: 'monochrome-editorial',
-    imagePlacement: 'upper-right',
-    textPlacement: 'lower-left',
+    visualDensity: 'high',
+    subtitles: 'burned-in',
   },
   scenes: [
     {
-      kind: 'hero',
-      headline: '블로그의 한 문장을\n숏츠의 한 장면으로.',
-      subline: 'dohyeon.kr',
-      narration: '',
+      kind: 'statement',
+      layout: 'diagram-centered',
+      visual: {
+        type: 'diagram',
+        motif: 'roi-curve',
+        query: null,
+        value: null,
+        xLabel: '투입 시간',
+        yLabel: '학습 효용',
+      },
+      headline: '좋은 설명은\n생각을 보이게 만든다.',
+      subline: '사진이 없으면 도식으로 보여준다',
+      narration: '추상적인 생각은 사진보다 도식이 더 정확할 때가 있습니다.',
       imageQuery: null,
       comparisonLeft: null,
       comparisonRight: null,
@@ -35,6 +44,10 @@ const defaultProps: RenderManifest = {
       imagePath: null,
       audioPath: null,
       audioDurationSeconds: 4,
+      captions: [
+        {startSeconds: 0, endSeconds: 2, text: '추상적인 생각은'},
+        {startSeconds: 2, endSeconds: 4, text: '도식이 더 정확할 때가 있습니다.'},
+      ],
     },
   ],
 };
