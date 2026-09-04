@@ -1,0 +1,67 @@
+name: Generate blog shorts
+
+on:
+  workflow_dispatch:
+    inputs:
+      post_url:
+        description: Published dohyeon.kr post URL
+        required: true
+        type: string
+      candidate_count:
+        description: Number of independent shorts candidates
+        required: true
+        default: '5'
+        type: choice
+        options:
+          - '3'
+          - '5'
+          - '8'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: shorts-generate-${{ github.event.inputs.post_url }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Install shorts dependencies
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Generate candidates
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
+          POST_URL: ${{ inputs.post_url }}
+          CANDIDATE_COUNT: ${{ inputs.candidate_count }}
+        run: node shorts/scripts/generate-candidates.mjs "$POST_URL" "$CANDIDATE_COUNT"
+
+      - name: Open review PR
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ github.token }}
+          commit-message: 'chore: generate shorts candidates'
+          branch: automation/shorts-${{ github.run_id }}
+          delete-branch: true
+          title: 'chore: review generated blog shorts'
+          body: |
+            Generated from `${{ inputs.post_url }}`.
+
+            Review the hooks, narration, and selected Openverse image source pages.
+            Delete candidates you do not want rendered, edit the JSON for the rest, then merge.
+            Merging candidate JSON files triggers the rendering workflow.
+          add-paths: |
+            shorts/content/**
