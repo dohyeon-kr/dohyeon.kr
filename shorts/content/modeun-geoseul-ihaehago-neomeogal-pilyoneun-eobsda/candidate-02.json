@@ -112,14 +112,26 @@
       "image": null
     },
     {
-      "kind": "statement",
+      "kind": "photo",
       "headline": "다만 부채는\n관리해야 한다",
       "subline": "무엇을 모르고 있는지는 기억한다",
       "narration": "학습 부채는 모르는 것을 잊어버리자는 뜻이 아닙니다. 지금은 넘어가더라도 무엇을 모르고 있는지 표시해두면, 필요해진 순간 더 적은 비용으로 다시 돌아갈 수 있습니다.",
-      "imageQuery": null,
+      "imageQuery": "open book bookmark notes desk",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "image": null
+      "image": {
+        "query": "book bookmark",
+        "title": "book bookmark",
+        "creator": "Studio 7042",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "stocksnap",
+        "provider": "stocksnap",
+        "sourcePage": "https://stocksnap.io/photo/book-bookmark-4BR2JDSSA1",
+        "originalUrl": "https://cdn.stocksnap.io/img-thumbs/960w/book-bookmark_4BR2JDSSA1.jpg",
+        "thumbnailUrl": "https://cdn.stocksnap.io/img-thumbs/960w/book-bookmark_4BR2JDSSA1.jpg"
+      }
     },
     {
       "kind": "statement",
