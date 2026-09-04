@@ -59,16 +59,20 @@ jobs:
           : > "${list_file}"
 
           if [[ "${EVENT_NAME}" == "workflow_dispatch" ]]; then
-            case "${MANIFEST_INPUT}" in
-              shorts/content/*.json|shorts/content/**/*.json) ;;
-              *) echo "manifest must be a JSON path under shorts/content/" >&2; exit 1 ;;
-            esac
+            if [[ ! "${MANIFEST_INPUT}" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]]; then
+              echo "manifest must be a JSON path directly under shorts/content/<post>/" >&2
+              exit 1
+            fi
+            if [[ ! -f "${MANIFEST_INPUT}" ]]; then
+              echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
+              exit 1
+            fi
             printf '%s\n' "${MANIFEST_INPUT}" >> "${list_file}"
           else
             if [[ "${BEFORE_SHA}" =~ ^0+$ ]]; then
-              git diff-tree --no-commit-id --name-only -r "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
+              git diff-tree --no-commit-id --name-only --diff-filter=AMR -r "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
             else
-              git diff --name-only "${BEFORE_SHA}" "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
+              git diff --name-only --diff-filter=AMR "${BEFORE_SHA}" "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
             fi
           fi
 
@@ -98,5 +102,5 @@ jobs:
           path: |
             shorts/out/*.mp4
             shorts/out/*-MEDIA.md
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
