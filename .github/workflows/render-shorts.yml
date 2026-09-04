@@ -85,7 +85,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
-          SHORTS_PLAYBACK_RATE: 1.5
+          SHORTS_TTS_RATE: 1.5
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
         shell: bash
         run: |
