@@ -17,6 +17,7 @@ const MIN_CAPTION_CHARS = 4;
 const TARGET_CAPTION_CHARS = 12;
 const MAX_CAPTION_CHARS = 16;
 const HARD_MAX_CAPTION_CHARS = 22;
+const TTS_RATE = Number(process.env.SHORTS_TTS_RATE || '1.5');
 const imageExtensions = new Map([
   ['image/jpeg', '.jpg'],
   ['image/jpg', '.jpg'],
@@ -66,6 +67,23 @@ const audioDuration = async (file) => {
   } catch {
     return null;
   }
+};
+
+const applySpeechRate = async (rawFile, outputFile, rate) => {
+  if (rate === 1) {
+    await fs.rename(rawFile, outputFile);
+    return;
+  }
+  await run('ffmpeg', [
+    '-y',
+    '-i', rawFile,
+    '-filter:a', `atempo=${rate}`,
+    '-vn',
+    '-codec:a', 'libmp3lame',
+    '-q:a', '2',
+    outputFile,
+  ]);
+  await fs.rm(rawFile, {force: true});
 };
 
 const copyFonts = async () => {
@@ -143,14 +161,12 @@ const rebalanceCaptionChunks = (chunks) => {
 
   for (let index = balanced.length - 1; index > 0; index -= 1) {
     if (compactLength(balanced[index]) >= MIN_CAPTION_CHARS) continue;
-
     const merged = `${balanced[index - 1]} ${balanced[index]}`.trim();
     balanced.splice(index - 1, 2, merged);
   }
 
   for (let index = 0; index < balanced.length - 1; index += 1) {
     if (compactLength(balanced[index]) >= MIN_CAPTION_CHARS) continue;
-
     const merged = `${balanced[index]} ${balanced[index + 1]}`.trim();
     balanced.splice(index, 2, merged);
     index -= 1;
@@ -199,10 +215,7 @@ const splitCaptionSentence = (text) => {
 
     current = next;
 
-    if (
-      compactLength(current) >= HARD_MAX_CAPTION_CHARS &&
-      remainingLength >= MIN_CAPTION_CHARS
-    ) {
+    if (compactLength(current) >= HARD_MAX_CAPTION_CHARS && remainingLength >= MIN_CAPTION_CHARS) {
       chunks.push(current);
       current = '';
     }
@@ -281,6 +294,9 @@ const main = async () => {
   const manifestArg = process.argv[2];
   if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json>');
   if (!process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
+  if (!Number.isFinite(TTS_RATE) || TTS_RATE < 0.5 || TTS_RATE > 2) {
+    throw new Error(`SHORTS_TTS_RATE must be between 0.5 and 2. Received: ${TTS_RATE}`);
+  }
 
   const manifestPath = path.resolve(repoRoot, manifestArg);
   const contentRoot = path.join(shortsRoot, 'content') + path.sep;
@@ -310,6 +326,7 @@ const main = async () => {
     let audioPath = null;
     let audioDurationSeconds = null;
     if (scene.narration?.trim()) {
+      const rawAudioFile = path.join(assetDir, `${prefix}-raw.mp3`);
       const audioFile = path.join(assetDir, `${prefix}.mp3`);
       const speech = await client.audio.speech.create({
         model: process.env.SHORTS_TTS_MODEL || 'gpt-4o-mini-tts',
@@ -319,10 +336,11 @@ const main = async () => {
           '한국어로 차분하고 또렷하게 말한다. 프레젠테이션 숏폼 내레이션처럼 군더더기 없이, 자연스러운 속도와 낮은 과장도로 읽는다.',
         response_format: 'mp3',
       });
-      await fs.writeFile(audioFile, Buffer.from(await speech.arrayBuffer()));
+      await fs.writeFile(rawAudioFile, Buffer.from(await speech.arrayBuffer()));
+      await applySpeechRate(rawAudioFile, audioFile, TTS_RATE);
       audioPath = relativeStaticPath(audioFile);
       audioDurationSeconds =
-        (await audioDuration(audioFile)) ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / 6.5);
+        (await audioDuration(audioFile)) ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / (6.5 * TTS_RATE));
     }
 
     renderScenes.push({
@@ -395,7 +413,7 @@ const main = async () => {
     'utf8',
   );
 
-  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with burned-in captions and SRT.`);
+  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with ${TTS_RATE}x narration, burned-in captions, and SRT.`);
 };
 
 await main();

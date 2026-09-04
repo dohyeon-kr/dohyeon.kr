@@ -76,14 +76,15 @@ const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으�
 - viralScore는 0~100 사이에서 hook 강도, 독립 이해 가능성, 논쟁성/새로움, 공유 가능성을 종합해 평가한다.
 
 시각 연출 원칙:
-- 화면은 흰색/오프화이트 기반의 모노크롬 에디토리얼 PT다.
+- 화면은 검은색/차콜 기반의 다크 모노크롬 에디토리얼 PT다. 흰 타이포와 회색 보조선을 사용한다.
 - 거의 모든 장면은 photo, diagram, symbol, number 중 하나의 시각적 앵커를 가진다. none은 미니멀한 결론 장면에서만 예외적으로 사용한다.
 - 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
 - 같은 layout을 연속으로 사용하지 않는다.
 - 한 영상에서 photo 레이아웃은 최소 2종류를 사용한다.
 - 6~9장 기준 photo 2~4장, diagram/symbol 2~4장을 권장한다.
 - 구체적인 사람/사물/장소/행동은 photo를 우선한다. photo의 query는 Openverse에서 찾기 좋은 영어 명사구로 작성한다.
-- 추상 개념을 억지 스톡사진으로 표현하지 않는다. 추상 개념은 diagram 또는 symbol을 우선한다.
+- 비유가 실제 물리 장면을 직접 떠올리게 하면 추상 도식보다 photo를 우선한다. 예: 그림의 전체 구도를 잡는 비유 → 손으로 스케치하는 사진, 목표를 겨누는 비유 → 과녁/타겟 사진.
+- 관계, 변화량, 흐름처럼 사진보다 구조 자체가 중요한 추상 개념은 diagram 또는 symbol을 우선한다. 예: ROI → 그래프, 트레이드오프 → 저울, 연결 구조 → 네트워크.
 - visual.type이 photo일 때만 query를 채운다. 그 외에는 query를 null로 둔다.
 - visual.type이 diagram/symbol일 때 motif는 아래 시각 언어 중 가장 가까운 값을 사용한다. 정확히 맞는 것이 없으면 의미가 분명한 짧은 kebab-case 이름을 쓴다.
 - Shorts/Reels UI가 덮는 오른쪽 액션 바와 하단 채널/설명 영역에는 핵심 텍스트나 도식을 배치하지 않는 전제를 따른다. full-bleed 사진 배경만 해당 영역까지 확장 가능하다.
@@ -330,7 +331,7 @@ const main = async () => {
         hashtags: candidate.hashtags,
       },
       style: {
-        theme: 'monochrome-editorial',
+        theme: 'monochrome-editorial-dark',
         visualDensity: 'high',
         subtitles: 'burned-in',
         safeArea: 'shorts-reels',
