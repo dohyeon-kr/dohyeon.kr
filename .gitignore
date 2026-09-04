@@ -21,7 +21,7 @@ pnpm-debug.log*
 .env.production
 
 # Ghost persistent content volume
-content/
+/content/
 
 # Plaintext secret files. Commit only SOPS-encrypted *.env.enc files.
 secrets/*.env
