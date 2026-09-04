@@ -1,0 +1,60 @@
+name: Publish shorts template preview
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'shorts/src/**'
+      - 'shorts/package.json'
+      - '.github/workflows/shorts-template-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Install shorts dependencies
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Prepare preview fonts
+        run: |
+          mkdir -p shorts/public/fonts
+          cp scripts/thumbnail-fonts/Pretendard-Bold.woff shorts/public/fonts/
+          cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
+
+      - name: Render public preview
+        working-directory: shorts
+        run: |
+          mkdir -p "${RUNNER_TEMP}/shorts-template-preview"
+          npx remotion render src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.mp4" --public-dir=public --codec=h264 --crf=22 --scale=0.5
+          npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.png" --public-dir=public --frame=145 --scale=0.5
+
+      - name: Refresh public preview release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete shorts-template-preview --repo "${GITHUB_REPOSITORY}" --yes --cleanup-tag || true
+          gh release create shorts-template-preview \
+            --repo "${GITHUB_REPOSITORY}" \
+            --target "${GITHUB_SHA}" \
+            --title "Shorts Template Preview" \
+            --prerelease \
+            --notes "Public rolling preview for the current DLOG shorts template. Updated from ${GITHUB_SHA}."
+          gh release upload shorts-template-preview \
+            "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.mp4" \
+            "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.png" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --clobber
