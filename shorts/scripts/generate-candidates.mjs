@@ -10,12 +10,36 @@ const shortsRoot = path.resolve(import.meta.dirname, '..');
 const allowedHosts = new Set(['dohyeon.kr', 'www.dohyeon.kr', 'blog.dohyeon.kr']);
 const openverseCache = new Map();
 
+const LAYOUTS = [
+  'photo-top-right',
+  'photo-full-bleed',
+  'photo-split-left',
+  'photo-strip',
+  'diagram-centered',
+  'symbol-right',
+  'statement-giant',
+  'statement-offset',
+  'compare-columns',
+  'compare-versus',
+  'outro-minimal',
+];
+
+const VisualSchema = z.object({
+  type: z.enum(['photo', 'diagram', 'symbol', 'number', 'none']),
+  motif: z.string().nullable(),
+  query: z.string().nullable(),
+  value: z.string().nullable(),
+  xLabel: z.string().nullable(),
+  yLabel: z.string().nullable(),
+});
+
 const SceneSchema = z.object({
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
+  layout: z.enum(LAYOUTS),
+  visual: VisualSchema,
   headline: z.string(),
   subline: z.string().nullable(),
   narration: z.string(),
-  imageQuery: z.string().nullable(),
   comparisonLeft: z.string().nullable(),
   comparisonRight: z.string().nullable(),
 });
@@ -35,22 +59,65 @@ const PlanSchema = z.object({
   candidates: z.array(CandidateSchema),
 });
 
-const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터다.
-목표는 글을 요약하는 것이 아니라, 글 안의 한 가지 강한 생각을 독립적인 숏츠로 추출하는 것이다.
+const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 시각 연출가다.
+목표는 글을 요약하는 것이 아니라, 글 안의 한 가지 강한 생각을 독립적인 숏츠로 추출하고 거의 모든 장면에 의미 있는 시각적 앵커를 부여하는 것이다.
 
-원칙:
+콘텐츠 원칙:
 - 제공된 블로그 본문만 사실의 근거로 사용한다. 글에 없는 경험, 수치, 결과를 만들지 않는다.
 - 후보 하나당 논점은 하나다. 한 편의 글을 1개의 숏츠로 압축하려 하지 않는다.
 - 첫 장면은 2초 안에 멈춰 보게 만드는 질문, 반론, 재정의 중 하나여야 한다.
 - 한국어는 짧고 자연스럽게 쓴다. 과장된 AI 문구, 불필요한 감탄사, 뻔한 자기계발 문구를 피한다.
-- 장면은 5~8개, 전체는 대략 25~50초가 되도록 내레이션 양을 조절한다.
-- 화면 텍스트는 PT처럼 짧게 쓴다. headline은 가능하면 1~3줄, subline은 보조 설명만 담당한다.
-- 비주얼은 흰색/오프화이트 배경의 모노크롬 에디토리얼 PT를 전제로 한다.
-- 사진 장면은 실제 사진이 의미를 보강할 때만 사용한다. 후보당 photo/hero 사진 장면은 2~4개 정도가 적당하다.
-- imageQuery는 Openverse에서 찾기 좋은 영어 명사구로 쓴다. 너무 추상적인 단어보다 실제 촬영 가능한 사물/장소/행동을 선호한다.
-- compare 장면은 comparisonLeft/comparisonRight를 반드시 채운다. 다른 장면은 null로 둔다.
+- 장면은 6~9개, 전체는 대략 30~55초가 되도록 내레이션 양을 조절한다.
+- headline은 가능하면 1~3줄, subline은 보조 설명만 담당한다.
 - 마지막 장면은 결론 또는 원문을 읽고 싶게 만드는 여운을 남긴다. 노골적인 구독 유도는 하지 않는다.
-- viralScore는 0~100 사이에서 hook 강도, 독립 이해 가능성, 논쟁성/새로움, 공유 가능성을 종합해 평가한다.`;
+- viralScore는 0~100 사이에서 hook 강도, 독립 이해 가능성, 논쟁성/새로움, 공유 가능성을 종합해 평가한다.
+
+시각 연출 원칙:
+- 화면은 흰색/오프화이트 기반의 모노크롬 에디토리얼 PT다.
+- 거의 모든 장면은 photo, diagram, symbol, number 중 하나의 시각적 앵커를 가진다. none은 미니멀한 결론 장면에서만 예외적으로 사용한다.
+- 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
+- 같은 layout을 연속으로 사용하지 않는다.
+- 한 영상에서 photo 레이아웃은 최소 2종류를 사용한다.
+- 6~9장 기준 photo 2~4장, diagram/symbol 2~4장을 권장한다.
+- 구체적인 사람/사물/장소/행동은 photo를 우선한다. photo의 query는 Openverse에서 찾기 좋은 영어 명사구로 작성한다.
+- 추상 개념을 억지 스톡사진으로 표현하지 않는다. 추상 개념은 diagram 또는 symbol을 우선한다.
+- visual.type이 photo일 때만 query를 채운다. 그 외에는 query를 null로 둔다.
+- visual.type이 diagram/symbol일 때 motif는 아래 시각 언어 중 가장 가까운 값을 사용한다. 정확히 맞는 것이 없으면 의미가 분명한 짧은 kebab-case 이름을 쓴다.
+
+권장 개념 → 시각 언어:
+- ROI / 효율 / 비용 대비 효과 → roi-curve
+- 균형 / 트레이드오프 → balance-scale
+- 목표 / 목적 → target
+- 방향 → compass 또는 arrow-path
+- 깊게 파기 / 확대 / 정밀도 → magnifier
+- 전체 구조 / 멘탈 모델 → map-network
+- 선택 / 분기 → fork-road
+- 레버리지 → leverage
+- 부채 / 나중에 돌아올 지점 → bookmark-stack
+- 병목 → funnel
+- 연결 / 관계 → network
+- 우선순위 → ranked-list
+- 성장 → ladder
+- 리스크 → warning
+- 시간 / 투자 시간 → hourglass
+- 반복 / 피드백 → feedback-loop
+
+layout 사용 지침:
+- photo-top-right: 우상단 사진 + 좌하단 문장. 기본 사진 장면.
+- photo-full-bleed: 화면 전체 사진 + 텍스트 오버레이. 강한 전환에만 사용하고 영상당 최대 1~2회.
+- photo-split-left: 왼쪽 사진 + 오른쪽 문장.
+- photo-strip: 중앙 가로 사진 띠 + 위/아래 텍스트.
+- diagram-centered: 그래프/도식이 중심인 장면.
+- symbol-right: 오른쪽 큰 상징 + 왼쪽 문장.
+- statement-giant: 강한 한 문장을 화면 대부분에 크게. 과용하지 않는다.
+- statement-offset: 비대칭 타이포그래피 + 작은 시각 요소.
+- compare-columns: 두 개념을 나란히 비교.
+- compare-versus: 양쪽 개념의 충돌/선택을 강하게 대비.
+- outro-minimal: 마지막 결론용.
+
+compare 장면은 comparisonLeft/comparisonRight를 반드시 채운다. 다른 장면은 null로 둔다.
+visual.value는 number 타입 또는 숫자가 시각적으로 중요한 경우에만 사용한다.
+roi-curve 같은 그래프는 필요한 경우 xLabel/yLabel에 짧은 한글 축 이름을 넣는다.`;
 
 const decodeEntities = (value) =>
   value
@@ -100,7 +167,7 @@ const fetchPost = async (rawUrl) => {
 
   const response = await fetch(url, {
     redirect: 'follow',
-    headers: {'user-agent': 'dohyeon.kr-shorts/1.0 (+https://dohyeon.kr)'},
+    headers: {'user-agent': 'dohyeon.kr-shorts/2.0 (+https://dohyeon.kr)'},
   });
   if (!response.ok) throw new Error(`Failed to fetch post: ${response.status} ${response.statusText}`);
 
@@ -161,7 +228,7 @@ const searchOpenverse = async (query) => {
     const response = await fetch(`https://api.openverse.org/v1/images/?${params}`, {
       headers: {
         accept: 'application/json',
-        'user-agent': 'dohyeon.kr-shorts/1.0 (+https://dohyeon.kr)',
+        'user-agent': 'dohyeon.kr-shorts/2.0 (+https://dohyeon.kr)',
       },
     });
 
@@ -188,13 +255,14 @@ const searchOpenverse = async (query) => {
   return null;
 };
 
-const enrichImages = async (candidate) => {
+const enrichVisuals = async (candidate) => {
   const scenes = [];
   for (const scene of candidate.scenes) {
-    const shouldSearch = Boolean(scene.imageQuery) && (scene.kind === 'photo' || scene.kind === 'hero');
+    const imageQuery = scene.visual.type === 'photo' ? scene.visual.query : null;
     scenes.push({
       ...scene,
-      image: shouldSearch ? await searchOpenverse(scene.imageQuery) : null,
+      imageQuery,
+      image: imageQuery ? await searchOpenverse(imageQuery) : null,
     });
   }
   return {...candidate, scenes};
@@ -212,9 +280,9 @@ const main = async () => {
   const response = await client.responses.parse({
     model: process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-luna',
     instructions: SYSTEM_PROMPT,
-    input: `아래 블로그 글에서 서로 겹치지 않는 숏츠 후보를 정확히 ${count}개 만들어라.\n\n제목: ${post.title}\nURL: ${post.url}\n\n본문:\n${post.body}`,
+    input: `아래 블로그 글에서 서로 겹치지 않는 숏츠 후보를 정확히 ${count}개 만들어라. 각 후보는 내용뿐 아니라 장면별 시각 연출과 레이아웃 리듬까지 완성해야 한다.\n\n제목: ${post.title}\nURL: ${post.url}\n\n본문:\n${post.body}`,
     text: {
-      format: zodTextFormat(PlanSchema, 'blog_shorts_candidates'),
+      format: zodTextFormat(PlanSchema, 'blog_shorts_candidates_v2'),
     },
   });
 
@@ -225,7 +293,7 @@ const main = async () => {
   }
 
   const enriched = [];
-  for (const candidate of rawCandidates) enriched.push(await enrichImages(candidate));
+  for (const candidate of rawCandidates) enriched.push(await enrichVisuals(candidate));
   enriched.sort((a, b) => b.viralScore - a.viralScore);
 
   const slug = slugFromUrl(post.url, post.title);
@@ -234,7 +302,7 @@ const main = async () => {
 
   for (const [index, candidate] of enriched.entries()) {
     const manifest = {
-      schemaVersion: 1,
+      schemaVersion: 2,
       id: `candidate-${String(index + 1).padStart(2, '0')}`,
       status: 'candidate',
       source: {url: post.url, title: post.title},
@@ -249,8 +317,8 @@ const main = async () => {
       },
       style: {
         theme: 'monochrome-editorial',
-        imagePlacement: 'upper-right',
-        textPlacement: 'lower-left',
+        visualDensity: 'high',
+        subtitles: 'burned-in',
       },
       scenes: candidate.scenes,
     };
@@ -270,7 +338,7 @@ const main = async () => {
     .join('\n');
   await fs.writeFile(
     path.join(outputDir, 'README.md'),
-    `# Shorts candidates — ${post.title}\n\nSource: ${post.url}\n\n${summary}\n\nDelete or edit candidates before merging the generated PR. Merging a candidate JSON triggers rendering.\n`,
+    `# Shorts candidates — ${post.title}\n\nSource: ${post.url}\n\n${summary}\n\nEach scene includes a layout and a visual strategy. Edit or delete candidates before merging the generated PR. Merging a candidate JSON triggers rendering.\n`,
     'utf8',
   );
 

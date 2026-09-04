@@ -12,6 +12,11 @@ const outputRoot = path.join(shortsRoot, 'out');
 const tempRoot = path.join(shortsRoot, '.tmp');
 const FPS = 30;
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+const SCENE_TAIL_SECONDS = 0.28;
+const MIN_CAPTION_CHARS = 4;
+const TARGET_CAPTION_CHARS = 12;
+const MAX_CAPTION_CHARS = 16;
+const HARD_MAX_CAPTION_CHARS = 22;
 const imageExtensions = new Map([
   ['image/jpeg', '.jpg'],
   ['image/jpg', '.jpg'],
@@ -78,7 +83,7 @@ const downloadImage = async (scene, destinationBase) => {
     try {
       const response = await fetch(url, {
         redirect: 'follow',
-        headers: {'user-agent': 'dohyeon.kr-shorts/1.0 (+https://dohyeon.kr)'},
+        headers: {'user-agent': 'dohyeon.kr-shorts/2.0 (+https://dohyeon.kr)'},
       });
       if (!response.ok) continue;
 
@@ -105,6 +110,173 @@ const downloadImage = async (scene, destinationBase) => {
 
 const relativeStaticPath = (absolutePath) => path.relative(publicRoot, absolutePath).split(path.sep).join('/');
 
+const legacyVisual = (scene) => {
+  if (scene.visual) return scene.visual;
+  if ((scene.kind === 'photo' || scene.kind === 'hero') && (scene.image || scene.imageQuery)) {
+    return {type: 'photo', motif: null, query: scene.imageQuery ?? scene.image?.query ?? null, value: null, xLabel: null, yLabel: null};
+  }
+  if (scene.kind === 'compare') {
+    return {type: 'diagram', motif: 'compare', query: null, value: null, xLabel: null, yLabel: null};
+  }
+  return {type: 'none', motif: null, query: null, value: null, xLabel: null, yLabel: null};
+};
+
+const legacyLayout = (scene) => {
+  if (scene.layout) return scene.layout;
+  if (scene.kind === 'compare') return 'compare-columns';
+  if (scene.kind === 'outro') return 'outro-minimal';
+  if (scene.kind === 'photo' || scene.kind === 'hero') return 'photo-top-right';
+  return 'statement-offset';
+};
+
+const normalizeScene = (scene) => ({
+  ...scene,
+  layout: legacyLayout(scene),
+  visual: legacyVisual(scene),
+});
+
+const compactLength = (value) => value.replace(/\s/g, '').length;
+const endsWithSoftBreak = (value) => /[,，;；:]$/.test(value.trim());
+
+const rebalanceCaptionChunks = (chunks) => {
+  const balanced = [...chunks];
+
+  for (let index = balanced.length - 1; index > 0; index -= 1) {
+    if (compactLength(balanced[index]) >= MIN_CAPTION_CHARS) continue;
+
+    const merged = `${balanced[index - 1]} ${balanced[index]}`.trim();
+    balanced.splice(index - 1, 2, merged);
+  }
+
+  for (let index = 0; index < balanced.length - 1; index += 1) {
+    if (compactLength(balanced[index]) >= MIN_CAPTION_CHARS) continue;
+
+    const merged = `${balanced[index]} ${balanced[index + 1]}`.trim();
+    balanced.splice(index, 2, merged);
+    index -= 1;
+  }
+
+  return balanced;
+};
+
+const splitCaptionSentence = (text) => {
+  const tokens = text.trim().split(/\s+/).filter(Boolean);
+  if (!tokens.length) return [];
+  if (compactLength(text) <= HARD_MAX_CAPTION_CHARS) return [text.trim()];
+
+  const chunks = [];
+  let current = '';
+
+  for (let index = 0; index < tokens.length; index += 1) {
+    const token = tokens[index];
+    const next = current ? `${current} ${token}` : token;
+    const nextLength = compactLength(next);
+    const remaining = tokens.slice(index + 1).join(' ');
+    const remainingLength = compactLength(remaining);
+
+    const canBreakAtPunctuation =
+      current &&
+      endsWithSoftBreak(current) &&
+      compactLength(current) >= TARGET_CAPTION_CHARS &&
+      remainingLength >= MIN_CAPTION_CHARS;
+
+    if (canBreakAtPunctuation) {
+      chunks.push(current);
+      current = token;
+      continue;
+    }
+
+    if (
+      current &&
+      nextLength > MAX_CAPTION_CHARS &&
+      compactLength(current) >= MIN_CAPTION_CHARS &&
+      remainingLength + compactLength(token) >= MIN_CAPTION_CHARS
+    ) {
+      chunks.push(current);
+      current = token;
+      continue;
+    }
+
+    current = next;
+
+    if (
+      compactLength(current) >= HARD_MAX_CAPTION_CHARS &&
+      remainingLength >= MIN_CAPTION_CHARS
+    ) {
+      chunks.push(current);
+      current = '';
+    }
+  }
+
+  if (current) chunks.push(current);
+  return rebalanceCaptionChunks(chunks);
+};
+
+const splitCaptionText = (narration) => {
+  const normalized = narration.replace(/\s+/g, ' ').trim();
+  if (!normalized) return [];
+
+  const sentences = normalized
+    .split(/(?<=[.!?。！？])\s+|\s*(?=[—–])\s*/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  const chunks = [];
+  for (const sentence of sentences.length ? sentences : [normalized]) {
+    chunks.push(...splitCaptionSentence(sentence));
+  }
+
+  return rebalanceCaptionChunks(chunks.filter(Boolean));
+};
+
+const buildCaptionCues = (narration, durationSeconds) => {
+  if (!narration?.trim() || !durationSeconds) return [];
+  const chunks = splitCaptionText(narration);
+  if (!chunks.length) return [];
+
+  const weights = chunks.map((chunk) => Math.max(1, compactLength(chunk)));
+  const totalWeight = weights.reduce((sum, value) => sum + value, 0);
+  const usableDuration = Math.max(0.6, durationSeconds - 0.08);
+  let cursor = 0;
+
+  return chunks.map((text, index) => {
+    const proportional = (usableDuration * weights[index]) / totalWeight;
+    const end = index === chunks.length - 1 ? usableDuration : Math.min(usableDuration, cursor + proportional);
+    const cue = {
+      startSeconds: Number(cursor.toFixed(3)),
+      endSeconds: Number(Math.max(cursor + 0.12, end).toFixed(3)),
+      text,
+    };
+    cursor = end;
+    return cue;
+  });
+};
+
+const srtTimestamp = (seconds) => {
+  const ms = Math.max(0, Math.round(seconds * 1000));
+  const hours = Math.floor(ms / 3_600_000);
+  const minutes = Math.floor((ms % 3_600_000) / 60_000);
+  const secs = Math.floor((ms % 60_000) / 1000);
+  const millis = ms % 1000;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')},${String(millis).padStart(3, '0')}`;
+};
+
+const buildSrt = (scenes) => {
+  const entries = [];
+  let sceneCursor = 0;
+  let index = 1;
+  for (const scene of scenes) {
+    for (const cue of scene.captions ?? []) {
+      entries.push(
+        `${index}\n${srtTimestamp(sceneCursor + cue.startSeconds)} --> ${srtTimestamp(sceneCursor + cue.endSeconds)}\n${cue.text}\n`,
+      );
+      index += 1;
+    }
+    sceneCursor += Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS);
+  }
+  return `${entries.join('\n')}\n`;
+};
+
 const main = async () => {
   const manifestArg = process.argv[2];
   if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json>');
@@ -130,7 +302,8 @@ const main = async () => {
   const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
   const renderScenes = [];
 
-  for (const [index, scene] of manifest.scenes.entries()) {
+  for (const [index, rawScene] of manifest.scenes.entries()) {
+    const scene = normalizeScene(rawScene);
     const prefix = `scene-${String(index + 1).padStart(2, '0')}`;
     const imageFile = await downloadImage(scene, path.join(assetDir, prefix));
 
@@ -157,6 +330,7 @@ const main = async () => {
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
       audioDurationSeconds,
+      captions: buildCaptionCues(scene.narration, audioDurationSeconds ?? 3.6),
     });
   }
 
@@ -165,7 +339,7 @@ const main = async () => {
   await fs.writeFile(propsFile, `${JSON.stringify(renderManifest, null, 2)}\n`, 'utf8');
 
   const totalSeconds = renderScenes.reduce(
-    (sum, scene) => sum + Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + 0.28),
+    (sum, scene) => sum + Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS),
     0,
   );
   const durationFrames = Math.ceil(totalSeconds * FPS);
@@ -188,6 +362,8 @@ const main = async () => {
     ],
     {cwd: shortsRoot, env: process.env},
   );
+
+  await fs.writeFile(path.join(outputRoot, `${slug}-${candidateId}.srt`), buildSrt(renderScenes), 'utf8');
 
   const attributionLines = [
     `# Media sources — ${manifest.candidate?.title ?? candidateId}`,
@@ -219,7 +395,7 @@ const main = async () => {
     'utf8',
   );
 
-  console.log(`Rendered ${path.relative(repoRoot, outputFile)}`);
+  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with burned-in captions and SRT.`);
 };
 
 await main();

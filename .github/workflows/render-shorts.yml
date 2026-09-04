@@ -101,6 +101,7 @@ jobs:
           name: blog-shorts-${{ github.run_id }}
           path: |
             shorts/out/*.mp4
+            shorts/out/*.srt
             shorts/out/*-MEDIA.md
           if-no-files-found: warn
           retention-days: 14
