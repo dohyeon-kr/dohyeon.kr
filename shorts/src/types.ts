@@ -15,6 +15,8 @@ export type SceneLayout =
 
 export type VisualType = 'photo' | 'diagram' | 'symbol' | 'number' | 'none';
 
+export type SceneTransition = 'fade' | 'slide-up' | 'slide-left' | 'zoom' | 'wipe' | 'none';
+
 export type SceneVisual = {
   type: VisualType;
   motif: string | null;
@@ -48,6 +50,7 @@ export type CandidateScene = {
   kind: SceneKind;
   layout?: SceneLayout;
   visual?: SceneVisual;
+  transition?: SceneTransition;
   headline: string;
   subline: string | null;
   narration: string;
@@ -80,6 +83,7 @@ export type CandidateManifest = {
     textPlacement?: 'lower-left';
     visualDensity?: 'high';
     subtitles?: 'burned-in';
+    safeArea?: 'shorts-reels';
   };
   scenes: CandidateScene[];
 };
