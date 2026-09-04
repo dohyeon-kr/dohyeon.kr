@@ -78,7 +78,7 @@ export type CandidateManifest = {
     hashtags: string[];
   };
   style: {
-    theme: 'monochrome-editorial';
+    theme: 'monochrome-editorial' | 'monochrome-editorial-dark';
     imagePlacement?: 'upper-right';
     textPlacement?: 'lower-left';
     visualDensity?: 'high';
