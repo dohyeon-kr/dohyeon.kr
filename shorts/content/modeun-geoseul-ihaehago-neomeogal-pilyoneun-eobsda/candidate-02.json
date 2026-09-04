@@ -10,15 +10,15 @@
     "angle": "counterargument",
     "hook": "끝까지 이해해야 제대로 배우는 걸까?",
     "title": "완벽한 이해가 학습을 늦춘다",
-    "rationale": "학습 초기에 세부 원리를 끝까지 파고드는 태도가 오히려 전체 구조를 보는 속도를 늦출 수 있다는 글의 핵심 반론을 독립적인 숏츠로 구성했다.",
-    "viralScore": 88,
-    "suggestedCaption": "한 지점을 완벽하게 아는 것보다, 여러 개념의 구조를 연결하는 일이 먼저일 때가 있다.",
+    "rationale": "학습 초기에 모든 원리를 끝까지 파고드는 태도가 전체 구조를 보는 속도를 늦출 수 있다는 반론을 중심으로, 현재 목표에 필요한 깊이를 선택하고 일부 이해의 빈틈을 의도적인 학습 부채로 남기는 전략까지 연결했다.",
+    "viralScore": 92,
+    "suggestedCaption": "모든 빈틈을 즉시 메우지 않아도 된다. 지금 필요한 구조를 먼저 만들고, 일부는 학습 부채로 남겨두는 선택이 오히려 학습 속도를 높일 수 있다.",
     "hashtags": [
       "#공부법",
       "#학습법",
       "#멘탈모델",
       "#개발자공부",
-      "#성장"
+      "#학습전략"
     ]
   },
   "style": {
@@ -61,9 +61,9 @@
     },
     {
       "kind": "photo",
-      "headline": "DB를 배우다\n운영체제까지 내려간다면",
-      "subline": "지식은 맞지만, 목적에서 멀어질 수 있다",
-      "narration": "백엔드를 배우려다 데이터베이스의 역사와 저장 장치의 동작 원리까지 내려가면, 각각은 가치 있어도 지금의 목표에서는 멀어질 수 있습니다.",
+      "headline": "페이지를 이해하다\n운영체제까지 내려간다면",
+      "subline": "지식은 늘지만, 목표에서는 멀어질 수 있다",
+      "narration": "페이지를 이해하려다 디스크와 메모리로, 다시 파일 시스템과 운영체제로 내려가면 원래 배우려던 목표를 놓칠 수 있습니다.",
       "imageQuery": "server room computer storage",
       "comparisonLeft": null,
       "comparisonRight": null,
@@ -82,6 +82,16 @@
       }
     },
     {
+      "kind": "compare",
+      "headline": "모든 빈틈을 채우기 vs\n지금 필요한 깊이만 확보하기",
+      "subline": null,
+      "narration": "학습의 선택지는 모르는 것을 전부 없애는 것만이 아닙니다. 지금의 목표에 필요한 깊이까지만 이해하고, 나머지는 잠시 남겨둘 수도 있습니다.",
+      "imageQuery": null,
+      "comparisonLeft": "모든 의문을 즉시 해결",
+      "comparisonRight": "현재 목표에 필요한 것만 해결",
+      "image": null
+    },
+    {
       "kind": "statement",
       "headline": "처음엔 정밀함보다\n전체 그림",
       "subline": "뼈대가 있어야 세부도 들어간다",
@@ -93,9 +103,29 @@
     },
     {
       "kind": "statement",
+      "headline": "학습 부채도\n레버리지가 된다",
+      "subline": "일부 빈틈을 남겨 더 빠르게 앞으로 간다",
+      "narration": "부채가 레버리지를 제공하듯, 학습 부채도 학습 속도에 레버리지가 됩니다. 지금 당장 필요하지 않은 깊이는 잠시 남겨두고, 더 넓은 구조를 먼저 연결할 수 있습니다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "statement",
+      "headline": "다만 부채는\n관리해야 한다",
+      "subline": "무엇을 모르고 있는지는 기억한다",
+      "narration": "학습 부채는 모르는 것을 잊어버리자는 뜻이 아닙니다. 지금은 넘어가더라도 무엇을 모르고 있는지 표시해두면, 필요해진 순간 더 적은 비용으로 다시 돌아갈 수 있습니다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "statement",
       "headline": "정확도는\n나중에 높일 수 있다",
       "subline": "방향을 잃은 시간은 돌아오지 않는다",
-      "narration": "세부 원리가 중요하지 않다는 뜻은 아닙니다. 다만 전체를 보기 전에 한 지점에 갇히지 말자는 뜻입니다.",
+      "narration": "세부 원리가 중요하지 않다는 뜻은 아닙니다. 전체 구조를 먼저 만들고, 실제로 필요해지는 지점에서 해상도를 높이자는 뜻입니다.",
       "imageQuery": null,
       "comparisonLeft": null,
       "comparisonRight": null,
@@ -103,9 +133,9 @@
     },
     {
       "kind": "outro",
-      "headline": "먼저 전체를 보고,\n그다음 확대하라",
-      "subline": "학습의 ROI는 기억량만으로 정해지지 않는다",
-      "narration": "지금의 나에게 더 큰 성장을 주는 학습이 무엇인지 먼저 물어야 합니다.",
+      "headline": "먼저 전체를 보고,\n필요할 때 확대하라",
+      "subline": "잘 배우는 것은 모든 빈틈을 없애는 일이 아니다",
+      "narration": "완벽한 이해를 기다리느라 멈추기보다, 필요한 만큼 이해하고 연결하면서 앞으로 가는 것. 그게 더 높은 학습 ROI를 만들 수 있습니다.",
       "imageQuery": null,
       "comparisonLeft": null,
       "comparisonRight": null,
