@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/modeun-geoseul-ihaehago-neomeogal-pilyoneun-eobsda/",
+    "title": "모든 것을 이해하고 넘어갈 필요는 없다"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "흐릿하게 아는 건 정말 실패한 지식일까?",
+    "title": "저해상도 지식은 미래의 인덱스다",
+    "rationale": "완전히 이해하지 못한 내용을 남겨두는 일을 학습 부채가 아니라, 나중에 어디를 다시 볼지 알려주는 표식으로 재정의한다.",
+    "viralScore": 90,
+    "suggestedCaption": "모든 정보가 4K일 필요는 없다. 흐릿함에도 다음 학습의 방향을 알려주는 기능이 있다.",
+    "hashtags": [
+      "#학습법",
+      "#지식관리",
+      "#개발자성장",
+      "#멘탈모델",
+      "#공부습관"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial",
+    "imagePlacement": "upper-right",
+    "textPlacement": "lower-left"
+  },
+  "scenes": [
+    {
+      "kind": "hero",
+      "headline": "흐릿하게 알고 있다면\n아무것도 모르는 걸까?",
+      "subline": null,
+      "narration": "모든 것을 정확히 이해하지 못한 채 넘어가면, 학습의 부채가 쌓이는 것처럼 느껴질 수 있다.",
+      "imageQuery": "blurred map on table",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": {
+        "query": "blurred map on table",
+        "title": "Book Map",
+        "creator": "Chris Lawton",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "stocksnap",
+        "provider": "stocksnap",
+        "sourcePage": "https://stocksnap.io/photo/book-map-2KHSKENXL6",
+        "originalUrl": "https://cdn.stocksnap.io/img-thumbs/960w/2KHSKENXL6.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/532064e0-8ac8-4e87-9b6a-3f15ad79b86a/thumb/"
+      }
+    },
+    {
+      "kind": "statement",
+      "headline": "모든 정보가\n4K일 필요는 없다",
+      "subline": "전체가 보이는 지도가 더 유용할 때가 있다",
+      "narration": "특정 부분 하나만 아주 선명한 지도보다, 저해상도로나마 전체가 그려진 지도가 더 유용할 때가 있다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "compare",
+      "headline": "선명한 한 점\nvs\n흐릿하지만 연결된 전체",
+      "subline": null,
+      "narration": "한 지점의 해상도는 높지만 주변이 텅 빈 지식보다, 흐릿해도 서로 연결된 지식이 다음 탐색을 시작하게 만든다.",
+      "imageQuery": null,
+      "comparisonLeft": "한 부분만 선명한 지도",
+      "comparisonRight": "전체가 보이는 저해상도 지도",
+      "image": null
+    },
+    {
+      "kind": "photo",
+      "headline": "흐릿함은\n표식으로 남는다",
+      "subline": "나중에 어디를 확대할지 알려준다",
+      "narration": "흐릿하게 알고 있다는 것은 아무것도 모르는 것과 다르다. 나중에 어디를 확대해야 하는지 알려주는 흔적이 이미 남아 있기 때문이다.",
+      "imageQuery": "highlighted location on paper map",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": {
+        "query": "highlighted location on paper map",
+        "title": "2001. First Digital Aerial Sketch Mapping (DASM) components: Laptops, power board, and KDS unit - with a back-up paper map in case of system failure. Wooden rack built by Keith Sprengel.",
+        "creator": "USDA Forest Service",
+        "license": "pdm",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+        "source": "flickr",
+        "provider": "flickr",
+        "sourcePage": "https://www.flickr.com/photos/151887236@N05/34608164284",
+        "originalUrl": "https://live.staticflickr.com/4263/34608164284_75768cfe22_b.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/18686c3e-e18f-4220-a4ea-d92d816f6318/thumb/"
+      }
+    },
+    {
+      "kind": "photo",
+      "headline": "이해할 시점은\n미래의 나에게 맡길 수 있다",
+      "subline": "주변 지식이 쌓이면 비용이 줄어든다",
+      "narration": "처음에는 한 시간을 들여도 이해되지 않던 것이, 주변 맥락이 생긴 뒤에는 몇 분 만에 연결되기도 한다.",
+      "imageQuery": "person looking at notes on wall",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": {
+        "query": "person looking at notes on wall",
+        "title": "0112621 Anantasayana Sheshashayi Vishnu Cave 13, Udayagiri Caves, Vidisha district, Madhya Pradesh 025",
+        "creator": "Ms Sarah Welch",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "wikimedia",
+        "provider": "wikimedia",
+        "sourcePage": "https://commons.wikimedia.org/w/index.php?curid=127549601",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/eb/0112621_Anantasayana_Sheshashayi_Vishnu_Cave_13%2C_Udayagiri_Caves%2C_Vidisha_district%2C_Madhya_Pradesh_025.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/bee7dccf-bb2f-40ad-90b2-7481d68cecd4/thumb/"
+      }
+    },
+    {
+      "kind": "outro",
+      "headline": "모든 빈틈을\n지금 채울 필요는 없다",
+      "subline": "저해상도 지식은 미래 학습의 인덱스다",
+      "narration": "필요한 순간이 오면 그 부분의 해상도를 높이면 된다. 남겨둔 빈틈이 앞으로 나아가는 것을 막지 않는다면, 그것은 실패가 아니다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    }
+  ]
+}

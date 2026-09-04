@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "id": "candidate-02",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/modeun-geoseul-ihaehago-neomeogal-pilyoneun-eobsda/",
+    "title": "모든 것을 이해하고 넘어갈 필요는 없다"
+  },
+  "candidate": {
+    "angle": "counterargument",
+    "hook": "공부할 때, 모르는 걸 전부 이해해야 할까?",
+    "title": "깊이 파는 공부가 항상 좋은 건 아니다",
+    "rationale": "학습 초기에 세부 원리 하나를 완벽히 이해하는 것보다 여러 개념의 구조와 연결을 먼저 잡는 편이 ROI가 높을 수 있다는 주장이다.",
+    "viralScore": 86,
+    "suggestedCaption": "한 지점의 해상도보다 먼저 봐야 하는 것. 지금 내 공부는 전체 그림을 만들고 있을까?",
+    "hashtags": [
+      "#공부법",
+      "#학습법",
+      "#개발자공부",
+      "#멘탈모델",
+      "#생산성"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial",
+    "imagePlacement": "upper-right",
+    "textPlacement": "lower-left"
+  },
+  "scenes": [
+    {
+      "kind": "hero",
+      "headline": "모르는 걸 만나면\n끝까지 파고드는 사람",
+      "subline": "그게 정말 효율적인 공부일까?",
+      "narration": "나는 이해되지 않는 부분을 그냥 지나치지 못했다. 가장 작은 원리까지 내려가야 마음이 편했다.",
+      "imageQuery": "person studying technical book at desk",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "compare",
+      "headline": "한 점의 완벽한 이해\nvs\n전체 구조의 연결",
+      "subline": null,
+      "narration": "하지만 한 가지 사실을 완전히 이해하는 데 열 시간을 쓰는 것과, 같은 시간에 여러 개념의 구조를 연결하는 것 중 무엇이 더 큰 성장을 주는지는 다르다.",
+      "imageQuery": null,
+      "comparisonLeft": "한 개념을 100% 이해하기",
+      "comparisonRight": "여러 개념의 구조 파악하기",
+      "image": null
+    },
+    {
+      "kind": "photo",
+      "headline": "처음부터 눈동자만\n정교하게 그리지 않는다",
+      "subline": "전체 구도와 비례를 먼저 잡는다",
+      "narration": "그림도 처음부터 눈동자 하나를 완성하지 않는다. 먼저 전체 구도와 비례를 잡아야 세부 묘사가 들어갈 자리를 알 수 있다.",
+      "imageQuery": "artist sketching human figure on paper",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": {
+        "query": "artist sketching human figure on paper",
+        "title": "Group Figures Unknown artist",
+        "creator": "artinstitutechicago",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "rawpixel",
+        "provider": "rawpixel",
+        "sourcePage": "https://www.rawpixel.com/image/8999014/group-figures-unknown-artist",
+        "originalUrl": "https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTEyL2FpYzg0ODAyLWltYWdlLmpwZw.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/2a4a96c1-6dc5-42a2-8a3a-13d0b35f4cd8/thumb/"
+      }
+    },
+    {
+      "kind": "statement",
+      "headline": "학습 초반의 목표는\n완벽한 사실이 아니다",
+      "subline": "쓸 수 있는 멘탈 모델이다",
+      "narration": "어떤 개념이 무슨 문제를 해결하고, 주변 개념과 어떻게 연결되는지 대략 설명할 수 있다면 일단 충분하다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    },
+    {
+      "kind": "photo",
+      "headline": "흐릿한 구조에\n조각을 붙인다",
+      "subline": "나중에 해상도를 높이면 된다",
+      "narration": "이후 새로운 개념을 만나면 처음부터 다시 외우는 대신 기존 그림에 조각을 붙인다. 모델은 버리는 것이 아니라 점점 선명하게 만드는 것이다.",
+      "imageQuery": "pieces of puzzle on desk",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": {
+        "query": "pieces of puzzle on desk",
+        "title": "Wooden school desk from Bethel Evangelical Lutheran Church and School",
+        "creator": "Unidentified",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "smithsonian_african_american_history_museum",
+        "provider": "smithsonian",
+        "sourcePage": "https://nmaahc.si.edu/object/nmaahc_2013.74.8",
+        "originalUrl": "https://ids.si.edu/ids/deliveryService?id=NMAAHC-2013_74_8_002",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/c26f46b7-eae3-4a51-9343-190394577a29/thumb/"
+      }
+    },
+    {
+      "kind": "outro",
+      "headline": "먼저 전체를 보고,\n연결하고, 움직인다",
+      "subline": "세부 사항은 필요한 순간에 깊어진다",
+      "narration": "방향을 잃은 채 세부 사항에 쓴 시간은 돌아오지 않는다. 공부의 깊이는 전체 그림을 만든 다음에 높여도 된다.",
+      "imageQuery": null,
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "image": null
+    }
+  ]
+}
