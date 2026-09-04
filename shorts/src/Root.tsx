@@ -21,11 +21,13 @@ const defaultProps: RenderManifest = {
     theme: 'monochrome-editorial',
     visualDensity: 'high',
     subtitles: 'burned-in',
+    safeArea: 'shorts-reels',
   },
   scenes: [
     {
       kind: 'statement',
       layout: 'diagram-centered',
+      transition: 'wipe',
       visual: {
         type: 'diagram',
         motif: 'roi-curve',
