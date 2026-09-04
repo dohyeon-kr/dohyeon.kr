@@ -13,6 +13,10 @@ const tempRoot = path.join(shortsRoot, '.tmp');
 const FPS = 30;
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const SCENE_TAIL_SECONDS = 0.28;
+const MIN_CAPTION_CHARS = 4;
+const TARGET_CAPTION_CHARS = 12;
+const MAX_CAPTION_CHARS = 16;
+const HARD_MAX_CAPTION_CHARS = 22;
 const imageExtensions = new Map([
   ['image/jpeg', '.jpg'],
   ['image/jpg', '.jpg'],
@@ -131,41 +135,98 @@ const normalizeScene = (scene) => ({
   visual: legacyVisual(scene),
 });
 
-const splitLongCaption = (text, maxChars = 18) => {
+const compactLength = (value) => value.replace(/\s/g, '').length;
+const endsWithSoftBreak = (value) => /[,，;；:]$/.test(value.trim());
+
+const rebalanceCaptionChunks = (chunks) => {
+  const balanced = [...chunks];
+
+  for (let index = balanced.length - 1; index > 0; index -= 1) {
+    if (compactLength(balanced[index]) >= MIN_CAPTION_CHARS) continue;
+
+    const merged = `${balanced[index - 1]} ${balanced[index]}`.trim();
+    balanced.splice(index - 1, 2, merged);
+  }
+
+  for (let index = 0; index < balanced.length - 1; index += 1) {
+    if (compactLength(balanced[index]) >= MIN_CAPTION_CHARS) continue;
+
+    const merged = `${balanced[index]} ${balanced[index + 1]}`.trim();
+    balanced.splice(index, 2, merged);
+    index -= 1;
+  }
+
+  return balanced;
+};
+
+const splitCaptionSentence = (text) => {
   const tokens = text.trim().split(/\s+/).filter(Boolean);
   if (!tokens.length) return [];
+  if (compactLength(text) <= HARD_MAX_CAPTION_CHARS) return [text.trim()];
+
   const chunks = [];
   let current = '';
-  for (const token of tokens) {
+
+  for (let index = 0; index < tokens.length; index += 1) {
+    const token = tokens[index];
     const next = current ? `${current} ${token}` : token;
-    if (next.replace(/\s/g, '').length > maxChars && current) {
+    const nextLength = compactLength(next);
+    const remaining = tokens.slice(index + 1).join(' ');
+    const remainingLength = compactLength(remaining);
+
+    const canBreakAtPunctuation =
+      current &&
+      endsWithSoftBreak(current) &&
+      compactLength(current) >= TARGET_CAPTION_CHARS &&
+      remainingLength >= MIN_CAPTION_CHARS;
+
+    if (canBreakAtPunctuation) {
       chunks.push(current);
       current = token;
-    } else {
-      current = next;
+      continue;
+    }
+
+    if (
+      current &&
+      nextLength > MAX_CAPTION_CHARS &&
+      compactLength(current) >= MIN_CAPTION_CHARS &&
+      remainingLength + compactLength(token) >= MIN_CAPTION_CHARS
+    ) {
+      chunks.push(current);
+      current = token;
+      continue;
+    }
+
+    current = next;
+
+    if (
+      compactLength(current) >= HARD_MAX_CAPTION_CHARS &&
+      remainingLength >= MIN_CAPTION_CHARS
+    ) {
+      chunks.push(current);
+      current = '';
     }
   }
+
   if (current) chunks.push(current);
-  return chunks;
+  return rebalanceCaptionChunks(chunks);
 };
 
 const splitCaptionText = (narration) => {
-  const sentences = narration
-    .replace(/\s+/g, ' ')
-    .trim()
+  const normalized = narration.replace(/\s+/g, ' ').trim();
+  if (!normalized) return [];
+
+  const sentences = normalized
     .split(/(?<=[.!?。！？])\s+|\s*(?=[—–])\s*/)
     .map((part) => part.trim())
     .filter(Boolean);
 
   const chunks = [];
-  for (const sentence of sentences.length ? sentences : [narration]) {
-    const clauses = sentence
-      .split(/(?<=[,，;；:])\s+/)
-      .map((part) => part.trim())
-      .filter(Boolean);
-    for (const clause of clauses.length ? clauses : [sentence]) chunks.push(...splitLongCaption(clause));
+  for (const sentence of sentences.length ? sentences : [normalized]) {
+    chunks.push(...splitCaptionSentence(sentence));
   }
-  return chunks.filter(Boolean);
+
+  return rebalanceCaptionChunks(chunks.filter(Boolean));
 };
 
 const buildCaptionCues = (narration, durationSeconds) => {
@@ -173,7 +234,7 @@ const buildCaptionCues = (narration, durationSeconds) => {
   const chunks = splitCaptionText(narration);
   if (!chunks.length) return [];
 
-  const weights = chunks.map((chunk) => Math.max(1, chunk.replace(/\s/g, '').length));
+  const weights = chunks.map((chunk) => Math.max(1, compactLength(chunk)));
   const totalWeight = weights.reduce((sum, value) => sum + value, 0);
   const usableDuration = Math.max(0.6, durationSeconds - 0.08);
   let cursor = 0;
