@@ -1,6 +1,6 @@
 import React from 'react';
 import {Composition} from 'remotion';
-import {ShortVideo} from './ShortVideo';
+import {DarkShortVideo} from './DarkShortVideo';
 import type {RenderManifest} from './types';
 
 const defaultProps: RenderManifest = {
@@ -18,7 +18,7 @@ const defaultProps: RenderManifest = {
     hashtags: [],
   },
   style: {
-    theme: 'monochrome-editorial',
+    theme: 'monochrome-editorial-dark',
     visualDensity: 'high',
     subtitles: 'burned-in',
     safeArea: 'shorts-reels',
@@ -37,7 +37,7 @@ const defaultProps: RenderManifest = {
         yLabel: '학습 효용',
       },
       headline: '좋은 설명은\n생각을 보이게 만든다.',
-      subline: '사진이 없으면 도식으로 보여준다',
+      subline: '사진이 없으면 프리셋 도식으로 보여준다',
       narration: '추상적인 생각은 사진보다 도식이 더 정확할 때가 있습니다.',
       imageQuery: null,
       comparisonLeft: null,
@@ -57,7 +57,7 @@ const defaultProps: RenderManifest = {
 export const RemotionRoot: React.FC = () => (
   <Composition
     id="ShortVideo"
-    component={ShortVideo}
+    component={DarkShortVideo}
     durationInFrames={60 * 30}
     fps={30}
     width={1080}
