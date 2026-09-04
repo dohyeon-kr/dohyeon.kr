@@ -8,7 +8,9 @@
     "studio": "remotion studio src/index.tsx --public-dir=public"
   },
   "dependencies": {
+    "@dagrejs/dagre": "1.1.5",
     "@remotion/cli": "4.0.520",
+    "@xyflow/react": "12.9.3",
     "lucide-react": "1.41.0",
     "openai": "7.9.0",
     "react": "19.2.8",
