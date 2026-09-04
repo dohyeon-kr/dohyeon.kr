@@ -11,6 +11,13 @@ const generatedRoot = path.join(publicRoot, 'generated');
 const outputRoot = path.join(shortsRoot, 'out');
 const tempRoot = path.join(shortsRoot, '.tmp');
 const FPS = 30;
+const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+const imageExtensions = new Map([
+  ['image/jpeg', '.jpg'],
+  ['image/jpg', '.jpg'],
+  ['image/png', '.png'],
+  ['image/webp', '.webp'],
+]);
 
 const safeName = (value) => value.replace(/[^a-zA-Z0-9가-힣._-]+/g, '-').replace(/^-+|-+$/g, '');
 
@@ -74,11 +81,20 @@ const downloadImage = async (scene, destinationBase) => {
         headers: {'user-agent': 'dohyeon.kr-shorts/1.0 (+https://dohyeon.kr)'},
       });
       if (!response.ok) continue;
-      const type = response.headers.get('content-type') || '';
-      if (!type.startsWith('image/')) continue;
-      const ext = type.includes('png') ? '.png' : type.includes('webp') ? '.webp' : '.jpg';
+
+      const rawType = response.headers.get('content-type') || '';
+      const type = rawType.split(';', 1)[0].trim().toLowerCase();
+      const ext = imageExtensions.get(type);
+      if (!ext) continue;
+
+      const declaredLength = Number(response.headers.get('content-length') || 0);
+      if (declaredLength > MAX_IMAGE_BYTES) continue;
+
+      const bytes = Buffer.from(await response.arrayBuffer());
+      if (bytes.length > MAX_IMAGE_BYTES) continue;
+
       const target = `${destinationBase}${ext}`;
-      await fs.writeFile(target, Buffer.from(await response.arrayBuffer()));
+      await fs.writeFile(target, bytes);
       return target;
     } catch (error) {
       console.warn(`Image download failed: ${url}`, error.message);
