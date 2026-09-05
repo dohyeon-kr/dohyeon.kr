@@ -48,7 +48,6 @@ a {
   cursor: pointer;
 }
 a {
-  color: inherit;
   text-decoration: none;
 }
 button:focus-visible,

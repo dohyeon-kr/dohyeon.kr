@@ -462,7 +462,7 @@ class VisitHandler(BaseHTTPRequestHandler):
         try:
             connection.request(
                 "GET",
-                "/ghost/api/admin/users/me/",
+                "/ghost/api/admin/users/me/?include=roles",
                 headers={
                     "Cookie": cookie,
                     "Host": "blog.dohyeon.kr",

@@ -109,3 +109,19 @@ class DashboardTest(unittest.TestCase):
             for role, allowed in [('Owner', True), ('Administrator', True), ('Editor', False), ('Author', False)]:
                 response.read.return_value = json.dumps({'users':[{'roles':[{'name':role}]}]}).encode()
                 self.assertEqual(handler._is_ghost_admin(), allowed)
+
+    def test_ghost_session_explicitly_requests_roles(self):
+        handler = object.__new__(VisitHandler)
+        handler.headers = {'Cookie': 'session=test', 'User-Agent': 'dashboard-test'}
+        with patch('visit_counter.HTTPConnection') as connection:
+            response = MagicMock(status=200)
+            connection.return_value.getresponse.return_value = response
+            # Ghost omits the role relation unless include=roles is requested.
+            def body():
+                path = connection.return_value.request.call_args.args[1]
+                user = {'roles': [{'name': 'Owner'}]} if 'include=roles' in path else {}
+                return json.dumps({'users': [user]}).encode()
+            response.read.side_effect = body
+            self.assertTrue(handler._is_ghost_admin())
+            self.assertEqual(connection.return_value.request.call_args.args[1], '/ghost/api/admin/users/me/?include=roles')
+            self.assertEqual(connection.return_value.request.call_args.kwargs['headers']['User-Agent'], 'dashboard-test')
