@@ -1,0 +1,88 @@
+name: Review and improve shorts storyboard
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Candidate JSON path under shorts/content/
+        required: true
+        type: string
+      comment:
+        description: Optional editorial feedback (blank = automatic quality review)
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: shorts-review-${{ github.ref }}-${{ inputs.manifest }}
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      MANIFEST: ${{ inputs.manifest }}
+      REVIEW_OUTPUT_DIR: ${{ github.workspace }}/shorts/out/review
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - name: Install dependencies
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Validate selected candidate
+        run: node shorts/scripts/review-storyboard.mjs validate "$MANIFEST"
+      - name: Render original storyboard
+        run: |
+          node shorts/scripts/render.mjs "$MANIFEST" --storyboard
+          mkdir -p "$REVIEW_OUTPUT_DIR"
+          mv shorts/out/storyboards "$REVIEW_OUTPUT_DIR/before"
+      - name: Review images and improve candidate with OpenAI
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
+          SHORTS_REVIEW_MODEL: ${{ vars.SHORTS_REVIEW_MODEL }}
+          REVIEW_COMMENT: ${{ inputs.comment }}
+        run: node shorts/scripts/review-storyboard.mjs improve "$MANIFEST"
+      - name: Render improved storyboard
+        run: |
+          node shorts/scripts/render.mjs "$MANIFEST" --storyboard
+          mv shorts/out/storyboards "$REVIEW_OUTPUT_DIR/after"
+      - name: Upload before and after review bundle
+        id: bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: storyboard-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: shorts/out/review/
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Open improvement PR
+        id: pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ github.token }}
+          commit-message: 'fix: improve shorts storyboard from AI review'
+          branch: automation/storyboard-review-${{ github.run_id }}
+          delete-branch: true
+          title: 'fix: review and improve shorts storyboard'
+          body-path: shorts/out/review/review.md
+          add-paths: |
+            shorts/content/**
+      - name: Write result summary
+        env:
+          PR_URL: ${{ steps.pr.outputs.pull-request-url }}
+          ARTIFACT_URL: ${{ steps.bundle.outputs.artifact-url }}
+        run: |
+          printf '## 스토리보드 리뷰 결과\n\n' >> "$GITHUB_STEP_SUMMARY"
+          if [[ -n "$PR_URL" ]]; then
+            printf '[개선 PR](%s)\n\n' "$PR_URL" >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '후보 변경이 없어 새 PR을 만들지 않았습니다.\n\n' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          printf '[리뷰 및 수정 전후 이미지](%s)\n' "$ARTIFACT_URL" >> "$GITHUB_STEP_SUMMARY"

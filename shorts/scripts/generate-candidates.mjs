@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import {pathToFileURL} from 'node:url';
 import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
@@ -112,7 +113,7 @@ const SceneSchema = z.object({
   comparisonRight: z.string().nullable(),
 });
 
-const CandidateSchema = z.object({
+export const CandidateSchema = z.object({
   angle: z.enum(['counterargument', 'question', 'reframe', 'experience', 'analogy', 'rule']),
   hook: z.string(),
   title: z.string(),
@@ -125,7 +126,7 @@ const CandidateSchema = z.object({
 
 const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
 
-const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
+export const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
 도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
 diagramSpec은 version=1, renderer=auto가 기본이다. 일반 도식은 Remotion, physics가 있는 장면은 Motion Canvas로 자동 선택된다.
 physics는 보통 null이다. 충돌/낙하/시소가 의미를 전달할 때만 seconds(0.1~10), gravity(x/y -2~2), bodies, pins를 작성한다.
@@ -266,7 +267,7 @@ const extractGhostContent = (html) => {
   return beforeComments.replace(/<\/section>\s*$/i, '');
 };
 
-const fetchPost = async (rawUrl) => {
+export const fetchPost = async (rawUrl) => {
   const url = new URL(rawUrl);
   if (!allowedHosts.has(url.hostname)) throw new Error(`Only dohyeon.kr blog URLs are allowed. Received: ${url.hostname}`);
   url.hash = '';
@@ -360,5 +361,4 @@ const main = async () => {
   }
 };
 
-await main();
-
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) await main();
