@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useRef} from 'react';
+import {useLayoutCheck} from './use-layout-check';
 import {
   AbsoluteFill,
   Html5Audio,
@@ -180,7 +181,7 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
 
   return (
     <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none'}}>
-      <div style={{boxSizing: 'border-box', maxWidth: '100%', padding: '12px 17px 13px', border: '2px solid #484848', background: photo ? 'rgba(5,5,5,.88)' : '#151515', color: WHITE, fontSize: 38, fontWeight: 800, lineHeight: 1.25, letterSpacing: '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
+      <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: '12px 17px 13px', border: '2px solid #484848', background: photo ? 'rgba(5,5,5,.88)' : '#151515', color: WHITE, fontSize: 38, fontWeight: 800, lineHeight: 1.25, letterSpacing: '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
         {highlightedText(text, 'keyword' in cue ? cue.keyword as string | null : null)}
       </div>
     </div>
@@ -194,7 +195,7 @@ const ComparePanel: React.FC<{scene: RenderScene; reveal: number; versus: boolea
       return (
         <div key={`${label}-${index}`} style={{boxSizing: 'border-box', minWidth: 0, height: 460, padding: '32px 28px', border: `2px solid ${WHITE}`, background: index === 1 ? WHITE : BLACK, color: index === 1 ? BLACK : WHITE, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', opacity: local, transform: `translateY(${(1 - local) * 24}px)`}}>
           <div style={{fontSize: 18, fontWeight: 900, letterSpacing: '0.08em'}}>{versus ? (index === 0 ? 'BEFORE' : 'AFTER') : `0${index + 1}`}</div>
-          <div style={{fontSize: fitCopy(label ?? '', 320, 310, 50).fontSize, fontWeight: 900, lineHeight: 1.12, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>{fitCopy(label ?? '', 320, 310, 50).text}</div>
+          <div data-layout-text={`compare-${index}`} style={{fontSize: fitCopy(label ?? '', 320, 310, 50).fontSize, fontWeight: 900, lineHeight: 1.12, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>{fitCopy(label ?? '', 320, 310, 50).text}</div>
         </div>
       );
     })}
@@ -203,6 +204,8 @@ const ComparePanel: React.FC<{scene: RenderScene; reveal: number; versus: boolea
 
 const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; sourceTitle: string; durationInFrames: number}> = ({scene, index, total, sourceTitle, durationInFrames}) => {
   const frame = useCurrentFrame();
+  const layoutRoot = useRef<HTMLDivElement>(null);
+  useLayoutCheck(layoutRoot, frame);
   const visual = fallbackVisual(scene);
   const layout = fallbackLayout(scene, visual);
   const transition = fallbackTransition(scene, index);
@@ -223,7 +226,7 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
   const subline = fitCopy(scene.subline ?? '', SAFE_CONTENT_WIDTH - 20, 78, 30);
 
   return (
-    <AbsoluteFill style={{background: BLACK, color: WHITE, overflow: 'hidden'}}>
+    <AbsoluteFill ref={layoutRoot} style={{background: BLACK, color: WHITE, overflow: 'hidden'}}>
       <AbsoluteFill style={{background: BLACK, color: WHITE, fontFamily: 'Pretendard, Arial, sans-serif', overflow: 'hidden', transformOrigin: 'center center', ...transitionMotion(transition, frame, durationInFrames)}}>
         <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;font-display:swap;} @font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Regular.woff')}') format('woff');font-weight:300 600;font-style:normal;font-display:swap;}`}</style>
 
@@ -247,12 +250,12 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
         {isCompare ? <ComparePanel scene={scene} reveal={compareReveal} versus={layout === 'compare-versus'} /> : null}
 
         <div data-layout="copy" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: headingTop, zIndex: 20}}>
-          <div style={{fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.12, letterSpacing: '-0.045em', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', textShadow: photo ? '0 4px 30px rgba(0,0,0,.58)' : 'none', opacity: headlineReveal, transform: `translateY(${headlineY}px)`}}>
+          <div data-layout-text="headline" style={{fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.12, letterSpacing: '-0.045em', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', textShadow: photo ? '0 4px 30px rgba(0,0,0,.58)' : 'none', opacity: headlineReveal, transform: `translateY(${headlineY}px)`}}>
             {heading.text}
           </div>
 
           {scene.subline ? (
-            <div style={{marginTop: 12, fontSize: subline.fontSize, fontWeight: 800, lineHeight: 1.12, letterSpacing: '-0.025em', color: photo ? WHITE : GRAY, whiteSpace: 'pre-wrap', opacity: sublineReveal, transform: `translateY(${sublineY}px)`}}>
+            <div data-layout-text="subline" style={{marginTop: 12, fontSize: subline.fontSize, fontWeight: 800, lineHeight: 1.12, letterSpacing: '-0.025em', color: photo ? WHITE : GRAY, whiteSpace: 'pre-wrap', opacity: sublineReveal, transform: `translateY(${sublineY}px)`}}>
               {subline.text}
             </div>
           ) : null}
@@ -286,3 +289,4 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes}) => {
     </AbsoluteFill>
   );
 };
+

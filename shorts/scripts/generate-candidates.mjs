@@ -97,7 +97,7 @@ const CameraSchema = z.object({
 
 const SceneSchema = z.object({
   visualStory: z.object({initial: z.string(), trigger: z.string(), change: z.string(), invariant: z.string(), result: z.string()}).nullable(),
-  diagramSpec: DiagramSpecSchema.extend({events: z.array(GeneratedDiagramEventSchema).max(120), physics: DiagramSpecSchema.shape.physics.unwrap(), nodes: z.array(DiagramSpecSchema.shape.nodes.element.extend({strokeStyle: z.enum(['solid', 'dashed']).nullable()})).min(1).max(40)}).nullable(),
+  diagramSpec: DiagramSpecSchema.extend({events: z.array(GeneratedDiagramEventSchema).max(120), physics: DiagramSpecSchema.shape.physics.unwrap(), nodes: z.array(DiagramSpecSchema.shape.nodes.element.extend({connector: DiagramSpecSchema.shape.nodes.element.shape.connector.unwrap(), strokeStyle: z.enum(['solid', 'dashed']).nullable()})).min(1).max(40)}).nullable(),
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
   layout: z.enum(LAYOUTS),
   visual: VisualSchema,
@@ -136,6 +136,9 @@ pins는 동적 물체를 고정할 세계 좌표 x/y와 target이다. 시소는 
 800x560 공간에 rect/circle/line/text 객체를 조합한다. x/y는 중심점이다. 가장자리 여백 40, 라벨은 짧게 유지한다.
 한글 간격: 영문 폭이나 글자 수만으로 배치를 확정하지 말고 Pretendard 한글과 받침을 고려해 보수적으로 공간을 확보한다. 여러 줄 본문 줄 높이는 1.5~1.7배를 초기 기준으로 삼는다.
 노드 라벨은 좌우 0.5em, 상하 0.35em 이상의 내부 여백을 계획하고 긴 한글은 의미 단위로 줄바꿈한다. 공간이 부족하면 노드와 주변 간격을 늘리고 글자만 축소하지 않는다.
+레이어 지침 리뷰: 배경/영역 채움/해칭 → 연결선 → 주요 객체 → 라벨/주석 → 핵심 강조/자막 순서를 기본으로 검토하되 의미에 따라 판단한다. nodes 배열 뒤쪽이 위에 그려지고 각 라벨은 해당 노드 그룹에 속한다. 후속 객체가 앞선 라벨을 덮지 않게 한다. visualStory.invariant 또는 choreography에 반드시 보일 것·가려도 되는 것·주요 앞뒤 관계를 명시하고 등장/이동/완료 상태를 모두 검토한다. z-index나 shape만으로 순서를 강제하지 않는다. 연결선 침범을 객체로 덮어 숨기지 않는다.
+도식 하드 검증: 라벨 최소 24px, 줄 높이 1.5, 좌우 0.5em/상하 0.35em 내부 여백, 라벨 간 0.25em 보호영역, 선 두께를 포함한 40-unit 안전영역을 모든 중간 상태에서 지킨다. 공간 부족은 노드 확대·문구 축약·배치 변경으로 해결한다. 겹치는 라벨, 선의 텍스트 침범, 다른 불투명 도형의 라벨 침범은 생성/렌더 오류다. 의도적인 영역 중첩은 라벨 보호영역 밖에서 fill=none/hatch로 표현한다.
+연결 관계인 line은 connector에 source/target 노드 ID, sourceSide/targetSide(left/right/top/bottom), gap(2~40)을 지정한다. 일반 선은 connector=null. 연결선 좌표는 엔진이 매 프레임 계산하므로 opacity만 애니메이션한다. 선 등장 전 opacity=0, 전체 길이를 유지하며 fade-in한다. scale이나 width/height로 점에서 선으로 키우지 않는다. 짧은 선의 방향이 뒤집히도록 width/height를 교차시키지 않는다.
 백엔드 연결 등 연결선은 노드 외곽에서 시작·종료하고, 라벨 경계에 0.25em 보호 여백을 더한 영역을 선·화살촉이 통과하지 않게 배치한다. 선의 설명 문구는 선과 분리한다.
 밑줄은 실제 글자 하단과 선 위쪽 사이에 글자 크기의 0.12~0.18배 이상 여백을 계획한다. 받침·선 두께·줄바꿈을 고려하고 밑줄과 다음 줄이 겹치지 않게 한다.
 이 수치는 배치 지침이며 schema에 없는 속성을 추가하지 않는다. 지원되는 노드 크기·위치와 choreography로 의도를 표현한다. 제목·도식·자막의 공간을 분리하고 이동·확대·밑줄 등장·연결선 그리기의 중간 상태까지 텍스트와 효과가 겹치지 않게 계획한다.

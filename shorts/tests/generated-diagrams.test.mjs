@@ -4,7 +4,6 @@ import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
 import {GeneratedDiagramEventSchema} from '../scripts/generated-diagram-schema.mjs';
 import {enrichVisuals} from '../scripts/resolve-visuals.mjs';
-import {describeCandidate} from '../scripts/describe-candidates.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
 const event = {target: 'node', property: 'scale', from: 1, to: 2, start: .2, end: .8};
@@ -27,7 +26,7 @@ test('structured output advertises property-specific scale, opacity and dimensio
   assert.ok(GeneratedDiagramEventSchema.safeParse({...event, from: .01, to: 4}).success);
 });
 
-test('invalid generated diagrams do not discard valid later scenes or candidate text', async () => {
+test('invalid generated diagrams fail instead of bypassing the gate with text fallback', async () => {
   for (const mutate of [
     s => {s.diagramSpec.events[0].from = 0;},
     s => {s.diagramSpec.events[0].to = 5;},
@@ -37,20 +36,20 @@ test('invalid generated diagrams do not discard valid later scenes or candidate 
   ]) {
     const invalid = scene(); mutate(invalid);
     const valid = scene();
-    const result = await enrichVisuals({title: '후보', scenes: [invalid, valid]}, {warn: () => {}});
-    assert.equal(result.scenes.length, 2);
-    assert.equal(result.scenes[0].visual.type, 'none');
-    assert.equal(result.scenes[0].diagramSpec, null);
-    assert.equal(result.scenes[0].headline, invalid.headline);
-    assert.equal(result.scenes[0].narration, invalid.narration);
-    assert.equal(result.scenes[0].visualResolution.reason, 'invalid-diagram');
-    assert.match(describeCandidate(result, 'candidate-01.json'), /도식 검증에 실패/);
-    assert.deepEqual(result.scenes[1].diagramSpec, valid.diagramSpec);
-    assert.doesNotThrow(() => validateDiagram(result.scenes[1].diagramSpec));
+    await assert.rejects(enrichVisuals({title: '후보', scenes: [invalid, valid]}, {warn: () => {}}), /Invalid diagram.*scene 1/);
+    assert.equal(invalid.headline, '핵심 문구');
   }
 });
 
 test('renderer continues rejecting invalid scale values', () => {
   const invalid = scene(); invalid.diagramSpec.events[0].from = 0;
   assert.throws(() => validateDiagram(invalid.diagramSpec), /Scale must be/);
+});
+
+
+test('valid generated geometry passes while layout violations stop generation', async () => {
+  const valid = scene(); valid.diagramSpec.nodes[0].x = 300; valid.diagramSpec.nodes[0].y = 250;
+  assert.equal((await enrichVisuals({title: '후보', scenes: [valid]})).scenes[0].visual.type, 'diagram');
+  const bad = scene();
+  await assert.rejects(enrichVisuals({title: '후보', scenes: [bad]}), /layout:safe-area/);
 });

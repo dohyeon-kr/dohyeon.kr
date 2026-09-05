@@ -3,7 +3,7 @@ import {Img, staticFile, useCurrentFrame} from 'remotion';
 import {validateDiagram, type DiagramSpec} from './diagram-spec';
 import {evaluatedDiagramState, selectDiagramEngine} from './physics';
 import {MotionCanvasDiagram} from './MotionCanvasDiagram';
-import {linePoints, nodeLabel} from './node-layout';
+import {linePoints, nodeLabel, LABEL_LINE_HEIGHT} from './node-layout';
 type Engine = 'remotion' | 'motion-canvas';
 type Props = {spec: DiagramSpec; durationInFrames: number; framesPath?: string | null; strict?: boolean; failEngine?: Engine};
 class EngineBoundary extends React.Component<{engine: Engine; strict: boolean; children: (engine: Engine) => React.ReactNode}, {error: Error | null}> {
@@ -13,6 +13,7 @@ class EngineBoundary extends React.Component<{engine: Engine; strict: boolean; c
     console.warn(`[diagram] ${this.props.engine} failed; using alternate backend: ${error.message}`);
   }
   render() {
+    if (this.state.error?.message.startsWith('[layout:')) throw this.state.error;
     if (this.state.error && this.props.strict) throw this.state.error;
     const engine = this.state.error ? (this.props.engine === 'remotion' ? 'motion-canvas' : 'remotion') : this.props.engine;
     // An error in the fallback escapes this boundary; never retry in a loop.
@@ -45,8 +46,9 @@ const EngineSurface: React.FC<Props & {engine: Engine}> = ({spec, durationInFram
         {node.shape === 'rect' && <rect x={-node.width / 2} y={-node.height / 2} width={node.width} height={node.height} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'circle' && <ellipse rx={node.width / 2} ry={node.height / 2} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'line' && <line x1={points[0][0]} x2={points[1][0]} y1={points[0][1]} y2={points[1][1]} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
-        {node.label && <text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily="Pretendard, sans-serif" fontSize={label.fontSize} fontWeight={800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * 1.12}>{text}</tspan>)}</text>}
+        {node.label && <text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily="Pretendard, sans-serif" fontSize={label.fontSize} fontWeight={800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * LABEL_LINE_HEIGHT}>{text}</tspan>)}</text>}
       </g>;
     })}
   </svg>;
 };
+

@@ -14,6 +14,7 @@ test('long headings fit the copy region and vertical lines keep their height', (
   const fitted = fitCopy('반복되는 마찰은\n방식을 돌아보라는 신호다', 808, 210, 98);
   assert.ok(fitted.text.split('\n').length * fitted.fontSize * 1.12 <= 210);
   assert.deepEqual(linePoints({width: 2, height: 220}), [[0, -110], [0, 110]]);
-  const label = nodeLabel({shape: 'rect', label: '애플리케이션 상태', width: 190, height: 70});
-  assert.ok(label.fontSize < 28 || label.text.includes('\n'));
+  assert.throws(() => nodeLabel({id: 'long', shape: 'rect', label: '애플리케이션 상태', width: 190, height: 70}), /label-padding/);
+  assert.ok(nodeLabel({id: 'long', shape: 'rect', label: '애플리케이션 상태', width: 240, height: 140}).fontSize >= 24);
 });
+
