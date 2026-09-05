@@ -24,6 +24,7 @@ export const DiagramSpecSchema = z.object({
     x: z.number().min(0).max(800), y: z.number().min(0).max(560),
     width: z.number().min(1).max(800), height: z.number().min(1).max(560),
     fill: z.enum(['white', 'gray', 'none', 'hatch']),
+    connector: z.object({source: z.string(), target: z.string(), sourceSide: z.enum(['left', 'right', 'top', 'bottom']), targetSide: z.enum(['left', 'right', 'top', 'bottom']), gap: z.number().min(2).max(40)}).nullable().optional(),
     strokeStyle: z.enum(['solid', 'dashed']).nullable().optional(),
   })).min(1).max(40),
   events: z.array(z.object({
@@ -50,7 +51,17 @@ export function validateDiagram(value: unknown): DiagramSpec {
       if (!bodyIds.has(pin.target) || spec.physics.bodies.find(b => b.target === pin.target)?.isStatic) throw new Error('Pin requires a dynamic body');
     }
   }
+  for (const node of spec.nodes) {
+    if (!node.connector) continue;
+    if (node.shape !== 'line' || node.connector.source === node.connector.target) throw new Error('Connector requires a line and distinct endpoints');
+    for (const id of [node.connector.source, node.connector.target]) {
+      const target = spec.nodes.find(n => n.id === id);
+      if (!target || !['rect', 'circle'].includes(target.shape)) throw new Error(`Invalid connector anchor: ${id}`);
+    }
+    if (spec.events.some(e => e.target === node.id && e.property !== 'opacity')) throw new Error('Connector geometry is owned by anchors; animate opacity only');
+  }
   for (const event of spec.events) {
+    if (spec.nodes.find(n => n.id === event.target)?.shape === 'line' && ['scale', 'width', 'height'].includes(event.property)) throw new Error('[layout:line-reveal] Keep line dimensions fixed; use opacity to reveal it');
     if (!ids.has(event.target)) throw new Error(`Unknown diagram target: ${event.target}`);
     if (bodyIds.has(event.target) && event.property !== 'opacity') throw new Error('Physics owns body transforms; only opacity may be animated');
     if (event.end <= event.start) throw new Error('Diagram event must have positive duration');
@@ -78,3 +89,4 @@ export function diagramState(spec: DiagramSpec, progress: number) {
     return {...node, ...state};
   });
 }
+

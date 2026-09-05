@@ -25,3 +25,12 @@ No arbitrary AI code, arbitrary paths, automatic layout or visual auto-repair. E
 Run npm test and npm run typecheck in shorts. CI renders initial/mid/final frames for SVG, strict Motion Canvas, automatic physics and forced failures in both directions, plus full template previews. Failed runs retain successfully rendered PNGs. Do not merge before render CI passes.
 
 References: https://brm.io/matter-js/docs/classes/Engine.html and https://brm.io/matter-js/docs/classes/Constraint.html.
+
+
+## Layout gate
+
+See creative-system.md 실행 가능한 레이아웃 규칙 for enforced limits and remaining visual review. Generation rejects invalid diagrams instead of converting them to text. render.mjs preflights shared evaluated geometry before TTS; SVG and Motion Canvas evaluate the same guards per frame, after physics and connector resolution. Cached frame assets require the render preflight; they do not execute browser diagram geometry again. Scene DOM text checks await fonts before capture.
+
+Nodes may have nullable connector: {source, target, sourceSide, targetSide, gap}. Only line nodes use connectors. Endpoints must name distinct rect/circle nodes. Anchored lines allow opacity events only. There is no automatic routing. Labels use a shared 24px minimum and 1.5 line height with reserved padding; errors require enlarging/rewording/repositioning. No generic bypass flag is available.
+
+Run node --test tests/layout-guard.test.mjs for geometry regressions. Full engine typecheck and rendered CI remain required before merge; unit tests are not visual verification.

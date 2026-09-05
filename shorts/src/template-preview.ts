@@ -22,11 +22,11 @@ const bottleneck: DiagramSpec = {
   nodes: [
     {id: 'gate', shape: 'rect', label: '병목', x: 520, y: 280, width: 80, height: 250, fill: 'gray'},
     ...Array.from({length: 5}, (_, i) => ({id: `item-${i}`, shape: 'circle' as const, label: '', x: 100, y: 160 + i * 60, width: 26, height: 26, fill: 'white' as const})),
-    {id: 'input-label', shape: 'text', label: '쌓이는 입력', x: 240, y: 80, width: 250, height: 40, fill: 'none'},
-    {id: 'output-label', shape: 'text', label: '열리는 흐름', x: 630, y: 80, width: 250, height: 40, fill: 'none'},
+    {id: 'input-label', shape: 'text', label: '쌓이는 입력', x: 240, y: 85, width: 250, height: 80, fill: 'none'},
+    {id: 'output-label', shape: 'text', label: '열리는 흐름', x: 630, y: 85, width: 250, height: 80, fill: 'none'},
   ],
   events: [
-    {target: 'gate', property: 'opacity', from: 1, to: .15, start: .50, end: .60},
+    {target: 'gate', property: 'opacity', from: 1, to: 0, start: .50, end: .60},
     ...Array.from({length: 5}, (_, i) => [
       {target: `item-${i}`, property: 'x' as const, from: 100, to: 440 - i * 42, start: .03, end: .35},
       {target: `item-${i}`, property: 'y' as const, from: 160 + i * 60, to: 280, start: .03, end: .35},
@@ -61,3 +61,4 @@ export const templatePreviewProps: RenderManifest = {
 
 export const previewSceneFrames = (s: RenderScene) => Math.max(66, Math.ceil(((s.audioDurationSeconds ?? 3.6) + .28) * 30));
 export const previewDuration = (props: RenderManifest) => props.scenes.reduce((sum, s) => sum + previewSceneFrames(s), 0);
+
