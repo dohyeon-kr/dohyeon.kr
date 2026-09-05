@@ -41,34 +41,45 @@ export function Trend({
           >
             <defs>
               <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#43765b" stopOpacity={0.18} />
-                <stop offset="100%" stopColor="#43765b" stopOpacity={0} />
+                <stop
+                  offset="0%"
+                  stopColor="var(--chart-current)"
+                  stopOpacity={0.18}
+                />
+                <stop
+                  offset="100%"
+                  stopColor="var(--chart-current)"
+                  stopOpacity={0}
+                />
               </linearGradient>
             </defs>
-            <CartesianGrid vertical={false} stroke="#e9ebe6" />
+            <CartesianGrid vertical={false} stroke="var(--chart-grid)" />
             <XAxis
               dataKey="day"
               axisLine={false}
               tickLine={false}
               minTickGap={35}
-              tick={{ fontSize: 12, fill: "#737b72" }}
+              tick={{ fontSize: 12, fill: "var(--chart-label)" }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
               allowDecimals={false}
               width={48}
-              tick={{ fontSize: 12, fill: "#737b72" }}
+              tick={{ fontSize: 12, fill: "var(--chart-label)" }}
             />
             <Tooltip
               formatter={(value) => number(value as number)}
-              contentStyle={{ borderRadius: 8, border: "1px solid #e0e4dc" }}
+              contentStyle={{
+                borderRadius: 8,
+                border: "1px solid var(--input)",
+              }}
             />
             <Area
               type="monotone"
               dataKey="previous"
               name="이전 기간"
-              stroke="#9ca49a"
+              stroke="var(--chart-previous)"
               strokeDasharray="4 5"
               fill="transparent"
               isAnimationActive={false}
@@ -77,7 +88,7 @@ export function Trend({
               type="monotone"
               dataKey="current"
               name="선택 기간"
-              stroke="#43765b"
+              stroke="var(--chart-current)"
               strokeWidth={2.5}
               fill="url(#fill)"
               isAnimationActive={false}

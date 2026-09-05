@@ -275,7 +275,7 @@ export default function App() {
       </a>
       <aside className="sidebar">
         <a className="brand" href="/">
-          d<span>log</span>
+          D<span>LOG</span>
           <i>.</i>
         </a>
         <div className="workspace">
