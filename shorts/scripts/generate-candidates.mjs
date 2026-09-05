@@ -163,7 +163,7 @@ renderer 선택은 표현력의 보장이 아니다. 두 엔진이 공유하는 
 
 Visual Resolver 원칙:
 - 키워드를 아이콘 하나로 치환하지 않는다. 먼저 문장의 핵심 관계가 무엇인지 visualIntent.relation에 적는다.
-- 시각 전략 우선순위는 simulation → graph → spatial-diagram → physical-metaphor → photo → icon 순이다. icon은 fallback이다.
+- 전역적인 매체 순위를 적용하지 않는다. 사물·장소·행동·분위기는 photo 우선, 수치·관계·변화는 graph/diagram/simulation/physical-metaphor를 선택한다. 문·문고리·방을 의미 없는 문 아이콘으로 치환하지 않는다. icon은 사진이나 도식보다 명확한 정보를 줄 때만 선택하고 근거를 적는다.
 - 변화량, 효율, 누적, 격차, 시간에 따른 변화는 graph를 적극적으로 사용한다.
 - 물리적 관계가 설명에 유리하면 physical-metaphor를 쓴다. 특히 leverage는 상승 화살표가 아니라 지렛대/시소처럼 작은 힘이 큰 결과를 움직이는 관계로 표현한다.
 - 병목은 flow가 좁은 관문에서 밀리는 모습, balance/trade-off는 실제로 기울어지는 구조, accumulation은 쌓이는 구조, convergence는 여러 경로가 모이는 구조를 우선한다.
@@ -207,10 +207,10 @@ Motion / choreography 원칙:
 
 layout 원칙:
 - 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
-- 구체적인 맥락에 도움이 되는 사진을 사용하되 도식의 전후 설명을 사진 수 할당 때문에 끊지 않는다. 모든 사진을 full-bleed로 만들지 말고 photo-strip 등 사진과 문구가 분리된 배치를 포함한다.
+- 구체적인 맥락에 도움이 되는 사진을 사용하되 도식의 전후 설명을 사진 수 할당 때문에 끊지 않는다. 사진과 설명을 분리하는 것이 의미 전달과 가독성에 유리할 때 photo-strip/split을 사용한다. 배치 종류를 채우기 위한 변주는 하지 않는다.
 - 도식 라벨은 한글 2~6자로 짧게 쓴다. 긴 영문 용어는 본문에서 설명한다. line의 width가 길이이고 기본은 가로선이며 세로선은 height를 길게 쓴다. 대각선은 rotation 이벤트의 from/to를 같은 각도로 지정한다.
 - 같은 시스템의 전후 비교는 layout과 노드 좌표를 유지한다. 그 외 장면은 사진/비교/큰 문장으로 리듬을 바꾼다.
-- photo-full-bleed는 강한 전환에만 사용하고 영상당 최대 1~2회.
+- 공간감·분위기·구체적인 피사체가 핵심인 사진은 photo-full-bleed를 우선 검토한다. 횟수 상한은 두지 않는다. 클로즈업/문/방처럼 샷 크기와 피사체로 리듬을 만든다. 9:16 크롭, 흑백 명암, 오버레이, 제목·자막 가독성을 함께 계획한다.
 - diagram-centered는 그래프/도식/물리 비유가 중심인 장면에 사용한다.
 - statement-giant는 강한 한 문장에만 제한적으로 사용한다.
 - compare-columns / compare-versus는 진짜 비교 관계가 있을 때만 사용한다.
