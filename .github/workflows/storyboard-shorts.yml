@@ -146,7 +146,7 @@ jobs:
             --draft)"
 
           # Draft assets use an untagged URL, not the requested release tag.
-          node shorts/scripts/repair-storyboard-links.mjs "${TAG_NAME}"
+          node shorts/scripts/repair-storyboard-links.mjs "${release_url##*/}"
 
           # Reuse the URL returned by creation: draft tags cannot be looked up reliably.
           {
