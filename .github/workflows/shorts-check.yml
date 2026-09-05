@@ -25,6 +25,15 @@ jobs:
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
+      - name: Prepare audio tools
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
+
       - name: Prepare preview fonts
         run: |
           mkdir -p shorts/public/fonts

@@ -38,12 +38,14 @@ jobs:
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
-      - name: Ensure ffprobe is available
+      - name: Ensure audio tools are available
         run: |
-          if ! command -v ffprobe >/dev/null 2>&1; then
+          if ! command -v ffprobe >/dev/null 2>&1 || ! command -v ffmpeg >/dev/null 2>&1; then
             sudo apt-get update
             sudo apt-get install -y ffmpeg
           fi
+          ffmpeg -version
+          ffprobe -version
 
       - name: Resolve manifests
         id: manifests
