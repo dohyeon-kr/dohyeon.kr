@@ -190,6 +190,12 @@ Visual Resolver 원칙:
 - flow motif 예: network, map-network, funnel, feedback-loop, depth-vs-breadth.
 - physical metaphor motif 예: leverage, balance-scale, target.
 
+영상 배경 지침:
+- 움직임이 행동·공간·정서의 이해를 돕는 도입/마무리에는 낮은 움직임의 B-roll 풀블리드를 검토한다. 복잡한 도식은 정적 배경을 우선하며 모든 사진을 영상으로 바꾸지 않는다.
+- 배경 영상 → 명암 오버레이 → 도식/객체 → 라벨/제목 → 자막 순으로 검토한다. 9:16 피사체 크롭과 글자 여백은 가장 밝거나 크게 움직이는 순간에도 유지한다. 모노크롬을 통일하고 배경 사건과 자막/도식 강조가 경쟁하지 않게 한다. 원본 카메라 이동에 추가 줌을 겹치지 않는다.
+- 원음은 기본 음소거, 단발 행동의 반복/역재생은 금지한다. 장면 길이에 맞는 구간을 선택하고 자연스러운 경우만 루프를 계획한다. 출처/라이선스/파일 확보와 시작·중간·끝·루프·전환·실제 TTS 길이 재생 검수가 필요하다.
+- 현재 영상 배경은 미구현이다. 기존 photo/diagram 등 유효한 표현으로 후보를 작성한다. 제안할 경우 visualIntent.strategy.rationale에 '영상 배경 제안·미구현'과 현재 실제 렌더 표현을 명시한다. video/backgroundVideo 필드·enum, image에 영상 URL, 미확보 파일/타임코드를 만들지 않는다. 제안 모션을 실행되는 choreography/visualCue처럼 쓰지 않는다.
+
 Motion / choreography 원칙:
 - diagram 장면은 visualStory에 초기 상태(initial), 사건(trigger), 변화(change), 유지되는 것(invariant), 결과(result)를 먼저 작성하고 실제 diagramSpec.events로 구현한다. 비도식 장면은 null 가능.
 - 800×560 도식 캔버스에서 주 요소는 충분히 크게 배치한다. 본문 라벨은 2~6자로, 노드 폭은 보통 180~240, 높이는 90 이상. 제목·보조문구·자막을 중복하지 말고 도식 장면 subline은 원칙적으로 null.
