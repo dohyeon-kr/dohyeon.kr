@@ -6,6 +6,9 @@ import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
 import {DiagramSpecSchema} from '../src/visuals/diagram-spec.ts';
+import {TRANSITIONS} from '../src/motion/schema.ts';
+import {GeneratedLightEffectSchema, GeneratedTransitionOptionsSchema} from './generated-motion-schema.mjs';
+import {validateSceneMotion} from '../src/motion/validate.ts';
 import {GeneratedDiagramEventSchema} from './generated-diagram-schema.mjs';
 import {enrichVisuals} from './resolve-visuals.mjs';
 
@@ -29,7 +32,6 @@ const LAYOUTS = [
   'outro-minimal',
 ];
 
-const TRANSITIONS = ['fade', 'slide-up', 'slide-left', 'zoom', 'wipe', 'none'];
 const RELATION_TYPES = [
   'literal',
   'comparison',
@@ -105,6 +107,8 @@ const SceneSchema = z.object({
   visual: VisualSchema,
   visualIntent: VisualIntentSchema,
   transition: z.enum(TRANSITIONS),
+  transitionOptions: GeneratedTransitionOptionsSchema.nullable(),
+  effects: z.array(GeneratedLightEffectSchema).max(4),
   camera: CameraSchema,
   choreography: z.array(z.string()),
   beats: z.array(BeatSchema),
@@ -238,6 +242,14 @@ layout 원칙:
 - Shorts/Reels UI가 덮는 오른쪽 액션 바와 하단 영역에는 핵심 텍스트나 도식을 배치하지 않는 전제를 따른다.
 
 transition 원칙:
+- blur-dissolve는 부드러운 블러 연결, directional-blur는 방향 이동, zoom-blur는 중심 확대, defocus-refocus는 초점 재설정이다. cross-dissolve, dip-to-black/white, push, iris-reveal, luma-wipe, light-wipe, light-leak-transition, film-burn도 지원한다.
+- transitionOptions는 보통 null(400ms 기본)이다. 조절할 때 durationMs, intensity(0~1), direction, matchTarget(null 기본)을 지정한다. none은 진입·퇴장 없는 컷이다.
+- match-cut은 인접 diagram-centered 장면에서 같은 matchTarget 노드의 이전 최종 좌표·크기·회전·불투명도와 다음 초기 상태가 정확히 일치할 때만 사용한다. 애매하면 none을 쓴다.
+- effects는 기본 []이며 의미를 강화할 때만 1개를 쓴다. 각 항목은 type, target, startMs, durationMs, intensity(0~1), color(#ffffff), seed(0~65535)를 지정한다. 시간은 장면 시작 기준 ms다.
+- flow-glow는 line 노드 ID를 target으로 지정하면 선을 따라 밝은 펄스와 방사형 광채가 흐른다. 이동하는 circle ID를 지정하면 그 원을 따라 광채가 붙는다. 데이터·신호·에너지 전달에 사용한다. 시작값 intensity=.8, startMs=600, durationMs=1000이다.
+- glow, bloom, rim-light, light-sweep는 photo/visual 또는 도식의 도형 ID에 적용한다. 글자 노드는 대상이 아니다. light-leak, lens-flare, light-streak, light-rays, spotlight, glint는 background/photo/visual에만 적용한다.
+- source가 없는 background에는 glow/bloom/rim-light/light-sweep를 쓰지 않는다. photo 대상은 사진 장면, visual 대상은 도식/상징/숫자 장면에서만 쓴다.
+- 조명은 흰색과 낮은 강도(.15~.35)가 기본이다. 라이트 효과는 자막·도식 라벨 위를 덮지 않는다. dip-to-white/film-burn/lens-flare는 뚜렷한 연출 이유 없이 선택하지 않는다.
 - fade는 차분한 연결, slide-up은 단계 진행, slide-left는 이동/비교, zoom은 확대 의미, wipe는 도식/논리 전환에 제한적으로 사용한다.
 - 같은 도식의 전후 상태를 이어 설명할 때는 fade를 연속 사용해도 된다. 의미 없는 전환 변주는 피한다.
 - zoom/wipe를 모든 씬에 반복하지 않는다.
@@ -402,6 +414,7 @@ const main = async () => {
       },
       scenes: candidate.scenes,
     };
+    manifest.scenes.forEach((scene, i) => validateSceneMotion(scene, manifest.scenes[i - 1]));
     await fs.writeFile(path.join(outputDir, `${manifest.id}.json`), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
   }
 

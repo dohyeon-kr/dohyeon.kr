@@ -61,12 +61,19 @@ jobs:
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/04-type.png" --public-dir=public --frame=680
           node scripts/render-template-preview.mjs "${RUNNER_TEMP}/shorts-integrated-preview" --silent
 
+      - name: Render transitions and light effects
+        working-directory: shorts
+        run: node scripts/verify-motion-render.mjs
+
       - name: Upload template preview frames
         if: ${{ always() }}
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
           name: shorts-template-preview-${{ github.event.pull_request.number }}
           path: |
+            shorts/out/motion-effects/*.png
+            shorts/out/motion-effects/*.mp4
+            shorts/out/motion-effects/samples.json
             ${{ runner.temp }}/shorts-template-preview/*.png
             ${{ runner.temp }}/shorts-template-preview/*.mp4
             ${{ runner.temp }}/shorts-integrated-preview/*.png

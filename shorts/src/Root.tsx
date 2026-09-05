@@ -2,6 +2,8 @@ import React from 'react';
 import {templatePreviewProps, previewDuration} from './template-preview';
 import {Composition} from 'remotion';
 import {ShortVideo} from './ShortVideo';
+import {DarkShortVideo} from './DarkShortVideo';
+import {motionPreviewProps, motionGalleryProps, flowDiagram, light} from './motion-preview';
 import type {RenderManifest, RenderScene} from './types';
 import {DiagramRenderer} from './visuals/DiagramRenderer';
 import {physicsExample} from './visuals/physics-example';
@@ -81,6 +83,10 @@ const defaultProps: RenderManifest = {
 
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="MotionEffectsPreview" component={ShortVideo} durationInFrames={previewDuration(motionPreviewProps)} fps={30} width={1080} height={1920} defaultProps={motionPreviewProps} />
+    <Composition id="MotionEffectsGallery" component={ShortVideo} durationInFrames={previewDuration(motionGalleryProps)} fps={30} width={1080} height={1920} defaultProps={motionGalleryProps} />
+    <Composition id="DarkMotionEffectsPreview" component={DarkShortVideo} durationInFrames={previewDuration(motionPreviewProps)} fps={30} width={1080} height={1920} defaultProps={motionPreviewProps} />
+    <Composition id="FlowGlowPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: flowDiagram, durationInFrames: 120, effects: [light('flow-glow', 'connection', {intensity: 1, radius: 36})]}} />
     <Composition id="DiagramPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: diagramExample, durationInFrames: 120}} />
     <Composition id="MotionCanvasPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: {...diagramExample, renderer: 'motion-canvas' as const}, durationInFrames: 120, strict: true}} />
     <Composition id="PhysicsPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: physicsExample, durationInFrames: 120, strict: true}} />

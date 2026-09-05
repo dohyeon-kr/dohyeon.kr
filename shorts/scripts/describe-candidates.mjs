@@ -12,6 +12,11 @@ const labels = {
   simulation: '시뮬레이션', graph: '그래프', 'spatial-diagram': '공간 도식',
   'physical-metaphor': '물리적 비유', icon: '아이콘', number: '숫자', minimal: '문장 중심',
   fade: '서서히 전환', 'slide-up': '위로 밀며 전환', 'slide-left': '왼쪽으로 밀며 전환',
+  'blur-dissolve': '블러 디졸브', 'directional-blur': '방향성 블러', 'zoom-blur': '줌 블러', 'defocus-refocus': '초점 전환',
+  'cross-dissolve': '겹쳐 전환', 'dip-to-black': '검게 닫았다 열기', 'dip-to-white': '흰색으로 닫았다 열기',
+  'iris-reveal': '원형으로 열기', 'luma-wipe': '밝기 매트로 열기', 'match-cut': '대응 도형을 맞춘 컷', 'light-wipe': '빛으로 열기', 'light-leak-transition': '누광 전환', 'film-burn': '필름 번짐',
+  'light-sweep': '표면을 훑는 빛', 'light-leak': '가장자리 누광', glow: '광채', bloom: '하이라이트 번짐', 'lens-flare': '렌즈 플레어',
+  'light-streak': '빛줄기', 'light-rays': '방사 광선', spotlight: '스포트라이트', glint: '반짝임', 'rim-light': '외곽 광채', 'flow-glow': '경로를 흐르는 빛',
   zoom: '확대', wipe: '쓸어내며 전환', none: '없음', static: '고정',
   'push-in': '다가가기', 'pull-out': '멀어지기', 'pan-left': '왼쪽 이동', 'pan-right': '오른쪽 이동',
   center: '중앙', endpoint: '끝 지점', inflection: '변곡점', subject: '주요 대상', detail: '세부',
@@ -99,7 +104,9 @@ export function describeCandidate(manifest, filename) {
       for (const pin of spec.physics.pins ?? []) out.push(`- ${name(pin.target)}에 회전 지점 고정`);
     }
     out.push('', `카메라: ${label(scene.camera?.motion)}${scene.camera?.motion && scene.camera.motion !== 'static' ? ` · ${label(scene.camera.target)} · ${label(scene.camera.intensity)}` : ''}`,
-      '', `장면 전환: ${label(scene.transition)}`, '', '**자막과 낭독 리듬**', '');
+      '', `장면 전환: ${scene.transition === 'push' ? '화면 밀어내기' : label(scene.transition)}${scene.transitionOptions ? ` · ${scene.transitionOptions.durationMs ?? 400}ms · 강도 ${scene.transitionOptions.intensity ?? .35}${scene.transitionOptions.matchTarget ? ` · 대응 대상 ${md(scene.transitionOptions.matchTarget)}` : ''}` : ''}`);
+    if (scene.effects?.length) out.push('', '라이트 효과:', '', ...scene.effects.map(effect => `- ${label(effect.type)} · 대상 ${md(effect.target)} · ${effect.startMs}ms부터 ${effect.durationMs}ms · 강도 ${effect.intensity}${effect.repeat ? ' · 반복' : ''}`));
+    out.push('', '**자막과 낭독 리듬**', '');
     if (!scene.beats?.length) out.push('의미 단위 자막이 지정되지 않았습니다. 렌더러의 기본 분할 규칙을 사용합니다.');
     for (const [i, beat] of (scene.beats ?? []).entries()) {
       out.push(`${i + 1}. ${beat.emphasis === 'high' ? `**${md(beat.text)}**` : md(beat.text)}`,

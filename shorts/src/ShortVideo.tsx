@@ -1,5 +1,8 @@
 import React, {useRef} from 'react';
 import {useLayoutCheck} from './use-layout-check';
+import {SceneTransitionStage, type SceneLayer} from './motion/SceneTransition';
+import {LightEffects} from './motion/LightEffects';
+import {validateSceneMotion} from './motion/validate';
 import {
   AbsoluteFill,
   Html5Audio,
@@ -83,34 +86,6 @@ const fallbackTransition = (scene: RenderScene, index: number): SceneTransition 
   if (scene.transition) return scene.transition;
   const defaults: SceneTransition[] = ['fade', 'slide-up', 'slide-left', 'wipe', 'fade'];
   return defaults[index % defaults.length];
-};
-
-const transitionMotion = (
-  transition: SceneTransition,
-  frame: number,
-  durationInFrames: number,
-): React.CSSProperties => {
-  const enter = interpolate(frame, [0, 12], [0, 1], clampInterpolation);
-  const exitStart = Math.max(12, durationInFrames - 9);
-  const exit = interpolate(frame, [exitStart, durationInFrames], [1, 0], clampInterpolation);
-  const opacity = transition === 'none' ? exit : enter * exit;
-  if (transition === 'slide-up') {
-    const y = interpolate(frame, [0, 16], [44, 0], clampInterpolation);
-    return {opacity, transform: `translateY(${y}px)`};
-  }
-  if (transition === 'slide-left') {
-    const x = interpolate(frame, [0, 16], [56, 0], clampInterpolation);
-    return {opacity, transform: `translateX(${x}px)`};
-  }
-  if (transition === 'zoom') {
-    const scale = interpolate(frame, [0, 18], [0.97, 1], clampInterpolation);
-    return {opacity, transform: `scale(${scale})`};
-  }
-  if (transition === 'wipe') {
-    const rightInset = interpolate(frame, [0, 18], [100, 0], clampInterpolation);
-    return {opacity: exit, clipPath: `inset(0 ${rightInset}% 0 0)`};
-  }
-  return {opacity};
 };
 
 const eventStartFrame = (scene: RenderScene, event: string, fallback: number) => {
@@ -202,17 +177,17 @@ const ComparePanel: React.FC<{scene: RenderScene; reveal: number; versus: boolea
   </div>
 );
 
-const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; sourceTitle: string; durationInFrames: number}> = ({scene, index, total, sourceTitle, durationInFrames}) => {
+const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number; total: number; sourceTitle: string; durationInFrames: number}> = ({scene, index, total, sourceTitle, durationInFrames, layer}) => {
   const frame = useCurrentFrame();
   const layoutRoot = useRef<HTMLDivElement>(null);
   useLayoutCheck(layoutRoot, frame);
   const visual = fallbackVisual(scene);
   const layout = fallbackLayout(scene, visual);
-  const transition = fallbackTransition(scene, index);
+
   const photo = visual.type === 'photo';
   const isCompare = !scene.diagramSpec && (layout === 'compare-columns' || layout === 'compare-versus');
   const hasPresetVisual = Boolean(scene.diagramSpec) || visual.type === 'diagram' || visual.type === 'symbol' || visual.type === 'number';
-  const visualReveal = eventProgress(scene, 'show-visual', frame, 5, 14);
+  const visualReveal = scene.transition === 'match-cut' ? 1 : eventProgress(scene, 'show-visual', frame, 5, 14);
   const compareReveal = eventProgress(scene, 'show-visual', frame, 6, 18);
   const headlineReveal = eventProgress(scene, 'show-headline', frame, hasPresetVisual || isCompare ? 14 : 6, 13);
   const sublineReveal = eventProgress(scene, 'show-subline', frame, hasPresetVisual || isCompare ? 22 : 15, 13);
@@ -226,30 +201,31 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
   const subline = fitCopy(scene.subline ?? '', SAFE_CONTENT_WIDTH - 20, 78, 30);
 
   return (
-    <AbsoluteFill ref={layoutRoot} style={{background: BLACK, color: WHITE, overflow: 'hidden'}}>
-      <AbsoluteFill style={{background: BLACK, color: WHITE, fontFamily: 'Pretendard, Arial, sans-serif', overflow: 'hidden', transformOrigin: 'center center', ...transitionMotion(transition, frame, durationInFrames)}}>
+    <AbsoluteFill ref={layoutRoot} style={{background: layer === 'visual' ? BLACK : undefined, color: WHITE, overflow: 'hidden'}}>
+      <AbsoluteFill style={{color: WHITE, fontFamily: 'Pretendard, Arial, sans-serif', overflow: 'hidden', transformOrigin: 'center center'}}>
+        {layer === 'visual' && <LightEffects effects={scene.effects?.filter(e => e.target === 'background')} />}
         <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;font-display:swap;} @font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Regular.woff')}') format('woff');font-weight:300 600;font-style:normal;font-display:swap;}`}</style>
 
-        {photo ? (
+        {layer === 'visual' && photo ? (
           <>
             <div style={layout === 'photo-full-bleed' ? {position: 'absolute', inset: 0} : {position: 'absolute', top: CONTENT_TOP + 10, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, height: 520, overflow: 'hidden'}}>
-              <PhotoCover scene={scene} frame={frame} index={index} />
+              <LightEffects effects={scene.effects?.filter(e => e.target === 'photo')}><PhotoCover scene={scene} frame={frame} index={index} /></LightEffects>
             </div>
             {layout === 'photo-full-bleed' ? <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.08) 36%, rgba(0,0,0,.86) 78%, rgba(0,0,0,.96) 100%)'}} /> : null}
           </>
         ) : null}
 
-        <BlogChrome index={index} total={total} sourceTitle={sourceTitle} />
+        {layer === 'text' && <BlogChrome index={index} total={total} sourceTitle={sourceTitle} />}
 
         {hasPresetVisual && !isCompare && !photo ? (
           <div data-layout="visual" style={{position: 'absolute', top: CONTENT_TOP + 10, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 22, height: 566, opacity: visualReveal, transform: `translateY(${(1 - visualReveal) * 20}px) scale(${0.985 + visualReveal * 0.015})`, transformOrigin: 'center center'}}>
-            {scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} durationInFrames={durationInFrames} framesPath={scene.diagramFramesPath} /> : <PresetVisual visual={visual} camera={scene.camera} durationInFrames={durationInFrames} />}
+            {layer === 'visual' ? <LightEffects effects={scene.effects?.filter(e => e.target === 'visual')}>{scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} effects={scene.effects?.filter(e => !['visual', 'background', 'photo'].includes(e.target))} layer="geometry" durationInFrames={durationInFrames} /> : <PresetVisual visual={visual} camera={scene.camera} durationInFrames={durationInFrames} />}</LightEffects> : scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} layer="labels" durationInFrames={durationInFrames} /> : null}
           </div>
         ) : null}
 
-        {isCompare ? <ComparePanel scene={scene} reveal={compareReveal} versus={layout === 'compare-versus'} /> : null}
+        {layer === 'text' && isCompare ? <ComparePanel scene={scene} reveal={compareReveal} versus={layout === 'compare-versus'} /> : null}
 
-        <div data-layout="copy" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: headingTop, zIndex: 20}}>
+        {layer === 'text' && <><div data-layout="copy" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: headingTop, zIndex: 20}}>
           <div data-layout-text="headline" style={{fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.12, letterSpacing: '-0.045em', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', textShadow: photo ? '0 4px 30px rgba(0,0,0,.58)' : 'none', opacity: headlineReveal, transform: `translateY(${headlineY}px)`}}>
             {heading.text}
           </div>
@@ -265,7 +241,7 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
 
         <div style={{position: 'absolute', bottom: SAFE_BOTTOM + 16, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 28, height: 3, background: DARK_GRAY, zIndex: 30}}>
           <div style={{width: `${((index + 1) / total) * 100}%`, height: '100%', background: WHITE}} />
-        </div>
+        </div></>}
       </AbsoluteFill>
     </AbsoluteFill>
   );
@@ -276,12 +252,16 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes}) => {
   return (
     <AbsoluteFill style={{background: BLACK}}>
       {scenes.map((scene, index) => {
+        validateSceneMotion(scene, scenes[index - 1]);
         const durationInFrames = sceneFrames(scene);
         const from = cursor;
         cursor += durationInFrames;
         return (
           <Sequence key={`${index}-${scene.headline}`} from={from} durationInFrames={durationInFrames}>
-            <SceneFrame scene={scene} index={index} total={scenes.length} sourceTitle={source.title} durationInFrames={durationInFrames} />
+            <SceneTransitionStage type={fallbackTransition(scene, index)} options={scene.transitionOptions} durationInFrames={durationInFrames}
+              previousFrames={index > 0 ? sceneFrames(scenes[index - 1]) : undefined}
+              previous={index > 0 ? layer => <SceneFrame layer={layer} scene={scenes[index - 1]} index={index - 1} total={scenes.length} sourceTitle={source.title} durationInFrames={sceneFrames(scenes[index - 1])} /> : undefined}
+              current={layer => <SceneFrame layer={layer} scene={scene} index={index} total={scenes.length} sourceTitle={source.title} durationInFrames={durationInFrames} />} />
             {scene.audioPath ? <Html5Audio src={staticFile(scene.audioPath)} /> : null}
           </Sequence>
         );

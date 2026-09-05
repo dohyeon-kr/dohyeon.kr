@@ -16,7 +16,8 @@ export type SceneLayout =
 
 export type VisualType = 'photo' | 'diagram' | 'symbol' | 'number' | 'none';
 
-export type SceneTransition = 'fade' | 'slide-up' | 'slide-left' | 'zoom' | 'wipe' | 'none';
+export type {SceneTransition} from './motion/schema';
+import type {SceneTransition, TransitionOptions, LightEffect} from './motion/schema';
 
 export type SubtitleEmphasis = 'low' | 'mid' | 'high';
 export type SubtitleDelivery = 'normal' | 'push' | 'hold' | 'drop';
@@ -118,6 +119,8 @@ export type CandidateScene = {
   visual?: SceneVisual;
   visualIntent?: VisualIntent | null;
   transition?: SceneTransition;
+  transitionOptions?: TransitionOptions | null;
+  effects?: LightEffect[] | null;
   camera?: SceneCamera | null;
   choreography?: string[];
   beats?: SubtitleBeat[];

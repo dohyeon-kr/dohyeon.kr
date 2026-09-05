@@ -5,6 +5,7 @@ import {spawn} from 'node:child_process';
 import OpenAI from 'openai';
 import {mixBgm} from './bgm.mjs';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
+import {validateSceneMotion} from '../src/motion/validate.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
@@ -312,7 +313,8 @@ const main = async () => {
   }
 
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
-  for (const scene of manifest.scenes) {
+  for (const [index, scene] of manifest.scenes.entries()) {
+    validateSceneMotion(scene, manifest.scenes[index - 1]);
     if (!scene.diagramSpec) continue;
     validateDiagramLayout(validateDiagram(scene.diagramSpec));
     if (scene.visual?.type === 'photo') throw new Error('Photo and diagramSpec cannot share a scene');
