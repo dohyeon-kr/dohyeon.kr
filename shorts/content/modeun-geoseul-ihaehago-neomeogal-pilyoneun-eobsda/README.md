@@ -1,11 +1,28 @@
-# Shorts candidate — 모든 것을 이해하고 넘어갈 필요는 없다
+# 숏츠 후보 스토리보드
 
-Source: https://blog.dohyeon.kr/modeun-geoseul-ihaehago-neomeogal-pilyoneun-eobsda/
+각 후보의 스토리보드를 열어 대본, 화면 구성, 도식의 변화, 자막 리듬을 검토하세요. 원본 JSON을 수정한 경우 이 문서도 다시 생성해야 합니다.
 
-Selected candidate:
+## candidate-01 · 모르는 부분을 남겨두는 기술
 
-1. [92] 끝까지 이해해야 제대로 배우는 걸까? — counterargument
+**첫 문장:** 흐릿하게 아는 건, 실패한 지식이 아니다.
 
-This version keeps candidate 02 as the core, incorporates the goal-drift example from candidate 03, and adds the learning-debt-as-leverage takeaway near the end.
+불완전한 이해를 학습 부채로 보는 생각에 반박하고, 저해상도 지식은 나중에 확대할 위치를 알려주는 인덱스이며 적절한 시점까지 이해를 미루는 것도 비용을 줄이는 선택이라는 논점에 집중한다.
 
-Merge this PR to generate scene-by-scene storyboard snapshots. Render the final video manually only after approving them.
+[스토리보드 읽기](candidate-01.md) · [원본 JSON](candidate-01.json) · 8장면
+
+## candidate-02 · 완벽한 설명보다 먼저 필요한 것
+
+**첫 문장:** 공부의 시작은 정확한 사실이 아니라, 쓸 수 있는 뼈대다.
+
+학습 초기에 필요한 것을 사실 암기에서 ‘다음 개념을 받아들일 멘탈 모델’로 재정의한다. 데이터베이스 동시성 예시를 통해 불완전한 그림이 후속 개념을 연결하는 뼈대로 작동하는 과정만 다룬다.
+
+[스토리보드 읽기](candidate-02.md) · [원본 JSON](candidate-02.json) · 8장면
+
+## candidate-03 · 한 점을 완벽히 이해하는 비용
+
+**첫 문장:** 완전히 이해할수록, 정말 더 잘 배우는 걸까?
+
+완전한 이해를 미덕으로 보는 통념에 질문을 던지고, 제한된 시간 안에서는 세부의 완성도보다 전체 구조와 연결을 먼저 확보하는 편이 학습 ROI가 높을 수 있다는 한 가지 논점에 집중한다.
+
+[스토리보드 읽기](candidate-03.md) · [원본 JSON](candidate-03.json) · 6장면
+

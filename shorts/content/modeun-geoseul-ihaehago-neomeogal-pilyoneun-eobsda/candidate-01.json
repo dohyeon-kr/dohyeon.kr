@@ -1,0 +1,1309 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/modeun-geoseul-ihaehago-neomeogal-pilyoneun-eobsda/",
+    "title": "모든 것을 이해하고 넘어갈 필요는 없다"
+  },
+  "candidate": {
+    "angle": "counterargument",
+    "hook": "흐릿하게 아는 건, 실패한 지식이 아니다.",
+    "title": "모르는 부분을 남겨두는 기술",
+    "rationale": "불완전한 이해를 학습 부채로 보는 생각에 반박하고, 저해상도 지식은 나중에 확대할 위치를 알려주는 인덱스이며 적절한 시점까지 이해를 미루는 것도 비용을 줄이는 선택이라는 논점에 집중한다.",
+    "viralScore": 9,
+    "suggestedCaption": "모든 정보를 지금 4K로 만들 필요는 없다. 전체 지도와 확대할 위치가 남아 있다면, 흐릿한 지식도 다음 학습을 위한 인덱스다.",
+    "hashtags": [
+      "#공부법",
+      "#학습전략",
+      "#개발자성장",
+      "#지식관리",
+      "#커리어"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "visualStory": {
+        "initial": "저해상도의 전체 지도와 선명한 작은 표식이 보인다.",
+        "trigger": "흐릿함을 실패로 판정하려 한다.",
+        "change": "표식에서 확대 영역을 가리키는 프레임이 나타난다.",
+        "invariant": "전체 방향과 표식의 위치는 이미 남아 있다.",
+        "result": "흐릿한 지도는 미래 탐색을 위한 인덱스로 재해석된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "흐릿한 전체 지도에 확대할 위치 표식이 남아 있는 도식.",
+        "nodes": [
+          {
+            "id": "map",
+            "shape": "rect",
+            "label": "전체 지도",
+            "x": 400,
+            "y": 280,
+            "width": 620,
+            "height": 380,
+            "fill": "hatch",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "area1",
+            "shape": "rect",
+            "label": "알고 있음",
+            "x": 240,
+            "y": 220,
+            "width": 190,
+            "height": 110,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "area2",
+            "shape": "rect",
+            "label": "흐릿함",
+            "x": 520,
+            "y": 330,
+            "width": 220,
+            "height": 130,
+            "fill": "none",
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "mark",
+            "shape": "circle",
+            "label": "확대 위치",
+            "x": 520,
+            "y": 330,
+            "width": 90,
+            "height": 90,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "index",
+            "shape": "text",
+            "label": "미래 인덱스",
+            "x": 520,
+            "y": 455,
+            "width": 220,
+            "height": 50,
+            "fill": "none",
+            "strokeStyle": null
+          }
+        ],
+        "events": [
+          {
+            "target": "mark",
+            "property": "scale",
+            "from": 0.7,
+            "to": 1.25,
+            "start": 0.22,
+            "end": 0.42
+          },
+          {
+            "target": "area2",
+            "property": "width",
+            "from": 90,
+            "to": 220,
+            "start": 0.34,
+            "end": 0.58
+          },
+          {
+            "target": "area2",
+            "property": "height",
+            "from": 70,
+            "to": 130,
+            "start": 0.34,
+            "end": 0.58
+          },
+          {
+            "target": "index",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "low-resolution-map",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "흐릿한 지식은 나중에 살펴볼 위치를 남기는 인덱스다.",
+        "relation": {
+          "type": "zoom-depth",
+          "description": "전체 지도는 낮은 해상도지만 확대할 위치는 표식으로 유지된다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "표식이 남은 저해상도 지도",
+          "rationale": "흐림 아이콘보다 전체 맥락과 미래 확대 위치가 동시에 존재하는 지도를 보여주는 편이 재해석을 명확히 한다."
+        }
+      },
+      "transition": "zoom",
+      "camera": {
+        "motion": "zoom",
+        "target": "detail",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 0.7
+      },
+      "choreography": [
+        "show-headline",
+        "show-visual",
+        "advance-visual",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "흐릿하게 아는 건,",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "push",
+          "visualPriority": "mid",
+          "keyword": "흐릿하게",
+          "visualCue": "저해상도 전체 지도가 나타난다."
+        },
+        {
+          "text": "실패한 지식이 아니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "아니다",
+          "visualCue": "확대 위치 표식과 ‘미래 인덱스’가 드러난다."
+        }
+      ],
+      "headline": "흐릿한 지식은\n실패가 아니다",
+      "subline": null,
+      "narration": "흐릿하게 아는 건, 실패한 지식이 아니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "하나의 지점만 매우 선명한 지도와 흐릿한 전체 지도가 나란히 있다.",
+        "trigger": "목적지를 찾아 이동해야 한다.",
+        "change": "부분 지도에서는 경로가 끊기고 전체 지도에서는 방향선이 이어진다.",
+        "invariant": "두 지도 모두 세부 정확도에는 한계가 있다.",
+        "result": "이동에는 전체가 보이는 지도가 더 유용할 수 있다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "선명한 한 지점과 저해상도 전체 지도의 실용성을 비교하는 도식.",
+        "nodes": [
+          {
+            "id": "detailbox",
+            "shape": "rect",
+            "label": "한 곳만 선명",
+            "x": 210,
+            "y": 280,
+            "width": 300,
+            "height": 360,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "fullbox",
+            "shape": "rect",
+            "label": "전체가 흐림",
+            "x": 590,
+            "y": 280,
+            "width": 300,
+            "height": 360,
+            "fill": "hatch",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "detail",
+            "shape": "circle",
+            "label": "4K",
+            "x": 210,
+            "y": 280,
+            "width": 150,
+            "height": 150,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "start",
+            "shape": "circle",
+            "label": "출발",
+            "x": 510,
+            "y": 180,
+            "width": 70,
+            "height": 70,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "end",
+            "shape": "circle",
+            "label": "방향",
+            "x": 670,
+            "y": 380,
+            "width": 70,
+            "height": 70,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "route1",
+            "shape": "line",
+            "label": "",
+            "x": 550,
+            "y": 245,
+            "width": 110,
+            "height": 2,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "route2",
+            "shape": "line",
+            "label": "",
+            "x": 630,
+            "y": 315,
+            "width": 110,
+            "height": 2,
+            "fill": "none",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "detail",
+            "property": "scale",
+            "from": 1,
+            "to": 1.5,
+            "start": 0.2,
+            "end": 0.46
+          },
+          {
+            "target": "route1",
+            "property": "width",
+            "from": 1,
+            "to": 110,
+            "start": 0.3,
+            "end": 0.5
+          },
+          {
+            "target": "route2",
+            "property": "width",
+            "from": 1,
+            "to": 110,
+            "start": 0.46,
+            "end": 0.66
+          },
+          {
+            "target": "end",
+            "property": "scale",
+            "from": 0.8,
+            "to": 1.15,
+            "start": 0.64,
+            "end": 0.74
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "diagram",
+        "motif": "resolution-vs-coverage",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "한 부분의 최고 해상도보다 전체 범위를 아는 것이 유용한 순간이 있다.",
+        "relation": {
+          "type": "comparison",
+          "description": "부분의 정확도와 전체의 방향성을 동일한 지도 과제에서 비교한다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "4K 부분 지도와 저해상도 전체 지도",
+          "rationale": "해상도 차이뿐 아니라 경로를 찾는 결과까지 보여줘 왜 전체 지도가 유용한지 설명한다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 0.75
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "모든 정보가 4K일 필요는 없다.",
+          "emphasis": "high",
+          "pauseAfterMs": 140,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "4K",
+          "visualCue": "왼쪽의 선명한 한 지점이 확대된다."
+        },
+        {
+          "text": "한 곳만 선명한 지도보다",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "시선이 오른쪽 전체 지도로 이동한다."
+        },
+        {
+          "text": "저해상도 전체 지도가 더 유용할 때가 있다.",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "전체",
+          "visualCue": "전체 지도 위 경로가 목적지까지 이어진다."
+        }
+      ],
+      "headline": "선명한 한 점보다\n흐릿한 전체",
+      "subline": null,
+      "narration": "모든 정보가 4K일 필요는 없다. 한 곳만 선명한 지도보다 저해상도 전체 지도가 더 유용할 때가 있다.",
+      "comparisonLeft": "선명한 한 지점",
+      "comparisonRight": "저해상도 전체 지도",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-strip",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "folded paper map",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "전체 방향을 유지한 채 특정 부분은 나중에 다시 찾을 수 있다.",
+        "relation": {
+          "type": "literal",
+          "description": "지도에 남긴 표식이 이후 탐색의 출발점이 된다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": "표식이 남은 종이 지도",
+          "rationale": "구체적인 지도 사진이 ‘지금은 지나가되 위치는 남긴다’는 행동을 현실적으로 만든다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 0.68
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "흐릿하게 안다는 것은",
+          "emphasis": "mid",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "흐릿하게",
+          "visualCue": "접힌 지도 전체가 보인다."
+        },
+        {
+          "text": "아무것도 모른다는 뜻이 아니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 150,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "아니다",
+          "visualCue": "지도 위 표식으로 카메라가 접근한다."
+        },
+        {
+          "text": "나중에 어디를 확대할지 알고 있다는 뜻이다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "어디",
+          "visualCue": "표식의 위치가 화면 중심에 남는다."
+        }
+      ],
+      "headline": "모르는 게 아니라\n확대할 위치를 아는 것",
+      "subline": "표식이 있으면 다시 찾을 수 있다",
+      "narration": "흐릿하게 안다는 것은 아무것도 모른다는 뜻이 아니다. 나중에 어디를 확대할지 알고 있다는 뜻이다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "folded paper map",
+      "image": {
+        "query": "folded paper map",
+        "title": "Plano topografico de la ciudad de Tarapoto por Antonio Raimoni 1874",
+        "creator": "David Rumsey Historical Map Collection",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en/",
+        "source": "wikimedia",
+        "provider": "wikimedia",
+        "sourcePage": "https://commons.wikimedia.org/w/index.php?curid=85677439",
+        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Plano_topografico_de_la_ciudad_de_Tarapoto_por_Antonio_Raimoni_1874.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/d656a101-3ee4-4230-ab1c-6b847cd7825b/thumb/"
+      }
+    },
+    {
+      "visualStory": {
+        "initial": "현재 시점의 작은 맥락 원과 미래 시점의 큰 맥락 원이 나란히 있다.",
+        "trigger": "같은 미해결 개념을 두 시점에서 바라본다.",
+        "change": "미래 시점에는 주변 지식 노드가 더 많이 연결된다.",
+        "invariant": "이해하려는 핵심 개념은 동일하다.",
+        "result": "더 많은 맥락 속에서 개념의 연결 경로가 짧아진다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "같은 개념이 현재보다 주변 지식이 쌓인 미래에 더 쉽게 연결되는 도식.",
+        "nodes": [
+          {
+            "id": "nowbox",
+            "shape": "rect",
+            "label": "지금",
+            "x": 210,
+            "y": 280,
+            "width": 300,
+            "height": 360,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "laterbox",
+            "shape": "rect",
+            "label": "나중",
+            "x": 590,
+            "y": 280,
+            "width": 300,
+            "height": 360,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "concept1",
+            "shape": "circle",
+            "label": "미해결",
+            "x": 210,
+            "y": 280,
+            "width": 100,
+            "height": 100,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "concept2",
+            "shape": "circle",
+            "label": "같은 개념",
+            "x": 590,
+            "y": 280,
+            "width": 100,
+            "height": 100,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "context1",
+            "shape": "circle",
+            "label": "맥락",
+            "x": 500,
+            "y": 170,
+            "width": 80,
+            "height": 80,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "context2",
+            "shape": "circle",
+            "label": "경험",
+            "x": 680,
+            "y": 170,
+            "width": 80,
+            "height": 80,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "context3",
+            "shape": "circle",
+            "label": "주변 지식",
+            "x": 680,
+            "y": 390,
+            "width": 90,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "c1",
+            "shape": "line",
+            "label": "",
+            "x": 545,
+            "y": 225,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "c2",
+            "shape": "line",
+            "label": "",
+            "x": 635,
+            "y": 225,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "c3",
+            "shape": "line",
+            "label": "",
+            "x": 635,
+            "y": 335,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "context1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.22,
+            "end": 0.36
+          },
+          {
+            "target": "c1",
+            "property": "width",
+            "from": 1,
+            "to": 70,
+            "start": 0.3,
+            "end": 0.46
+          },
+          {
+            "target": "context2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.36,
+            "end": 0.5
+          },
+          {
+            "target": "c2",
+            "property": "width",
+            "from": 1,
+            "to": 70,
+            "start": 0.44,
+            "end": 0.58
+          },
+          {
+            "target": "context3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.64
+          },
+          {
+            "target": "c3",
+            "property": "width",
+            "from": 1,
+            "to": 70,
+            "start": 0.58,
+            "end": 0.72
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "diagram",
+        "motif": "context-accumulation",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "이해를 미룬 뒤에는 더 많은 주변 지식과 맥락을 사용할 수 있다.",
+        "relation": {
+          "type": "accumulation",
+          "description": "시간이 지나며 주변 지식이 쌓이고 같은 개념으로 연결되는 경로가 늘어난다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "맥락이 쌓인 미래의 학습 환경",
+          "rationale": "시계 아이콘보다 두 시점의 연결 밀도를 비교해야 이해 비용이 낮아지는 이유가 보인다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 0.78
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "필요해졌을 때 다시 보면,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "다시",
+          "visualCue": "현재에서 미래 영역으로 시선이 이동한다."
+        },
+        {
+          "text": "그때의 나는 더 많은 주변 지식과",
+          "emphasis": "mid",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "주변 지식",
+          "visualCue": "미래 영역에 지식 노드가 추가된다."
+        },
+        {
+          "text": "맥락을 가지고 있을 가능성이 크다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "맥락",
+          "visualCue": "노드들이 같은 개념에 연결된다."
+        }
+      ],
+      "headline": "나중의 나는\n더 많은 맥락을 갖고 있다",
+      "subline": null,
+      "narration": "필요해졌을 때 다시 보면, 그때의 나는 더 많은 주변 지식과 맥락을 가지고 있을 가능성이 크다.",
+      "comparisonLeft": "처음 만난 시점",
+      "comparisonRight": "맥락이 쌓인 시점",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "현재의 개념과 미래의 개념이 같은 크기로 보인다.",
+        "trigger": "주변 지식이 미래 개념에 연결된다.",
+        "change": "현재 쪽의 긴 우회 경로는 유지되고 미래 쪽 경로는 짧아진다.",
+        "invariant": "설명하는 개념 자체는 같다.",
+        "result": "적절한 시점에서는 이해 비용이 낮아질 수 있다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "같은 개념을 이해하는 경로가 맥락이 쌓인 뒤 짧아지는 개념적 비용 도식.",
+        "nodes": [
+          {
+            "id": "early",
+            "shape": "rect",
+            "label": "처음",
+            "x": 210,
+            "y": 280,
+            "width": 300,
+            "height": 330,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "late",
+            "shape": "rect",
+            "label": "나중",
+            "x": 590,
+            "y": 280,
+            "width": 300,
+            "height": 330,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "econcept",
+            "shape": "circle",
+            "label": "개념",
+            "x": 210,
+            "y": 170,
+            "width": 90,
+            "height": 90,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "eresult",
+            "shape": "circle",
+            "label": "이해",
+            "x": 210,
+            "y": 400,
+            "width": 90,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "lconcept",
+            "shape": "circle",
+            "label": "개념",
+            "x": 590,
+            "y": 220,
+            "width": 90,
+            "height": 90,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "lresult",
+            "shape": "circle",
+            "label": "이해",
+            "x": 590,
+            "y": 350,
+            "width": 90,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "elong",
+            "shape": "line",
+            "label": "긴 경로",
+            "x": 210,
+            "y": 285,
+            "width": 2,
+            "height": 140,
+            "fill": "none",
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "lshort",
+            "shape": "line",
+            "label": "짧은 경로",
+            "x": 590,
+            "y": 285,
+            "width": 2,
+            "height": 40,
+            "fill": "none",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "elong",
+            "property": "height",
+            "from": 1,
+            "to": 140,
+            "start": 0.2,
+            "end": 0.5
+          },
+          {
+            "target": "lshort",
+            "property": "height",
+            "from": 140,
+            "to": 40,
+            "start": 0.32,
+            "end": 0.62
+          },
+          {
+            "target": "lresult",
+            "property": "scale",
+            "from": 0.8,
+            "to": 1.2,
+            "start": 0.6,
+            "end": 0.72
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "compare-versus",
+      "visual": {
+        "type": "diagram",
+        "motif": "learning-cost-path",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "주변 맥락이 쌓이면 같은 개념을 이해하는 비용이 낮아질 수 있다.",
+        "relation": {
+          "type": "comparison",
+          "description": "처음의 긴 연결 경로와 나중의 짧은 연결 경로를 비교한다."
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "이해까지 가는 경로 길이",
+          "rationale": "근거 없는 수치를 만들지 않고도 경로 길이의 변화로 상대적인 이해 비용을 표현할 수 있다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 0.72
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "처음에는 오래 붙잡아도 이해되지 않던 것이",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "오래",
+          "visualCue": "처음 영역의 긴 경로가 그려진다."
+        },
+        {
+          "text": "나중에는 주변 맥락 덕분에",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "맥락",
+          "visualCue": "나중 영역의 경로가 짧아진다."
+        },
+        {
+          "text": "자연스럽게 연결되기도 한다.",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "연결",
+          "visualCue": "개념과 이해 노드가 직접 연결된다."
+        }
+      ],
+      "headline": "이해에는\n맞는 시점이 있다",
+      "subline": null,
+      "narration": "처음에는 오래 붙잡아도 이해되지 않던 것이 나중에는 주변 맥락 덕분에 자연스럽게 연결되기도 한다.",
+      "comparisonLeft": "맥락이 적을 때",
+      "comparisonRight": "맥락이 쌓인 뒤",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "이해를 남겨두는 행위를 부채가 아닌 시점 선택으로 본다.",
+        "relation": {
+          "type": "balance",
+          "description": "당장 이해하는 비용과 미래의 더 적절한 이해 시점을 저울질한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "관점의 반전이 핵심이므로 큰 문장만으로 의미를 정확히 고정한다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "지금 이해하지 못한 것을 남기는 일은",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "남기는",
+          "visualCue": "첫 문장이 나타난다."
+        },
+        {
+          "text": "반드시 학습 부채가 아니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 170,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "부채",
+          "visualCue": "‘부채가 아니다’가 크게 강조된다."
+        },
+        {
+          "text": "미래의 나에게 더 알맞은 시점을 맡기는",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "시점",
+          "visualCue": "두 번째 문장이 이어진다."
+        },
+        {
+          "text": "선택일 수도 있다.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "선택",
+          "visualCue": "‘선택’만 선명하게 남는다."
+        }
+      ],
+      "headline": "부채가 아니라\n시점의 선택",
+      "subline": null,
+      "narration": "지금 이해하지 못한 것을 남기는 일은 반드시 학습 부채가 아니다. 미래의 나에게 더 알맞은 시점을 맡기는 선택일 수도 있다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "진행 경로 위에 ‘당장 필요’와 ‘나중 필요’ 두 갈림길이 있다.",
+        "trigger": "현재의 학습 방향을 기준으로 판단한다.",
+        "change": "필요한 깊이는 현재 경로에 연결되고 나머지는 접힌 표식으로 남는다.",
+        "invariant": "나중에 볼 지식의 위치는 보존된다.",
+        "result": "모든 빈틈을 없애지 않고도 앞으로 이동한다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "현재 방향에 필요한 깊이만 선택하고 나머지는 표식으로 남기는 학습 경로.",
+        "nodes": [
+          {
+            "id": "start",
+            "shape": "circle",
+            "label": "현재",
+            "x": 120,
+            "y": 280,
+            "width": 90,
+            "height": 90,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "route",
+            "shape": "line",
+            "label": "학습 방향",
+            "x": 330,
+            "y": 280,
+            "width": 330,
+            "height": 2,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "forward",
+            "shape": "rect",
+            "label": "다음 단계",
+            "x": 590,
+            "y": 280,
+            "width": 200,
+            "height": 100,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "needed",
+            "shape": "rect",
+            "label": "지금 필요",
+            "x": 350,
+            "y": 160,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "later",
+            "shape": "rect",
+            "label": "나중 확대",
+            "x": 350,
+            "y": 410,
+            "width": 190,
+            "height": 90,
+            "fill": "hatch",
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "bookmark",
+            "shape": "circle",
+            "label": "표식",
+            "x": 470,
+            "y": 410,
+            "width": 70,
+            "height": 70,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "moving",
+            "shape": "circle",
+            "label": "",
+            "x": 120,
+            "y": 280,
+            "width": 36,
+            "height": 36,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "needed",
+            "property": "opacity",
+            "from": 0.3,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.36
+          },
+          {
+            "target": "bookmark",
+            "property": "scale",
+            "from": 0.7,
+            "to": 1.15,
+            "start": 0.34,
+            "end": 0.5
+          },
+          {
+            "target": "moving",
+            "property": "x",
+            "from": 120,
+            "to": 590,
+            "start": 0.42,
+            "end": 0.72
+          },
+          {
+            "target": "forward",
+            "property": "scale",
+            "from": 0.9,
+            "to": 1.08,
+            "start": 0.7,
+            "end": 0.78
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "learning-vector",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "현재 방향에 필요한 깊이를 선택하고 나머지는 표시한 채 이동한다.",
+        "relation": {
+          "type": "flow",
+          "description": "학습 경로는 앞으로 이어지고 당장 필요하지 않은 지식은 옆에 표식으로 보존된다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "갈림길에서 깊이를 선택하는 경로",
+          "rationale": "체크리스트보다 실제 경로와 보류 표식을 함께 보여줘 ‘남겨두고 전진한다’는 행동을 표현한다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "궁금한 원리가 생겨도,",
+          "emphasis": "low",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "현재 경로 옆에 두 선택지가 나타난다."
+        },
+        {
+          "text": "지금 가려는 방향에 필요한 깊이인지 살핀다.",
+          "emphasis": "high",
+          "pauseAfterMs": 130,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "방향",
+          "visualCue": "‘지금 필요’ 경로가 선명해진다."
+        },
+        {
+          "text": "아니라면 표식만 남기고",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "표식",
+          "visualCue": "‘나중 확대’ 영역에 표식이 찍힌다."
+        },
+        {
+          "text": "계속 앞으로 간다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "앞으로",
+          "visualCue": "이동 점이 다음 단계까지 전진한다."
+        }
+      ],
+      "headline": "깊이를 선택하고\n계속 움직인다",
+      "subline": null,
+      "narration": "궁금한 원리가 생겨도, 지금 가려는 방향에 필요한 깊이인지 살핀다. 아니라면 표식만 남기고 계속 앞으로 간다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "잘 배운다는 것은 모든 빈틈을 제거하는 것이 아니라 빈틈과 함께 전진할 수 있는 상태다.",
+        "relation": {
+          "type": "flow",
+          "description": "미완성 영역을 남긴 채 학습 방향은 앞으로 유지된다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "최종 재정의를 한 문장으로 남겨 흐릿함을 허용하는 태도에 여운을 준다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "잘 배운다는 건 모든 빈틈을 채우는 일이 아니라,",
+          "emphasis": "mid",
+          "pauseAfterMs": 140,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "빈틈",
+          "visualCue": "첫 문장이 나타난다."
+        },
+        {
+          "text": "어떤 빈틈은 남겨둔 채",
+          "emphasis": "high",
+          "pauseAfterMs": 100,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "남겨둔",
+          "visualCue": "‘남겨둔 채’가 강조된다."
+        },
+        {
+          "text": "계속 앞으로 나아가는 상태인지도 모른다.",
+          "emphasis": "high",
+          "pauseAfterMs": 320,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "앞으로",
+          "visualCue": "마지막 문장이 화면 중앙에 남는다."
+        }
+      ],
+      "headline": "빈틈을 남겨도\n앞으로 갈 수 있는 상태",
+      "subline": "필요한 순간에 다시 확대하면 된다",
+      "narration": "잘 배운다는 건 모든 빈틈을 채우는 일이 아니라, 어떤 빈틈은 남겨둔 채 계속 앞으로 나아가는 상태인지도 모른다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
