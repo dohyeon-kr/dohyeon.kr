@@ -47,7 +47,7 @@ export const templatePreviewProps: RenderManifest = {
       visual: {type: 'diagram', motif: 'roi-curve', query: null, value: null, xLabel: '투입', yLabel: '효용'},
       camera: {motion: 'zoom', target: 'endpoint', intensity: 'subtle', startProgress: .45, endProgress: .85},
     }),
-    scene('힘이 같아도\n작용점은 다르다.', [beat('시소의 한쪽에 힘이 실리면'), beat('전체의 균형이 바뀝니다.', '균형')], {
+    scene('한쪽의 변화,\n전체의 변화.', [beat('시소의 한쪽에 힘이 실리면'), beat('전체의 균형이 바뀝니다.', '균형')], {
       layout: 'diagram-centered', transition: 'slide-left', subline: '구조를 설명하는 물리적 비유',
       diagramSpec: {...physicsExample, nodes: physicsExample.nodes.filter(n => n.id !== 'title')},
     }),
