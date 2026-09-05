@@ -95,7 +95,8 @@ export const RemotionRoot: React.FC = () => (
     <Composition
       id="ShortVideo"
       component={ShortVideo}
-      durationInFrames={60 * 30}
+      durationInFrames={previewDuration(defaultProps)}
+      calculateMetadata={({props}) => ({durationInFrames: previewDuration(props)})}
       fps={30}
       width={1080}
       height={1920}
