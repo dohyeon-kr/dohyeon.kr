@@ -53,3 +53,17 @@ test('valid generated geometry passes while layout violations stop generation', 
   const bad = scene();
   await assert.rejects(enrichVisuals({title: '후보', scenes: [bad]}), /layout:safe-area/);
 });
+
+test('diagram repair sends structured scene feedback and rejects incomplete responses', async () => {
+  const {createDiagramRepair} = await import('../scripts/generate-candidates.mjs');
+  const requests = [];
+  const client = {responses: {parse: async request => {requests.push(request); return {output_parsed: {diagramSpec: {version: 1}}};}}};
+  const repair = createDiagramRepair(client, {model: 'test-model'});
+  const input = {title: '후보', sceneNumber: 2, scene: {narration: '유지할 문장'}, error: '[layout:text-overlap] t=0.1 nodes=a,b', attempt: 1};
+  assert.deepEqual(await repair(input), {version: 1});
+  assert.equal(requests[0].model, 'test-model');
+  assert.equal(JSON.parse(requests[0].input).validationError, input.error);
+  assert.deepEqual(requests[0].text.format.schema.required, ['diagramSpec']);
+  const refused = createDiagramRepair({responses: {parse: async () => ({output_parsed: null})}});
+  await assert.rejects(refused(input), /refused or incomplete/);
+});

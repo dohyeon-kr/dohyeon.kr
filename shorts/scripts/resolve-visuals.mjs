@@ -81,14 +81,31 @@ const textFallback = (scene, reason, detail) => {
   };
 };
 
-export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn} = {}) => {
+export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn, repairDiagram, maxRepairAttempts = 3} = {}) => {
+  if (!Number.isInteger(maxRepairAttempts) || maxRepairAttempts < 0 || maxRepairAttempts > 3) throw new Error("maxRepairAttempts must be an integer from 0 to 3");
   const scenes = [];
-  for (const scene of candidate.scenes) {
+  for (const originalScene of candidate.scenes) {
+    let scene = originalScene;
     if (scene.diagramSpec || scene.visual.type === 'diagram') {
-      try {
-        validateDiagramLayout(validateDiagram(scene.diagramSpec));
-      } catch (error) {
-        throw new Error(`Invalid diagram in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${error.message}`, {cause: error});
+      for (let attempt = 0; ; attempt++) {
+        try {
+          validateDiagramLayout(validateDiagram(scene.diagramSpec));
+          break;
+        } catch (error) {
+          const context = `Invalid diagram in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}`;
+          if (!repairDiagram || attempt >= maxRepairAttempts) {
+            throw new Error(`${context} after ${attempt} repair attempts: ${error.message}`, {cause: error});
+          }
+          warn(`${context}: ${error.message}. Repair ${attempt + 1}/${maxRepairAttempts}`);
+          try {
+            const diagramSpec = await repairDiagram({scene: structuredClone(scene), title: candidate.title,
+              sceneNumber: scenes.length + 1, error: error.message, attempt: attempt + 1});
+            // Only the diagram can change; narration, beats and other scenes remain intact.
+            scene = {...scene, diagramSpec};
+          } catch (repairError) {
+            throw new Error(`${context}: repair ${attempt + 1} failed: ${repairError.message}`, {cause: repairError});
+          }
+        }
       }
     }
     const imageQuery = scene.visual.type === 'photo' ? scene.visual.query?.trim() || null : null;

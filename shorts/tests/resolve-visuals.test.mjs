@@ -87,3 +87,49 @@ for (const failure of ['empty', 'http', 'rate-limit', 'network', 'timeout', 'inv
     assert.equal(calls, ['empty', 'http'].includes(failure) ? 4 : 2);
   });
 }
+
+const overlappingScene = () => ({...photoScene(null), visual: {type: 'diagram', query: null},
+  diagramSpec: {version: 1, renderer: 'auto', description: '한글 겹침', events: [], nodes: ['future-zone', 'req'].map(id =>
+    ({id, shape: 'rect', label: '받침 확인', x: 220, y: 200, width: 200, height: 100, fill: 'white'}))}});
+
+test('repairs only the failing diagram and revalidates intermediate motion', async () => {
+  const source = {title: '후보', scenes: [overlappingScene(), photoScene('forest')]};
+  const original = structuredClone(source);
+  const errors = [];
+  const result = await enrichVisuals(source, {warn: quiet, search: async () => ({originalUrl: 'photo'}),
+    repairDiagram: async ({scene, error, sceneNumber, attempt}) => {
+      errors.push(error);
+      assert.equal(sceneNumber, 1);
+      scene.narration = 'must not propagate';
+      scene.diagramSpec.nodes[1].x = 550;
+      // First repair clears the still but introduces a collision during motion.
+      scene.diagramSpec.events = attempt === 1 ? [{target: 'req', property: 'x', from: 550, to: 220, start: 0.2, end: 0.7, easing: 'linear'}] : [];
+      return scene.diagramSpec;
+    }});
+  assert.equal(errors.length, 2);
+  assert.match(errors[0], /layout:text-overlap/);
+  assert.match(errors[1], /layout:/);
+  assert.equal(result.scenes[0].narration, original.scenes[0].narration);
+  assert.deepEqual(result.scenes[0].beats, original.scenes[0].beats);
+  assert.equal(result.scenes[1].image.originalUrl, 'photo');
+  assert.deepEqual(source, original);
+});
+
+test('exhausted repairs fail closed with scene and latest error', async () => {
+  let calls = 0;
+  await assert.rejects(enrichVisuals({title: '후보', scenes: [overlappingScene()]}, {warn: quiet,
+    repairDiagram: async ({scene}) => {calls++; return scene.diagramSpec;}}), /scene 1 after 3 repair attempts:.*layout:text-overlap/);
+  assert.equal(calls, 3);
+});
+
+test('repair API failures retain scene context and never bypass validation', async () => {
+  await assert.rejects(enrichVisuals({title: '후보', scenes: [overlappingScene()]}, {warn: quiet,
+    repairDiagram: async () => {throw new Error('API unavailable');}}), /scene 1: repair 1 failed: API unavailable/);
+});
+
+test('valid diagrams never call repair and invalid diagrams without repair still fail', async () => {
+  const scene = overlappingScene();
+  await assert.rejects(enrichVisuals({scenes: [scene]}), /after 0 repair attempts/);
+  scene.diagramSpec.nodes[1].x = 550;
+  await enrichVisuals({scenes: [scene]}, {repairDiagram: async () => assert.fail('unnecessary repair')});
+});
