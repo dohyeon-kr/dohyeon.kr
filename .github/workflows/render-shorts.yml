@@ -14,7 +14,7 @@ on:
         type: boolean
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: shorts-render-${{ github.ref }}
@@ -105,3 +105,10 @@ jobs:
             shorts/out/*-SCRIPT.txt
           if-no-files-found: warn
           retention-days: 14
+
+      - name: Publish video release for mobile download
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ github.run_id }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: bash shorts/scripts/publish-video-release.sh shorts/out
