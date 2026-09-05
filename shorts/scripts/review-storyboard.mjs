@@ -6,10 +6,10 @@ import {pathToFileURL} from 'node:url';
 import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
-import {CandidateSchema, SYSTEM_PROMPT, fetchPost} from './generate-candidates.mjs';
+import {CandidateSchema, SYSTEM_PROMPT, fetchPost, createDiagramRepair} from './generate-candidates.mjs';
 import {candidatePath, validateSelection, START, END} from './candidate-selection.mjs';
 import {describeCandidate} from './describe-candidates.mjs';
-import {enrichVisuals} from './resolve-visuals.mjs';
+import {createPhotoSearch, enrichVisuals} from './resolve-visuals.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
 export const ReviewSchema = z.object({
@@ -23,7 +23,7 @@ export async function resolveManifest(name) {
   await validateSelection([name]);
   return JSON.parse(await fs.readFile(name, 'utf8'));
 }
-export function validateRevision(candidate) {
+export function validateRevision(candidate, {deferDiagramValidation = false} = {}) {
   const sceneCount = candidate.scenes.length;
   const standard = sceneCount >= 6 && sceneCount <= 9;
   const extended = sceneCount >= 18 && sceneCount <= 21;
@@ -34,7 +34,9 @@ export function validateRevision(candidate) {
     if (compact(scene.narration) !== compact(scene.beats.map(b => b.text).join(''))) throw new Error(`Scene ${i + 1}: narration/beats mismatch`);
     if (scene.beats.some(b => b.keyword && !b.text.includes(b.keyword))) throw new Error(`Scene ${i + 1}: keyword absent from beat`);
     if (scene.camera.startProgress >= scene.camera.endProgress) throw new Error(`Scene ${i + 1}: invalid camera interval`);
-    if (scene.visual.type === 'diagram') validateDiagram(scene.diagramSpec);
+    if (scene.visual.type === 'diagram') {
+      if (!deferDiagramValidation) validateDiagram(scene.diagramSpec);
+    }
     else if (scene.diagramSpec) throw new Error(`Scene ${i + 1}: unexpected diagram`);
   }
 }
@@ -64,6 +66,35 @@ async function photoInventory(exclude) {
   }
   return inventory;
 }
+export async function resolveReviewVisuals(candidate, original, {client, model, reportDir, search = createPhotoSearch(), ...options}) {
+  const existing = new Map(original.scenes.filter(s => s.image).map(s => [(s.visual?.query || s.imageQuery)?.trim(), s.image]));
+  const checkpoint = {title: candidate.title, status: 'processing', scenes: structuredClone(candidate.scenes), history: []};
+  const save = () => fs.writeFile(path.join(reportDir, 'visual-repair.json'), JSON.stringify(checkpoint, null, 2) + '\n');
+  await save();
+  try {
+    const resolved = await enrichVisuals(candidate, {
+      ...options,
+      repairDiagram: createDiagramRepair(client, {model}),
+      search: async query => existing.get(query) || await search(query),
+      onProgress: async event => {
+        checkpoint.scenes[event.sceneNumber - 1] = event.scene;
+        checkpoint.history.push({status: event.status, sceneNumber: event.sceneNumber, errors: event.history});
+        await save();
+      },
+    });
+    if (resolved.scenes.some(s => s.visualResolution?.status === 'fallback')) throw new Error('Visual resolution failed; refusing to silently remove visuals');
+    validateRevision(resolved);
+    checkpoint.status = 'validated';
+    await save();
+    return resolved;
+  } catch (error) {
+    checkpoint.status = 'failed';
+    checkpoint.error = error.message;
+    await save();
+    throw error;
+  }
+}
+
 async function main() {
   const [mode, filename] = process.argv.slice(2);
   const original = await resolveManifest(filename);
@@ -96,19 +127,10 @@ async function main() {
   });
   if (!response.output_parsed) throw new Error('Improvement refused or incomplete');
   const candidate = CandidateSchema.parse(response.output_parsed);
-  validateRevision(candidate);
+  validateRevision(candidate, {deferDiagramValidation: true});
   candidate.scenes.forEach(scene => validateVideoSelection(scene, videoCatalog));
-  // Retain deliberately selected licensed images when the query is unchanged.
-  const existing = new Map(original.scenes.filter(s => s.image).map(s => [s.visual?.query || s.imageQuery, s.image]));
-  const resolved = await enrichVisuals(candidate, {search: async query => existing.get(query) || null});
-  // Use normal search only for genuinely new photo queries.
-  for (let i = 0; i < candidate.scenes.length; i++) {
-    const scene = candidate.scenes[i];
-    if (scene.visual.type === 'photo' && !existing.has(scene.visual.query)) {
-      resolved.scenes[i] = (await enrichVisuals({...candidate, scenes: [scene]})).scenes[0];
-    }
-  }
-  if (resolved.scenes.some(s => s.visualResolution?.status === 'fallback')) throw new Error('Visual resolution failed; refusing to silently remove visuals');
+  await fs.writeFile(path.join(reportDir, 'before.json'), JSON.stringify(original, null, 2) + '\n');
+  const resolved = await resolveReviewVisuals(candidate, original, {client, model, reportDir});
   const firstPhoto = resolved.scenes[0]?.image?.originalUrl;
   if (firstPhoto && inventory.some(p => p.image?.originalUrl === firstPhoto)) throw new Error('Opening photo duplicates another candidate; choose a different query in the review comment');
   const {scenes, ...metadata} = resolved;

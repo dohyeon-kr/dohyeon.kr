@@ -24,7 +24,7 @@ concurrency:
 jobs:
   review:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     env:
       MANIFEST: ${{ inputs.manifest }}
       REVIEW_OUTPUT_DIR: ${{ github.workspace }}/shorts/out/review

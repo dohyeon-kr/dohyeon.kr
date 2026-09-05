@@ -57,3 +57,47 @@ test('SDK can serialize both output schemas', () => {
   assert.equal(zodTextFormat(ReviewSchema, 'review').type, 'json_schema');
   assert.equal(zodTextFormat(CandidateSchema, 'candidate').type, 'json_schema');
 });
+
+const diagram = (invalid = false) => ({version: 1, renderer: 'auto', description: '입력', nodes: [
+  {id: 'input', shape: 'rect', label: '입력', x: 200, y: 200, width: 160, height: 100, fill: 'white'},
+  ...(invalid ? [{id: 'lever', shape: 'rect', x: 200, y: 200, width: 160, height: 100, fill: 'white'}] : []),
+], events: []});
+for (const succeeds of [true, false]) test(`review repair loop ${succeeds ? 'recovers through redesign' : 'saves exhausted diagnostics'}`, async () => {
+  const {resolveReviewVisuals} = await import('../scripts/review-storyboard.mjs');
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'review-repair-'));
+  try {
+    const candidate = {title: '검토', scenes: Array.from({length: 6}, scene)};
+    candidate.scenes[0] = {...scene(), visual: {type: 'diagram'}, diagramSpec: diagram(true)};
+    candidate.scenes[1].visual = {type: 'photo', query: ' existing '};
+    candidate.scenes[2].visual = {type: 'photo', query: 'new photo'};
+    const before = structuredClone(candidate);
+    const requests = [], searches = [];
+    const client = {responses: {parse: async request => {
+      requests.push(JSON.parse(request.input));
+      assert.equal(request.model, 'review-model');
+      return {output_parsed: {diagramSpec: diagram(!succeeds || requests.length < 4)}};
+    }}};
+    const run = resolveReviewVisuals(candidate, {scenes: [{visual: {query: 'existing'}, image: {originalUrl: 'licensed'}}]}, {
+      client, model: 'review-model', reportDir: dir, warn: () => {},
+      search: async query => {searches.push(query); return {originalUrl: 'new-licensed'};},
+    });
+    if (succeeds) {
+      const result = await run;
+      assert.deepEqual(requests.map(r => r.mode), ['repair', 'repair', 'repair', 'redesign']);
+      assert.equal(requests[3].history.length, 4);
+      assert.deepEqual(requests[3].originalScene, before.scenes[0]);
+      assert.deepEqual(result.scenes[0].beats, before.scenes[0].beats);
+      assert.equal(result.scenes[0].narration, before.scenes[0].narration);
+      assert.equal(result.scenes[1].image.originalUrl, 'licensed');
+      assert.deepEqual(searches, ['new photo']);
+    } else {
+      await assert.rejects(run, /after 8 repair attempts/);
+      assert.equal(requests.length, 8);
+    }
+    assert.deepEqual(candidate, before);
+    const checkpoint = JSON.parse(await fs.readFile(path.join(dir, 'visual-repair.json')));
+    assert.equal(checkpoint.status, succeeds ? 'validated' : 'failed');
+    assert.deepEqual(checkpoint.scenes[0].diagramSpec, diagram(!succeeds));
+    if (!succeeds) assert.equal(checkpoint.history.at(-1).errors.length, 9);
+  } finally {await fs.rm(dir, {recursive: true, force: true});}
+});
