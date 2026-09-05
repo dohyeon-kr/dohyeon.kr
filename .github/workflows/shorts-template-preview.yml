@@ -8,6 +8,7 @@ on:
       - 'shorts/src/**'
       - 'shorts/package.json'
       - 'shorts/scripts/render-template-preview.mjs'
+      - 'shorts/scripts/bgm.mjs'
       - '.github/workflows/shorts-template-preview.yml'
   workflow_dispatch:
 
@@ -43,6 +44,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
+          SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
         run: |
           if ! command -v ffprobe >/dev/null || ! command -v ffmpeg >/dev/null; then
             sudo apt-get update
@@ -66,5 +68,6 @@ jobs:
             "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.png" \
             "${RUNNER_TEMP}/shorts-template-preview/"scene-*.png \
             "${RUNNER_TEMP}/shorts-template-preview/SCRIPT.txt" \
+            "${RUNNER_TEMP}/shorts-template-preview/"*-BGM.md \
             --repo "${GITHUB_REPOSITORY}" \
             --clobber

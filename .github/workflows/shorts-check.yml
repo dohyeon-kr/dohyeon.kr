@@ -25,6 +25,15 @@ jobs:
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
+      - name: Prepare audio tools
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
+
       - name: Prepare preview fonts
         run: |
           mkdir -p shorts/public/fonts
@@ -61,5 +70,6 @@ jobs:
             ${{ runner.temp }}/shorts-integrated-preview/*.png
             ${{ runner.temp }}/shorts-integrated-preview/*.mp4
             ${{ runner.temp }}/shorts-integrated-preview/SCRIPT.txt
+            ${{ runner.temp }}/shorts-integrated-preview/*-BGM.md
           retention-days: 7
           if-no-files-found: ignore

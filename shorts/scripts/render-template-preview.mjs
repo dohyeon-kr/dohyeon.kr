@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import OpenAI from 'openai';
+import {mixBgm} from './bgm.mjs';
 import {templatePreviewProps, previewSceneFrames} from '../src/template-preview.ts';
 
 const root = path.resolve(import.meta.dirname, '..');
@@ -44,9 +45,10 @@ for (const [i, scene] of props.scenes.entries()) {
 }
 const propsFile = path.join(output, 'preview-props.json');
 await fs.writeFile(propsFile, JSON.stringify(props, null, 2));
-await fs.writeFile(path.join(output, 'SCRIPT.txt'), `연출 검증용 창작 예제 · ${silent ? '무음 / 추정 타이밍' : 'AI 생성 음성 / 의미 단위별 실측 타이밍'}\n\n` + props.scenes.map((s, i) => `${i + 1}. ${s.headline.replaceAll('\n', ' ')}\n${s.narration}`).join('\n\n'));
+await fs.writeFile(path.join(output, 'SCRIPT.txt'), `연출 검증용 창작 예제 · ${silent ? '내레이션 없음 / 추정 타이밍' : 'AI 생성 음성 / 의미 단위별 실측 타이밍'}\n\n` + props.scenes.map((s, i) => `${i + 1}. ${s.headline.replaceAll('\n', ' ')}\n${s.narration}`).join('\n\n'));
 const common = ['--public-dir=public', `--props=${propsFile}`, '--scale=0.5'];
 run('npx', ['remotion', 'render', 'src/index.tsx', 'TemplatePreview', path.join(output, 'shorts-template-preview.mp4'), ...common, '--codec=h264', '--crf=22', '--concurrency=2']);
+await mixBgm(path.join(output, 'shorts-template-preview.mp4'), props.scenes);
 let start = 0;
 for (const [i, scene] of props.scenes.entries()) {
   const frames = previewSceneFrames(scene);
