@@ -7,6 +7,11 @@ on:
         description: Published dohyeon.kr post URL
         required: true
         type: string
+      additional_request:
+        description: 'Optional editorial request (max 4000 characters): focus, tone, or 3 subtopics / 18–21 scenes'
+        required: false
+        default: ''
+        type: string
       candidate_count:
         description: Number of independent shorts candidates
         required: true
@@ -46,6 +51,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
+          SHORTS_ADDITIONAL_REQUEST: ${{ inputs.additional_request }}
           POST_URL: ${{ inputs.post_url }}
           CANDIDATE_COUNT: ${{ inputs.candidate_count }}
         run: node shorts/scripts/generate-candidates.mjs "$POST_URL" "$CANDIDATE_COUNT"
