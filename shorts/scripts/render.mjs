@@ -104,6 +104,7 @@ const downloadImage = async (scene, destinationBase) => {
     try {
       const response = await fetch(url, {
         redirect: 'follow',
+        signal: AbortSignal.timeout(20000),
         headers: {'user-agent': 'dohyeon.kr-shorts/2.0 (+https://dohyeon.kr)'},
       });
       if (!response.ok) continue;
@@ -295,9 +296,10 @@ const buildSrt = (scenes) => {
 
 const main = async () => {
   const storyboardOnly = process.argv.includes(STORYBOARD_FLAG);
-  const manifestArg = process.argv.slice(2).find((arg) => arg !== STORYBOARD_FLAG);
+  const silentPreview = process.argv.includes('--silent');
+  const manifestArg = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
   if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json> [--storyboard]');
-  if (!storyboardOnly && !process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
+  if (!storyboardOnly && !silentPreview && !process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
   if (!Number.isFinite(TTS_RATE) || TTS_RATE < 0.5 || TTS_RATE > 2) {
     throw new Error(`SHORTS_TTS_RATE must be between 0.5 and 2. Received: ${TTS_RATE}`);
   }
@@ -324,17 +326,24 @@ const main = async () => {
   ]);
   await copyFonts();
 
-  const client = storyboardOnly ? null : new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+  // Validate all requested photos before spending on any narration.
+  const images = [];
+  for (const [index, scene] of manifest.scenes.entries()) {
+    const imageFile = await downloadImage(scene, path.join(assetDir, `scene-${String(index + 1).padStart(2, '0')}`));
+    if (scene.visual?.type === 'photo' && !imageFile) throw new Error(`Scene ${index + 1}: photo missing or download failed. Supply a working licensed image before rendering.`);
+    images.push(imageFile);
+  }
+  const client = storyboardOnly || silentPreview ? null : new OpenAI({apiKey: process.env.OPENAI_API_KEY});
   const renderScenes = [];
 
   for (const [index, rawScene] of manifest.scenes.entries()) {
     const scene = normalizeScene(rawScene);
     const prefix = `scene-${String(index + 1).padStart(2, '0')}`;
-    const imageFile = await downloadImage(scene, path.join(assetDir, prefix));
+    const imageFile = images[index];
 
     let audioPath = null;
     let audioDurationSeconds = null;
-    if (!storyboardOnly && scene.narration?.trim()) {
+    if (client && scene.narration?.trim()) {
       const rawAudioFile = path.join(assetDir, `${prefix}-raw.mp3`);
       const audioFile = path.join(assetDir, `${prefix}.mp3`);
       const speech = await client.audio.speech.create({
@@ -352,7 +361,7 @@ const main = async () => {
         (await audioDuration(audioFile)) ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / (6.5 * TTS_RATE));
     }
 
-    const previewDuration = storyboardOnly ? 3.6 : audioDurationSeconds;
+    const previewDuration = storyboardOnly || silentPreview ? 3.6 : audioDurationSeconds;
     renderScenes.push({
       ...scene,
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
@@ -366,11 +375,10 @@ const main = async () => {
   const propsFile = path.join(tempRoot, `${slug}-${candidateId}.json`);
   await fs.writeFile(propsFile, `${JSON.stringify(renderManifest, null, 2)}\n`, 'utf8');
 
-  const totalSeconds = renderScenes.reduce(
-    (sum, scene) => sum + Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS),
+  const durationFrames = renderScenes.reduce(
+    (sum, scene) => sum + Math.max(66, Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS)),
     0,
   );
-  const durationFrames = Math.ceil(totalSeconds * FPS);
 
   if (storyboardOnly) {
     const storyboardDir = path.join(outputRoot, 'storyboards', `${slug}-${candidateId}`);
@@ -389,7 +397,7 @@ const main = async () => {
         Math.round(2.2 * FPS),
         Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS),
       );
-      const snapshotFrame = sceneStartFrame + Math.min(duration - 10, 45);
+      const snapshotFrame = sceneStartFrame + Math.min(duration - 10, Math.round(duration * .8));
       const filename = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}.png`;
       await run(
         process.platform === 'win32' ? 'npx.cmd' : 'npx',
@@ -437,6 +445,7 @@ const main = async () => {
       '--codec=h264',
       '--crf=18',
       '--concurrency=50%',
+      ...(silentPreview ? ['--scale=0.5'] : []),
     ],
     {cwd: shortsRoot, env: process.env},
   );
@@ -449,7 +458,7 @@ const main = async () => {
     '',
     `Blog source: ${manifest.source.url}`,
     '',
-    'Image discovery powered by Openverse. Openverse aggregates license metadata; verify the source page before publishing.',
+    'Image sources and licenses are recorded per scene. Curated photos and Openverse search results retain their original attribution.',
     '',
   ];
 

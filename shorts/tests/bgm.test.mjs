@@ -1,13 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {musicGain, speechWindows, synthBgm} from '../scripts/bgm.mjs';
+import {musicGain, speechWindows, synthBgm, soundCues, addSoundEffects} from '../scripts/bgm.mjs';
 test('ducking anticipates speech, recovers gently, and fades at boundaries', () => {
   const windows = [[2, 4]];
   assert.equal(musicGain(0, 8, windows), 0);
   assert.equal(musicGain(8, 8, windows), 0);
-  assert.ok(musicGain(3, 8, windows) < musicGain(1, 8, windows) / 3);
+  assert.ok(musicGain(3, 8, windows) < musicGain(1, 8, windows) / 2);
   assert.ok(musicGain(1.95, 8, windows) < musicGain(1, 8, windows));
   assert.ok(musicGain(4.1, 8, windows) < musicGain(5, 8, windows));
+});
+
+test('sound cues use frame-rounded scene starts and alter the PCM without changing length', () => {
+  const cues = soundCues([{audioDurationSeconds: 2}, {audioDurationSeconds: 2, transition: 'fade', visual: {type: 'diagram'}}]);
+  assert.ok(Math.abs(cues[0].time - (69 / 30 + .05)) < 1e-9);
+  assert.equal(cues.length, 2);
+  const wav = synthBgm(5, 'pulse-96');
+  const mixed = addSoundEffects(wav, cues);
+  assert.equal(mixed.length, wav.length);
+  assert.notDeepEqual(mixed, wav);
+  assert.deepEqual(mixed, addSoundEffects(wav, cues));
 });
 test('voice windows follow frame-rounded scene timing and ignore silent narration', () => {
   const scenes = [

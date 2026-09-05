@@ -32,7 +32,7 @@ export function musicGain(time, duration, windows) {
       duck = Math.max(duck, Math.min(1, (time - start + .12) / .12, (end + .35 - time) / .35));
     }
   }
-  return fade * (.28 - .20 * Math.max(0, duck));
+  return fade * (.40 - .24 * Math.max(0, duck));
 }
 export function synthBgm(duration, track, windows = [], sampleRate = 48000) {
   if (!Number.isFinite(duration) || duration <= 0 || duration > 600) throw new Error('BGM duration must be in (0, 600]');
@@ -55,31 +55,73 @@ export function synthBgm(duration, track, windows = [], sampleRate = 48000) {
     const noise = seed / 2147483648 - 1;
     const kick = .40 * Math.sin(2 * Math.PI * (48 * phase + 2 * (1 - Math.exp(-phase * 35)))) * Math.exp(-phase * 18);
     const bass = .22 * Math.sin(2 * Math.PI * config.notes[Math.floor(step / 4) % 4] * phase) * Math.min(1, phase / .012) * Math.exp(-phase * 4);
-    const hat = config.hats * noise * Math.exp(-hatPhase * 110);
+    const hat = config.hats * 1.8 * noise * Math.exp(-hatPhase * 110);
     const clap = step % 2 ? .05 * noise * Math.exp(-phase * 50) : 0;
-    const sample = Math.tanh(kick + bass + hat + clap) * musicGain(t, duration, windows);
+    // Upper harmonics and a soft offbeat pulse survive phone speaker roll-off.
+    const note = config.notes[Math.floor(step / 4) % 4];
+    const harmonic = .12 * Math.sin(2 * Math.PI * note * 4 * phase) * Math.min(1, phase / .01) * Math.exp(-phase * 5);
+    const offbeat = (t + beat / 2) % beat;
+    const pulse = .10 * Math.sin(2 * Math.PI * note * 8 * offbeat) * Math.min(1, offbeat / .008) * Math.exp(-offbeat * 14);
+    const sample = Math.tanh(kick + bass + harmonic + pulse + hat + clap) * musicGain(t, duration, windows);
     wav.writeInt16LE(Math.round(sample * 32767), 44 + i * 2);
   }
   return wav;
 }
 
+export function soundCues(scenes) {
+  let cursor = 0;
+  const cues = [];
+  for (const [index, scene] of scenes.entries()) {
+    const duration = Math.max(66, Math.ceil(((scene.audioDurationSeconds ?? 3.6) + .28) * 30)) / 30;
+    if (index && scene.transition !== 'none') cues.push({time: cursor + .05, type: 'swish'});
+    if (scene.diagramSpec || scene.visual?.type === 'diagram') {
+      const order = scene.choreography?.indexOf('show-visual') ?? -1;
+      cues.push({time: cursor + (order >= 0 ? 4 + order * 7 : 5) / 30 + .3, type: 'tick'});
+    }
+    cursor += duration;
+  }
+  return cues;
+}
+
+export function addSoundEffects(wav, cues, sampleRate = 48000) {
+  const mixed = Buffer.from(wav);
+  for (const cue of cues) {
+    const length = cue.type === 'swish' ? .18 : .11;
+    for (let i = 0; i < length * sampleRate; i++) {
+      const offset = 44 + (Math.round(cue.time * sampleRate) + i) * 2;
+      if (offset + 2 > mixed.length) break;
+      const t = i / sampleRate;
+      const envelope = Math.sin(Math.PI * t / length) ** 2;
+      const frequency = cue.type === 'swish' ? 900 - 2200 * t : 720;
+      const sample = .08 * envelope * (Math.sin(2 * Math.PI * frequency * t) + .25 * Math.sin(2 * Math.PI * 1500 * t));
+      const value = Math.max(-32767, Math.min(32767, mixed.readInt16LE(offset) + Math.round(sample * 32767)));
+      mixed.writeInt16LE(value, offset);
+    }
+  }
+  return mixed;
+}
+
 export async function mixBgm(video, scenes, track = process.env.SHORTS_BGM_TRACK || 'pulse-96') {
-  if (track === 'none') {
+  const effectsEnabled = process.env.SHORTS_SFX !== 'none';
+  if (track === 'none' && !effectsEnabled) {
     await fs.writeFile(video.replace(/\.mp4$/, '-BGM.md'), '# BGM\n\nDisabled: SHORTS_BGM_TRACK=none.\n');
     return;
   }
-  if (!TRACKS[track]) throw new Error(`Unknown BGM track: ${track}`);
+  if (track !== 'none' && !TRACKS[track]) throw new Error(`Unknown BGM track: ${track}`);
   const probe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-show_format', '-show_streams', '-of', 'json', video], {encoding: 'utf8'}));
   const duration = Number(probe.format.duration);
   const temp = await fs.mkdtemp(path.join(path.dirname(video), 'bgm-'));
   try {
     const music = path.join(temp, 'music.wav');
     const mixed = path.join(temp, 'mixed.mp4');
-    await fs.writeFile(music, synthBgm(duration, track, speechWindows(scenes)));
+    const backing = synthBgm(duration, track === 'none' ? 'pulse-96' : track, speechWindows(scenes));
+    if (track === 'none') backing.fill(0, 44);
+    const cues = effectsEnabled ? soundCues(scenes) : [];
+    await fs.writeFile(music, addSoundEffects(backing, cues));
     const hasAudio = probe.streams.some(s => s.codec_type === 'audio');
     const filter = hasAudio ? '[0:a][1:a]amix=inputs=2:duration=longest:normalize=0,alimiter=limit=0.95:level=false:latency=true[a]' : '[1:a]anull[a]';
     execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', video, '-i', music, '-filter_complex', filter, '-map', '0:v:0', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-t', String(duration), '-movflags', '+faststart', mixed], {stdio: 'inherit'});
     await fs.rename(mixed, video);
-    await fs.writeFile(video.replace(/\.mp4$/, '-BGM.md'), `# BGM\n\n${TRACKS[track].title} (${track}), ${TRACKS[track].bpm} BPM.\n\nSynthesized from repository code: shorts/scripts/bgm.mjs. No third-party recordings or samples. This is a procedural backing track, not a licensed stock track or an exclusivity claim.\n\nOne continuous track, timeline-based narration ducking, 0.5s fade-in and 0.9s fade-out. Captions and video timing are unchanged.\n`);
+    await fs.writeFile(video.replace(/\.mp4$/, '-BGM.md'), `# BGM and sound effects\n\n${track === 'none' ? 'BGM disabled.' : `${TRACKS[track].title} (${track}), ${TRACKS[track].bpm} BPM. Phone-speaker harmonics; gain 0.16 during speech / 0.40 between narration.`}\n\nSynthesized from repository code: shorts/scripts/bgm.mjs. No third-party recordings or samples.\n\nEffects: ${effectsEnabled ? `${cues.length} scene-transition / diagram-reveal cues` : 'disabled (SHORTS_SFX=none)'}.\n\n${cues.map(c => `- ${c.time.toFixed(2)}s: ${c.type}`).join('\n')}\n\nContinuous music, timeline-based narration ducking, 0.5s fade-in and 0.9s fade-out. Peak limiter 0.95.\n`);
   } finally {await fs.rm(temp, {recursive: true, force: true});}
 }
