@@ -2,63 +2,79 @@
 
 `shorts/` turns a published `dohyeon.kr` Ghost post into multiple short-form video candidates, keeps human review in the middle, then renders only merged candidates.
 
+The creative target is a **motion infographic**, not a templated AI slideshow. See [`docs/creative-system.md`](docs/creative-system.md) for the canonical visual, motion, subtitle-rhythm, and asset policy.
+
 ## Flow
 
 1. Run **Generate blog shorts** from GitHub Actions with a `dohyeon.kr` post URL.
 2. GPT extracts 3–8 independent viral angles instead of summarizing the whole article.
-3. Every scene receives a visual strategy (`photo`, `diagram`, `symbol`, `number`, or intentionally minimal `none`) and a layout.
+3. Every scene receives semantic subtitle beats, a visual relationship, a visual strategy, a layout, element choreography, camera motion, and a scene transition.
 4. Photo scenes receive a relevant Openverse search result. The default resolver only accepts CC0 or Public Domain Mark results.
 5. The workflow opens a PR containing `shorts/content/<post-slug>/candidate-XX.json` files.
 6. Edit or delete candidates in the PR. A merge is the approval gate.
 7. Changes to candidate JSON files on `main` trigger **Render blog shorts**.
 8. OpenAI TTS creates per-scene narration. Remotion renders 1080×1920 MP4 files with burned-in captions, and the render also emits an SRT subtitle file.
 
-The visual system keeps one brand language while varying composition aggressively enough to avoid a repetitive template feel. Source photos are monochrome at render time; diagrams and symbols are drawn directly in Remotion.
+Source photos are normalized to the monochrome editorial language at render time. Graphs, diagrams, physical metaphors, and symbols are drawn directly in Remotion when possible.
 
 ## Visual language
 
-New manifests use `schemaVersion: 2`. Existing v1 manifests remain renderable through legacy fallbacks.
+New manifests use `schemaVersion: 3`. Existing v1/v2 manifests remain renderable through legacy fallbacks.
+
+Visual selection is relation-first rather than keyword-first. Preferred strategy order:
+
+`simulation → graph → spatial diagram → physical metaphor → photo → icon fallback`
+
+Examples:
+
+- ROI / efficiency → animated curve
+- leverage → animated lever / seesaw rather than a generic rising arrow
+- balance / trade-off → tilting balance
+- bottleneck → flow accumulating at a narrow point
+- whole structure / mental model → network / map
+- depth / inspection → overview followed by semantic camera zoom
+
+Meaningless template labels such as `PHOTO / PHOTO`, `STATEMENT / LEVERAGE`, or `VISUAL / ROI-CURVE` are forbidden. Every visible element must communicate information, emphasize meaning, provide context, guide attention, or control rhythm.
+
+## Layouts
 
 Each scene can choose one of these layouts:
 
-- `photo-top-right` — upper-right image, lower-left statement
-- `photo-full-bleed` — full-screen monochrome image with text overlay
-- `photo-split-left` — left image / right copy split
-- `photo-strip` — horizontal image band
-- `diagram-centered` — graph or diagram as the main visual
-- `symbol-right` — large symbol on the right, statement on the left
-- `statement-giant` — one oversized sentence
-- `statement-offset` — asymmetric editorial typography
-- `compare-columns` — calm two-column comparison
-- `compare-versus` — stronger conflict / choice comparison
-- `outro-minimal` — restrained conclusion
+- `photo-top-right`
+- `photo-full-bleed`
+- `photo-split-left`
+- `photo-strip`
+- `diagram-centered`
+- `symbol-right`
+- `statement-giant`
+- `statement-offset`
+- `compare-columns`
+- `compare-versus`
+- `outro-minimal`
 
-The generator is instructed not to repeat the same layout consecutively and to avoid two text-only scenes in a row.
+The generator avoids repeating the same layout consecutively and avoids two text-only scenes in a row.
 
-### Concept → motif examples
+## Motion
 
-- ROI / efficiency → `roi-curve`
-- balance / trade-off → `balance-scale`
-- goal → `target`
-- direction → `compass`, `arrow-path`
-- depth / zoom → `magnifier`
-- whole structure / mental model → `map-network`
-- choice → `fork-road`
-- leverage → `leverage`
-- learning debt / return-later marker → `bookmark-stack`
-- bottleneck → `funnel`
-- relationships → `network`
-- priority → `ranked-list`
-- growth → `ladder`
-- risk → `warning`
-- time investment → `hourglass`
-- feedback → `feedback-loop`
+Scene transitions and element animations are separate layers. The generator emits an ordered `choreography` for meaningful in-scene events and a `camera` instruction for viewpoint changes.
 
-Concrete scenes should prefer photos; abstract ideas should prefer a diagram or symbol instead of generic stock photography.
+Default motion vocabulary is deliberately narrow: fade, slide, scale, reveal, draw, zoom, and pan. Bounce, spin, elastic, and decorative overshoot are excluded by default.
+
+A core rule is to translate verbs into motion: expanding concepts should expand, accumulation should stack, bottlenecks should visibly queue, and inspection should zoom into a meaningful detail.
 
 ## Subtitles
 
-Narration text is automatically chunked into short caption cues and timed proportionally to each scene's measured TTS duration. Captions are burned into the MP4, and the same cues are exported as `*.srt` for YouTube or other platform-native subtitle tracks.
+Schema v3 scenes include semantic `beats` with emphasis, delivery, pause, optional keyword, and visual cue metadata.
+
+Subtitles are not split only by character count. The generator prefers meaningful chunks of at least four non-space characters and avoids fragments such as `그럴 / 수 / 있다`. Short punch words may stand alone when the separation is intentional.
+
+High-emphasis beats are used sparingly, usually 1–2 per sentence, and the renderer gives them stronger visual treatment. Existing manifests without beats fall back to the legacy caption chunker.
+
+## Asset policy
+
+The automated photo resolver currently uses Openverse with CC0 / Public Domain Mark filtering. Other useful source pools are documented in `docs/creative-system.md`, including Pexels, Coverr, Mixkit, Pixabay, SVG Repo, Icons8, LottieFiles, and Storyset.
+
+Those services are material pools, not the art direction. Any future resolver must preserve the monochrome editorial normalization policy and verify licenses before publication.
 
 ## Required repository secret
 
