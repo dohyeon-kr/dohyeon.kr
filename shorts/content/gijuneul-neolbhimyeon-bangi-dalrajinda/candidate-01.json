@@ -39,7 +39,7 @@
       "visual": {
         "type": "photo",
         "motif": null,
-        "query": "team meeting around wooden table",
+        "query": "team stacking hands over meeting table",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -93,9 +93,9 @@
       "narration": "정말 이 방에는 더 배울 게 없을까?",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "team meeting around wooden table",
+      "imageQuery": "team stacking hands over meeting table",
       "image": {
-        "query": "team meeting around wooden table",
+        "query": "team stacking hands over meeting table",
         "title": "테이블 위에서 손을 포개는 팀원들",
         "creator": "fauxels",
         "license": "pexels",
