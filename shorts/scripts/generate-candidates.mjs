@@ -289,7 +289,8 @@ const main = async () => {
   const post = await fetchPost(postUrl);
   const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
   const response = await client.responses.parse({
-    model: process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-luna',
+    model: process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-sol',
+    reasoning: {effort: 'low'},
     instructions: SYSTEM_PROMPT,
     input: `아래 블로그 글에서 서로 겹치지 않는 숏츠 후보를 정확히 ${count}개 만들어라. 각 후보는 장면별 semantic beat, 강조 리듬, visual relation, visual strategy, layout, element choreography, camera motion, scene transition까지 완성해야 한다.\n\n제목: ${post.title}\nURL: ${post.url}\n\n본문:\n${post.body}`,
     text: {format: zodTextFormat(PlanSchema, 'blog_shorts_candidates_v3')},

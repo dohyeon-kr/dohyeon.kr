@@ -86,7 +86,7 @@ Those services are material pools, not the art direction. Any future resolver mu
 
 Optional repository variables:
 
-- `SHORTS_TEXT_MODEL` — defaults to `gpt-5.6-luna`.
+- `SHORTS_TEXT_MODEL` — defaults to `gpt-5.6-sol`. Candidate generation uses `reasoning.effort: low`.
 - `SHORTS_TTS_MODEL` — defaults to `gpt-4o-mini-tts`.
 - `SHORTS_TTS_VOICE` — defaults to `alloy`.
 
