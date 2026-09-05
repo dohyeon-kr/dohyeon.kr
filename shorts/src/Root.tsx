@@ -10,7 +10,7 @@ import type {DiagramSpec} from './visuals/diagram-spec';
 const diagramExample: DiagramSpec = {
   version: 1, renderer: 'remotion', description: '입력이 관문 앞에 모이는 개념도',
   nodes: [
-    {id: 'gate', shape: 'rect', label: '처리', x: 540, y: 280, width: 110, height: 220, fill: 'none'},
+    {id: 'gate', shape: 'rect', label: '처리', x: 540, y: 280, width: 110, height: 220, fill: 'hatch', strokeStyle: 'dashed'},
     ...[0, 1, 2, 3, 4, 5].map((i) => ({id: `request-${i}`, shape: 'circle' as const, label: '', x: 80 + i * 20, y: 140 + i * 55, width: 24, height: 24, fill: 'white' as const})),
   ],
   events: [0, 1, 2, 3, 4, 5].flatMap((i) => [

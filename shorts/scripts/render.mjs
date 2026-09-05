@@ -397,34 +397,27 @@ const main = async () => {
         Math.round(2.2 * FPS),
         Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS),
       );
-      const snapshotFrame = sceneStartFrame + Math.min(duration - 10, Math.round(duration * .8));
-      const filename = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}.png`;
-      await run(
-        process.platform === 'win32' ? 'npx.cmd' : 'npx',
-        [
-          'remotion',
-          'still',
-          'src/index.tsx',
-          'ShortVideo',
-          path.join(storyboardDir, filename),
-          `--props=${propsFile}`,
-          '--public-dir=public',
-          `--frame=${snapshotFrame}`,
-        ],
-        {cwd: shortsRoot, env: process.env},
-      );
-      storyboardLines.push(
-        `## Scene ${index + 1}`,
-        '',
-        `![Scene ${index + 1}](${filename})`,
-        '',
+      const stem = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}`;
+      const filename = `${stem}.png`;
+      // Keep the familiar contact-sheet result, plus ordered state frames for motion review.
+      const samples = scene.diagramSpec ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
+      const images = [];
+      for (const [phase, progress] of samples) {
+        const target = phase === 'result' ? filename : `${stem}-${phase}.png`;
+        const snapshotFrame = sceneStartFrame + Math.min(duration - 10, Math.round(duration * progress));
+        await run(process.platform === 'win32' ? 'npx.cmd' : 'npx', [
+          'remotion', 'still', 'src/index.tsx', 'ShortVideo', path.join(storyboardDir, target),
+          `--props=${propsFile}`, '--public-dir=public', `--frame=${snapshotFrame}`,
+        ], {cwd: shortsRoot, env: process.env});
+        images.push(`![${phase}](${target})`);
+      }
+      storyboardLines.push(`## Scene ${index + 1}`, '', ...images, '',
         `- Headline: ${scene.headline.replace(/\n/g, ' / ')}`,
-        `- Narration: ${scene.narration || '(none)'}`,
-        '',
-      );
+        `- Narration: ${scene.narration || '(none)'}`, '');
+      if (scene.visualStory) for (const [key, value] of Object.entries(scene.visualStory)) storyboardLines.push(`- ${key}: ${value}`);
       sceneStartFrame += duration;
     }
-    await fs.writeFile(path.join(storyboardDir, 'README.md'), `${storyboardLines.join('\n')}\n`, 'utf8');
+    await fs.writeFile(path.join(storyboardDir, `${slug}-${candidateId}-STORYBOARD.md`), `${storyboardLines.join('\n')}\n`, 'utf8');
     console.log(`Rendered storyboard snapshots to ${path.relative(repoRoot, storyboardDir)}.`);
     return;
   }

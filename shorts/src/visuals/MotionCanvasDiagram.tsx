@@ -18,17 +18,23 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
       const core = await import('@motion-canvas/core');
       if (failAsync) throw new Error('Injected async Motion Canvas failure for CI');
       const {ReadOnlyTimeEvents} = await import('@motion-canvas/core/lib/scenes/timeEvents/ReadOnlyTimeEvents');
-      const {makeScene2D, Scene2D, Rect, Circle, Line, Txt, Node} = await import('@motion-canvas/2d');
+      const {makeScene2D, Scene2D, Rect, Circle, Line, Txt, Node, Pattern} = await import('@motion-canvas/2d');
+      const tile = document.createElement('canvas');
+      tile.width = tile.height = 16;
+      const ink = tile.getContext('2d')!;
+      ink.strokeStyle = '#858585'; ink.lineWidth = 2;
+      for (const offset of [-16, 0, 16]) {ink.beginPath(); ink.moveTo(offset, 16); ink.lineTo(offset + 16, 0); ink.stroke();}
+      const hatch = new Pattern({image: tile, repetition: 'repeat'});
       const states = evaluatedDiagramState(spec, progress);
       const description = makeScene2D(function* (view) {
         for (const node of states) {
           const group = new Node({x: node.x - 400, y: node.y - 280, rotation: node.rotation, scale: node.scale, opacity: node.opacity});
           view.add(group);
-          const fill = node.fill === 'white' ? '#fff' : node.fill === 'gray' ? '#858585' : null;
-          const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3};
+          const fill = node.fill === 'white' ? '#fff' : node.fill === 'gray' ? '#303030' : node.fill === 'hatch' ? hatch : null;
+          const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []};
           if (node.shape === 'rect') group.add(new Rect(props));
           if (node.shape === 'circle') group.add(new Circle(props));
-          if (node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3}));
+          if (node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
           const label = nodeLabel(node);
           if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: 'Pretendard', fontSize: label.fontSize, lineHeight: label.fontSize * 1.12, textAlign: 'center', fontWeight: 800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
         }

@@ -1,13 +1,11 @@
-# Shorts candidates — 좋은 프론트엔드 설계는 경계를 명확하게 만든다
+# 숏츠 후보 스토리보드
 
-Source: https://blog.dohyeon.kr/joheun-peuronteuendeu-seolgyeneun-gyeonggyereul-myeonghwaghage-mandeunda/
+각 후보의 스토리보드를 열어 대본, 화면 구성, 도식의 변화, 자막 리듬을 검토하세요. 원본 JSON을 수정한 경우 이 문서도 다시 생성해야 합니다.
 
-## 선택한 후보: 3번
+## candidate-03 · 컴포넌트가 너무 많이 알면 생기는 일
 
-**이 컴포넌트는 어디까지 알아야 할까요?** — question
+**첫 문장:** 이 컴포넌트는 어디까지 알아야 할까요?
 
-[후보 3 JSON](candidate-03.json)
+UI 컴포넌트가 API, 라우터, 인증, 전역 스토어까지 알게 될 때 결합도가 커지는 문제를 하나의 경계 질문으로 보여준다.
 
-사용자 선택에 따라 3번만 남겼습니다. 후보 번호와 대본은 유지합니다.
-
-병합 후 생성되는 장면별 스토리보드 스냅샷을 검토한 뒤 최종 렌더를 승인합니다.
+[스토리보드 읽기](candidate-03.md) · [원본 JSON](candidate-03.json) · 7장면

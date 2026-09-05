@@ -97,93 +97,93 @@
     {
       "diagramSpec": {
         "version": 1,
-        "renderer": "auto",
+        "renderer": "remotion",
         "physics": null,
-        "description": "한 사람이 여러 일을 떠안으면서 다른 사람의 자리가 좁아지는 구조",
+        "description": "개입에 따라 달라지는 상대의 판단 영역",
         "nodes": [
           {
-            "id": "worker",
-            "shape": "circle",
-            "label": "한 사람",
+            "id": "outline",
+            "label": "",
             "x": 400,
-            "y": 180,
-            "width": 100,
-            "height": 100,
-            "fill": "gray"
+            "y": 270,
+            "width": 700,
+            "height": 240,
+            "fill": "none",
+            "shape": "rect"
           },
           {
-            "id": "task1",
-            "shape": "rect",
-            "label": "업무",
-            "x": 260,
-            "y": 360,
-            "width": 130,
-            "height": 70,
-            "fill": "white"
+            "id": "mine",
+            "label": "",
+            "x": 225,
+            "y": 270,
+            "width": 350,
+            "height": 240,
+            "fill": "hatch",
+            "shape": "rect"
           },
           {
-            "id": "task2",
-            "shape": "rect",
-            "label": "업무",
-            "x": 400,
-            "y": 360,
-            "width": 130,
-            "height": 70,
-            "fill": "white"
+            "id": "other",
+            "label": "",
+            "x": 575,
+            "y": 270,
+            "width": 350,
+            "height": 240,
+            "fill": "none",
+            "shape": "rect"
           },
           {
-            "id": "task3",
-            "shape": "rect",
-            "label": "업무",
-            "x": 540,
-            "y": 360,
-            "width": 130,
-            "height": 70,
-            "fill": "white"
+            "id": "mine-label",
+            "label": "대신한 영역",
+            "x": 225,
+            "y": 100,
+            "width": 350,
+            "height": 65,
+            "fill": "none",
+            "shape": "text"
           },
           {
-            "id": "space",
-            "shape": "rect",
-            "label": "다른 사람의 자리",
-            "x": 400,
-            "y": 500,
-            "width": 300,
-            "height": 60,
-            "fill": "none"
+            "id": "other-label",
+            "label": "판단할 영역",
+            "x": 575,
+            "y": 455,
+            "width": 350,
+            "height": 65,
+            "fill": "none",
+            "shape": "text"
           }
         ],
         "events": [
           {
-            "target": "task1",
-            "property": "y",
-            "from": 430,
-            "to": 360,
-            "start": 0.15,
-            "end": 0.45
-          },
-          {
-            "target": "task2",
-            "property": "y",
-            "from": 430,
-            "to": 360,
+            "target": "mine",
+            "property": "width",
+            "from": 350,
+            "to": 520,
             "start": 0.25,
-            "end": 0.55
-          },
-          {
-            "target": "task3",
-            "property": "y",
-            "from": 430,
-            "to": 360,
-            "start": 0.35,
             "end": 0.65
           },
           {
-            "target": "space",
-            "property": "opacity",
-            "from": 1,
-            "to": 0.35,
-            "start": 0.5,
-            "end": 0.8
+            "target": "mine",
+            "property": "x",
+            "from": 225,
+            "to": 310.0,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "other",
+            "property": "width",
+            "from": 350,
+            "to": 180,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "other",
+            "property": "x",
+            "from": 575,
+            "to": 660.0,
+            "start": 0.25,
+            "end": 0.65
           }
         ]
       },
@@ -191,25 +191,25 @@
       "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "role-space-compression",
+        "motif": "semantic-state-change",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "과도한 개입이 타인의 기여 공간을 좁히는 현상",
+        "concept": "개입에 따라 달라지는 상대의 판단 영역",
         "relation": {
-          "type": "accumulation",
-          "description": "한 사람에게 일이 쌓일수록 다른 사람이 판단하고 기여할 공간이 줄어든다"
+          "type": "change-over-time",
+          "description": "해칭 영역이 넓어지고 상대 영역은 줄어든다"
         },
         "strategy": {
-          "type": "physical-metaphor",
-          "metaphor": "업무가 쌓이며 자리의 여백이 압축되는 구조",
-          "rationale": "‘일을 대신함’의 부작용을 업무의 누적과 공간 축소로 보여주면 결과가 직관적으로 드러난다."
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "처리량 증가와 상대의 기회 축소를 함께 본다"
         }
       },
-      "transition": "slide-up",
+      "transition": "fade",
       "camera": {
         "motion": "static",
         "target": "center",
@@ -219,8 +219,9 @@
       },
       "choreography": [
         "show-visual",
-        "accumulate-work",
-        "compress-role-space"
+        "show-headline",
+        "advance-visual",
+        "emphasize-result"
       ],
       "beats": [
         {
@@ -230,7 +231,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": "대신하면",
-          "visualCue": "업무 블록이 쌓임"
+          "visualCue": "내가 대신하는 업무가 늘어난다"
         },
         {
           "text": "당장은 일이 빨리 해결될 수 있습니다",
@@ -239,7 +240,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": "당장은",
-          "visualCue": "업무 누적을 빠르게 진행"
+          "visualCue": "해칭 영역이 넓어지고 상대 영역은 줄어든다"
         },
         {
           "text": "하지만 다른 사람이 기여할 자리는 줄어듭니다",
@@ -248,16 +249,23 @@
           "delivery": "drop",
           "visualPriority": "high",
           "keyword": "줄어듭니다",
-          "visualCue": "하단 공간이 좁아짐"
+          "visualCue": "전체 업무의 크기는 같다"
         }
       ],
       "headline": "일을 대신하면\n누군가의 자리가 좁아진다",
-      "subline": "단기 효율과 장기 기여 가능성은 다를 수 있다",
+      "subline": null,
       "narration": "누군가의 일을 대신하면 당장은 일이 빨리 해결될 수 있습니다. 하지만 다른 사람이 기여할 자리는 줄어듭니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "visualStory": {
+        "initial": "전체 업무 안에 두 영역이 있다",
+        "trigger": "내가 대신하는 업무가 늘어난다",
+        "change": "해칭 영역이 넓어지고 상대 영역은 줄어든다",
+        "invariant": "전체 업무의 크기는 같다",
+        "result": "처리량 증가와 상대의 기회 축소를 함께 본다"
+      }
     },
     {
       "diagramSpec": null,
@@ -348,83 +356,153 @@
     {
       "diagramSpec": {
         "version": 1,
-        "renderer": "auto",
+        "renderer": "remotion",
         "physics": null,
-        "description": "반복되는 마찰이 사람의 기여 의지를 낮추는 누적 구조",
+        "description": "역할의 중첩 지점에서 반복되는 마찰",
         "nodes": [
           {
-            "id": "friction1",
-            "shape": "rect",
-            "label": "마찰",
-            "x": 230,
-            "y": 180,
-            "width": 130,
-            "height": 60,
-            "fill": "gray"
-          },
-          {
-            "id": "friction2",
-            "shape": "rect",
-            "label": "마찰",
-            "x": 400,
-            "y": 260,
-            "width": 130,
-            "height": 60,
-            "fill": "gray"
-          },
-          {
-            "id": "friction3",
-            "shape": "rect",
-            "label": "마찰",
-            "x": 570,
-            "y": 340,
-            "width": 130,
-            "height": 60,
-            "fill": "gray"
-          },
-          {
-            "id": "motivation",
-            "shape": "line",
-            "label": "기여 의욕",
-            "x": 400,
-            "y": 470,
+            "id": "left",
+            "label": "내 역할",
+            "x": 260,
+            "y": 265,
             "width": 350,
-            "height": 5,
-            "fill": "white"
+            "height": 260,
+            "fill": "none",
+            "shape": "rect"
+          },
+          {
+            "id": "right",
+            "label": "상대 역할",
+            "x": 540,
+            "y": 265,
+            "width": 350,
+            "height": 260,
+            "fill": "none",
+            "shape": "rect"
+          },
+          {
+            "id": "overlap",
+            "label": "",
+            "x": 400,
+            "y": 265,
+            "width": 70,
+            "height": 260,
+            "fill": "hatch",
+            "shape": "rect"
+          },
+          {
+            "id": "label",
+            "label": "같은 접점에서 반복되는 마찰",
+            "x": 400,
+            "y": 475,
+            "width": 720,
+            "height": 70,
+            "fill": "none",
+            "shape": "text"
+          },
+          {
+            "id": "friction-0",
+            "label": "",
+            "x": 400,
+            "y": 265,
+            "width": 100,
+            "height": 100,
+            "fill": "none",
+            "shape": "circle"
+          },
+          {
+            "id": "friction-1",
+            "label": "",
+            "x": 400,
+            "y": 265,
+            "width": 100,
+            "height": 100,
+            "fill": "none",
+            "shape": "circle"
+          },
+          {
+            "id": "friction-2",
+            "label": "",
+            "x": 400,
+            "y": 265,
+            "width": 100,
+            "height": 100,
+            "fill": "none",
+            "shape": "circle"
           }
         ],
         "events": [
           {
-            "target": "friction1",
-            "property": "x",
-            "from": 170,
-            "to": 230,
-            "start": 0.1,
-            "end": 0.3
-          },
-          {
-            "target": "friction2",
-            "property": "x",
-            "from": 340,
-            "to": 400,
-            "start": 0.3,
-            "end": 0.5
-          },
-          {
-            "target": "friction3",
-            "property": "x",
-            "from": 510,
-            "to": 570,
-            "start": 0.5,
-            "end": 0.7
-          },
-          {
-            "target": "motivation",
+            "target": "friction-0",
             "property": "scale",
+            "from": 0.6,
+            "to": 1.7,
+            "start": 0.24,
+            "end": 0.38
+          },
+          {
+            "target": "friction-0",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.24,
+            "end": 0.26
+          },
+          {
+            "target": "friction-0",
+            "property": "opacity",
             "from": 1,
-            "to": 0.55,
-            "start": 0.55,
-            "end": 0.9
+            "to": 0,
+            "start": 0.26,
+            "end": 0.38
+          },
+          {
+            "target": "friction-1",
+            "property": "scale",
+            "from": 0.6,
+            "to": 1.7,
+            "start": 0.43,
+            "end": 0.5700000000000001
+          },
+          {
+            "target": "friction-1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.43,
+            "end": 0.45
+          },
+          {
+            "target": "friction-1",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.45,
+            "end": 0.5700000000000001
+          },
+          {
+            "target": "friction-2",
+            "property": "scale",
+            "from": 0.6,
+            "to": 1.7,
+            "start": 0.62,
+            "end": 0.76
+          },
+          {
+            "target": "friction-2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.62,
+            "end": 0.64
+          },
+          {
+            "target": "friction-2",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.64,
+            "end": 0.76
           }
         ]
       },
@@ -432,37 +510,37 @@
       "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "friction-motivation",
+        "motif": "semantic-state-change",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "월권과 반복 마찰이 기여 의지를 깎는 과정",
+        "concept": "역할의 중첩 지점에서 반복되는 마찰",
         "relation": {
           "type": "change-over-time",
-          "description": "마찰이 반복될수록 다시 기여하려는 힘이 감소한다"
+          "description": "같은 위치에서 세 번 짧은 펄스가 생긴다"
         },
         "strategy": {
-          "type": "graph",
-          "metaphor": "마찰의 누적과 동기의 하락",
-          "rationale": "감정적 불쾌감을 단순한 잡음이 아니라 기여 가능성을 변화시키는 누적 변수로 표현한다."
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "사람의 기분과 함께 역할 구조를 돌아본다"
         }
       },
-      "transition": "wipe",
+      "transition": "fade",
       "camera": {
-        "motion": "zoom",
-        "target": "inflection",
+        "motion": "static",
+        "target": "center",
         "intensity": "subtle",
-        "startProgress": 0.15,
-        "endProgress": 0.8
+        "startProgress": 0,
+        "endProgress": 1
       },
       "choreography": [
         "show-visual",
-        "accumulate-friction",
-        "reduce-motivation",
-        "camera-focus"
+        "show-headline",
+        "advance-visual",
+        "emphasize-result"
       ],
       "beats": [
         {
@@ -472,7 +550,7 @@
           "delivery": "normal",
           "visualPriority": "high",
           "keyword": "반복",
-          "visualCue": "마찰 블록이 차례로 쌓임"
+          "visualCue": "겹친 접점에서 마찰이 발생한다"
         },
         {
           "text": "내용뿐 아니라 방식도 돌아봐야 합니다",
@@ -481,7 +559,7 @@
           "delivery": "push",
           "visualPriority": "high",
           "keyword": "방식",
-          "visualCue": "마찰 누적 지점에 초점"
+          "visualCue": "같은 위치에서 세 번 짧은 펄스가 생긴다"
         },
         {
           "text": "월권으로 생긴 불쾌감은 신호일 수 있습니다",
@@ -490,42 +568,181 @@
           "delivery": "hold",
           "visualPriority": "high",
           "keyword": "신호",
-          "visualCue": "동기 선이 약해짐"
+          "visualCue": "영역과 접점 위치를 고정한다"
         }
       ],
       "headline": "반복되는 마찰은\n방식을 돌아보라는 신호다",
-      "subline": "역할이 지워지고 있다는 신호일 수도 있다",
+      "subline": null,
       "narration": "같은 마찰이 반복된다면 내용뿐 아니라 방식도 돌아봐야 합니다. 월권으로 생긴 불쾌감은 신호일 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "visualStory": {
+        "initial": "두 역할 영역이 일부 겹친다",
+        "trigger": "겹친 접점에서 마찰이 발생한다",
+        "change": "같은 위치에서 세 번 짧은 펄스가 생긴다",
+        "invariant": "영역과 접점 위치를 고정한다",
+        "result": "사람의 기분과 함께 역할 구조를 돌아본다"
+      }
     },
     {
-      "diagramSpec": null,
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "같은 개입이라도 상대의 선택 영역에 미치는 결과가 다르다",
+        "nodes": [
+          {
+            "id": "divider",
+            "label": "",
+            "x": 400,
+            "y": 280,
+            "width": 3,
+            "height": 420,
+            "fill": "none",
+            "shape": "rect",
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "left-label",
+            "label": "역할을 덮는 개입",
+            "x": 200,
+            "y": 90,
+            "width": 330,
+            "height": 70,
+            "fill": "none",
+            "shape": "text"
+          },
+          {
+            "id": "right-label",
+            "label": "판단을 돕는 개입",
+            "x": 600,
+            "y": 90,
+            "width": 330,
+            "height": 70,
+            "fill": "none",
+            "shape": "text"
+          },
+          {
+            "id": "cover-outline",
+            "label": "",
+            "x": 200,
+            "y": 285,
+            "width": 300,
+            "height": 240,
+            "fill": "none",
+            "shape": "rect"
+          },
+          {
+            "id": "cover",
+            "label": "",
+            "x": 125,
+            "y": 285,
+            "width": 150,
+            "height": 240,
+            "fill": "hatch",
+            "shape": "rect"
+          },
+          {
+            "id": "support-outline",
+            "label": "",
+            "x": 600,
+            "y": 285,
+            "width": 300,
+            "height": 240,
+            "fill": "none",
+            "shape": "rect"
+          },
+          {
+            "id": "support",
+            "label": "",
+            "x": 525,
+            "y": 285,
+            "width": 150,
+            "height": 240,
+            "fill": "hatch",
+            "shape": "rect"
+          },
+          {
+            "id": "l-result",
+            "label": "선택지가 줄어든다",
+            "x": 200,
+            "y": 475,
+            "width": 330,
+            "height": 65,
+            "fill": "none",
+            "shape": "text"
+          },
+          {
+            "id": "r-result",
+            "label": "선택지가 넓어진다",
+            "x": 600,
+            "y": 475,
+            "width": 330,
+            "height": 65,
+            "fill": "none",
+            "shape": "text"
+          }
+        ],
+        "events": [
+          {
+            "target": "cover",
+            "property": "width",
+            "from": 150,
+            "to": 270,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "cover",
+            "property": "x",
+            "from": 125,
+            "to": 185.0,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "support",
+            "property": "width",
+            "from": 150,
+            "to": 90,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "support",
+            "property": "x",
+            "from": 525,
+            "to": 495.0,
+            "start": 0.25,
+            "end": 0.65
+          }
+        ]
+      },
       "kind": "compare",
-      "layout": "compare-columns",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
-        "motif": null,
+        "type": "diagram",
+        "motif": "semantic-state-change",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "불편한 문제 제기의 두 결과",
+        "concept": "같은 개입이라도 상대의 선택 영역에 미치는 결과가 다르다",
         "relation": {
-          "type": "comparison",
-          "description": "상대의 역할을 약화하는 개입과 상대의 판단을 강화하는 개입이 대비된다"
+          "type": "change-over-time",
+          "description": "왼쪽은 해칭이 덮고 오른쪽은 해칭이 줄어든다"
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "글의 중요한 반전인 ‘불편함 자체가 아니라 결과가 기준’이라는 점을 비교 문장으로 압축한다."
+          "rationale": "불편함보다 상대 역할에 미친 결과를 비교한다"
         }
       },
-      "transition": "slide-left",
+      "transition": "fade",
       "camera": {
         "motion": "static",
         "target": "center",
@@ -534,9 +751,9 @@
         "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
-        "reveal-left",
-        "reveal-right",
+        "advance-visual",
         "emphasize-result"
       ],
       "beats": [
@@ -547,7 +764,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": "불편한",
-          "visualCue": "양쪽 비교 틀 등장"
+          "visualCue": "서로 다른 방식으로 개입한다"
         },
         {
           "text": "나쁜 기여가 되는 것은 아닙니다",
@@ -556,7 +773,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": "나쁜",
-          "visualCue": "왼쪽과 오른쪽 모두 유지"
+          "visualCue": "왼쪽은 해칭이 덮고 오른쪽은 해칭이 줄어든다"
         },
         {
           "text": "중요한 건 그 개입의 결과입니다",
@@ -565,7 +782,7 @@
           "delivery": "push",
           "visualPriority": "high",
           "keyword": "결과",
-          "visualCue": "중앙 강조"
+          "visualCue": "비교 영역의 전체 크기는 같다"
         },
         {
           "text": "상대의 역할을 넓혔는가, 좁혔는가",
@@ -574,133 +791,114 @@
           "delivery": "hold",
           "visualPriority": "high",
           "keyword": "넓혔는가",
-          "visualCue": "두 결과를 대비"
+          "visualCue": "불편함보다 상대 역할에 미친 결과를 비교한다"
         }
       ],
       "headline": "불편함이 기준은 아니다",
-      "subline": "그 개입이 상대의 역할을 넓혔는지를 보라",
+      "subline": null,
       "narration": "불편한 말을 했다는 이유만으로 나쁜 기여가 되는 것은 아닙니다. 중요한 건 그 개입의 결과입니다. 상대의 역할을 넓혔는가, 좁혔는가.",
       "comparisonLeft": "역할을 약화하는 개입",
       "comparisonRight": "판단과 행동을 돕는 개입",
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "visualStory": {
+        "initial": "좌우에 같은 크기의 판단 영역을 둔다",
+        "trigger": "서로 다른 방식으로 개입한다",
+        "change": "왼쪽은 해칭이 덮고 오른쪽은 해칭이 줄어든다",
+        "invariant": "비교 영역의 전체 크기는 같다",
+        "result": "불편함보다 상대 역할에 미친 결과를 비교한다"
+      }
     },
     {
       "diagramSpec": {
         "version": 1,
-        "renderer": "auto",
+        "renderer": "remotion",
         "physics": null,
-        "description": "하나의 개입이 다른 사람의 기여 가능성을 좁히거나 넓히는 갈림 구조",
+        "description": "개입에 따라 달라지는 상대의 판단 영역",
         "nodes": [
           {
-            "id": "input",
-            "shape": "circle",
-            "label": "개입",
-            "x": 150,
-            "y": 280,
-            "width": 90,
-            "height": 90,
-            "fill": "gray"
-          },
-          {
-            "id": "split",
-            "shape": "line",
+            "id": "outline",
             "label": "",
-            "x": 320,
-            "y": 280,
-            "width": 100,
-            "height": 3,
-            "fill": "white"
+            "x": 400,
+            "y": 270,
+            "width": 700,
+            "height": 240,
+            "fill": "none",
+            "shape": "rect"
           },
           {
-            "id": "narrow",
-            "shape": "rect",
-            "label": "자리 축소",
-            "x": 570,
-            "y": 170,
-            "width": 180,
-            "height": 90,
-            "fill": "gray"
-          },
-          {
-            "id": "expand",
-            "shape": "rect",
-            "label": "판단 확장",
-            "x": 570,
-            "y": 390,
-            "width": 180,
-            "height": 90,
-            "fill": "white"
-          },
-          {
-            "id": "u",
-            "shape": "line",
+            "id": "mine",
             "label": "",
-            "x": 425,
-            "y": 225,
-            "width": 155.56349186104046,
-            "height": 3,
-            "fill": "gray"
+            "x": 225,
+            "y": 270,
+            "width": 350,
+            "height": 240,
+            "fill": "hatch",
+            "shape": "rect"
           },
           {
-            "id": "d",
-            "shape": "line",
+            "id": "other",
             "label": "",
-            "x": 425,
-            "y": 335,
-            "width": 155.56349186104046,
-            "height": 3,
-            "fill": "white"
+            "x": 575,
+            "y": 270,
+            "width": 350,
+            "height": 240,
+            "fill": "none",
+            "shape": "rect"
+          },
+          {
+            "id": "mine-label",
+            "label": "대신한 영역",
+            "x": 225,
+            "y": 100,
+            "width": 350,
+            "height": 65,
+            "fill": "none",
+            "shape": "text"
+          },
+          {
+            "id": "other-label",
+            "label": "판단할 영역",
+            "x": 575,
+            "y": 455,
+            "width": 350,
+            "height": 65,
+            "fill": "none",
+            "shape": "text"
           }
         ],
         "events": [
           {
-            "target": "u",
-            "property": "opacity",
-            "from": 0,
-            "to": 1,
+            "target": "mine",
+            "property": "width",
+            "from": 350,
+            "to": 210,
             "start": 0.25,
-            "end": 0.55
-          },
-          {
-            "target": "d",
-            "property": "opacity",
-            "from": 0,
-            "to": 1,
-            "start": 0.35,
             "end": 0.65
           },
           {
-            "target": "narrow",
-            "property": "opacity",
-            "from": 0.45,
-            "to": 1,
-            "start": 0.45,
-            "end": 0.75
+            "target": "mine",
+            "property": "x",
+            "from": 225,
+            "to": 155.0,
+            "start": 0.25,
+            "end": 0.65
           },
           {
-            "target": "expand",
-            "property": "opacity",
-            "from": 0.45,
-            "to": 1,
-            "start": 0.55,
-            "end": 0.85
+            "target": "other",
+            "property": "width",
+            "from": 350,
+            "to": 490,
+            "start": 0.25,
+            "end": 0.65
           },
           {
-            "target": "u",
-            "property": "rotation",
-            "from": -45,
-            "to": -45,
-            "start": 0,
-            "end": 1
-          },
-          {
-            "target": "d",
-            "property": "rotation",
-            "from": 45,
-            "to": 45,
-            "start": 0,
-            "end": 1
+            "target": "other",
+            "property": "x",
+            "from": 575,
+            "to": 505.0,
+            "start": 0.25,
+            "end": 0.65
           }
         ]
       },
@@ -708,36 +906,36 @@
       "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "contribution-branch",
+        "motif": "semantic-state-change",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "개입의 결과로 갈라지는 기여",
+        "concept": "개입에 따라 달라지는 상대의 판단 영역",
         "relation": {
-          "type": "divergence",
-          "description": "같은 문제 제기도 역할을 좁히거나 판단을 확장하는 방향으로 갈라진다"
+          "type": "change-over-time",
+          "description": "대신 정한 영역을 줄이고 상대의 선택 영역을 넓힌다"
         },
         "strategy": {
           "type": "spatial-diagram",
-          "metaphor": "개입 이후 두 갈래의 결과",
-          "rationale": "기여의 평가는 말의 편안함이 아니라 상대의 기여 가능성이 어느 방향으로 변했는지로 판단해야 하므로 갈림 구조가 적합하다."
+          "metaphor": null,
+          "rationale": "편한 말인지보다 판단할 여지가 늘었는지 본다"
         }
       },
-      "transition": "slide-up",
+      "transition": "fade",
       "camera": {
-        "motion": "pan-right",
-        "target": "endpoint",
+        "motion": "static",
+        "target": "center",
         "intensity": "subtle",
-        "startProgress": 0.1,
-        "endProgress": 0.85
+        "startProgress": 0,
+        "endProgress": 1
       },
       "choreography": [
         "show-visual",
-        "split-intervention",
-        "reveal-outcomes",
+        "show-headline",
+        "advance-visual",
         "emphasize-result"
       ],
       "beats": [
@@ -748,7 +946,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": "문제",
-          "visualCue": "개입 노드 등장"
+          "visualCue": "결정에 필요한 맥락을 제공한다"
         },
         {
           "text": "상대가 더 잘 판단하고 행동하게 했다면",
@@ -757,7 +955,7 @@
           "delivery": "normal",
           "visualPriority": "high",
           "keyword": "판단하고",
-          "visualCue": "확장 경로로 이동"
+          "visualCue": "대신 정한 영역을 줄이고 상대의 선택 영역을 넓힌다"
         },
         {
           "text": "긍정적인 기여가 될 수 있습니다",
@@ -766,7 +964,7 @@
           "delivery": "hold",
           "visualPriority": "high",
           "keyword": "긍정적인",
-          "visualCue": "판단 확장 결과 강조"
+          "visualCue": "전체 업무의 틀은 유지된다"
         },
         {
           "text": "반대로 옳은 답을 관철해도 역할을 약화했다면",
@@ -775,7 +973,7 @@
           "delivery": "push",
           "visualPriority": "high",
           "keyword": "약화",
-          "visualCue": "축소 경로도 함께 표시"
+          "visualCue": "편한 말인지보다 판단할 여지가 늘었는지 본다"
         },
         {
           "text": "부정적인 기여일 수 있습니다",
@@ -784,16 +982,23 @@
           "delivery": "drop",
           "visualPriority": "high",
           "keyword": "부정적인",
-          "visualCue": "두 결과를 대비"
+          "visualCue": "편한 말인지보다 판단할 여지가 늘었는지 본다"
         }
       ],
       "headline": "기여의 기준은\n말이 편했는지가 아니다",
-      "subline": "상대의 기여 가능성을 넓혔는가",
+      "subline": null,
       "narration": "불편한 문제를 제기해도 상대가 더 잘 판단하고 행동하게 했다면 긍정적인 기여가 될 수 있습니다. 반대로 옳은 답을 관철해도 역할을 약화했다면 부정적인 기여일 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "visualStory": {
+        "initial": "상대가 판단할 영역이 제한돼 있다",
+        "trigger": "결정에 필요한 맥락을 제공한다",
+        "change": "대신 정한 영역을 줄이고 상대의 선택 영역을 넓힌다",
+        "invariant": "전체 업무의 틀은 유지된다",
+        "result": "편한 말인지보다 판단할 여지가 늘었는지 본다"
+      }
     },
     {
       "diagramSpec": null,
@@ -885,182 +1090,378 @@
     {
       "diagramSpec": {
         "version": 1,
-        "renderer": "auto",
+        "renderer": "remotion",
         "physics": null,
-        "description": "한 사람의 개입이 여러 사람의 독립적인 기여로 확장되는 네트워크",
+        "description": "중앙의 내가 사라진 뒤에도 이어지는 각자의 판단",
         "nodes": [
           {
-            "id": "signal",
-            "shape": "circle",
-            "label": "방향",
-            "x": 160,
-            "y": 280,
-            "width": 90,
-            "height": 90,
-            "fill": "gray"
-          },
-          {
-            "id": "person1",
-            "shape": "circle",
-            "label": "판단",
-            "x": 470,
-            "y": 150,
-            "width": 112,
-            "height": 112,
-            "fill": "white"
-          },
-          {
-            "id": "person2",
-            "shape": "circle",
-            "label": "판단",
-            "x": 620,
-            "y": 280,
-            "width": 112,
-            "height": 112,
-            "fill": "white"
-          },
-          {
-            "id": "person3",
-            "shape": "circle",
-            "label": "판단",
-            "x": 470,
-            "y": 410,
-            "width": 112,
-            "height": 112,
-            "fill": "white"
-          },
-          {
-            "id": "e1",
-            "shape": "line",
+            "id": "old-link-0",
             "label": "",
-            "x": 309.5,
-            "y": 215,
-            "width": 246.13207836444238,
+            "x": 275.0,
+            "y": 197.5,
+            "width": 284.1214529035075,
             "height": 3,
-            "fill": "white"
+            "fill": "none",
+            "shape": "line"
           },
           {
-            "id": "e2",
-            "shape": "line",
+            "id": "old-link-1",
             "label": "",
-            "x": 384.5,
-            "y": 280,
-            "width": 359,
+            "x": 525.0,
+            "y": 197.5,
+            "width": 284.1214529035075,
             "height": 3,
-            "fill": "white"
+            "fill": "none",
+            "shape": "line"
           },
           {
-            "id": "e3",
-            "shape": "line",
+            "id": "old-link-2",
             "label": "",
-            "x": 309.5,
-            "y": 345,
-            "width": 246.13207836444238,
+            "x": 400.0,
+            "y": 360.0,
+            "width": 190.0,
             "height": 3,
-            "fill": "white"
+            "fill": "none",
+            "shape": "line"
+          },
+          {
+            "id": "peer-0",
+            "label": "",
+            "x": 400.0,
+            "y": 130.0,
+            "width": 500.0,
+            "height": 3,
+            "fill": "none",
+            "shape": "line"
+          },
+          {
+            "id": "decision-0",
+            "label": "",
+            "x": 150,
+            "y": 130,
+            "width": 14,
+            "height": 14,
+            "fill": "white",
+            "shape": "circle"
+          },
+          {
+            "id": "peer-1",
+            "label": "",
+            "x": 525.0,
+            "y": 292.5,
+            "width": 410.03048667141815,
+            "height": 3,
+            "fill": "none",
+            "shape": "line"
+          },
+          {
+            "id": "decision-1",
+            "label": "",
+            "x": 650,
+            "y": 130,
+            "width": 14,
+            "height": 14,
+            "fill": "white",
+            "shape": "circle"
+          },
+          {
+            "id": "peer-2",
+            "label": "",
+            "x": 275.0,
+            "y": 292.5,
+            "width": 410.03048667141815,
+            "height": 3,
+            "fill": "none",
+            "shape": "line"
+          },
+          {
+            "id": "decision-2",
+            "label": "",
+            "x": 400,
+            "y": 455,
+            "width": 14,
+            "height": 14,
+            "fill": "white",
+            "shape": "circle"
+          },
+          {
+            "id": "me",
+            "label": "나",
+            "x": 400,
+            "y": 265,
+            "width": 100,
+            "height": 100,
+            "fill": "gray",
+            "shape": "circle"
+          },
+          {
+            "id": "a",
+            "label": "판단 A",
+            "x": 150,
+            "y": 130,
+            "width": 180,
+            "height": 110,
+            "fill": "white",
+            "shape": "rect"
+          },
+          {
+            "id": "b",
+            "label": "판단 B",
+            "x": 650,
+            "y": 130,
+            "width": 180,
+            "height": 110,
+            "fill": "white",
+            "shape": "rect"
+          },
+          {
+            "id": "c",
+            "label": "판단 C",
+            "x": 400,
+            "y": 455,
+            "width": 180,
+            "height": 110,
+            "fill": "white",
+            "shape": "rect"
           }
         ],
         "events": [
           {
-            "target": "e1",
+            "target": "old-link-0",
+            "property": "rotation",
+            "from": -151.6309537067214,
+            "to": -151.6309537067214,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "old-link-0",
             "property": "opacity",
-            "from": 0,
-            "to": 1,
+            "from": 1,
+            "to": 0,
             "start": 0.25,
-            "end": 0.65
+            "end": 0.4
           },
           {
-            "target": "e2",
-            "property": "opacity",
-            "from": 0,
-            "to": 1,
-            "start": 0.3,
-            "end": 0.7
-          },
-          {
-            "target": "e3",
-            "property": "opacity",
-            "from": 0,
-            "to": 1,
-            "start": 0.35,
-            "end": 0.75
-          },
-          {
-            "target": "person1",
-            "property": "scale",
-            "from": 0.85,
-            "to": 1,
-            "start": 0.5,
-            "end": 0.8
-          },
-          {
-            "target": "person2",
-            "property": "scale",
-            "from": 0.85,
-            "to": 1,
-            "start": 0.55,
-            "end": 0.85
-          },
-          {
-            "target": "person3",
-            "property": "scale",
-            "from": 0.85,
-            "to": 1,
-            "start": 0.6,
-            "end": 0.9
-          },
-          {
-            "target": "e1",
+            "target": "old-link-1",
             "property": "rotation",
-            "from": -31.882007473894138,
-            "to": -31.882007473894138,
+            "from": -28.369046293278583,
+            "to": -28.369046293278583,
             "start": 0,
             "end": 1
           },
           {
-            "target": "e3",
+            "target": "old-link-1",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.25,
+            "end": 0.4
+          },
+          {
+            "target": "old-link-2",
             "property": "rotation",
-            "from": 31.882007473894138,
-            "to": 31.882007473894138,
+            "from": 90.0,
+            "to": 90.0,
             "start": 0,
             "end": 1
+          },
+          {
+            "target": "old-link-2",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.25,
+            "end": 0.4
+          },
+          {
+            "target": "peer-0",
+            "property": "rotation",
+            "from": 0.0,
+            "to": 0.0,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "peer-0",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.42,
+            "end": 0.55
+          },
+          {
+            "target": "decision-0",
+            "property": "x",
+            "from": 150,
+            "to": 650,
+            "start": 0.56,
+            "end": 0.74
+          },
+          {
+            "target": "decision-0",
+            "property": "y",
+            "from": 130,
+            "to": 130,
+            "start": 0.56,
+            "end": 0.74
+          },
+          {
+            "target": "decision-0",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.56,
+            "end": 0.5700000000000001
+          },
+          {
+            "target": "decision-0",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.74,
+            "end": 0.76
+          },
+          {
+            "target": "peer-1",
+            "property": "rotation",
+            "from": 127.56859202882748,
+            "to": 127.56859202882748,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "peer-1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.42,
+            "end": 0.55
+          },
+          {
+            "target": "decision-1",
+            "property": "x",
+            "from": 650,
+            "to": 400,
+            "start": 0.56,
+            "end": 0.74
+          },
+          {
+            "target": "decision-1",
+            "property": "y",
+            "from": 130,
+            "to": 455,
+            "start": 0.56,
+            "end": 0.74
+          },
+          {
+            "target": "decision-1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.56,
+            "end": 0.5700000000000001
+          },
+          {
+            "target": "decision-1",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.74,
+            "end": 0.76
+          },
+          {
+            "target": "peer-2",
+            "property": "rotation",
+            "from": -127.56859202882748,
+            "to": -127.56859202882748,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "peer-2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.42,
+            "end": 0.55
+          },
+          {
+            "target": "decision-2",
+            "property": "x",
+            "from": 400,
+            "to": 150,
+            "start": 0.56,
+            "end": 0.74
+          },
+          {
+            "target": "decision-2",
+            "property": "y",
+            "from": 455,
+            "to": 130,
+            "start": 0.56,
+            "end": 0.74
+          },
+          {
+            "target": "decision-2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.56,
+            "end": 0.5700000000000001
+          },
+          {
+            "target": "decision-2",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.74,
+            "end": 0.76
+          },
+          {
+            "target": "me",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.25,
+            "end": 0.4
           }
         ]
       },
       "kind": "outro",
-      "layout": "outro-minimal",
+      "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "contribution-capacity",
+        "motif": "semantic-state-change",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "개인의 정답에서 조직 전체의 기여 가능성으로",
+        "concept": "중앙의 내가 사라진 뒤에도 이어지는 각자의 판단",
         "relation": {
-          "type": "network-growth",
-          "description": "하나의 단서가 여러 사람의 독립적인 판단과 기여로 확장된다"
+          "type": "change-over-time",
+          "description": "각자의 연결을 따라 판단 신호가 계속 이동한다"
         },
         "strategy": {
-          "type": "graph",
-          "metaphor": "정답 전달이 아니라 기여 가능성의 확장",
-          "rationale": "좋은 동료와 리더의 목적을 개인의 성과가 아닌 여러 사람의 판단 가능성 증가로 시각화한다."
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "내가 없어도 작동하는 구조로 끝난다"
         }
       },
       "transition": "fade",
       "camera": {
-        "motion": "pull-out",
+        "motion": "static",
         "target": "center",
         "intensity": "subtle",
-        "startProgress": 0.2,
-        "endProgress": 0.95
+        "startProgress": 0,
+        "endProgress": 1
       },
       "choreography": [
         "show-visual",
-        "reveal-independent-contributions",
-        "camera-focus",
+        "show-headline",
+        "advance-visual",
         "emphasize-result"
       ],
       "beats": [
@@ -1071,7 +1472,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": "모든 일",
-          "visualCue": "단서 노드에 초점"
+          "visualCue": "중앙의 나와 그 연결이 사라진다"
         },
         {
           "text": "내가 없어도 사람들이 판단하고 기여하게 만드는 것",
@@ -1080,7 +1481,7 @@
           "delivery": "push",
           "visualPriority": "high",
           "keyword": "내가 없어도",
-          "visualCue": "여러 판단 노드가 확장"
+          "visualCue": "각자의 연결을 따라 판단 신호가 계속 이동한다"
         },
         {
           "text": "그게 좋은 기여의 마지막 기준입니다",
@@ -1089,16 +1490,23 @@
           "delivery": "hold",
           "visualPriority": "high",
           "keyword": "좋은 기여",
-          "visualCue": "네트워크 전체를 보여줌"
+          "visualCue": "세 사람의 위치와 판단 역할은 유지된다"
         }
       ],
       "headline": "좋은 기여는\n내가 없어도 작동하게 만든다",
-      "subline": "더 많은 사람이 자신의 자리에서 판단하고 기여할 수 있도록",
+      "subline": null,
       "narration": "내가 모든 일을 해결하는 것이 아니라, 내가 없어도 사람들이 판단하고 기여하게 만드는 것. 그게 좋은 기여의 마지막 기준입니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "visualStory": {
+        "initial": "나를 중심으로 세 사람의 판단이 연결돼 있다",
+        "trigger": "중앙의 나와 그 연결이 사라진다",
+        "change": "각자의 연결을 따라 판단 신호가 계속 이동한다",
+        "invariant": "세 사람의 위치와 판단 역할은 유지된다",
+        "result": "내가 없어도 작동하는 구조로 끝난다"
+      }
     }
   ]
 }

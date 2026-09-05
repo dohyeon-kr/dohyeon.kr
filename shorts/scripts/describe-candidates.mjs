@@ -41,7 +41,7 @@ function movement(event, nodes) {
     x: up ? '오른쪽으로 이동' : '왼쪽으로 이동',
     y: up ? '아래로 이동' : '위로 이동',
     opacity: up ? '점차 드러남' : '점차 흐려짐',
-    scale: up ? '커짐' : '작아짐', rotation: '기울기 변화',
+    width: up ? '영역이 넓어짐' : '영역이 좁아짐', height: up ? '영역이 높아짐' : '영역이 낮아짐', scale: up ? '커짐' : '작아짐', rotation: '기울기 변화',
   }[event.property] ?? label(event.property));
   return `${target}: ${action}`;
 }
@@ -77,6 +77,10 @@ export function describeCandidate(manifest, filename) {
     const spec = scene.diagramSpec;
     if (spec?.nodes?.length) out.push(`- 도식 구성: ${spec.nodes.map(n => `${label(n.shape)}${n.label ? ` ‘${md(n.label)}’` : ''}`).join(', ')}`);
     out.push('', '**연출 흐름**', '');
+    if (scene.visualStory) {
+      for (const [key, title] of Object.entries({initial: '시작', trigger: '사건', change: '변화', invariant: '유지', result: '결과'})) out.push(`- ${title}: ${md(scene.visualStory[key])}`);
+      out.push('');
+    }
     const choreography = scene.choreography ?? [];
     out.push(choreography.length ? choreography.map((item, i) => `${i + 1}. ${labels[item] ? label(item) : `추가 연출 지시: ${md(item)}`}`).join('\n') : '별도 연출 지시 없음');
     if (spec?.events?.length) {

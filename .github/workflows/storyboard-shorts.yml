@@ -93,7 +93,7 @@ jobs:
         run: |
           set -euo pipefail
           while IFS= read -r -d '' storyboard_dir; do
-            mapfile -d '' scenes < <(find "${storyboard_dir}" -maxdepth 1 -type f -name '*-scene-*.png' -print0 | sort -z)
+            mapfile -d '' scenes < <(find "${storyboard_dir}" -maxdepth 1 -type f -name '*-scene-[0-9][0-9].png' -print0 | sort -z)
             [[ "${#scenes[@]}" -gt 0 ]] || continue
             base="$(basename "${storyboard_dir}")"
             montage "${scenes[@]}" \
@@ -103,6 +103,17 @@ jobs:
               -background '#050505' \
               -quality 90 \
               "${storyboard_dir}/${base}-contact-sheet.jpg"
+            # One row per diagram: initial → change → result. Non-diagram scenes appear once.
+            motion_frames=()
+            for scene in "${scenes[@]}"; do
+              stem="${scene%.png}"
+              if [[ -f "${stem}-initial.png" ]]; then
+                motion_frames+=("${stem}-initial.png" "${stem}-change.png" "${scene}")
+              fi
+            done
+            if [[ "${#motion_frames[@]}" -gt 0 ]]; then
+              montage "${motion_frames[@]}" -thumbnail '360x640' -tile 3x -geometry +8+8 -background '#050505' -quality 90 "${storyboard_dir}/${base}-motion-contact-sheet.jpg"
+            fi
             img2pdf "${scenes[@]}" -o "${storyboard_dir}/${base}-storyboard.pdf"
           done < <(find shorts/out/storyboards -mindepth 1 -maxdepth 1 -type d -print0)
 
