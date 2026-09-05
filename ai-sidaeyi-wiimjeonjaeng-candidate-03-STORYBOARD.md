@@ -1,0 +1,815 @@
+# 너무 맞아서 남지 않는 글
+
+원본: [candidate-03.json](https://github.com/dohyeon-kr/dohyeon.kr/blob/46737784b53ced517c5d8d2d40ecc74a225a427e/shorts/content/ai-sidaeyi-wiimjeonjaeng/candidate-03.json)
+
+JSON에서 자동 생성한 검토용 스토리보드입니다. 수정은 원본 JSON에 반영한 뒤 다시 생성하세요. 연출 설명은 기획 의도이며, 실제 배치·동작은 렌더된 스냅샷과 영상으로 확인합니다. 음성 생성 전이므로 재생 시간은 확정하지 않습니다.
+
+**첫 문장:** 틀린 말이 없는데, 왜 AI 글은 기억에 남지 않을까?
+
+**기획 의도:** 원문의 ‘AI 콘텐츠 피로’를 하나의 인과관계로 발전시킨 확장 구성이다. 1~6장 ‘거부감의 신호’, 7~12장 ‘평균으로 수렴하는 답’, 13~18장 ‘잡음이 곧 사람의 좌표’로 구성한다. 세 소주제 모두 AI 자체보다 경험의 경로가 사라지는 문제를 설명하므로 하나의 영상으로 자연스럽게 이어진다.
+
+**원문:** [AI 시대의 위임전쟁](<https://blog.dohyeon.kr/ai-sidaeyi-wiimjeonjaeng/>)
+
+## 1. 도입 — 왜 아무것도 남지 않을까?
+
+![장면 1](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-01.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-01.png)
+
+**내레이션**
+
+틀린 말이 없는데 왜 바로 넘길까요?
+
+**화면 구성**
+
+- 주 문구: 왜 아무것도 남지 않을까?
+- 배치: 문장을 비대칭으로 배치
+- 전달할 관계: 독자가 매끄러운 콘텐츠를 읽지 않고 넘기는 행동
+- 표현 방식: 문장 중심
+- 표현 이유: 사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다.
+- **시각 연출 검토 필요:** 사진을 찾지 못해 텍스트 장면으로 전환했습니다. 원래 검색어: person scrolling smartphone
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 틀린 말이 없는데
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+2. **왜 바로 넘길까요?**
+   - 강조 강 · 여운을 두어 · 뒤에 250ms 쉼
+   - 강조 단어: **왜**
+
+## 2. 핵심 메시지 — 내용보다 먼저 보이는 신호
+
+![장면 2](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-02.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-02.png)
+
+**내레이션**
+
+특정 표현 하나가 AI라는 신호가 됩니다.
+
+**화면 구성**
+
+- 주 문구: 내용보다 먼저 보이는 신호
+- 보조 문구: 한국어에서 낯선 형식은 출처를 의심하게 한다
+- 배치: 문장을 비대칭으로 배치
+- 전달할 관계: 특정 표현이 내용보다 먼저 출처를 의심하게 만든다
+- 표현 방식: 아이콘 — 문장 속 대시가 경고등처럼 작동한다
+- 표현 이유: 짧은 문장 부호를 크게 제시하면 형식이 판단을 앞서는 현상을 빠르게 보여준다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 위로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 특정 표현 하나가
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 강조 단어: **표현**
+   - 연출 의도: 대시가 나타난다
+2. **AI라는 신호가 됩니다**
+   - 강조 강 · 힘주어 · 뒤에 180ms 쉼
+   - 강조 단어: **신호**
+   - 연출 의도: 문장보다 기호가 커진다
+
+## 3. 비교 — 유익함과 신뢰는 같지 않다
+
+![장면 3](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-03.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-03.png)
+
+**내레이션**
+
+빠르고 유익해도 계속 읽히는 건 아닙니다.
+
+**화면 구성**
+
+- 주 문구: 유익함과 신뢰는 같지 않다
+- 배치: 두 대상을 대비
+- 비교: 맥락을 빠르게 정리 ↔ 형식만 보고 이탈
+- 전달할 관계: AI 콘텐츠는 유익하지만 동시에 반복되는 형식으로 피로를 만든다
+- 표현 방식: 문장 중심 — 한 화면의 상반된 평가
+- 표현 이유: 실제 비교 문구를 나란히 놓는 편이 장식적 상징보다 양면성을 명확히 드러낸다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 시각 요소의 변화 진행
+
+카메라: 고정
+
+장면 전환: 왼쪽으로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 빠르고 유익해도
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 강조 단어: **유익**
+   - 연출 의도: 왼쪽 평가가 나타난다
+2. **계속 읽히는 건 아닙니다**
+   - 강조 강 · 낮추어 마무리 · 뒤에 220ms 쉼
+   - 강조 단어: **아닙니다**
+   - 연출 의도: 오른쪽 평가가 선명해진다
+
+## 4. 핵심 메시지 — AI 콘텐츠 피로
+
+![장면 4](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-04.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-04.png)
+
+**내레이션**
+
+거부감은 갑자기 생긴 게 아니라 비슷한 글이 쌓인 결과입니다.
+
+**화면 구성**
+
+- 주 문구: AI 콘텐츠 피로
+- 보조 문구: 같은 리듬과 결론이 반복된다
+- 배치: 문장을 비대칭으로 배치
+- 전달할 관계: 유사한 형식의 콘텐츠가 누적되며 피로가 커진다
+- 표현 방식: 문장 중심
+- 표현 이유: 사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다.
+- **시각 연출 검토 필요:** 사진을 찾지 못해 텍스트 장면으로 전환했습니다. 원래 검색어: crowded digital content feed
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 보조 문구 등장
+3. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 거부감은 갑자기 생긴 게 아니라
+   - 강조 약 · 자연스럽게 · 뒤에 80ms 쉼
+2. **비슷한 글이 쌓인 결과입니다**
+   - 강조 강 · 힘주어 · 뒤에 180ms 쉼
+   - 강조 단어: **쌓인**
+
+## 5. 도입 — 거부감 아래의 공통점
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-05-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-05-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-05.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-05.png)
+
+**내레이션**
+
+반응은 달라도 원인은 하나로 모입니다.
+
+**화면 구성**
+
+- 주 문구: 거부감 아래의 공통점
+- 배치: 도식을 중앙에 배치
+- 전달할 관계: 서로 다른 거부 행동이 콘텐츠 피로라는 원인으로 모인다
+- 표현 방식: 공간 도식 — 여러 신호가 하나의 피로로 수렴한다
+- 표현 이유: 반응을 개별 아이콘으로 나열하는 대신 연결 구조로 공통 원인을 보여준다.
+- 도식 구성: 사각형 ‘바로 넘김’, 사각형 ‘AI;DR’, 사각형 ‘사람처럼 수정’, 사각형 ‘출처 의심’, 원 ‘콘텐츠 피로’, 선, 선, 선, 선
+
+**연출 흐름**
+
+- 시작: 서로 다른 거부 반응이 화면 가장자리에 분리돼 있다.
+- 사건: AI 콘텐츠라는 공통 원인이 나타난다.
+- 변화: 반응들이 중앙의 피로 영역으로 모인다.
+- 유지: 각 반응의 라벨과 중앙 제목은 끝까지 가려지지 않는다.
+- 결과: 단순한 취향이 아니라 누적된 피로라는 구조가 보인다.
+
+1. 시각 요소 등장
+2. 시각 요소의 변화 진행
+3. 결과 강조
+
+도식에서 설정된 변화(시작 순서):
+
+- 선: 점차 드러남
+- 선: 점차 드러남
+- 선: 점차 드러남
+- 선: 점차 드러남
+- 콘텐츠 피로: 커짐
+
+카메라: 다가가기 · 중앙 · 약하게
+
+장면 전환: 쓸어내며 전환
+
+**자막과 낭독 리듬**
+
+1. 반응은 달라도
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 네 연결선이 순서대로 나타난다
+2. **원인은 하나로 모입니다**
+   - 강조 강 · 여운을 두어 · 뒤에 220ms 쉼
+   - 강조 단어: **피로** (자막에 해당 단어 없음 — 확인 필요)
+   - 연출 의도: 중앙 피로 원이 확대된다
+
+## 6. 핵심 메시지 — AI가 아니라 빠진 것의 문제
+
+![장면 6](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-06.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-06.png)
+
+**내레이션**
+
+사람들이 싫어하는 건 AI 자체가 아닐 수 있습니다.
+
+**화면 구성**
+
+- 주 문구: AI가 아니라 빠진 것의 문제
+- 배치: 큰 문장을 중심에 배치
+- 전달할 관계: 도구에 대한 반감이 아니라 결과물에서 빠진 요소가 문제다
+- 표현 방식: 문장 중심
+- 표현 이유: 장의 작은 결론은 불필요한 도상 없이 대비 문장 자체를 전면에 두는 편이 강하다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 사람들이 싫어하는 건
+   - 강조 약 · 자연스럽게 · 뒤에 100ms 쉼
+   - 연출 의도: 첫 줄이 나타난다
+2. **AI 자체가 아닐 수 있습니다**
+   - 강조 강 · 낮추어 마무리 · 뒤에 280ms 쉼
+   - 강조 단어: **자체**
+   - 연출 의도: ‘아닐 수 있다’가 강조된다
+
+## 7. 도입 — 02 정답의 수렴
+
+![장면 7](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-07.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-07.png)
+
+**내레이션**
+
+그렇다면 AI의 답은 어디로 향할까요?
+
+**화면 구성**
+
+- 주 문구: 02 정답의 수렴
+- 배치: 문장을 비대칭으로 배치
+- 전달할 관계: 표면적 거부감에서 답이 만들어지는 방식으로 관점을 이동한다
+- 표현 방식: 숫자
+- 표현 이유: 챕터 번호와 질문만 남겨 논리적 전환을 명료하게 만든다.
+- 표시 값: 2
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 보조 문구 등장
+
+카메라: 고정
+
+장면 전환: 위로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 그렇다면 AI의 답은
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 챕터 번호가 나타난다
+2. **어디로 향할까요?**
+   - 강조 강 · 여운을 두어 · 뒤에 220ms 쉼
+   - 강조 단어: **어디**
+   - 연출 의도: 질문을 중앙에 고정한다
+
+## 8. 도입 — 다양함이 평균이 되는 과정
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-08-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-08-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-08.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-08.png)
+
+**내레이션**
+
+많은 경험을 종합할수록 답은 중앙으로 수렴합니다.
+
+**화면 구성**
+
+- 주 문구: 다양함이 평균이 되는 과정
+- 배치: 도식을 중앙에 배치
+- 전달할 관계: 극단적이고 특이한 선택들이 안전하고 합리적인 답으로 모인다
+- 표현 방식: 시뮬레이션 — 분포의 점들이 중앙값으로 끌려간다
+- 표현 이유: 수렴 과정을 실제 이동으로 보여주면 ‘평균화’의 손실을 정적 아이콘보다 선명하게 이해할 수 있다.
+- 도식 구성: 원 ‘공격적’, 원 ‘보수적’, 원 ‘집착’, 원 ‘모험’, 사각형 ‘안전한 답’
+
+**연출 흐름**
+
+- 시작: 서로 다른 선택들이 넓게 흩어져 있다.
+- 사건: 종합 과정이 시작된다.
+- 변화: 점들이 중앙의 안전한 답으로 이동한다.
+- 유지: 개별 선택 라벨과 중앙 답은 이동 중에도 서로 겹치지 않는다.
+- 결과: 다양성이 줄고 중앙값만 남는다.
+
+1. 시각 요소 등장
+2. 시각 요소의 변화 진행
+3. 핵심 부분에 시선 집중
+
+도식에서 설정된 변화(시작 순서):
+
+- 공격적: 오른쪽으로 이동
+- 공격적: 아래로 이동
+- 보수적: 왼쪽으로 이동
+- 보수적: 아래로 이동
+- 집착: 오른쪽으로 이동
+- 집착: 위로 이동
+- 모험: 왼쪽으로 이동
+- 모험: 위로 이동
+- 안전한 답: 커짐
+
+카메라: 다가가기 · 끝 지점 · 중간 강도로
+
+장면 전환: 쓸어내며 전환
+
+**자막과 낭독 리듬**
+
+1. 많은 경험을 종합할수록
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 강조 단어: **종합**
+   - 연출 의도: 네 점이 중앙으로 이동한다
+2. **답은 중앙으로 수렴합니다**
+   - 강조 강 · 힘주어 · 뒤에 220ms 쉼
+   - 강조 단어: **중앙**
+   - 연출 의도: 안전한 답이 확대된다
+
+## 9. 핵심 메시지 — 모두 맞는 말
+
+![장면 9](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-09.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-09.png)
+
+**내레이션**
+
+검증하고 소통하고 우선순위와 리스크를 관리하라.
+
+**화면 구성**
+
+- 주 문구: 모두 맞는 말
+- 보조 문구: 검증 · 소통 · 우선순위 · 리스크
+- 배치: 문장을 비대칭으로 배치
+- 전달할 관계: 옳은 원칙들이 연속으로 쌓여 빈틈없는 답을 만든다
+- 표현 방식: 문장 중심
+- 표현 이유: 원문의 전형적인 조언을 그대로 읽게 하는 것이 평균적 답의 질감을 가장 정확히 보여준다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 시각 요소의 변화 진행
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 검증하고 소통하고
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 원칙이 한 줄씩 쌓인다
+2. 우선순위와 리스크를 관리하라
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+   - 강조 단어: **관리**
+   - 연출 의도: 마지막 원칙이 정렬된다
+
+## 10. 비교 — 결론은 있는데 경로가 없다
+
+![장면 10](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-10.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-10.png)
+
+**내레이션**
+
+문제는 정답이 아니라 거기까지의 경로가 없다는 것입니다.
+
+**화면 구성**
+
+- 주 문구: 결론은 있는데 경로가 없다
+- 배치: 두 열로 비교
+- 비교: 안전한 결론 ↔ 오해 · 실수 · 변화
+- 전달할 관계: AI의 결론에는 실제 사람이 지나온 오해와 실수가 빠져 있다
+- 표현 방식: 문장 중심
+- 표현 이유: 결론과 경로를 직접 병치하면 무엇이 누락됐는지 한눈에 드러난다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 시각 요소의 변화 진행
+
+카메라: 고정
+
+장면 전환: 왼쪽으로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 문제는 정답이 아니라
+   - 강조 중 · 자연스럽게 · 뒤에 90ms 쉼
+   - 연출 의도: 왼쪽 결론이 나타난다
+2. **거기까지의 경로가 없다는 것**
+   - 강조 강 · 여운을 두어 · 뒤에 230ms 쉼
+   - 강조 단어: **경로**
+   - 연출 의도: 오른쪽 빈칸이 강조된다
+
+## 11. 사진 — 당시의 믿음
+
+![장면 11](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-11.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-11.png)
+
+**내레이션**
+
+사람이 궁금한 건 왜 그때는 맞다고 믿었는지입니다.
+
+**화면 구성**
+
+- 주 문구: 당시의 믿음
+- 보조 문구: 결과를 알기 전에는 무엇이 보였나
+- 배치: 왼쪽 사진과 오른쪽 텍스트
+- 전달할 관계: 사람이 불완전한 정보로 선택을 기록하는 장면
+- 표현 방식: 사진
+- 표현 이유: 결정 전의 망설임과 기록은 사람의 행동이 담긴 사진이 가장 구체적이다.
+- 사진 검색어: person writing notes at desk
+- 사진 출처: [Man Working](<https://stocksnap.io/photo/man-working-UN5XQREKKP>) · 라이선스 cc0
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 주 문구 등장
+
+카메라: 다가가기 · 세부 · 약하게
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 사람이 궁금한 건
+   - 강조 약 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 메모하는 손이 보인다
+2. **왜 그때는 맞다고 믿었는지입니다**
+   - 강조 강 · 힘주어 · 뒤에 220ms 쉼
+   - 강조 단어: **왜**
+   - 연출 의도: 수정 흔적에 시선이 모인다
+
+## 12. 핵심 메시지 — 너무 맞아서 남지 않는다
+
+![장면 12](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-12.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-12.png)
+
+**내레이션**
+
+틀린 부분이 없어서 남는 것도 적습니다.
+
+**화면 구성**
+
+- 주 문구: 너무 맞아서 남지 않는다
+- 배치: 큰 문장을 중심에 배치
+- 전달할 관계: ‘너무 맞다’는 특성이 역설적으로 잔상을 줄인다
+- 표현 방식: 문장 중심
+- 표현 이유: 역설을 짧은 대형 문장으로 고정해 두 번째 장의 결론을 각인한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 다가가기 · 중앙 · 약하게
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 틀린 부분이 없어서
+   - 강조 중 · 자연스럽게 · 뒤에 120ms 쉼
+   - 연출 의도: 첫 문장이 작게 나타난다
+2. **남는 것도 적습니다**
+   - 강조 강 · 낮추어 마무리 · 뒤에 300ms 쉼
+   - 강조 단어: **적습니다**
+   - 연출 의도: 결론만 크게 남는다
+
+## 13. 도입 — 03 잡음의 가치
+
+![장면 13](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-13.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-13.png)
+
+**내레이션**
+
+그렇다면 사람을 보여주는 건 무엇일까요?
+
+**화면 구성**
+
+- 주 문구: 03 잡음의 가치
+- 배치: 문장을 비대칭으로 배치
+- 전달할 관계: 답의 평균에서 한 사람의 고유한 좌표로 더 깊이 들어간다
+- 표현 방식: 숫자
+- 표현 이유: 챕터 전환을 간결하게 표시해 다음 핵심 개념인 잡음에 집중시킨다.
+- 표시 값: 3
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 보조 문구 등장
+
+카메라: 고정
+
+장면 전환: 위로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 그렇다면 사람을 보여주는 건
+   - 강조 중 · 자연스럽게 · 뒤에 90ms 쉼
+   - 연출 의도: 챕터 번호가 나타난다
+2. **무엇일까요?**
+   - 강조 강 · 여운을 두어 · 뒤에 220ms 쉼
+   - 강조 단어: **무엇**
+   - 연출 의도: 질문이 중앙에 남는다
+
+## 14. 도입 — 사람은 평균이 아니다
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-14-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-14-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-14.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-14.png)
+
+**내레이션**
+
+사람의 경험은 평균값이 아니라 분포 어딘가의 좌표입니다.
+
+**화면 구성**
+
+- 주 문구: 사람은 평균이 아니다
+- 배치: 도식을 중앙에 배치
+- 전달할 관계: 개인은 평균에서 벗어난 편향과 선택으로 구별된다
+- 표현 방식: 그래프 — 분포 바깥에 놓인 개인의 좌표
+- 표현 이유: 평균과 개인의 위치 차이를 공간으로 보여주면 ‘특이함을 잃는다’는 관계가 직접 보인다.
+- 도식 구성: 원 ‘평균 영역’, 원 ‘평균’, 원 ‘나의 좌표’, 선
+
+**연출 흐름**
+
+- 시작: 중앙의 평균과 바깥의 특이한 좌표가 함께 보인다.
+- 사건: 평균 영역이 강조된다.
+- 변화: 카메라의 의미적 초점이 바깥 좌표로 이동한다.
+- 유지: 평균과 개인 좌표 라벨은 항상 분리되고, 점 위에 다른 객체가 덮이지 않는다.
+- 결과: 평균에서 벗어난 위치가 한 사람의 고유성으로 읽힌다.
+
+1. 시각 요소 등장
+2. 핵심 부분에 시선 집중
+3. 결과 강조
+
+도식에서 설정된 변화(시작 순서):
+
+- 평균 영역: 점차 드러남
+- 선: 점차 드러남
+- 나의 좌표: 커짐
+- 나의 좌표: 작아짐
+
+카메라: 확대 · 끝 지점 · 중간 강도로
+
+장면 전환: 확대
+
+**자막과 낭독 리듬**
+
+1. 사람의 경험은 평균값이 아니라
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 강조 단어: **평균값**
+   - 연출 의도: 평균 영역을 보여준다
+2. **분포 어딘가의 좌표입니다**
+   - 강조 강 · 힘주어 · 뒤에 220ms 쉼
+   - 강조 단어: **좌표**
+   - 연출 의도: 바깥 점을 확대한다
+
+## 15. 핵심 메시지 — 생각이 바뀐 흔적
+
+![장면 15](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-15.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-15.png)
+
+**내레이션**
+
+처음에는 맞다고 믿었고 지금은 틀렸다고 생각합니다.
+
+**화면 구성**
+
+- 주 문구: 생각이 바뀐 흔적
+- 보조 문구: 처음의 믿음 → 지금의 판단
+- 배치: 문장을 비대칭으로 배치
+- 전달할 관계: 과거의 믿음에서 현재의 의심으로 생각이 변한다
+- 표현 방식: 문장 중심
+- 표현 이유: 생각의 변화는 인용문을 시간 순서로 읽게 하는 구성이 가장 명확하다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 시각 요소의 변화 진행
+
+카메라: 고정
+
+장면 전환: 위로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 처음에는 맞다고 믿었고
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 강조 단어: **믿었고**
+   - 연출 의도: 과거 문장이 나타난다
+2. **지금은 틀렸다고 생각한다**
+   - 강조 강 · 여운을 두어 · 뒤에 200ms 쉼
+   - 강조 단어: **틀렸다고**
+   - 연출 의도: 현재 문장이 아래에 나타난다
+
+## 16. 도입 — 정리할수록 사라지는 것
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-16-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-16-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-16.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-16.png)
+
+**내레이션**
+
+AI는 잡음을 잘 지우지만 그 잡음이 사람이기도 합니다.
+
+**화면 구성**
+
+- 주 문구: 정리할수록 사라지는 것
+- 배치: 도식을 중앙에 배치
+- 전달할 관계: 모순과 감정과 망설임이 정리 단계를 지나며 희미해진다
+- 표현 방식: 공간 도식 — 편집 필터가 잡음을 걸러낸다
+- 표현 이유: 전후 상태의 투명도 변화를 보여주면 편집의 이익과 손실을 동시에 전달할 수 있다.
+- 도식 구성: 사각형 ‘모순’, 사각형 ‘감정’, 사각형 ‘망설임’, 사각형 ‘정리’, 사각형 ‘매끄러운 글’
+
+**연출 흐름**
+
+- 시작: 모순, 감정, 망설임이 서로 떨어진 채 선명하게 보인다.
+- 사건: 정리 과정이 시작된다.
+- 변화: 세 요소의 opacity가 줄고 매끄러운 글 상자가 커진다.
+- 유지: ‘좋은 글’ 라벨과 사라지는 세 요소는 어느 순간에도 겹치지 않으며, 사라지는 대상은 끝까지 식별 가능해야 한다.
+- 결과: 글은 정돈되지만 사람을 보여주던 단서가 희미해진다.
+
+1. 시각 요소 등장
+2. 시각 요소의 변화 진행
+3. 결과 강조
+
+도식에서 설정된 변화(시작 순서):
+
+- 모순: 점차 흐려짐
+- 감정: 점차 흐려짐
+- 망설임: 점차 흐려짐
+- 매끄러운 글: 커짐
+
+카메라: 오른쪽 이동 · 끝 지점 · 약하게
+
+장면 전환: 쓸어내며 전환
+
+**자막과 낭독 리듬**
+
+1. AI는 잡음을 잘 지우지만
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 강조 단어: **잡음**
+   - 연출 의도: 세 단서가 희미해진다
+2. **그 잡음이 사람이기도 합니다**
+   - 강조 강 · 낮추어 마무리 · 뒤에 240ms 쉼
+   - 강조 단어: **사람**
+   - 연출 의도: 매끄러운 글만 남는다
+
+## 17. 비교 — 정답보다 좌표
+
+![장면 17](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-17.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-17.png)
+
+**내레이션**
+
+어디서 본 듯한 좋은 글보다 한 사람의 좌표가 기억됩니다.
+
+**화면 구성**
+
+- 주 문구: 정답보다 좌표
+- 배치: 두 열로 비교
+- 비교: 매끄러운 평균 ↔ 불완전한 경험
+- 전달할 관계: 보편적으로 매끄러운 글과 한 사람의 좌표가 남은 글을 대비한다
+- 표현 방식: 문장 중심
+- 표현 이유: 두 평가 기준을 직접 비교해야 ‘잘 쓴 글’이 항상 ‘기억되는 글’은 아니라는 차이가 보인다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 시각 요소의 변화 진행
+
+카메라: 고정
+
+장면 전환: 왼쪽으로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 어디서 본 듯한 좋은 글보다
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 강조 단어: **좋은 글**
+   - 연출 의도: 왼쪽 문구가 나타난다
+2. **한 사람의 좌표가 기억됩니다**
+   - 강조 강 · 힘주어 · 뒤에 230ms 쉼
+   - 강조 단어: **좌표**
+   - 연출 의도: 오른쪽 문구가 선명해진다
+
+## 18. 핵심 메시지 — 완벽함은 기억의 조건이 아니다
+
+![장면 18](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-18.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-18.png)
+
+**내레이션**
+
+기억에 남는 글은 완벽한 글이 아닙니다.
+
+**화면 구성**
+
+- 주 문구: 완벽함은 기억의 조건이 아니다
+- 배치: 큰 문장을 중심에 배치
+- 전달할 관계: 틀리지 않는 문장과 기억에 남는 글은 서로 다른 조건을 가진다
+- 표현 방식: 문장 중심
+- 표현 이유: 핵심 반전을 대형 문장 하나로 제시해 영상의 질문에 직접 답한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 다가가기 · 중앙 · 약하게
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 기억에 남는 글은
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 연출 의도: 첫 줄이 나타난다
+2. **완벽한 글이 아닙니다**
+   - 강조 강 · 낮추어 마무리 · 뒤에 300ms 쉼
+   - 강조 단어: **아닙니다**
+   - 연출 의도: 부정 문장을 크게 고정한다
+
+## 19. 마무리 — 당신의 좌표를 지우지 말 것
+
+![장면 19](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-19.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/5b3a82ab15c220bfde4eb10604cc5b0dca460e9b/ai-sidaeyi-wiimjeonjaeng-candidate-03-scene-19.png)
+
+**내레이션**
+
+당신이 틀렸던 자리까지 글에 남겨두세요.
+
+**화면 구성**
+
+- 주 문구: 당신의 좌표를 지우지 말 것
+- 보조 문구: 정답이 아닌 경로가 사람을 보여준다
+- 배치: 간결한 마무리
+- 전달할 관계: 평균과 다른 개인의 위치가 마지막까지 남는다
+- 표현 방식: 아이콘 — 중앙에서 벗어난 하나의 점
+- 표현 이유: 최종 결론은 복잡한 도식보다 평균 밖의 점 하나로 압축하는 편이 오래 남는다.
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 주 문구 등장
+
+카메라: 멀어지기 · 주요 대상 · 약하게
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 당신이 틀렸던 자리까지
+   - 강조 중 · 자연스럽게 · 뒤에 120ms 쉼
+   - 강조 단어: **자리**
+   - 연출 의도: 중앙 밖의 점이 남는다
+2. **글에 남겨두세요**
+   - 강조 강 · 여운을 두어 · 뒤에 320ms 쉼
+   - 강조 단어: **남겨두세요**
+   - 연출 의도: 점 옆에 결론이 나타난다
+
+## 게시 문구
+
+AI 글의 문제는 틀렸다는 게 아니다. 너무 매끄럽게 정답으로 수렴하면서, 정작 누가 왜 그렇게 생각했는지가 사라진다는 데 있다.
+
+#AI글쓰기 #AI콘텐츠 #생성형AI #콘텐츠전략 #글쓰기
+
