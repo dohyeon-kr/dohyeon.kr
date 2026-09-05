@@ -1,11 +1,12 @@
-# Shorts candidate — 모든 것을 이해하고 넘어갈 필요는 없다
+# 숏츠 후보 스토리보드
 
-Source: https://blog.dohyeon.kr/modeun-geoseul-ihaehago-neomeogal-pilyoneun-eobsda/
+각 후보의 스토리보드를 열어 대본, 화면 구성, 도식의 변화, 자막 리듬을 검토하세요. 원본 JSON을 수정한 경우 이 문서도 다시 생성해야 합니다.
 
-Selected candidate:
+## candidate-03 · 한 점을 완벽히 이해하는 비용
 
-1. [92] 끝까지 이해해야 제대로 배우는 걸까? — counterargument
+**첫 문장:** 완전히 이해할수록, 정말 더 잘 배우는 걸까?
 
-This version keeps candidate 02 as the core, incorporates the goal-drift example from candidate 03, and adds the learning-debt-as-leverage takeaway near the end.
+완전한 이해를 미덕으로 보는 통념에 질문을 던지고, 제한된 시간 안에서는 세부의 완성도보다 전체 구조와 연결을 먼저 확보하는 편이 학습 ROI가 높을 수 있다는 한 가지 논점에 집중한다.
 
-Merge this PR to generate scene-by-scene storyboard snapshots. Render the final video manually only after approving them.
+[스토리보드 읽기](candidate-03.md) · [원본 JSON](candidate-03.json) · 6장면
+
