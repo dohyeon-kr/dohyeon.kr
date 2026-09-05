@@ -67,6 +67,9 @@ export function describeCandidate(manifest, filename) {
         `- 표현 방식: ${label(intent.strategy?.type)}${intent.strategy?.metaphor ? ` — ${md(intent.strategy.metaphor)}` : ''}`);
       if (intent.strategy?.rationale) out.push(`- 표현 이유: ${md(intent.strategy.rationale)}`);
     }
+    if (scene.visualResolution?.status === 'fallback') {
+      out.push(`- **시각 연출 검토 필요:** 사진을 찾지 못해 텍스트 장면으로 전환했습니다. 원래 검색어: ${md(scene.visualResolution.originalQuery) || '미지정'}`);
+    }
     const visual = scene.visual ?? {};
     if (visual.value) out.push(`- 표시 값: ${md(visual.value)}`);
     if (visual.xLabel || visual.yLabel) out.push(`- 그래프 축: 가로 ${md(visual.xLabel) || '미지정'}, 세로 ${md(visual.yLabel) || '미지정'}`);

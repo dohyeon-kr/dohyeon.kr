@@ -78,24 +78,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
+      - name: Select candidates changed in this PR
+        id: candidates
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node shorts/scripts/select-preview-candidates.mjs
       - name: Install review tools
+        if: steps.candidates.outputs.count != '0'
         run: |
           npm --prefix shorts install --ignore-scripts --no-audit --no-fund
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-      - name: Render both reported candidates without paid TTS
+      - name: Render changed candidates without paid TTS
+        if: steps.candidates.outputs.count != '0'
+        env:
+          LIST_FILE: ${{ steps.candidates.outputs.list_file }}
+        shell: bash
         run: |
-          for manifest in \
-            shorts/content/about-seamless-works/candidate-02.json \
-            shorts/content/joheun-peuronteuendeu-seolgyeneun-gyeonggyereul-myeonghwaghage-mandeunda/candidate-03.json; do
-            node shorts/scripts/render.mjs "$manifest" --storyboard
-            node shorts/scripts/render.mjs "$manifest" --silent
-          done
+          set -euo pipefail
+          while IFS= read -r manifest; do
+            [[ -n "${manifest}" ]] || continue
+            node shorts/scripts/render.mjs "${manifest}" --storyboard
+            node shorts/scripts/render.mjs "${manifest}" --silent
+          done < "${LIST_FILE}"
       - name: Upload candidate review
-        if: ${{ always() }}
+        if: ${{ always() && steps.candidates.outputs.count != '' && steps.candidates.outputs.count != '0' }}
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
           name: shorts-candidate-review-${{ github.event.pull_request.number }}

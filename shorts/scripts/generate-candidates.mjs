@@ -5,12 +5,11 @@ import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
 import {DiagramSpecSchema, validateDiagram} from '../src/visuals/diagram-spec.ts';
-import {curatedPhoto} from './curated-photos.mjs';
+import {enrichVisuals} from './resolve-visuals.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.resolve(import.meta.dirname, '..');
 const allowedHosts = new Set(['dohyeon.kr', 'www.dohyeon.kr', 'blog.dohyeon.kr']);
-const openverseCache = new Map();
 
 const LAYOUTS = [
   'photo-top-right',
@@ -161,6 +160,8 @@ Visual Resolver 원칙:
 - 물리적 관계가 설명에 유리하면 physical-metaphor를 쓴다. 특히 leverage는 상승 화살표가 아니라 지렛대/시소처럼 작은 힘이 큰 결과를 움직이는 관계로 표현한다.
 - 병목은 flow가 좁은 관문에서 밀리는 모습, balance/trade-off는 실제로 기울어지는 구조, accumulation은 쌓이는 구조, convergence는 여러 경로가 모이는 구조를 우선한다.
 - 구체적인 사람/사물/장소/행동은 photo를 우선한다. photo query는 Openverse에서 찾기 좋은 영어 명사구로 작성한다.
+- 지도상의 위치 표시, 경로, 그래프, 주석·화살표가 필요한 설명은 photo 검색어로 만들지 말고 diagramSpec으로 직접 표현한다. 실제 지리 정보는 본문 근거가 있을 때만 사용한다.
+- photo query에는 피사체를 나타내는 짧고 구체적인 영어 명사구만 쓴다. low resolution, with marked location 같은 화질·편집·연출 지시는 넣지 않는다.
 - visual.type이 photo일 때만 query를 채운다. 그 외 query는 null이다.
 - diagram/symbol motif는 의미가 분명한 kebab-case를 쓴다.
 - 그래프 motif 예: roi-curve, growth-curve, diminishing-returns.
@@ -277,63 +278,6 @@ const slugFromUrl = (rawUrl, fallback) => {
   const url = new URL(rawUrl);
   const source = url.pathname.split('/').filter(Boolean).at(-1) || fallback;
   return source.toLowerCase().normalize('NFKD').replace(/[^a-z0-9가-힣]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'post';
-};
-
-const normalizeOpenverseImage = (result, query) => ({
-  query,
-  title: result.title ?? null,
-  creator: result.creator ?? null,
-  license: result.license ?? 'unknown',
-  licenseVersion: result.license_version ?? null,
-  licenseUrl: result.license_url ?? null,
-  source: result.source ?? null,
-  provider: result.provider ?? null,
-  sourcePage: result.foreign_landing_url ?? null,
-  originalUrl: result.url ?? null,
-  thumbnailUrl: result.thumbnail ?? null,
-});
-
-const searchOpenverse = async (query) => {
-  if (!query) return null;
-  if (openverseCache.has(query)) return openverseCache.get(query);
-  for (const license of ['cc0', 'pdm']) {
-    const params = new URLSearchParams({q: query, license, page_size: '20', mature: 'false'});
-    const response = await fetch(`https://api.openverse.org/v1/images/?${params}`, {
-      headers: {accept: 'application/json', 'user-agent': 'dohyeon.kr-shorts/3.0 (+https://dohyeon.kr)'},
-    });
-    if (response.status === 429) {
-      console.warn(`Openverse rate limit reached while searching: ${query}`);
-      break;
-    }
-    if (!response.ok) continue;
-    const data = await response.json();
-    const candidates = Array.isArray(data.results) ? data.results : [];
-    const preferred = candidates.find((item) => Number(item.width) >= 900 && Number(item.height) >= 700 && item.url) ?? candidates.find((item) => item.url || item.thumbnail);
-    if (preferred) {
-      const normalized = normalizeOpenverseImage(preferred, query);
-      openverseCache.set(query, normalized);
-      return normalized;
-    }
-  }
-  openverseCache.set(query, null);
-  return null;
-};
-
-const normalizeCamera = (camera) => {
-  const startProgress = Math.max(0, Math.min(1, camera.startProgress));
-  const endProgress = Math.max(startProgress + 0.08, Math.min(1, camera.endProgress));
-  return {...camera, startProgress, endProgress: Math.min(1, endProgress)};
-};
-
-const enrichVisuals = async (candidate) => {
-  const scenes = [];
-  for (const scene of candidate.scenes) {
-    const imageQuery = scene.visual.type === 'photo' ? scene.visual.query : null;
-    const image = imageQuery ? (await searchOpenverse(imageQuery)) ?? curatedPhoto(imageQuery) : null;
-    if (scene.visual.type === 'photo' && !image) throw new Error(`Photo could not be resolved: ${imageQuery}. Choose a concrete licensed photo instead of rendering a placeholder.`);
-    scenes.push({...scene, camera: normalizeCamera(scene.camera), imageQuery, image});
-  }
-  return {...candidate, scenes};
 };
 
 const main = async () => {
