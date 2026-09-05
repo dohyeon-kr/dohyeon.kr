@@ -165,7 +165,7 @@ const highlightedText = (text: string, keyword: string | null | undefined) => {
   return (
     <>
       {text.slice(0, index)}
-      <span style={{display: 'inline-block', margin: '0 3px', padding: '1px 6px 3px', background: BLACK, color: WHITE, lineHeight: 1}}>{keyword}</span>
+      <span style={{display: 'inline-block', margin: '0 3px', padding: '1px 6px 3px', background: WHITE, color: BLACK, lineHeight: 1}}>{keyword}</span>
       {text.slice(index + keyword.length)}
     </>
   );
@@ -180,7 +180,7 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
 
   return (
     <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none'}}>
-      <div style={{boxSizing: 'border-box', maxWidth: '100%', padding: '12px 17px 13px', border: `2px solid ${photo ? BLACK : WHITE}`, background: WHITE, color: BLACK, fontSize: 38, fontWeight: 800, lineHeight: 1.25, letterSpacing: '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
+      <div style={{boxSizing: 'border-box', maxWidth: '100%', padding: '12px 17px 13px', border: '2px solid #484848', background: photo ? 'rgba(5,5,5,.88)' : '#151515', color: WHITE, fontSize: 38, fontWeight: 800, lineHeight: 1.25, letterSpacing: '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
         {highlightedText(text, 'keyword' in cue ? cue.keyword as string | null : null)}
       </div>
     </div>
@@ -217,7 +217,7 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
   const sublineY = interpolate(sublineReveal, [0, 1], [18, 0], clampInterpolation);
 
   const headlineBase = layout === 'statement-giant' ? 150 : layout === 'outro-minimal' ? 140 : photo ? 136 : 126;
-  const headingTop = hasPresetVisual || isCompare ? 1010 : photo ? 1000 : 700;
+  const headingTop = hasPresetVisual || isCompare ? 1040 : photo ? 1000 : 700;
   const headingHeight = 1310 - headingTop - (scene.subline ? 90 : 0);
   const heading = fitCopy(scene.headline, SAFE_CONTENT_WIDTH - 20, headingHeight, Math.min(headlineBase, hasPresetVisual || isCompare ? 98 : 124));
   const subline = fitCopy(scene.subline ?? '', SAFE_CONTENT_WIDTH - 20, 78, 30);
@@ -239,7 +239,7 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
         <BlogChrome index={index} total={total} sourceTitle={sourceTitle} />
 
         {hasPresetVisual && !isCompare && !photo ? (
-          <div data-layout="visual" style={{position: 'absolute', top: CONTENT_TOP + 10, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 22, height: 520, opacity: visualReveal, transform: `translateY(${(1 - visualReveal) * 20}px) scale(${0.985 + visualReveal * 0.015})`, transformOrigin: 'center center'}}>
+          <div data-layout="visual" style={{position: 'absolute', top: CONTENT_TOP + 10, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 22, height: 566, opacity: visualReveal, transform: `translateY(${(1 - visualReveal) * 20}px) scale(${0.985 + visualReveal * 0.015})`, transformOrigin: 'center center'}}>
             {scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} durationInFrames={durationInFrames} framesPath={scene.diagramFramesPath} /> : <PresetVisual visual={visual} camera={scene.camera} durationInFrames={durationInFrames} />}
           </div>
         ) : null}

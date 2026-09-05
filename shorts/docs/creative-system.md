@@ -228,3 +228,24 @@ New candidate manifests add:
 - expanded style metadata
 
 Older v1/v2 manifests remain renderable through existing fallbacks.
+
+## Diagram storytelling and contact-sheet review (2026-09-05)
+
+Each diagram scene records `visualStory`: initial state, trigger, change, invariant,
+and result. These are review instructions; actual behavior lives in diagram events.
+Reuse coordinates and responsibility regions across related scenes. A photo quota or
+layout rotation must not interrupt an explanatory before/after sequence.
+
+- Dashed strokes mark responsibility boundaries; label their meaning.
+- Hatching marks an overlap or constrained area. Keep text on a clear layer.
+- A single pulse marks an event; a travelling dot marks propagation. Avoid idle loops.
+- Animate width/height plus position for anchored area changes, not text scale.
+- Finish the explanation by roughly 75% of the scene and hold the result.
+- Keep diagram labels short and legible, with primary boxes roughly 180–240 units wide.
+- Remove redundant sublines. Keep caption size stable; use restrained dark plates and
+  an inverse keyword rather than a competing full-white caption block.
+- Changes staying behind a frontend boundary assume the public contract is maintained.
+
+Storyboards retain the one-result-per-scene sheet and add a three-column motion sheet
+(initial / change / result). Release notes include these states and downloadable sheets.
+Static frames demonstrate layout and sampled states, not audio timing or smooth motion.

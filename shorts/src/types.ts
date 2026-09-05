@@ -110,6 +110,7 @@ export type CaptionCue = {
 };
 
 export type CandidateScene = {
+  visualStory?: {initial: string; trigger: string; change: string; invariant: string; result: string} | null;
   diagramSpec?: DiagramSpec | null;
   kind: SceneKind;
   layout?: SceneLayout;

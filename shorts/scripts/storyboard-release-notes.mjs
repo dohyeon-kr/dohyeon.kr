@@ -35,13 +35,20 @@ for (const manifestPath of manifests) {
     const name = `${prefix}-scene-${String(i + 1).padStart(2, '0')}.png`;
     await fs.access(path.join(directory, name));
     const heading = new RegExp(`(^## ${i + 1}\\. [^\\n]*\\n)`, 'm');
-    description = description.replace(heading, `$1\n![장면 ${i + 1}](${assetUrl(name)})\n\n[장면 이미지 열기](${assetUrl(name)})\n`);
+    const stem = name.replace(/\.png$/, '');
+    let review = `![장면 ${i + 1}](${assetUrl(name)})`;
+    if (manifest.scenes[i].diagramSpec) {
+      for (const phase of ['initial', 'change']) await fs.access(path.join(directory, `${stem}-${phase}.png`));
+      review = `| 시작 | 변화 | 결과 |\n| --- | --- | --- |\n| ![시작](${assetUrl(`${stem}-initial.png`)}) | ![변화](${assetUrl(`${stem}-change.png`)}) | ![결과](${assetUrl(name)}) |`;
+    }
+    description = description.replace(heading, `$1\n${review}\n\n[장면 이미지 열기](${assetUrl(name)})\n`);
   }
   const markdownName = `${prefix}-STORYBOARD.md`;
   await fs.writeFile(path.join(directory, markdownName), description);
   notes.push(`## ${prefix}`, '', '복사할 JSON 경로:', '', '```text', manifestPath, '```', '',
     `[렌더 실행 페이지](${renderUrl}) · [검토한 JSON](${sourceUrl}) · [전체 스토리보드 Markdown](${assetUrl(markdownName)})`, '',
     `[모아보기 JPG](${assetUrl(`${prefix}-contact-sheet.jpg`)}) · [장면별 PDF](${assetUrl(`${prefix}-storyboard.pdf`)})`, '');
+  if (manifest.scenes.some(scene => scene.diagramSpec)) notes.push(`[시작 → 변화 → 결과 모아보기](${assetUrl(`${prefix}-motion-contact-sheet.jpg`)})`, '');
   details.push(description);
 }
 // Keep every render path even when several long candidates exceed a release body budget.

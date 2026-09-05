@@ -28,3 +28,12 @@ test('event gaps hold previous result, later events override only when started',
   s.events.push({target:'input',property:'x',from:500,to:200,start:.7,end:1});
   assert.equal(diagramState(validateDiagram(s), .6)[0].x, 500);
 });
+test('animated territory dimensions hold through seeking and reject invalid sizes', () => {
+  const s = fixture(); s.nodes[0].fill = 'hatch'; s.nodes[0].strokeStyle = 'dashed';
+  s.events = [{target:'input',property:'width',from:80,to:320,start:.2,end:.7}];
+  const spec = validateDiagram(s);
+  assert.equal(diagramState(spec, .8)[0].width, 320);
+  assert.equal(diagramState(spec, 0)[0].width, 80);
+  assert.ok(Math.abs(diagramState(spec, .45)[0].width - 200) < 1e-8);
+  for (const size of [0, -1, 801]) {s.events[0].to = size; assert.throws(() => validateDiagram(s));}
+});

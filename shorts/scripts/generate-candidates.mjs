@@ -95,7 +95,8 @@ const CameraSchema = z.object({
 });
 
 const SceneSchema = z.object({
-  diagramSpec: DiagramSpecSchema.extend({physics: DiagramSpecSchema.shape.physics.unwrap()}).nullable(),
+  visualStory: z.object({initial: z.string(), trigger: z.string(), change: z.string(), invariant: z.string(), result: z.string()}).nullable(),
+  diagramSpec: DiagramSpecSchema.extend({physics: DiagramSpecSchema.shape.physics.unwrap(), nodes: z.array(DiagramSpecSchema.shape.nodes.element.extend({strokeStyle: z.enum(['solid', 'dashed']).nullable()})).min(1).max(40)}).nullable(),
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
   layout: z.enum(LAYOUTS),
   visual: VisualSchema,
@@ -167,6 +168,13 @@ Visual Resolver 원칙:
 - physical metaphor motif 예: leverage, balance-scale, target.
 
 Motion / choreography 원칙:
+- diagram 장면은 visualStory에 초기 상태(initial), 사건(trigger), 변화(change), 유지되는 것(invariant), 결과(result)를 먼저 작성하고 실제 diagramSpec.events로 구현한다. 비도식 장면은 null 가능.
+- 800×560 도식 캔버스에서 주 요소는 충분히 크게 배치한다. 본문 라벨은 2~6자로, 노드 폭은 보통 180~240, 높이는 90 이상. 제목·보조문구·자막을 중복하지 말고 도식 장면 subline은 원칙적으로 null.
+- strokeStyle=dashed는 책임 경계, fill=hatch는 중첩/제약 영역이다. 라벨로 의미를 명시한다. 기본 strokeStyle은 solid.
+- width/height 이벤트로 영역을 실제 확장·축소한다. 왼쪽 경계를 고정하려면 x도 폭의 절반 변화량만큼 이동시킨다. 글자 자체를 scale로 찌그러뜨리지 않는다.
+- 사건의 발생점에만 단발 펄스(circle의 scale+opacity)를 넣고 전달은 작은 점의 x/y 이동으로 표현한다. 펄스를 상시 반복하지 않는다.
+- 이벤트는 대체로 .2~.75에 배치하고 마지막 .2는 결과를 읽는 시간으로 유지한다. 모든 애니메이션 좌표와 크기가 캔버스 안에 남아야 한다.
+
 - 씬 전환과 요소 애니메이션을 구분한다. scene transition 하나로 화면 전체를 통째로 움직이는 것에 의존하지 않는다.
 - choreography에는 화면에서 일어날 사건을 시간 순서로 2~6개 적는다.
 - 가능한 canonical event 이름: show-visual, show-headline, show-subline, advance-visual, camera-focus, emphasize-result.
@@ -190,9 +198,9 @@ Motion / choreography 원칙:
 
 layout 원칙:
 - 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
-- 6~9장면 중 최소 2장은 문맥에 맞는 실제 작업 공간/사물/협업 사진을 사용한다. 모든 사진을 full-bleed로 만들지 말고 photo-strip 등 사진과 문구가 분리된 배치를 포함한다.
+- 구체적인 맥락에 도움이 되는 사진을 사용하되 도식의 전후 설명을 사진 수 할당 때문에 끊지 않는다. 모든 사진을 full-bleed로 만들지 말고 photo-strip 등 사진과 문구가 분리된 배치를 포함한다.
 - 도식 라벨은 한글 2~6자로 짧게 쓴다. 긴 영문 용어는 본문에서 설명한다. line의 width가 길이이고 기본은 가로선이며 세로선은 height를 길게 쓴다. 대각선은 rotation 이벤트의 from/to를 같은 각도로 지정한다.
-- 같은 layout을 연속으로 사용하지 않는다.
+- 같은 시스템의 전후 비교는 layout과 노드 좌표를 유지한다. 그 외 장면은 사진/비교/큰 문장으로 리듬을 바꾼다.
 - photo-full-bleed는 강한 전환에만 사용하고 영상당 최대 1~2회.
 - diagram-centered는 그래프/도식/물리 비유가 중심인 장면에 사용한다.
 - statement-giant는 강한 한 문장에만 제한적으로 사용한다.
@@ -202,7 +210,7 @@ layout 원칙:
 
 transition 원칙:
 - fade는 차분한 연결, slide-up은 단계 진행, slide-left는 이동/비교, zoom은 확대 의미, wipe는 도식/논리 전환에 제한적으로 사용한다.
-- 같은 transition을 2개 이상 연속으로 쓰지 않는다.
+- 같은 도식의 전후 상태를 이어 설명할 때는 fade를 연속 사용해도 된다. 의미 없는 전환 변주는 피한다.
 - zoom/wipe를 모든 씬에 반복하지 않는다.
 
 필드 규칙:
