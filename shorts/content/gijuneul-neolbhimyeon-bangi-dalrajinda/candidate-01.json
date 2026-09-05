@@ -39,21 +39,21 @@
       "visual": {
         "type": "photo",
         "motif": null,
-        "query": "team stacking hands over meeting table",
+        "query": "empty room with stark sunlight and shadows",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "익숙한 팀에서 더 배울 것이 없다고 느끼는 순간",
+        "concept": "배울 것이 없다고 느끼는 공허함",
         "relation": {
           "type": "literal",
-          "description": "같은 팀원들과 일하면서 자신이 가장 뛰어나다고 판단하는 구체적인 상황이다."
+          "description": "사람과 가구가 없는 공간으로 ‘이 방에는 배울 게 없을까’라는 질문의 정서를 보여준다."
         },
         "strategy": {
           "type": "photo",
-          "metaphor": null,
-          "rationale": "실제 팀 장면을 사용해 추상적인 ‘방’을 개발 조직의 현실적인 맥락으로 연결한다."
+          "metaphor": "빛과 그림자만 남은 빈 방",
+          "rationale": "텅 빈 공간을 풀블리드로 사용해 공허함을 먼저 전달하고 이후 동료의 강점을 발견하는 도식과 대비한다."
         }
       },
       "transition": "none",
@@ -76,7 +76,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "팀 사진 위에 질문이 나타난다"
+          "visualCue": "공허한 빈 방 사진 위에 질문이 나타난다"
         },
         {
           "text": "더 배울 게 없을까?",
@@ -93,19 +93,19 @@
       "narration": "정말 이 방에는 더 배울 게 없을까?",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "team stacking hands over meeting table",
+      "imageQuery": "empty room with stark sunlight and shadows",
       "image": {
-        "query": "team stacking hands over meeting table",
-        "title": "테이블 위에서 손을 포개는 팀원들",
-        "creator": "fauxels",
+        "query": "empty room with stark sunlight and shadows",
+        "title": "빛과 그림자만 남은 빈 공간",
+        "creator": "Sujira Su",
         "license": "pexels",
         "licenseVersion": null,
         "licenseUrl": "https://www.pexels.com/license/",
         "source": "pexels",
         "provider": "pexels",
-        "sourcePage": "https://www.pexels.com/photo/photo-of-people-near-wooden-table-3184418/",
-        "originalUrl": "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        "thumbnailUrl": "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1000"
+        "sourcePage": "https://www.pexels.com/photo/shadows-and-sunlight-in-empty-room-11376531/",
+        "originalUrl": "https://images.pexels.com/photos/11376531/pexels-photo-11376531.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/11376531/pexels-photo-11376531.jpeg?auto=compress&cs=tinysrgb&w=1000"
       }
     },
     {
