@@ -11,6 +11,7 @@ import {candidatePath, validateSelection, START, END} from './candidate-selectio
 import {describeCandidate} from './describe-candidates.mjs';
 import {createPhotoSearch, enrichVisuals} from './resolve-visuals.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
+import {readReviewOriginal} from './load-storyboard.mjs';
 
 export const ReviewSchema = z.object({
   summary: z.string(),
@@ -97,13 +98,14 @@ export async function resolveReviewVisuals(candidate, original, {client, model, 
 
 async function main() {
   const [mode, filename] = process.argv.slice(2);
-  const original = await resolveManifest(filename);
+  await resolveManifest(filename);
   if (mode === 'validate') return;
   if (mode !== 'improve') throw new Error('Usage: review-storyboard.mjs validate|improve <candidate-path>');
   const comment = process.env.REVIEW_COMMENT || '';
   if (comment.length > 12000) throw new Error('Review comment exceeds 12000 characters');
   const reportDir = process.env.REVIEW_OUTPUT_DIR;
   if (!reportDir) throw new Error('REVIEW_OUTPUT_DIR is required');
+  const {original, provenance} = await readReviewOriginal(filename, reportDir);
   const policy = await fs.readFile('shorts/docs/creative-system.md', 'utf8');
   const post = await fetchPost(original.source.url);
   const inventory = await photoInventory(filename);
@@ -129,19 +131,18 @@ async function main() {
   const candidate = CandidateSchema.parse(response.output_parsed);
   validateRevision(candidate, {deferDiagramValidation: true});
   candidate.scenes.forEach(scene => validateVideoSelection(scene, videoCatalog));
-  await fs.writeFile(path.join(reportDir, 'before.json'), JSON.stringify(original, null, 2) + '\n');
   const resolved = await resolveReviewVisuals(candidate, original, {client, model, reportDir});
   const firstPhoto = resolved.scenes[0]?.image?.originalUrl;
   if (firstPhoto && inventory.some(p => p.image?.originalUrl === firstPhoto)) throw new Error('Opening photo duplicates another candidate; choose a different query in the review comment');
   const {scenes, ...metadata} = resolved;
   const improved = {...original, status: 'candidate', candidate: metadata, scenes};
-  await fs.writeFile(path.join(reportDir, 'before.json'), JSON.stringify(original, null, 2) + '\n');
   await fs.writeFile(filename, JSON.stringify(improved, null, 2) + '\n');
   await fs.writeFile(filename.replace(/\.json$/, '.md'), describeCandidate(improved, path.basename(filename)));
   const report = ['# 스토리보드 AI 리뷰', '', `대상: \`${filename}\``, '', `모델: ${model}`, '',
+    `검토한 스토리보드: ${provenance.releaseUrl}`, '', `원본 JSON 커밋: ${provenance.sourceCommit}`, '',
     '## 코멘트', '', comment ? comment.split('\n').map(l => `> ${l}`).join('\n') : '없음 — 기본 품질 기준으로 리뷰', '',
     review.summary, '', ...review.issues.map(x => `- 장면 ${x.scene || '전체'} / ${x.severity}: ${x.problem}\n  개선 제안: ${x.improvement}`), '',
-    '## 확인 범위', '', '수정 전 장면 및 도식 중간 프레임을 AI가 검토했습니다. 수정 후 프레임은 Actions 아티팩트에서 직접 검토하세요. AI 제안은 모든 항목의 해결을 보장하지 않습니다.', '',
+    '## 확인 범위', '', '발행된 스토리보드의 기존 장면 이미지를 재렌더 없이 AI가 검토했습니다. 수정 후 프레임은 Actions 아티팩트에서 직접 검토하세요. AI 제안은 모든 항목의 해결을 보장하지 않습니다.', '',
     ...review.limitations.map(x => `- ${x}`), '', START, `- [x] \`${filename}\``, END, '',
     '병합 후 선택한 후보의 스토리보드를 다시 생성합니다. 최종 영상 렌더는 별도 승인합니다.', ''];
   const runUrl = `${process.env.GITHUB_SERVER_URL || 'https://github.com'}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;

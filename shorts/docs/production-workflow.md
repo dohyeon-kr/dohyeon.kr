@@ -72,6 +72,16 @@
 
 상세 스키마와 제약은 [diagram-engine.md](diagram-engine.md), 시소 예시는 [physics-example.ts](../src/visuals/physics-example.ts)를 참고한다. 폴백은 브라우저 프로세스 종료나 CLI 전체의 실패까지 복구하지 않는다.
 
+## 기존 스토리보드 리뷰
+
+Review and improve shorts storyboard 작업의 `storyboard_source`에 사용자가 보고 있는 Draft Release 주소 또는 태그를 넣고 `manifest`에 해당 후보 JSON 경로를 넣는다. 예: `shorts-storyboard-33984227357`. 초안 URL의 `untagged-…` 별칭도 지원한다. 앞으로 생성하는 스토리보드 본문에는 복사할 태그를 표시한다.
+
+리뷰는 Release 본문에 기록된 고정 커밋 링크에서 원본 JSON과 스토리보드 Markdown·장면 PNG를 읽는다. 현재 브랜치나 최신 에셋으로 대체하지 않는다. 과거 Release에서 Markdown 링크가 고정되지 않았더라도 본문에 필요한 모든 PNG의 고정 링크가 있으면 사용할 수 있다. 도식·영상 배경은 발행 당시의 initial/change/result 이미지를 모두 가져온다.
+
+현재 후보 JSON이 당시 JSON과 다르면 중단해 새로운 편집을 덮어쓰지 않는다. 일치하는 브랜치와 스토리보드를 선택해야 한다. 이미지 누락·다운로드 실패·서로 다른 커밋의 이미지가 섞인 경우에도 중단하며 원본 재렌더로 우회하지 않는다. 렌더러만 변경되고 JSON이 같으면 그대로 과거 이미지를 리뷰할 수 있다.
+
+가져온 원본은 리뷰 아티팩트의 `before.json`, 이미지는 `before/`, 출처 커밋·Release·각 파일 SHA-256은 `review-source.json`에 기록한다. AI 호출 전에 다시 무결성을 확인한다. AI 수정 후에만 새 스토리보드를 렌더해 `after/`에 저장한다. 이 작업은 기존 Release를 수정하지 않는다.
+
 ## 6. 검증과 운영 체크리스트
 
 - 후보: 원문 근거, 독립적인 논점, 자연스러운 말투, 중요한 단어의 강조, 출처와 라이선스.
