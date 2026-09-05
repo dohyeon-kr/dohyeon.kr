@@ -1,3 +1,5 @@
+import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
+import {videoFrameCount} from '../src/video/schema.ts';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
@@ -329,12 +331,18 @@ const main = async () => {
   ]);
   await copyFonts();
 
-  // Validate all requested photos before spending on any narration.
+  // Acquire and inspect every requested visual before spending on narration.
+  const videoCatalog = manifest.scenes.some(s => s.backgroundVideo) ? await loadVideoCatalog() : [];
+  const videos = [];
   const images = [];
   for (const [index, scene] of manifest.scenes.entries()) {
     const imageFile = await downloadImage(scene, path.join(assetDir, `scene-${String(index + 1).padStart(2, '0')}`));
     if (scene.visual?.type === 'photo' && !imageFile) throw new Error(`Scene ${index + 1}: photo missing or download failed. Supply a working licensed image before rendering.`);
     images.push(imageFile);
+    try {
+      const asset = validateVideoSelection(scene, videoCatalog);
+      videos.push(asset ? {asset, ...await acquireVideo(asset)} : null);
+    } catch (error) {throw new Error(`Scene ${index + 1}: ${error.message}`, {cause: error});}
   }
   const client = storyboardOnly || silentPreview ? null : new OpenAI({apiKey: process.env.OPENAI_API_KEY});
   const renderScenes = [];
@@ -365,8 +373,15 @@ const main = async () => {
     }
 
     const previewDuration = storyboardOnly || silentPreview ? 3.6 : audioDurationSeconds;
+    let videoPath = null;
+    if (videos[index]) {
+      try {
+        videoPath = relativeStaticPath(await prepareVideo(scene, videos[index], path.join(assetDir, `${prefix}-background.mp4`), videoFrameCount(previewDuration ?? 3.6)));
+      } catch (error) {throw new Error(`Scene ${index + 1}: ${error.message}`, {cause: error});}
+    }
     renderScenes.push({
       ...scene,
+      videoPath,
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
       audioDurationSeconds: previewDuration,
@@ -383,6 +398,18 @@ const main = async () => {
     0,
   );
 
+  const videoSources = videos.flatMap((video, index) => video ? [
+    `## Scene ${index + 1}: ${video.asset.title}`, '',
+    `- Source: ${video.asset.sourcePage}`, `- Creator: ${video.asset.creator}`,
+    `- License: ${video.asset.license} (${video.asset.licenseUrl})`,
+    `- Original: ${video.asset.downloadUrl}`, `- SHA-256: ${video.asset.sha256}`,
+    `- Prepared file: ${renderScenes[index].videoPath}`,
+    `- Edit: ${JSON.stringify(manifest.scenes[index].backgroundVideo)}`,
+    '- Changes: trimmed, speed adjusted, grayscale, cropped to fill, text/overlay composited; original audio removed.',
+    '- Loop seams, subject crop and final narration timing require playback review.', '',
+  ] : []);
+  await fs.writeFile(path.join(outputRoot, `${slug}-${candidateId}-VIDEO.md`), ['# Video sources and edits', '', ...videoSources].join('\n'));
+
   if (storyboardOnly) {
     const storyboardDir = path.join(outputRoot, 'storyboards', `${slug}-${candidateId}`);
     await fs.mkdir(storyboardDir, {recursive: true});
@@ -392,6 +419,7 @@ const main = async () => {
       `Source: ${manifest.source.url}`,
       '',
       'Approve these scene snapshots before manually running the final render workflow.',
+      ...videoSources,
       '',
     ];
     let sceneStartFrame = 0;
@@ -403,7 +431,7 @@ const main = async () => {
       const stem = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}`;
       const filename = `${stem}.png`;
       // Keep the familiar contact-sheet result, plus ordered state frames for motion review.
-      const samples = scene.diagramSpec ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
+      const samples = (scene.diagramSpec || scene.backgroundVideo) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
       const images = [];
       for (const [phase, progress] of samples) {
         const target = phase === 'result' ? filename : `${stem}-${phase}.png`;
@@ -458,6 +486,7 @@ const main = async () => {
     '',
   ];
 
+  attributionLines.push(...videoSources);
   for (const [index, scene] of manifest.scenes.entries()) {
     if (!scene.image) continue;
     attributionLines.push(

@@ -1,3 +1,4 @@
+import {VideoBackground} from './video/VideoBackground';
 import React from 'react';
 import {SceneTransitionStage, type SceneLayer} from './motion/SceneTransition';
 import {LightEffects} from './motion/LightEffects';
@@ -331,6 +332,7 @@ const SceneFrame: React.FC<{
           wordBreak: 'keep-all', overflowWrap: 'normal', transformOrigin: 'center center',
         }}
       >
+        {layer === 'visual' && <VideoBackground scene={scene} />}
         {layer === 'visual' && <LightEffects effects={scene.effects?.filter(e => e.target === 'background')} />}
         <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;font-display:swap;} @font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Regular.woff')}') format('woff');font-weight:300 600;font-style:normal;font-display:swap;}`}</style>
         {layer === 'visual' && photo}

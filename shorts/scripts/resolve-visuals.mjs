@@ -1,3 +1,4 @@
+import {loadVideoCatalog, validateVideoSelection} from './video-assets.mjs';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {curatedPhoto} from './curated-photos.mjs';
@@ -86,9 +87,11 @@ const textFallback = (scene, reason, detail) => {
 
 export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn, repairDiagram, maxRepairAttempts = 8, onProgress = async () => {}} = {}) => {
   if (!Number.isInteger(maxRepairAttempts) || maxRepairAttempts < 0 || maxRepairAttempts > 8) throw new Error("maxRepairAttempts must be an integer from 0 to 8");
+  const videoCatalog = candidate.scenes.some(s => s.backgroundVideo) ? await loadVideoCatalog() : [];
   const scenes = [];
   for (const originalScene of candidate.scenes) {
     let scene = originalScene;
+    validateVideoSelection(scene, videoCatalog);
     const history = [];
     if (scene.diagramSpec || scene.visual.type === 'diagram') {
       for (let attempt = 0; ; attempt++) {

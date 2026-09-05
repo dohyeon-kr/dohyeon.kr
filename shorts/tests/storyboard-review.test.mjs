@@ -31,6 +31,8 @@ test('includes all diagram phases and fails closed on missing frame', async () =
     const args = {manifest: 'shorts/content/post/candidate-01.json', frames: dir};
     const manifest = {id: 'candidate-01', scenes: [{diagramSpec: {}}]};
     const content = await frameInput(manifest, args);
+    const videoContent = await frameInput({...manifest, scenes: [{backgroundVideo: {assetId: 'sample'}}]}, args);
+    assert.equal(videoContent.filter(x => x.type === 'input_image').length, 3);
     assert.equal(content.filter(x => x.type === 'input_image').length, 3);
     await fs.unlink(path.join(folder, 'post-candidate-01-scene-01-change.png'));
     await assert.rejects(frameInput(manifest, args));

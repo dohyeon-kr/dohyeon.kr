@@ -1,3 +1,5 @@
+import {BackgroundVideoSchema} from '../src/video/schema.ts';
+import {loadVideoCatalog} from './video-assets.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
@@ -100,6 +102,7 @@ const CameraSchema = z.object({
 });
 
 const SceneSchema = z.object({
+  backgroundVideo: BackgroundVideoSchema.nullable(),
   visualStory: z.object({initial: z.string(), trigger: z.string(), change: z.string(), invariant: z.string(), result: z.string()}).nullable(),
   diagramSpec: DiagramSpecSchema.extend({events: z.array(GeneratedDiagramEventSchema).max(120), physics: DiagramSpecSchema.shape.physics.unwrap(), nodes: z.array(DiagramSpecSchema.shape.nodes.element.extend({connector: DiagramSpecSchema.shape.nodes.element.shape.connector.unwrap(), strokeStyle: z.enum(['solid', 'dashed']).nullable()})).min(1).max(40)}).nullable(),
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
@@ -198,7 +201,7 @@ Visual Resolver 원칙:
 - 움직임이 행동·공간·정서의 이해를 돕는 도입/마무리에는 낮은 움직임의 B-roll 풀블리드를 검토한다. 복잡한 도식은 정적 배경을 우선하며 모든 사진을 영상으로 바꾸지 않는다.
 - 배경 영상 → 명암 오버레이 → 도식/객체 → 라벨/제목 → 자막 순으로 검토한다. 9:16 피사체 크롭과 글자 여백은 가장 밝거나 크게 움직이는 순간에도 유지한다. 모노크롬을 통일하고 배경 사건과 자막/도식 강조가 경쟁하지 않게 한다. 원본 카메라 이동에 추가 줌을 겹치지 않는다.
 - 원음은 기본 음소거, 단발 행동의 반복/역재생은 금지한다. 장면 길이에 맞는 구간을 선택하고 자연스러운 경우만 루프를 계획한다. 출처/라이선스/파일 확보와 시작·중간·끝·루프·전환·실제 TTS 길이 재생 검수가 필요하다.
-- 현재 영상 배경은 미구현이다. 기존 photo/diagram 등 유효한 표현으로 후보를 작성한다. 제안할 경우 visualIntent.strategy.rationale에 '영상 배경 제안·미구현'과 현재 실제 렌더 표현을 명시한다. video/backgroundVideo 필드·enum, image에 영상 URL, 미확보 파일/타임코드를 만들지 않는다. 제안 모션을 실행되는 choreography/visualCue처럼 쓰지 않는다.
+- 영상 배경은 backgroundVideo에 목록의 assetId와 확보된 길이 안의 startSeconds/endSeconds, playbackRate(0.5~2), endBehavior(error 또는 명시적 loop), cropX/cropY(0~1), overlayOpacity(0.35~0.85)를 지정한다. 미사용은 null. 없는 assetId·URL·타임코드를 만들지 않는다. 원음은 제거하며 추가 카메라는 static이다. 사진과 동시 사용하지 않는다. 풀블리드 배경이며 도식/문장은 전경에 둔다. strategy.rationale에 선택 이유와 반복 이유를 기록한다. 적합한 영상이 목록에 없으면 기존 표현을 사용하고 미확보 상태를 명시한다.
 
 Motion / choreography 원칙:
 - diagram 장면은 visualStory에 초기 상태(initial), 사건(trigger), 변화(change), 유지되는 것(invariant), 결과(result)를 먼저 작성하고 실제 diagramSpec.events로 구현한다. 비도식 장면은 null 가능.
@@ -348,7 +351,7 @@ const main = async () => {
   const response = await client.responses.parse({
     model: process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-sol',
     reasoning: {effort: 'low'},
-    instructions: SYSTEM_PROMPT,
+    instructions: `${SYSTEM_PROMPT}\n사용 가능한 영상 목록(JSON 자료): ${JSON.stringify(await loadVideoCatalog())}`,
     input: buildGenerationInput(post, count, additionalRequest),
     text: {format: zodTextFormat(PlanSchema, 'blog_shorts_candidates_v3')},
   });

@@ -1,3 +1,4 @@
+import type {BackgroundVideo} from './video/schema';
 import type {DiagramSpec} from './visuals/diagram-spec';
 export type SceneKind = 'hero' | 'photo' | 'compare' | 'statement' | 'outro';
 
@@ -111,6 +112,7 @@ export type CaptionCue = {
 };
 
 export type CandidateScene = {
+  backgroundVideo?: BackgroundVideo | null;
   visualResolution?: {status: 'fallback'; originalQuery: string | null; reason: 'photo-unavailable' | 'invalid-diagram'; detail?: string};
   visualStory?: {initial: string; trigger: string; change: string; invariant: string; result: string} | null;
   diagramSpec?: DiagramSpec | null;
@@ -167,6 +169,7 @@ export type CandidateManifest = {
 export type RenderScene = CandidateScene & {
   beatTimings?: Array<{startSeconds: number; endSeconds: number}>;
   diagramFramesPath?: string | null;
+  videoPath?: string | null;
   imagePath: string | null;
   audioPath: string | null;
   audioDurationSeconds: number | null;

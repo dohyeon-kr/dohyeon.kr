@@ -33,6 +33,8 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
+      - name: Install video tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
       - name: Validate selected candidate
@@ -42,6 +44,7 @@ jobs:
           node shorts/scripts/render.mjs "$MANIFEST" --storyboard
           mkdir -p "$REVIEW_OUTPUT_DIR"
           mv shorts/out/storyboards "$REVIEW_OUTPUT_DIR/before"
+          cp shorts/out/*-VIDEO.md "$REVIEW_OUTPUT_DIR/before/"
       - name: Review images and improve candidate with OpenAI
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -53,6 +56,7 @@ jobs:
         run: |
           node shorts/scripts/render.mjs "$MANIFEST" --storyboard
           mv shorts/out/storyboards "$REVIEW_OUTPUT_DIR/after"
+          cp shorts/out/*-VIDEO.md "$REVIEW_OUTPUT_DIR/after/"
       - name: Upload before and after review bundle
         id: bundle
         if: always()
