@@ -125,11 +125,11 @@
           {
             "id": "room",
             "shape": "rect",
-            "label": "같은 팀",
+            "label": "",
             "x": 400,
-            "y": 300,
+            "y": 285,
             "width": 700,
-            "height": 410,
+            "height": 450,
             "fill": "none",
             "strokeStyle": "solid"
           },
@@ -137,8 +137,8 @@
             "id": "me",
             "shape": "circle",
             "label": "나",
-            "x": 175,
-            "y": 270,
+            "x": 155,
+            "y": 230,
             "width": 130,
             "height": 130,
             "fill": "white",
@@ -148,8 +148,8 @@
             "id": "peer1",
             "shape": "circle",
             "label": "동료 A",
-            "x": 350,
-            "y": 320,
+            "x": 320,
+            "y": 270,
             "width": 130,
             "height": 130,
             "fill": "gray",
@@ -159,8 +159,8 @@
             "id": "peer2",
             "shape": "circle",
             "label": "동료 B",
-            "x": 525,
-            "y": 350,
+            "x": 480,
+            "y": 305,
             "width": 130,
             "height": 130,
             "fill": "gray",
@@ -170,8 +170,8 @@
             "id": "peer3",
             "shape": "circle",
             "label": "동료 C",
-            "x": 690,
-            "y": 385,
+            "x": 640,
+            "y": 340,
             "width": 130,
             "height": 130,
             "fill": "gray",
@@ -181,9 +181,9 @@
             "id": "axis",
             "shape": "line",
             "label": "",
-            "x": 420,
-            "y": 470,
-            "width": 610,
+            "x": 400,
+            "y": 435,
+            "width": 580,
             "height": 3,
             "fill": "none",
             "strokeStyle": "solid"
@@ -193,9 +193,20 @@
             "shape": "text",
             "label": "기술만 평가",
             "x": 400,
-            "y": 515,
+            "y": 478,
             "width": 220,
             "height": 45,
+            "fill": "none",
+            "strokeStyle": null
+          },
+          {
+            "id": "room-title",
+            "shape": "text",
+            "label": "같은 팀",
+            "x": 400,
+            "y": 105,
+            "width": 220,
+            "height": 50,
             "fill": "none",
             "strokeStyle": null
           }
@@ -333,11 +344,11 @@
           {
             "id": "room",
             "shape": "rect",
-            "label": "같은 팀",
+            "label": "",
             "x": 400,
-            "y": 300,
+            "y": 285,
             "width": 700,
-            "height": 420,
+            "height": 450,
             "fill": "none",
             "strokeStyle": "solid"
           },
@@ -345,8 +356,8 @@
             "id": "me",
             "shape": "circle",
             "label": "나",
-            "x": 145,
-            "y": 280,
+            "x": 155,
+            "y": 300,
             "width": 120,
             "height": 120,
             "fill": "white",
@@ -356,8 +367,8 @@
             "id": "product",
             "shape": "rect",
             "label": "제품 감각",
-            "x": 325,
-            "y": 145,
+            "x": 360,
+            "y": 210,
             "width": 190,
             "height": 90,
             "fill": "gray",
@@ -367,8 +378,8 @@
             "id": "business",
             "shape": "rect",
             "label": "사업 이해",
-            "x": 605,
-            "y": 145,
+            "x": 610,
+            "y": 210,
             "width": 190,
             "height": 90,
             "fill": "gray",
@@ -378,7 +389,7 @@
             "id": "persuasion",
             "shape": "rect",
             "label": "설득·조직",
-            "x": 325,
+            "x": 360,
             "y": 410,
             "width": 190,
             "height": 90,
@@ -389,7 +400,7 @@
             "id": "judgment",
             "shape": "rect",
             "label": "문제 판단",
-            "x": 605,
+            "x": 610,
             "y": 410,
             "width": 190,
             "height": 90,
@@ -400,9 +411,20 @@
             "id": "tech",
             "shape": "text",
             "label": "기술",
-            "x": 145,
-            "y": 390,
+            "x": 155,
+            "y": 405,
             "width": 120,
+            "height": 50,
+            "fill": "none",
+            "strokeStyle": null
+          },
+          {
+            "id": "room-title",
+            "shape": "text",
+            "label": "같은 팀",
+            "x": 400,
+            "y": 105,
+            "width": 220,
             "height": 50,
             "fill": "none",
             "strokeStyle": null
@@ -528,11 +550,11 @@
       "visualStory": null,
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "photo-strip",
       "visual": {
-        "type": "none",
+        "type": "photo",
         "motif": null,
-        "query": null,
+        "query": "team discussing charts and plans around table",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -544,9 +566,9 @@
           "description": "기술 구현 외에도 제품과 판단을 논의하는 팀의 실제 행동을 보여준다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "photo",
           "metaphor": null,
-          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+          "rationale": "팀이 자료와 판단을 나누는 실제 장면으로 동료에게 배울 능력을 보여준다."
         }
       },
       "transition": "slide-left",
@@ -558,9 +580,9 @@
         "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
-        "show-subline",
-        "emphasize-result"
+        "show-subline"
       ],
       "beats": [
         {
@@ -587,12 +609,19 @@
       "narration": "그 순간 방은 그대로인데, 내가 모르는 것이 늘어난다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
-      "image": null,
-      "visualResolution": {
-        "status": "fallback",
-        "originalQuery": "coworkers discussing product strategy",
-        "reason": "photo-unavailable"
+      "imageQuery": "team discussing charts and plans around table",
+      "image": {
+        "query": "team discussing charts and plans around table",
+        "title": "자료를 펼쳐 놓고 함께 논의하는 팀",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/photo-of-people-having-meeting-3183186/",
+        "originalUrl": "https://images.pexels.com/photos/3183186/pexels-photo-3183186.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3183186/pexels-photo-3183186.jpeg?auto=compress&cs=tinysrgb&w=1000"
       }
     },
     {
@@ -612,11 +641,11 @@
           {
             "id": "room",
             "shape": "rect",
-            "label": "같은 방",
+            "label": "",
             "x": 400,
-            "y": 295,
+            "y": 285,
             "width": 700,
-            "height": 430,
+            "height": 450,
             "fill": "none",
             "strokeStyle": "solid"
           },
@@ -625,9 +654,9 @@
             "shape": "circle",
             "label": "나",
             "x": 400,
-            "y": 295,
-            "width": 220,
-            "height": 220,
+            "y": 305,
+            "width": 180,
+            "height": 180,
             "fill": "white",
             "strokeStyle": "solid"
           },
@@ -635,10 +664,10 @@
             "id": "area1",
             "shape": "circle",
             "label": "제품",
-            "x": 185,
-            "y": 165,
-            "width": 130,
-            "height": 130,
+            "x": 200,
+            "y": 210,
+            "width": 120,
+            "height": 120,
             "fill": "gray",
             "strokeStyle": "solid"
           },
@@ -646,10 +675,10 @@
             "id": "area2",
             "shape": "circle",
             "label": "사업",
-            "x": 615,
-            "y": 165,
-            "width": 130,
-            "height": 130,
+            "x": 600,
+            "y": 210,
+            "width": 120,
+            "height": 120,
             "fill": "gray",
             "strokeStyle": "solid"
           },
@@ -657,10 +686,10 @@
             "id": "area3",
             "shape": "circle",
             "label": "설득",
-            "x": 185,
-            "y": 425,
-            "width": 130,
-            "height": 130,
+            "x": 200,
+            "y": 400,
+            "width": 120,
+            "height": 120,
             "fill": "gray",
             "strokeStyle": "solid"
           },
@@ -668,52 +697,103 @@
             "id": "area4",
             "shape": "circle",
             "label": "판단",
-            "x": 615,
-            "y": 425,
-            "width": 130,
-            "height": 130,
+            "x": 600,
+            "y": 400,
+            "width": 120,
+            "height": 120,
             "fill": "gray",
             "strokeStyle": "solid"
+          },
+          {
+            "id": "room-title",
+            "shape": "text",
+            "label": "같은 방",
+            "x": 400,
+            "y": 105,
+            "width": 220,
+            "height": 50,
+            "fill": "none",
+            "strokeStyle": null
           }
         ],
         "events": [
           {
             "target": "area1",
-            "property": "scale",
-            "from": 0.5,
-            "to": 1.25,
+            "property": "width",
+            "from": 120,
+            "to": 150,
+            "start": 0.2,
+            "end": 0.45
+          },
+          {
+            "target": "area1",
+            "property": "height",
+            "from": 120,
+            "to": 150,
             "start": 0.2,
             "end": 0.45
           },
           {
             "target": "area2",
-            "property": "scale",
-            "from": 0.5,
-            "to": 1.25,
+            "property": "width",
+            "from": 120,
+            "to": 150,
+            "start": 0.28,
+            "end": 0.53
+          },
+          {
+            "target": "area2",
+            "property": "height",
+            "from": 120,
+            "to": 150,
             "start": 0.28,
             "end": 0.53
           },
           {
             "target": "area3",
-            "property": "scale",
-            "from": 0.5,
-            "to": 1.25,
+            "property": "width",
+            "from": 120,
+            "to": 150,
+            "start": 0.36,
+            "end": 0.61
+          },
+          {
+            "target": "area3",
+            "property": "height",
+            "from": 120,
+            "to": 150,
             "start": 0.36,
             "end": 0.61
           },
           {
             "target": "area4",
-            "property": "scale",
-            "from": 0.5,
-            "to": 1.25,
+            "property": "width",
+            "from": 120,
+            "to": 150,
+            "start": 0.44,
+            "end": 0.69
+          },
+          {
+            "target": "area4",
+            "property": "height",
+            "from": 120,
+            "to": 150,
             "start": 0.44,
             "end": 0.69
           },
           {
             "target": "me",
-            "property": "scale",
-            "from": 1,
-            "to": 0.55,
+            "property": "width",
+            "from": 180,
+            "to": 100,
+            "start": 0.48,
+            "end": 0.72
+          },
+          {
+            "target": "me",
+            "property": "height",
+            "from": 180,
+            "to": 100,
             "start": 0.48,
             "end": 0.72
           }
@@ -796,11 +876,11 @@
       "visualStory": null,
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "photo-full-bleed",
       "visual": {
-        "type": "symbol",
-        "motif": "open-frame",
-        "query": null,
+        "type": "photo",
+        "motif": null,
+        "query": "hallway with open doors to different rooms",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -812,9 +892,9 @@
           "description": "배움이 없는 환경과 배움을 발견하지 못하는 좁은 기준을 구분한다."
         },
         "strategy": {
-          "type": "minimal",
-          "metaphor": "열린 프레임",
-          "rationale": "결론에서 복잡한 도식을 제거하고 두 가능성을 질문으로 남겨 자기 점검을 유도한다."
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "열린 문과 서로 다른 방을 보여주며 떠나기 전에 자신의 기준을 돌아보는 질문을 남긴다."
         }
       },
       "transition": "fade",
@@ -826,6 +906,7 @@
         "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "show-subline"
       ],
@@ -863,8 +944,20 @@
       "narration": "떠나기 전에 먼저 묻자. 배울 것이 없는가, 내 기준이 좁은가.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
+      "imageQuery": "hallway with open doors to different rooms",
+      "image": {
+        "query": "hallway with open doors to different rooms",
+        "title": "여러 방으로 이어지는 열린 문과 복도",
+        "creator": "Lisa Anna",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/apartment-hallway-with-open-doors-19878508/",
+        "originalUrl": "https://images.pexels.com/photos/19878508/pexels-photo-19878508.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/19878508/pexels-photo-19878508.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
     }
   ]
 }
