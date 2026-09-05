@@ -1,0 +1,92 @@
+import {curatedPhoto} from './curated-photos.mjs';
+
+const normalizeOpenverseImage = (result, query) => ({
+  query,
+  title: result.title ?? null,
+  creator: result.creator ?? null,
+  license: result.license ?? 'unknown',
+  licenseVersion: result.license_version ?? null,
+  licenseUrl: result.license_url ?? null,
+  source: result.source ?? null,
+  provider: result.provider ?? null,
+  sourcePage: result.foreign_landing_url ?? null,
+  originalUrl: result.url ?? null,
+  thumbnailUrl: result.thumbnail ?? null,
+});
+
+export const createPhotoSearch = ({fetchImpl = fetch, warn = console.warn} = {}) => {
+  const openverseCache = new Map();
+  return async (query) => {
+    if (!query) return null;
+    if (openverseCache.has(query)) return openverseCache.get(query);
+    try {
+      for (const license of ['cc0', 'pdm']) {
+        const params = new URLSearchParams({q: query, license, page_size: '20', mature: 'false'});
+        const response = await fetchImpl(`https://api.openverse.org/v1/images/?${params}`, {
+          signal: AbortSignal.timeout(10_000),
+          headers: {accept: 'application/json', 'user-agent': 'dohyeon.kr-shorts/3.0 (+https://dohyeon.kr)'},
+        });
+        if (response.status === 429) {
+          warn(`Openverse rate limit reached while searching: ${query}`);
+          break;
+        }
+        if (!response.ok) continue;
+        const data = await response.json();
+        const candidates = Array.isArray(data.results) ? data.results : [];
+        const preferred = candidates.find((item) => Number(item.width) >= 900 && Number(item.height) >= 700 && item.url) ?? candidates.find((item) => item.url || item.thumbnail);
+        if (preferred) {
+          const normalized = normalizeOpenverseImage(preferred, query);
+          openverseCache.set(query, normalized);
+          return normalized;
+        }
+      }
+    } catch (error) {
+      warn(`Openverse search failed for ${JSON.stringify(query)}: ${error.message}`);
+    }
+    openverseCache.set(query, null);
+    return null;
+  };
+};
+
+const searchOpenverse = createPhotoSearch();
+
+const normalizeCamera = (camera) => {
+  const startProgress = Math.max(0, Math.min(1, camera.startProgress));
+  const endProgress = Math.max(startProgress + 0.08, Math.min(1, camera.endProgress));
+  return {...camera, startProgress, endProgress: Math.min(1, endProgress)};
+};
+
+export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn} = {}) => {
+  const scenes = [];
+  for (const scene of candidate.scenes) {
+    const imageQuery = scene.visual.type === 'photo' ? scene.visual.query?.trim() || null : null;
+    const image = imageQuery ? (await search(imageQuery)) ?? curated(imageQuery) : null;
+    if (scene.visual.type === 'photo' && !image) {
+      warn(`Photo unavailable in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${JSON.stringify(imageQuery)}. Using a text scene; review its visual direction.`);
+      scenes.push({
+        ...scene,
+        kind: scene.kind === 'hero' || scene.kind === 'outro' ? scene.kind : 'statement',
+        layout: scene.kind === 'outro' ? 'outro-minimal' : 'statement-offset',
+        visual: {type: 'none', motif: null, query: null, value: null, xLabel: null, yLabel: null},
+        visualIntent: {...scene.visualIntent, strategy: {
+          type: 'minimal', metaphor: null,
+          rationale: '사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다.',
+        }},
+        visualStory: null,
+        diagramSpec: null,
+        comparisonLeft: null,
+        comparisonRight: null,
+        camera: {motion: 'static', target: 'center', intensity: 'subtle', startProgress: 0, endProgress: 1},
+        choreography: ['show-headline', ...(scene.subline ? ['show-subline'] : []), 'emphasize-result'],
+        beats: scene.beats.map(beat => ({...beat, visualCue: null})),
+        imageQuery: null,
+        image: null,
+        visualResolution: {status: 'fallback', originalQuery: imageQuery, reason: 'photo-unavailable'},
+      });
+      continue;
+    }
+    scenes.push({...scene, camera: normalizeCamera(scene.camera), imageQuery, image});
+  }
+  return {...candidate, scenes};
+};
+

@@ -1,0 +1,89 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createPhotoSearch, enrichVisuals} from '../scripts/resolve-visuals.mjs';
+import {describeCandidate} from '../scripts/describe-candidates.mjs';
+
+const photoScene = (query) => ({
+  kind: 'photo', layout: 'photo-full-bleed',
+  visual: {type: 'photo', query},
+  visualIntent: {concept: '위치', relation: {type: 'literal'}, strategy: {type: 'photo'}},
+  headline: '모든 길을 알 필요는 없다', subline: null, narration: '지금 필요한 길부터 찾는다.',
+  camera: {motion: 'push-in', target: 'detail', intensity: 'subtle', startProgress: 0, endProgress: 1},
+  choreography: ['show-visual', 'camera-focus'],
+  beats: [{text: '지금 필요한 길부터 찾는다.', emphasis: 'high', visualCue: '지도 확대'}],
+});
+const quiet = () => {};
+
+test('an unresolved map photo preserves the candidate and later scenes without a placeholder', async () => {
+  const source = {title: '후보', scenes: [photoScene('low resolution map with marked location'), photoScene('coding')]};
+  const original = structuredClone(source);
+  const warnings = [];
+  const result = await enrichVisuals(source, {search: async () => null, warn: message => warnings.push(message)});
+  const scene = result.scenes[0];
+  assert.equal(result.scenes.length, 2);
+  assert.equal(scene.visual.type, 'none');
+  assert.equal(scene.kind, 'statement');
+  assert.equal(scene.layout, 'statement-offset');
+  assert.equal(scene.image, null);
+  assert.equal(scene.imageQuery, null);
+  assert.equal(scene.visual.query, null);
+  assert.equal(scene.camera.motion, 'static');
+  assert.equal(scene.visualIntent.strategy.type, 'minimal');
+  assert.equal(scene.diagramSpec, null);
+  assert.equal(scene.headline, source.scenes[0].headline);
+  assert.equal(scene.narration, source.scenes[0].narration);
+  assert.equal(scene.beats[0].text, source.scenes[0].beats[0].text);
+  assert.equal(scene.beats[0].emphasis, 'high');
+  assert.equal(scene.beats[0].visualCue, null);
+  assert.equal(result.scenes[1].image.license, 'pexels');
+  assert.equal(result.scenes[1].visual.type, 'photo');
+  assert.equal(warnings.length, 1);
+  assert.match(describeCandidate(result, 'candidate-01.json'), /시각 연출 검토 필요.*low resolution map with marked location/);
+  assert.deepEqual(source, original);
+});
+
+test('missing photo queries fall back without searching; non-photo scenes remain intact', async () => {
+  const diagram = {...photoScene(null), visual: {type: 'diagram', query: null}, diagramSpec: {nodes: []}};
+  for (const query of [null, '', '   ']) {
+    const result = await enrichVisuals({scenes: [photoScene(query), diagram]}, {
+      search: async () => assert.fail('must not search'), warn: quiet,
+    });
+    assert.equal(result.scenes[0].visual.type, 'none');
+    assert.equal(result.scenes[1].diagramSpec, diagram.diagramSpec);
+    assert.equal(result.scenes[1].visual.type, 'diagram');
+  }
+});
+
+test('successful search keeps photo layout and license attribution and caches the result', async () => {
+  let calls = 0;
+  const search = createPhotoSearch({fetchImpl: async (url, options) => {
+    calls++;
+    assert.equal(new URL(url).searchParams.get('license'), 'cc0');
+    assert.ok(options.signal instanceof AbortSignal);
+    return {ok: true, json: async () => ({results: [{url: 'https://example.com/photo.jpg', width: 1200, height: 900, license: 'cc0', creator: 'Creator', foreign_landing_url: 'https://example.com/source'}]})};
+  }});
+  const result = await enrichVisuals({scenes: [photoScene('forest'), photoScene('forest')]}, {search, warn: quiet});
+  assert.equal(calls, 1);
+  assert.equal(result.scenes[0].layout, 'photo-full-bleed');
+  assert.equal(result.scenes[0].image.creator, 'Creator');
+  assert.equal(result.scenes[0].image.sourcePage, 'https://example.com/source');
+  assert.equal(result.scenes[0].visualResolution, undefined);
+});
+
+for (const failure of ['empty', 'http', 'rate-limit', 'network', 'timeout', 'invalid-json']) {
+  test(`${failure} search failure still produces a reviewable candidate and caches the miss`, async () => {
+    let calls = 0;
+    const search = createPhotoSearch({warn: quiet, fetchImpl: async () => {
+      calls++;
+      if (failure === 'network') throw new TypeError('fetch failed');
+      if (failure === 'timeout') throw new DOMException('timed out', 'TimeoutError');
+      return {ok: !['http', 'rate-limit'].includes(failure), status: failure === 'rate-limit' ? 429 : 503,
+        json: async () => {if (failure === 'invalid-json') throw new SyntaxError('invalid JSON'); return {results: []};}};
+    }});
+    const result = await enrichVisuals({scenes: [photoScene('map'), photoScene('map'), photoScene('coding')]}, {search, warn: quiet});
+    assert.equal(result.scenes[0].visual.type, 'none');
+    assert.equal(result.scenes[1].visual.type, 'none');
+    assert.equal(result.scenes[2].image.license, 'pexels');
+    assert.equal(calls, ['empty', 'http'].includes(failure) ? 4 : 2);
+  });
+}
