@@ -38,7 +38,9 @@ try {
   const notes = path.join(directory, 'notes.md');
   const body = repair(release.body ?? '');
   await fs.writeFile(notes, `${body}\n\nDraft 첨부파일은 GitHub 로그인이 필요할 수 있습니다. 본문 미리보기가 표시되지 않으면 ‘장면 이미지 열기’ 또는 Assets의 파일을 눌러 확인하세요.\n`);
-  gh(['release', 'edit', tag, '--repo', repo, '--notes-file', notes]);
+  // Patch only the body by ID. `gh release edit <tag>` resubmits tag_name,
+  // which can rotate GitHub's temporary draft URLs and invalidate repaired links.
+  gh(['api', '--method', 'PATCH', `repos/${repo}/releases/${release.id}`, '-F', `body=@${notes}`]);
   console.log(`Updated actual attachment URLs for ${tag}`);
 } finally {
   await fs.rm(directory, {recursive: true, force: true});
