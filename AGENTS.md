@@ -67,3 +67,7 @@ For shorts generation, diagram layout, underline effects, or motion changes, fol
 Keep the generation prompt aligned with that policy. Verify actual Korean text,
 including descenders, multiline labels, connection lines, and intermediate motion
 frames; a representative still alone is not sufficient evidence of no overlap.
+
+## Shorts visual edits
+
+Before generating or manually editing any shorts candidate, read the photo/full-bleed selection and revision checklist in [creative-system.md](shorts/docs/creative-system.md). Apply it to copied scenes as well as new scenes. Keep the generation prompt aligned. A narration-only edit is incomplete until visual choices, resolved photos, and generated review Markdown have been rechecked. Report actual render verification separately from manifest validation.
