@@ -22,7 +22,10 @@ export async function resolveManifest(name) {
   return JSON.parse(await fs.readFile(name, 'utf8'));
 }
 export function validateRevision(candidate) {
-  if (candidate.scenes.length < 6 || candidate.scenes.length > 9) throw new Error('Expected 6–9 scenes');
+  const sceneCount = candidate.scenes.length;
+  const standard = sceneCount >= 6 && sceneCount <= 9;
+  const extended = sceneCount >= 18 && sceneCount <= 21;
+  if (!standard && !extended) throw new Error(`Expected 6–9 or 18–21 scenes; received ${sceneCount}`);
   const compact = value => value.replace(/[\s\p{P}\p{S}]/gu, '');
   for (const [i, scene] of candidate.scenes.entries()) {
     if (compact(scene.narration) !== compact(scene.beats.map(b => b.text).join(''))) throw new Error(`Scene ${i + 1}: narration/beats mismatch`);
