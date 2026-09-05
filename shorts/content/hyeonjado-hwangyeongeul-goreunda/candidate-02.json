@@ -1,668 +1,777 @@
 {
-  "schemaVersion": 3,
-  "id": "candidate-02",
-  "status": "candidate",
-  "source": {
-    "url": "https://blog.dohyeon.kr/hyeonjado-hwangyeongeul-goreunda/",
-    "title": "현자도 환경을 고른다"
-  },
   "candidate": {
     "angle": "reframe",
-    "hook": "‘방을 나가라’는 말은 더 똑똑한 사람을 찾으라는 뜻이 아니다.",
-    "title": "배움이 멈춘 방에서 나와야 하는 이유",
-    "rationale": "유명한 격언을 능력 서열이 아니라 ‘성장을 의지에만 맡겨야 하는 환경’의 문제로 재해석한다.",
-    "viralScore": 9,
-    "suggestedCaption": "어디서든 배울 수 있다. 그렇다고 어디에나 머물러야 하는 것은 아니다.",
     "hashtags": [
       "#커리어",
       "#성장환경",
       "#이직",
       "#조직문화",
       "#배움"
-    ]
+    ],
+    "hook": "“내가 가장 똑똑한 사람이라면, 그 방을 나와라.”",
+    "rationale": "인용 → 의문 → 배움의 구체적 사례 → 방의 의미 질문 → 혼자 성장을 떠맡는 상황 → 환경의 역할 → 해석 → 배움의 지속 여부를 묻는 결론으로 이어간다.",
+    "suggestedCaption": "내가 가장 똑똑한 사람이라면, 그 방을 나와라. 떠나기 전에 묻고 싶다. 나는 여기서 계속 배우고 있는가?",
+    "title": "가장 똑똑하다면, 정말 그 방을 나와야 할까?",
+    "viralScore": 9
   },
-  "style": {
-    "theme": "monochrome-editorial-dark",
-    "visualDensity": "high",
-    "subtitles": "burned-in",
-    "safeArea": "shorts-reels",
-    "artDirection": "monochrome-editorial-motion",
-    "motionLanguage": "sharp-subtle",
-    "decorativeLabels": "forbidden"
-  },
+  "id": "candidate-02",
   "scenes": [
     {
-      "visualStory": null,
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "“내가 가장 똑똑한 사람이라면,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "나와라",
+          "pauseAfterMs": 280,
+          "text": "그 방을 나와라.”",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
       "diagramSpec": null,
+      "headline": "내가 가장 똑똑하다면,\n그 방을 나와라",
+      "image": null,
+      "imageQuery": null,
       "kind": "hero",
       "layout": "statement-giant",
+      "narration": "“내가 가장 똑똑한 사람이라면, 그 방을 나와라.”",
+      "subline": null,
+      "transition": "fade",
       "visual": {
-        "type": "none",
         "motif": null,
         "query": null,
+        "type": "none",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "익숙한 격언의 의미를 뒤집어 제시한다.",
+        "concept": "격언을 온전히 제시하고 해석은 유보한다.",
         "relation": {
-          "type": "literal",
-          "description": "‘가장 똑똑한 사람’이라는 표현에 대한 기존 해석을 먼저 흔든다."
+          "description": "격언을 온전히 제시하고 해석은 유보한다.",
+          "type": "literal"
         },
         "strategy": {
-          "type": "minimal",
           "metaphor": null,
-          "rationale": "첫 2초에는 다른 장식 없이 반론 자체를 크게 보여주는 편이 가장 직접적이다."
+          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
+          "type": "minimal"
         }
       },
-      "transition": "fade",
+      "visualStory": null
+    },
+    {
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "성장에 관한 조언으로 자주 듣는 말이다.",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "그런데 정말 그러면 될까?",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "내가 가장 많이 안다는 이유만으로,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "떠나야",
+          "pauseAfterMs": 280,
+          "text": "지금 있는 곳을 떠나야 할까?",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
+        }
+      ],
       "camera": {
-        "motion": "push-in",
-        "target": "center",
+        "endProgress": 1,
         "intensity": "subtle",
+        "motion": "static",
         "startProgress": 0,
-        "endProgress": 1
+        "target": "center"
       },
       "choreography": [
         "show-headline",
-        "camera-focus"
-      ],
-      "beats": [
-        {
-          "text": "‘방을 나가라’는 말,",
-          "emphasis": "mid",
-          "pauseAfterMs": 100,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "나가라",
-          "visualCue": "핵심 문구가 먼저 나타난다"
-        },
-        {
-          "text": "더 똑똑한 사람을 찾으라는 뜻이 아닐 수 있다.",
-          "emphasis": "high",
-          "pauseAfterMs": 240,
-          "delivery": "drop",
-          "visualPriority": "high",
-          "keyword": "아닐",
-          "visualCue": "반론 문장이 크게 고정된다"
-        }
-      ],
-      "headline": "더 똑똑한 사람을\n찾으라는 뜻이 아니다",
-      "subline": null,
-      "narration": "‘방을 나가라’는 말, 더 똑똑한 사람을 찾으라는 뜻이 아닐 수 있다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "visualStory": {
-        "initial": "‘나’가 중앙 방에 있고 더 높은 지식을 가진 방들이 오른쪽으로 이어진다.",
-        "trigger": "더 똑똑한 방을 찾아야 한다는 해석이 시작된다.",
-        "change": "‘나’가 방에서 방으로 계속 이동한다.",
-        "invariant": "어느 방에든 결국 가장 많이 아는 사람은 남는다.",
-        "result": "끝없는 서열 이동이라는 모순이 드러난다."
-      },
-      "diagramSpec": {
-        "version": 1,
-        "renderer": "auto",
-        "physics": null,
-        "description": "능력 서열로 해석할 때 끝없이 방을 옮겨야 하는 모순을 보여주는 이동 도식.",
-        "nodes": [
-          {
-            "id": "room1",
-            "shape": "rect",
-            "label": "첫 방",
-            "x": 150,
-            "y": 280,
-            "width": 180,
-            "height": 150,
-            "fill": "none",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "room2",
-            "shape": "rect",
-            "label": "다음 방",
-            "x": 400,
-            "y": 280,
-            "width": 180,
-            "height": 150,
-            "fill": "none",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "room3",
-            "shape": "rect",
-            "label": "또 다음",
-            "x": 650,
-            "y": 280,
-            "width": 180,
-            "height": 150,
-            "fill": "none",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "me",
-            "shape": "circle",
-            "label": "나",
-            "x": 150,
-            "y": 300,
-            "width": 72,
-            "height": 72,
-            "fill": "white",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "path1",
-            "shape": "line",
-            "label": "",
-            "x": 275,
-            "y": 300,
-            "width": 70,
-            "height": 2,
-            "fill": "gray",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "path2",
-            "shape": "line",
-            "label": "",
-            "x": 525,
-            "y": 300,
-            "width": 70,
-            "height": 2,
-            "fill": "gray",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "loop",
-            "shape": "text",
-            "label": "끝은 어디지?",
-            "x": 650,
-            "y": 440,
-            "width": 190,
-            "height": 55,
-            "fill": "none",
-            "strokeStyle": null
-          }
-        ],
-        "events": [
-          {
-            "target": "me",
-            "property": "x",
-            "from": 150,
-            "to": 400,
-            "start": 0.2,
-            "end": 0.42
-          },
-          {
-            "target": "me",
-            "property": "x",
-            "from": 400,
-            "to": 650,
-            "start": 0.48,
-            "end": 0.7
-          },
-          {
-            "target": "loop",
-            "property": "opacity",
-            "from": 0,
-            "to": 1,
-            "start": 0.72,
-            "end": 0.8
-          }
-        ]
-      },
-      "kind": "compare",
-      "layout": "diagram-centered",
-      "visual": {
-        "type": "diagram",
-        "motif": "endless-room-switching",
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "능력 비교로 격언을 해석하면 모두가 끝없이 이동해야 한다.",
-        "relation": {
-          "type": "flow",
-          "description": "더 높은 서열의 방으로 이동하는 경로가 끝없이 이어진다."
-        },
-        "strategy": {
-          "type": "spatial-diagram",
-          "metaphor": "연속된 방",
-          "rationale": "문장의 논리적 모순을 아이콘보다 연속 공간과 실제 이동으로 명확히 보여준다."
-        }
-      },
-      "transition": "slide-left",
-      "camera": {
-        "motion": "pan-right",
-        "target": "endpoint",
-        "intensity": "medium",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-visual",
-        "advance-visual",
         "emphasize-result"
       ],
-      "beats": [
-        {
-          "text": "능력의 서열로 해석하면,",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "서열",
-          "visualCue": "세 개의 방이 나타난다"
-        },
-        {
-          "text": "모두가 더 똑똑한 사람이 있는 방으로 옮겨야 한다.",
-          "emphasis": "high",
-          "pauseAfterMs": 120,
-          "delivery": "push",
-          "visualPriority": "high",
-          "keyword": "옮겨야",
-          "visualCue": "‘나’가 오른쪽 방들로 이동한다"
-        },
-        {
-          "text": "그러면 이동은 끝나지 않는다.",
-          "emphasis": "high",
-          "pauseAfterMs": 220,
-          "delivery": "drop",
-          "visualPriority": "high",
-          "keyword": "끝나지",
-          "visualCue": "마지막 방 아래 질문이 나타난다"
-        }
-      ],
-      "headline": "서열로 읽으면 생기는 모순",
-      "subline": null,
-      "narration": "능력의 서열로 해석하면, 모두가 더 똑똑한 사람이 있는 방으로 옮겨야 한다. 그러면 이동은 끝나지 않는다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "visualStory": null,
       "diagramSpec": null,
+      "headline": "정말 나오면 될까?",
+      "image": null,
+      "imageQuery": null,
       "kind": "statement",
       "layout": "statement-offset",
+      "narration": "성장에 관한 조언으로 자주 듣는 말이다. 그런데 정말 그러면 될까? 내가 가장 많이 안다는 이유만으로, 지금 있는 곳을 떠나야 할까?",
+      "subline": null,
+      "transition": "wipe",
       "visual": {
-        "type": "symbol",
         "motif": "open-door",
         "query": null,
+        "type": "symbol",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "격언의 기준을 사람의 우위에서 배움의 유무로 바꾼다.",
+        "concept": "인용을 곧바로 실행해야 하는지 질문한다.",
         "relation": {
-          "type": "literal",
-          "description": "닫힌 방 옆의 열린 문이 관점 전환을 상징한다."
+          "description": "인용을 곧바로 실행해야 하는지 질문한다.",
+          "type": "literal"
         },
         "strategy": {
-          "type": "icon",
           "metaphor": "열린 문",
-          "rationale": "짧은 전환 문장을 방이라는 원문의 구체적 상징과 연결한다."
+          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
+          "type": "icon"
         }
       },
-      "transition": "wipe",
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-visual",
-        "show-headline",
-        "emphasize-result"
-      ],
-      "beats": [
-        {
-          "text": "핵심은 누가 더 많이 아느냐가 아니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 120,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "아니다",
-          "visualCue": "‘서열’ 문구가 흐려진다"
-        },
-        {
-          "text": "이곳에서 더 배울 수 있느냐다.",
-          "emphasis": "high",
-          "pauseAfterMs": 260,
-          "delivery": "hold",
-          "visualPriority": "high",
-          "keyword": "배울",
-          "visualCue": "열린 문과 결론이 나타난다"
-        }
-      ],
-      "headline": "기준은 서열이 아니라\n배움의 유무다",
-      "subline": null,
-      "narration": "핵심은 누가 더 많이 아느냐가 아니다. 이곳에서 더 배울 수 있느냐다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
+      "visualStory": null
     },
     {
-      "visualStory": {
-        "initial": "왼쪽에는 태도, 오른쪽에는 환경이 각각 분리되어 있다.",
-        "trigger": "배움에는 둘 다 필요하다는 문장이 제시된다.",
-        "change": "두 요소가 중앙의 배움으로 모인다.",
-        "invariant": "태도와 환경은 서로 대체되지 않는다.",
-        "result": "배움은 태도와 환경의 결합으로 표현된다."
-      },
-      "diagramSpec": {
-        "version": 1,
-        "renderer": "auto",
-        "physics": null,
-        "description": "태도와 환경이 함께 배움으로 수렴하는 도식.",
-        "nodes": [
-          {
-            "id": "attitude",
-            "shape": "rect",
-            "label": "좋은 태도",
-            "x": 160,
-            "y": 280,
-            "width": 210,
-            "height": 110,
-            "fill": "none",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "environment",
-            "shape": "rect",
-            "label": "좋은 환경",
-            "x": 640,
-            "y": 280,
-            "width": 210,
-            "height": 110,
-            "fill": "none",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "learning",
-            "shape": "circle",
-            "label": "배움",
-            "x": 400,
-            "y": 280,
-            "width": 130,
-            "height": 130,
-            "fill": "white",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "leftline",
-            "shape": "line",
-            "label": "",
-            "x": 280,
-            "y": 280,
-            "width": 100,
-            "height": 2,
-            "fill": "gray",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "rightline",
-            "shape": "line",
-            "label": "",
-            "x": 520,
-            "y": 280,
-            "width": 100,
-            "height": 2,
-            "fill": "gray",
-            "strokeStyle": "solid"
-          }
-        ],
-        "events": [
-          {
-            "target": "attitude",
-            "property": "x",
-            "from": 100,
-            "to": 160,
-            "start": 0.2,
-            "end": 0.48
-          },
-          {
-            "target": "environment",
-            "property": "x",
-            "from": 700,
-            "to": 640,
-            "start": 0.2,
-            "end": 0.48
-          },
-          {
-            "target": "leftline",
-            "property": "width",
-            "from": 1,
-            "to": 100,
-            "start": 0.42,
-            "end": 0.62
-          },
-          {
-            "target": "rightline",
-            "property": "width",
-            "from": 1,
-            "to": 100,
-            "start": 0.42,
-            "end": 0.62
-          },
-          {
-            "target": "learning",
-            "property": "scale",
-            "from": 0.7,
-            "to": 1,
-            "start": 0.62,
-            "end": 0.76
-          }
-        ]
-      },
-      "kind": "compare",
-      "layout": "diagram-centered",
-      "visual": {
-        "type": "diagram",
-        "motif": "attitude-environment-convergence",
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "배움은 개인의 태도와 환경 중 하나만의 결과가 아니다.",
-        "relation": {
-          "type": "convergence",
-          "description": "태도와 환경이 중앙의 배움으로 함께 모인다."
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "내가 일을 가장 잘 아는 곳에서도 배움은 생긴다.",
+          "visualCue": null,
+          "visualPriority": "mid"
         },
-        "strategy": {
-          "type": "spatial-diagram",
-          "metaphor": "두 입력의 합류",
-          "rationale": "둘이 모순되지 않고 함께 작동한다는 관계를 두 경로의 수렴으로 보여준다."
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "동료의 질문에 답하다 내 설명의 빈틈을 발견하고,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "다른 관점으로 문제를 푸는 사람에게서",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "새로운 방법을 배우기도 한다.",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "내가 가장 많이 안다는 것만으로",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "배움",
+          "pauseAfterMs": 280,
+          "text": "배움이 끝나는 건 아니다.",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
         }
-      },
-      "transition": "fade",
+      ],
       "camera": {
-        "motion": "push-in",
-        "target": "center",
+        "endProgress": 1,
         "intensity": "subtle",
+        "motion": "push-in",
         "startProgress": 0,
-        "endProgress": 1
+        "target": "center"
       },
       "choreography": [
         "show-visual",
         "advance-visual",
         "emphasize-result"
       ],
-      "beats": [
-        {
-          "text": "어디서든 배우려는 태도는 중요하다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 100,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "태도",
-          "visualCue": "왼쪽 ‘좋은 태도’가 중앙으로 다가온다"
-        },
-        {
-          "text": "하지만 그 태도를 돕는 환경도 필요하다.",
-          "emphasis": "high",
-          "pauseAfterMs": 220,
-          "delivery": "push",
-          "visualPriority": "high",
-          "keyword": "환경",
-          "visualCue": "오른쪽 경로가 연결되고 배움이 커진다"
-        }
-      ],
-      "headline": "태도와 환경은\n서로의 대체재가 아니다",
-      "subline": null,
-      "narration": "어디서든 배우려는 태도는 중요하다. 하지만 그 태도를 돕는 환경도 필요하다.",
-      "comparisonLeft": "좋은 태도",
-      "comparisonRight": "좋은 환경",
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "visualStory": {
-        "initial": "성장 영역이 작고 ‘의지’ 하나에만 연결되어 있다.",
-        "trigger": "현재 환경에서 배움이 사라졌다는 판단이 생긴다.",
-        "change": "환경 영역이 옆으로 확장되고 성장의 연결 경로가 늘어난다.",
-        "invariant": "개인의 태도는 그대로 유지된다.",
-        "result": "성장을 의지 하나에만 맡기지 않는 구조가 된다."
-      },
+      "comparisonLeft": "동료의 질문",
+      "comparisonRight": "다른 관점",
       "diagramSpec": {
-        "version": 1,
-        "renderer": "auto",
-        "physics": null,
-        "description": "개인의 의지에만 의존하던 성장 구조에 환경이라는 기반을 추가하는 도식.",
-        "nodes": [
-          {
-            "id": "will",
-            "shape": "rect",
-            "label": "내 의지",
-            "x": 150,
-            "y": 300,
-            "width": 190,
-            "height": 100,
-            "fill": "none",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "growth",
-            "shape": "circle",
-            "label": "성장",
-            "x": 410,
-            "y": 300,
-            "width": 130,
-            "height": 130,
-            "fill": "white",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "env",
-            "shape": "rect",
-            "label": "환경",
-            "x": 600,
-            "y": 300,
-            "width": 80,
-            "height": 150,
-            "fill": "hatch",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "willline",
-            "shape": "line",
-            "label": "",
-            "x": 280,
-            "y": 300,
-            "width": 130,
-            "height": 2,
-            "fill": "gray",
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "envline",
-            "shape": "line",
-            "label": "",
-            "x": 505,
-            "y": 300,
-            "width": 60,
-            "height": 2,
-            "fill": "gray",
-            "strokeStyle": "solid"
-          }
-        ],
+        "description": "동료의 질문과 다른 관점이 배움으로 모인다.",
         "events": [
           {
-            "target": "env",
-            "property": "width",
-            "from": 80,
-            "to": 240,
-            "start": 0.24,
-            "end": 0.58
-          },
-          {
-            "target": "env",
+            "end": 0.48,
+            "from": 100,
             "property": "x",
-            "from": 600,
-            "to": 680,
-            "start": 0.24,
-            "end": 0.58
+            "start": 0.2,
+            "target": "attitude",
+            "to": 160
           },
           {
-            "target": "envline",
-            "property": "width",
+            "end": 0.48,
+            "from": 700,
+            "property": "x",
+            "start": 0.2,
+            "target": "environment",
+            "to": 640
+          },
+          {
+            "end": 0.62,
             "from": 1,
-            "to": 60,
-            "start": 0.56,
-            "end": 0.7
+            "property": "width",
+            "start": 0.42,
+            "target": "leftline",
+            "to": 100
           },
           {
-            "target": "growth",
+            "end": 0.62,
+            "from": 1,
+            "property": "width",
+            "start": 0.42,
+            "target": "rightline",
+            "to": 100
+          },
+          {
+            "end": 0.76,
+            "from": 0.7,
             "property": "scale",
-            "from": 0.82,
-            "to": 1,
-            "start": 0.68,
-            "end": 0.78
+            "start": 0.62,
+            "target": "learning",
+            "to": 1
           }
-        ]
+        ],
+        "nodes": [
+          {
+            "fill": "none",
+            "height": 110,
+            "id": "attitude",
+            "label": "동료의 질문",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 210,
+            "x": 160,
+            "y": 280
+          },
+          {
+            "fill": "none",
+            "height": 110,
+            "id": "environment",
+            "label": "다른 관점",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 210,
+            "x": 640,
+            "y": 280
+          },
+          {
+            "fill": "white",
+            "height": 130,
+            "id": "learning",
+            "label": "배움",
+            "shape": "circle",
+            "strokeStyle": "solid",
+            "width": 130,
+            "x": 400,
+            "y": 280
+          },
+          {
+            "fill": "gray",
+            "height": 2,
+            "id": "leftline",
+            "label": "",
+            "shape": "line",
+            "strokeStyle": "solid",
+            "width": 100,
+            "x": 280,
+            "y": 280
+          },
+          {
+            "fill": "gray",
+            "height": 2,
+            "id": "rightline",
+            "label": "",
+            "shape": "line",
+            "strokeStyle": "solid",
+            "width": 100,
+            "x": 520,
+            "y": 280
+          }
+        ],
+        "physics": null,
+        "renderer": "auto",
+        "version": 1
       },
-      "kind": "statement",
+      "headline": "내가 많이 알아도\n배움은 생긴다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "compare",
       "layout": "diagram-centered",
+      "narration": "내가 일을 가장 잘 아는 곳에서도 배움은 생긴다. 동료의 질문에 답하다 내 설명의 빈틈을 발견하고, 다른 관점으로 문제를 푸는 사람에게서 새로운 방법을 배우기도 한다. 내가 가장 많이 안다는 것만으로 배움이 끝나는 건 아니다.",
+      "subline": null,
+      "transition": "fade",
       "visual": {
-        "type": "diagram",
-        "motif": "growth-support-system",
+        "motif": "attitude-environment-convergence",
         "query": null,
+        "type": "diagram",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "좋은 환경을 찾는 것은 성장의 부담을 의지 하나에 몰지 않는 선택이다.",
+        "concept": "동료의 질문과 다른 관점이 배움으로 모인다.",
         "relation": {
-          "type": "small-input-large-output",
-          "description": "환경이라는 추가 기반이 성장 구조를 더 안정적으로 지지한다."
+          "description": "동료의 질문과 다른 관점이 배움으로 모인다.",
+          "type": "convergence"
         },
         "strategy": {
-          "type": "spatial-diagram",
-          "metaphor": "성장을 받치는 두 기반",
-          "rationale": "추상적인 ‘환경의 도움’을 성장으로 들어오는 별도 경로로 구체화한다."
+          "metaphor": "두 입력의 합류",
+          "rationale": "질문과 다른 관점이 배움으로 연결되는 관계를 보여준다.",
+          "type": "spatial-diagram"
         }
       },
-      "transition": "slide-up",
+      "visualStory": {
+        "change": "두 경로가 중앙의 배움으로 연결된다.",
+        "initial": "동료의 질문과 다른 관점이 양쪽에 놓인다.",
+        "invariant": "내 지식의 상대적 순위는 바뀌지 않는다.",
+        "result": "주변의 질문과 관점에서도 배움이 생긴다.",
+        "trigger": "내가 가장 많이 알아도 배울 수 있는 사례를 소개한다."
+      }
+    },
+    {
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "그렇다면 ‘방을 나온다’는 건",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "의미",
+          "pauseAfterMs": 280,
+          "text": "무슨 의미일까?",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
+        }
+      ],
       "camera": {
-        "motion": "zoom",
-        "target": "subject",
-        "intensity": "medium",
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
         "startProgress": 0,
-        "endProgress": 1
+        "target": "center"
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "headline": "방을 나온다는 건\n무슨 의미일까?",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "narration": "그렇다면 ‘방을 나온다’는 건 무슨 의미일까?",
+      "subline": null,
+      "transition": "wipe",
+      "visual": {
+        "motif": "open-door",
+        "query": null,
+        "type": "symbol",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "떠남의 의미를 묻고 다음 장면의 상황으로 연결한다.",
+        "relation": {
+          "description": "떠남의 의미를 묻고 다음 장면의 상황으로 연결한다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": "열린 문",
+          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
+          "type": "icon"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "내가 어떤 의견을 내도 질문이 돌아오지 않고,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "익숙한 방식만 반복하고,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "새로운 시도는 늘 혼자 밀어붙여야 한다면.",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "그곳에서는 성장하려는 마음을",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "내 몫",
+          "pauseAfterMs": 280,
+          "text": "유지하는 일부터 내 몫이 된다.",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "headline": "질문도, 새로운 시도도\n늘 내 몫이라면",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "narration": "내가 어떤 의견을 내도 질문이 돌아오지 않고, 익숙한 방식만 반복하고, 새로운 시도는 늘 혼자 밀어붙여야 한다면. 그곳에서는 성장하려는 마음을 유지하는 일부터 내 몫이 된다.",
+      "subline": null,
+      "transition": "fade",
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "질문과 시도의 부담이 한 사람에게 집중되는 상황을 제시한다.",
+        "relation": {
+          "description": "질문과 시도의 부담이 한 사람에게 집중되는 상황을 제시한다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "물론 어디서든 배우려는 태도는 중요하다.",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "하지만 질문을 주고받을 동료가 있고,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "시도해 볼 기회가 있고,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "내 생각을 다시 보게 하는 피드백이 있다면,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "배움",
+          "pauseAfterMs": 280,
+          "text": "같은 노력으로도 배움은 달라진다.",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "push-in",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "comparisonLeft": "좋은 태도",
+      "comparisonRight": "좋은 환경",
+      "diagramSpec": {
+        "description": "태도와 환경이 함께 배움으로 수렴하는 도식.",
+        "events": [
+          {
+            "end": 0.48,
+            "from": 100,
+            "property": "x",
+            "start": 0.2,
+            "target": "attitude",
+            "to": 160
+          },
+          {
+            "end": 0.48,
+            "from": 700,
+            "property": "x",
+            "start": 0.2,
+            "target": "environment",
+            "to": 640
+          },
+          {
+            "end": 0.62,
+            "from": 1,
+            "property": "width",
+            "start": 0.42,
+            "target": "leftline",
+            "to": 100
+          },
+          {
+            "end": 0.62,
+            "from": 1,
+            "property": "width",
+            "start": 0.42,
+            "target": "rightline",
+            "to": 100
+          },
+          {
+            "end": 0.76,
+            "from": 0.7,
+            "property": "scale",
+            "start": 0.62,
+            "target": "learning",
+            "to": 1
+          }
+        ],
+        "nodes": [
+          {
+            "fill": "none",
+            "height": 110,
+            "id": "attitude",
+            "label": "좋은 태도",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 210,
+            "x": 160,
+            "y": 280
+          },
+          {
+            "fill": "none",
+            "height": 110,
+            "id": "environment",
+            "label": "좋은 환경",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 210,
+            "x": 640,
+            "y": 280
+          },
+          {
+            "fill": "white",
+            "height": 130,
+            "id": "learning",
+            "label": "배움",
+            "shape": "circle",
+            "strokeStyle": "solid",
+            "width": 130,
+            "x": 400,
+            "y": 280
+          },
+          {
+            "fill": "gray",
+            "height": 2,
+            "id": "leftline",
+            "label": "",
+            "shape": "line",
+            "strokeStyle": "solid",
+            "width": 100,
+            "x": 280,
+            "y": 280
+          },
+          {
+            "fill": "gray",
+            "height": 2,
+            "id": "rightline",
+            "label": "",
+            "shape": "line",
+            "strokeStyle": "solid",
+            "width": 100,
+            "x": 520,
+            "y": 280
+          }
+        ],
+        "physics": null,
+        "renderer": "auto",
+        "version": 1
+      },
+      "headline": "같은 노력도\n환경에 따라 달라진다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "compare",
+      "layout": "diagram-centered",
+      "narration": "물론 어디서든 배우려는 태도는 중요하다. 하지만 질문을 주고받을 동료가 있고, 시도해 볼 기회가 있고, 내 생각을 다시 보게 하는 피드백이 있다면, 같은 노력으로도 배움은 달라진다.",
+      "subline": null,
+      "transition": "fade",
+      "visual": {
+        "motif": "attitude-environment-convergence",
+        "query": null,
+        "type": "diagram",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "태도와 환경이 배움에 함께 기여함을 보여준다.",
+        "relation": {
+          "description": "태도와 환경이 중앙의 배움으로 함께 모인다.",
+          "type": "convergence"
+        },
+        "strategy": {
+          "metaphor": "두 입력의 합류",
+          "rationale": "둘이 모순되지 않고 함께 작동한다는 관계를 두 경로의 수렴으로 보여준다.",
+          "type": "spatial-diagram"
+        }
+      },
+      "visualStory": {
+        "change": "두 요소가 중앙의 배움으로 모인다.",
+        "initial": "왼쪽에는 태도, 오른쪽에는 환경이 각각 분리되어 있다.",
+        "invariant": "태도와 환경은 서로 대체되지 않는다.",
+        "result": "배움은 태도와 환경의 결합으로 표현된다.",
+        "trigger": "배움에는 둘 다 필요하다는 문장이 제시된다."
+      }
+    },
+    {
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "그래서 나는 ‘그 방을 나와라’는 말을",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "이렇게 받아들이고 싶다.",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "의지",
+          "pauseAfterMs": 280,
+          "text": "내 성장을 의지 하나에만 맡겨두지 말라는 말로.",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "medium",
+        "motion": "zoom",
+        "startProgress": 0,
+        "target": "subject"
       },
       "choreography": [
         "show-visual",
@@ -670,98 +779,229 @@
         "camera-focus",
         "emphasize-result"
       ],
-      "beats": [
-        {
-          "text": "방을 나간다는 건 도망이 아니라,",
-          "emphasis": "mid",
-          "pauseAfterMs": 140,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "도망",
-          "visualCue": "의지 하나로 연결된 초기 구조를 보여준다"
-        },
-        {
-          "text": "성장을 의지 하나에만 맡기지 않는 선택이다.",
-          "emphasis": "high",
-          "pauseAfterMs": 260,
-          "delivery": "hold",
-          "visualPriority": "high",
-          "keyword": "의지",
-          "visualCue": "환경 영역과 두 번째 연결이 확장된다"
-        }
-      ],
-      "headline": "성장을 의지 하나에만\n맡기지 않는 선택",
-      "subline": null,
-      "narration": "방을 나간다는 건 도망이 아니라, 성장을 의지 하나에만 맡기지 않는 선택이다.",
       "comparisonLeft": null,
       "comparisonRight": null,
+      "diagramSpec": {
+        "description": "개인의 의지에만 의존하던 성장 구조에 환경이라는 기반을 추가하는 도식.",
+        "events": [
+          {
+            "end": 0.58,
+            "from": 80,
+            "property": "width",
+            "start": 0.24,
+            "target": "env",
+            "to": 240
+          },
+          {
+            "end": 0.58,
+            "from": 600,
+            "property": "x",
+            "start": 0.24,
+            "target": "env",
+            "to": 680
+          },
+          {
+            "end": 0.7,
+            "from": 1,
+            "property": "width",
+            "start": 0.56,
+            "target": "envline",
+            "to": 60
+          },
+          {
+            "end": 0.78,
+            "from": 0.82,
+            "property": "scale",
+            "start": 0.68,
+            "target": "growth",
+            "to": 1
+          }
+        ],
+        "nodes": [
+          {
+            "fill": "none",
+            "height": 100,
+            "id": "will",
+            "label": "내 의지",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 190,
+            "x": 150,
+            "y": 300
+          },
+          {
+            "fill": "white",
+            "height": 130,
+            "id": "growth",
+            "label": "성장",
+            "shape": "circle",
+            "strokeStyle": "solid",
+            "width": 130,
+            "x": 410,
+            "y": 300
+          },
+          {
+            "fill": "hatch",
+            "height": 150,
+            "id": "env",
+            "label": "환경",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 80,
+            "x": 600,
+            "y": 300
+          },
+          {
+            "fill": "gray",
+            "height": 2,
+            "id": "willline",
+            "label": "",
+            "shape": "line",
+            "strokeStyle": "solid",
+            "width": 130,
+            "x": 280,
+            "y": 300
+          },
+          {
+            "fill": "gray",
+            "height": 2,
+            "id": "envline",
+            "label": "",
+            "shape": "line",
+            "strokeStyle": "solid",
+            "width": 60,
+            "x": 505,
+            "y": 300
+          }
+        ],
+        "physics": null,
+        "renderer": "auto",
+        "version": 1
+      },
+      "headline": "내 성장을\n의지 하나에 맡겨두지 말 것",
+      "image": null,
       "imageQuery": null,
-      "image": null
-    },
-    {
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "outro",
-      "layout": "outro-minimal",
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "narration": "그래서 나는 ‘그 방을 나와라’는 말을 이렇게 받아들이고 싶다. 내 성장을 의지 하나에만 맡겨두지 말라는 말로.",
+      "subline": null,
+      "transition": "slide-up",
       "visual": {
-        "type": "none",
-        "motif": null,
+        "motif": "growth-support-system",
         "query": null,
+        "type": "diagram",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "격언을 환경 선택의 기준으로 다시 정의한다.",
+        "concept": "단정적인 격언 풀이 대신 화자의 해석으로 결론을 제시한다.",
         "relation": {
-          "type": "literal",
-          "description": "최종 해석을 한 문장으로 남긴다."
+          "description": "환경이라는 추가 기반이 성장 구조를 더 안정적으로 지지한다.",
+          "type": "small-input-large-output"
         },
         "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "결론의 여운을 유지하기 위해 시각 정보를 줄이고 문장에 집중한다."
+          "metaphor": "성장을 받치는 두 기반",
+          "rationale": "추상적인 ‘환경의 도움’을 성장으로 들어오는 별도 경로로 구체화한다.",
+          "type": "spatial-diagram"
         }
       },
-      "transition": "fade",
+      "visualStory": {
+        "change": "환경 영역이 옆으로 확장되고 성장의 연결 경로가 늘어난다.",
+        "initial": "성장 영역이 작고 ‘의지’ 하나에만 연결되어 있다.",
+        "invariant": "개인의 태도는 그대로 유지된다.",
+        "result": "성장을 의지 하나에만 맡기지 않는 구조가 된다.",
+        "trigger": "성장을 도와주는 환경을 선택한다."
+      }
+    },
+    {
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "떠날지를 고민할 때 먼저 물어야 할 건,",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "“내가 여기서 가장 똑똑한가?”보다",
+          "visualCue": null,
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "hold",
+          "emphasis": "high",
+          "keyword": "배우고",
+          "pauseAfterMs": 280,
+          "text": "“나는 여기서 계속 배우고 있는가?”일 것이다.",
+          "visualCue": "핵심 문구를 유지한다.",
+          "visualPriority": "high"
+        }
+      ],
       "camera": {
-        "motion": "pull-out",
-        "target": "center",
+        "endProgress": 1,
         "intensity": "subtle",
+        "motion": "static",
         "startProgress": 0,
-        "endProgress": 1
+        "target": "center"
       },
       "choreography": [
         "show-headline",
         "emphasize-result"
       ],
-      "beats": [
-        {
-          "text": "배움이 없는 방에,",
-          "emphasis": "mid",
-          "pauseAfterMs": 120,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "배움",
-          "visualCue": "첫 줄이 나타난다"
-        },
-        {
-          "text": "의지만 믿고 너무 오래 머물지 말 것.",
-          "emphasis": "high",
-          "pauseAfterMs": 300,
-          "delivery": "drop",
-          "visualPriority": "high",
-          "keyword": "오래",
-          "visualCue": "결론 문장이 넓게 고정된다"
-        }
-      ],
-      "headline": "배움이 없는 방에\n너무 오래 머물지 말 것",
-      "subline": "‘방을 나가라’는 말의 다른 해석",
-      "narration": "배움이 없는 방에, 의지만 믿고 너무 오래 머물지 말 것.",
       "comparisonLeft": null,
       "comparisonRight": null,
+      "diagramSpec": null,
+      "headline": "나는 여기서\n계속 배우고 있는가?",
+      "image": null,
       "imageQuery": null,
-      "image": null
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "narration": "떠날지를 고민할 때 먼저 물어야 할 건, “내가 여기서 가장 똑똑한가?”보다 “나는 여기서 계속 배우고 있는가?”일 것이다.",
+      "subline": null,
+      "transition": "fade",
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "도입의 질문을 배움의 지속 여부라는 판단 기준으로 회수한다.",
+        "relation": {
+          "description": "도입의 질문을 배움의 지속 여부라는 판단 기준으로 회수한다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
     }
-  ]
+  ],
+  "schemaVersion": 3,
+  "source": {
+    "title": "현자도 환경을 고른다",
+    "url": "https://blog.dohyeon.kr/hyeonjado-hwangyeongeul-goreunda/"
+  },
+  "status": "candidate",
+  "style": {
+    "artDirection": "monochrome-editorial-motion",
+    "decorativeLabels": "forbidden",
+    "motionLanguage": "sharp-subtle",
+    "safeArea": "shorts-reels",
+    "subtitles": "burned-in",
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high"
+  }
 }
