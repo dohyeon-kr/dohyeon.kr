@@ -1,3 +1,4 @@
+import type {DiagramSpec} from './visuals/diagram-spec';
 export type SceneKind = 'hero' | 'photo' | 'compare' | 'statement' | 'outro';
 
 export type SceneLayout =
@@ -109,6 +110,7 @@ export type CaptionCue = {
 };
 
 export type CandidateScene = {
+  diagramSpec?: DiagramSpec | null;
   kind: SceneKind;
   layout?: SceneLayout;
   visual?: SceneVisual;
@@ -158,6 +160,7 @@ export type CandidateManifest = {
 };
 
 export type RenderScene = CandidateScene & {
+  diagramFramesPath?: string | null;
   imagePath: string | null;
   audioPath: string | null;
   audioDurationSeconds: number | null;

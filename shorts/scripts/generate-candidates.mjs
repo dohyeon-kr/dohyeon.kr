@@ -4,6 +4,7 @@ import process from 'node:process';
 import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
+import {DiagramSpecSchema, validateDiagram} from '../src/visuals/diagram-spec.ts';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.resolve(import.meta.dirname, '..');
@@ -93,6 +94,7 @@ const CameraSchema = z.object({
 });
 
 const SceneSchema = z.object({
+  diagramSpec: DiagramSpecSchema.nullable(),
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
   layout: z.enum(LAYOUTS),
   visual: VisualSchema,
@@ -122,6 +124,12 @@ const CandidateSchema = z.object({
 const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
 
 const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
+도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
+diagramSpec은 version=1, renderer=remotion이 기본이다. Motion Canvas 호환 경로가 필요한 경우에만 motion-canvas를 명시한다.
+800x560 공간에 rect/circle/line/text 객체를 조합한다. x/y는 중심점이다. 가장자리 여백 40, 라벨은 짧게 유지한다.
+events는 장면 전체 길이를 0..1로 정규화한 시간이다. 초기 상태→변화→결과를 x/y/rotation/scale/opacity로 표현한다.
+from/to는 절대 값이며 동일 객체의 동일 속성 이벤트는 겹치지 않는다. 불명확한 수치나 실제 데이터처럼 보이는 가짜 숫자를 생성하지 않는다.
+renderer 선택은 표현력의 보장이 아니다. 두 엔진이 공유하는 문법 범위 안에서만 객체를 생성하며 임의 코드는 작성하지 않는다.
 목표는 글을 요약해 슬라이드를 만드는 것이 아니다. 글 안의 한 가지 강한 생각을 독립적인 숏츠로 추출하고, 말의 의미·리듬·관계를 화면의 사건으로 번역한다.
 
 콘텐츠 원칙:
@@ -327,6 +335,9 @@ const main = async () => {
 
   if (!response.output_parsed) throw new Error('The model did not return a parsed shorts plan.');
   const rawCandidates = response.output_parsed.candidates.slice(0, count);
+  for (const candidate of rawCandidates) for (const scene of candidate.scenes) {
+    if (scene.diagramSpec) validateDiagram(scene.diagramSpec);
+  }
   if (rawCandidates.length < count) throw new Error(`Expected ${count} candidates, received ${rawCandidates.length}.`);
 
   const enriched = [];

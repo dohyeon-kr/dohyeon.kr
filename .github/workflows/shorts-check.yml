@@ -32,9 +32,16 @@ jobs:
           cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
 
       - name: Render template preview frames
+        # Both engines must render in CI before this engine change is merged.
         working-directory: shorts
         run: |
           mkdir -p "${RUNNER_TEMP}/shorts-template-preview"
+          node --test tests/diagram.test.mjs
+          for composition in DiagramPreview MotionCanvasPreview; do
+            for frame in 0 60 119; do
+              npx remotion still src/index.tsx "$composition" "${RUNNER_TEMP}/shorts-template-preview/${composition}-${frame}.png" --public-dir=public --frame="$frame"
+            done
+          done
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/01-cover.png" --public-dir=public --frame=30
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/02-chart.png" --public-dir=public --frame=145
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/03-flow.png" --public-dir=public --frame=260

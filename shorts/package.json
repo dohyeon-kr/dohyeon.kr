@@ -9,6 +9,8 @@
     "studio": "remotion studio src/index.tsx --public-dir=public"
   },
   "dependencies": {
+    "@motion-canvas/core": "3.17.2",
+    "@motion-canvas/2d": "3.17.2",
     "@dagrejs/dagre": "1.1.5",
     "@remotion/cli": "4.0.520",
     "@xyflow/react": "12.9.3",
