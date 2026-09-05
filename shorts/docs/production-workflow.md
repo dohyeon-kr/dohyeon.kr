@@ -74,11 +74,11 @@
 
 ## 기존 스토리보드 리뷰
 
-Review and improve shorts storyboard 작업의 `storyboard_source`에 사용자가 보고 있는 Draft Release 주소 또는 태그를 넣고 `manifest`에 해당 후보 JSON 경로를 넣는다. 예: `shorts-storyboard-33984227357`. 초안 URL의 `untagged-…` 별칭도 지원한다. 앞으로 생성하는 스토리보드 본문에는 복사할 태그를 표시한다.
+Review and improve shorts storyboard 작업은 `manifest`만 지정해도 된다. `storyboard_source`를 비우면 현재 후보 JSON과 일치하는 발행본을 찾아 최근 업데이트 순으로 선택한다(Draft 포함). 같은 시각이면 Release ID가 큰 것을 우선한다. 특정 버전을 지정하려면 `storyboard_source`에 Draft Release 주소 또는 태그를 넣는다. 예: `shorts-storyboard-33984227357`. 초안 URL의 `untagged-…` 별칭도 지원한다. 앞으로 생성하는 스토리보드 본문에는 복사할 태그를 표시한다.
 
 리뷰는 Release 본문에 기록된 고정 커밋 링크에서 원본 JSON과 스토리보드 Markdown·장면 PNG를 읽는다. 현재 브랜치나 최신 에셋으로 대체하지 않는다. 과거 Release에서 Markdown 링크가 고정되지 않았더라도 본문에 필요한 모든 PNG의 고정 링크가 있으면 사용할 수 있다. 도식·영상 배경은 발행 당시의 initial/change/result 이미지를 모두 가져온다.
 
-현재 후보 JSON이 당시 JSON과 다르면 중단해 새로운 편집을 덮어쓰지 않는다. 일치하는 브랜치와 스토리보드를 선택해야 한다. 이미지 누락·다운로드 실패·서로 다른 커밋의 이미지가 섞인 경우에도 중단하며 원본 재렌더로 우회하지 않는다. 렌더러만 변경되고 JSON이 같으면 그대로 과거 이미지를 리뷰할 수 있다.
+현재 후보 JSON이 당시 JSON과 다르면 중단해 새로운 편집을 덮어쓰지 않는다. 자동 탐색은 다른 후보와 JSON이 다른 발행본을 건너뛴다. 일치하는 발행본이 없으면 중단하며 임의의 과거 JSON을 덮어쓰거나 새로 렌더하지 않는다. 선택된 발행본의 이미지가 불완전하면 더 오래된 발행본으로 조용히 바꾸지 않는다. 이미지 누락·다운로드 실패·서로 다른 커밋의 이미지가 섞인 경우에도 중단하며 원본 재렌더로 우회하지 않는다. 렌더러만 변경되고 JSON이 같으면 그대로 과거 이미지를 리뷰할 수 있다.
 
 가져온 원본은 리뷰 아티팩트의 `before.json`, 이미지는 `before/`, 출처 커밋·Release·각 파일 SHA-256은 `review-source.json`에 기록한다. AI 호출 전에 다시 무결성을 확인한다. AI 수정 후에만 새 스토리보드를 렌더해 `after/`에 저장한다. 이 작업은 기존 Release를 수정하지 않는다.
 

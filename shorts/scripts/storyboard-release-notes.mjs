@@ -22,8 +22,8 @@ const manifests = [...new Set((await fs.readFile(listFile, 'utf8')).split(/\r?\n
 if (!manifests.length) throw new Error('No manifests to describe');
 const notes = ['# 숏츠 스토리보드 검토', '',
   `**[AI 리뷰·개선 PR 만들기](${reviewUrl})**`, '',
-  '수정이 필요하면 위 페이지에서 JSON 경로를 manifest에 넣고 아래 태그를 storyboard_source에 넣으세요. 이 스토리보드의 기존 이미지와 원본 JSON을 가져와 리뷰하고 수정본만 렌더합니다. comment는 선택입니다. 현재 JSON이 당시 버전과 다르면 중단하므로 일치하는 브랜치를 선택하세요.', '',
-  '복사할 스토리보드 태그:', '', '```text', tag, '```', '',
+  '수정이 필요하면 위 페이지에서 JSON 경로를 manifest에 넣으세요. storyboard_source를 비우면 현재 JSON과 일치하는 최근 스토리보드를 자동으로 찾습니다. 이 발행본을 지정하려면 아래 태그를 넣으세요. 이 스토리보드의 기존 이미지와 원본 JSON을 가져와 리뷰하고 수정본만 렌더합니다. comment는 선택입니다. 현재 JSON이 당시 버전과 다르면 중단하므로 일치하는 브랜치를 선택하세요.', '',
+  '특정 발행본을 지정할 때 복사할 태그 (선택):', '', '```text', tag, '```', '',
   `**[최종 렌더 실행 페이지 열기](${renderUrl})**`, '',
   '스토리보드를 확인한 뒤 위 페이지에서 **Run workflow**를 누르세요. 아래 후보의 JSON 경로를 `manifest`에 붙여넣고, `storyboard_approved`를 체크한 뒤 실행합니다. 이 링크는 실행 페이지를 열며 입력값을 자동으로 채우거나 렌더를 시작하지 않습니다.', '',
   `검토한 원본: [${sha.slice(0, 7)}](${base}/commit/${sha})`, '',

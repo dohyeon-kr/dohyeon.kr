@@ -82,7 +82,7 @@ test('rejects ambiguous JSON versions and candidate edits after loading', async 
 });
 test('review workflow only renders the improved storyboard', async () => {
   const workflow = await fs.readFile(new URL('../../.github/workflows/review-storyboard.yml', import.meta.url), 'utf8');
-  assert.match(workflow, /storyboard_source:[\s\S]*?required: true/);
+  assert.match(workflow, /storyboard_source:[\s\S]*?required: false/);
   assert.match(workflow, /Load published storyboard and original JSON/);
   assert.equal((workflow.match(/node shorts\/scripts\/render\.mjs/g) || []).length, 1);
   assert.ok(workflow.indexOf('load-storyboard.mjs') < workflow.indexOf('review-storyboard.mjs improve'));
@@ -98,4 +98,46 @@ test('rejects mixed image commits and changed stored JSON', async t => {
   await loadPublishedStoryboard(args);
   await fs.writeFile(path.join(args.reportDir, 'before.json'), JSON.stringify({...manifest, changed: true}));
   await assert.rejects(readReviewOriginal(manifestPath, args.reportDir, args.root), /Stored review source/);
+});
+test('automatic selection skips unrelated and changed JSON and chooses newest matching draft', async t => {
+  const args = await fixture(t);
+  const staleCommit = 'd'.repeat(40);
+  const stale = {...args.release, id: 4, updated_at: '2026-09-06T04:00:00Z', body: args.release.body.replaceAll(sourceCommit, staleCommit)};
+  const matching = {...args.release, id: 3, draft: true, updated_at: '2026-09-06T03:00:00Z'};
+  args.source = '';
+  args.github.releases = async () => [
+    {...args.release, id: 1, updated_at: '2026-09-06T01:00:00Z'},
+    stale, {...stale, id: 5, updated_at: '2026-09-06T05:00:00Z'},
+    {id: 6, updated_at: '2026-09-06T06:00:00Z', body: 'another candidate'}, matching,
+  ];
+  const file = args.github.file;
+  let staleReads = 0;
+  args.github.file = async link => {
+    if (link.commit === staleCommit) {staleReads++; return Buffer.from(JSON.stringify({...manifest, changed: true}));}
+    return file(link);
+  };
+  const selected = await loadPublishedStoryboard(args);
+  assert.equal(selected.releaseId, 3);
+  assert.equal(selected.selection, 'automatic');
+  assert.equal(staleReads, 1, 'same source commit is not downloaded repeatedly');
+});
+test('automatic selection does not render or overwrite when no JSON matches', async t => {
+  const args = await fixture(t);
+  args.source = undefined;
+  args.github.releases = async () => [args.release];
+  await fs.writeFile(path.join(args.root, manifestPath), JSON.stringify({...manifest, newer: true}));
+  await assert.rejects(loadPublishedStoryboard(args), /No published storyboard matches/);
+  await assert.rejects(fs.access(path.join(args.reportDir, 'review-source.json')));
+});
+test('explicit source overrides automatic order and newest missing images never fall back to old release', async t => {
+  const args = await fixture(t);
+  args.github.releases = async () => {throw new Error('explicit source must not scan all releases');};
+  assert.equal((await loadPublishedStoryboard(args)).selection, 'explicit');
+  const other = await fixture(t, {inline: true, omit: names[0]});
+  other.source = '';
+  other.github.releases = async () => [
+    {...other.release, id: 2, updated_at: '2026-09-06T02:00:00Z'},
+    {...args.release, id: 1, updated_at: '2026-09-06T01:00:00Z'},
+  ];
+  await assert.rejects(loadPublishedStoryboard(other), /immutable link/);
 });

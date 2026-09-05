@@ -54,6 +54,15 @@ export function storyboardFrames(manifest, manifestPath) {
 export function githubReader(repository) {
   const api = async args => (await exec('gh', ['api', ...args], {encoding: 'buffer', maxBuffer: 32 * 1024 * 1024, timeout: 60000})).stdout;
   return {
+    async releases() {
+      const result = [];
+      for (let page = 1; page <= 100; page++) {
+        const releases = JSON.parse(await api([`repos/${repository}/releases?per_page=100&page=${page}`]));
+        result.push(...releases);
+        if (releases.length < 100) return result;
+      }
+      throw new Error('Too many releases to scan; specify a storyboard release');
+    },
     async release(selector) {
       // Get-release-by-tag excludes drafts. Match the explicit selection in the
       // authenticated release list, including GitHub's untagged draft URL alias.
@@ -80,19 +89,35 @@ export function githubReader(repository) {
     },
   };
 }
+export async function selectPublishedStoryboard({repository, source, manifestPath, current, github}) {
+  // Validate the repository even when selection is automatic.
+  const selector = parseStoryboardSource(source?.trim() || 'auto', repository);
+  const explicit = Boolean(source?.trim());
+  const recency = release => Date.parse(release.updated_at || release.published_at || release.created_at || '') || 0;
+  const releases = explicit ? [await github.release(selector)] : (await github.releases()).sort((a, b) => recency(b) - recency(a) || b.id - a.id);
+  const cache = new Map();
+  for (const release of releases) {
+    const links = pinnedLinks(release.body || '', repository);
+    if (!explicit && !links.some(link => link.file === manifestPath)) continue;
+    const sourceLink = uniqueLink(links, manifestPath);
+    const key = `${sourceLink.commit}/${sourceLink.file}`;
+    if (!cache.has(key)) cache.set(key, await github.file(sourceLink));
+    const originalBytes = cache.get(key);
+    const original = JSON.parse(originalBytes);
+    if (isDeepStrictEqual(current, original)) return {release, sourceLink, originalBytes, original, selection: explicit ? 'explicit' : 'automatic'};
+    if (explicit) throw new Error('Current candidate differs from the published storyboard JSON. Select a matching branch/storyboard; refusing to overwrite newer edits.');
+  }
+  throw new Error('No published storyboard matches the current candidate JSON. Select a matching branch or publish its storyboard first.');
+}
 export async function loadPublishedStoryboard({repository, source, manifestPath, reportDir, root = repoRoot, github = githubReader(repository)}) {
-  const selector = parseStoryboardSource(source, repository);
+  parseStoryboardSource(source?.trim() || 'auto', repository);
   if (!candidatePath.test(manifestPath || '') || manifestPath.split('/').some(p => p === '.' || p === '..')) throw new Error('Invalid candidate path');
   if (!reportDir) throw new Error('REVIEW_OUTPUT_DIR is required');
   await validateSelection([manifestPath], root);
-  const release = await github.release(selector);
-  const releaseLinks = pinnedLinks(release.body || '', repository);
-  const sourceLink = uniqueLink(releaseLinks, manifestPath);
-  const originalBytes = await github.file(sourceLink);
-  const original = JSON.parse(originalBytes);
-  if (!Array.isArray(original.scenes) || !original.scenes.length || original.scenes.length > 100) throw new Error('Invalid storyboard source scenes');
   const current = JSON.parse(await fs.readFile(path.join(root, manifestPath), 'utf8'));
-  if (!isDeepStrictEqual(current, original)) throw new Error('Current candidate differs from the published storyboard JSON. Select a matching branch/storyboard; refusing to overwrite newer edits.');
+  const {release, sourceLink, originalBytes, original, selection} = await selectPublishedStoryboard({repository, source, manifestPath, current, github});
+  const releaseLinks = pinnedLinks(release.body || '', repository);
+  if (!Array.isArray(original.scenes) || !original.scenes.length || original.scenes.length > 100) throw new Error('Invalid storyboard source scenes');
   const {prefix, names} = storyboardFrames(original, manifestPath);
   const documentName = `${prefix}-STORYBOARD.md`;
   const documentLinks = releaseLinks.filter(l => l.file === documentName);
@@ -114,7 +139,7 @@ export async function loadPublishedStoryboard({repository, source, manifestPath,
     throw new Error(`Review source destination already exists: ${name}`);
   }
   const temporary = await fs.mkdtemp(path.join(reportDir, '.source-'));
-  const provenance = {version: 1, repository, manifestPath, releaseTag: release.tag_name, releaseId: release.id,
+  const provenance = {version: 1, selection, repository, manifestPath, releaseTag: release.tag_name, releaseId: release.id,
     releaseUrl: release.html_url, sourceCommit: sourceLink.commit, documentCommit: documentLink?.commit ?? null,
     releaseBodySha256: sha256(release.body || ''), manifestSha256: sha256(originalBytes), frames: []};
   try {

@@ -8,8 +8,9 @@ on:
         required: true
         type: string
       storyboard_source:
-        description: Published storyboard release URL or tag to review
-        required: true
+        description: Optional release URL or tag (blank = newest matching storyboard)
+        required: false
+        default: ''
         type: string
       comment:
         description: Optional editorial feedback (blank = automatic quality review)
