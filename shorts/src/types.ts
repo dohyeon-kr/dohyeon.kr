@@ -17,6 +17,68 @@ export type VisualType = 'photo' | 'diagram' | 'symbol' | 'number' | 'none';
 
 export type SceneTransition = 'fade' | 'slide-up' | 'slide-left' | 'zoom' | 'wipe' | 'none';
 
+export type SubtitleEmphasis = 'low' | 'mid' | 'high';
+export type SubtitleDelivery = 'normal' | 'push' | 'hold' | 'drop';
+export type VisualPriority = 'low' | 'mid' | 'high';
+
+export type SubtitleBeat = {
+  text: string;
+  emphasis: SubtitleEmphasis;
+  pauseAfterMs: number;
+  delivery: SubtitleDelivery;
+  visualPriority: VisualPriority;
+  keyword: string | null;
+  visualCue: string | null;
+};
+
+export type VisualRelationType =
+  | 'literal'
+  | 'comparison'
+  | 'change-over-time'
+  | 'small-input-large-output'
+  | 'accumulation'
+  | 'bottleneck'
+  | 'convergence'
+  | 'divergence'
+  | 'flow'
+  | 'balance'
+  | 'zoom-depth'
+  | 'network-growth';
+
+export type VisualStrategyType =
+  | 'simulation'
+  | 'graph'
+  | 'spatial-diagram'
+  | 'physical-metaphor'
+  | 'photo'
+  | 'icon'
+  | 'number'
+  | 'minimal';
+
+export type VisualIntent = {
+  concept: string;
+  relation: {
+    type: VisualRelationType;
+    description: string | null;
+  };
+  strategy: {
+    type: VisualStrategyType;
+    metaphor: string | null;
+    rationale: string;
+  };
+};
+
+export type CameraMotion = 'static' | 'push-in' | 'pull-out' | 'zoom' | 'pan-left' | 'pan-right';
+export type CameraTarget = 'center' | 'endpoint' | 'inflection' | 'subject' | 'detail';
+
+export type SceneCamera = {
+  motion: CameraMotion;
+  target: CameraTarget;
+  intensity: 'subtle' | 'medium';
+  startProgress: number;
+  endProgress: number;
+};
+
 export type SceneVisual = {
   type: VisualType;
   motif: string | null;
@@ -50,7 +112,11 @@ export type CandidateScene = {
   kind: SceneKind;
   layout?: SceneLayout;
   visual?: SceneVisual;
+  visualIntent?: VisualIntent | null;
   transition?: SceneTransition;
+  camera?: SceneCamera | null;
+  choreography?: string[];
+  beats?: SubtitleBeat[];
   headline: string;
   subline: string | null;
   narration: string;
@@ -61,7 +127,7 @@ export type CandidateScene = {
 };
 
 export type CandidateManifest = {
-  schemaVersion: 1 | 2;
+  schemaVersion: 1 | 2 | 3;
   id: string;
   status: 'candidate';
   source: {
@@ -84,6 +150,9 @@ export type CandidateManifest = {
     visualDensity?: 'high';
     subtitles?: 'burned-in';
     safeArea?: 'shorts-reels';
+    artDirection?: 'monochrome-editorial-motion';
+    motionLanguage?: 'sharp-subtle';
+    decorativeLabels?: 'forbidden';
   };
   scenes: CandidateScene[];
 };
