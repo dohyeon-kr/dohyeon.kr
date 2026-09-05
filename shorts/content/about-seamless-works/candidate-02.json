@@ -1,0 +1,1048 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-02",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/about-seamless-works/",
+    "title": "경계 없는 기여에 대해서"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "내가 일을 더 많이 하면, 조직의 기여도 정말 커질까요?",
+    "title": "좋은 기여는 사람을 늘리는 게 아니라 자리를 넓힌다",
+    "rationale": "글의 후반부에 있는 ‘기분도 자원’과 ‘기여 가능성을 확장하라’를 결합해, 결과보다 타인의 재기여 가능성을 핵심 논점으로 삼는다.",
+    "viralScore": 9,
+    "suggestedCaption": "좋은 기여는 정답을 관철하는 일이 아니라, 상대가 다시 기여하고 싶게 만드는 일입니다.",
+    "hashtags": [
+      "#조직문화",
+      "#팀워크",
+      "#리더십",
+      "#협업"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "일을 많이 가져오는 태도에 대한 의문",
+        "relation": {
+          "type": "comparison",
+          "description": "개인의 처리량과 조직 전체의 기여 가능성은 같지 않다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "개인의 헌신을 곧바로 좋은 기여로 보는 통념을 질문으로 전환한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "hold-question"
+      ],
+      "beats": [
+        {
+          "text": "내가 일을 더 많이 하면",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "더 많이",
+          "visualCue": "질문 첫 줄 등장"
+        },
+        {
+          "text": "조직의 기여도 정말 커질까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "정말",
+          "visualCue": "질문을 화면 중앙에 고정"
+        }
+      ],
+      "headline": "내가 일을 더 많이 하면\n조직의 기여도 커질까?",
+      "subline": null,
+      "narration": "내가 일을 더 많이 하면, 조직의 기여도 정말 커질까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "한 사람이 여러 일을 떠안으면서 다른 사람의 자리가 좁아지는 구조",
+        "nodes": [
+          {
+            "id": "worker",
+            "shape": "circle",
+            "label": "한 사람",
+            "x": 400,
+            "y": 180,
+            "width": 100,
+            "height": 100,
+            "fill": "gray"
+          },
+          {
+            "id": "task1",
+            "shape": "rect",
+            "label": "업무",
+            "x": 260,
+            "y": 360,
+            "width": 130,
+            "height": 70,
+            "fill": "white"
+          },
+          {
+            "id": "task2",
+            "shape": "rect",
+            "label": "업무",
+            "x": 400,
+            "y": 360,
+            "width": 130,
+            "height": 70,
+            "fill": "white"
+          },
+          {
+            "id": "task3",
+            "shape": "rect",
+            "label": "업무",
+            "x": 540,
+            "y": 360,
+            "width": 130,
+            "height": 70,
+            "fill": "white"
+          },
+          {
+            "id": "space",
+            "shape": "rect",
+            "label": "다른 사람의 자리",
+            "x": 400,
+            "y": 500,
+            "width": 300,
+            "height": 40,
+            "fill": "none"
+          }
+        ],
+        "events": [
+          {
+            "target": "task1",
+            "property": "y",
+            "from": 430,
+            "to": 360,
+            "start": 0.15,
+            "end": 0.45
+          },
+          {
+            "target": "task2",
+            "property": "y",
+            "from": 430,
+            "to": 360,
+            "start": 0.25,
+            "end": 0.55
+          },
+          {
+            "target": "task3",
+            "property": "y",
+            "from": 430,
+            "to": 360,
+            "start": 0.35,
+            "end": 0.65
+          },
+          {
+            "target": "space",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.35,
+            "start": 0.5,
+            "end": 0.8
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "role-space-compression",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "과도한 개입이 타인의 기여 공간을 좁히는 현상",
+        "relation": {
+          "type": "accumulation",
+          "description": "한 사람에게 일이 쌓일수록 다른 사람이 판단하고 기여할 공간이 줄어든다"
+        },
+        "strategy": {
+          "type": "physical-metaphor",
+          "metaphor": "업무가 쌓이며 자리의 여백이 압축되는 구조",
+          "rationale": "‘일을 대신함’의 부작용을 업무의 누적과 공간 축소로 보여주면 결과가 직관적으로 드러난다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "accumulate-work",
+        "compress-role-space"
+      ],
+      "beats": [
+        {
+          "text": "누군가의 일을 대신하면",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "대신하면",
+          "visualCue": "업무 블록이 쌓임"
+        },
+        {
+          "text": "당장은 일이 빨리 해결될 수 있습니다",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "당장은",
+          "visualCue": "업무 누적을 빠르게 진행"
+        },
+        {
+          "text": "하지만 다른 사람이 기여할 자리는 줄어듭니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "줄어듭니다",
+          "visualCue": "하단 공간이 좁아짐"
+        }
+      ],
+      "headline": "일을 대신하면\n누군가의 자리가 좁아진다",
+      "subline": "단기 효율과 장기 기여 가능성은 다를 수 있다",
+      "narration": "누군가의 일을 대신하면 당장은 일이 빨리 해결될 수 있습니다. 하지만 다른 사람이 기여할 자리는 줄어듭니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "tired office team meeting after long discussion",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "반복되는 마찰이 만드는 조직의 피로",
+        "relation": {
+          "type": "accumulation",
+          "description": "논쟁과 설득의 반복이 구성원의 피로를 누적시킨다"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "피로한 협업 장면은 마찰이 결과의 문제가 아니라 다시 기여하려는 의욕의 문제임을 구체화한다."
+        }
+      },
+      "transition": "zoom",
+      "camera": {
+        "motion": "push-in",
+        "target": "subject",
+        "intensity": "medium",
+        "startProgress": 0.15,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "camera-focus",
+        "show-headline"
+      ],
+      "beats": [
+        {
+          "text": "끝없이 납득과 설득을 요구하면",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "끝없이",
+          "visualCue": "회의 장면에 접근"
+        },
+        {
+          "text": "조직의 피로도는 올라갑니다",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "피로도",
+          "visualCue": "표정과 자세에 초점"
+        },
+        {
+          "text": "그리고 기분은 부차적인 문제가 아닙니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "부차적인",
+          "visualCue": "화면 위 문장 오버레이"
+        }
+      ],
+      "headline": "기분은\n부차적인 문제가 아니다",
+      "subline": "사람이 다시 기여할 수 있게 하는 자원이다",
+      "narration": "끝없이 납득과 설득을 요구하면 조직의 피로도는 올라갑니다. 그리고 기분은 부차적인 문제가 아닙니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "tired office team meeting after long discussion",
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "반복되는 마찰이 사람의 기여 의지를 낮추는 누적 구조",
+        "nodes": [
+          {
+            "id": "friction1",
+            "shape": "rect",
+            "label": "마찰",
+            "x": 230,
+            "y": 180,
+            "width": 130,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "friction2",
+            "shape": "rect",
+            "label": "마찰",
+            "x": 400,
+            "y": 260,
+            "width": 130,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "friction3",
+            "shape": "rect",
+            "label": "마찰",
+            "x": 570,
+            "y": 340,
+            "width": 130,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "motivation",
+            "shape": "line",
+            "label": "다시 기여하고 싶은 힘",
+            "x": 400,
+            "y": 470,
+            "width": 350,
+            "height": 5,
+            "fill": "white"
+          }
+        ],
+        "events": [
+          {
+            "target": "friction1",
+            "property": "x",
+            "from": 170,
+            "to": 230,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "friction2",
+            "property": "x",
+            "from": 340,
+            "to": 400,
+            "start": 0.3,
+            "end": 0.5
+          },
+          {
+            "target": "friction3",
+            "property": "x",
+            "from": 510,
+            "to": 570,
+            "start": 0.5,
+            "end": 0.7
+          },
+          {
+            "target": "motivation",
+            "property": "scale",
+            "from": 1,
+            "to": 0.55,
+            "start": 0.55,
+            "end": 0.9
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "friction-motivation",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "월권과 반복 마찰이 기여 의지를 깎는 과정",
+        "relation": {
+          "type": "change-over-time",
+          "description": "마찰이 반복될수록 다시 기여하려는 힘이 감소한다"
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "마찰의 누적과 동기의 하락",
+          "rationale": "감정적 불쾌감을 단순한 잡음이 아니라 기여 가능성을 변화시키는 누적 변수로 표현한다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "zoom",
+        "target": "inflection",
+        "intensity": "subtle",
+        "startProgress": 0.15,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "accumulate-friction",
+        "reduce-motivation",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "같은 마찰이 반복된다면",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "반복",
+          "visualCue": "마찰 블록이 차례로 쌓임"
+        },
+        {
+          "text": "내용뿐 아니라 방식도 돌아봐야 합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 160,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "방식",
+          "visualCue": "마찰 누적 지점에 초점"
+        },
+        {
+          "text": "월권으로 생긴 불쾌감은 신호일 수 있습니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "신호",
+          "visualCue": "동기 선이 약해짐"
+        }
+      ],
+      "headline": "반복되는 마찰은\n방식을 돌아보라는 신호다",
+      "subline": "역할이 지워지고 있다는 신호일 수도 있다",
+      "narration": "같은 마찰이 반복된다면 내용뿐 아니라 방식도 돌아봐야 합니다. 월권으로 생긴 불쾌감은 신호일 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "불편한 문제 제기의 두 결과",
+        "relation": {
+          "type": "comparison",
+          "description": "상대의 역할을 약화하는 개입과 상대의 판단을 강화하는 개입이 대비된다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "글의 중요한 반전인 ‘불편함 자체가 아니라 결과가 기준’이라는 점을 비교 문장으로 압축한다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "reveal-left",
+        "reveal-right",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "불편한 말을 했다는 이유만으로",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "불편한",
+          "visualCue": "양쪽 비교 틀 등장"
+        },
+        {
+          "text": "나쁜 기여가 되는 것은 아닙니다",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "나쁜",
+          "visualCue": "왼쪽과 오른쪽 모두 유지"
+        },
+        {
+          "text": "중요한 건 그 개입의 결과입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 130,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "결과",
+          "visualCue": "중앙 강조"
+        },
+        {
+          "text": "상대의 역할을 넓혔는가, 좁혔는가",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "넓혔는가",
+          "visualCue": "두 결과를 대비"
+        }
+      ],
+      "headline": "불편함이 기준은 아니다",
+      "subline": "그 개입이 상대의 역할을 넓혔는지를 보라",
+      "narration": "불편한 말을 했다는 이유만으로 나쁜 기여가 되는 것은 아닙니다. 중요한 건 그 개입의 결과입니다. 상대의 역할을 넓혔는가, 좁혔는가.",
+      "comparisonLeft": "역할을 약화하는 개입",
+      "comparisonRight": "판단과 행동을 돕는 개입",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "하나의 개입이 다른 사람의 기여 가능성을 좁히거나 넓히는 갈림 구조",
+        "nodes": [
+          {
+            "id": "input",
+            "shape": "circle",
+            "label": "개입",
+            "x": 150,
+            "y": 280,
+            "width": 90,
+            "height": 90,
+            "fill": "gray"
+          },
+          {
+            "id": "split",
+            "shape": "line",
+            "label": "",
+            "x": 320,
+            "y": 280,
+            "width": 100,
+            "height": 3,
+            "fill": "white"
+          },
+          {
+            "id": "narrow",
+            "shape": "rect",
+            "label": "자리 축소",
+            "x": 570,
+            "y": 170,
+            "width": 180,
+            "height": 90,
+            "fill": "gray"
+          },
+          {
+            "id": "expand",
+            "shape": "rect",
+            "label": "판단 확장",
+            "x": 570,
+            "y": 390,
+            "width": 180,
+            "height": 90,
+            "fill": "white"
+          },
+          {
+            "id": "u",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 280,
+            "width": 130,
+            "height": 100,
+            "fill": "gray"
+          },
+          {
+            "id": "d",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 280,
+            "width": 130,
+            "height": 100,
+            "fill": "white"
+          }
+        ],
+        "events": [
+          {
+            "target": "u",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.25,
+            "end": 0.55
+          },
+          {
+            "target": "d",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.65
+          },
+          {
+            "target": "narrow",
+            "property": "opacity",
+            "from": 0.45,
+            "to": 1,
+            "start": 0.45,
+            "end": 0.75
+          },
+          {
+            "target": "expand",
+            "property": "opacity",
+            "from": 0.45,
+            "to": 1,
+            "start": 0.55,
+            "end": 0.85
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "contribution-branch",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "개입의 결과로 갈라지는 기여",
+        "relation": {
+          "type": "divergence",
+          "description": "같은 문제 제기도 역할을 좁히거나 판단을 확장하는 방향으로 갈라진다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "개입 이후 두 갈래의 결과",
+          "rationale": "기여의 평가는 말의 편안함이 아니라 상대의 기여 가능성이 어느 방향으로 변했는지로 판단해야 하므로 갈림 구조가 적합하다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0.1,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-visual",
+        "split-intervention",
+        "reveal-outcomes",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "불편한 문제를 제기해도",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "문제",
+          "visualCue": "개입 노드 등장"
+        },
+        {
+          "text": "상대가 더 잘 판단하고 행동하게 했다면",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "판단하고",
+          "visualCue": "확장 경로로 이동"
+        },
+        {
+          "text": "긍정적인 기여가 될 수 있습니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "긍정적인",
+          "visualCue": "판단 확장 결과 강조"
+        },
+        {
+          "text": "반대로 옳은 답을 관철해도 역할을 약화했다면",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "약화",
+          "visualCue": "축소 경로도 함께 표시"
+        },
+        {
+          "text": "부정적인 기여일 수 있습니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "부정적인",
+          "visualCue": "두 결과를 대비"
+        }
+      ],
+      "headline": "기여의 기준은\n말이 편했는지가 아니다",
+      "subline": "상대의 기여 가능성을 넓혔는가",
+      "narration": "불편한 문제를 제기해도 상대가 더 잘 판단하고 행동하게 했다면 긍정적인 기여가 될 수 있습니다. 반대로 옳은 답을 관철해도 역할을 약화했다면 부정적인 기여일 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-split-left",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "diverse team members collaborating around whiteboard",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "각자의 언어로 해석하며 함께 기여하는 팀",
+        "relation": {
+          "type": "convergence",
+          "description": "서로 다른 해석이 중요한 방향과 감각을 공유하며 하나의 흐름으로 모인다"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "다양한 사람이 같은 답을 복제하지 않고 함께 방향을 맞추는 장면을 사진으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pan-left",
+        "target": "subject",
+        "intensity": "subtle",
+        "startProgress": 0.1,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-visual",
+        "show-subline",
+        "camera-focus",
+        "emphasize-vibe"
+      ],
+      "beats": [
+        {
+          "text": "모두가 같은 언어를 쓸 필요는 없습니다",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "같은 언어",
+          "visualCue": "팀 전체를 보여줌"
+        },
+        {
+          "text": "중요한 방향과 감각이 공유되었다면",
+          "emphasis": "high",
+          "pauseAfterMs": 100,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "방향과 감각",
+          "visualCue": "화이트보드의 공통 방향에 초점"
+        },
+        {
+          "text": "각자가 자신의 방식으로 결정할 여지를 남겨야 합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "여지",
+          "visualCue": "각 사람에게 시선 분산"
+        }
+      ],
+      "headline": "정답을 복사시키지 말고\n방향을 공유하라",
+      "subline": "상대가 자신의 언어로 해석하고 결정할 여지를 남겨두기",
+      "narration": "모두가 같은 언어를 쓸 필요는 없습니다. 중요한 방향과 감각이 공유되었다면, 각자가 자신의 방식으로 결정할 여지를 남겨야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "diverse team members collaborating around whiteboard",
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "한 사람의 개입이 여러 사람의 독립적인 기여로 확장되는 네트워크",
+        "nodes": [
+          {
+            "id": "signal",
+            "shape": "circle",
+            "label": "단서·방향",
+            "x": 160,
+            "y": 280,
+            "width": 90,
+            "height": 90,
+            "fill": "gray"
+          },
+          {
+            "id": "person1",
+            "shape": "circle",
+            "label": "각자의 판단",
+            "x": 470,
+            "y": 150,
+            "width": 90,
+            "height": 90,
+            "fill": "white"
+          },
+          {
+            "id": "person2",
+            "shape": "circle",
+            "label": "각자의 판단",
+            "x": 620,
+            "y": 280,
+            "width": 90,
+            "height": 90,
+            "fill": "white"
+          },
+          {
+            "id": "person3",
+            "shape": "circle",
+            "label": "각자의 판단",
+            "x": 470,
+            "y": 410,
+            "width": 90,
+            "height": 90,
+            "fill": "white"
+          },
+          {
+            "id": "e1",
+            "shape": "line",
+            "label": "",
+            "x": 300,
+            "y": 230,
+            "width": 170,
+            "height": 3,
+            "fill": "white"
+          },
+          {
+            "id": "e2",
+            "shape": "line",
+            "label": "",
+            "x": 300,
+            "y": 280,
+            "width": 250,
+            "height": 3,
+            "fill": "white"
+          },
+          {
+            "id": "e3",
+            "shape": "line",
+            "label": "",
+            "x": 300,
+            "y": 330,
+            "width": 170,
+            "height": 3,
+            "fill": "white"
+          }
+        ],
+        "events": [
+          {
+            "target": "e1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "e2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.7
+          },
+          {
+            "target": "e3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.75
+          },
+          {
+            "target": "person1",
+            "property": "scale",
+            "from": 0.85,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.8
+          },
+          {
+            "target": "person2",
+            "property": "scale",
+            "from": 0.85,
+            "to": 1,
+            "start": 0.55,
+            "end": 0.85
+          },
+          {
+            "target": "person3",
+            "property": "scale",
+            "from": 0.85,
+            "to": 1,
+            "start": 0.6,
+            "end": 0.9
+          }
+        ]
+      },
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "diagram",
+        "motif": "contribution-capacity",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "개인의 정답에서 조직 전체의 기여 가능성으로",
+        "relation": {
+          "type": "network-growth",
+          "description": "하나의 단서가 여러 사람의 독립적인 판단과 기여로 확장된다"
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "정답 전달이 아니라 기여 가능성의 확장",
+          "rationale": "좋은 동료와 리더의 목적을 개인의 성과가 아닌 여러 사람의 판단 가능성 증가로 시각화한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0.2,
+        "endProgress": 0.95
+      },
+      "choreography": [
+        "show-visual",
+        "reveal-independent-contributions",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "내가 모든 일을 해결하는 것이 아니라",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "모든 일",
+          "visualCue": "단서 노드에 초점"
+        },
+        {
+          "text": "내가 없어도 사람들이 판단하고 기여하게 만드는 것",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "내가 없어도",
+          "visualCue": "여러 판단 노드가 확장"
+        },
+        {
+          "text": "그게 좋은 기여의 마지막 기준입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 300,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "좋은 기여",
+          "visualCue": "네트워크 전체를 보여줌"
+        }
+      ],
+      "headline": "좋은 기여는\n내가 없어도 작동하게 만든다",
+      "subline": "더 많은 사람이 자신의 자리에서 판단하고 기여할 수 있도록",
+      "narration": "내가 모든 일을 해결하는 것이 아니라, 내가 없어도 사람들이 판단하고 기여하게 만드는 것. 그게 좋은 기여의 마지막 기준입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
