@@ -2,6 +2,7 @@ name: Shorts pipeline check
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, edited]
     paths:
       - 'shorts/**'
       - '.github/workflows/*shorts*.yml'
@@ -11,6 +12,7 @@ permissions:
 
 jobs:
   preview:
+    if: github.event.action != 'edited'
     runs-on: ubuntu-latest
 
     steps:
@@ -75,6 +77,9 @@ jobs:
           if-no-files-found: ignore
 
   candidate-review:
+    concurrency:
+      group: shorts-candidate-review-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -83,7 +88,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
-      - name: Select candidates changed in this PR
+      - name: Select checked candidates in this PR
         id: candidates
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
