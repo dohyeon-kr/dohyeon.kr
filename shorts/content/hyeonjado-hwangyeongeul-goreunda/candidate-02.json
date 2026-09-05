@@ -24,7 +24,7 @@
           "keyword": null,
           "pauseAfterMs": 100,
           "text": "“내가 가장 똑똑한 사람이라면,",
-          "visualCue": null,
+          "visualCue": "창으로 빛이 들어오는 방 사진이 화면을 채운다.",
           "visualPriority": "mid"
         },
         {
@@ -33,7 +33,7 @@
           "keyword": "나와라",
           "pauseAfterMs": 280,
           "text": "그 방을 나와라.”",
-          "visualCue": "핵심 문구를 유지한다.",
+          "visualCue": "사진 위 핵심 문구를 유지한다.",
           "visualPriority": "high"
         }
       ],
@@ -45,6 +45,7 @@
         "target": "center"
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "emphasize-result"
       ],
@@ -52,31 +53,43 @@
       "comparisonRight": null,
       "diagramSpec": null,
       "headline": "내가 가장 똑똑하다면,\n그 방을 나와라",
-      "image": null,
-      "imageQuery": null,
+      "image": {
+        "query": "sunlit empty room",
+        "title": "창으로 빛이 들어오는 방",
+        "creator": "Curtis Adams",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/an-empty-room-of-a-house-4258277/",
+        "originalUrl": "https://images.pexels.com/photos/4258277/pexels-photo-4258277.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/4258277/pexels-photo-4258277.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      },
+      "imageQuery": "sunlit empty room",
       "kind": "hero",
-      "layout": "statement-giant",
+      "layout": "photo-full-bleed",
       "narration": "“내가 가장 똑똑한 사람이라면, 그 방을 나와라.”",
       "subline": null,
       "transition": "fade",
       "visual": {
+        "type": "photo",
         "motif": null,
-        "query": null,
-        "type": "none",
+        "query": "sunlit empty room",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "격언을 온전히 제시하고 해석은 유보한다.",
+        "concept": "방 안의 실제 공간을 보여주며 격언의 방을 시각적으로 제시한다.",
         "relation": {
-          "description": "격언을 온전히 제시하고 해석은 유보한다.",
-          "type": "literal"
+          "type": "literal",
+          "description": "방 안의 실제 공간을 보여주며 격언의 방을 시각적으로 제시한다."
         },
         "strategy": {
-          "metaphor": null,
-          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
-          "type": "minimal"
+          "type": "photo",
+          "metaphor": "창으로 빛이 들어오는 방",
+          "rationale": "사진을 풀블리드로 배치하고 기존 흑백 정규화와 하단 오버레이 위에 핵심 문구를 유지한다."
         }
       },
       "visualStory": null
@@ -961,7 +974,7 @@
           "keyword": null,
           "pauseAfterMs": 100,
           "text": "떠날지를 고민할 때 먼저 물어야 할 건,",
-          "visualCue": null,
+          "visualCue": "밝은 공간으로 이어지는 문 사진이 화면을 채운다.",
           "visualPriority": "mid"
         },
         {
@@ -979,7 +992,7 @@
           "keyword": "배우고",
           "pauseAfterMs": 280,
           "text": "“나는 여기서 계속 배우고 있는가?”일 것이다.",
-          "visualCue": "핵심 문구를 유지한다.",
+          "visualCue": "사진 위 핵심 문구를 유지한다.",
           "visualPriority": "high"
         }
       ],
@@ -991,6 +1004,7 @@
         "target": "center"
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "emphasize-result"
       ],
@@ -998,31 +1012,43 @@
       "comparisonRight": null,
       "diagramSpec": null,
       "headline": "나는 여기서\n계속 배우고 있는가?",
-      "image": null,
-      "imageQuery": null,
+      "image": {
+        "query": "doorway natural light",
+        "title": "밝은 공간으로 이어지는 문",
+        "creator": "Malcolm Garret",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/dark-room-with-natural-light-from-an-open-door-9663847/",
+        "originalUrl": "https://images.pexels.com/photos/9663847/pexels-photo-9663847.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/9663847/pexels-photo-9663847.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      },
+      "imageQuery": "doorway natural light",
       "kind": "outro",
-      "layout": "outro-minimal",
+      "layout": "photo-full-bleed",
       "narration": "떠날지를 고민할 때 먼저 물어야 할 건, “내가 여기서 가장 똑똑한가?”보다 “나는 여기서 계속 배우고 있는가?”일 것이다.",
       "subline": null,
       "transition": "fade",
       "visual": {
+        "type": "photo",
         "motif": null,
-        "query": null,
-        "type": "none",
+        "query": "doorway natural light",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "도입의 질문을 배움의 지속 여부라는 판단 기준으로 회수한다.",
+        "concept": "문 너머 공간을 바라보며 계속 배우고 있는지 질문을 남긴다.",
         "relation": {
-          "description": "도입의 질문을 배움의 지속 여부라는 판단 기준으로 회수한다.",
-          "type": "literal"
+          "type": "literal",
+          "description": "문 너머 공간을 바라보며 계속 배우고 있는지 질문을 남긴다."
         },
         "strategy": {
-          "metaphor": null,
-          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
-          "type": "minimal"
+          "type": "photo",
+          "metaphor": "밝은 공간으로 이어지는 문",
+          "rationale": "사진을 풀블리드로 배치하고 기존 흑백 정규화와 하단 오버레이 위에 핵심 문구를 유지한다."
         }
       },
       "visualStory": null
