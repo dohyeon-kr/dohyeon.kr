@@ -39,7 +39,7 @@
       "visual": {
         "type": "photo",
         "motif": null,
-        "query": "software development team meeting",
+        "query": "team meeting around wooden table",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -93,19 +93,19 @@
       "narration": "정말 이 방에는 더 배울 게 없을까?",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "software development team meeting",
+      "imageQuery": "team meeting around wooden table",
       "image": {
-        "query": "software development team meeting",
-        "title": "노트북에서 코드를 작성하는 손",
-        "creator": "Lukas Blazek",
+        "query": "team meeting around wooden table",
+        "title": "나무 테이블에 모여 함께 논의하는 팀",
+        "creator": "fauxels",
         "license": "pexels",
         "licenseVersion": null,
         "licenseUrl": "https://www.pexels.com/license/",
         "source": "pexels",
         "provider": "pexels",
-        "sourcePage": "https://www.pexels.com/photo/person-encoding-in-laptop-574071/",
-        "originalUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        "thumbnailUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1000"
+        "sourcePage": "https://www.pexels.com/photo/photo-of-people-near-wooden-table-3184418/",
+        "originalUrl": "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1000"
       }
     },
     {
