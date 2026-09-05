@@ -27,9 +27,9 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
 };
 const EngineSurface: React.FC<Props & {engine: Engine}> = ({spec, durationInFrames, framesPath, engine, failEngine}) => {
   const frame = useCurrentFrame();
-  if (engine === failEngine) throw new Error(`Injected ${engine} failure for CI`);
+  if (engine === failEngine && engine === 'remotion') throw new Error(`Injected ${engine} failure for CI`);
   if (engine === 'motion-canvas') {
-    if (!framesPath) return <MotionCanvasDiagram spec={spec} progress={frame / Math.max(1, durationInFrames - 1)} />;
+    if (!framesPath) return <MotionCanvasDiagram spec={spec} progress={frame / Math.max(1, durationInFrames - 1)} failAsync={failEngine === 'motion-canvas'} />;
     return <Img src={staticFile(`${framesPath}/${String(frame).padStart(6, '0')}.png`)} style={{width: '100%', height: '100%', objectFit: 'contain'}} />;
   }
   return <svg viewBox="0 0 800 560" width="100%" height="100%" role="img" aria-label={spec.description}>

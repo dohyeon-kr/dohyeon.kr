@@ -6,7 +6,7 @@ import {evaluatedDiagramState} from './physics';
 
 // Render one isolated Motion Canvas scene for each requested frame. This avoids
 // seek races and makes parallel/out-of-order Remotion renders deterministic.
-export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number}> = ({spec, progress}) => {
+export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number; failAsync?: boolean}> = ({spec, progress, failAsync}) => {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [error, setError] = useState<Error | null>(null);
   useLayoutEffect(() => {
@@ -15,8 +15,9 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number}
     let dispose = () => {};
     (async () => {
       const core = await import('@motion-canvas/core');
+      if (failAsync) throw new Error('Injected async Motion Canvas failure for CI');
       const {ReadOnlyTimeEvents} = await import('@motion-canvas/core/lib/scenes/timeEvents/ReadOnlyTimeEvents');
-      const {makeScene2D, Rect, Circle, Line, Txt, Node} = await import('@motion-canvas/2d');
+      const {makeScene2D, Scene2D, Rect, Circle, Line, Txt, Node} = await import('@motion-canvas/2d');
       const states = evaluatedDiagramState(spec, progress);
       const description = makeScene2D(function* (view) {
         for (const node of states) {
@@ -34,13 +35,14 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number}
       const logger = new core.Logger();
       const sharedWebGLContext = new core.SharedWebGLContext(logger);
       dispose = () => sharedWebGLContext.dispose();
-      const scene = new description.klass({
+      const scene = new Scene2D({
         ...description, name: 'diagram', size: new core.Vector2(800, 560), resolutionScale: 1,
         playback: new core.PlaybackStatus(new core.PlaybackManager()), logger,
         timeEventsClass: ReadOnlyTimeEvents, sharedWebGLContext,
         get variables() {return scene.variables;},
         onReplaced: new core.ValueDispatcher(null!),
       });
+      dispose = () => {scene.getView().dispose(); sharedWebGLContext.dispose();};
       await document.fonts.load('800 28px Pretendard');
       await scene.reset();
       const stage = new core.Stage();
@@ -57,7 +59,7 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number}
       if (!cancelled) flushSync(() => setError(cause instanceof Error ? cause : new Error(String(cause))));
     }).finally(() => {dispose(); continueRender(handle);});
     return () => {cancelled = true;};
-  }, [spec, progress]);
+  }, [spec, progress, failAsync]);
   if (error) throw error;
   return <canvas ref={canvas} width={800} height={560} style={{width: '100%', height: '100%'}} />;
 };
