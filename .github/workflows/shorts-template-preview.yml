@@ -7,6 +7,7 @@ on:
     paths:
       - 'shorts/src/**'
       - 'shorts/package.json'
+      - 'shorts/scripts/render-template-preview.mjs'
       - '.github/workflows/shorts-template-preview.yml'
   workflow_dispatch:
 
@@ -36,11 +37,18 @@ jobs:
           cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
 
       - name: Render public preview
+        # Public previews use real TTS; PR checks explicitly use --silent.
         working-directory: shorts
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
+          SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
         run: |
-          mkdir -p "${RUNNER_TEMP}/shorts-template-preview"
-          npx remotion render src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.mp4" --public-dir=public --codec=h264 --crf=22 --scale=0.5
-          npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.png" --public-dir=public --frame=145 --scale=0.5
+          if ! command -v ffprobe >/dev/null || ! command -v ffmpeg >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+          node scripts/render-template-preview.mjs "${RUNNER_TEMP}/shorts-template-preview"
 
       - name: Refresh public preview release
         env:
@@ -52,9 +60,11 @@ jobs:
             --target "${GITHUB_SHA}" \
             --title "Shorts Template Preview" \
             --prerelease \
-            --notes "Public rolling preview for the current DLOG shorts template. Updated from ${GITHUB_SHA}."
+            --notes "Integrated DLOG preview: graph, seesaw physics, bottleneck and semantic captions. Includes AI-generated narration, per-scene PNGs and SCRIPT.txt. Conceptual example, not measured data. Updated from ${GITHUB_SHA}."
           gh release upload shorts-template-preview \
             "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.mp4" \
             "${RUNNER_TEMP}/shorts-template-preview/shorts-template-preview.png" \
+            "${RUNNER_TEMP}/shorts-template-preview/"scene-*.png \
+            "${RUNNER_TEMP}/shorts-template-preview/SCRIPT.txt" \
             --repo "${GITHUB_REPOSITORY}" \
             --clobber
