@@ -25,6 +25,32 @@ const LAYOUTS = [
 ];
 
 const TRANSITIONS = ['fade', 'slide-up', 'slide-left', 'zoom', 'wipe', 'none'];
+const RELATION_TYPES = [
+  'literal',
+  'comparison',
+  'change-over-time',
+  'small-input-large-output',
+  'accumulation',
+  'bottleneck',
+  'convergence',
+  'divergence',
+  'flow',
+  'balance',
+  'zoom-depth',
+  'network-growth',
+];
+const STRATEGY_TYPES = [
+  'simulation',
+  'graph',
+  'spatial-diagram',
+  'physical-metaphor',
+  'photo',
+  'icon',
+  'number',
+  'minimal',
+];
+const CAMERA_MOTIONS = ['static', 'push-in', 'pull-out', 'zoom', 'pan-left', 'pan-right'];
+const CAMERA_TARGETS = ['center', 'endpoint', 'inflection', 'subject', 'detail'];
 
 const VisualSchema = z.object({
   type: z.enum(['photo', 'diagram', 'symbol', 'number', 'none']),
@@ -35,11 +61,46 @@ const VisualSchema = z.object({
   yLabel: z.string().nullable(),
 });
 
+const VisualIntentSchema = z.object({
+  concept: z.string(),
+  relation: z.object({
+    type: z.enum(RELATION_TYPES),
+    description: z.string().nullable(),
+  }),
+  strategy: z.object({
+    type: z.enum(STRATEGY_TYPES),
+    metaphor: z.string().nullable(),
+    rationale: z.string(),
+  }),
+});
+
+const BeatSchema = z.object({
+  text: z.string(),
+  emphasis: z.enum(['low', 'mid', 'high']),
+  pauseAfterMs: z.number().min(0).max(600),
+  delivery: z.enum(['normal', 'push', 'hold', 'drop']),
+  visualPriority: z.enum(['low', 'mid', 'high']),
+  keyword: z.string().nullable(),
+  visualCue: z.string().nullable(),
+});
+
+const CameraSchema = z.object({
+  motion: z.enum(CAMERA_MOTIONS),
+  target: z.enum(CAMERA_TARGETS),
+  intensity: z.enum(['subtle', 'medium']),
+  startProgress: z.number().min(0).max(1),
+  endProgress: z.number().min(0).max(1),
+});
+
 const SceneSchema = z.object({
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
   layout: z.enum(LAYOUTS),
   visual: VisualSchema,
+  visualIntent: VisualIntentSchema,
   transition: z.enum(TRANSITIONS),
+  camera: CameraSchema,
+  choreography: z.array(z.string()),
+  beats: z.array(BeatSchema),
   headline: z.string(),
   subline: z.string().nullable(),
   narration: z.string(),
@@ -58,81 +119,82 @@ const CandidateSchema = z.object({
   scenes: z.array(SceneSchema),
 });
 
-const PlanSchema = z.object({
-  candidates: z.array(CandidateSchema),
-});
+const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
 
-const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 시각 연출가다.
-목표는 글을 요약하는 것이 아니라, 글 안의 한 가지 강한 생각을 독립적인 숏츠로 추출하고 거의 모든 장면에 의미 있는 시각적 앵커를 부여하는 것이다.
+const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
+목표는 글을 요약해 슬라이드를 만드는 것이 아니다. 글 안의 한 가지 강한 생각을 독립적인 숏츠로 추출하고, 말의 의미·리듬·관계를 화면의 사건으로 번역한다.
 
 콘텐츠 원칙:
 - 제공된 블로그 본문만 사실의 근거로 사용한다. 글에 없는 경험, 수치, 결과를 만들지 않는다.
-- 후보 하나당 논점은 하나다. 한 편의 글을 1개의 숏츠로 압축하려 하지 않는다.
+- 후보 하나당 논점은 하나다. 한 편의 글 전체를 한 숏츠로 압축하지 않는다.
 - 첫 장면은 2초 안에 멈춰 보게 만드는 질문, 반론, 재정의 중 하나여야 한다.
 - 한국어는 짧고 자연스럽게 쓴다. 과장된 AI 문구, 불필요한 감탄사, 뻔한 자기계발 문구를 피한다.
 - 장면은 6~9개, 전체는 대략 30~55초가 되도록 내레이션 양을 조절한다.
 - headline은 가능하면 1~3줄, subline은 보조 설명만 담당한다.
 - 마지막 장면은 결론 또는 원문을 읽고 싶게 만드는 여운을 남긴다. 노골적인 구독 유도는 하지 않는다.
-- viralScore는 0~100 사이에서 hook 강도, 독립 이해 가능성, 논쟁성/새로움, 공유 가능성을 종합해 평가한다.
 
-시각 연출 원칙:
-- 화면은 검은색/차콜 기반의 다크 모노크롬 에디토리얼 PT다. 흰 타이포와 회색 보조선을 사용한다.
-- 거의 모든 장면은 photo, diagram, symbol, number 중 하나의 시각적 앵커를 가진다. none은 미니멀한 결론 장면에서만 예외적으로 사용한다.
+아트 디렉션:
+- 기본 무드는 monochrome / editorial / sharp / minimal / tech다.
+- 검은색/차콜 바탕, 흰 타이포, 회색 보조선, 낮은 채도의 사진을 사용한다.
+- 사진은 최종 렌더에서 grayscale/contrast 정규화를 거친다. 서로 다른 출처의 에셋도 하나의 시각 언어로 보여야 한다.
+- 장식은 정보보다 뒤에 있어야 한다. PHOTO / PHOTO, IMAGE, VIDEO, STATEMENT / LEVERAGE 같은 메타 라벨과 의미 없는 박스·인용부호·영문 장식 캡션을 만들지 않는다.
+- 화면에 존재하는 요소는 정보 전달, 의미 강조, 맥락 제공, 시선 유도, 리듬 전환 중 하나의 역할을 가져야 한다.
+
+Visual Resolver 원칙:
+- 키워드를 아이콘 하나로 치환하지 않는다. 먼저 문장의 핵심 관계가 무엇인지 visualIntent.relation에 적는다.
+- 시각 전략 우선순위는 simulation → graph → spatial-diagram → physical-metaphor → photo → icon 순이다. icon은 fallback이다.
+- 변화량, 효율, 누적, 격차, 시간에 따른 변화는 graph를 적극적으로 사용한다.
+- 물리적 관계가 설명에 유리하면 physical-metaphor를 쓴다. 특히 leverage는 상승 화살표가 아니라 지렛대/시소처럼 작은 힘이 큰 결과를 움직이는 관계로 표현한다.
+- 병목은 flow가 좁은 관문에서 밀리는 모습, balance/trade-off는 실제로 기울어지는 구조, accumulation은 쌓이는 구조, convergence는 여러 경로가 모이는 구조를 우선한다.
+- 구체적인 사람/사물/장소/행동은 photo를 우선한다. photo query는 Openverse에서 찾기 좋은 영어 명사구로 작성한다.
+- visual.type이 photo일 때만 query를 채운다. 그 외 query는 null이다.
+- diagram/symbol motif는 의미가 분명한 kebab-case를 쓴다.
+- 그래프 motif 예: roi-curve, growth-curve, diminishing-returns.
+- flow motif 예: network, map-network, funnel, feedback-loop, depth-vs-breadth.
+- physical metaphor motif 예: leverage, balance-scale, target.
+
+Motion / choreography 원칙:
+- 씬 전환과 요소 애니메이션을 구분한다. scene transition 하나로 화면 전체를 통째로 움직이는 것에 의존하지 않는다.
+- choreography에는 화면에서 일어날 사건을 시간 순서로 2~6개 적는다.
+- 가능한 canonical event 이름: show-visual, show-headline, show-subline, advance-visual, camera-focus, emphasize-result.
+- 필요한 경우 의미가 명확한 kebab-case 이벤트를 추가해도 된다.
+- 한 씬의 핵심 motion event는 보통 1~3개다. 모든 요소가 계속 움직이지 않는다.
+- 기본 motion vocabulary는 fade, slide, scale, reveal, draw, zoom, pan이다. bounce, spin, elastic 같은 장식성 모션은 금지한다.
+- 내레이션의 동사를 화면 동작으로 번역한다. '확대한다'면 zoom, '벌어진다'면 실제 격차 확대, '쌓인다'면 누적, '막힌다'면 flow 정체, '기울어진다'면 실제 기울임을 우선한다.
+- camera는 내용상 필요한 경우에만 사용한다. 전체→세부, 그래프 특정 구간, 관계의 핵심 지점을 보여줄 때 push-in/zoom을 쓴다.
+- camera.startProgress < camera.endProgress가 되게 한다. 정적 장면은 static / center / subtle / 0 / 1을 사용한다.
+
+자막 / 낭독 리듬 원칙:
+- narration을 문법 단위가 아니라 semantic beat로 나눈다. beats의 text를 순서대로 이어 읽으면 narration과 의미가 같아야 한다.
+- 자막을 '그럴' / '수' / '있다'처럼 잘게 자르지 않는다. 원칙적으로 한 beat는 공백 제외 4자 이상을 확보한다.
+- 단, 결론이나 punch word를 강하게 꽂기 위해 '없다', '아니다'처럼 짧은 단어를 의도적으로 단독 분리하는 것은 허용한다.
+- 모든 beat를 강조하지 않는다. 한 문장에 high emphasis는 보통 1~2개만 둔다.
+- 결론, 대비, 수치, 반전, 핵심 개념, 선언을 high emphasis 후보로 본다.
+- emphasis는 low/mid/high, delivery는 normal/push/hold/drop을 쓴다.
+- pauseAfterMs로 쉼을 표시한다. 대부분 0~180ms, 강한 결론 뒤에는 180~350ms 정도를 쓸 수 있다.
+- keyword는 beat 안에서 시각적으로 한 단어만 더 강조할 필요가 있을 때만 채운다.
+- visualCue에는 이 beat가 화면에서 무엇을 촉발하는지 짧게 적는다. 예: graph zooms to inflection point, lever lifts load.
+
+layout 원칙:
 - 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
 - 같은 layout을 연속으로 사용하지 않는다.
-- 한 영상에서 photo 레이아웃은 최소 2종류를 사용한다.
-- 6~9장 기준 photo 2~4장, diagram/symbol 2~4장을 권장한다.
-- 구체적인 사람/사물/장소/행동은 photo를 우선한다. photo의 query는 Openverse에서 찾기 좋은 영어 명사구로 작성한다.
-- 비유가 실제 물리 장면을 직접 떠올리게 하면 추상 도식보다 photo를 우선한다. 예: 그림의 전체 구도를 잡는 비유 → 손으로 스케치하는 사진, 목표를 겨누는 비유 → 과녁/타겟 사진.
-- 관계, 변화량, 흐름처럼 사진보다 구조 자체가 중요한 추상 개념은 diagram 또는 symbol을 우선한다. 예: ROI → 그래프, 트레이드오프 → 저울, 연결 구조 → 네트워크.
-- visual.type이 photo일 때만 query를 채운다. 그 외에는 query를 null로 둔다.
-- visual.type이 diagram/symbol일 때 motif는 아래 시각 언어 중 가장 가까운 값을 사용한다. 정확히 맞는 것이 없으면 의미가 분명한 짧은 kebab-case 이름을 쓴다.
-- Shorts/Reels UI가 덮는 오른쪽 액션 바와 하단 채널/설명 영역에는 핵심 텍스트나 도식을 배치하지 않는 전제를 따른다. full-bleed 사진 배경만 해당 영역까지 확장 가능하다.
+- photo-full-bleed는 강한 전환에만 사용하고 영상당 최대 1~2회.
+- diagram-centered는 그래프/도식/물리 비유가 중심인 장면에 사용한다.
+- statement-giant는 강한 한 문장에만 제한적으로 사용한다.
+- compare-columns / compare-versus는 진짜 비교 관계가 있을 때만 사용한다.
+- outro-minimal은 마지막 결론용이다.
+- Shorts/Reels UI가 덮는 오른쪽 액션 바와 하단 영역에는 핵심 텍스트나 도식을 배치하지 않는 전제를 따른다.
 
-권장 개념 → 시각 언어:
-- ROI / 효율 / 비용 대비 효과 → roi-curve
-- 균형 / 트레이드오프 → balance-scale
-- 목표 / 목적 → target
-- 방향 → compass 또는 arrow-path
-- 깊게 파기 / 확대 / 정밀도 → magnifier
-- 전체 구조 / 멘탈 모델 → map-network
-- 선택 / 분기 → fork-road
-- 레버리지 → leverage
-- 부채 / 나중에 돌아올 지점 → bookmark-stack
-- 병목 → funnel
-- 연결 / 관계 → network
-- 우선순위 → ranked-list
-- 성장 → ladder
-- 리스크 → warning
-- 시간 / 투자 시간 → hourglass
-- 반복 / 피드백 → feedback-loop
+transition 원칙:
+- fade는 차분한 연결, slide-up은 단계 진행, slide-left는 이동/비교, zoom은 확대 의미, wipe는 도식/논리 전환에 제한적으로 사용한다.
+- 같은 transition을 2개 이상 연속으로 쓰지 않는다.
+- zoom/wipe를 모든 씬에 반복하지 않는다.
 
-layout 사용 지침:
-- photo-top-right: 상단 우측의 안전 영역 안에 사진 + 좌하단 문장. 기본 사진 장면.
-- photo-full-bleed: 화면 전체 사진 + 텍스트 오버레이. 강한 전환에만 사용하고 영상당 최대 1~2회.
-- photo-split-left: 왼쪽 사진 + 오른쪽 문장.
-- photo-strip: 중앙 가로 사진 띠 + 위/아래 텍스트.
-- diagram-centered: 그래프/도식이 중심인 장면.
-- symbol-right: 오른쪽 안전 영역 안의 큰 상징 + 왼쪽 문장.
-- statement-giant: 강한 한 문장을 화면 대부분에 크게. 과용하지 않는다.
-- statement-offset: 비대칭 타이포그래피 + 작은 시각 요소.
-- compare-columns: 두 개념을 나란히 비교.
-- compare-versus: 양쪽 개념의 충돌/선택을 강하게 대비.
-- outro-minimal: 마지막 결론용.
-
-transition 사용 지침:
-- fade: 차분한 연결, 결론, 호흡 전환.
-- slide-up: 설명이 한 단계 진행되는 느낌.
-- slide-left: 비교, 이동, 다음 단계로 넘어가는 느낌.
-- zoom: 첫 장면이나 확대/정밀도 개념에 제한적으로 사용.
-- wipe: 도식/그래프/강한 논리 전환에 사용.
-- none: 이미 화면 자체가 충분히 강한 경우만 사용.
-- 같은 transition을 2개 이상 연속으로 사용하지 않는다.
-- 모든 장면에 과한 움직임을 넣지 않는다. 영상 전체에서 fade/slide 계열을 중심으로 하고 zoom/wipe는 강조 장면에만 쓴다.
-
-compare 장면은 comparisonLeft/comparisonRight를 반드시 채운다. 다른 장면은 null로 둔다.
-visual.value는 number 타입 또는 숫자가 시각적으로 중요한 경우에만 사용한다.
-roi-curve 같은 그래프는 필요한 경우 xLabel/yLabel에 짧은 한글 축 이름을 넣는다.`;
+필드 규칙:
+- compare 장면은 comparisonLeft/comparisonRight를 채우고 다른 장면은 null로 둔다.
+- visual.value는 숫자가 시각적으로 중요한 경우에만 사용한다.
+- 그래프는 필요한 경우 xLabel/yLabel에 짧은 한글 축 이름을 넣는다.
+- visualIntent.strategy.rationale에는 왜 이 표현이 단순 아이콘보다 관계를 더 잘 설명하는지 한 문장으로 적는다.`;
 
 const decodeEntities = (value) =>
   value
@@ -162,57 +224,35 @@ const textFromHtml = (html) =>
 const extractGhostContent = (html) => {
   const opening = /<section\s+class=["'][^"']*\bgh-content\b[^"']*["'][^>]*>/i.exec(html);
   if (!opening) throw new Error('Could not locate the Ghost post body (.gh-content).');
-
   const bodyStart = opening.index + opening[0].length;
-  const comments = /<section\s+class=["'][^"']*\barticle-comments\b[^"']*["'][^>]*>/i.exec(
-    html.slice(bodyStart),
-  );
+  const comments = /<section\s+class=["'][^"']*\barticle-comments\b[^"']*["'][^>]*>/i.exec(html.slice(bodyStart));
   if (!comments) throw new Error('Could not locate the end of the Ghost post body.');
-
   const beforeComments = html.slice(bodyStart, bodyStart + comments.index).trimEnd();
   return beforeComments.replace(/<\/section>\s*$/i, '');
 };
 
 const fetchPost = async (rawUrl) => {
   const url = new URL(rawUrl);
-  if (!allowedHosts.has(url.hostname)) {
-    throw new Error(`Only dohyeon.kr blog URLs are allowed. Received: ${url.hostname}`);
-  }
+  if (!allowedHosts.has(url.hostname)) throw new Error(`Only dohyeon.kr blog URLs are allowed. Received: ${url.hostname}`);
   url.hash = '';
-
-  const response = await fetch(url, {
-    redirect: 'follow',
-    headers: {'user-agent': 'dohyeon.kr-shorts/2.0 (+https://dohyeon.kr)'},
-  });
+  const response = await fetch(url, {redirect: 'follow', headers: {'user-agent': 'dohyeon.kr-shorts/3.0 (+https://dohyeon.kr)'}});
   if (!response.ok) throw new Error(`Failed to fetch post: ${response.status} ${response.statusText}`);
-
   const finalUrl = new URL(response.url);
-  if (!allowedHosts.has(finalUrl.hostname)) {
-    throw new Error(`Post redirected outside dohyeon.kr: ${finalUrl.hostname}`);
-  }
-
+  if (!allowedHosts.has(finalUrl.hostname)) throw new Error(`Post redirected outside dohyeon.kr: ${finalUrl.hostname}`);
   const html = await response.text();
   const titleMatch = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
   const ogTitleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i);
   const contentHtml = extractGhostContent(html);
-
   const title = textFromHtml(titleMatch?.[1] ?? ogTitleMatch?.[1] ?? finalUrl.pathname);
   const body = textFromHtml(contentHtml);
   if (body.length < 120) throw new Error('Post body is unexpectedly short.');
-
   return {url: finalUrl.toString(), title, body};
 };
 
 const slugFromUrl = (rawUrl, fallback) => {
   const url = new URL(rawUrl);
-  const fromPath = url.pathname.split('/').filter(Boolean).at(-1);
-  const source = fromPath || fallback;
-  return source
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[^a-z0-9가-힣]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 80) || 'post';
+  const source = url.pathname.split('/').filter(Boolean).at(-1) || fallback;
+  return source.toLowerCase().normalize('NFKD').replace(/[^a-z0-9가-힣]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'post';
 };
 
 const normalizeOpenverseImage = (result, query) => ({
@@ -232,53 +272,40 @@ const normalizeOpenverseImage = (result, query) => ({
 const searchOpenverse = async (query) => {
   if (!query) return null;
   if (openverseCache.has(query)) return openverseCache.get(query);
-
   for (const license of ['cc0', 'pdm']) {
-    const params = new URLSearchParams({
-      q: query,
-      license,
-      page_size: '20',
-      mature: 'false',
-    });
+    const params = new URLSearchParams({q: query, license, page_size: '20', mature: 'false'});
     const response = await fetch(`https://api.openverse.org/v1/images/?${params}`, {
-      headers: {
-        accept: 'application/json',
-        'user-agent': 'dohyeon.kr-shorts/2.0 (+https://dohyeon.kr)',
-      },
+      headers: {accept: 'application/json', 'user-agent': 'dohyeon.kr-shorts/3.0 (+https://dohyeon.kr)'},
     });
-
     if (response.status === 429) {
       console.warn(`Openverse rate limit reached while searching: ${query}`);
       break;
     }
     if (!response.ok) continue;
-
     const data = await response.json();
     const candidates = Array.isArray(data.results) ? data.results : [];
-    const preferred =
-      candidates.find((item) => Number(item.width) >= 900 && Number(item.height) >= 700 && item.url) ??
-      candidates.find((item) => item.url || item.thumbnail);
-
+    const preferred = candidates.find((item) => Number(item.width) >= 900 && Number(item.height) >= 700 && item.url) ?? candidates.find((item) => item.url || item.thumbnail);
     if (preferred) {
       const normalized = normalizeOpenverseImage(preferred, query);
       openverseCache.set(query, normalized);
       return normalized;
     }
   }
-
   openverseCache.set(query, null);
   return null;
+};
+
+const normalizeCamera = (camera) => {
+  const startProgress = Math.max(0, Math.min(1, camera.startProgress));
+  const endProgress = Math.max(startProgress + 0.08, Math.min(1, camera.endProgress));
+  return {...camera, startProgress, endProgress: Math.min(1, endProgress)};
 };
 
 const enrichVisuals = async (candidate) => {
   const scenes = [];
   for (const scene of candidate.scenes) {
     const imageQuery = scene.visual.type === 'photo' ? scene.visual.query : null;
-    scenes.push({
-      ...scene,
-      imageQuery,
-      image: imageQuery ? await searchOpenverse(imageQuery) : null,
-    });
+    scenes.push({...scene, camera: normalizeCamera(scene.camera), imageQuery, image: imageQuery ? await searchOpenverse(imageQuery) : null});
   }
   return {...candidate, scenes};
 };
@@ -291,21 +318,16 @@ const main = async () => {
 
   const post = await fetchPost(postUrl);
   const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
-
   const response = await client.responses.parse({
     model: process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-luna',
     instructions: SYSTEM_PROMPT,
-    input: `아래 블로그 글에서 서로 겹치지 않는 숏츠 후보를 정확히 ${count}개 만들어라. 각 후보는 내용뿐 아니라 장면별 시각 연출, 레이아웃 리듬, 트랜지션까지 완성해야 한다.\n\n제목: ${post.title}\nURL: ${post.url}\n\n본문:\n${post.body}`,
-    text: {
-      format: zodTextFormat(PlanSchema, 'blog_shorts_candidates_v2'),
-    },
+    input: `아래 블로그 글에서 서로 겹치지 않는 숏츠 후보를 정확히 ${count}개 만들어라. 각 후보는 장면별 semantic beat, 강조 리듬, visual relation, visual strategy, layout, element choreography, camera motion, scene transition까지 완성해야 한다.\n\n제목: ${post.title}\nURL: ${post.url}\n\n본문:\n${post.body}`,
+    text: {format: zodTextFormat(PlanSchema, 'blog_shorts_candidates_v3')},
   });
 
   if (!response.output_parsed) throw new Error('The model did not return a parsed shorts plan.');
   const rawCandidates = response.output_parsed.candidates.slice(0, count);
-  if (rawCandidates.length < count) {
-    throw new Error(`Expected ${count} candidates, received ${rawCandidates.length}.`);
-  }
+  if (rawCandidates.length < count) throw new Error(`Expected ${count} candidates, received ${rawCandidates.length}.`);
 
   const enriched = [];
   for (const candidate of rawCandidates) enriched.push(await enrichVisuals(candidate));
@@ -317,7 +339,7 @@ const main = async () => {
 
   for (const [index, candidate] of enriched.entries()) {
     const manifest = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       id: `candidate-${String(index + 1).padStart(2, '0')}`,
       status: 'candidate',
       source: {url: post.url, title: post.title},
@@ -335,26 +357,19 @@ const main = async () => {
         visualDensity: 'high',
         subtitles: 'burned-in',
         safeArea: 'shorts-reels',
+        artDirection: 'monochrome-editorial-motion',
+        motionLanguage: 'sharp-subtle',
+        decorativeLabels: 'forbidden',
       },
       scenes: candidate.scenes,
     };
-
-    await fs.writeFile(
-      path.join(outputDir, `${manifest.id}.json`),
-      `${JSON.stringify(manifest, null, 2)}\n`,
-      'utf8',
-    );
+    await fs.writeFile(path.join(outputDir, `${manifest.id}.json`), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
   }
 
-  const summary = enriched
-    .map(
-      (candidate, index) =>
-        `${index + 1}. [${Math.round(candidate.viralScore)}] ${candidate.hook} — ${candidate.angle}`,
-    )
-    .join('\n');
+  const summary = enriched.map((candidate, index) => `${index + 1}. [${Math.round(candidate.viralScore)}] ${candidate.hook} — ${candidate.angle}`).join('\n');
   await fs.writeFile(
     path.join(outputDir, 'README.md'),
-    `# Shorts candidates — ${post.title}\n\nSource: ${post.url}\n\n${summary}\n\nEach scene includes a layout, visual strategy, and transition. Edit or delete candidates before merging the generated PR. Merging a candidate JSON triggers rendering.\n`,
+    `# Shorts candidates — ${post.title}\n\nSource: ${post.url}\n\n${summary}\n\nSchema v3 includes semantic subtitle beats, visual relation/strategy, element choreography, camera motion, and scene transitions. Edit or delete candidates before merging the generated PR.\n`,
     'utf8',
   );
 
