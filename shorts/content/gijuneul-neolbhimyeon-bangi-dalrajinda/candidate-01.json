@@ -1,0 +1,870 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/gijuneul-neolbhimyeon-bangi-dalrajinda/",
+    "title": "기준을 넓히면, 방이 달라진다"
+  },
+  "candidate": {
+    "angle": "question",
+    "hook": "정말 이 방에 배울 게 없을까? 아니면 내가 잘하는 것만 보고 있을까?",
+    "title": "방은 그대로인데 내가 작아지는 이유",
+    "rationale": "환경을 떠나기 전에 ‘똑똑함’의 기준이 지나치게 좁지 않은지 점검해야 한다는 글의 중심 반전을 한 편으로 만든다.",
+    "viralScore": 9,
+    "suggestedCaption": "내가 가장 뛰어나다는 감각은 때로 실력보다 기준의 폭을 보여준다.",
+    "hashtags": [
+      "#개발자성장",
+      "#커리어",
+      "#팀워크",
+      "#배움",
+      "#관점"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "software development team meeting",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "익숙한 팀에서 더 배울 것이 없다고 느끼는 순간",
+        "relation": {
+          "type": "literal",
+          "description": "같은 팀원들과 일하면서 자신이 가장 뛰어나다고 판단하는 구체적인 상황이다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "실제 팀 장면을 사용해 추상적인 ‘방’을 개발 조직의 현실적인 맥락으로 연결한다."
+        }
+      },
+      "transition": "none",
+      "camera": {
+        "motion": "push-in",
+        "target": "subject",
+        "intensity": "medium",
+        "startProgress": 0.05,
+        "endProgress": 0.75
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline"
+      ],
+      "beats": [
+        {
+          "text": "정말 이 방에는",
+          "emphasis": "low",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "팀 사진 위에 질문이 나타난다"
+        },
+        {
+          "text": "더 배울 게 없을까?",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "없을까",
+          "visualCue": "카메라가 질문을 향해 밀고 들어간다"
+        }
+      ],
+      "headline": "정말 이 방에는\n배울 게 없을까?",
+      "subline": null,
+      "narration": "정말 이 방에는 더 배울 게 없을까?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "software development team meeting",
+      "image": {
+        "query": "software development team meeting",
+        "title": "노트북에서 코드를 작성하는 손",
+        "creator": "Lukas Blazek",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/person-encoding-in-laptop-574071/",
+        "originalUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "visualStory": {
+        "initial": "방 안에서 ‘나’가 기술 기준선의 가장 앞에 서 있다.",
+        "trigger": "똑똑함을 기술 하나로만 평가한다.",
+        "change": "다른 사람들의 다양한 능력은 회색으로 가려지고 나만 강조된다.",
+        "invariant": "방과 구성원은 그대로 유지된다.",
+        "result": "좁은 기준에서는 내가 쉽게 가장 뛰어난 사람이 된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "기술이라는 단일 기준으로 팀을 잘라 볼 때 자신만 앞서 보이는 도식",
+        "nodes": [
+          {
+            "id": "room",
+            "shape": "rect",
+            "label": "같은 팀",
+            "x": 400,
+            "y": 300,
+            "width": 700,
+            "height": 410,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "me",
+            "shape": "circle",
+            "label": "나",
+            "x": 175,
+            "y": 270,
+            "width": 130,
+            "height": 130,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "peer1",
+            "shape": "circle",
+            "label": "동료 A",
+            "x": 350,
+            "y": 320,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "peer2",
+            "shape": "circle",
+            "label": "동료 B",
+            "x": 525,
+            "y": 350,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "peer3",
+            "shape": "circle",
+            "label": "동료 C",
+            "x": 690,
+            "y": 385,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "axis",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 470,
+            "width": 610,
+            "height": 3,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "axislabel",
+            "shape": "text",
+            "label": "기술만 평가",
+            "x": 400,
+            "y": 515,
+            "width": 220,
+            "height": 45,
+            "fill": "none",
+            "strokeStyle": null
+          }
+        ],
+        "events": [
+          {
+            "target": "me",
+            "property": "scale",
+            "from": 0.85,
+            "to": 1.18,
+            "start": 0.22,
+            "end": 0.42
+          },
+          {
+            "target": "peer1",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.45,
+            "start": 0.3,
+            "end": 0.5
+          },
+          {
+            "target": "peer2",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.45,
+            "start": 0.38,
+            "end": 0.58
+          },
+          {
+            "target": "peer3",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.45,
+            "start": 0.46,
+            "end": 0.66
+          },
+          {
+            "target": "axislabel",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.73
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "narrow-criteria",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "자신이 잘하는 영역만으로 팀을 평가하는 시선",
+        "relation": {
+          "type": "bottleneck",
+          "description": "여러 능력을 가진 팀을 기술이라는 하나의 좁은 관문으로만 통과시켜 평가한다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "단일 평가 축으로 잘린 방",
+          "rationale": "왕관 같은 우월 아이콘보다 누가 왜 앞서 보이는지 평가 축 자체를 보여주는 편이 원인을 설명한다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "zoom",
+        "target": "subject",
+        "intensity": "subtle",
+        "startProgress": 0.15,
+        "endProgress": 0.7
+      },
+      "choreography": [
+        "show-visual",
+        "narrow-evaluation",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "내가 잘하는 기술만 기준으로 삼으면",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "기술",
+          "visualCue": "평가 축이 기술 하나로 제한된다"
+        },
+        {
+          "text": "나는 쉽게",
+          "emphasis": "low",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "다른 동료들이 흐려진다"
+        },
+        {
+          "text": "가장 뛰어난 사람이 된다.",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "가장 뛰어난",
+          "visualCue": "나 노드만 확대된다"
+        }
+      ],
+      "headline": "기준이 좁으면\n우월해지기 쉽다",
+      "subline": null,
+      "narration": "내가 잘하는 기술만 기준으로 삼으면 나는 쉽게 가장 뛰어난 사람이 된다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "같은 방에서 기술 축 하나만 보인다.",
+        "trigger": "평가 기준을 제품, 사업, 설득, 판단으로 넓힌다.",
+        "change": "숨겨진 네 축이 방 안으로 펼쳐지고 각 동료가 서로 다른 축에서 강조된다.",
+        "invariant": "방, 사람, 나의 기술 역량은 바뀌지 않는다.",
+        "result": "내가 배우지 못했던 능력들이 같은 방 안에서 드러난다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "같은 팀 안에 여러 역량 축이 펼쳐지며 동료들의 강점이 드러나는 도식",
+        "nodes": [
+          {
+            "id": "room",
+            "shape": "rect",
+            "label": "같은 팀",
+            "x": 400,
+            "y": 300,
+            "width": 700,
+            "height": 420,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "me",
+            "shape": "circle",
+            "label": "나",
+            "x": 145,
+            "y": 280,
+            "width": 120,
+            "height": 120,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "product",
+            "shape": "rect",
+            "label": "제품 감각",
+            "x": 325,
+            "y": 145,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "business",
+            "shape": "rect",
+            "label": "사업 이해",
+            "x": 605,
+            "y": 145,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "persuasion",
+            "shape": "rect",
+            "label": "설득·조직",
+            "x": 325,
+            "y": 410,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "judgment",
+            "shape": "rect",
+            "label": "문제 판단",
+            "x": 605,
+            "y": 410,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "tech",
+            "shape": "text",
+            "label": "기술",
+            "x": 145,
+            "y": 390,
+            "width": 120,
+            "height": 50,
+            "fill": "none",
+            "strokeStyle": null
+          }
+        ],
+        "events": [
+          {
+            "target": "product",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.35
+          },
+          {
+            "target": "business",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.45
+          },
+          {
+            "target": "persuasion",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.55
+          },
+          {
+            "target": "judgment",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.65
+          },
+          {
+            "target": "me",
+            "property": "scale",
+            "from": 1.15,
+            "to": 0.85,
+            "start": 0.58,
+            "end": 0.72
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "criteria-expansion",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "기술 밖의 능력까지 포함하는 기준 확장",
+        "relation": {
+          "type": "divergence",
+          "description": "기술이라는 한 축이 제품, 사업, 설득, 판단의 여러 축으로 확장된다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "한 방 안에서 열리는 여러 평가 창",
+          "rationale": "기준이 넓어질수록 새로운 배움의 대상이 나타나는 과정을 공간 확장으로 직접 보여준다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "medium",
+        "startProgress": 0.1,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "reveal-criteria",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "하지만 제품 감각, 사업 이해,",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "제품 감각",
+          "visualCue": "위쪽 두 기준이 열린다"
+        },
+        {
+          "text": "설득과 판단까지 기준을 넓히면",
+          "emphasis": "high",
+          "pauseAfterMs": 130,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "넓히면",
+          "visualCue": "아래쪽 기준까지 펼쳐진다"
+        },
+        {
+          "text": "보이지 않던 강점이 나타난다.",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "강점",
+          "visualCue": "전체 방을 보여주며 동료들의 강점을 강조한다"
+        }
+      ],
+      "headline": "기준을 넓히면\n강점이 나타난다",
+      "subline": null,
+      "narration": "하지만 제품 감각, 사업 이해, 설득과 판단까지 기준을 넓히면 보이지 않던 강점이 나타난다.",
+      "comparisonLeft": "기술 하나",
+      "comparisonRight": "여러 능력",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "서로 다른 능력을 가진 동료에게 배우는 장면",
+        "relation": {
+          "type": "literal",
+          "description": "기술 구현 외에도 제품과 판단을 논의하는 팀의 실제 행동을 보여준다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "그 순간 방은 그대로인데,",
+          "emphasis": "mid",
+          "pauseAfterMs": 130,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "그대로",
+          "visualCue": null
+        },
+        {
+          "text": "내가 모르는 것이 늘어난다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "모르는 것",
+          "visualCue": null
+        }
+      ],
+      "headline": "방은 그대로다",
+      "subline": "달라진 것은 내가 보는 범위",
+      "narration": "그 순간 방은 그대로인데, 내가 모르는 것이 늘어난다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "coworkers discussing product strategy",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "visualStory": {
+        "initial": "큰 방 안에서 ‘나’가 가장 큰 원으로 표시된다.",
+        "trigger": "기준 영역이 방 전체로 확장된다.",
+        "change": "주변 동료들의 영역이 커지고 나는 상대적으로 작은 원이 된다.",
+        "invariant": "방의 크기와 구성원은 변하지 않는다.",
+        "result": "가장 똑똑했던 방이 가장 많이 배울 수 있는 방으로 전환된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "방은 고정된 채 평가 영역이 확장되며 자신의 상대적 위치가 달라지는 도식",
+        "nodes": [
+          {
+            "id": "room",
+            "shape": "rect",
+            "label": "같은 방",
+            "x": 400,
+            "y": 295,
+            "width": 700,
+            "height": 430,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "me",
+            "shape": "circle",
+            "label": "나",
+            "x": 400,
+            "y": 295,
+            "width": 220,
+            "height": 220,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "area1",
+            "shape": "circle",
+            "label": "제품",
+            "x": 185,
+            "y": 165,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "area2",
+            "shape": "circle",
+            "label": "사업",
+            "x": 615,
+            "y": 165,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "area3",
+            "shape": "circle",
+            "label": "설득",
+            "x": 185,
+            "y": 425,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "area4",
+            "shape": "circle",
+            "label": "판단",
+            "x": 615,
+            "y": 425,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "area1",
+            "property": "scale",
+            "from": 0.5,
+            "to": 1.25,
+            "start": 0.2,
+            "end": 0.45
+          },
+          {
+            "target": "area2",
+            "property": "scale",
+            "from": 0.5,
+            "to": 1.25,
+            "start": 0.28,
+            "end": 0.53
+          },
+          {
+            "target": "area3",
+            "property": "scale",
+            "from": 0.5,
+            "to": 1.25,
+            "start": 0.36,
+            "end": 0.61
+          },
+          {
+            "target": "area4",
+            "property": "scale",
+            "from": 0.5,
+            "to": 1.25,
+            "start": 0.44,
+            "end": 0.69
+          },
+          {
+            "target": "me",
+            "property": "scale",
+            "from": 1,
+            "to": 0.55,
+            "start": 0.48,
+            "end": 0.72
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "room-perspective-shift",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "기준 확장이 바꾸는 방 안의 상대적 위치",
+        "relation": {
+          "type": "zoom-depth",
+          "description": "환경은 고정되어 있지만 더 많은 능력을 보기 시작하면서 자신의 크기와 위치가 상대적으로 달라진다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "고정된 방 안에서 달라지는 상대적 크기",
+          "rationale": "방 이동 아이콘보다 공간은 그대로 두고 요소의 상대 크기만 바꾸는 편이 글의 반전을 정확히 전달한다."
+        }
+      },
+      "transition": "zoom",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "medium",
+        "startProgress": 0.05,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "expand-criteria",
+        "shrink-self",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "방은 그대로다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "그대로",
+          "visualCue": "방 외곽선은 고정된다"
+        },
+        {
+          "text": "기준만 넓어졌는데,",
+          "emphasis": "high",
+          "pauseAfterMs": 130,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "넓어졌는데",
+          "visualCue": "주변 능력 영역이 커진다"
+        },
+        {
+          "text": "내가 가장 많이 배워야 할 사람이 된다.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "배워야 할",
+          "visualCue": "나의 상대 크기가 작아진다"
+        }
+      ],
+      "headline": "방이 아니라\n내 위치가 달라진다",
+      "subline": null,
+      "narration": "방은 그대로다. 기준만 넓어졌는데, 내가 가장 많이 배워야 할 사람이 된다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "symbol",
+        "motif": "open-frame",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "환경을 떠나기 전에 기준을 점검하는 질문",
+        "relation": {
+          "type": "comparison",
+          "description": "배움이 없는 환경과 배움을 발견하지 못하는 좁은 기준을 구분한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "열린 프레임",
+          "rationale": "결론에서 복잡한 도식을 제거하고 두 가능성을 질문으로 남겨 자기 점검을 유도한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline"
+      ],
+      "beats": [
+        {
+          "text": "떠나기 전에 먼저 묻자.",
+          "emphasis": "mid",
+          "pauseAfterMs": 160,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "첫 문장이 나타난다"
+        },
+        {
+          "text": "배울 것이 없는가,",
+          "emphasis": "low",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "첫 가능성이 왼쪽에 놓인다"
+        },
+        {
+          "text": "내 기준이 좁은가.",
+          "emphasis": "high",
+          "pauseAfterMs": 300,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "기준",
+          "visualCue": "두 번째 질문이 더 선명하게 남는다"
+        }
+      ],
+      "headline": "배울 것이 없는가\n내 기준이 좁은가",
+      "subline": "방을 나가기 전의 질문",
+      "narration": "떠나기 전에 먼저 묻자. 배울 것이 없는가, 내 기준이 좁은가.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
