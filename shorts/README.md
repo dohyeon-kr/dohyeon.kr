@@ -62,7 +62,7 @@ The generator avoids repeating the same layout consecutively and avoids two text
 
 Scene transitions and element animations are separate layers. The generator emits an ordered `choreography` for meaningful in-scene events and a `camera` instruction for viewpoint changes.
 
-Default motion vocabulary is deliberately narrow: fade, slide, scale, reveal, draw, zoom, and pan. Bounce, spin, elastic, and decorative overshoot are excluded by default.
+Scene transitions support 20 types and light effects support 11 types, including path-following glow pulses. See [the transition and light-effect catalog](docs/transitions-and-effects.md) for executable scene fields, target rules, examples, and preview commands. Element motion remains restrained: fade, slide, scale, reveal, draw, zoom, and pan. Bounce, spin, elastic, and decorative overshoot are excluded by default.
 
 A core rule is to translate verbs into motion: expanding concepts should expand, accumulation should stack, bottlenecks should visibly queue, and inspection should zoom into a meaningful detail.
 

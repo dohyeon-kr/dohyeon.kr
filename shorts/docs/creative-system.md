@@ -149,6 +149,8 @@ Graphs should animate. A useful pattern is:
 
 Scene transitions and element animations are different layers.
 
+For the expanded vocabulary, use [트랜지션·라이트 효과 사전](transitions-and-effects.md): 20 transition definitions and 11 light-effect definitions, including blur, directional blur, zoom blur, light wipe, light sweep, glow, light leaks, and path-following pulse halos (`flow-glow`). All catalog IDs are rendered; match-cut requires matching adjacent diagram geometry. Candidate manifests may include optional transitionOptions and effects, validated before rendering. It also defines intended use, timing, compositing, and Korean text protection.
+
 A scene should normally contain 1–3 meaningful motion events rather than making every element move continuously.
 
 Canonical choreography events:
@@ -323,7 +325,7 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 - 그림자·밑줄·영역 강조는 해당 글자 뒤/아래에 둔다. 의미를 전달하는 라벨·화살촉·주석은 다른 장식 때문에 가려지지 않아야 한다. 강조 효과가 새 라벨이나 받침을 덮지 않게 한다.
 - 생성·수동 수정·AI 리뷰 시 “반드시 보여야 하는 것 / 가려도 되는 것 / 앞뒤 관계가 바뀌는 시점”을 확인한다. 각 위반은 장면·객체·시점·가림 관계·수정 제안으로 기록한다. 위반 없음과 미확인을 구분한다.
 - 초기·이동 중·최대 확대·완료·전환 상태에서 관계를 다시 확인한다. 완료 프레임만 보고 레이어를 승인하지 않는다.
-- 현재 도식은 nodes 배열 순서대로 그리므로 뒤에 있는 노드가 위에 놓인다. 생성 시 이 순서를 역할에 맞게 배치한다. 엔진이 배열을 도형 종류로 자동 재정렬하지 않는다. 도식 라벨은 현재 각 노드와 같은 그룹에 있으므로, 후속 노드가 기존 라벨을 가리지 않는지 특히 검토한다.
+- 현재 도식은 nodes 배열 순서대로 그리므로 뒤에 있는 노드가 위에 놓인다. 생성 시 이 순서를 역할에 맞게 배치한다. 엔진이 배열을 도형 종류로 자동 재정렬하지 않는다. 도식의 도형은 배열 순서대로 그리며, 라벨은 공통 상위 레이어에서 같은 노드 변환을 따라간다. 라이트 효과가 라벨을 덮지 않게 하고, 후속 객체와 라벨의 의미상 가림 관계도 검토한다.
 
 하드 검사는 텍스트·선·불투명 객체의 충돌을 보수적으로 검출할 뿐, 의미상 옳은 레이어 순서를 판정하는 대체재가 아니다. AI 리뷰에서는 이 섹션의 관계를 직접 평가한다.
 
