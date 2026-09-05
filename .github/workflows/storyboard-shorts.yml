@@ -110,24 +110,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG_NAME: shorts-storyboard-${{ github.run_id }}
+          LIST_FILE: ${{ steps.manifests.outputs.list_file }}
         shell: bash
         run: |
           set -euo pipefail
+          notes="${RUNNER_TEMP}/storyboard-release.md"
+          node shorts/scripts/storyboard-release-notes.mjs "${LIST_FILE}" "${notes}"
+
           mapfile -d '' assets < <(find shorts/out/storyboards -type f \
-            \( -name '*-contact-sheet.jpg' -o -name '*-storyboard.pdf' -o -name '*-scene-*.png' \) \
+            \( -name '*-contact-sheet.jpg' -o -name '*-storyboard.pdf' -o -name '*-scene-*.png' -o -name '*-STORYBOARD.md' \) \
             -print0 | sort -z)
           [[ "${#assets[@]}" -gt 0 ]] || { echo 'No storyboard assets were produced.' >&2; exit 1; }
-
-          notes="${RUNNER_TEMP}/storyboard-release.md"
-          {
-            echo '# Shorts storyboard approval'
-            echo
-            echo '1. Open the contact sheet on mobile for a quick sequence review.'
-            echo '2. Open the PDF or individual scene PNGs for detailed review.'
-            echo '3. After approval, manually run **Render blog shorts** and check `storyboard_approved`.'
-            echo
-            echo "Source commit: ${GITHUB_SHA}"
-          } > "${notes}"
 
           gh release create "${TAG_NAME}" "${assets[@]}" \
             --repo "${GITHUB_REPOSITORY}" \
