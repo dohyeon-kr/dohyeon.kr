@@ -1,0 +1,839 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/hyeonjado-hwangyeongeul-goreunda/",
+    "title": "현자도 환경을 고른다"
+  },
+  "candidate": {
+    "angle": "experience",
+    "hook": "‘어디서든 배워야 한다’는 조언에는 말하는 사람의 불안이 섞일 수 있다.",
+    "title": "좋은 조언 뒤에 숨은 관리자의 불안",
+    "rationale": "글 속 팀장 면담 경험만을 중심으로, 옳은 조언도 화자의 이해관계를 가릴 수 있다는 독립 논점을 추출한다.",
+    "viralScore": 9,
+    "suggestedCaption": "맞는 말인지와, 왜 지금 그 말을 하는지는 별개의 질문이다.",
+    "hashtags": [
+      "#리더십",
+      "#팀장",
+      "#커뮤니케이션",
+      "#퇴사",
+      "#커리어"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "겉으로 옳은 조언도 화자의 불안을 포함할 수 있다는 의심을 제기한다.",
+        "relation": {
+          "type": "zoom-depth",
+          "description": "조언의 표면에서 말하는 사람의 숨은 동기로 시선을 이동시킨다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "민감한 반전을 텍스트만으로 먼저 제시해 즉각적인 호기심을 만든다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "‘어디서든 배워야 한다’는 조언,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "조언",
+          "visualCue": "조언 문구가 먼저 나타난다"
+        },
+        {
+          "text": "누구의 불안에서 나온 말일까.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "불안",
+          "visualCue": "‘불안’에 시선이 집중된다"
+        }
+      ],
+      "headline": "그 조언은\n누구의 불안에서 나왔을까",
+      "subline": null,
+      "narration": "‘어디서든 배워야 한다’는 조언, 누구의 불안에서 나온 말일까.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-split-left",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "manager employee one on one meeting",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "팀장과 새 팀원의 실제 면담 상황을 설정한다.",
+        "relation": {
+          "type": "literal",
+          "description": "한 명의 관리자와 한 명의 팀원이 대화하는 장면이다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "구체적인 인물과 면담 행동은 실제 사진으로 보여주는 것이 가장 빠르게 맥락을 전달한다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "pan-right",
+        "target": "subject",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "나는 팀장이었고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "팀장",
+          "visualCue": "면담 중인 두 사람이 나타난다"
+        },
+        {
+          "text": "새로 들어온 팀원과 면담하고 있었다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 200,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "면담",
+          "visualCue": "카메라가 대화하는 두 사람에 머문다"
+        }
+      ],
+      "headline": "팀장과 새 팀원의 면담",
+      "subline": "불안은 말보다 먼저 자라고 있었다",
+      "narration": "나는 팀장이었고, 새로 들어온 팀원과 면담하고 있었다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "manager employee one on one meeting",
+      "image": {
+        "query": "manager employee one on one meeting",
+        "title": "20170803-OSEC-LSC-2398",
+        "creator": "USDAgov",
+        "license": "pdm",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+        "source": "flickr",
+        "provider": "flickr",
+        "sourcePage": "https://www.flickr.com/photos/41284017@N08/36322933426",
+        "originalUrl": "https://live.staticflickr.com/4334/36322933426_e5d9ce93dc_b.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/6b194c73-a8c0-4d22-9df5-e5e2c17f3af6/thumb/"
+      }
+    },
+    {
+      "visualStory": {
+        "initial": "팀원 옆에는 빈 생각 상자가 있다.",
+        "trigger": "팀장이 회사의 낮은 시장 입지를 걱정한다.",
+        "change": "‘여기서는 배울 게 없다’는 생각이 상자 안에 나타난다.",
+        "invariant": "팀원은 아직 아무 결정도 하지 않았다.",
+        "result": "실제 발언보다 팀장의 예상과 불안이 먼저 커진다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "팀원이 실제로 말하기 전 팀장의 예상이 불안으로 확대되는 도식.",
+        "nodes": [
+          {
+            "id": "manager",
+            "shape": "circle",
+            "label": "팀장",
+            "x": 170,
+            "y": 300,
+            "width": 110,
+            "height": 110,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "member",
+            "shape": "circle",
+            "label": "팀원",
+            "x": 630,
+            "y": 300,
+            "width": 110,
+            "height": 110,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "thought",
+            "shape": "rect",
+            "label": "배울 게 없나?",
+            "x": 585,
+            "y": 130,
+            "width": 250,
+            "height": 95,
+            "fill": "none",
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "worry",
+            "shape": "circle",
+            "label": "불안",
+            "x": 330,
+            "y": 170,
+            "width": 80,
+            "height": 80,
+            "fill": "hatch",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "line",
+            "shape": "line",
+            "label": "",
+            "x": 430,
+            "y": 235,
+            "width": 250,
+            "height": 2,
+            "fill": "gray",
+            "strokeStyle": "dashed"
+          }
+        ],
+        "events": [
+          {
+            "target": "thought",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.22,
+            "end": 0.42
+          },
+          {
+            "target": "worry",
+            "property": "scale",
+            "from": 0.65,
+            "to": 1.45,
+            "start": 0.38,
+            "end": 0.66
+          },
+          {
+            "target": "line",
+            "property": "width",
+            "from": 1,
+            "to": 250,
+            "start": 0.5,
+            "end": 0.72
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "projected-employee-doubt",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "팀장은 팀원이 회사를 낮게 평가할 가능성을 먼저 걱정했다.",
+        "relation": {
+          "type": "small-input-large-output",
+          "description": "아직 확인되지 않은 예상이 관리자의 불안 속에서 크게 확대된다."
+        },
+        "strategy": {
+          "type": "simulation",
+          "metaphor": "상대에게 투사된 생각",
+          "rationale": "실제 팀원의 판단과 관리자의 예상을 분리해, 불안이 먼저 커지는 과정을 보여준다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "나는 회사의 입지를 낮게 보고 있었다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "낮게",
+          "visualCue": "팀장과 팀원 사이의 거리를 보여준다"
+        },
+        {
+          "text": "그래서 팀원이 ‘여기서는 배울 게 없다’고 생각할까 불안했다.",
+          "emphasis": "high",
+          "pauseAfterMs": 250,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "불안",
+          "visualCue": "예상 문구가 나타나고 불안 원이 커진다"
+        }
+      ],
+      "headline": "팀원의 판단보다\n내 불안이 먼저였다",
+      "subline": null,
+      "narration": "나는 회사의 입지를 낮게 보고 있었다. 그래서 팀원이 ‘여기서는 배울 게 없다’고 생각할까 불안했다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "하나의 발언 상자 안에 ‘현자의 태도’만 보인다.",
+        "trigger": "발언의 숨은 의도를 들여다본다.",
+        "change": "상자가 양쪽으로 분리되며 두 메시지가 드러난다.",
+        "invariant": "실제로 발화된 문장은 변하지 않는다.",
+        "result": "옳은 조언과 잔류 기대가 동시에 존재했음이 보인다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "한 조언 안에 표면적 메시지와 숨은 기대가 함께 들어 있음을 보여주는 분리 도식.",
+        "nodes": [
+          {
+            "id": "speech",
+            "shape": "rect",
+            "label": "어디서든\n배울 수 있다",
+            "x": 400,
+            "y": 280,
+            "width": 300,
+            "height": 160,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "lesson",
+            "shape": "rect",
+            "label": "좋은 태도",
+            "x": 250,
+            "y": 280,
+            "width": 230,
+            "height": 130,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "retention",
+            "shape": "rect",
+            "label": "오래 남아줘",
+            "x": 550,
+            "y": 280,
+            "width": 230,
+            "height": 130,
+            "fill": "hatch",
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "surface",
+            "shape": "text",
+            "label": "말의 표면",
+            "x": 250,
+            "y": 420,
+            "width": 180,
+            "height": 50,
+            "fill": "none",
+            "strokeStyle": null
+          },
+          {
+            "id": "hidden",
+            "shape": "text",
+            "label": "숨은 기대",
+            "x": 550,
+            "y": 420,
+            "width": 180,
+            "height": 50,
+            "fill": "none",
+            "strokeStyle": null
+          }
+        ],
+        "events": [
+          {
+            "target": "speech",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.28,
+            "end": 0.46
+          },
+          {
+            "target": "lesson",
+            "property": "x",
+            "from": 400,
+            "to": 250,
+            "start": 0.4,
+            "end": 0.64
+          },
+          {
+            "target": "retention",
+            "property": "x",
+            "from": 400,
+            "to": 550,
+            "start": 0.4,
+            "end": 0.64
+          },
+          {
+            "target": "lesson",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.38,
+            "end": 0.5
+          },
+          {
+            "target": "retention",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.66
+          },
+          {
+            "target": "hidden",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.66,
+            "end": 0.78
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "diagram",
+        "motif": "advice-hidden-interest",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "현자의 태도를 권한 말에는 팀원이 오래 남기를 바라는 기대도 섞여 있었다.",
+        "relation": {
+          "type": "divergence",
+          "description": "하나의 발언이 표면적 조언과 숨은 이해관계로 갈라진다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "두 겹의 메시지",
+          "rationale": "조언의 옳고 그름과 화자의 숨은 목적을 분리해 동시에 보여준다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "그래서 나는 현자의 태도를 강조했다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "태도",
+          "visualCue": "표면의 조언 문장이 나타난다"
+        },
+        {
+          "text": "어디에 가도 배우는 것은 당신에게 달렸다고.",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "당신",
+          "visualCue": "발언 상자가 유지된다"
+        },
+        {
+          "text": "하지만 그 안에는 ‘오래 남아달라’는 기대도 있었다.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "기대",
+          "visualCue": "상자가 두 메시지로 갈라진다"
+        }
+      ],
+      "headline": "맞는 말과 숨은 기대는\n동시에 존재할 수 있다",
+      "subline": null,
+      "narration": "그래서 나는 현자의 태도를 강조했다. 어디에 가도 배우는 것은 당신에게 달렸다고. 하지만 그 안에는 ‘오래 남아달라’는 기대도 있었다.",
+      "comparisonLeft": "좋은 태도",
+      "comparisonRight": "오래 남아줘",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "number",
+        "motif": null,
+        "query": null,
+        "value": "약 1년",
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "팀원뿐 아니라 글쓴이도 결국 회사를 떠났다는 경험의 대칭을 보여준다.",
+        "relation": {
+          "type": "change-over-time",
+          "description": "팀원의 이직 뒤 약 1년이 지나 팀장도 같은 회사를 떠난다."
+        },
+        "strategy": {
+          "type": "number",
+          "metaphor": null,
+          "rationale": "본문에 명시된 시간 간격이 경험의 반전을 압축적으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "팀원은 얼마 지나지 않아 이직했다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 140,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "이직",
+          "visualCue": "첫 이직 문장이 나타난다"
+        },
+        {
+          "text": "그리고 약 1년 뒤,",
+          "emphasis": "high",
+          "pauseAfterMs": 140,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "약 1년",
+          "visualCue": "시간 값이 크게 등장한다"
+        },
+        {
+          "text": "나도 그 회사를 떠났다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "나도",
+          "visualCue": "두 번째 이직 문장이 고정된다"
+        }
+      ],
+      "headline": "팀원이 떠났고\n약 1년 뒤 나도 떠났다",
+      "subline": "지금 생각하면 잘한 선택이었다",
+      "narration": "팀원은 얼마 지나지 않아 이직했다. 그리고 약 1년 뒤, 나도 그 회사를 떠났다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "왼쪽에는 발언의 내용만 표시된다.",
+        "trigger": "조언을 점검하는 두 번째 질문이 나타난다.",
+        "change": "오른쪽에 발언의 목적과 수혜자를 묻는 영역이 확장된다.",
+        "invariant": "조언의 문장 자체는 그대로 유지된다.",
+        "result": "옳은 말인지와 왜 지금 말하는지를 함께 확인하는 구조가 된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "조언을 평가할 때 내용과 발화 목적을 함께 살피는 두 질문 도식.",
+        "nodes": [
+          {
+            "id": "content",
+            "shape": "rect",
+            "label": "맞는 말인가",
+            "x": 230,
+            "y": 280,
+            "width": 260,
+            "height": 140,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "motive",
+            "shape": "rect",
+            "label": "왜 지금 말하나",
+            "x": 570,
+            "y": 280,
+            "width": 260,
+            "height": 140,
+            "fill": "hatch",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "advice",
+            "shape": "text",
+            "label": "조언 점검",
+            "x": 400,
+            "y": 110,
+            "width": 240,
+            "height": 70,
+            "fill": "none",
+            "strokeStyle": null
+          },
+          {
+            "id": "bridge",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "content",
+            "property": "scale",
+            "from": 0.85,
+            "to": 1,
+            "start": 0.18,
+            "end": 0.38
+          },
+          {
+            "target": "motive",
+            "property": "width",
+            "from": 80,
+            "to": 260,
+            "start": 0.4,
+            "end": 0.68
+          },
+          {
+            "target": "motive",
+            "property": "x",
+            "from": 480,
+            "to": 570,
+            "start": 0.4,
+            "end": 0.68
+          },
+          {
+            "target": "bridge",
+            "property": "width",
+            "from": 1,
+            "to": 80,
+            "start": 0.62,
+            "end": 0.76
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "diagram",
+        "motif": "advice-content-vs-motive",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "조언은 내용의 타당성뿐 아니라 발화자의 목적도 함께 점검해야 한다.",
+        "relation": {
+          "type": "balance",
+          "description": "조언의 내용과 발화 동기를 두 개의 독립된 평가축으로 나란히 둔다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "조언을 여는 두 개의 질문",
+          "rationale": "‘맞는 말’이 숨은 이해관계를 자동으로 제거하지 않는다는 점을 이중 점검 구조로 보여준다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "그래서 조언을 들을 때는 두 가지를 봐야 한다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "두 가지",
+          "visualCue": "첫 번째 질문이 나타난다"
+        },
+        {
+          "text": "그 말이 맞는가.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "맞는가",
+          "visualCue": "왼쪽 질문이 강조된다"
+        },
+        {
+          "text": "그리고 왜 지금, 나에게 그 말을 하는가.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "왜",
+          "visualCue": "오른쪽 질문 영역이 확장된다"
+        }
+      ],
+      "headline": "맞는 말인가\n왜 지금 말하는가",
+      "subline": null,
+      "narration": "그래서 조언을 들을 때는 두 가지를 봐야 한다. 그 말이 맞는가. 그리고 왜 지금, 나에게 그 말을 하는가.",
+      "comparisonLeft": "내용의 타당성",
+      "comparisonRight": "발화의 목적",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "좋은 조언이 타인의 불안을 떠맡기는 장치가 되지 않아야 한다는 결론을 남긴다.",
+        "relation": {
+          "type": "literal",
+          "description": "조언과 불안의 책임을 분리하는 선언이다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "경험에서 도출된 윤리적 결론을 장식 없이 선명하게 남긴다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "옳은 말이라도,",
+          "emphasis": "mid",
+          "pauseAfterMs": 140,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "옳은",
+          "visualCue": "양보절이 먼저 나타난다"
+        },
+        {
+          "text": "타인의 불안을 대신 견디라는 뜻이 되어서는 안 된다.",
+          "emphasis": "high",
+          "pauseAfterMs": 320,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "불안",
+          "visualCue": "최종 문장이 화면 중앙에 남는다"
+        }
+      ],
+      "headline": "옳은 말이\n불안의 전가가 되지 않도록",
+      "subline": null,
+      "narration": "옳은 말이라도, 타인의 불안을 대신 견디라는 뜻이 되어서는 안 된다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
