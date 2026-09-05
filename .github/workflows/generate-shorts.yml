@@ -61,7 +61,7 @@ jobs:
             Generated from `${{ inputs.post_url }}`.
 
             Review the hooks, narration, and selected Openverse image source pages.
-            Delete candidates you do not want rendered, edit the JSON for the rest, then merge.
-            Merging candidate JSON files triggers the rendering workflow.
+            Delete candidates you do not want, edit the JSON for the rest, then merge.
+            Merging candidate JSON files generates scene-by-scene storyboard snapshots for approval. Final video rendering is a separate manual action.
           add-paths: |
             shorts/content/**

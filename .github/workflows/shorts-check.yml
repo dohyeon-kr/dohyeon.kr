@@ -32,17 +32,30 @@ jobs:
           cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
 
       - name: Render template preview frames
+        # Both engines must render in CI before this engine change is merged.
         working-directory: shorts
         run: |
           mkdir -p "${RUNNER_TEMP}/shorts-template-preview"
+          npm run typecheck
+          npm test
+          for composition in DiagramPreview MotionCanvasPreview PhysicsPreview CanvasFallbackPreview PhysicsFallbackPreview; do
+            for frame in 0 60 119; do
+              npx remotion still src/index.tsx "$composition" "${RUNNER_TEMP}/shorts-template-preview/${composition}-${frame}.png" --public-dir=public --frame="$frame"
+            done
+          done
+          npx remotion render src/index.tsx PhysicsPreview "${RUNNER_TEMP}/shorts-template-preview/physics.mp4" --public-dir=public --concurrency=2
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/01-cover.png" --public-dir=public --frame=30
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/02-chart.png" --public-dir=public --frame=145
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/03-flow.png" --public-dir=public --frame=260
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/04-type.png" --public-dir=public --frame=680
 
       - name: Upload template preview frames
+        if: ${{ always() }}
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
           name: shorts-template-preview-${{ github.event.pull_request.number }}
-          path: ${{ runner.temp }}/shorts-template-preview/*.png
+          path: |
+            ${{ runner.temp }}/shorts-template-preview/*.png
+            ${{ runner.temp }}/shorts-template-preview/*.mp4
           retention-days: 7
+          if-no-files-found: ignore

@@ -2,6 +2,21 @@ import React from 'react';
 import {Composition} from 'remotion';
 import {ShortVideo} from './ShortVideo';
 import type {RenderManifest, RenderScene} from './types';
+import {DiagramRenderer} from './visuals/DiagramRenderer';
+import {physicsExample} from './visuals/physics-example';
+import type {DiagramSpec} from './visuals/diagram-spec';
+
+const diagramExample: DiagramSpec = {
+  version: 1, renderer: 'remotion', description: '입력이 관문 앞에 모이는 개념도',
+  nodes: [
+    {id: 'gate', shape: 'rect', label: '처리', x: 540, y: 280, width: 110, height: 220, fill: 'none'},
+    ...[0, 1, 2, 3, 4, 5].map((i) => ({id: `request-${i}`, shape: 'circle' as const, label: '', x: 80 + i * 20, y: 140 + i * 55, width: 24, height: 24, fill: 'white' as const})),
+  ],
+  events: [0, 1, 2, 3, 4, 5].flatMap((i) => [
+    {target: `request-${i}`, property: 'x' as const, from: 80 + i * 20, to: 450 - i * 38, start: .05 + i * .04, end: .55 + i * .04},
+    {target: `request-${i}`, property: 'y' as const, from: 140 + i * 55, to: 280, start: .05 + i * .04, end: .55 + i * .04},
+  ]),
+};
 
 const scene = (value: Partial<RenderScene> & Pick<RenderScene, 'kind' | 'headline'>): RenderScene => ({
   layout: 'statement-offset',
@@ -128,6 +143,11 @@ const templatePreviewProps: RenderManifest = {
 
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="DiagramPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: diagramExample, durationInFrames: 120}} />
+    <Composition id="MotionCanvasPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: {...diagramExample, renderer: 'motion-canvas' as const}, durationInFrames: 120, strict: true}} />
+    <Composition id="PhysicsPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: physicsExample, durationInFrames: 120, strict: true}} />
+    <Composition id="CanvasFallbackPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: diagramExample, durationInFrames: 120, failEngine: 'remotion' as const}} />
+    <Composition id="PhysicsFallbackPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: physicsExample, durationInFrames: 120, failEngine: 'motion-canvas' as const}} />
     <Composition
       id="ShortVideo"
       component={ShortVideo}

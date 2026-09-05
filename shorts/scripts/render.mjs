@@ -3,6 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import {spawn} from 'node:child_process';
 import OpenAI from 'openai';
+import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.resolve(import.meta.dirname, '..');
@@ -18,6 +19,7 @@ const TARGET_CAPTION_CHARS = 12;
 const MAX_CAPTION_CHARS = 16;
 const HARD_MAX_CAPTION_CHARS = 22;
 const TTS_RATE = Number(process.env.SHORTS_TTS_RATE || '1.5');
+const STORYBOARD_FLAG = '--storyboard';
 const imageExtensions = new Map([
   ['image/jpeg', '.jpg'],
   ['image/jpg', '.jpg'],
@@ -291,9 +293,10 @@ const buildSrt = (scenes) => {
 };
 
 const main = async () => {
-  const manifestArg = process.argv[2];
-  if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json>');
-  if (!process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
+  const storyboardOnly = process.argv.includes(STORYBOARD_FLAG);
+  const manifestArg = process.argv.slice(2).find((arg) => arg !== STORYBOARD_FLAG);
+  if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json> [--storyboard]');
+  if (!storyboardOnly && !process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
   if (!Number.isFinite(TTS_RATE) || TTS_RATE < 0.5 || TTS_RATE > 2) {
     throw new Error(`SHORTS_TTS_RATE must be between 0.5 and 2. Received: ${TTS_RATE}`);
   }
@@ -305,6 +308,11 @@ const main = async () => {
   }
 
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+  for (const scene of manifest.scenes) {
+    if (!scene.diagramSpec) continue;
+    validateDiagram(scene.diagramSpec);
+    if (scene.visual?.type === 'photo') throw new Error('Photo and diagramSpec cannot share a scene');
+  }
   const slug = safeName(path.basename(path.dirname(manifestPath)));
   const candidateId = safeName(manifest.id || path.basename(manifestPath, '.json'));
   const assetDir = path.join(generatedRoot, slug, candidateId);
@@ -315,7 +323,7 @@ const main = async () => {
   ]);
   await copyFonts();
 
-  const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+  const client = storyboardOnly ? null : new OpenAI({apiKey: process.env.OPENAI_API_KEY});
   const renderScenes = [];
 
   for (const [index, rawScene] of manifest.scenes.entries()) {
@@ -325,7 +333,7 @@ const main = async () => {
 
     let audioPath = null;
     let audioDurationSeconds = null;
-    if (scene.narration?.trim()) {
+    if (!storyboardOnly && scene.narration?.trim()) {
       const rawAudioFile = path.join(assetDir, `${prefix}-raw.mp3`);
       const audioFile = path.join(assetDir, `${prefix}.mp3`);
       const speech = await client.audio.speech.create({
@@ -343,12 +351,13 @@ const main = async () => {
         (await audioDuration(audioFile)) ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / (6.5 * TTS_RATE));
     }
 
+    const previewDuration = storyboardOnly ? 3.6 : audioDurationSeconds;
     renderScenes.push({
       ...scene,
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
-      audioDurationSeconds,
-      captions: buildCaptionCues(scene.narration, audioDurationSeconds ?? 3.6),
+      audioDurationSeconds: previewDuration,
+      captions: buildCaptionCues(scene.narration, previewDuration ?? 3.6),
     });
   }
 
@@ -361,6 +370,56 @@ const main = async () => {
     0,
   );
   const durationFrames = Math.ceil(totalSeconds * FPS);
+
+  if (storyboardOnly) {
+    const storyboardDir = path.join(outputRoot, 'storyboards', `${slug}-${candidateId}`);
+    await fs.mkdir(storyboardDir, {recursive: true});
+    const storyboardLines = [
+      `# Storyboard — ${manifest.candidate?.title ?? candidateId}`,
+      '',
+      `Source: ${manifest.source.url}`,
+      '',
+      'Approve these scene snapshots before manually running the final render workflow.',
+      '',
+    ];
+    let sceneStartFrame = 0;
+    for (const [index, scene] of renderScenes.entries()) {
+      const duration = Math.max(
+        Math.round(2.2 * FPS),
+        Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS),
+      );
+      const snapshotFrame = sceneStartFrame + Math.min(duration - 10, 45);
+      const filename = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}.png`;
+      await run(
+        process.platform === 'win32' ? 'npx.cmd' : 'npx',
+        [
+          'remotion',
+          'still',
+          'src/index.tsx',
+          'ShortVideo',
+          path.join(storyboardDir, filename),
+          `--props=${propsFile}`,
+          '--public-dir=public',
+          `--frame=${snapshotFrame}`,
+        ],
+        {cwd: shortsRoot, env: process.env},
+      );
+      storyboardLines.push(
+        `## Scene ${index + 1}`,
+        '',
+        `![Scene ${index + 1}](${filename})`,
+        '',
+        `- Headline: ${scene.headline.replace(/\n/g, ' / ')}`,
+        `- Narration: ${scene.narration || '(none)'}`,
+        '',
+      );
+      sceneStartFrame += duration;
+    }
+    await fs.writeFile(path.join(storyboardDir, 'README.md'), `${storyboardLines.join('\n')}\n`, 'utf8');
+    console.log(`Rendered storyboard snapshots to ${path.relative(repoRoot, storyboardDir)}.`);
+    return;
+  }
+
   const outputFile = path.join(outputRoot, `${slug}-${candidateId}.mp4`);
 
   await run(

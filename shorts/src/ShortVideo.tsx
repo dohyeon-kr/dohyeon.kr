@@ -9,6 +9,7 @@ import {
   useCurrentFrame,
 } from 'remotion';
 import {PresetVisual} from './visuals/PresetVisual';
+import {DiagramRenderer} from './visuals/DiagramRenderer';
 import type {
   RenderManifest,
   RenderScene,
@@ -241,8 +242,8 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
   const layout = fallbackLayout(scene, visual);
   const transition = fallbackTransition(scene, index);
   const photo = visual.type === 'photo';
-  const isCompare = layout === 'compare-columns' || layout === 'compare-versus';
-  const hasPresetVisual = visual.type === 'diagram' || visual.type === 'symbol' || visual.type === 'number';
+  const isCompare = !scene.diagramSpec && (layout === 'compare-columns' || layout === 'compare-versus');
+  const hasPresetVisual = Boolean(scene.diagramSpec) || visual.type === 'diagram' || visual.type === 'symbol' || visual.type === 'number';
   const visualReveal = eventProgress(scene, 'show-visual', frame, 5, 14);
   const compareReveal = eventProgress(scene, 'show-visual', frame, 6, 18);
   const headlineReveal = eventProgress(scene, 'show-headline', frame, hasPresetVisual || isCompare ? 14 : 6, 13);
@@ -268,12 +269,11 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
 
         {hasPresetVisual && !isCompare && !photo ? (
           <div style={{position: 'absolute', top: CONTENT_TOP, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 22, height: layout === 'diagram-centered' ? 560 : 490, opacity: visualReveal, transform: `translateY(${(1 - visualReveal) * 20}px) scale(${0.985 + visualReveal * 0.015})`, transformOrigin: 'center center'}}>
-            <PresetVisual visual={visual} camera={scene.camera} durationInFrames={durationInFrames} />
+            {scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} durationInFrames={durationInFrames} framesPath={scene.diagramFramesPath} /> : <PresetVisual visual={visual} camera={scene.camera} durationInFrames={durationInFrames} />}
           </div>
         ) : null}
 
-        {layout === 'compare-columns' ? <ComparePanel scene={scene} reveal={compareReveal} versus={false} /> : null}
-        {layout === 'compare-versus' ? <ComparePanel scene={scene} reveal={compareReveal} versus /> : null}
+        {isCompare ? <ComparePanel scene={scene} reveal={compareReveal} versus={layout === 'compare-versus'} /> : null}
 
         <div style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, bottom: SAFE_BOTTOM + (photo ? 150 : hasPresetVisual || isCompare ? 128 : 190), zIndex: 20}}>
           <div style={{fontSize: headlineSize(scene.headline, headlineBase), fontWeight: 900, lineHeight: 0.98, letterSpacing: '-0.065em', whiteSpace: 'pre-wrap', wordBreak: 'keep-all', textShadow: photo ? '0 4px 30px rgba(0,0,0,.58)' : 'none', opacity: headlineReveal, transform: `translateY(${headlineY}px)`}}>

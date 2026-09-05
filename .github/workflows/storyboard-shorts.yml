@@ -1,0 +1,144 @@
+name: Build blog shorts storyboard
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'shorts/content/**/*.json'
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Candidate JSON path under shorts/content/
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: shorts-storyboard-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  storyboard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Install shorts dependencies
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Install storyboard packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick img2pdf
+
+      - name: Resolve manifests
+        id: manifests
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          MANIFEST_INPUT: ${{ inputs.manifest }}
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          list_file="${RUNNER_TEMP}/shorts-manifests.txt"
+          : > "${list_file}"
+
+          if [[ "${EVENT_NAME}" == "workflow_dispatch" ]]; then
+            if [[ ! "${MANIFEST_INPUT}" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]]; then
+              echo "manifest must be a JSON path directly under shorts/content/<post>/" >&2
+              exit 1
+            fi
+            if [[ ! -f "${MANIFEST_INPUT}" ]]; then
+              echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
+              exit 1
+            fi
+            printf '%s\n' "${MANIFEST_INPUT}" >> "${list_file}"
+          elif [[ "${BEFORE_SHA}" =~ ^0+$ ]]; then
+            git diff-tree --no-commit-id --name-only --diff-filter=AMR -r "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
+          else
+            git diff --name-only --diff-filter=AMR "${BEFORE_SHA}" "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
+          fi
+
+          sort -u "${list_file}" -o "${list_file}"
+          cat "${list_file}"
+          printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
+
+      - name: Render scene snapshots
+        env:
+          LIST_FILE: ${{ steps.manifests.outputs.list_file }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r manifest; do
+            [[ -n "${manifest}" ]] || continue
+            [[ -f "${manifest}" ]] || continue
+            node shorts/scripts/render.mjs "${manifest}" --storyboard
+          done < "${LIST_FILE}"
+
+      - name: Build mobile review sheets
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' storyboard_dir; do
+            mapfile -d '' scenes < <(find "${storyboard_dir}" -maxdepth 1 -type f -name '*-scene-*.png' -print0 | sort -z)
+            [[ "${#scenes[@]}" -gt 0 ]] || continue
+            base="$(basename "${storyboard_dir}")"
+            montage "${scenes[@]}" \
+              -thumbnail '540x960' \
+              -tile 2x \
+              -geometry +0+0 \
+              -background '#050505' \
+              -quality 90 \
+              "${storyboard_dir}/${base}-contact-sheet.jpg"
+            img2pdf "${scenes[@]}" -o "${storyboard_dir}/${base}-storyboard.pdf"
+          done < <(find shorts/out/storyboards -mindepth 1 -maxdepth 1 -type d -print0)
+
+      - name: Publish draft release for mobile approval
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: shorts-storyboard-${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' assets < <(find shorts/out/storyboards -type f \
+            \( -name '*-contact-sheet.jpg' -o -name '*-storyboard.pdf' -o -name '*-scene-*.png' \) \
+            -print0 | sort -z)
+          [[ "${#assets[@]}" -gt 0 ]] || { echo 'No storyboard assets were produced.' >&2; exit 1; }
+
+          notes="${RUNNER_TEMP}/storyboard-release.md"
+          {
+            echo '# Shorts storyboard approval'
+            echo
+            echo '1. Open the contact sheet on mobile for a quick sequence review.'
+            echo '2. Open the PDF or individual scene PNGs for detailed review.'
+            echo '3. After approval, manually run **Render blog shorts** and check `storyboard_approved`.'
+            echo
+            echo "Source commit: ${GITHUB_SHA}"
+          } > "${notes}"
+
+          gh release create "${TAG_NAME}" "${assets[@]}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --target "${GITHUB_SHA}" \
+            --title "Shorts storyboard · ${GITHUB_RUN_NUMBER}" \
+            --notes-file "${notes}" \
+            --draft
+
+          release_url="$(gh release view "${TAG_NAME}" --repo "${GITHUB_REPOSITORY}" --json url --jq .url)"
+          {
+            echo '## Storyboard ready for approval'
+            echo
+            echo "[Open the draft release on mobile](${release_url})"
+          } >> "${GITHUB_STEP_SUMMARY}"

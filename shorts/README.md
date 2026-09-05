@@ -11,9 +11,11 @@ The creative target is a **motion infographic**, not a templated AI slideshow. S
 3. Every scene receives semantic subtitle beats, a visual relationship, a visual strategy, a layout, element choreography, camera motion, and a scene transition.
 4. Photo scenes receive a relevant Openverse search result. The default resolver only accepts CC0 or Public Domain Mark results.
 5. The workflow opens a PR containing `shorts/content/<post-slug>/candidate-XX.json` files.
-6. Edit or delete candidates in the PR. A merge is the approval gate.
-7. Changes to candidate JSON files on `main` trigger **Render blog shorts**.
-8. OpenAI TTS creates per-scene narration. Remotion renders 1080×1920 MP4 files with burned-in captions, and the render also emits an SRT subtitle file.
+6. Edit or delete candidates in the PR, then merge the selected manifests.
+7. Changes to candidate JSON files on `main` trigger **Build blog shorts storyboard**, which creates one representative PNG per scene, a two-column mobile contact sheet, and a scene-by-scene PDF.
+8. The workflow publishes those files as a Draft Release. Review the contact sheet on mobile, then use the PDF or individual PNGs for detailed checks. Fix the manifest and regenerate until the sequence is approved.
+9. Manually run **Render blog shorts** with the approved manifest path and check `storyboard_approved`.
+10. Only then does OpenAI TTS create per-scene narration. Remotion renders the 1080×1920 MP4 with burned-in captions and emits an SRT subtitle file.
 
 Source photos are normalized to the monochrome editorial language at render time. Graphs, diagrams, physical metaphors, and symbols are drawn directly in Remotion when possible.
 
@@ -98,6 +100,7 @@ Image discovery is powered by Openverse and restricted to `cc0` and `pdm` result
 cd shorts
 npm install
 OPENAI_API_KEY=... npm run generate -- https://dohyeon.kr/<post-slug>/ 5
+npm run storyboard -- content/<post-slug>/candidate-01.json
 OPENAI_API_KEY=... npm run render -- content/<post-slug>/candidate-01.json
 npm run studio
 ```
