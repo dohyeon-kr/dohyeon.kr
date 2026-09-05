@@ -1,3 +1,4 @@
+import {createPhotoQueryRepair} from './repair-photo-query.mjs';
 import {loadVideoCatalog, validateVideoSelection} from './video-assets.mjs';
 import {validateBackgroundVideo} from '../src/video/schema.ts';
 import fs from 'node:fs/promises';
@@ -71,10 +72,13 @@ export async function resolveReviewVisuals(candidate, original, {client, model, 
   const checkpoint = {title: candidate.title, status: 'processing', scenes: structuredClone(candidate.scenes), history: []};
   const save = () => fs.writeFile(path.join(reportDir, 'visual-repair.json'), JSON.stringify(checkpoint, null, 2) + '\n');
   await save();
+  const deadline = Date.now() + 40 * 60_000;
   try {
     const resolved = await enrichVisuals(candidate, {
       ...options,
-      repairDiagram: createDiagramRepair(client, {model}),
+      repairDiagram: createDiagramRepair(client, {model, deadline}),
+      repairPhoto: options.repairPhoto ?? createPhotoQueryRepair(client, {model, deadline}),
+      photoFailureMode: 'throw',
       search: async query => existing.get(query) || await search(query),
       onProgress: async event => {
         checkpoint.scenes[event.sceneNumber - 1] = event.scene;
