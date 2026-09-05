@@ -2,8 +2,12 @@
 
 Source: https://blog.dohyeon.kr/about-seamless-works/
 
-1. [9] 더 나은 답을 알고 있어도, 대신 결정하면 기여가 아닐 수 있습니다. — counterargument
-2. [9] 내가 일을 더 많이 하면, 조직의 기여도 정말 커질까요? — reframe
-3. [9] 경계 없이 일한다는 건, 빈틈을 전부 메우는 걸까요? — reframe
+## 선택한 후보: 2번
 
-Schema v3 includes semantic subtitle beats, visual relation/strategy, element choreography, camera motion, and scene transitions. Edit or delete candidates before merging the generated PR.
+**내가 일을 더 많이 하면, 조직의 기여도 정말 커질까요?** — reframe
+
+[후보 2 JSON](candidate-02.json)
+
+사용자 선택에 따라 2번만 남겼습니다. 후보 번호와 대본은 유지합니다.
+
+병합 후 생성되는 장면별 스토리보드 스냅샷을 검토한 뒤 최종 렌더를 승인합니다.
