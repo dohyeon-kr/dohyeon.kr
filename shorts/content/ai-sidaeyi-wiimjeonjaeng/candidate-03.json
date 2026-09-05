@@ -1,0 +1,1839 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-03",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/ai-sidaeyi-wiimjeonjaeng/",
+    "title": "AI 시대의 위임전쟁"
+  },
+  "candidate": {
+    "angle": "question",
+    "hook": "틀린 말이 없는데, 왜 AI 글은 기억에 남지 않을까?",
+    "title": "너무 맞아서 남지 않는 글",
+    "rationale": "원문의 ‘AI 콘텐츠 피로’를 하나의 인과관계로 발전시킨 확장 구성이다. 1~6장 ‘거부감의 신호’, 7~12장 ‘평균으로 수렴하는 답’, 13~18장 ‘잡음이 곧 사람의 좌표’로 구성한다. 세 소주제 모두 AI 자체보다 경험의 경로가 사라지는 문제를 설명하므로 하나의 영상으로 자연스럽게 이어진다.",
+    "viralScore": 9,
+    "suggestedCaption": "AI 글의 문제는 틀렸다는 게 아니다. 너무 매끄럽게 정답으로 수렴하면서, 정작 누가 왜 그렇게 생각했는지가 사라진다는 데 있다.",
+    "hashtags": [
+      "#AI글쓰기",
+      "#AI콘텐츠",
+      "#생성형AI",
+      "#콘텐츠전략",
+      "#글쓰기"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "맞는 글을 곧바로 넘기는 순간",
+        "relation": {
+          "type": "literal",
+          "description": "독자가 매끄러운 콘텐츠를 읽지 않고 넘기는 행동"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "틀린 말이 없는데",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "왜 바로 넘길까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 250,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "왜",
+          "visualCue": null
+        }
+      ],
+      "headline": "왜 아무것도\n남지 않을까?",
+      "subline": null,
+      "narration": "틀린 말이 없는데 왜 바로 넘길까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "person scrolling smartphone",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "symbol",
+        "motif": "em-dash-signal",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "문체가 AI의 신호로 읽히는 현상",
+        "relation": {
+          "type": "literal",
+          "description": "특정 표현이 내용보다 먼저 출처를 의심하게 만든다"
+        },
+        "strategy": {
+          "type": "icon",
+          "metaphor": "문장 속 대시가 경고등처럼 작동한다",
+          "rationale": "짧은 문장 부호를 크게 제시하면 형식이 판단을 앞서는 현상을 빠르게 보여준다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "특정 표현 하나가",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "표현",
+          "visualCue": "대시가 나타난다"
+        },
+        {
+          "text": "AI라는 신호가 됩니다",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "신호",
+          "visualCue": "문장보다 기호가 커진다"
+        }
+      ],
+      "headline": "내용보다 먼저\n보이는 신호",
+      "subline": "한국어에서 낯선 형식은 출처를 의심하게 한다",
+      "narration": "특정 표현 하나가 AI라는 신호가 됩니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-versus",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "정보 효율과 독자 피로의 동시 존재",
+        "relation": {
+          "type": "balance",
+          "description": "AI 콘텐츠는 유익하지만 동시에 반복되는 형식으로 피로를 만든다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "한 화면의 상반된 평가",
+          "rationale": "실제 비교 문구를 나란히 놓는 편이 장식적 상징보다 양면성을 명확히 드러낸다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "빠르고 유익해도",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "유익",
+          "visualCue": "왼쪽 평가가 나타난다"
+        },
+        {
+          "text": "계속 읽히는 건 아닙니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "아닙니다",
+          "visualCue": "오른쪽 평가가 선명해진다"
+        }
+      ],
+      "headline": "유익함과 신뢰는\n같지 않다",
+      "subline": null,
+      "narration": "빠르고 유익해도 계속 읽히는 건 아닙니다.",
+      "comparisonLeft": "맥락을 빠르게 정리",
+      "comparisonRight": "형식만 보고 이탈",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "비슷한 콘텐츠가 이어지는 피로",
+        "relation": {
+          "type": "accumulation",
+          "description": "유사한 형식의 콘텐츠가 누적되며 피로가 커진다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "거부감은 갑자기 생긴 게 아니라",
+          "emphasis": "low",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "비슷한 글이 쌓인 결과입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "쌓인",
+          "visualCue": null
+        }
+      ],
+      "headline": "AI 콘텐츠 피로",
+      "subline": "같은 리듬과 결론이 반복된다",
+      "narration": "거부감은 갑자기 생긴 게 아니라 비슷한 글이 쌓인 결과입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "crowded digital content feed",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "visualStory": {
+        "initial": "서로 다른 거부 반응이 화면 가장자리에 분리돼 있다.",
+        "trigger": "AI 콘텐츠라는 공통 원인이 나타난다.",
+        "change": "반응들이 중앙의 피로 영역으로 모인다.",
+        "invariant": "각 반응의 라벨과 중앙 제목은 끝까지 가려지지 않는다.",
+        "result": "단순한 취향이 아니라 누적된 피로라는 구조가 보인다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "여러 거부 반응이 AI 콘텐츠 피로로 수렴하는 도식. 오른쪽 상단 반응 노드를 안전영역 안쪽으로 이동해 전체 애니메이션 동안 라벨과 외곽선이 유지된다.",
+        "nodes": [
+          {
+            "id": "skip",
+            "shape": "rect",
+            "label": "바로 넘김",
+            "x": 150,
+            "y": 150,
+            "width": 210,
+            "height": 100,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "aidr",
+            "shape": "rect",
+            "label": "AI;DR",
+            "x": 150,
+            "y": 410,
+            "width": 210,
+            "height": 100,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "rewrite",
+            "shape": "rect",
+            "label": "사람처럼 수정",
+            "x": 645,
+            "y": 150,
+            "width": 220,
+            "height": 100,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "doubt",
+            "shape": "rect",
+            "label": "출처 의심",
+            "x": 650,
+            "y": 410,
+            "width": 210,
+            "height": 100,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "fatigue",
+            "shape": "circle",
+            "label": "콘텐츠\n피로",
+            "x": 400,
+            "y": 280,
+            "width": 190,
+            "height": 190,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "skip",
+              "target": "fatigue",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 20
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "aidr",
+              "target": "fatigue",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 20
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l3",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "rewrite",
+              "target": "fatigue",
+              "sourceSide": "left",
+              "targetSide": "right",
+              "gap": 20
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l4",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "doubt",
+              "target": "fatigue",
+              "sourceSide": "left",
+              "targetSide": "right",
+              "gap": 20
+            },
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.35
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.45
+          },
+          {
+            "target": "l3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.55
+          },
+          {
+            "target": "l4",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.65
+          },
+          {
+            "target": "fatigue",
+            "property": "scale",
+            "from": 0.85,
+            "to": 1,
+            "start": 0.55,
+            "end": 0.75
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "converging-fatigue",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "여러 반응 아래 존재하는 공통 피로",
+        "relation": {
+          "type": "convergence",
+          "description": "서로 다른 거부 행동이 콘텐츠 피로라는 원인으로 모인다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "여러 신호가 하나의 피로로 수렴한다",
+          "rationale": "반응을 개별 아이콘으로 나열하는 대신 연결 구조로 공통 원인을 보여준다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "push-in",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "반응은 달라도",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "네 연결선이 순서대로 나타난다"
+        },
+        {
+          "text": "원인은 하나로 모입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "피로",
+          "visualCue": "중앙 피로 원이 확대된다"
+        }
+      ],
+      "headline": "거부감 아래의 공통점",
+      "subline": null,
+      "narration": "반응은 달라도 원인은 하나로 모입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "AI 자체와 AI 결과물의 특성을 구분",
+        "relation": {
+          "type": "comparison",
+          "description": "도구에 대한 반감이 아니라 결과물에서 빠진 요소가 문제다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "장의 작은 결론은 불필요한 도상 없이 대비 문장 자체를 전면에 두는 편이 강하다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "사람들이 싫어하는 건",
+          "emphasis": "low",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "low",
+          "keyword": null,
+          "visualCue": "첫 줄이 나타난다"
+        },
+        {
+          "text": "AI 자체가 아닐 수 있습니다",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "자체",
+          "visualCue": "‘아닐 수 있다’가 강조된다"
+        }
+      ],
+      "headline": "AI가 아니라\n빠진 것의 문제",
+      "subline": null,
+      "narration": "사람들이 싫어하는 건 AI 자체가 아닐 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "number",
+        "motif": null,
+        "query": null,
+        "value": "2",
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "두 번째 소주제 전환",
+        "relation": {
+          "type": "change-over-time",
+          "description": "표면적 거부감에서 답이 만들어지는 방식으로 관점을 이동한다"
+        },
+        "strategy": {
+          "type": "number",
+          "metaphor": null,
+          "rationale": "챕터 번호와 질문만 남겨 논리적 전환을 명료하게 만든다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline"
+      ],
+      "beats": [
+        {
+          "text": "그렇다면 AI의 답은",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "챕터 번호가 나타난다"
+        },
+        {
+          "text": "어디로 향할까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "어디",
+          "visualCue": "질문을 중앙에 고정한다"
+        }
+      ],
+      "headline": "02\n정답의 수렴",
+      "subline": null,
+      "narration": "그렇다면 AI의 답은 어디로 향할까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "서로 다른 선택들이 넓게 흩어져 있다.",
+        "trigger": "종합 과정이 시작된다.",
+        "change": "점들이 중앙의 안전한 답으로 이동한다.",
+        "invariant": "개별 선택 라벨과 중앙 답은 이동 중에도 서로 겹치지 않는다.",
+        "result": "다양성이 줄고 중앙값만 남는다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "네 가지 선택이 라벨 보호영역을 유지하며 중앙의 합리적 답 주변으로 수렴하는 도식",
+        "nodes": [
+          {
+            "id": "a",
+            "shape": "circle",
+            "label": "공격적",
+            "x": 110,
+            "y": 110,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "b",
+            "shape": "circle",
+            "label": "보수적",
+            "x": 690,
+            "y": 110,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "c",
+            "shape": "circle",
+            "label": "집착",
+            "x": 110,
+            "y": 450,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "d",
+            "shape": "circle",
+            "label": "모험",
+            "x": 690,
+            "y": 450,
+            "width": 130,
+            "height": 130,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "avg",
+            "shape": "rect",
+            "label": "안전한 답",
+            "x": 400,
+            "y": 280,
+            "width": 240,
+            "height": 110,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "a",
+            "property": "x",
+            "from": 110,
+            "to": 275,
+            "start": 0.2,
+            "end": 0.65
+          },
+          {
+            "target": "a",
+            "property": "y",
+            "from": 110,
+            "to": 145,
+            "start": 0.2,
+            "end": 0.65
+          },
+          {
+            "target": "b",
+            "property": "x",
+            "from": 690,
+            "to": 525,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "b",
+            "property": "y",
+            "from": 110,
+            "to": 145,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "c",
+            "property": "x",
+            "from": 110,
+            "to": 275,
+            "start": 0.3,
+            "end": 0.7
+          },
+          {
+            "target": "c",
+            "property": "y",
+            "from": 450,
+            "to": 415,
+            "start": 0.3,
+            "end": 0.7
+          },
+          {
+            "target": "d",
+            "property": "x",
+            "from": 690,
+            "to": 525,
+            "start": 0.35,
+            "end": 0.7
+          },
+          {
+            "target": "d",
+            "property": "y",
+            "from": 450,
+            "to": 415,
+            "start": 0.35,
+            "end": 0.7
+          },
+          {
+            "target": "avg",
+            "property": "scale",
+            "from": 0.9,
+            "to": 1.08,
+            "start": 0.65,
+            "end": 0.78
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "average-convergence",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "많은 경험을 종합할수록 중앙으로 이동하는 AI",
+        "relation": {
+          "type": "convergence",
+          "description": "극단적이고 특이한 선택들이 안전하고 합리적인 답으로 모인다"
+        },
+        "strategy": {
+          "type": "simulation",
+          "metaphor": "분포의 점들이 중앙값으로 끌려간다",
+          "rationale": "수렴 과정을 실제 이동으로 보여주면 ‘평균화’의 손실을 정적 아이콘보다 선명하게 이해할 수 있다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "push-in",
+        "target": "endpoint",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "많은 경험을 종합할수록",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "종합",
+          "visualCue": "네 점이 중앙으로 이동한다"
+        },
+        {
+          "text": "답은 중앙으로 수렴합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "중앙",
+          "visualCue": "안전한 답이 확대된다"
+        }
+      ],
+      "headline": "다양함이 평균이 되는 과정",
+      "subline": null,
+      "narration": "많은 경험을 종합할수록 답은 중앙으로 수렴합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "전형적인 안전한 조언",
+        "relation": {
+          "type": "accumulation",
+          "description": "옳은 원칙들이 연속으로 쌓여 빈틈없는 답을 만든다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문의 전형적인 조언을 그대로 읽게 하는 것이 평균적 답의 질감을 가장 정확히 보여준다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "검증하고 소통하고",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "원칙이 한 줄씩 쌓인다"
+        },
+        {
+          "text": "우선순위와 리스크를 관리하라",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "관리",
+          "visualCue": "마지막 원칙이 정렬된다"
+        }
+      ],
+      "headline": "모두 맞는 말",
+      "subline": "검증 · 소통 · 우선순위 · 리스크",
+      "narration": "검증하고 소통하고 우선순위와 리스크를 관리하라.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "정답과 경험 경로의 대비",
+        "relation": {
+          "type": "comparison",
+          "description": "AI의 결론에는 실제 사람이 지나온 오해와 실수가 빠져 있다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "결론과 경로를 직접 병치하면 무엇이 누락됐는지 한눈에 드러난다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "문제는 정답이 아니라",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "왼쪽 결론이 나타난다"
+        },
+        {
+          "text": "거기까지의 경로가 없다는 것",
+          "emphasis": "high",
+          "pauseAfterMs": 230,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경로",
+          "visualCue": "오른쪽 빈칸이 강조된다"
+        }
+      ],
+      "headline": "결론은 있는데\n경로가 없다",
+      "subline": null,
+      "narration": "문제는 정답이 아니라 거기까지의 경로가 없다는 것입니다.",
+      "comparisonLeft": "안전한 결론",
+      "comparisonRight": "오해 · 실수 · 변화",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-split-left",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "person writing notes at desk",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "판단 당시의 맥락",
+        "relation": {
+          "type": "literal",
+          "description": "사람이 불완전한 정보로 선택을 기록하는 장면"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "결정 전의 망설임과 기록은 사람의 행동이 담긴 사진이 가장 구체적이다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline"
+      ],
+      "beats": [
+        {
+          "text": "사람이 궁금한 건",
+          "emphasis": "low",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "메모하는 손이 보인다"
+        },
+        {
+          "text": "왜 그때는 맞다고 믿었는지입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "왜",
+          "visualCue": "수정 흔적에 시선이 모인다"
+        }
+      ],
+      "headline": "당시의 믿음",
+      "subline": "결과를 알기 전에는 무엇이 보였나",
+      "narration": "사람이 궁금한 건 왜 그때는 맞다고 믿었는지입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "person writing notes at desk",
+      "image": {
+        "query": "person writing notes at desk",
+        "title": "Man Working",
+        "creator": "Burst",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "stocksnap",
+        "provider": "stocksnap",
+        "sourcePage": "https://stocksnap.io/photo/man-working-UN5XQREKKP",
+        "originalUrl": "https://cdn.stocksnap.io/img-thumbs/960w/UN5XQREKKP.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/c6ab46dd-43a4-4427-895e-c471c6a3d8b2/thumb/"
+      }
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "과도한 정확성이 만드는 기억의 부재",
+        "relation": {
+          "type": "small-input-large-output",
+          "description": "‘너무 맞다’는 특성이 역설적으로 잔상을 줄인다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "역설을 짧은 대형 문장으로 고정해 두 번째 장의 결론을 각인한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "틀린 부분이 없어서",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "첫 문장이 작게 나타난다"
+        },
+        {
+          "text": "남는 것도 적습니다",
+          "emphasis": "high",
+          "pauseAfterMs": 300,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "적습니다",
+          "visualCue": "결론만 크게 남는다"
+        }
+      ],
+      "headline": "너무 맞아서\n남지 않는다",
+      "subline": null,
+      "narration": "틀린 부분이 없어서 남는 것도 적습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "number",
+        "motif": null,
+        "query": null,
+        "value": "3",
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "세 번째 소주제 전환",
+        "relation": {
+          "type": "zoom-depth",
+          "description": "답의 평균에서 한 사람의 고유한 좌표로 더 깊이 들어간다"
+        },
+        "strategy": {
+          "type": "number",
+          "metaphor": null,
+          "rationale": "챕터 전환을 간결하게 표시해 다음 핵심 개념인 잡음에 집중시킨다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline"
+      ],
+      "beats": [
+        {
+          "text": "그렇다면 사람을 보여주는 건",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "챕터 번호가 나타난다"
+        },
+        {
+          "text": "무엇일까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "무엇",
+          "visualCue": "질문이 중앙에 남는다"
+        }
+      ],
+      "headline": "03\n잡음의 가치",
+      "subline": null,
+      "narration": "그렇다면 사람을 보여주는 건 무엇일까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "중앙의 평균과 바깥의 특이한 좌표가 함께 보인다.",
+        "trigger": "평균 영역이 강조된다.",
+        "change": "카메라의 의미적 초점이 바깥 좌표로 이동한다.",
+        "invariant": "평균과 개인 좌표 라벨은 항상 분리되고, 점 위에 다른 객체가 덮이지 않는다.",
+        "result": "평균에서 벗어난 위치가 한 사람의 고유성으로 읽힌다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "평균 영역의 라벨과 내부 평균점을 수직으로 분리하고, 안전영역 안의 바깥 개인 좌표를 강조하는 분포 도식",
+        "nodes": [
+          {
+            "id": "range",
+            "shape": "circle",
+            "label": "평균 영역",
+            "x": 400,
+            "y": 280,
+            "width": 330,
+            "height": 330,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "mean",
+            "shape": "circle",
+            "label": "평균",
+            "x": 400,
+            "y": 370,
+            "width": 110,
+            "height": 110,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "person",
+            "shape": "circle",
+            "label": "나의 좌표",
+            "x": 665,
+            "y": 135,
+            "width": 150,
+            "height": 150,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "guide",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "mean",
+              "target": "person",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 22
+            },
+            "strokeStyle": "dashed"
+          }
+        ],
+        "events": [
+          {
+            "target": "range",
+            "property": "opacity",
+            "from": 0,
+            "to": 0.55,
+            "start": 0.15,
+            "end": 0.35
+          },
+          {
+            "target": "guide",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.55
+          },
+          {
+            "target": "person",
+            "property": "scale",
+            "from": 0.88,
+            "to": 1.12,
+            "start": 0.55,
+            "end": 0.72
+          },
+          {
+            "target": "person",
+            "property": "scale",
+            "from": 1.12,
+            "to": 1,
+            "start": 0.72,
+            "end": 0.8
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "distribution-outlier",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "사람의 경험은 평균값이 아니라 분포 속 좌표라는 주장",
+        "relation": {
+          "type": "divergence",
+          "description": "개인은 평균에서 벗어난 편향과 선택으로 구별된다"
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "분포 바깥에 놓인 개인의 좌표",
+          "rationale": "평균과 개인의 위치 차이를 공간으로 보여주면 ‘특이함을 잃는다’는 관계가 직접 보인다."
+        }
+      },
+      "transition": "zoom",
+      "camera": {
+        "motion": "zoom",
+        "target": "endpoint",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "사람의 경험은 평균값이 아니라",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "평균값",
+          "visualCue": "평균 영역을 보여준다"
+        },
+        {
+          "text": "분포 어딘가의 좌표입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "좌표",
+          "visualCue": "바깥 점을 확대한다"
+        }
+      ],
+      "headline": "사람은 평균이 아니다",
+      "subline": null,
+      "narration": "사람의 경험은 평균값이 아니라 분포 어딘가의 좌표입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "사람의 좌표를 드러내는 문장들",
+        "relation": {
+          "type": "change-over-time",
+          "description": "과거의 믿음에서 현재의 의심으로 생각이 변한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "생각의 변화는 인용문을 시간 순서로 읽게 하는 구성이 가장 명확하다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "처음에는 맞다고 믿었고",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "믿었고",
+          "visualCue": "과거 문장이 나타난다"
+        },
+        {
+          "text": "지금은 틀렸다고 생각한다",
+          "emphasis": "high",
+          "pauseAfterMs": 200,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "틀렸다고",
+          "visualCue": "현재 문장이 아래에 나타난다"
+        }
+      ],
+      "headline": "생각이 바뀐 흔적",
+      "subline": "처음의 믿음 → 지금의 판단",
+      "narration": "처음에는 맞다고 믿었고 지금은 틀렸다고 생각합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "모순, 감정, 망설임이 서로 떨어진 채 선명하게 보인다.",
+        "trigger": "정리 과정이 시작된다.",
+        "change": "세 요소의 opacity가 줄고 매끄러운 글 상자가 커진다.",
+        "invariant": "‘좋은 글’ 라벨과 사라지는 세 요소는 어느 순간에도 겹치지 않으며, 사라지는 대상은 끝까지 식별 가능해야 한다.",
+        "result": "글은 정돈되지만 사람을 보여주던 단서가 희미해진다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "AI 편집이 사람의 불완전한 단서를 제거하는 도식",
+        "nodes": [
+          {
+            "id": "conflict",
+            "shape": "rect",
+            "label": "모순",
+            "x": 150,
+            "y": 120,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "emotion",
+            "shape": "rect",
+            "label": "감정",
+            "x": 150,
+            "y": 280,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "doubt",
+            "shape": "rect",
+            "label": "망설임",
+            "x": 150,
+            "y": 440,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "edit",
+            "shape": "rect",
+            "label": "정리",
+            "x": 400,
+            "y": 280,
+            "width": 180,
+            "height": 110,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "smooth",
+            "shape": "rect",
+            "label": "매끄러운 글",
+            "x": 632,
+            "y": 280,
+            "width": 230,
+            "height": 130,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "conflict",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.2,
+            "start": 0.3,
+            "end": 0.62
+          },
+          {
+            "target": "emotion",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.2,
+            "start": 0.36,
+            "end": 0.66
+          },
+          {
+            "target": "doubt",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.2,
+            "start": 0.42,
+            "end": 0.7
+          },
+          {
+            "target": "smooth",
+            "property": "scale",
+            "from": 0.9,
+            "to": 1.08,
+            "start": 0.55,
+            "end": 0.74
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "noise-removal",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "정리 과정에서 인간의 불완전함이 함께 지워지는 역설",
+        "relation": {
+          "type": "flow",
+          "description": "모순과 감정과 망설임이 정리 단계를 지나며 희미해진다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "편집 필터가 잡음을 걸러낸다",
+          "rationale": "전후 상태의 투명도 변화를 보여주면 편집의 이익과 손실을 동시에 전달할 수 있다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "AI는 잡음을 잘 지우지만",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "잡음",
+          "visualCue": "세 단서가 희미해진다"
+        },
+        {
+          "text": "그 잡음이 사람이기도 합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "사람",
+          "visualCue": "매끄러운 글만 남는다"
+        }
+      ],
+      "headline": "정리할수록 사라지는 것",
+      "subline": null,
+      "narration": "AI는 잡음을 잘 지우지만 그 잡음이 사람이기도 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "좋은 글과 고유한 글의 차이",
+        "relation": {
+          "type": "comparison",
+          "description": "보편적으로 매끄러운 글과 한 사람의 좌표가 남은 글을 대비한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "두 평가 기준을 직접 비교해야 ‘잘 쓴 글’이 항상 ‘기억되는 글’은 아니라는 차이가 보인다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "어디서 본 듯한 좋은 글보다",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "좋은 글",
+          "visualCue": "왼쪽 문구가 나타난다"
+        },
+        {
+          "text": "한 사람의 좌표가 기억됩니다",
+          "emphasis": "high",
+          "pauseAfterMs": 230,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "좌표",
+          "visualCue": "오른쪽 문구가 선명해진다"
+        }
+      ],
+      "headline": "정답보다 좌표",
+      "subline": null,
+      "narration": "어디서 본 듯한 좋은 글보다 한 사람의 좌표가 기억됩니다.",
+      "comparisonLeft": "매끄러운 평균",
+      "comparisonRight": "불완전한 경험",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "전체 논지의 역설적 결론",
+        "relation": {
+          "type": "comparison",
+          "description": "틀리지 않는 문장과 기억에 남는 글은 서로 다른 조건을 가진다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "핵심 반전을 대형 문장 하나로 제시해 영상의 질문에 직접 답한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "기억에 남는 글은",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "첫 줄이 나타난다"
+        },
+        {
+          "text": "완벽한 글이 아닙니다",
+          "emphasis": "high",
+          "pauseAfterMs": 300,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "아닙니다",
+          "visualCue": "부정 문장을 크게 고정한다"
+        }
+      ],
+      "headline": "완벽함은\n기억의 조건이 아니다",
+      "subline": null,
+      "narration": "기억에 남는 글은 완벽한 글이 아닙니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "symbol",
+        "motif": "human-coordinate",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "한 사람의 좌표를 남기라는 여운",
+        "relation": {
+          "type": "divergence",
+          "description": "평균과 다른 개인의 위치가 마지막까지 남는다"
+        },
+        "strategy": {
+          "type": "icon",
+          "metaphor": "중앙에서 벗어난 하나의 점",
+          "rationale": "최종 결론은 복잡한 도식보다 평균 밖의 점 하나로 압축하는 편이 오래 남는다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pull-out",
+        "target": "subject",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline"
+      ],
+      "beats": [
+        {
+          "text": "당신이 틀렸던 자리까지",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "자리",
+          "visualCue": "중앙 밖의 점이 남는다"
+        },
+        {
+          "text": "글에 남겨두세요",
+          "emphasis": "high",
+          "pauseAfterMs": 320,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "남겨두세요",
+          "visualCue": "점 옆에 결론이 나타난다"
+        }
+      ],
+      "headline": "당신의 좌표를\n지우지 말 것",
+      "subline": "정답이 아닌 경로가 사람을 보여준다",
+      "narration": "당신이 틀렸던 자리까지 글에 남겨두세요.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}

@@ -1,0 +1,1712 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-02",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/ai-sidaeyi-wiimjeonjaeng/",
+    "title": "AI 시대의 위임전쟁"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "AI에게 글을 맡기는 게 아니라, 편집만 맡겨야 합니다.",
+    "title": "경험은 사람에게, 편집은 AI에게",
+    "rationale": "원문의 실천적 위임 원칙에 집중한 확장 구성이다. 1~6장 ‘원재료는 누가 만드는가’, 7~12장 ‘AI가 맡을 편집 업무’, 13~18장 ‘불완전함을 보존하는 요청법’으로 전개한다. 첫 후보의 콘텐츠 피로 원인 분석과 겹치지 않고, 실제 협업 경계와 요청 방식에 초점을 둔다.",
+    "viralScore": 9,
+    "suggestedCaption": "AI에게 좋은 글을 만들어 달라고 하지 말자. 내가 겪은 일과 판단은 남기고, 훼손하지 않은 채 읽기 쉽게 편집해 달라고 하자.",
+    "hashtags": [
+      "#AI활용",
+      "#AI글쓰기",
+      "#프롬프트",
+      "#생산성",
+      "#에디팅"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "compare-versus",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "생성과 편집의 역할 구분",
+        "relation": {
+          "type": "comparison",
+          "description": "글 전체를 맡기는 방식과 편집만 맡기는 방식을 대비한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "위임 범위의 차이가 핵심이므로 두 문장을 직접 충돌시키는 편이 가장 명확하다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "AI에게 글을 맡기지 말고",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "글",
+          "visualCue": "왼쪽 문구를 흐리게 한다"
+        },
+        {
+          "text": "편집을 맡기세요",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "편집",
+          "visualCue": "오른쪽 문구를 강조한다"
+        }
+      ],
+      "headline": "생성이 아니라\n편집을 맡겨라",
+      "subline": null,
+      "narration": "AI에게 글을 맡기지 말고 편집을 맡기세요.",
+      "comparisonLeft": "좋은 글을 써줘",
+      "comparisonRight": "내 글을 읽히게 해줘",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "number",
+        "motif": null,
+        "query": null,
+        "value": "1",
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "첫 번째 위임 경계",
+        "relation": {
+          "type": "flow",
+          "description": "글의 출발점이 AI가 아니라 사람의 경험이어야 한다"
+        },
+        "strategy": {
+          "type": "number",
+          "metaphor": null,
+          "rationale": "첫 원칙을 챕터 문장으로 단순화해 이후 사례의 기준을 세운다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline"
+      ],
+      "beats": [
+        {
+          "text": "먼저 사람이 제공해야 할 건",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "번호가 나타난다"
+        },
+        {
+          "text": "경험의 원재료입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경험",
+          "visualCue": "핵심어가 고정된다"
+        }
+      ],
+      "headline": "01\n원재료는 사람",
+      "subline": null,
+      "narration": "먼저 사람이 제공해야 할 건 경험의 원재료입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "정리되지 않은 실제 경험의 기록",
+        "relation": {
+          "type": "literal",
+          "description": "수정 흔적과 망설임이 남은 메모가 글의 원재료다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "무엇을 선택했고",
+          "emphasis": "mid",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "선택",
+          "visualCue": null
+        },
+        {
+          "text": "어디에서 틀렸는지를 적습니다",
+          "emphasis": "high",
+          "pauseAfterMs": 210,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "틀렸는지",
+          "visualCue": null
+        }
+      ],
+      "headline": "먼저 사실을 남긴다",
+      "subline": "상황 · 선택 · 믿음 · 오판",
+      "narration": "무엇을 선택했고 어디에서 틀렸는지를 적습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "messy handwritten notebook",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "사실과 그럴듯한 생성의 차이",
+        "relation": {
+          "type": "comparison",
+          "description": "실제 경험과 AI가 보완한 듯한 경험은 신호 가치가 다르다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "경험의 출처를 두 열로 분리하면 위임하면 안 되는 영역이 명확해진다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "경험은 다듬을 수 있지만",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "다듬을",
+          "visualCue": "실제 경험 열이 나타난다"
+        },
+        {
+          "text": "대신 만들어낼 수는 없습니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "없습니다",
+          "visualCue": "생성 경험 열을 가로선으로 구분한다"
+        }
+      ],
+      "headline": "정리와 생성은 다르다",
+      "subline": null,
+      "narration": "경험은 다듬을 수 있지만 대신 만들어낼 수는 없습니다.",
+      "comparisonLeft": "내가 겪은 일",
+      "comparisonRight": "그럴듯한 보완",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "상황, 선택, 믿음, 오판 노드가 사람 영역에 모여 있다.",
+        "trigger": "AI 영역이 나타난다.",
+        "change": "원재료는 경계를 넘지 않고 복제 없이 편집 단계에만 연결된다.",
+        "invariant": "점선 경계와 모든 라벨은 끝까지 보이며 연결선은 라벨 보호영역을 통과하지 않는다.",
+        "result": "사람은 원재료를 소유하고 AI는 전달 형식만 다룬다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "사람의 경험과 AI 편집 사이의 책임 경계. 영역 제목을 충분히 크게 확보하고 경험 노드를 아래로 재배치해 라벨 보호영역, 연결선, 점선 경계가 모든 상태에서 겹치지 않도록 수정했다.",
+        "nodes": [
+          {
+            "id": "human",
+            "shape": "rect",
+            "label": "",
+            "x": 210,
+            "y": 280,
+            "width": 320,
+            "height": 440,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "boundary",
+            "shape": "line",
+            "label": "",
+            "x": 430,
+            "y": 316,
+            "width": 1,
+            "height": 368,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "link",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "human",
+              "target": "ai",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 28
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "situation",
+            "shape": "rect",
+            "label": "상황",
+            "x": 210,
+            "y": 188,
+            "width": 190,
+            "height": 68,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "choice",
+            "shape": "rect",
+            "label": "선택",
+            "x": 210,
+            "y": 278,
+            "width": 190,
+            "height": 68,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "belief",
+            "shape": "rect",
+            "label": "믿음",
+            "x": 210,
+            "y": 368,
+            "width": 190,
+            "height": 68,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "error",
+            "shape": "rect",
+            "label": "오판",
+            "x": 210,
+            "y": 458,
+            "width": 190,
+            "height": 68,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "ai",
+            "shape": "rect",
+            "label": "AI 편집",
+            "x": 625,
+            "y": 280,
+            "width": 250,
+            "height": 180,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "human-label",
+            "shape": "text",
+            "label": "사람 영역",
+            "x": 210,
+            "y": 100,
+            "width": 200,
+            "height": 76,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "boundary-label",
+            "shape": "text",
+            "label": "위임 경계",
+            "x": 430,
+            "y": 82,
+            "width": 200,
+            "height": 76,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "boundary",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.4
+          },
+          {
+            "target": "boundary-label",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.4
+          },
+          {
+            "target": "ai",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.55
+          },
+          {
+            "target": "link",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.7
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "delegation-boundary",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "경험은 사람에게 남고 편집만 AI로 전달되는 구조",
+        "relation": {
+          "type": "flow",
+          "description": "원재료는 사람 영역에 보존된 채 AI 편집 단계로 연결된다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "점선으로 표시된 위임 경계",
+          "rationale": "소유와 작업의 경계를 공간적으로 분리하면 무엇을 넘기지 말아야 하는지 명확해진다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-delegation-boundary",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "경험의 소유권은 남겨두고",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "소유권",
+          "visualCue": "점선 경계가 나타난다"
+        },
+        {
+          "text": "전달 작업만 넘깁니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "전달",
+          "visualCue": "AI 편집으로 연결선이 나타난다"
+        }
+      ],
+      "headline": "원재료는 경계를 넘지 않는다",
+      "subline": null,
+      "narration": "경험의 소유권은 남겨두고 전달 작업만 넘깁니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "첫 번째 장의 결론",
+        "relation": {
+          "type": "flow",
+          "description": "사람이 원재료를 만들지 않으면 편집이 보존할 대상도 없다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "위임의 전제 조건을 짧은 선언으로 고정한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "AI가 다듬기 전에",
+          "emphasis": "mid",
+          "pauseAfterMs": 110,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "조건 문장이 나타난다"
+        },
+        {
+          "text": "내가 겪은 것이 있어야 합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "겪은 것",
+          "visualCue": "결론이 크게 남는다"
+        }
+      ],
+      "headline": "편집할 경험부터\n직접 만들 것",
+      "subline": null,
+      "narration": "AI가 다듬기 전에 내가 겪은 것이 있어야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "number",
+        "motif": null,
+        "query": null,
+        "value": "2",
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "AI가 맡을 업무로 전환",
+        "relation": {
+          "type": "change-over-time",
+          "description": "원재료 확보 단계에서 편집 단계로 이동한다"
+        },
+        "strategy": {
+          "type": "number",
+          "metaphor": null,
+          "rationale": "작업 순서의 두 번째 단계임을 간결하게 표시한다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline"
+      ],
+      "beats": [
+        {
+          "text": "이제 AI가 잘하는 일을",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "두 번째 챕터가 나타난다"
+        },
+        {
+          "text": "정확히 넘겨봅시다",
+          "emphasis": "high",
+          "pauseAfterMs": 210,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "정확히",
+          "visualCue": "챕터 제목을 강조한다"
+        }
+      ],
+      "headline": "02\n편집은 AI",
+      "subline": null,
+      "narration": "이제 AI가 잘하는 일을 정확히 넘겨봅시다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "반복, 혼란, 거친 표현이 왼쪽에 쌓여 있다.",
+        "trigger": "AI 편집 과정이 활성화된다.",
+        "change": "세 입력이 구조, 간결함, 명료함으로 연결된다.",
+        "invariant": "입력과 결과 라벨은 각 열 안에서 보호되고 연결선은 텍스트를 침범하지 않는다.",
+        "result": "내용은 유지된 채 읽기 어려운 형식만 개선된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "AI가 맡을 편집 작업의 입력과 결과",
+        "nodes": [
+          {
+            "id": "repeat",
+            "shape": "rect",
+            "label": "반복",
+            "x": 150,
+            "y": 130,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "mess",
+            "shape": "rect",
+            "label": "혼란",
+            "x": 150,
+            "y": 280,
+            "width": 190,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "rough",
+            "shape": "rect",
+            "label": "거친 표현",
+            "x": 150,
+            "y": 430,
+            "width": 210,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "edit",
+            "shape": "rect",
+            "label": "AI 편집",
+            "x": 400,
+            "y": 280,
+            "width": 190,
+            "height": 130,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "structure",
+            "shape": "rect",
+            "label": "구조",
+            "x": 650,
+            "y": 130,
+            "width": 190,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "short",
+            "shape": "rect",
+            "label": "간결함",
+            "x": 650,
+            "y": 280,
+            "width": 190,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "clear",
+            "shape": "rect",
+            "label": "명료함",
+            "x": 650,
+            "y": 430,
+            "width": 190,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "structure",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.48
+          },
+          {
+            "target": "short",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.42,
+            "end": 0.6
+          },
+          {
+            "target": "clear",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.54,
+            "end": 0.72
+          },
+          {
+            "target": "edit",
+            "property": "scale",
+            "from": 0.92,
+            "to": 1.06,
+            "start": 0.2,
+            "end": 0.38
+          },
+          {
+            "target": "edit",
+            "property": "scale",
+            "from": 1.06,
+            "to": 1,
+            "start": 0.38,
+            "end": 0.48
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "editing-pipeline",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "AI 편집이 개선할 수 있는 구체적 요소",
+        "relation": {
+          "type": "flow",
+          "description": "반복과 혼란과 거친 표현이 구조적이고 명료한 형태로 정리된다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "내용을 보존하는 편집 파이프라인",
+          "rationale": "입력과 결과를 대응시키면 AI의 적절한 업무 범위가 추상적 목록보다 분명해진다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "구조를 잡고 반복을 줄이고",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "구조",
+          "visualCue": "결과 노드가 차례로 나타난다"
+        },
+        {
+          "text": "표현을 읽기 쉽게 만듭니다",
+          "emphasis": "high",
+          "pauseAfterMs": 210,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "읽기 쉽게",
+          "visualCue": "명료함 노드가 강조된다"
+        }
+      ],
+      "headline": "AI가 잘하는 편집",
+      "subline": null,
+      "narration": "구조를 잡고 반복을 줄이고 표현을 읽기 쉽게 만듭니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "원문을 존중하는 편집 행동",
+        "relation": {
+          "type": "literal",
+          "description": "새로 쓰기보다 기존 문장을 검토하고 수정한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "목표는 더 그럴듯한 글이 아니라",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "그럴듯한",
+          "visualCue": null
+        },
+        {
+          "text": "더 잘 읽히는 글입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 230,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "읽히는",
+          "visualCue": null
+        }
+      ],
+      "headline": "창작보다 전달",
+      "subline": "내용을 바꾸지 않고 마찰을 줄인다",
+      "narration": "목표는 더 그럴듯한 글이 아니라 더 잘 읽히는 글입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "editor revising manuscript",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "내용 보존과 표현 개선의 분리",
+        "relation": {
+          "type": "comparison",
+          "description": "판단과 경험은 고정하고 구조와 표현만 변경한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "고정 영역과 수정 영역을 직접 나누면 편집의 안전 조건이 분명하다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "내용은 고정하고",
+          "emphasis": "high",
+          "pauseAfterMs": 100,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "고정",
+          "visualCue": "왼쪽 열을 잠금 상태처럼 유지한다"
+        },
+        {
+          "text": "표현만 움직입니다",
+          "emphasis": "mid",
+          "pauseAfterMs": 200,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "표현",
+          "visualCue": "오른쪽 열이 재배치된다"
+        }
+      ],
+      "headline": "무엇을 바꿀지 제한하라",
+      "subline": null,
+      "narration": "내용은 고정하고 표현만 움직입니다.",
+      "comparisonLeft": "고정: 경험 · 판단",
+      "comparisonRight": "수정: 구조 · 반복 · 표현",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "편집 과정에서 삭제하면 안 되는 것",
+        "relation": {
+          "type": "bottleneck",
+          "description": "효율적 편집이 불완전함까지 제거하는 순간 고유성이 막힌다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "금지 목록을 짧게 제시해 다음 장의 프롬프트로 연결한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "모순과 감정과 애매함은",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "세 단어가 나타난다"
+        },
+        {
+          "text": "삭제 대상이 아닙니다",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "아닙니다",
+          "visualCue": "삭제선이 나타나기 전 멈춘다"
+        }
+      ],
+      "headline": "정리하되\n지우지 말 것",
+      "subline": null,
+      "narration": "모순과 감정과 애매함은 삭제 대상이 아닙니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "두 번째 장의 위임 공식",
+        "relation": {
+          "type": "balance",
+          "description": "전달력은 높이고 경험의 고유한 형태는 유지한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "상승과 유지라는 두 조건을 한 문장에 병치해 편집 목표를 압축한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "전달력은 높이고",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "전달력",
+          "visualCue": "첫 조건이 나타난다"
+        },
+        {
+          "text": "고유한 모양은 유지합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "유지",
+          "visualCue": "두 번째 조건을 고정한다"
+        }
+      ],
+      "headline": "개선하되\n훼손하지 않는다",
+      "subline": null,
+      "narration": "전달력은 높이고 고유한 모양은 유지합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "number",
+        "motif": null,
+        "query": null,
+        "value": "3",
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "요청문 설계로 전환",
+        "relation": {
+          "type": "change-over-time",
+          "description": "역할 원칙에서 실제 요청 문장으로 이동한다"
+        },
+        "strategy": {
+          "type": "number",
+          "metaphor": null,
+          "rationale": "실천 단계의 시작을 챕터 번호로 분리해 리듬을 전환한다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline"
+      ],
+      "beats": [
+        {
+          "text": "이 경계는 요청문에서",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "요청문",
+          "visualCue": "세 번째 번호가 나타난다"
+        },
+        {
+          "text": "구체적으로 정해야 합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "정해야",
+          "visualCue": "제목을 강조한다"
+        }
+      ],
+      "headline": "03\n보존하는 요청",
+      "subline": null,
+      "narration": "이 경계는 요청문에서 구체적으로 정해야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-versus",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "일반적 요청과 보존 조건을 포함한 요청의 차이",
+        "relation": {
+          "type": "comparison",
+          "description": "막연한 논리화 요청은 제거를 유도하고 구체적 보존 요청은 경계를 만든다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "두 프롬프트를 그대로 비교하면 단어 선택이 결과 범위를 바꾸는 이유가 드러난다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "더 논리적으로 만들어줘보다",
+          "emphasis": "mid",
+          "pauseAfterMs": 110,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "논리적으로",
+          "visualCue": "왼쪽 요청을 보여준다"
+        },
+        {
+          "text": "지우지 말 것을 지정하세요",
+          "emphasis": "high",
+          "pauseAfterMs": 230,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "지우지",
+          "visualCue": "오른쪽 요청을 강조한다"
+        }
+      ],
+      "headline": "좋은 요청은\n금지선을 포함한다",
+      "subline": null,
+      "narration": "더 논리적으로 만들어줘보다 지우지 말 것을 지정하세요.",
+      "comparisonLeft": "더 논리적으로",
+      "comparisonRight": "이 부분은 보존해줘",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "과거의 이유, 남은 의심, 비합리적 선택이 각각 고정돼 있다.",
+        "trigger": "편집 요청 상자가 나타난다.",
+        "change": "세 항목은 불투명도를 유지한 채 읽기 쉬운 구조 안으로 정렬된다.",
+        "invariant": "세 경험 노드는 삭제되거나 가려지지 않으며 라벨 보호영역을 유지한다.",
+        "result": "내용 손실 없이 배열만 정돈된 결과가 남는다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "보존 조건을 먼저 제시하고, 세 경험 요소를 삭제 없이 읽기 쉬운 배열로 정돈하는 과정",
+        "nodes": [
+          {
+            "id": "why",
+            "shape": "rect",
+            "label": "당시의 이유",
+            "x": 165,
+            "y": 130,
+            "width": 230,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "uncertain",
+            "shape": "rect",
+            "label": "남은 의심",
+            "x": 165,
+            "y": 280,
+            "width": 230,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "irrational",
+            "shape": "rect",
+            "label": "비합리적 선택",
+            "x": 165,
+            "y": 430,
+            "width": 240,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "request",
+            "shape": "rect",
+            "label": "지우지 말고\n읽기 쉽게",
+            "x": 650,
+            "y": 105,
+            "width": 180,
+            "height": 110,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "result",
+            "shape": "rect",
+            "label": "보존된 글",
+            "x": 650,
+            "y": 340,
+            "width": 180,
+            "height": 240,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "request",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.4
+          },
+          {
+            "target": "why",
+            "property": "x",
+            "from": 165,
+            "to": 365,
+            "start": 0.4,
+            "end": 0.66
+          },
+          {
+            "target": "uncertain",
+            "property": "x",
+            "from": 165,
+            "to": 365,
+            "start": 0.46,
+            "end": 0.7
+          },
+          {
+            "target": "irrational",
+            "property": "x",
+            "from": 165,
+            "to": 365,
+            "start": 0.52,
+            "end": 0.74
+          },
+          {
+            "target": "result",
+            "property": "scale",
+            "from": 0.94,
+            "to": 1.06,
+            "start": 0.66,
+            "end": 0.78
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "preserving-edit",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "불완전한 요소를 삭제하지 않고 정돈하는 편집",
+        "relation": {
+          "type": "flow",
+          "description": "세 경험 요소가 보존 조건을 통과해 하나의 읽기 쉬운 글이 된다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "삭제 필터가 아닌 보존 필터",
+          "rationale": "요소들이 사라지지 않은 채 이동하는 모습을 보여주면 요청의 핵심인 보존이 직접 전달된다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "이유와 의심과 비합리성은 남기고",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "남기고",
+          "visualCue": "세 항목이 유지된 채 이동한다"
+        },
+        {
+          "text": "읽기만 쉽게 만듭니다",
+          "emphasis": "high",
+          "pauseAfterMs": 230,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "읽기만",
+          "visualCue": "보존된 글이 강조된다"
+        }
+      ],
+      "headline": "보존 조건을 먼저 쓴다",
+      "subline": null,
+      "narration": "이유와 의심과 비합리성은 남기고 읽기만 쉽게 만듭니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "원문에서 제안한 실전 요청",
+        "relation": {
+          "type": "balance",
+          "description": "불완전함 보존과 가독성 향상을 동시에 요구한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "실제 사용할 수 있는 요청문은 화면에서 충분히 읽히도록 짧게 나누는 것이 유용하다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline"
+      ],
+      "beats": [
+        {
+          "text": "확신하지 못한 부분을 지우지 말고",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "지우지",
+          "visualCue": "보존 조건이 먼저 나타난다"
+        },
+        {
+          "text": "읽기만 쉽게 만들어줘",
+          "emphasis": "mid",
+          "pauseAfterMs": 240,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "읽기만",
+          "visualCue": "편집 범위가 뒤이어 나타난다"
+        }
+      ],
+      "headline": "“지우지 말고\n읽기만 쉽게”",
+      "subline": "AI에게 결과가 아니라 경계를 요청한다",
+      "narration": "확신하지 못한 부분을 지우지 말고 읽기만 쉽게 만들어줘.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "AI 사용 여부보다 사용 범위가 중요하다는 결론",
+        "relation": {
+          "type": "comparison",
+          "description": "도구 채택 여부와 위임 경계의 정확성을 구분한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "논쟁의 축을 ‘사용 여부’에서 ‘어디까지’로 옮기는 재정의를 직접 비교한다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "중요한 건 AI를 썼느냐가 아니라",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "썼느냐",
+          "visualCue": "기존 질문을 왼쪽에 둔다"
+        },
+        {
+          "text": "어디까지 썼느냐입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 250,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "어디까지",
+          "visualCue": "새 질문을 오른쪽에 강조한다"
+        }
+      ],
+      "headline": "사용보다 범위",
+      "subline": null,
+      "narration": "중요한 건 AI를 썼느냐가 아니라 어디까지 썼느냐입니다.",
+      "comparisonLeft": "AI를 썼나?",
+      "comparisonRight": "무엇을 맡겼나?",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "협업 원칙의 최종 공식",
+        "relation": {
+          "type": "balance",
+          "description": "사람의 경험과 AI 편집이 서로 다른 책임을 맡는다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "역할 분담을 가장 짧은 대구 문장으로 고정해 기억하기 쉽게 만든다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "경험은 사람이 남기고",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경험",
+          "visualCue": "첫 역할을 고정한다"
+        },
+        {
+          "text": "편집은 AI에게 맡깁니다",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "편집",
+          "visualCue": "두 번째 역할이 나란히 나타난다"
+        }
+      ],
+      "headline": "사람은 경험\nAI는 편집",
+      "subline": null,
+      "narration": "경험은 사람이 남기고 편집은 AI에게 맡깁니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "symbol",
+        "motif": "protected-core",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "핵심 경험을 보호한 채 전달력을 확장하는 협업",
+        "relation": {
+          "type": "zoom-depth",
+          "description": "바깥 표현은 정돈돼도 안쪽의 인간 경험은 유지된다"
+        },
+        "strategy": {
+          "type": "icon",
+          "metaphor": "보호된 핵과 정돈된 외곽",
+          "rationale": "마지막에는 보존해야 할 중심과 수정 가능한 외부를 단순한 구조로 압축한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline"
+      ],
+      "beats": [
+        {
+          "text": "좋은 위임은 나를 지우지 않고",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "지우지",
+          "visualCue": "중앙 핵을 유지한다"
+        },
+        {
+          "text": "더 잘 전달하게 합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 320,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "전달",
+          "visualCue": "외곽 구조가 정돈된다"
+        }
+      ],
+      "headline": "훼손 없이\n전달력을 높이는 것",
+      "subline": "그것이 AI 편집의 역할이다",
+      "narration": "좋은 위임은 나를 지우지 않고 더 잘 전달하게 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
