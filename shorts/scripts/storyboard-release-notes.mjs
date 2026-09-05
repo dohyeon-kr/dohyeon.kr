@@ -10,7 +10,13 @@ const {GITHUB_REPOSITORY: repository, GITHUB_SHA: sha, TAG_NAME: tag} = process.
 if (!repository || !sha || !tag) throw new Error('GITHUB_REPOSITORY, GITHUB_SHA and TAG_NAME are required');
 const base = `${process.env.GITHUB_SERVER_URL || 'https://github.com'}/${repository}`;
 const renderUrl = `${base}/actions/workflows/render-shorts.yml`;
-const assetUrl = (name) => `${base}/releases/download/${segment(tag)}/${segment(name)}`;
+if (!process.env.STORYBOARD_ASSET_URLS) throw new Error('Verified storyboard asset URLs are required');
+const assetUrls = JSON.parse(await fs.readFile(process.env.STORYBOARD_ASSET_URLS, 'utf8'));
+const assetUrl = name => {
+  const url = assetUrls[name];
+  if (!url || !url.startsWith('https://') || url.includes('/releases/download/')) throw new Error(`Missing stable asset URL: ${name}`);
+  return url;
+};
 const manifests = [...new Set((await fs.readFile(listFile, 'utf8')).split(/\r?\n/).filter(Boolean))];
 if (!manifests.length) throw new Error('No manifests to describe');
 const notes = ['# 숏츠 스토리보드 검토', '',
@@ -18,7 +24,7 @@ const notes = ['# 숏츠 스토리보드 검토', '',
   '스토리보드를 확인한 뒤 위 페이지에서 **Run workflow**를 누르세요. 아래 후보의 JSON 경로를 `manifest`에 붙여넣고, `storyboard_approved`를 체크한 뒤 실행합니다. 이 링크는 실행 페이지를 열며 입력값을 자동으로 채우거나 렌더를 시작하지 않습니다.', '',
   `검토한 원본: [${sha.slice(0, 7)}](${base}/commit/${sha})`, '',
   '렌더할 브랜치에 아래 JSON이 있는지 확인하세요. 검토 후 JSON이 바뀌었다면 스토리보드도 다시 확인해야 합니다.', '',
-  '아래에는 장면별 스토리보드가 표시되며, 전체 Markdown·장면 PNG·모아보기 JPG·PDF도 Assets에 첨부됩니다. Draft Release에서 이미지가 표시되지 않으면 Assets의 PNG 또는 PDF를 열어 확인하세요.', ''];
+  '아래에는 장면별 스토리보드가 표시되며, 전체 Markdown·장면 PNG·모아보기 JPG·PDF도 Assets에 첨부됩니다. 본문 이미지는 생성 시 검증한 고정 주소로 표시됩니다.', ''];
 const details = [];
 for (const manifestPath of manifests) {
   if (!/^shorts\/content\/[^/]+\/[^/]+\.json$/.test(manifestPath) || manifestPath.includes('..')) throw new Error(`Invalid manifest path: ${manifestPath}`);

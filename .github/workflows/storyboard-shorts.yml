@@ -130,27 +130,4 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          notes="${RUNNER_TEMP}/storyboard-release.md"
-          node shorts/scripts/storyboard-release-notes.mjs "${LIST_FILE}" "${notes}"
-
-          mapfile -d '' assets < <(find shorts/out/storyboards -type f \
-            \( -name '*-contact-sheet.jpg' -o -name '*-storyboard.pdf' -o -name '*-scene-*.png' -o -name '*-STORYBOARD.md' \) \
-            -print0 | sort -z)
-          [[ "${#assets[@]}" -gt 0 ]] || { echo 'No storyboard assets were produced.' >&2; exit 1; }
-
-          release_url="$(gh release create "${TAG_NAME}" "${assets[@]}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --target "${GITHUB_SHA}" \
-            --title "Shorts storyboard · ${GITHUB_RUN_NUMBER}" \
-            --notes-file "${notes}" \
-            --draft)"
-
-          # Draft assets use an untagged URL, not the requested release tag.
-          node shorts/scripts/repair-storyboard-links.mjs "${release_url##*/}"
-
-          # Reuse the URL returned by creation: draft tags cannot be looked up reliably.
-          {
-            echo '## Storyboard ready for approval'
-            echo
-            echo "[Open the draft release on mobile](${release_url})"
-          } >> "${GITHUB_STEP_SUMMARY}"
+          node shorts/scripts/publish-storyboard.mjs "${LIST_FILE}" "${RUNNER_TEMP}/storyboard-release.md"
