@@ -59,3 +59,11 @@ only these wrappers are allowed:
 If deployment behavior needs to change, update the server wrapper and sudoers
 configuration deliberately instead of expanding privileged commands inline in
 `.github/workflows/deploy.yml`.
+
+## Shorts Korean Typography
+
+For shorts generation, diagram layout, underline effects, or motion changes, follow
+[the Korean spacing and overlap rules](shorts/docs/creative-system.md#한글-간격과-겹침-방지).
+Keep the generation prompt aligned with that policy. Verify actual Korean text,
+including descenders, multiline labels, connection lines, and intermediate motion
+frames; a representative still alone is not sufficient evidence of no overlap.
