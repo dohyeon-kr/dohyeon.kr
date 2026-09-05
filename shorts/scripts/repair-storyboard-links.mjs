@@ -9,7 +9,13 @@ if (!repo || (requestedTag && !/^(shorts-storyboard-\d+|untagged-[a-f0-9]+)$/.te
 const gh = (args, binary = false) => execFileSync('gh', args, {encoding: binary ? undefined : 'utf8', maxBuffer: 64 * 1024 * 1024});
 const releases = JSON.parse(gh(['api', '--paginate', '--slurp', `repos/${repo}/releases?per_page=100`])).flat();
 const isStoryboard = item => item.draft && item.name?.startsWith('Shorts storyboard') && item.assets.some(asset => asset.name.endsWith('-STORYBOARD.md'));
-const selected = releases.filter(item => isStoryboard(item) && (!requestedTag || item.tag_name === requestedTag));
+// A newly created draft has a temporary html_url but retains its requested
+// tag_name in the API. Match either identity; never assume they are identical.
+const matchesRequested = item => item.tag_name === requestedTag
+  || item.html_url === `https://github.com/${repo}/releases/tag/${requestedTag}`;
+const needsRepair = item => /!\[[^\]]*\]\(https:\/\/github\.com\/[^\s)]+\/releases\/download\//.test(item.body ?? '');
+const selected = releases.filter(item => isStoryboard(item)
+  && (requestedTag ? matchesRequested(item) : needsRepair(item)));
 if (!selected.length) throw new Error(`Storyboard release not found: ${requestedTag ?? 'drafts'}`);
 
 const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'storyboard-links-'));
