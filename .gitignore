@@ -48,3 +48,4 @@ shorts/build/
 # Local dashboard verification
 .playwright-cli/
 output/playwright/
+shorts/public/template-audio-*/
