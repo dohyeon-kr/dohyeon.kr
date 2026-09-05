@@ -49,3 +49,9 @@ shorts/build/
 .playwright-cli/
 output/playwright/
 shorts/public/template-audio-*/
+
+# Shorts render and video caches
+shorts/.tmp/
+shorts/out/
+shorts/public/generated/
+shorts/public/fonts/

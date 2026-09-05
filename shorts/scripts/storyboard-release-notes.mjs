@@ -46,7 +46,7 @@ for (const manifestPath of manifests) {
     const heading = new RegExp(`(^## ${i + 1}\\. [^\\n]*\\n)`, 'm');
     const stem = name.replace(/\.png$/, '');
     let review = `![장면 ${i + 1}](${assetUrl(name)})`;
-    if (manifest.scenes[i].diagramSpec) {
+    if (manifest.scenes[i].diagramSpec || manifest.scenes[i].backgroundVideo) {
       for (const phase of ['initial', 'change']) await fs.access(path.join(directory, `${stem}-${phase}.png`));
       review = `| 시작 | 변화 | 결과 |\n| --- | --- | --- |\n| ![시작](${assetUrl(`${stem}-initial.png`)}) | ![변화](${assetUrl(`${stem}-change.png`)}) | ![결과](${assetUrl(name)}) |`;
     }

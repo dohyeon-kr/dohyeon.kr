@@ -1,3 +1,4 @@
+import videoCatalog from '../media/videos.json' with {type: 'json'};
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -83,6 +84,15 @@ export function describeCandidate(manifest, filename) {
     if (visual.type === 'photo' || scene.imageQuery || scene.image) {
       out.push(`- 사진 검색어: ${md(scene.imageQuery || visual.query) || '미지정'}`);
       out.push(scene.image ? `- 사진 출처: ${link(scene.image.title || '원본 페이지', scene.image.sourcePage)} · 라이선스 ${md(scene.image.license)}` : '- 사진 상태: 아직 확보되지 않음');
+    }
+    if (scene.backgroundVideo) {
+      const v = scene.backgroundVideo;
+      const asset = videoCatalog.find(a => a.id === v.assetId);
+      if (asset) out.push(`- 영상 출처: ${link(asset.title, asset.sourcePage)} · ${md(asset.creator)} · ${link(asset.license, asset.licenseUrl)}`);
+      out.push(`- 영상 배경: ${md(v.assetId)} · 소스 목록 shorts/media/videos.json 참조`,
+        `- 사용 구간: ${v.startSeconds}~${v.endSeconds}초 · ${v.playbackRate}배속 · ${v.endBehavior === 'loop' ? '명시적 반복 (이음새 검수 필요)' : '길이 부족 시 중단'}`,
+        `- 풀블리드 크롭: ${v.cropX}, ${v.cropY} · 오버레이 ${v.overlayOpacity} · 원음 제거`,
+        '- 영상 상태: 등록 소스 선택됨. 파일 검증·실제 렌더 결과는 별도 확인.');
     }
     const spec = scene.diagramSpec;
     if (spec?.nodes?.length) out.push(`- 도식 구성: ${spec.nodes.map(n => `${label(n.shape)}${n.label ? ` ‘${md(n.label)}’` : ''}`).join(', ')}`);

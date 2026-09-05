@@ -1,9 +1,11 @@
+import {validateBackgroundVideo} from '../video/schema.ts';
 import {z} from 'zod';
 import {TRANSITIONS, LightEffectSchema, TransitionOptionsSchema} from './schema.ts';
 import {evaluatedDiagramState} from '../visuals/physics.ts';
 import type {CandidateScene} from '../types';
 
 export function validateSceneMotion(scene: CandidateScene, previous?: CandidateScene) {
+  validateBackgroundVideo(scene);
   if (scene.transition !== undefined) z.enum(TRANSITIONS).parse(scene.transition);
   if (scene.transitionOptions != null) TransitionOptionsSchema.parse(scene.transitionOptions);
   if (scene.effects != null) z.array(LightEffectSchema).max(4).parse(scene.effects);

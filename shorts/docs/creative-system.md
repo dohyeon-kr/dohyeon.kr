@@ -143,7 +143,7 @@ Graphs should animate. A useful pattern is:
 - 원본 출처·제작자·라이선스·재현 가능한 파일을 확보한다. 검색어/페이지 URL만으로 적용 완료라 하지 않는다. 영상 실패를 사진이나 아이콘으로 조용히 대체하지 않는다.
 - 대표 스틸 외에 시작·중간·끝, 최대 밝기/움직임, 루프와 장면 전환 경계 및 실제 TTS 길이의 재생을 확인한다. 스틸 검수와 영상·오디오 검수 결과를 구분한다.
 
-현재 생성 스키마에는 영상 배경 필드가 없으며 이 정책 추가가 재생 기능 구현을 뜻하지 않는다. 지원 전에는 기존 photo/diagram 등 유효한 표현으로 후보를 작성하고, 영상 제안은 visualIntent.strategy.rationale에 “영상 배경 제안·미구현”으로 명시한다. video/backgroundVideo 같은 필드·enum 또는 영상 URL을 image 필드에 임의로 넣지 않는다. 제안된 모션을 이미 실행되는 choreography나 visualCue처럼 기록하지 않는다. 생성·수동 수정·AI 리뷰에 동일하게 적용한다.
+backgroundVideo는 등록 영상의 assetId, 구간, 속도, 크롭, 오버레이, 명시적 반복 여부를 지원한다. shorts/media/videos.json에 등록된 소스만 사용하며 실제 파일은 해시·디코딩·길이를 확인한 뒤 원음을 제거해 합성한다. 현재 풀블리드·흑백·그라데이션 오버레이를 지원하며 분할 영상·현장음·정지 프레임 유지는 지원하지 않는다. 미확보 영상은 제안으로만 적고 없는 ID/URL을 만들지 않는다. 사진과 동시 사용하지 않고 카메라는 static으로 둔다.
 
 ## Motion and choreography
 

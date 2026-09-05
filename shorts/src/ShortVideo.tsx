@@ -1,3 +1,4 @@
+import {VideoBackground} from './video/VideoBackground';
 import React, {useRef} from 'react';
 import {useLayoutCheck} from './use-layout-check';
 import {SceneTransitionStage, type SceneLayer} from './motion/SceneTransition';
@@ -203,6 +204,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
   return (
     <AbsoluteFill ref={layoutRoot} style={{background: layer === 'visual' ? BLACK : undefined, color: WHITE, overflow: 'hidden'}}>
       <AbsoluteFill style={{color: WHITE, fontFamily: 'Pretendard, Arial, sans-serif', overflow: 'hidden', transformOrigin: 'center center'}}>
+        {layer === 'visual' && <VideoBackground scene={scene} />}
         {layer === 'visual' && <LightEffects effects={scene.effects?.filter(e => e.target === 'background')} />}
         <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;font-display:swap;} @font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Regular.woff')}') format('woff');font-weight:300 600;font-style:normal;font-display:swap;}`}</style>
 

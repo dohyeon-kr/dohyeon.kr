@@ -61,6 +61,10 @@ jobs:
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/04-type.png" --public-dir=public --frame=680
           node scripts/render-template-preview.mjs "${RUNNER_TEMP}/shorts-integrated-preview" --silent
 
+      - name: Render video backgrounds
+        working-directory: shorts
+        run: node scripts/verify-video-render.mjs
+
       - name: Render transitions and light effects
         working-directory: shorts
         run: node scripts/verify-motion-render.mjs
@@ -71,6 +75,7 @@ jobs:
         with:
           name: shorts-template-preview-${{ github.event.pull_request.number }}
           path: |
+            shorts/out/video-background/**
             shorts/out/motion-effects/*.png
             shorts/out/motion-effects/*.mp4
             shorts/out/motion-effects/samples.json
