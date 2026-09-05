@@ -397,7 +397,7 @@ const main = async () => {
         Math.round(2.2 * FPS),
         Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS),
       );
-      const snapshotFrame = sceneStartFrame + Math.min(duration - 10, 45);
+      const snapshotFrame = sceneStartFrame + Math.min(duration - 10, Math.round(duration * .8));
       const filename = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}.png`;
       await run(
         process.platform === 'win32' ? 'npx.cmd' : 'npx',

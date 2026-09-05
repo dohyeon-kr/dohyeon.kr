@@ -831,9 +831,9 @@
             "shape": "line",
             "label": "",
             "x": 650,
-            "y": 280,
+            "y": 297.5,
             "width": 3,
-            "height": 150,
+            "height": 185,
             "fill": "gray"
           },
           {
@@ -879,14 +879,6 @@
             "to": 1,
             "start": 0.7,
             "end": 0.9
-          },
-          {
-            "target": "d",
-            "property": "rotation",
-            "from": 180,
-            "to": 180,
-            "start": 0,
-            "end": 1
           }
         ]
       },

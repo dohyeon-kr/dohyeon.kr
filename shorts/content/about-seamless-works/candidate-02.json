@@ -146,9 +146,9 @@
             "shape": "rect",
             "label": "다른 사람의 자리",
             "x": 400,
-            "y": 460,
+            "y": 500,
             "width": 300,
-            "height": 65,
+            "height": 60,
             "fill": "none"
           }
         ],
