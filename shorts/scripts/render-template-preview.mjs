@@ -26,13 +26,14 @@ for (const [i, scene] of props.scenes.entries()) {
       instructions: '한국어로 차분하고 또렷하게 읽는다. 한 편의 짧은 설명 영상처럼 일정한 목소리와 자연스러운 속도를 유지한다.',
     });
     await fs.writeFile(file, Buffer.from(await response.arrayBuffer()));
-    const duration = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', file], {encoding: 'utf8'}).trim());
-    if (!Number.isFinite(duration) || duration <= 0) throw new Error('Invalid TTS duration');
-    scene.beatTimings.push({startSeconds: cursor, endSeconds: cursor + duration});
     const wav = path.join(audioDir, `${i}-${j}.wav`);
     run('ffmpeg', ['-y', '-v', 'error', '-i', file, '-af', `apad=pad_dur=${beat.pauseAfterMs / 1000}`, '-ar', '48000', '-ac', '1', wav]);
+    // Measure decoded PCM, not MP3 container duration (encoder padding differs).
+    const duration = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', wav], {encoding: 'utf8'}).trim());
+    if (!Number.isFinite(duration) || duration <= beat.pauseAfterMs / 1000) throw new Error('Invalid TTS duration');
+    scene.beatTimings.push({startSeconds: cursor, endSeconds: cursor + duration - beat.pauseAfterMs / 1000});
     pieces.push(wav);
-    cursor += duration + beat.pauseAfterMs / 1000;
+    cursor += duration;
   }
   const list = path.join(audioDir, `${i}.txt`);
   await fs.writeFile(list, pieces.map(file => `file '${file}'`).join('\n'));

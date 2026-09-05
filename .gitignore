@@ -44,3 +44,4 @@ server/node_modules/
 server/dist/
 server/data/
 shorts/build/
+shorts/public/template-audio-*/
