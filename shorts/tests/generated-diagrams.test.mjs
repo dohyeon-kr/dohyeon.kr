@@ -67,3 +67,18 @@ test('diagram repair sends structured scene feedback and rejects incomplete resp
   const refused = createDiagramRepair({responses: {parse: async () => ({output_parsed: null})}});
   await assert.rejects(refused(input), /refused or incomplete/);
 });
+
+test('repair budget is shared across scenes and redesign receives original intent', async () => {
+  const {createDiagramRepair} = await import('../scripts/generate-candidates.mjs');
+  const requests = [];
+  const client = {responses: {parse: async request => {requests.push(request); return {output_parsed: {diagramSpec: {}}};}}};
+  const repair = createDiagramRepair(client, {maxCalls: 1});
+  const input = {scene: {}, originalScene: {narration: '원래 의미'}, history: [{error: 'previous'}], mode: 'redesign'};
+  await repair(input);
+  assert.equal(requests[0].reasoning.effort, 'medium');
+  assert.deepEqual(JSON.parse(requests[0].input).originalScene, input.originalScene);
+  assert.deepEqual(JSON.parse(requests[0].input).history, input.history);
+  await assert.rejects(repair({scene: {}}), /budget exhausted/);
+  await assert.rejects(createDiagramRepair(client, {deadline: 0})({scene: {}}), /budget exhausted/);
+  assert.equal(requests.length, 1);
+});

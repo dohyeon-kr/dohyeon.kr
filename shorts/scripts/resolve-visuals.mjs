@@ -81,17 +81,20 @@ const textFallback = (scene, reason, detail) => {
   };
 };
 
-export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn, repairDiagram, maxRepairAttempts = 3} = {}) => {
-  if (!Number.isInteger(maxRepairAttempts) || maxRepairAttempts < 0 || maxRepairAttempts > 3) throw new Error("maxRepairAttempts must be an integer from 0 to 3");
+export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn, repairDiagram, maxRepairAttempts = 8, onProgress = async () => {}} = {}) => {
+  if (!Number.isInteger(maxRepairAttempts) || maxRepairAttempts < 0 || maxRepairAttempts > 8) throw new Error("maxRepairAttempts must be an integer from 0 to 8");
   const scenes = [];
   for (const originalScene of candidate.scenes) {
     let scene = originalScene;
+    const history = [];
     if (scene.diagramSpec || scene.visual.type === 'diagram') {
       for (let attempt = 0; ; attempt++) {
         try {
           validateDiagramLayout(validateDiagram(scene.diagramSpec));
           break;
         } catch (error) {
+          history.push({attempt, error: error.message});
+          await onProgress({status: 'invalid', sceneNumber: scenes.length + 1, scene, history: structuredClone(history)});
           const context = `Invalid diagram in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}`;
           if (!repairDiagram || attempt >= maxRepairAttempts) {
             throw new Error(`${context} after ${attempt} repair attempts: ${error.message}`, {cause: error});
@@ -99,7 +102,9 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
           warn(`${context}: ${error.message}. Repair ${attempt + 1}/${maxRepairAttempts}`);
           try {
             const diagramSpec = await repairDiagram({scene: structuredClone(scene), title: candidate.title,
-              sceneNumber: scenes.length + 1, error: error.message, attempt: attempt + 1});
+              sceneNumber: scenes.length + 1, error: error.message, attempt: attempt + 1,
+              history: structuredClone(history), originalScene: structuredClone(originalScene),
+              mode: attempt >= 3 ? 'redesign' : 'repair'});
             // Only the diagram can change; narration, beats and other scenes remain intact.
             scene = {...scene, diagramSpec};
           } catch (repairError) {
@@ -113,9 +118,11 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
     if (scene.visual.type === 'photo' && !image) {
       warn(`Photo unavailable in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${JSON.stringify(imageQuery)}. Using a text scene; review its visual direction.`);
       scenes.push(textFallback(scene, 'photo-unavailable'));
+      await onProgress({status: 'resolved', sceneNumber: scenes.length, scene: scenes.at(-1)});
       continue;
     }
     scenes.push({...scene, camera: normalizeCamera(scene.camera), imageQuery, image});
+    await onProgress({status: 'resolved', sceneNumber: scenes.length, scene: scenes.at(-1)});
   }
   return {...candidate, scenes};
 };
