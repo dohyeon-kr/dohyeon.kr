@@ -1,0 +1,884 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-02",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/gijuneul-neolbhimyeon-bangi-dalrajinda/",
+    "title": "기준을 넓히면, 방이 달라진다"
+  },
+  "candidate": {
+    "angle": "rule",
+    "hook": "성장은 방을 바꾸는 것만으로 끝나지 않는다. 두 방향이 필요하다.",
+    "title": "성장에 필요한 두 가지 이동",
+    "rationale": "좋은 환경을 찾는 일과 같은 환경을 더 넓은 기준으로 보는 일을 경쟁 관계가 아닌 병행해야 할 두 움직임으로 정리한다.",
+    "viralScore": 9,
+    "suggestedCaption": "환경을 바꾸면 대상이 달라지고, 기준을 바꾸면 같은 대상에서 보이는 것이 달라진다.",
+    "hashtags": [
+      "#성장",
+      "#커리어설계",
+      "#개발자커리어",
+      "#환경",
+      "#관점"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "compare-versus",
+      "visual": {
+        "type": "symbol",
+        "motif": "two-movements",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "성장에 필요한 환경 이동과 기준 확장",
+        "relation": {
+          "type": "balance",
+          "description": "더 나은 환경을 찾는 움직임과 현재 환경을 넓게 보는 움직임을 같은 무게로 제시한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "서로 다른 두 방향",
+          "rationale": "성장을 한 가지 선택으로 축소하지 않고 처음부터 두 움직임의 병행 문제로 제시한다."
+        }
+      },
+      "transition": "none",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-visual"
+      ],
+      "beats": [
+        {
+          "text": "성장은 방을 바꾸는 것만으로",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "방",
+          "visualCue": "환경 이동 문구가 먼저 나타난다"
+        },
+        {
+          "text": "끝나지 않는다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "끝나지 않는다",
+          "visualCue": "두 번째 방향을 위한 공간이 열린다"
+        }
+      ],
+      "headline": "성장은\n이사만으로 끝나지 않는다",
+      "subline": "두 가지 움직임이 필요하다",
+      "narration": "성장은 방을 바꾸는 것만으로 끝나지 않는다.",
+      "comparisonLeft": "환경 이동",
+      "comparisonRight": "기준 확장",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-top-right",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "person entering office doorway",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "더 나은 환경으로 이동하는 선택",
+        "relation": {
+          "type": "literal",
+          "description": "배울 것이 많은 새로운 환경을 찾아 실제로 이동하는 행동이다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "장소를 옮기는 첫 번째 움직임은 사람과 출입구가 있는 구체적인 사진으로 즉시 이해된다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "pan-right",
+        "target": "subject",
+        "intensity": "subtle",
+        "startProgress": 0.1,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "advance-visual"
+      ],
+      "beats": [
+        {
+          "text": "첫 번째는 더 나은 방을 찾는 것.",
+          "emphasis": "high",
+          "pauseAfterMs": 160,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "더 나은 방",
+          "visualCue": "인물이 출입구 쪽으로 이동하는 구도를 따라간다"
+        },
+        {
+          "text": "사람은 환경의 영향을 받기 때문이다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 220,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "환경",
+          "visualCue": "새 공간의 맥락이 드러난다"
+        }
+      ],
+      "headline": "1. 더 나은 방을 찾기",
+      "subline": "환경은 사람에게 영향을 준다",
+      "narration": "첫 번째는 더 나은 방을 찾는 것. 사람은 환경의 영향을 받기 때문이다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "person entering office doorway",
+      "image": {
+        "query": "person entering office doorway",
+        "title": "In the gorgeous reception rooms of King Oscar's Palace, Stockholm, Sweden - 1906",
+        "creator": "Aussie~mobs",
+        "license": "pdm",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+        "source": "flickr",
+        "provider": "flickr",
+        "sourcePage": "https://www.flickr.com/photos/70994841@N07/7942728156",
+        "originalUrl": "https://live.staticflickr.com/8309/7942728156_30f1d107f5_b.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/fd40f6ad-232f-40ef-aef9-47c5a34bec28/thumb/"
+      }
+    },
+    {
+      "visualStory": {
+        "initial": "왼쪽의 기존 방에서 인물이 같은 대상만 바라본다.",
+        "trigger": "더 나은 환경을 선택한다.",
+        "change": "인물이 오른쪽의 새로운 방으로 이동하고 새로운 대상들이 나타난다.",
+        "invariant": "배우려는 사람 자체는 동일하다.",
+        "result": "환경을 바꾸면 배움의 대상이 달라진다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "한 사람이 기존 방에서 새로운 방으로 이동하며 배움의 대상이 바뀌는 도식",
+        "nodes": [
+          {
+            "id": "room1",
+            "shape": "rect",
+            "label": "현재 환경",
+            "x": 205,
+            "y": 280,
+            "width": 280,
+            "height": 330,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "room2",
+            "shape": "rect",
+            "label": "새 환경",
+            "x": 595,
+            "y": 280,
+            "width": 280,
+            "height": 330,
+            "fill": "hatch",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "person",
+            "shape": "circle",
+            "label": "나",
+            "x": 205,
+            "y": 310,
+            "width": 110,
+            "height": 110,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "old",
+            "shape": "rect",
+            "label": "익숙한 대상",
+            "x": 205,
+            "y": 425,
+            "width": 190,
+            "height": 80,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "new1",
+            "shape": "rect",
+            "label": "새 동료",
+            "x": 595,
+            "y": 210,
+            "width": 180,
+            "height": 80,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "new2",
+            "shape": "rect",
+            "label": "새 문제",
+            "x": 595,
+            "y": 405,
+            "width": 180,
+            "height": 80,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "route",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 310,
+            "width": 190,
+            "height": 3,
+            "fill": "none",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "route",
+            "property": "width",
+            "from": 1,
+            "to": 190,
+            "start": 0.18,
+            "end": 0.38
+          },
+          {
+            "target": "person",
+            "property": "x",
+            "from": 205,
+            "to": 595,
+            "start": 0.35,
+            "end": 0.62
+          },
+          {
+            "target": "old",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.25,
+            "start": 0.38,
+            "end": 0.58
+          },
+          {
+            "target": "new1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
+          },
+          {
+            "target": "new2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.64,
+            "end": 0.78
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "environment-change",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "환경 변화가 배움의 대상을 바꾸는 과정",
+        "relation": {
+          "type": "flow",
+          "description": "같은 사람이 한 환경에서 다른 환경으로 이동하며 접하는 사람과 문제가 달라진다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "두 방 사이의 이동",
+          "rationale": "환경 변화는 실제 위치 이동과 대상 교체를 함께 보여줘야 인과관계가 명확하다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "medium",
+        "startProgress": 0.05,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "draw-route",
+        "move-between-rooms",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "환경을 바꾸면",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "환경",
+          "visualCue": "두 방 사이 경로가 그려진다"
+        },
+        {
+          "text": "새로운 사람과 문제를 만난다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "새로운",
+          "visualCue": "인물이 새 방으로 이동하고 대상들이 나타난다"
+        }
+      ],
+      "headline": "환경이 바뀌면\n대상이 달라진다",
+      "subline": null,
+      "narration": "환경을 바꾸면 새로운 사람과 문제를 만난다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "하나의 방 안에서 기술이라는 좁은 시야만 열려 있다.",
+        "trigger": "배움의 기준을 확장한다.",
+        "change": "시야 프레임의 폭이 넓어지고 제품, 사업, 설득, 태도가 차례로 보인다.",
+        "invariant": "사람과 환경은 이동하지 않는다.",
+        "result": "같은 환경에서 새로운 배움의 대상이 발견된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "같은 방에서 관찰 프레임이 넓어지며 더 많은 능력이 보이는 도식",
+        "nodes": [
+          {
+            "id": "room",
+            "shape": "rect",
+            "label": "현재 환경",
+            "x": 400,
+            "y": 300,
+            "width": 700,
+            "height": 420,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "view",
+            "shape": "rect",
+            "label": "배움의 기준",
+            "x": 260,
+            "y": 300,
+            "width": 190,
+            "height": 330,
+            "fill": "hatch",
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "tech",
+            "shape": "rect",
+            "label": "기술",
+            "x": 205,
+            "y": 295,
+            "width": 150,
+            "height": 90,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "product",
+            "shape": "rect",
+            "label": "제품",
+            "x": 385,
+            "y": 175,
+            "width": 150,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "business",
+            "shape": "rect",
+            "label": "사업",
+            "x": 585,
+            "y": 175,
+            "width": 150,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "persuasion",
+            "shape": "rect",
+            "label": "설득",
+            "x": 385,
+            "y": 420,
+            "width": 150,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "attitude",
+            "shape": "rect",
+            "label": "태도",
+            "x": 585,
+            "y": 420,
+            "width": 150,
+            "height": 90,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "view",
+            "property": "width",
+            "from": 190,
+            "to": 650,
+            "start": 0.22,
+            "end": 0.6
+          },
+          {
+            "target": "view",
+            "property": "x",
+            "from": 260,
+            "to": 400,
+            "start": 0.22,
+            "end": 0.6
+          },
+          {
+            "target": "product",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.38,
+            "end": 0.52
+          },
+          {
+            "target": "business",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.46,
+            "end": 0.6
+          },
+          {
+            "target": "persuasion",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.54,
+            "end": 0.68
+          },
+          {
+            "target": "attitude",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.62,
+            "end": 0.76
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "expanded-learning-frame",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "현재 환경을 바라보는 배움의 기준 확장",
+        "relation": {
+          "type": "zoom-depth",
+          "description": "환경을 옮기지 않고 관찰 범위만 넓혀 이전에는 보이지 않던 능력을 발견한다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "넓어지는 관찰 프레임",
+          "rationale": "기준 확장은 추상적 아이콘보다 실제 프레임의 폭이 넓어지는 변화로 표현해야 보는 대상의 증가가 드러난다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "medium",
+        "startProgress": 0.1,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "expand-frame",
+        "reveal-abilities",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "두 번째는 같은 방을",
+          "emphasis": "low",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "현재 환경의 외곽선이 유지된다"
+        },
+        {
+          "text": "더 넓은 기준으로 보는 것.",
+          "emphasis": "high",
+          "pauseAfterMs": 150,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "넓은 기준",
+          "visualCue": "관찰 프레임이 방 전체로 넓어진다"
+        },
+        {
+          "text": "그러면 보이지 않던 배움이 나타난다.",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "배움",
+          "visualCue": "네 가지 능력 노드가 차례로 나타난다"
+        }
+      ],
+      "headline": "2. 기준을 넓히기",
+      "subline": null,
+      "narration": "두 번째는 같은 방을 더 넓은 기준으로 보는 것. 그러면 보이지 않던 배움이 나타난다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": {
+        "initial": "왼쪽에는 방 사이의 수평 이동, 오른쪽에는 시야의 수직 확장이 따로 놓인다.",
+        "trigger": "두 움직임을 동시에 작동시킨다.",
+        "change": "수평 경로가 새 환경으로 이어지고 관찰 영역도 위아래로 확장된다.",
+        "invariant": "목표는 더 많은 배움이다.",
+        "result": "환경 선택과 기준 확장이 함께 성장의 범위를 넓힌다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "환경 이동과 기준 확장을 직교하는 두 방향으로 결합한 도식",
+        "nodes": [
+          {
+            "id": "origin",
+            "shape": "circle",
+            "label": "현재의 나",
+            "x": 210,
+            "y": 390,
+            "width": 150,
+            "height": 150,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "horizontal",
+            "shape": "line",
+            "label": "",
+            "x": 430,
+            "y": 390,
+            "width": 290,
+            "height": 4,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "vertical",
+            "shape": "line",
+            "label": "",
+            "x": 210,
+            "y": 235,
+            "width": 4,
+            "height": 240,
+            "fill": "none",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "newroom",
+            "shape": "rect",
+            "label": "더 나은 환경",
+            "x": 650,
+            "y": 390,
+            "width": 220,
+            "height": 100,
+            "fill": "gray",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "wideview",
+            "shape": "rect",
+            "label": "더 넓은 기준",
+            "x": 210,
+            "y": 90,
+            "width": 220,
+            "height": 100,
+            "fill": "hatch",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "result",
+            "shape": "rect",
+            "label": "더 많은 배움",
+            "x": 540,
+            "y": 145,
+            "width": 230,
+            "height": 110,
+            "fill": "white",
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "link",
+            "shape": "line",
+            "label": "",
+            "x": 430,
+            "y": 200,
+            "width": 220,
+            "height": 3,
+            "fill": "none",
+            "strokeStyle": "dashed"
+          }
+        ],
+        "events": [
+          {
+            "target": "horizontal",
+            "property": "width",
+            "from": 1,
+            "to": 290,
+            "start": 0.18,
+            "end": 0.42
+          },
+          {
+            "target": "vertical",
+            "property": "height",
+            "from": 1,
+            "to": 240,
+            "start": 0.28,
+            "end": 0.52
+          },
+          {
+            "target": "newroom",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.42,
+            "end": 0.58
+          },
+          {
+            "target": "wideview",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.52,
+            "end": 0.66
+          },
+          {
+            "target": "link",
+            "property": "width",
+            "from": 1,
+            "to": 220,
+            "start": 0.58,
+            "end": 0.72
+          },
+          {
+            "target": "result",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.7,
+            "end": 0.82
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "two-axis-growth",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "성장을 만드는 두 가지 독립적 움직임",
+        "relation": {
+          "type": "convergence",
+          "description": "환경을 바꾸는 수평 이동과 기준을 넓히는 수직 확장이 더 많은 배움으로 합쳐진다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "직교하는 두 성장 축",
+          "rationale": "둘 중 하나를 고르는 비교가 아니라 함께 작동하는 독립 축으로 표현해야 글의 결론을 정확히 전달한다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "medium",
+        "startProgress": 0.05,
+        "endProgress": 0.82
+      },
+      "choreography": [
+        "show-visual",
+        "draw-environment-axis",
+        "draw-criteria-axis",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "한쪽은 배움의 대상을 바꾸고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "대상",
+          "visualCue": "수평 환경 이동 축이 그려진다"
+        },
+        {
+          "text": "다른 쪽은 보는 범위를 바꾼다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 140,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "범위",
+          "visualCue": "수직 기준 확장 축이 그려진다"
+        },
+        {
+          "text": "성장에는 둘 다 필요하다.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "둘 다",
+          "visualCue": "두 축이 더 많은 배움으로 연결된다"
+        }
+      ],
+      "headline": "환경 선택 × 기준 확장",
+      "subline": null,
+      "narration": "한쪽은 배움의 대상을 바꾸고, 다른 쪽은 보는 범위를 바꾼다. 성장에는 둘 다 필요하다.",
+      "comparisonLeft": "대상을 바꾼다",
+      "comparisonRight": "보는 범위를 바꾼다",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "자기 기준이 충분히 넓다는 확신에 대한 경계",
+        "relation": {
+          "type": "literal",
+          "description": "성장을 멈추게 하는 것은 우월감보다 기준을 더 점검할 필요가 없다는 확신일 수 있다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "마지막 반전은 시각적 설명보다 한 문장을 천천히 남기는 편이 여운과 자기 점검을 강화한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "subtle",
+        "startProgress": 0.2,
+        "endProgress": 0.75
+      },
+      "choreography": [
+        "show-headline",
+        "camera-focus",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "가장 위험한 순간은",
+          "emphasis": "low",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "첫 문장이 천천히 나타난다"
+        },
+        {
+          "text": "내가 뛰어나다고 느낄 때보다,",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "뛰어나다",
+          "visualCue": "첫 판단이 잠시 유지된다"
+        },
+        {
+          "text": "내 기준이 충분히 넓다고 확신할 때다.",
+          "emphasis": "high",
+          "pauseAfterMs": 320,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "확신",
+          "visualCue": "마지막 문장만 선명하게 남는다"
+        }
+      ],
+      "headline": "기준은 충분히 넓다고\n확신하는 순간 멈춘다",
+      "subline": "방과 기준, 둘 다 다시 볼 것",
+      "narration": "가장 위험한 순간은 내가 뛰어나다고 느낄 때보다, 내 기준이 충분히 넓다고 확신할 때다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
