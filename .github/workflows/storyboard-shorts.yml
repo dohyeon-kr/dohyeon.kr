@@ -138,17 +138,17 @@ jobs:
             -print0 | sort -z)
           [[ "${#assets[@]}" -gt 0 ]] || { echo 'No storyboard assets were produced.' >&2; exit 1; }
 
-          gh release create "${TAG_NAME}" "${assets[@]}" \
+          release_url="$(gh release create "${TAG_NAME}" "${assets[@]}" \
             --repo "${GITHUB_REPOSITORY}" \
             --target "${GITHUB_SHA}" \
             --title "Shorts storyboard · ${GITHUB_RUN_NUMBER}" \
             --notes-file "${notes}" \
-            --draft
+            --draft)"
 
           # Draft assets use an untagged URL, not the requested release tag.
           node shorts/scripts/repair-storyboard-links.mjs "${TAG_NAME}"
 
-          release_url="$(gh release view "${TAG_NAME}" --repo "${GITHUB_REPOSITORY}" --json url --jq .url)"
+          # Reuse the URL returned by creation: draft tags cannot be looked up reliably.
           {
             echo '## Storyboard ready for approval'
             echo
