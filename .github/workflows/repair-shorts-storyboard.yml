@@ -1,12 +1,14 @@
 name: Repair storyboard release links
 
 on:
+  push:
+    branches: [main]
+    paths: ['shorts/scripts/repair-storyboard-links.mjs']
   workflow_dispatch:
     inputs:
       release_tag:
-        description: Storyboard release tag to repair without rerendering
-        required: true
-        default: shorts-storyboard-33961678311
+        description: Storyboard release tag (empty selects latest draft)
+        required: false
         type: string
 
 permissions:

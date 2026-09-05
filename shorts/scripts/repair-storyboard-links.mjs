@@ -3,11 +3,16 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 
-const tag = process.argv[2];
+const requestedTag = process.argv[2];
 const repo = process.env.GITHUB_REPOSITORY;
-if (!repo || !/^shorts-storyboard-\d+$/.test(tag ?? '')) throw new Error('Repository and shorts-storyboard-<run-id> tag required');
+if (!repo || (requestedTag && !/^shorts-storyboard-\d+$/.test(requestedTag))) throw new Error('Repository and shorts-storyboard-<run-id> tag required');
 const gh = (args) => execFileSync('gh', args, {encoding: 'utf8'});
-const release = JSON.parse(gh(['api', `repos/${repo}/releases/tags/${tag}`]));
+// Draft releases are not returned by the releases/tags endpoint. Resolve their ID
+// from the authenticated collection, including older pages when a tag is supplied.
+const releases = JSON.parse(gh(['api', '--paginate', '--slurp', `repos/${repo}/releases?per_page=100`])).flat();
+const release = releases.find(item => requestedTag ? item.tag_name === requestedTag : item.draft && /^shorts-storyboard-\d+$/.test(item.tag_name));
+if (!release) throw new Error(`Storyboard release not found: ${requestedTag ?? 'latest draft'}`);
+const tag = release.tag_name;
 const assets = new Map(release.assets.map(asset => [asset.name, asset.browser_download_url]));
 if (!assets.size) throw new Error('Storyboard release has no assets');
 const root = `https://github.com/${repo}/releases/download/`;
