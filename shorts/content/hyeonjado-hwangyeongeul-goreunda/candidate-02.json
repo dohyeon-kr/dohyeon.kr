@@ -89,7 +89,7 @@
           "keyword": null,
           "pauseAfterMs": 100,
           "text": "성장에 관한 조언으로 자주 듣는 말이다.",
-          "visualCue": null,
+          "visualCue": "문고리 클로즈업 사진이 화면을 채운다.",
           "visualPriority": "mid"
         },
         {
@@ -116,18 +116,19 @@
           "keyword": "떠나야",
           "pauseAfterMs": 280,
           "text": "지금 있는 곳을 떠나야 할까?",
-          "visualCue": "핵심 문구를 유지한다.",
+          "visualCue": "사진을 유지하며 질문과 핵심 문구를 읽게 한다.",
           "visualPriority": "high"
         }
       ],
       "camera": {
-        "endProgress": 1,
-        "intensity": "subtle",
         "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
         "startProgress": 0,
-        "target": "center"
+        "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "emphasize-result"
       ],
@@ -135,31 +136,43 @@
       "comparisonRight": null,
       "diagramSpec": null,
       "headline": "정말 나오면 될까?",
-      "image": null,
-      "imageQuery": null,
-      "kind": "statement",
-      "layout": "statement-offset",
+      "image": {
+        "query": "door handle close up",
+        "title": "문고리 클로즈업",
+        "creator": "Polat Eyyüp Albayrak",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/door-handle-in-darkness-19836742/",
+        "originalUrl": "https://images.pexels.com/photos/19836742/pexels-photo-19836742/free-photo-of-door-handle-in-darkness.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/19836742/pexels-photo-19836742/free-photo-of-door-handle-in-darkness.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      },
+      "imageQuery": "door handle close up",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
       "narration": "성장에 관한 조언으로 자주 듣는 말이다. 그런데 정말 그러면 될까? 내가 가장 많이 안다는 이유만으로, 지금 있는 곳을 떠나야 할까?",
       "subline": null,
-      "transition": "wipe",
+      "transition": "fade",
       "visual": {
-        "motif": "open-door",
-        "query": null,
-        "type": "symbol",
+        "type": "photo",
+        "motif": null,
+        "query": "door handle close up",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "인용을 곧바로 실행해야 하는지 질문한다.",
+        "concept": "문고리의 구체적인 질감으로 떠나기 전 망설임을 보여준다.",
         "relation": {
-          "description": "인용을 곧바로 실행해야 하는지 질문한다.",
-          "type": "literal"
+          "type": "literal",
+          "description": "문고리의 구체적인 질감으로 떠나기 전 망설임을 보여준다."
         },
         "strategy": {
-          "metaphor": "열린 문",
-          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
-          "type": "icon"
+          "type": "photo",
+          "metaphor": "문고리 클로즈업",
+          "rationale": "실제 공간과 사물의 질감을 풀블리드로 보여주고 문구는 어두운 영역에 배치한다."
         }
       },
       "visualStory": null
@@ -384,7 +397,7 @@
           "keyword": null,
           "pauseAfterMs": 100,
           "text": "그렇다면 ‘방을 나온다’는 건",
-          "visualCue": null,
+          "visualCue": "어두운 방의 열린 문 사진이 화면을 채운다.",
           "visualPriority": "mid"
         },
         {
@@ -393,18 +406,19 @@
           "keyword": "의미",
           "pauseAfterMs": 280,
           "text": "무슨 의미일까?",
-          "visualCue": "핵심 문구를 유지한다.",
+          "visualCue": "사진을 유지하며 질문과 핵심 문구를 읽게 한다.",
           "visualPriority": "high"
         }
       ],
       "camera": {
-        "endProgress": 1,
-        "intensity": "subtle",
         "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
         "startProgress": 0,
-        "target": "center"
+        "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "emphasize-result"
       ],
@@ -412,31 +426,43 @@
       "comparisonRight": null,
       "diagramSpec": null,
       "headline": "방을 나온다는 건\n무슨 의미일까?",
-      "image": null,
-      "imageQuery": null,
-      "kind": "statement",
-      "layout": "statement-offset",
+      "image": {
+        "query": "open door dark room",
+        "title": "어두운 방의 열린 문",
+        "creator": "Benedek Kaufmann",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/open-door-in-a-dark-room-18968224/",
+        "originalUrl": "https://images.pexels.com/photos/18968224/pexels-photo-18968224/free-photo-of-open-door-in-a-dark-room.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/18968224/pexels-photo-18968224/free-photo-of-open-door-in-a-dark-room.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      },
+      "imageQuery": "open door dark room",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
       "narration": "그렇다면 ‘방을 나온다’는 건 무슨 의미일까?",
       "subline": null,
-      "transition": "wipe",
+      "transition": "fade",
       "visual": {
-        "motif": "open-door",
-        "query": null,
-        "type": "symbol",
+        "type": "photo",
+        "motif": null,
+        "query": "open door dark room",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "떠남의 의미를 묻고 다음 장면의 상황으로 연결한다.",
+        "concept": "열린 문과 문 너머 공간으로 방을 나온다는 질문을 구체화한다.",
         "relation": {
-          "description": "떠남의 의미를 묻고 다음 장면의 상황으로 연결한다.",
-          "type": "literal"
+          "type": "literal",
+          "description": "열린 문과 문 너머 공간으로 방을 나온다는 질문을 구체화한다."
         },
         "strategy": {
-          "metaphor": "열린 문",
-          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
-          "type": "icon"
+          "type": "photo",
+          "metaphor": "어두운 방의 열린 문",
+          "rationale": "실제 공간과 사물의 질감을 풀블리드로 보여주고 문구는 어두운 영역에 배치한다."
         }
       },
       "visualStory": null
@@ -449,7 +475,7 @@
           "keyword": null,
           "pauseAfterMs": 100,
           "text": "내가 어떤 의견을 내도 질문이 돌아오지 않고,",
-          "visualCue": null,
+          "visualCue": "빈 회의실 사진이 화면을 채운다.",
           "visualPriority": "mid"
         },
         {
@@ -485,18 +511,19 @@
           "keyword": "내 몫",
           "pauseAfterMs": 280,
           "text": "유지하는 일부터 내 몫이 된다.",
-          "visualCue": "핵심 문구를 유지한다.",
+          "visualCue": "사진을 유지하며 질문과 핵심 문구를 읽게 한다.",
           "visualPriority": "high"
         }
       ],
       "camera": {
-        "endProgress": 1,
-        "intensity": "subtle",
         "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
         "startProgress": 0,
-        "target": "center"
+        "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "emphasize-result"
       ],
@@ -504,31 +531,43 @@
       "comparisonRight": null,
       "diagramSpec": null,
       "headline": "질문도, 새로운 시도도\n늘 내 몫이라면",
-      "image": null,
-      "imageQuery": null,
-      "kind": "statement",
-      "layout": "statement-giant",
+      "image": {
+        "query": "empty office room",
+        "title": "빈 회의실",
+        "creator": "Aheed Baithul Nafia",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/conference-table-and-chairs-in-an-empty-office-17739892/",
+        "originalUrl": "https://images.pexels.com/photos/17739892/pexels-photo-17739892/free-photo-of-conference-table-and-chairs-in-an-empty-office.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/17739892/pexels-photo-17739892/free-photo-of-conference-table-and-chairs-in-an-empty-office.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      },
+      "imageQuery": "empty office room",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
       "narration": "내가 어떤 의견을 내도 질문이 돌아오지 않고, 익숙한 방식만 반복하고, 새로운 시도는 늘 혼자 밀어붙여야 한다면. 그곳에서는 성장하려는 마음을 유지하는 일부터 내 몫이 된다.",
       "subline": null,
       "transition": "fade",
       "visual": {
+        "type": "photo",
         "motif": null,
-        "query": null,
-        "type": "none",
+        "query": "empty office room",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "질문과 시도의 부담이 한 사람에게 집중되는 상황을 제시한다.",
+        "concept": "사람 없이 남은 방을 통해 질문이 돌아오지 않는 상황을 표현한다.",
         "relation": {
-          "description": "질문과 시도의 부담이 한 사람에게 집중되는 상황을 제시한다.",
-          "type": "literal"
+          "type": "literal",
+          "description": "사람 없이 남은 방을 통해 질문이 돌아오지 않는 상황을 표현한다."
         },
         "strategy": {
-          "metaphor": null,
-          "rationale": "짧은 문구와 충분한 여백으로 질문을 읽을 시간을 확보한다.",
-          "type": "minimal"
+          "type": "photo",
+          "metaphor": "빈 회의실",
+          "rationale": "실제 공간과 사물의 질감을 풀블리드로 보여주고 문구는 어두운 영역에 배치한다."
         }
       },
       "visualStory": null

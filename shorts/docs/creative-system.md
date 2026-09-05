@@ -80,14 +80,11 @@ Otherwise remove it.
 
 Do not map a keyword directly to an icon. First identify the relationship in the sentence.
 
-Preferred strategy order:
+Choose by meaning, not a universal renderer ranking:
 
-1. simulation
-2. graph
-3. spatial diagram
-4. physical metaphor
-5. photo / B-roll
-6. icon fallback
+- Concrete subjects, places, actions, and atmosphere: photo / B-roll first.
+- Quantitative change or relationships: graph, spatial diagram, simulation, or physical metaphor.
+- Icons: only when they communicate more clearly; record the specific reason.
 
 Examples:
 
@@ -118,6 +115,19 @@ Prefer graphs for:
 Graphs should animate. A useful pattern is:
 
 `overview → curve reveal → endpoint/inflection zoom → annotation`
+
+## 사진과 풀블리드 선택 및 수정 검수
+
+- 생성과 수동 수정 모두 같은 규칙을 적용한다. 대본을 바꾸거나 장면을 복사할 때 기존 visual/layout/image를 그대로 유지하지 말고 새 의미에 맞는지 다시 판단한다.
+- 구체적인 사물·장소·행동의 질감과 맥락이 핵심이면 실제 사진/B-roll을 우선한다. 문·문고리·방을 단순 문 아이콘으로 치환하지 않는다. 관계·수치·변화 자체를 설명해야 하면 도식·그래프·시뮬레이션을 사용한다.
+- 아이콘은 사진을 못 찾았다는 이유만으로 선택하지 않는다. 사진이나 도식보다 명확한 정보를 전달하는 경우에만 사용하고 strategy.rationale에 이유를 기록한다. 모든 장면을 도식으로 만들지 않는다.
+- 사진이 공간감·정서·구체적 맥락을 전달하는 장면은 photo-full-bleed를 우선 검토한다. 영상당 1~2회 같은 일률적인 상한을 두지 않는다. 문고리 클로즈업 → 열린 문 → 빈 방처럼 피사체와 샷 크기로 리듬을 만든다.
+- 사진과 설명을 분리해야 가독성이 좋아지는 경우에 photo-strip/split을 선택한다. 레이아웃 종류를 채우기 위한 변주는 하지 않는다.
+- 흑백/명암 정규화와 어두운 오버레이를 사용하되 피사체가 사라질 정도로 덮지 않는다. 9:16 크롭에서 문고리·문틀 등 의미를 전달하는 부분이 남는지 확인한다. 제목과 자막은 피사체·밝은 부분·플랫폼 UI와 충돌하지 않게 한다.
+- 검색어만 넣고 사진 적용 완료라고 하지 않는다. 실제 image URL, 출처, 제작자, 라이선스를 확보한다. 사진 다운로드 실패를 아이콘으로 조용히 대체하지 않는다.
+- 최근 릴스와 이미지 원본 URL/ID를 비교해 의도하지 않은 재사용을 피한다. 특히 도입 이미지는 같은 사진을 재사용하지 않는다.
+- 수정 후 narration·beats뿐 아니라 visual.type, layout, image, visualIntent, choreography, visualCue를 함께 검토하고 읽기용 Markdown을 다시 생성한다.
+- 검수 시 사진 장면 수, 풀블리드 장면 번호, 남아 있는 symbol의 사유를 확인한다. 실제 스토리보드와 중간 프레임에서 크롭·한글 가독성·겹침을 확인하고, 미확인 항목은 완료로 보고하지 않는다.
 
 ## Motion and choreography
 
