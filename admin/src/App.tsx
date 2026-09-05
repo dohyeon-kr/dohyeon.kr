@@ -1,3 +1,11 @@
+import {
+  GA4Panel,
+  SearchPanel,
+  useGoogleReport,
+  connectionLabel,
+  type GA4,
+  type SearchReport,
+} from "@/components/GoogleReports";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -129,6 +137,20 @@ export default function App() {
       active = false;
     };
   }, [period, revision]);
+  const ga4 = useGoogleReport<GA4>(
+    "ga4",
+    period.start,
+    period.end,
+    revision,
+    !!stats,
+  );
+  const searchReport = useGoogleReport<SearchReport>(
+    "searchConsole",
+    period.start,
+    period.end,
+    revision,
+    !!stats,
+  );
   const navigate = (key: Section) => {
     location.hash = key;
     setSection(key);
@@ -470,11 +492,16 @@ export default function App() {
                     />
                     <Metric
                       title="검색 클릭"
-                      value="—"
-                      note="Search Console 미연결"
+                      value={number(
+                        searchReport.status === "connected"
+                          ? searchReport.summary?.clicks
+                          : null,
+                      )}
+                      note={connectionLabel(searchReport)}
                       footer="Google 검색 성과"
                     />
                   </div>
+                  <GA4Panel state={ga4} />
                   <Card>
                     <div className="panel-heading">
                       <div>
@@ -824,25 +851,7 @@ export default function App() {
               )}
               {section === "seo" && (
                 <>
-                  <Card className="connection-banner">
-                    <div>
-                      <span className="tag">미연결</span>
-                      <h2>검색 성과를 연결할 준비</h2>
-                      <p className="muted">
-                        검색어별 클릭·노출·CTR·평균 순위는 Search Console 연결
-                        후 제공할 수 있습니다.
-                      </p>
-                    </div>
-                    <Button asChild variant="outline">
-                      <a
-                        href="https://search.google.com/search-console"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Search Console 열기 ↗
-                      </a>
-                    </Button>
-                  </Card>
+                  <SearchPanel state={searchReport} />
                   <Card>
                     <div className="panel-heading">
                       <div>
@@ -948,15 +957,23 @@ export default function App() {
                       <div>
                         <dt>순 방문자 · 유입 경로</dt>
                         <dd>
-                          <span className="tag">GA4 미연결</span> Google 계정과
-                          속성 접근 권한을 연결하는 후속 작업이 필요합니다.
+                          <span className="tag">
+                            GA4 {connectionLabel(ga4)}
+                          </span>{" "}
+                          {ga4.status === "error"
+                            ? ga4.message
+                            : "전체 사용자·세션·유입 경로는 개요에서 확인할 수 있습니다."}
                         </dd>
                       </div>
                       <div>
                         <dt>검색어 · 검색 클릭</dt>
                         <dd>
-                          <span className="tag">Search Console 미연결</span>{" "}
-                          사이트 소유권 확인 및 읽기 권한 연결이 필요합니다.
+                          <span className="tag">
+                            Search Console {connectionLabel(searchReport)}
+                          </span>{" "}
+                          {searchReport.status === "error"
+                            ? searchReport.message
+                            : "검색어·클릭·노출·클릭률·평균 순위는 SEO에서 확인할 수 있습니다."}
                         </dd>
                       </div>
                       <div>
