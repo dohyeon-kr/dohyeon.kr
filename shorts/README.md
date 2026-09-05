@@ -12,8 +12,8 @@ The creative target is a **motion infographic**, not a templated AI slideshow. S
 4. Photo scenes receive a relevant Openverse search result. The default resolver only accepts CC0 or Public Domain Mark results.
 5. The workflow opens a PR containing `shorts/content/<post-slug>/candidate-XX.json` files.
 6. Edit or delete candidates in the PR, then merge the selected manifests.
-7. Changes to candidate JSON files on `main` trigger **Build blog shorts storyboard**, which uploads one representative PNG per scene plus a storyboard README.
-8. Review every scene snapshot. Fix the manifest and regenerate the storyboard until the sequence is approved.
+7. Changes to candidate JSON files on `main` trigger **Build blog shorts storyboard**, which creates one representative PNG per scene, a two-column mobile contact sheet, and a scene-by-scene PDF.
+8. The workflow publishes those files as a Draft Release. Review the contact sheet on mobile, then use the PDF or individual PNGs for detailed checks. Fix the manifest and regenerate until the sequence is approved.
 9. Manually run **Render blog shorts** with the approved manifest path and check `storyboard_approved`.
 10. Only then does OpenAI TTS create per-scene narration. Remotion renders the 1080×1920 MP4 with burned-in captions and emits an SRT subtitle file.
 

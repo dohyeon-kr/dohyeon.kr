@@ -14,7 +14,7 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: shorts-storyboard-${{ github.ref }}
@@ -37,6 +37,11 @@ jobs:
 
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Install storyboard packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick img2pdf
 
       - name: Resolve manifests
         id: manifests
@@ -83,10 +88,57 @@ jobs:
             node shorts/scripts/render.mjs "${manifest}" --storyboard
           done < "${LIST_FILE}"
 
-      - name: Upload storyboards for approval
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
-        with:
-          name: blog-shorts-storyboard-${{ github.run_id }}
-          path: shorts/out/storyboards/**
-          if-no-files-found: error
-          retention-days: 14
+      - name: Build mobile review sheets
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' storyboard_dir; do
+            mapfile -d '' scenes < <(find "${storyboard_dir}" -maxdepth 1 -type f -name '*-scene-*.png' -print0 | sort -z)
+            [[ "${#scenes[@]}" -gt 0 ]] || continue
+            base="$(basename "${storyboard_dir}")"
+            montage "${scenes[@]}" \
+              -thumbnail '540x960' \
+              -tile 2x \
+              -geometry +0+0 \
+              -background '#050505' \
+              -quality 90 \
+              "${storyboard_dir}/${base}-contact-sheet.jpg"
+            img2pdf "${scenes[@]}" -o "${storyboard_dir}/${base}-storyboard.pdf"
+          done < <(find shorts/out/storyboards -mindepth 1 -maxdepth 1 -type d -print0)
+
+      - name: Publish draft release for mobile approval
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: shorts-storyboard-${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' assets < <(find shorts/out/storyboards -type f \
+            \( -name '*-contact-sheet.jpg' -o -name '*-storyboard.pdf' -o -name '*-scene-*.png' \) \
+            -print0 | sort -z)
+          [[ "${#assets[@]}" -gt 0 ]] || { echo 'No storyboard assets were produced.' >&2; exit 1; }
+
+          notes="${RUNNER_TEMP}/storyboard-release.md"
+          {
+            echo '# Shorts storyboard approval'
+            echo
+            echo '1. Open the contact sheet on mobile for a quick sequence review.'
+            echo '2. Open the PDF or individual scene PNGs for detailed review.'
+            echo '3. After approval, manually run **Render blog shorts** and check `storyboard_approved`.'
+            echo
+            echo "Source commit: ${GITHUB_SHA}"
+          } > "${notes}"
+
+          gh release create "${TAG_NAME}" "${assets[@]}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --target "${GITHUB_SHA}" \
+            --title "Shorts storyboard · ${GITHUB_RUN_NUMBER}" \
+            --notes-file "${notes}" \
+            --draft
+
+          release_url="$(gh release view "${TAG_NAME}" --repo "${GITHUB_REPOSITORY}" --json url --jq .url)"
+          {
+            echo '## Storyboard ready for approval'
+            echo
+            echo "[Open the draft release on mobile](${release_url})"
+          } >> "${GITHUB_STEP_SUMMARY}"
