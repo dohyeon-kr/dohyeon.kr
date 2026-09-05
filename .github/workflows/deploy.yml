@@ -42,6 +42,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
 
+      - name: Verify admin dashboard
+        run: |
+          pnpm --dir admin install --frozen-lockfile --ignore-scripts
+          pnpm --dir admin test
+          pnpm --dir admin build
+          git diff --exit-code -- themes/monoliquid/assets/dashboard
+          test -z "$(git ls-files --others --exclude-standard themes/monoliquid/assets/dashboard)"
+
       - name: Test deployment safeguards
         run: ./scripts/check-deploy-workflow.sh
 

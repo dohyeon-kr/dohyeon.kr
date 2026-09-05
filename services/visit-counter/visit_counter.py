@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+from contextlib import contextmanager
 import hashlib
 import hmac
 import os
@@ -16,10 +17,10 @@ import time
 import unicodedata
 import uuid
 from http.client import HTTPConnection
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urlsplit, parse_qs
 from zoneinfo import ZoneInfo
 
 
@@ -32,10 +33,15 @@ class VisitStore:
         self.database_path.parent.mkdir(parents=True, exist_ok=True)
         self._initialize()
 
-    def _connect(self) -> sqlite3.Connection:
+    @contextmanager
+    def _connect(self):
         connection = sqlite3.connect(self.database_path, timeout=5)
         connection.execute("PRAGMA busy_timeout = 5000")
-        return connection
+        try:
+            with connection:
+                yield connection
+        finally:
+            connection.close()
 
     def _initialize(self) -> None:
         with self._connect() as connection:
@@ -57,6 +63,17 @@ class VisitStore:
                     total INTEGER NOT NULL CHECK (total >= 0),
                     updated_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS stats_post_daily (
+                    day TEXT NOT NULL, slug TEXT NOT NULL, total INTEGER NOT NULL,
+                    PRIMARY KEY (day, slug)
+                );
+                CREATE TABLE IF NOT EXISTS dashboard_meta (
+                    key TEXT PRIMARY KEY, value TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS comment_moderation (
+                    comment_id TEXT PRIMARY KEY REFERENCES anonymous_comments(id),
+                    hidden INTEGER NOT NULL DEFAULT 0 CHECK (hidden IN (0, 1))
+                );
                 CREATE TABLE IF NOT EXISTS anonymous_comments (
                     id TEXT PRIMARY KEY,
                     post_slug TEXT NOT NULL,
@@ -70,6 +87,10 @@ class VisitStore:
                 CREATE INDEX IF NOT EXISTS anonymous_comments_post
                     ON anonymous_comments (post_slug, status, created_at);
                 """
+            )
+            connection.execute(
+                "INSERT OR IGNORE INTO dashboard_meta VALUES ('post_daily_since', ?)",
+                (datetime.now(KST).isoformat(),),
             )
             connection.execute(
                 """
@@ -163,6 +184,11 @@ class VisitStore:
                 """,
                 (slug, updated_at),
             )
+            connection.execute(
+                "INSERT INTO stats_post_daily VALUES (?, ?, 1) "
+                "ON CONFLICT(day, slug) DO UPDATE SET total = total + 1",
+                (self._day(current), slug),
+            )
             total = connection.execute(
                 "SELECT total FROM stats_post_views WHERE slug = ?", (slug,)
             ).fetchone()[0]
@@ -193,6 +219,7 @@ class VisitStore:
                 SELECT id, display_name, body, created_at
                 FROM anonymous_comments
                 WHERE post_slug = ? AND status = 'visible'
+                AND NOT EXISTS (SELECT 1 FROM comment_moderation m WHERE m.comment_id = anonymous_comments.id AND m.hidden = 1)
                 ORDER BY created_at ASC, id ASC
                 """,
                 (slug,),
@@ -242,16 +269,17 @@ class VisitStore:
             )
         return True
 
-    def admin_list_comments(self) -> list[dict[str, str]]:
+    def admin_list_comments(self, limit: int = 500, offset: int = 0) -> list[dict[str, str]]:
         with self._connect() as connection:
             rows = connection.execute(
                 """
                 SELECT id, post_slug, display_name, body, status, created_at,
-                       COALESCE(deleted_at, '')
+                       COALESCE(deleted_at, ''),
+                       COALESCE((SELECT hidden FROM comment_moderation WHERE comment_id = anonymous_comments.id), 0)
                 FROM anonymous_comments
                 ORDER BY created_at DESC, id DESC
-                LIMIT 500
-                """
+                LIMIT ? OFFSET ?
+                """, (limit, offset)
             ).fetchall()
         return [
             {
@@ -259,12 +287,65 @@ class VisitStore:
                 "postSlug": row[1],
                 "displayName": row[2],
                 "body": row[3],
-                "status": row[4],
+                "status": "hidden" if row[4] == "visible" and row[7] else row[4],
                 "createdAt": row[5],
                 "deletedAt": row[6],
             }
             for row in rows
         ]
+
+    def moderate_comment(self, comment_id: str, hidden: bool) -> bool:
+        if not re.fullmatch(r"[0-9a-f]{32}", comment_id):
+            raise ValueError("invalid comment")
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute("SELECT status FROM anonymous_comments WHERE id = ?", (comment_id,)).fetchone()
+            if not row or row[0] != "visible":
+                return False
+            connection.execute(
+                "INSERT INTO comment_moderation VALUES (?, ?) ON CONFLICT(comment_id) DO UPDATE SET hidden = excluded.hidden",
+                (comment_id, int(hidden)),
+            )
+        return True
+
+    def dashboard(self, start: str, end: str, slug: str | None = None) -> dict:
+        if slug is not None and not self.valid_slug(slug):
+            raise ValueError("invalid slug")
+        first, last = date.fromisoformat(start), date.fromisoformat(end)
+        if first > last or (last - first).days > 365 or last > datetime.now(KST).date():
+            raise ValueError("invalid date range")
+        length = (last - first).days + 1
+        previous_start = (first - timedelta(days=length)).isoformat()
+        with self._connect() as connection:
+            visits = dict(connection.execute("SELECT day, total FROM stats_daily WHERE day BETWEEN ? AND ?", (previous_start, end)))
+            views = dict(connection.execute("SELECT day, SUM(total) FROM stats_post_daily WHERE day BETWEEN ? AND ? GROUP BY day", (previous_start, end)))
+            if slug is not None:
+                views = dict(connection.execute("SELECT day, total FROM stats_post_daily WHERE day BETWEEN ? AND ? AND slug = ?", (previous_start, end, slug)))
+            since = connection.execute("SELECT value FROM dashboard_meta WHERE key = 'post_daily_since'").fetchone()[0]
+            visits_since = connection.execute("SELECT MIN(day) FROM stats_daily").fetchone()[0]
+            posts = connection.execute(
+                "SELECT p.slug, p.total, "
+                "COALESCE(SUM(CASE WHEN d.day BETWEEN ? AND ? THEN d.total ELSE 0 END), 0), "
+                "COALESCE(SUM(CASE WHEN d.day >= ? AND d.day < ? THEN d.total ELSE 0 END), 0) "
+                "FROM stats_post_views p LEFT JOIN stats_post_daily d ON d.slug = p.slug AND d.day >= ? "
+                "GROUP BY p.slug ORDER BY 3 DESC, p.slug", (start, end, previous_start, start, previous_start)
+            ).fetchall()
+            comments = dict(connection.execute(
+                "SELECT CASE WHEN status = 'deleted' THEN 'deleted' WHEN COALESCE(m.hidden, 0) = 1 THEN 'hidden' ELSE 'visible' END, COUNT(*) "
+                "FROM anonymous_comments c LEFT JOIN comment_moderation m ON m.comment_id = c.id GROUP BY 1"
+            ))
+        def point(day):
+            key = day.isoformat()
+            return {"day": key, "visits": visits.get(key, 0) if visits_since and key >= visits_since else None,
+                    "views": views.get(key, 0) if key >= since[:10] else None}
+        current = [point(first + timedelta(days=i)) for i in range(length)]
+        previous = [point(first - timedelta(days=length) + timedelta(days=i)) for i in range(length)]
+        return {"start": start, "end": end, "daily": current, "previous": previous,
+                "posts": [{"slug": r[0], "lifetime": r[1], "views": r[2] if end >= since[:10] else None,
+                           "previous": r[3] if previous_start > since[:10] else None} for r in posts],
+                "comments": {"visible": comments.get("visible", 0), "hidden": comments.get("hidden", 0), "deleted": comments.get("deleted", 0)},
+                "coverage": {"visitsSince": visits_since, "postDailySince": since},
+                "updatedAt": datetime.now(KST).isoformat(), "timezone": "Asia/Seoul"}
 
     def admin_delete_comment(self, comment_id: str) -> bool:
         if not re.fullmatch(r"[0-9a-f]{32}", comment_id):
@@ -390,9 +471,10 @@ class VisitHandler(BaseHTTPRequestHandler):
                 },
             )
             response = connection.getresponse()
-            response.read()
-            return response.status == 200
-        except OSError:
+            payload = json.loads(response.read()) if response.status == 200 else {}
+            users = payload.get("users", [])
+            return any(role.get("name") in ("Owner", "Administrator") for user in users for role in user.get("roles", []))
+        except (OSError, ValueError, TypeError):
             return False
         finally:
             connection.close()
@@ -426,11 +508,31 @@ class VisitHandler(BaseHTTPRequestHandler):
         if self._path() == "/api/visit":
             self._send_json(200, self.server.store.get())
             return
+        if self._path() in ("/ghost/api/dashboard", "/ghost/api/dashboard/post"):
+            if not self._is_ghost_admin():
+                self._send_json(401, {"error": "ghost_admin_required"})
+                return
+            query = parse_qs(urlsplit(self.path).query)
+            try:
+                result = self.server.store.dashboard(query.get("start", [""])[0], query.get("end", [""])[0], query.get("slug", [""])[0] if self._path().endswith("/post") else None)
+            except ValueError:
+                self._send_json(400, {"error": "invalid_date_range"})
+                return
+            self._send_json(200, result)
+            return
         if self._path() == "/ghost/api/comments-admin":
             if not self._is_ghost_admin():
                 self._send_json(401, {"error": "ghost_admin_required"})
                 return
-            comments = self.server.store.admin_list_comments()
+            query = parse_qs(urlsplit(self.path).query)
+            try:
+                offset = int(query.get("offset", ["0"])[0])
+                if offset < 0:
+                    raise ValueError()
+            except ValueError:
+                self._send_json(400, {"error": "invalid_offset"})
+                return
+            comments = self.server.store.admin_list_comments(offset=offset)
             self._send_json(200, {"comments": comments, "count": len(comments)})
             return
         post_slug = self._post_slug()
@@ -445,6 +547,20 @@ class VisitHandler(BaseHTTPRequestHandler):
         self._send_json(404, {"error": "not_found"})
 
     def do_POST(self) -> None:  # noqa: N802
+        admin_comment_id = self._comment_admin_id()
+        if admin_comment_id is not None:
+            if not self._valid_origin() or not self._is_ghost_admin():
+                self._send_json(401, {"error": "ghost_admin_required"})
+                return
+            payload = self._read_json()
+            if not payload or payload.get("action") not in ("hide", "restore"):
+                self._send_json(400, {"error": "invalid_action"})
+                return
+            if not self.server.store.moderate_comment(admin_comment_id, payload["action"] == "hide"):
+                self._send_json(404, {"error": "comment_not_found"})
+                return
+            self._send_json(200, {"status": "ok"})
+            return
         comment_route = self._comment_route()
         if comment_route is not None and comment_route[1] is None:
             if not self._valid_origin():

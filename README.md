@@ -74,11 +74,67 @@ any post once with `?admin-tools=1` to enable them in that browser, or use
 `?admin-tools=0` to hide them again. Ghost Admin still enforces authentication
 when the editor link is opened.
 
-The same admin-tools mode exposes `/ghost/comments-admin/`. Its API lives under
-the Ghost cookie path and verifies the current Ghost staff session against the
-loopback Ghost Admin API before returning comment data or accepting a deletion.
-The management page lists the latest 500 comments and can optionally include
-soft-deleted records.
+## Blog dashboard
+
+Open `/ghost/dashboard/` after signing into Ghost with an Owner or Administrator
+account. The old `/ghost/comments-admin/` and `/assets/comments-admin.html` links
+redirect to its comments view. Public theme assets contain only the UI; every
+statistics and moderation API request checks the Ghost staff session and role.
+
+The dashboard lives in `admin/`: React, shadcn/ui-style owned components with
+Radix primitives, Tailwind, Recharts, and TanStack Table. It is built into the
+Ghost theme, so no additional frontend service or production Node process is
+required. Commit generated files with source changes; CI verifies the build is
+current. The restricted deployment wrapper remains unchanged.
+
+```sh
+pnpm --dir admin install --frozen-lockfile
+pnpm --dir admin test
+pnpm --dir admin build
+python3 -m unittest discover -s services/visit-counter -p 'test_*.py' -v
+```
+
+### Included
+
+- Overview: date range (up to 366 days), previous-period comparison, visit and
+  post-view charts, popular posts, and operational links.
+- Content: published Ghost posts, searchable/sortable tables, lifetime totals,
+  and per-post daily detail. Ghost remains the editor.
+- Comments: paginated retrieval, text/author/post search, status filter,
+  selection, hide/restore, and explicit permanent deletion. Hidden comments
+  retain content and disappear from the public API. Author deletion continues
+  to erase content even while hidden. Already deleted content cannot be restored.
+- SEO: published-post metadata and missing image alt attributes; on-demand
+  rendered-page title, description, canonical, robots meta/header, H1, and same-origin sitemap inclusion checks (up to 10 child sitemaps).
+- Settings: data sources, coverage dates, role requirements, and connection gaps.
+
+### Data semantics and rollout
+
+Existing `stats_daily` values count visits with a browser-side 30-minute throttle,
+not distinct people or GA4 sessions. Daily post counts start at the service
+upgrade. The SQLite migration is additive and repeatable, preserving legacy
+lifetime totals. It does not manufacture historical daily post counts.
+Missing history appears as a dash/chart gap, distinct from zero. Collection's
+first day is partial; prior periods without full post coverage do not receive a
+percentage comparison. Dates use Asia/Seoul; the current day remains partial.
+Counts can be affected by storage restrictions, bots, and direct counter calls.
+Post counters are keyed by slug, so renaming a slug requires a future explicit
+mapping/migration to combine its history.
+
+The new Nginx `/ghost/api/dashboard` proxy and POST method on
+`/ghost/api/comments-admin` must be installed alongside the upgraded visitor
+service and theme. These files go through the existing restricted deployment
+wrapper; do not copy privileged files from the Actions job. Back up the SQLite
+file before production rollout. Restarting the old service remains possible
+because the new tables do not alter old columns.
+
+GA4 unique visitors/referrers and Search Console queries/clicks/impressions/CTR/
+position are **not connected or implemented yet**. The dashboard clearly marks
+these connections as unavailable. Follow-up implementation requires property
+IDs, server-side Google credentials or OAuth, reporting endpoints, and data
+freshness/quota handling. Do not put Google credentials in theme assets.
+Approval queues, spam classification, threaded staff replies, and robots.txt directive analysis are also outside this first release. SEO checks are
+basic diagnostics, not a search-ranking score or proof of indexation.
 
 ## Generated thumbnails
 
