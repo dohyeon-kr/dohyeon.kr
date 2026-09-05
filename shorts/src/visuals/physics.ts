@@ -1,9 +1,10 @@
 import Matter from 'matter-js';
+import {assertDiagramLayout, resolveConnectors, layoutSampleTimes} from './layout-guard.ts';
 import {diagramState, type DiagramSpec} from './diagram-spec.ts';
 
 // A fresh, fixed-step world per evaluation: no Runner, clock, random numbers or
 // shared solver state. Narration stretches playback, never changes the solution.
-export function evaluatedDiagramState(spec: DiagramSpec, progress: number) {
+function rawDiagramState(spec: DiagramSpec, progress: number) {
   const states = diagramState(spec, progress);
   if (!spec.physics) return states;
   const {Engine, Bodies, Body, Composite, Constraint} = Matter;
@@ -50,4 +51,15 @@ export function evaluatedDiagramState(spec: DiagramSpec, progress: number) {
 
 export function selectDiagramEngine(spec: DiagramSpec): 'remotion' | 'motion-canvas' {
   return spec.renderer === 'auto' ? (spec.physics ? 'motion-canvas' : 'remotion') : spec.renderer;
+}
+
+
+// Both backends receive the same checked geometry, including every rendered frame.
+export function evaluatedDiagramState(spec: DiagramSpec, progress: number) {
+  const states = resolveConnectors(rawDiagramState(spec, progress));
+  assertDiagramLayout(states, progress);
+  return states;
+}
+export function validateDiagramLayout(spec: DiagramSpec) {
+  for (const progress of layoutSampleTimes(spec)) evaluatedDiagramState(spec, progress);
 }

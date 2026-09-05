@@ -1,3 +1,4 @@
+import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {curatedPhoto} from './curated-photos.mjs';
 
@@ -85,11 +86,9 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
   for (const scene of candidate.scenes) {
     if (scene.diagramSpec || scene.visual.type === 'diagram') {
       try {
-        validateDiagram(scene.diagramSpec);
+        validateDiagramLayout(validateDiagram(scene.diagramSpec));
       } catch (error) {
-        warn(`Invalid diagram in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${error.message}. Using a text scene; review its visual direction.`);
-        scenes.push(textFallback(scene, 'invalid-diagram', error.message));
-        continue;
+        throw new Error(`Invalid diagram in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${error.message}`, {cause: error});
       }
     }
     const imageQuery = scene.visual.type === 'photo' ? scene.visual.query?.trim() || null : null;
@@ -103,4 +102,5 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
   }
   return {...candidate, scenes};
 };
+
 
