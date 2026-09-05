@@ -1,0 +1,877 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/joheun-peuronteuendeu-seolgyeneun-gyeonggyereul-myeonghwaghage-mandeunda/",
+    "title": "좋은 프론트엔드 설계는 경계를 명확하게 만든다"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "onSubmit이 끝났다고 UI가 성공을 선언해도 될까요?",
+    "title": "UI는 결과를 추측하지 않는다",
+    "rationale": "사용자 이벤트와 외부 작업 결과를 분리하고, 상태는 애플리케이션이 결정해 props로 다시 전달해야 한다는 논점을 집중적으로 다룬다.",
+    "viralScore": 9,
+    "suggestedCaption": "버튼을 눌렀다는 사실과 작업이 성공했다는 사실은 다릅니다.",
+    "hashtags": [
+      "#프론트엔드",
+      "#상태관리",
+      "#React",
+      "#UI설계",
+      "#개발팁"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "이벤트 완료와 작업 성공의 차이",
+        "relation": {
+          "type": "comparison",
+          "description": "사용자의 제출 의도와 외부 작업의 성공 결과는 서로 다른 사건이다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "완료 선언에 대한 반문",
+          "rationale": "짧은 반론형 질문으로 흔히 섞이는 두 의미를 즉시 분리한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "hold-question"
+      ],
+      "beats": [
+        {
+          "text": "onSubmit이 끝났다고 UI가 성공을 선언해도 될까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "성공",
+          "visualCue": "성공 표시가 나타나기 직전 멈춘다"
+        }
+      ],
+      "headline": "제출이 끝났다고\n성공일까?",
+      "subline": "이벤트와 결과는 다릅니다",
+      "narration": "onSubmit이 끝났다고 UI가 성공을 선언해도 될까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "제출 이벤트와 성공 상태를 UI가 바로 연결하는 잘못된 흐름",
+        "nodes": [
+          {
+            "id": "user",
+            "shape": "circle",
+            "label": "제출",
+            "x": 120,
+            "y": 280,
+            "width": 70,
+            "height": 70,
+            "fill": "white"
+          },
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "UI",
+            "x": 330,
+            "y": 280,
+            "width": 150,
+            "height": 80,
+            "fill": "white"
+          },
+          {
+            "id": "success",
+            "shape": "rect",
+            "label": "완료 표시",
+            "x": 680,
+            "y": 280,
+            "width": 170,
+            "height": 80,
+            "fill": "gray"
+          },
+          {
+            "id": "line1",
+            "shape": "line",
+            "label": "onSubmit",
+            "x": 225,
+            "y": 280,
+            "width": 100,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "line2",
+            "shape": "line",
+            "label": "즉시 완료",
+            "x": 555,
+            "y": 280,
+            "width": 130,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "line1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.35
+          },
+          {
+            "target": "line2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.65
+          },
+          {
+            "target": "success",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.65,
+            "end": 0.9
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "premature-success",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "UI가 외부 작업 결과를 선행 판단함",
+        "relation": {
+          "type": "flow",
+          "description": "사용자 이벤트가 실제 서버 결과 확인 전에 완료 상태로 직행한다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "검증 없는 직행 화살표",
+          "rationale": "문제의 핵심인 이벤트와 결과 사이의 누락된 판단 단계를 흐름으로 드러낸다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "push-in",
+        "target": "inflection",
+        "intensity": "medium",
+        "startProgress": 0.2,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "advance-event",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "UI에서 이런 코드가 자연스러워 보일 수 있습니다.",
+          "emphasis": "low",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "흐름이 천천히 시작된다"
+        },
+        {
+          "text": "제출을 기다린 뒤 바로 완료 상태로 바꾸는 코드입니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 130,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "바로",
+          "visualCue": "완료 표시가 즉시 나타난다"
+        }
+      ],
+      "headline": "자연스러워 보이는\n위험한 흐름",
+      "subline": "제출 후 바로 완료 상태로 바꾸기",
+      "narration": "UI에서 이런 코드가 자연스러워 보일 수 있습니다. 제출을 기다린 뒤 바로 완료 상태로 바꾸는 코드입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "server response loading interface monitor grayscale",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "UI가 알 수 없는 외부 결과",
+        "relation": {
+          "type": "divergence",
+          "description": "제출 이후 서버 응답, 화면 이동, 정책에 따라 결과가 여러 방향으로 갈릴 수 있다"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "응답을 기다리는 화면은 UI가 결과를 단독으로 결정할 수 없다는 맥락을 구체화한다."
+        }
+      },
+      "transition": "zoom",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "medium",
+        "startProgress": 0.15,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-visual",
+        "camera-focus",
+        "reveal-uncertainty"
+      ],
+      "beats": [
+        {
+          "text": "하지만 제출이 끝났다는 사실만으로는 부족합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 100,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "부족합니다",
+          "visualCue": "화면의 완료 표시가 흐려진다"
+        },
+        {
+          "text": "서버 응답을 더 확인해야 할 수도 있고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 60,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "서버 응답",
+          "visualCue": "대기 상태가 화면에 남는다"
+        },
+        {
+          "text": "다른 화면으로 이동하거나 완료 표시가 필요 없을 수도 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "필요 없을",
+          "visualCue": "가능한 결과들이 갈라진다"
+        }
+      ],
+      "headline": "UI는 결과를\n미리 알 수 없습니다",
+      "subline": "외부 작업의 정책은 UI 밖에 있습니다",
+      "narration": "하지만 제출이 끝났다는 사실만으로는 부족합니다. 서버 응답을 더 확인해야 할 수도 있고, 다른 화면으로 이동하거나 완료 표시가 필요 없을 수도 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "server response loading interface monitor grayscale",
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UI는 의도를 보내고 Composition이 작업과 상태를 관리한 뒤 props로 돌려주는 흐름",
+        "nodes": [
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "UI",
+            "x": 170,
+            "y": 280,
+            "width": 150,
+            "height": 80,
+            "fill": "white"
+          },
+          {
+            "id": "event",
+            "shape": "rect",
+            "label": "의도 이벤트",
+            "x": 390,
+            "y": 170,
+            "width": 170,
+            "height": 70,
+            "fill": "gray"
+          },
+          {
+            "id": "comp",
+            "shape": "rect",
+            "label": "Composition",
+            "x": 630,
+            "y": 280,
+            "width": 190,
+            "height": 80,
+            "fill": "gray"
+          },
+          {
+            "id": "status",
+            "shape": "rect",
+            "label": "status props",
+            "x": 390,
+            "y": 400,
+            "width": 170,
+            "height": 70,
+            "fill": "gray"
+          },
+          {
+            "id": "out",
+            "shape": "line",
+            "label": "onSubmit",
+            "x": 280,
+            "y": 220,
+            "width": 120,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "work",
+            "shape": "line",
+            "label": "작업·판단",
+            "x": 560,
+            "y": 220,
+            "width": 120,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "back",
+            "shape": "line",
+            "label": "상태 전달",
+            "x": 280,
+            "y": 400,
+            "width": 120,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "out",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.35
+          },
+          {
+            "target": "work",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.6
+          },
+          {
+            "target": "back",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.6,
+            "end": 0.85
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "intent-status-flow",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "의도와 결과의 분리",
+        "relation": {
+          "type": "flow",
+          "description": "UI는 사용자 의도를 보내고 Composition은 외부 작업 결과를 status로 다시 전달한다"
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "밖으로 나갔다가 상태로 돌아오는 흐름",
+          "rationale": "이벤트와 상태의 방향을 분리해 UI가 결과를 추측하지 않는 구조를 보여준다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0.1,
+        "endProgress": 0.9
+      },
+      "choreography": [
+        "show-visual",
+        "advance-intent",
+        "return-status"
+      ],
+      "beats": [
+        {
+          "text": "UI는 제출 의도만 보냅니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 90,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "의도",
+          "visualCue": "UI에서 이벤트 선이 나간다"
+        },
+        {
+          "text": "작업을 실행하고 상태를 판단하는 건 Composition입니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "판단",
+          "visualCue": "Composition 영역이 강조된다"
+        },
+        {
+          "text": "UI는 그 결과를 status props로 받아 보여줍니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 170,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "status",
+          "visualCue": "상태 선이 UI로 돌아온다"
+        }
+      ],
+      "headline": "UI는 의도를 보내고\n상태를 받는다",
+      "subline": "결과를 추측하지 않는다",
+      "narration": "UI는 제출 의도만 보냅니다. 작업을 실행하고 상태를 판단하는 건 Composition입니다. UI는 그 결과를 status props로 받아 보여줍니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "idle, pending, success, error 상태가 UI에 전달되는 구조",
+        "nodes": [
+          {
+            "id": "idle",
+            "shape": "rect",
+            "label": "idle",
+            "x": 130,
+            "y": 280,
+            "width": 110,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "pending",
+            "shape": "rect",
+            "label": "pending",
+            "x": 300,
+            "y": 280,
+            "width": 130,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "success",
+            "shape": "rect",
+            "label": "success",
+            "x": 490,
+            "y": 280,
+            "width": 130,
+            "height": 60,
+            "fill": "white"
+          },
+          {
+            "id": "error",
+            "shape": "rect",
+            "label": "error",
+            "x": 680,
+            "y": 280,
+            "width": 110,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "line1",
+            "shape": "line",
+            "label": "",
+            "x": 240,
+            "y": 280,
+            "width": 60,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "line2",
+            "shape": "line",
+            "label": "",
+            "x": 430,
+            "y": 280,
+            "width": 60,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "line3",
+            "shape": "line",
+            "label": "",
+            "x": 620,
+            "y": 280,
+            "width": 60,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "line1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "line2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.5
+          },
+          {
+            "target": "line3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.7
+          },
+          {
+            "target": "success",
+            "property": "scale",
+            "from": 1,
+            "to": 1.12,
+            "start": 0.7,
+            "end": 0.9
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "diagram",
+        "motif": "status-state-machine",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "상태를 외부에서 전달하기",
+        "relation": {
+          "type": "change-over-time",
+          "description": "작업 상태가 idle, pending, success, error로 바뀌고 UI는 현재 상태를 반영한다"
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "상태의 단계적 이동",
+          "rationale": "결과를 UI 내부에서 추측하는 대신 외부 상태가 화면을 결정하는 과정을 단계로 보여준다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-status",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "그래서 UI는 idle, pending, success, error를 표시합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "status",
+          "visualCue": "상태 노드가 순서대로 켜진다"
+        },
+        {
+          "text": "상태 변화의 출발점과 도착점이 또렷해집니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "또렷해집니다",
+          "visualCue": "전체 상태 흐름이 연결된다"
+        }
+      ],
+      "headline": "상태는 밖에서 결정하고\nUI는 반영한다",
+      "subline": "출발점과 도착점이 분명해집니다",
+      "narration": "그래서 UI는 idle, pending, success, error를 표시합니다. 상태 변화의 출발점과 도착점이 또렷해집니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "UI의 책임 범위",
+        "relation": {
+          "type": "comparison",
+          "description": "외부 작업을 처리하는 UI와 사용자 의도를 전달하는 UI를 대비한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "책임의 선 긋기",
+          "rationale": "복잡한 구현 대신 UI가 해야 할 일과 하지 않을 일을 문장으로 선명하게 고정한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "reveal-boundary"
+      ],
+      "beats": [
+        {
+          "text": "UI는 외부 작업의 성공 여부를 상상하지 않습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "상상하지",
+          "visualCue": "물음표가 사라진다"
+        },
+        {
+          "text": "사용자의 의도를 보내고, 전달받은 상태를 보여줄 뿐입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "보여줄",
+          "visualCue": "의도와 상태 두 문장이 남는다"
+        }
+      ],
+      "headline": "UI의 역할은\n판단이 아니라 전달",
+      "subline": "의도를 보내고 상태를 보여준다",
+      "narration": "UI는 외부 작업의 성공 여부를 상상하지 않습니다. 사용자의 의도를 보내고, 전달받은 상태를 보여줄 뿐입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "이벤트와 결과 상태를 분리한 최종 방향",
+        "nodes": [
+          {
+            "id": "intent",
+            "shape": "rect",
+            "label": "사용자 의도",
+            "x": 170,
+            "y": 280,
+            "width": 170,
+            "height": 80,
+            "fill": "white"
+          },
+          {
+            "id": "boundary",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 170,
+            "width": 2,
+            "height": 220,
+            "fill": "gray"
+          },
+          {
+            "id": "policy",
+            "shape": "rect",
+            "label": "애플리케이션 판단",
+            "x": 620,
+            "y": 280,
+            "width": 210,
+            "height": 80,
+            "fill": "gray"
+          },
+          {
+            "id": "state",
+            "shape": "line",
+            "label": "결과 상태",
+            "x": 400,
+            "y": 390,
+            "width": 180,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "event",
+            "shape": "line",
+            "label": "이벤트",
+            "x": 340,
+            "y": 280,
+            "width": 60,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "boundary",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.15,
+            "end": 0.4
+          },
+          {
+            "target": "event",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.6
+          },
+          {
+            "target": "state",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.6,
+            "end": 0.85
+          }
+        ]
+      },
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "diagram",
+        "motif": "intent-result-boundary",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "이벤트와 결과의 경계",
+        "relation": {
+          "type": "flow",
+          "description": "UI 이벤트와 애플리케이션의 결과 판단 사이를 분리하면 상태의 근거가 명확해진다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "의도와 결과 사이의 경계선",
+          "rationale": "결과를 추측하지 않는 설계 원칙을 하나의 공간적 경계로 압축한다."
+        }
+      },
+      "transition": "zoom",
+      "camera": {
+        "motion": "push-in",
+        "target": "inflection",
+        "intensity": "subtle",
+        "startProgress": 0.2,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "draw-boundary",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "버튼을 눌렀다는 사실과 작업이 성공했다는 사실은 다릅니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 150,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "다릅니다",
+          "visualCue": "두 문장이 경계 양쪽에 배치된다"
+        },
+        {
+          "text": "좋은 UI는 그 차이를 코드에 남깁니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "남깁니다",
+          "visualCue": "경계선이 최종적으로 고정된다"
+        }
+      ],
+      "headline": "의도와 결과를\n섞지 마세요",
+      "subline": "그 차이가 설계의 경계가 됩니다",
+      "narration": "버튼을 눌렀다는 사실과 작업이 성공했다는 사실은 다릅니다. 좋은 UI는 그 차이를 코드에 남깁니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}

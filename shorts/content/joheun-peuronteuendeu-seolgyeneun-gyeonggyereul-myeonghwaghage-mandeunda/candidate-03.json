@@ -1,0 +1,914 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-03",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/joheun-peuronteuendeu-seolgyeneun-gyeonggyereul-myeonghwaghage-mandeunda/",
+    "title": "좋은 프론트엔드 설계는 경계를 명확하게 만든다"
+  },
+  "candidate": {
+    "angle": "question",
+    "hook": "이 컴포넌트는 어디까지 알아야 할까요?",
+    "title": "컴포넌트가 너무 많이 알면 생기는 일",
+    "rationale": "UI 컴포넌트가 API, 라우터, 인증, 전역 스토어까지 알게 될 때 결합도가 커지는 문제를 하나의 경계 질문으로 보여준다.",
+    "viralScore": 9,
+    "suggestedCaption": "재사용성보다 먼저 물어야 할 질문이 있습니다. 이 컴포넌트는 어디까지 알아야 할까요?",
+    "hashtags": [
+      "#프론트엔드",
+      "#컴포넌트설계",
+      "#React",
+      "#소프트웨어설계",
+      "#개발자"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "컴포넌트의 지식 범위",
+        "relation": {
+          "type": "bottleneck",
+          "description": "하나의 UI 컴포넌트에 여러 외부 책임이 몰리는 관계"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "경계선을 넘나드는 의존성",
+          "rationale": "아이콘보다 질문 자체를 크게 제시해 설계의 출발점을 즉시 인식하게 한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "hold-question"
+      ],
+      "beats": [
+        {
+          "text": "재사용성보다 먼저 물어야 할 게 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "먼저",
+          "visualCue": "질문이 화면 중앙에 등장"
+        },
+        {
+          "text": "이 컴포넌트는 어디까지 알아야 할까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "어디까지",
+          "visualCue": "경계선이 짧게 그어진다"
+        }
+      ],
+      "headline": "이 컴포넌트는\n어디까지 알아야 할까?",
+      "subline": "재사용성보다 먼저 정할 것",
+      "narration": "재사용성보다 먼저 물어야 할 게 있습니다. 이 컴포넌트는 어디까지 알아야 할까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UI 컴포넌트 주변에 외부 의존성이 모여드는 모습",
+        "nodes": [
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "UI",
+            "x": 400,
+            "y": 280,
+            "width": 180,
+            "height": 90,
+            "fill": "white"
+          },
+          {
+            "id": "api",
+            "shape": "rect",
+            "label": "API",
+            "x": 120,
+            "y": 130,
+            "width": 150,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "router",
+            "shape": "rect",
+            "label": "라우터",
+            "x": 680,
+            "y": 130,
+            "width": 150,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "auth",
+            "shape": "rect",
+            "label": "인증",
+            "x": 120,
+            "y": 430,
+            "width": 150,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "store",
+            "shape": "rect",
+            "label": "전역 스토어",
+            "x": 680,
+            "y": 430,
+            "width": 150,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 260,
+            "y": 205,
+            "width": 190,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 540,
+            "y": 205,
+            "width": 190,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "l3",
+            "shape": "line",
+            "label": "",
+            "x": 260,
+            "y": 355,
+            "width": 190,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "l4",
+            "shape": "line",
+            "label": "",
+            "x": 540,
+            "y": 355,
+            "width": 190,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.35
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.45
+          },
+          {
+            "target": "l3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.55
+          },
+          {
+            "target": "l4",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.65
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "dependency-cluster",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "외부 의존성이 UI에 집중됨",
+        "relation": {
+          "type": "convergence",
+          "description": "API, 라우터, 인증, 전역 스토어의 의존성이 UI 하나로 모인다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "의존성이 한 점으로 몰리는 구조",
+          "rationale": "여러 책임이 하나의 컴포넌트로 수렴하는 관계를 단순 아이콘보다 직접 보여준다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "push-in",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0.2,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "advance-dependencies",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "화면을 그리는 컴포넌트가 API 호출 방법을 알고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "API",
+          "visualCue": "API 선이 UI로 연결된다"
+        },
+        {
+          "text": "라우터와 인증, 전역 스토어까지 알면 처음엔 편합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "전역 스토어",
+          "visualCue": "나머지 의존성 선이 차례로 연결된다"
+        }
+      ],
+      "headline": "처음엔 편하지만",
+      "subline": "의존성이 한 컴포넌트로 모인다",
+      "narration": "화면을 그리는 컴포넌트가 API 호출 방법을 알고, 라우터와 인증, 전역 스토어까지 알면 처음엔 편합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "큰 애플리케이션에서 UI와 실행 환경이 단단히 묶인 모습",
+        "nodes": [
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "UI 컴포넌트",
+            "x": 230,
+            "y": 280,
+            "width": 190,
+            "height": 90,
+            "fill": "white"
+          },
+          {
+            "id": "env",
+            "shape": "rect",
+            "label": "실행 환경",
+            "x": 570,
+            "y": 280,
+            "width": 190,
+            "height": 90,
+            "fill": "gray"
+          },
+          {
+            "id": "lock1",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 280,
+            "width": 150,
+            "height": 8,
+            "fill": "gray"
+          },
+          {
+            "id": "lock2",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 310,
+            "width": 150,
+            "height": 8,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "lock1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.15,
+            "end": 0.45
+          },
+          {
+            "target": "lock2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.65
+          },
+          {
+            "target": "ui",
+            "property": "x",
+            "from": 230,
+            "to": 270,
+            "start": 0.55,
+            "end": 0.8
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "tight-coupling",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "실행 환경에 묶인 UI",
+        "relation": {
+          "type": "bottleneck",
+          "description": "UI와 실행 환경 사이의 결합이 독립적인 렌더링과 변경을 막는다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "두 블록을 잠그는 연결부",
+          "rationale": "독립성 상실을 잠긴 구조와 이동 제한으로 표현해 결과를 직관적으로 전달한다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "medium",
+        "startProgress": 0.2,
+        "endProgress": 0.75
+      },
+      "choreography": [
+        "show-visual",
+        "lock-boundary",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "애플리케이션이 커지면 컴포넌트는 실행 환경에 묶입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 100,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "묶입니다",
+          "visualCue": "두 블록 사이 연결부가 잠긴다"
+        },
+        {
+          "text": "독립적으로 렌더링하기 어렵고, 테스트도 번거로워집니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 130,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "독립적으로",
+          "visualCue": "UI 블록의 이동이 멈춘다"
+        }
+      ],
+      "headline": "커질수록\n변경이 번집니다",
+      "subline": "UI와 실행 환경이 함께 묶이기 때문입니다",
+      "narration": "애플리케이션이 커지면 컴포넌트는 실행 환경에 묶입니다. 독립적으로 렌더링하기 어렵고, 테스트도 번거로워집니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UI와 Composition 사이에 경계를 두고 책임을 나눈 구조",
+        "nodes": [
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "UI",
+            "x": 220,
+            "y": 280,
+            "width": 190,
+            "height": 100,
+            "fill": "white"
+          },
+          {
+            "id": "boundary",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 280,
+            "width": 2,
+            "height": 220,
+            "fill": "gray"
+          },
+          {
+            "id": "composition",
+            "shape": "rect",
+            "label": "Composition",
+            "x": 580,
+            "y": 280,
+            "width": 220,
+            "height": 100,
+            "fill": "gray"
+          },
+          {
+            "id": "props",
+            "shape": "line",
+            "label": "props",
+            "x": 400,
+            "y": 240,
+            "width": 150,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "events",
+            "shape": "line",
+            "label": "events",
+            "x": 400,
+            "y": 330,
+            "width": 150,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "boundary",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.15,
+            "end": 0.45
+          },
+          {
+            "target": "props",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.65
+          },
+          {
+            "target": "events",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.8
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "ui-composition-boundary",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "UI와 Composition의 경계",
+        "relation": {
+          "type": "flow",
+          "description": "데이터는 props로 들어오고 사용자 행동은 이벤트로 나가며 Composition이 외부 동작을 연결한다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "두 영역 사이의 명확한 인터페이스",
+          "rationale": "경계의 위치와 양방향이 아닌 역할별 흐름을 한 화면에서 설명한다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "pan-right",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0.1,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "draw-boundary",
+        "show-visual",
+        "reveal-props-and-events"
+      ],
+      "beats": [
+        {
+          "text": "그래서 서로 다른 책임이 만나는 자리를 분명히 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "경계",
+          "visualCue": "중앙 경계선이 나타난다"
+        },
+        {
+          "text": "UI는 화면을 그리고, Composition은 애플리케이션과 연결합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "연결",
+          "visualCue": "props와 events 흐름이 순서대로 나타난다"
+        }
+      ],
+      "headline": "UI와 Composition을\n나눈다",
+      "subline": "파일 개수보다 책임의 경계가 중요합니다",
+      "narration": "그래서 서로 다른 책임이 만나는 자리를 분명히 합니다. UI는 화면을 그리고, Composition은 애플리케이션과 연결합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-split-left",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "frontend developer reviewing component architecture on monitor grayscale",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "변경이 한쪽에 머무는 설계",
+        "relation": {
+          "type": "divergence",
+          "description": "디자인 변경과 데이터 저장 방식 변경이 서로 다른 계층으로 나뉘어 퍼진다"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "코드를 실제로 검토하는 장면이 설계 변경의 맥락을 구체적으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pan-left",
+        "target": "subject",
+        "intensity": "subtle",
+        "startProgress": 0.15,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "show-subline",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "디자인이 바뀌면 UI를 고치고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 60,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "디자인",
+          "visualCue": "화면의 UI 영역에 초점"
+        },
+        {
+          "text": "데이터 저장 방식이 바뀌면 Composition을 고칩니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 140,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "저장 방식",
+          "visualCue": "초점이 연결 계층으로 이동"
+        },
+        {
+          "text": "한쪽의 변화가 다른 쪽으로 함부로 번지지 않습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 200,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "번지지",
+          "visualCue": "변경선이 경계에서 멈춘다"
+        }
+      ],
+      "headline": "변경의 방향을\n분리한다",
+      "subline": "한쪽의 변화가 다른 쪽으로 번지지 않게",
+      "narration": "디자인이 바뀌면 UI를 고치고, 데이터 저장 방식이 바뀌면 Composition을 고칩니다. 한쪽의 변화가 다른 쪽으로 함부로 번지지 않습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "frontend developer reviewing component architecture on monitor grayscale",
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "좋은 경계의 기준",
+        "relation": {
+          "type": "comparison",
+          "description": "무조건 작은 컴포넌트와 책임이 분명한 컴포넌트를 대비한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "질문으로 경계를 점검",
+          "rationale": "추상적인 설계 원칙을 점검 질문으로 압축해 기억하기 쉽게 만든다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "reveal-check-question"
+      ],
+      "beats": [
+        {
+          "text": "좋은 설계는 컴포넌트를 무조건 작게 쪼개는 일이 아닙니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 150,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "무조건",
+          "visualCue": "분할선이 나타났다가 멈춘다"
+        },
+        {
+          "text": "서로 다른 책임이 어디서 만나는지 정하는 일입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "어디서",
+          "visualCue": "경계 위치에 짧은 강조선"
+        }
+      ],
+      "headline": "작게 쪼개는 것보다\n경계를 정하라",
+      "subline": "책임이 만나는 자리를 먼저 보세요",
+      "narration": "좋은 설계는 컴포넌트를 무조건 작게 쪼개는 일이 아닙니다. 서로 다른 책임이 어디서 만나는지 정하는 일입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UI와 Composition이 상태를 주고받는 순환 흐름",
+        "nodes": [
+          {
+            "id": "app",
+            "shape": "rect",
+            "label": "애플리케이션 상태",
+            "x": 150,
+            "y": 170,
+            "width": 190,
+            "height": 70,
+            "fill": "gray"
+          },
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "UI",
+            "x": 400,
+            "y": 170,
+            "width": 150,
+            "height": 70,
+            "fill": "white"
+          },
+          {
+            "id": "comp",
+            "shape": "rect",
+            "label": "Composition",
+            "x": 650,
+            "y": 170,
+            "width": 190,
+            "height": 70,
+            "fill": "gray"
+          },
+          {
+            "id": "state",
+            "shape": "rect",
+            "label": "갱신된 상태",
+            "x": 400,
+            "y": 390,
+            "width": 170,
+            "height": 70,
+            "fill": "gray"
+          },
+          {
+            "id": "a",
+            "shape": "line",
+            "label": "props",
+            "x": 275,
+            "y": 170,
+            "width": 100,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "b",
+            "shape": "line",
+            "label": "event",
+            "x": 525,
+            "y": 170,
+            "width": 100,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "c",
+            "shape": "line",
+            "label": "동작",
+            "x": 650,
+            "y": 280,
+            "width": 2,
+            "height": 120,
+            "fill": "gray"
+          },
+          {
+            "id": "d",
+            "shape": "line",
+            "label": "반영",
+            "x": 300,
+            "y": 390,
+            "width": 170,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "a",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "b",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.5
+          },
+          {
+            "target": "c",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.7
+          },
+          {
+            "target": "d",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.7,
+            "end": 0.9
+          }
+        ]
+      },
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "diagram",
+        "motif": "one-way-state-flow",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "명확한 UI 경계가 만드는 변경 가능성",
+        "relation": {
+          "type": "flow",
+          "description": "상태는 props로 UI에 들어오고 이벤트는 Composition으로 나가며 갱신 상태가 다시 돌아온다"
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "한 방향으로 흐르는 상태 루프",
+          "rationale": "설계 원칙의 전체 흐름을 연결선의 순서로 보여줘 결론을 구조적으로 기억하게 한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0.2,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-visual",
+        "advance-flow",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "UI는 상태를 보여주고 사용자의 의도를 알립니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "의도",
+          "visualCue": "UI에서 이벤트 선이 나온다"
+        },
+        {
+          "text": "Composition은 그 의도를 애플리케이션 동작으로 옮깁니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "옮깁니다",
+          "visualCue": "Composition 블록이 강조된다"
+        },
+        {
+          "text": "이 경계가 코드에 드러나면 컴포넌트는 오래 버팁니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "오래",
+          "visualCue": "전체 흐름이 완성되고 정지한다"
+        }
+      ],
+      "headline": "경계가 드러난 코드는\n오래 버팁니다",
+      "subline": "변경할 자리를 찾기 쉬워지기 때문입니다",
+      "narration": "UI는 상태를 보여주고 사용자의 의도를 알립니다. Composition은 그 의도를 애플리케이션 동작으로 옮깁니다. 이 경계가 코드에 드러나면 컴포넌트는 오래 버팁니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}

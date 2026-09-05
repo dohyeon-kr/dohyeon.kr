@@ -1,0 +1,867 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-02",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/joheun-peuronteuendeu-seolgyeneun-gyeonggyereul-myeonghwaghage-mandeunda/",
+    "title": "좋은 프론트엔드 설계는 경계를 명확하게 만든다"
+  },
+  "candidate": {
+    "angle": "rule",
+    "hook": "컴포넌트를 띄우려고 라우터부터 준비하고 있나요?",
+    "title": "Storybook은 경계의 시험대다",
+    "rationale": "Storybook에서 fixture만으로 UI를 렌더링할 수 있는지가 외부 의존성과 책임 분리가 제대로 되었는지 보여주는 실용적인 기준이라는 논점을 다룬다.",
+    "viralScore": 9,
+    "suggestedCaption": "Storybook이 불편한 이유는 도구가 아니라 컴포넌트의 경계일 수 있습니다.",
+    "hashtags": [
+      "#Storybook",
+      "#프론트엔드",
+      "#컴포넌트",
+      "#테스트",
+      "#개발자"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "Storybook 렌더링의 불편함",
+        "relation": {
+          "type": "bottleneck",
+          "description": "단순한 UI 하나를 띄우기 위해 여러 애플리케이션 의존성을 통과해야 하는 상황"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "렌더링 앞의 준비물 장벽",
+          "rationale": "개발자가 실제로 겪는 마찰을 질문으로 제시해 첫 순간에 공감과 긴장을 만든다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "hold-question"
+      ],
+      "beats": [
+        {
+          "text": "컴포넌트 하나 띄우려고 라우터부터 준비하고 있나요?",
+          "emphasis": "high",
+          "pauseAfterMs": 230,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "라우터",
+          "visualCue": "라우터라는 단어가 먼저 강조된다"
+        }
+      ],
+      "headline": "컴포넌트 하나 띄우는데\n왜 이렇게 많이 필요할까?",
+      "subline": "Storybook에서 확인할 수 있는 경계",
+      "narration": "컴포넌트 하나 띄우려고 라우터부터 준비하고 있나요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UI를 렌더링하기 전에 여러 Provider와 외부 의존성을 준비하는 장벽",
+        "nodes": [
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "UI 렌더링",
+            "x": 650,
+            "y": 280,
+            "width": 180,
+            "height": 80,
+            "fill": "white"
+          },
+          {
+            "id": "router",
+            "shape": "rect",
+            "label": "라우터",
+            "x": 130,
+            "y": 130,
+            "width": 140,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "query",
+            "shape": "rect",
+            "label": "쿼리 클라이언트",
+            "x": 330,
+            "y": 130,
+            "width": 170,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "auth",
+            "shape": "rect",
+            "label": "인증 컨텍스트",
+            "x": 530,
+            "y": 130,
+            "width": 170,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "store",
+            "shape": "rect",
+            "label": "전역 스토어",
+            "x": 730,
+            "y": 130,
+            "width": 140,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "barrier",
+            "shape": "line",
+            "label": "",
+            "x": 500,
+            "y": 220,
+            "width": 600,
+            "height": 4,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "barrier",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.15,
+            "end": 0.45
+          },
+          {
+            "target": "router",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.4
+          },
+          {
+            "target": "query",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.5
+          },
+          {
+            "target": "auth",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.6
+          },
+          {
+            "target": "store",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.7
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "provider-barrier",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "렌더링을 막는 외부 의존성",
+        "relation": {
+          "type": "bottleneck",
+          "description": "라우터, 쿼리 클라이언트, 인증, 전역 스토어가 UI 앞의 관문이 된다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "여러 준비물을 요구하는 관문",
+          "rationale": "필요한 준비물이 쌓여 UI 접근을 막는 구조를 병목으로 시각화한다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "push-in",
+        "target": "inflection",
+        "intensity": "medium",
+        "startProgress": 0.15,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "stack-dependencies",
+        "emphasize-bottleneck"
+      ],
+      "beats": [
+        {
+          "text": "라우터와 쿼리 클라이언트, 인증 컨텍스트, 전역 스토어까지 준비해야 한다면",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "준비해야",
+          "visualCue": "의존성 블록이 차례로 쌓인다"
+        },
+        {
+          "text": "컴포넌트가 애플리케이션 사정을 너무 많이 알고 있을 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "너무 많이",
+          "visualCue": "관문이 UI 앞을 가로막는다"
+        }
+      ],
+      "headline": "렌더링 앞에\n준비물이 너무 많다면",
+      "subline": "컴포넌트의 지식 범위를 의심해 보세요",
+      "narration": "라우터와 쿼리 클라이언트, 인증 컨텍스트, 전역 스토어까지 준비해야 한다면 컴포넌트가 애플리케이션 사정을 너무 많이 알고 있을 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-split-left",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "developer testing isolated UI component in browser grayscale",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "격리된 UI 테스트",
+        "relation": {
+          "type": "literal",
+          "description": "외부 백엔드 없이 fixture 데이터만으로 UI의 여러 상태를 재현한다"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "격리된 컴포넌트를 확인하는 개발 장면이 Storybook의 테스트 맥락을 구체적으로 보여준다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "pan-right",
+        "target": "subject",
+        "intensity": "subtle",
+        "startProgress": 0.1,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "반대로 UI가 API 클라이언트나 인증 Provider 없이 렌더링된다면",
+          "emphasis": "mid",
+          "pauseAfterMs": 90,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "없이",
+          "visualCue": "외부 연결선이 사라진다"
+        },
+        {
+          "text": "Storybook과 테스트에서 훨씬 간단하게 쓸 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 160,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "간단하게",
+          "visualCue": "격리된 화면이 선명해진다"
+        }
+      ],
+      "headline": "외부 연결 없이\n렌더링되는 UI",
+      "subline": "Storybook과 테스트의 출발점",
+      "narration": "반대로 UI가 API 클라이언트나 인증 Provider 없이 렌더링된다면 Storybook과 테스트에서 훨씬 간단하게 쓸 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "developer testing isolated UI component in browser grayscale",
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "fixture 하나로 로딩, 성공, 오류, 빈 데이터 상태를 재현하는 구조",
+        "nodes": [
+          {
+            "id": "fixture",
+            "shape": "rect",
+            "label": "fixture",
+            "x": 150,
+            "y": 280,
+            "width": 150,
+            "height": 80,
+            "fill": "white"
+          },
+          {
+            "id": "loading",
+            "shape": "rect",
+            "label": "로딩",
+            "x": 390,
+            "y": 150,
+            "width": 120,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "success",
+            "shape": "rect",
+            "label": "성공",
+            "x": 650,
+            "y": 150,
+            "width": 120,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "error",
+            "shape": "rect",
+            "label": "오류",
+            "x": 390,
+            "y": 410,
+            "width": 120,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "empty",
+            "shape": "rect",
+            "label": "빈 데이터",
+            "x": 650,
+            "y": 410,
+            "width": 150,
+            "height": 60,
+            "fill": "gray"
+          },
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 250,
+            "y": 260,
+            "width": 140,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 250,
+            "y": 300,
+            "width": 140,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "l3",
+            "shape": "line",
+            "label": "",
+            "x": 250,
+            "y": 340,
+            "width": 140,
+            "height": 2,
+            "fill": "gray"
+          },
+          {
+            "id": "l4",
+            "shape": "line",
+            "label": "",
+            "x": 250,
+            "y": 380,
+            "width": 140,
+            "height": 2,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.25,
+            "end": 0.45
+          },
+          {
+            "target": "l3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.6
+          },
+          {
+            "target": "l4",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.55,
+            "end": 0.75
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "fixture-state-matrix",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "fixture 기반 상태 재현",
+        "relation": {
+          "type": "divergence",
+          "description": "하나의 fixture에서 로딩, 성공, 오류, 빈 데이터 등 여러 UI 상태가 갈라져 나온다"
+        },
+        "strategy": {
+          "type": "graph",
+          "metaphor": "하나의 입력에서 여러 상태로 분기",
+          "rationale": "실제 백엔드 없이 상태를 재현하는 Storybook의 장점을 분기 구조로 보여준다."
+        }
+      },
+      "transition": "wipe",
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0.15,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-visual",
+        "branch-states",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "fixture 데이터만 있으면 로딩과 성공, 오류를 재현할 수 있고",
+          "emphasis": "mid",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "fixture",
+          "visualCue": "fixture에서 상태 선이 갈라진다"
+        },
+        {
+          "text": "긴 텍스트와 빈 데이터도 실제 백엔드 없이 확인할 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 170,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "백엔드 없이",
+          "visualCue": "마지막 상태 노드가 켜진다"
+        }
+      ],
+      "headline": "하나의 fixture로\n여러 상태를 시험한다",
+      "subline": "실제 백엔드가 없어도 됩니다",
+      "narration": "fixture 데이터만 있으면 로딩과 성공, 오류를 재현할 수 있고 긴 텍스트와 빈 데이터도 실제 백엔드 없이 확인할 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-versus",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "Storybook의 의미 재정의",
+        "relation": {
+          "type": "comparison",
+          "description": "개발 편의 도구와 설계 경계를 검증하는 시험을 대비한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "도구에서 시험대로의 재정의",
+          "rationale": "Storybook을 단순한 미리보기로 보지 않고 설계 기준으로 재해석하게 만든다."
+        }
+      },
+      "transition": "slide-left",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "reveal-left",
+        "reveal-right"
+      ],
+      "beats": [
+        {
+          "text": "Storybook에서 쉽게 렌더링되는지는 개발 편의만의 문제가 아닙니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "편의만",
+          "visualCue": "왼쪽 문장이 먼저 나타난다"
+        },
+        {
+          "text": "경계가 제대로 나뉘었는지 확인하는 시험에 가깝습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "시험",
+          "visualCue": "오른쪽 문장이 강조된다"
+        }
+      ],
+      "headline": "Storybook은 미리보기가 아니라\n경계의 시험대",
+      "subline": "쉽게 렌더링되는가를 보세요",
+      "narration": "Storybook에서 쉽게 렌더링되는지는 개발 편의만의 문제가 아닙니다. 경계가 제대로 나뉘었는지 확인하는 시험에 가깝습니다.",
+      "comparisonLeft": "개발 편의",
+      "comparisonRight": "설계 경계 검증",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "같은 UI에 실제 Composition과 개발용 Fixture Composition을 교체해 연결하는 구조",
+        "nodes": [
+          {
+            "id": "ui",
+            "shape": "rect",
+            "label": "같은 UI",
+            "x": 400,
+            "y": 280,
+            "width": 160,
+            "height": 80,
+            "fill": "white"
+          },
+          {
+            "id": "real",
+            "shape": "rect",
+            "label": "실제 Composition",
+            "x": 170,
+            "y": 150,
+            "width": 190,
+            "height": 70,
+            "fill": "gray"
+          },
+          {
+            "id": "fixture",
+            "shape": "rect",
+            "label": "Fixture Composition",
+            "x": 630,
+            "y": 150,
+            "width": 210,
+            "height": 70,
+            "fill": "gray"
+          },
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 300,
+            "y": 205,
+            "width": 100,
+            "height": 75,
+            "fill": "gray"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 500,
+            "y": 205,
+            "width": 100,
+            "height": 75,
+            "fill": "gray"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.45
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.45,
+            "end": 0.8
+          },
+          {
+            "target": "ui",
+            "property": "scale",
+            "from": 1,
+            "to": 1.08,
+            "start": 0.75,
+            "end": 0.95
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "composition-swap",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "연결 계층 교체",
+        "relation": {
+          "type": "convergence",
+          "description": "실제 환경과 개발 환경이 같은 UI로 모이고 공급하는 Composition만 교체된다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "두 공급원이 하나의 UI로 연결",
+          "rationale": "환경 분기를 UI 내부에 넣지 않고 연결 계층에서 바꾸는 원칙을 구조로 표현한다."
+        }
+      },
+      "transition": "slide-up",
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0.15,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-visual",
+        "swap-compositions",
+        "emphasize-ui"
+      ],
+      "beats": [
+        {
+          "text": "개발용 동작이 필요해도 UI 안에 환경 분기를 넣지 않습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 110,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "UI 안에",
+          "visualCue": "UI 내부의 분기선이 지워진다"
+        },
+        {
+          "text": "같은 UI에 실제 Composition과 Fixture Composition을 바꿔 연결합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "바꿔",
+          "visualCue": "두 Composition 연결이 교체된다"
+        }
+      ],
+      "headline": "UI는 그대로 두고\n연결 계층을 바꾼다",
+      "subline": "실제 환경과 개발 환경의 차이를 줄이는 방식",
+      "narration": "개발용 동작이 필요해도 UI 안에 환경 분기를 넣지 않습니다. 같은 UI에 실제 Composition과 Fixture Composition을 바꿔 연결합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "경계 점검 질문",
+        "relation": {
+          "type": "comparison",
+          "description": "외부 의존성이 섞인 컴포넌트와 fixture만으로 재현되는 컴포넌트를 대비한다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "설계 점검 체크",
+          "rationale": "추상 원칙을 실무자가 바로 적용할 수 있는 하나의 판단 기준으로 정리한다."
+        }
+      },
+      "transition": "fade",
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "reveal-check"
+      ],
+      "beats": [
+        {
+          "text": "컴포넌트를 띄우기 위해 애플리케이션 전체를 준비해야 한다면",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "전체",
+          "visualCue": "준비 항목이 화면을 채운다"
+        },
+        {
+          "text": "경계를 다시 볼 때입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 230,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "다시",
+          "visualCue": "항목들이 경계선 뒤로 정리된다"
+        }
+      ],
+      "headline": "렌더링이 어려우면\n경계를 다시 보세요",
+      "subline": "도구보다 컴포넌트의 책임을 먼저 점검합니다",
+      "narration": "컴포넌트를 띄우기 위해 애플리케이션 전체를 준비해야 한다면 경계를 다시 볼 때입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "Storybook과 설계 경계",
+        "relation": {
+          "type": "literal",
+          "description": "fixture만으로 주요 UI 상태를 재현할 수 있으면 경계가 드러난다"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": "간단한 렌더링을 설계 신호로 보기",
+          "rationale": "마지막에 도구 사용법이 아니라 설계 원칙으로 의미를 확장해 여운을 남긴다."
+        }
+      },
+      "transition": "zoom",
+      "camera": {
+        "motion": "push-in",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0.2,
+        "endProgress": 0.85
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result",
+        "hold-conclusion"
+      ],
+      "beats": [
+        {
+          "text": "Storybook에서 fixture만으로 주요 상태를 재현할 수 있는가.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "fixture",
+          "visualCue": "질문이 화면 중앙에 고정된다"
+        },
+        {
+          "text": "이 질문은 개발 편의를 넘어 컴포넌트의 경계를 묻습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 280,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경계",
+          "visualCue": "마지막 단어만 남고 화면이 정리된다"
+        }
+      ],
+      "headline": "쉽게 렌더링되는 UI는\n경계를 드러냅니다",
+      "subline": "Storybook은 그 경계를 시험하는 곳입니다",
+      "narration": "Storybook에서 fixture만으로 주요 상태를 재현할 수 있는가. 이 질문은 개발 편의를 넘어 컴포넌트의 경계를 묻습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
