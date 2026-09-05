@@ -191,7 +191,7 @@ Visual Resolver 원칙:
 - 구체적인 사람/사물/장소/행동은 photo를 우선한다. photo query는 Openverse에서 찾기 좋은 영어 명사구로 작성한다.
 - 지도상의 위치 표시, 경로, 그래프, 주석·화살표가 필요한 설명은 photo 검색어로 만들지 말고 diagramSpec으로 직접 표현한다. 실제 지리 정보는 본문 근거가 있을 때만 사용한다.
 - photo query에는 피사체를 나타내는 짧고 구체적인 영어 명사구만 쓴다. low resolution, with marked location 같은 화질·편집·연출 지시는 넣지 않는다.
-- visual.type이 photo일 때만 query를 채운다. 그 외 query는 null이다.
+- visual.type이 photo일 때만 query를 채운다. 그 외 query는 null이다. 사진 query는 실제 피사체·행동을 나타내는 짧은 영문 명사구(대체로 2~4단어)로 쓴다. 추상적인 주장이나 여러 행동을 묶은 긴 문장형 검색어는 피한다.
 - diagram/symbol motif는 의미가 분명한 kebab-case를 쓴다.
 - 그래프 motif 예: roi-curve, growth-curve, diminishing-returns.
 - flow motif 예: network, map-network, funnel, feedback-loop, depth-vs-breadth.

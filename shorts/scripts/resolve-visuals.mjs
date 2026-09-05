@@ -33,7 +33,10 @@ export const createPhotoSearch = ({fetchImpl = fetch, warn = console.warn} = {})
           warn(`Openverse rate limit reached while searching: ${query}`);
           break;
         }
-        if (!response.ok) continue;
+        if (!response.ok) {
+          warn(`Openverse HTTP ${response.status} (${license}) for ${JSON.stringify(query)}`);
+          continue;
+        }
         const data = await response.json();
         const candidates = Array.isArray(data.results) ? data.results : [];
         const preferred = candidates.find((item) => Number(item.width) >= 900 && Number(item.height) >= 700 && item.url) ?? candidates.find((item) => item.url || item.thumbnail);
@@ -85,7 +88,7 @@ const textFallback = (scene, reason, detail) => {
   };
 };
 
-export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn, repairDiagram, maxRepairAttempts = 8, onProgress = async () => {}} = {}) => {
+export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn, repairPhoto, photoFailureMode = 'fallback', repairDiagram, maxRepairAttempts = 8, onProgress = async () => {}} = {}) => {
   if (!Number.isInteger(maxRepairAttempts) || maxRepairAttempts < 0 || maxRepairAttempts > 8) throw new Error("maxRepairAttempts must be an integer from 0 to 8");
   const videoCatalog = candidate.scenes.some(s => s.backgroundVideo) ? await loadVideoCatalog() : [];
   const scenes = [];
@@ -119,9 +122,40 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
         }
       }
     }
-    const imageQuery = scene.visual.type === 'photo' ? scene.visual.query?.trim() || null : null;
-    const image = imageQuery ? (await search(imageQuery)) ?? curated(imageQuery) : null;
+    let imageQuery = scene.visual.type === 'photo' ? scene.visual.query?.trim() || null : null;
+    let image = imageQuery ? (await search(imageQuery)) ?? curated(imageQuery) : null;
+    const photoHistory = [];
     if (scene.visual.type === 'photo' && !image) {
+      photoHistory.push({query: imageQuery, status: 'unavailable'});
+      await onProgress({status: 'photo-unavailable', sceneNumber: scenes.length + 1, scene, history: structuredClone(photoHistory)});
+      if (repairPhoto) {
+        try {
+          const alternatives = await repairPhoto({scene: structuredClone(scene), sceneNumber: scenes.length + 1, title: candidate.title, history: structuredClone(photoHistory)});
+          const attempted = new Set([imageQuery?.toLowerCase()]);
+          for (const alternative of alternatives.slice(0, 3)) {
+            const query = alternative.query?.trim();
+            if (!query || attempted.has(query.toLowerCase())) continue;
+            attempted.add(query.toLowerCase());
+            warn(`Retry photo search in scene ${scenes.length + 1}: ${JSON.stringify(query)}`);
+            image = (await search(query)) ?? curated(query);
+            photoHistory.push({query, status: image ? 'resolved' : 'unavailable', rationale: alternative.rationale});
+            if (image) {
+              imageQuery = query;
+              scene = {...scene, visual: {...scene.visual, query},
+                ...(scene.visualIntent?.strategy ? {visualIntent: {...scene.visualIntent, strategy: {...scene.visualIntent.strategy,
+                  rationale: `${scene.visualIntent.strategy.rationale} 사진 검색 조정: ${alternative.rationale}`}}} : {}),
+              };
+            }
+            await onProgress({status: image ? 'photo-recovered' : 'photo-unavailable', sceneNumber: scenes.length + 1, scene, history: structuredClone(photoHistory)});
+            if (image) break;
+          }
+        } catch (error) {
+          throw new Error(`Scene ${scenes.length + 1}: photo query repair failed: ${error.message}`, {cause: error});
+        }
+      }
+    }
+    if (scene.visual.type === 'photo' && !image) {
+      if (photoFailureMode === 'throw') throw new Error(`Scene ${scenes.length + 1}: photo unavailable after ${photoHistory.length} searches: ${photoHistory.map(h => JSON.stringify(h.query)).join(', ')}`);
       warn(`Photo unavailable in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${JSON.stringify(imageQuery)}. Using a text scene; review its visual direction.`);
       scenes.push(textFallback(scene, 'photo-unavailable'));
       await onProgress({status: 'resolved', sceneNumber: scenes.length, scene: scenes.at(-1)});
