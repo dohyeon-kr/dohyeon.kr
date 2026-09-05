@@ -132,3 +132,7 @@ This repository uses automated Remotion rendering. Review the current Remotion l
 5. 검토를 마치면 **Render blog shorts → Run workflow**에서 선택한 후보 JSON 경로를 넣고 `storyboard_approved`를 체크합니다. 최종 음성·영상은 이 단계에서만 생성됩니다.
 
 선택 상태는 PR 본문의 `shorts-selection` 구간에 저장됩니다. 구간 표식과 후보 경로는 유지하세요. 기존 PR은 이 구간을 추가해야 선택 기능이 동작하며, 구간이 없으면 후보를 자동 렌더링하지 않습니다. PR 미리보기에서는 해당 PR이 변경한 후보만 선택할 수 있습니다. 워크플로 변경을 먼저 main에 병합해야 이후 생성되는 PR에도 새 동작이 적용됩니다.
+
+## 스토리보드 AI 리뷰
+
+스토리보드 생성 후 선택 코멘트를 반영해 OpenAI가 리뷰하고 개선 PR을 만듭니다. [실행 방법과 검증 범위](docs/storyboard-review.md)를 참고하세요.

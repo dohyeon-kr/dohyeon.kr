@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import {pathToFileURL} from 'node:url';
 import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
@@ -112,7 +113,7 @@ const SceneSchema = z.object({
   comparisonRight: z.string().nullable(),
 });
 
-const CandidateSchema = z.object({
+export const CandidateSchema = z.object({
   angle: z.enum(['counterargument', 'question', 'reframe', 'experience', 'analogy', 'rule']),
   hook: z.string(),
   title: z.string(),
@@ -125,7 +126,7 @@ const CandidateSchema = z.object({
 
 const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
 
-const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
+export const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
 도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
 diagramSpec은 version=1, renderer=auto가 기본이다. 일반 도식은 Remotion, physics가 있는 장면은 Motion Canvas로 자동 선택된다.
 physics는 보통 null이다. 충돌/낙하/시소가 의미를 전달할 때만 seconds(0.1~10), gravity(x/y -2~2), bodies, pins를 작성한다.
@@ -162,7 +163,7 @@ renderer 선택은 표현력의 보장이 아니다. 두 엔진이 공유하는 
 
 Visual Resolver 원칙:
 - 키워드를 아이콘 하나로 치환하지 않는다. 먼저 문장의 핵심 관계가 무엇인지 visualIntent.relation에 적는다.
-- 전역적인 매체 순위를 적용하지 않는다. 사물·장소·행동·분위기는 photo 우선, 수치·관계·변화는 graph/diagram/simulation/physical-metaphor를 선택한다. 문·문고리·방을 의미 없는 문 아이콘으로 치환하지 않는다. icon은 사진이나 도식보다 명확한 정보를 줄 때만 선택하고 근거를 적는다.
+- 시각 전략 우선순위는 simulation → graph → spatial-diagram → physical-metaphor → photo → icon 순이다. icon은 fallback이다.
 - 변화량, 효율, 누적, 격차, 시간에 따른 변화는 graph를 적극적으로 사용한다.
 - 물리적 관계가 설명에 유리하면 physical-metaphor를 쓴다. 특히 leverage는 상승 화살표가 아니라 지렛대/시소처럼 작은 힘이 큰 결과를 움직이는 관계로 표현한다.
 - 병목은 flow가 좁은 관문에서 밀리는 모습, balance/trade-off는 실제로 기울어지는 구조, accumulation은 쌓이는 구조, convergence는 여러 경로가 모이는 구조를 우선한다.
@@ -206,10 +207,10 @@ Motion / choreography 원칙:
 
 layout 원칙:
 - 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
-- 구체적인 맥락에 도움이 되는 사진을 사용하되 도식의 전후 설명을 사진 수 할당 때문에 끊지 않는다. 사진과 설명을 분리하는 것이 의미 전달과 가독성에 유리할 때 photo-strip/split을 사용한다. 배치 종류를 채우기 위한 변주는 하지 않는다.
+- 구체적인 맥락에 도움이 되는 사진을 사용하되 도식의 전후 설명을 사진 수 할당 때문에 끊지 않는다. 모든 사진을 full-bleed로 만들지 말고 photo-strip 등 사진과 문구가 분리된 배치를 포함한다.
 - 도식 라벨은 한글 2~6자로 짧게 쓴다. 긴 영문 용어는 본문에서 설명한다. line의 width가 길이이고 기본은 가로선이며 세로선은 height를 길게 쓴다. 대각선은 rotation 이벤트의 from/to를 같은 각도로 지정한다.
 - 같은 시스템의 전후 비교는 layout과 노드 좌표를 유지한다. 그 외 장면은 사진/비교/큰 문장으로 리듬을 바꾼다.
-- 공간감·분위기·구체적인 피사체가 핵심인 사진은 photo-full-bleed를 우선 검토한다. 횟수 상한은 두지 않는다. 클로즈업/문/방처럼 샷 크기와 피사체로 리듬을 만든다. 9:16 크롭, 흑백 명암, 오버레이, 제목·자막 가독성을 함께 계획한다.
+- photo-full-bleed는 강한 전환에만 사용하고 영상당 최대 1~2회.
 - diagram-centered는 그래프/도식/물리 비유가 중심인 장면에 사용한다.
 - statement-giant는 강한 한 문장에만 제한적으로 사용한다.
 - compare-columns / compare-versus는 진짜 비교 관계가 있을 때만 사용한다.
@@ -263,7 +264,7 @@ const extractGhostContent = (html) => {
   return beforeComments.replace(/<\/section>\s*$/i, '');
 };
 
-const fetchPost = async (rawUrl) => {
+export const fetchPost = async (rawUrl) => {
   const url = new URL(rawUrl);
   if (!allowedHosts.has(url.hostname)) throw new Error(`Only dohyeon.kr blog URLs are allowed. Received: ${url.hostname}`);
   url.hash = '';
@@ -357,4 +358,4 @@ const main = async () => {
   }
 };
 
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) await main();

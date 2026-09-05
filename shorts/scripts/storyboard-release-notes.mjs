@@ -9,6 +9,7 @@ if (!listFile || !notesFile) throw new Error('Usage: node storyboard-release-not
 const {GITHUB_REPOSITORY: repository, GITHUB_SHA: sha, TAG_NAME: tag} = process.env;
 if (!repository || !sha || !tag) throw new Error('GITHUB_REPOSITORY, GITHUB_SHA and TAG_NAME are required');
 const base = `${process.env.GITHUB_SERVER_URL || 'https://github.com'}/${repository}`;
+const reviewUrl = `${base}/actions/workflows/review-storyboard.yml`;
 const renderUrl = `${base}/actions/workflows/render-shorts.yml`;
 if (!process.env.STORYBOARD_ASSET_URLS) throw new Error('Verified storyboard asset URLs are required');
 const assetUrls = JSON.parse(await fs.readFile(process.env.STORYBOARD_ASSET_URLS, 'utf8'));
@@ -20,6 +21,8 @@ const assetUrl = name => {
 const manifests = [...new Set((await fs.readFile(listFile, 'utf8')).split(/\r?\n/).filter(Boolean))];
 if (!manifests.length) throw new Error('No manifests to describe');
 const notes = ['# 숏츠 스토리보드 검토', '',
+  `**[AI 리뷰·개선 PR 만들기](${reviewUrl})**`, '',
+  '수정이 필요하면 위 페이지에서 JSON 경로를 manifest에 넣으세요. comment는 선택이며, 비우면 기본 품질 기준으로 리뷰합니다. 검토할 JSON이 있는 브랜치를 선택하세요.', '',
   `**[최종 렌더 실행 페이지 열기](${renderUrl})**`, '',
   '스토리보드를 확인한 뒤 위 페이지에서 **Run workflow**를 누르세요. 아래 후보의 JSON 경로를 `manifest`에 붙여넣고, `storyboard_approved`를 체크한 뒤 실행합니다. 이 링크는 실행 페이지를 열며 입력값을 자동으로 채우거나 렌더를 시작하지 않습니다.', '',
   `검토한 원본: [${sha.slice(0, 7)}](${base}/commit/${sha})`, '',
