@@ -33,6 +33,7 @@ concurrency:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    timeout-minutes: 50
 
     steps:
       - name: Checkout
@@ -49,6 +50,7 @@ jobs:
       - name: Generate candidates
         id: candidates
         env:
+          SHORTS_DIAGNOSTICS_DIR: ${{ runner.temp }}/shorts-generation-diagnostics
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
           SHORTS_ADDITIONAL_REQUEST: ${{ inputs.additional_request }}
@@ -78,3 +80,12 @@ jobs:
           body-path: ${{ runner.temp }}/shorts-review-body.md
           add-paths: |
             shorts/content/**
+
+      - name: Preserve generation checkpoints and repair history
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+        with:
+          name: shorts-generation-diagnostics-${{ github.run_id }}
+          path: ${{ runner.temp }}/shorts-generation-diagnostics
+          if-no-files-found: ignore
+          retention-days: 14

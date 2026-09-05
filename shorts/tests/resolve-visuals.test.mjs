@@ -118,8 +118,8 @@ test('repairs only the failing diagram and revalidates intermediate motion', asy
 test('exhausted repairs fail closed with scene and latest error', async () => {
   let calls = 0;
   await assert.rejects(enrichVisuals({title: '후보', scenes: [overlappingScene()]}, {warn: quiet,
-    repairDiagram: async ({scene}) => {calls++; return scene.diagramSpec;}}), /scene 1 after 3 repair attempts:.*layout:text-overlap/);
-  assert.equal(calls, 3);
+    repairDiagram: async ({scene}) => {calls++; return scene.diagramSpec;}}), /scene 1 after 8 repair attempts:.*layout:text-overlap/);
+  assert.equal(calls, 8);
 });
 
 test('repair API failures retain scene context and never bypass validation', async () => {
@@ -132,4 +132,20 @@ test('valid diagrams never call repair and invalid diagrams without repair still
   await assert.rejects(enrichVisuals({scenes: [scene]}), /after 0 repair attempts/);
   scene.diagramSpec.nodes[1].x = 550;
   await enrichVisuals({scenes: [scene]}, {repairDiagram: async () => assert.fail('unnecessary repair')});
+});
+
+test('switches to redesign with full history and preserves completed scenes', async () => {
+  const source = {title: '후보', scenes: [overlappingScene()]};
+  const progress = [];
+  const result = await enrichVisuals(source, {warn: quiet, onProgress: async event => progress.push(structuredClone(event)),
+    repairDiagram: async ({scene, originalScene, mode, attempt, history}) => {
+      assert.equal(history.length, attempt);
+      assert.deepEqual(originalScene, source.scenes[0]);
+      assert.equal(mode, attempt <= 3 ? 'repair' : 'redesign');
+      if (attempt === 4) scene.diagramSpec.nodes[1].x = 550;
+      return scene.diagramSpec;
+    }});
+  assert.equal(progress.filter(x => x.status === 'invalid').length, 4);
+  assert.equal(progress.at(-1).status, 'resolved');
+  assert.deepEqual(progress.at(-1).scene, result.scenes[0]);
 });
