@@ -5,7 +5,9 @@ test('ducking anticipates speech, recovers gently, and fades at boundaries', () 
   const windows = [[2, 4]];
   assert.equal(musicGain(0, 8, windows), 0);
   assert.equal(musicGain(8, 8, windows), 0);
-  assert.ok(musicGain(3, 8, windows) < musicGain(1, 8, windows) / 2);
+  // Keep narration ducking audible without suppressing most of the backing.
+  assert.ok(musicGain(3, 8, windows) < musicGain(1, 8, windows));
+  assert.ok(musicGain(3, 8, windows) > musicGain(1, 8, windows) / 2);
   assert.ok(musicGain(1.95, 8, windows) < musicGain(1, 8, windows));
   assert.ok(musicGain(4.1, 8, windows) < musicGain(5, 8, windows));
 });

@@ -6,6 +6,8 @@ export const TRACKS = {
   'pulse-96': {bpm: 96, title: 'DLOG Pulse', notes: [55, 55, 65.406, 73.416], hats: .035},
   'grid-108': {bpm: 108, title: 'DLOG Grid', notes: [55, 73.416, 65.406, 49], hats: .045},
 };
+const BGM_LEVELS = {speech: .28, between: .50};
+
 export function speechWindows(scenes) {
   let cursor = 0;
   const windows = [];
@@ -32,7 +34,7 @@ export function musicGain(time, duration, windows) {
       duck = Math.max(duck, Math.min(1, (time - start + .12) / .12, (end + .35 - time) / .35));
     }
   }
-  return fade * (.40 - .24 * Math.max(0, duck));
+  return fade * (BGM_LEVELS.between - (BGM_LEVELS.between - BGM_LEVELS.speech) * Math.max(0, duck));
 }
 export function synthBgm(duration, track, windows = [], sampleRate = 48000) {
   if (!Number.isFinite(duration) || duration <= 0 || duration > 600) throw new Error('BGM duration must be in (0, 600]');
@@ -122,6 +124,6 @@ export async function mixBgm(video, scenes, track = process.env.SHORTS_BGM_TRACK
     const filter = hasAudio ? '[0:a][1:a]amix=inputs=2:duration=longest:normalize=0,alimiter=limit=0.95:level=false:latency=true[a]' : '[1:a]anull[a]';
     execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', video, '-i', music, '-filter_complex', filter, '-map', '0:v:0', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-t', String(duration), '-movflags', '+faststart', mixed], {stdio: 'inherit'});
     await fs.rename(mixed, video);
-    await fs.writeFile(video.replace(/\.mp4$/, '-BGM.md'), `# BGM and sound effects\n\n${track === 'none' ? 'BGM disabled.' : `${TRACKS[track].title} (${track}), ${TRACKS[track].bpm} BPM. Phone-speaker harmonics; gain 0.16 during speech / 0.40 between narration.`}\n\nSynthesized from repository code: shorts/scripts/bgm.mjs. No third-party recordings or samples.\n\nEffects: ${effectsEnabled ? `${cues.length} scene-transition / diagram-reveal cues` : 'disabled (SHORTS_SFX=none)'}.\n\n${cues.map(c => `- ${c.time.toFixed(2)}s: ${c.type}`).join('\n')}\n\nContinuous music, timeline-based narration ducking, 0.5s fade-in and 0.9s fade-out. Peak limiter 0.95.\n`);
+    await fs.writeFile(video.replace(/\.mp4$/, '-BGM.md'), `# BGM and sound effects\n\n${track === 'none' ? 'BGM disabled.' : `${TRACKS[track].title} (${track}), ${TRACKS[track].bpm} BPM. Phone-speaker harmonics; gain ${BGM_LEVELS.speech.toFixed(2)} during speech / ${BGM_LEVELS.between.toFixed(2)} between narration.`}\n\nSynthesized from repository code: shorts/scripts/bgm.mjs. No third-party recordings or samples.\n\nEffects: ${effectsEnabled ? `${cues.length} scene-transition / diagram-reveal cues` : 'disabled (SHORTS_SFX=none)'}.\n\n${cues.map(c => `- ${c.time.toFixed(2)}s: ${c.type}`).join('\n')}\n\nContinuous music, timeline-based narration ducking, 0.5s fade-in and 0.9s fade-out. Peak limiter 0.95.\n`);
   } finally {await fs.rm(temp, {recursive: true, force: true});}
 }
