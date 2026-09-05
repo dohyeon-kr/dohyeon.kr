@@ -203,6 +203,7 @@ transition 원칙:
 - zoom/wipe를 모든 씬에 반복하지 않는다.
 
 필드 규칙:
+- 사람이 읽을 스토리보드에도 사용하므로 concept, relation.description, strategy.metaphor/rationale, visualCue는 자연스러운 한국어로 쓴다. enum과 choreography 이벤트 식별자는 정해진 영문 값을 유지한다.
 - compare 장면은 comparisonLeft/comparisonRight를 채우고 다른 장면은 null로 둔다.
 - visual.value는 숫자가 시각적으로 중요한 경우에만 사용한다.
 - 그래프는 필요한 경우 xLabel/yLabel에 짧은 한글 축 이름을 넣는다.
@@ -389,6 +390,9 @@ const main = async () => {
   );
 
   console.log(`Generated ${enriched.length} candidates in ${path.relative(repoRoot, outputDir)}`);
+  if (process.env.GITHUB_OUTPUT) {
+    await fs.appendFile(process.env.GITHUB_OUTPUT, `candidate_dir=${path.relative(repoRoot, outputDir)}\n`);
+  }
 };
 
 await main();

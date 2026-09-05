@@ -12,7 +12,7 @@ For the end-to-end operating procedure, approval checklist, engine routing, outp
 2. GPT extracts 3–8 independent viral angles instead of summarizing the whole article.
 3. Every scene receives semantic subtitle beats, a visual relationship, a visual strategy, a layout, element choreography, camera motion, and a scene transition.
 4. Photo scenes receive a relevant Openverse search result. The default resolver only accepts CC0 or Public Domain Mark results.
-5. The workflow opens a PR containing `shorts/content/<post-slug>/candidate-XX.json` files.
+5. The workflow converts candidate JSON into readable `candidate-XX.md` storyboards, builds a linked README index, and opens a review PR containing both. Each storyboard presents narration, screen copy and layout, visual relationships, diagram changes, camera/transition direction, and subtitle emphasis/pacing in scene order. No additional model call or TTS is needed. The Actions summary and PR body link to the candidate index for mobile review.
 6. Edit or delete candidates in the PR, then merge the selected manifests.
 7. Changes to candidate JSON files on `main` trigger **Build blog shorts storyboard**, which creates one representative PNG per scene, a two-column mobile contact sheet, and a scene-by-scene PDF.
 8. The workflow publishes those files as a Draft Release. Review the contact sheet on mobile, then use the PDF or individual PNGs for detailed checks. Fix the manifest and regenerate until the sequence is approved.
@@ -106,6 +106,16 @@ npm run storyboard -- content/<post-slug>/candidate-01.json
 OPENAI_API_KEY=... npm run render -- content/<post-slug>/candidate-01.json
 npm run studio
 ```
+
+To regenerate readable storyboards after editing or deleting candidate JSON (from the repository root):
+
+```bash
+node shorts/scripts/describe-candidates.mjs shorts/content/<post-slug>
+```
+
+JSON remains the editable source; generated Markdown is a review view of its planned direction, not proof of rendered behavior. Missing photos are explicitly marked, and unmeasured TTS durations are not invented. Existing manifests without semantic beats remain supported. Custom choreography instructions are retained verbatim when no Korean label is defined.
+
+See the [readable storyboard example for candidate 3](docs/examples/candidate-03-storyboard.md), captured from commit `3549151`.
 
 The render script copies the repository's existing Pretendard font files into the temporary Remotion public directory; generated media and copied fonts are ignored by Git.
 

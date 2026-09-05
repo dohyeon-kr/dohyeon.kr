@@ -42,12 +42,18 @@ jobs:
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
       - name: Generate candidates
+        id: candidates
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
           POST_URL: ${{ inputs.post_url }}
           CANDIDATE_COUNT: ${{ inputs.candidate_count }}
         run: node shorts/scripts/generate-candidates.mjs "$POST_URL" "$CANDIDATE_COUNT"
+
+      - name: Write readable candidate storyboards
+        env:
+          CANDIDATE_DIR: ${{ steps.candidates.outputs.candidate_dir }}
+        run: node shorts/scripts/describe-candidates.mjs "$CANDIDATE_DIR"
 
       - name: Open review PR
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
@@ -60,7 +66,13 @@ jobs:
           body: |
             Generated from `${{ inputs.post_url }}`.
 
-            Review the hooks, narration, and selected Openverse image source pages.
+            후보별 `candidate-XX.md`에서 장면별 대본, 화면 구성, 도식 변화와 자막 리듬을 읽을 수 있습니다.
+            후보 목록: https://github.com/${{ github.repository }}/blob/automation/shorts-${{ github.run_id }}/${{ steps.candidates.outputs.candidate_dir }}/README.md
+
+            Read the candidate storyboards and review the selected Openverse image source pages.
+            Storyboard text describes planned direction; inspect rendered snapshots before final approval.
+            After editing JSON, regenerate its companion Markdown with:
+            `node shorts/scripts/describe-candidates.mjs "${{ steps.candidates.outputs.candidate_dir }}"`
             Delete candidates you do not want, edit the JSON for the rest, then merge.
             Merging candidate JSON files generates scene-by-scene storyboard snapshots for approval. Final video rendering is a separate manual action.
           add-paths: |
