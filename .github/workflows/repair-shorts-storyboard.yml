@@ -1,0 +1,31 @@
+name: Repair storyboard release links
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Storyboard release tag to repair without rerendering
+        required: true
+        default: shorts-storyboard-33961678311
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repair-storyboard-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - name: Repair existing release and Markdown attachment links
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: node shorts/scripts/repair-storyboard-links.mjs "$RELEASE_TAG"

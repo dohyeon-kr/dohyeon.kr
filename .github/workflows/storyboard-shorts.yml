@@ -129,6 +129,9 @@ jobs:
             --notes-file "${notes}" \
             --draft
 
+          # Draft assets use an untagged URL, not the requested release tag.
+          node shorts/scripts/repair-storyboard-links.mjs "${TAG_NAME}"
+
           release_url="$(gh release view "${TAG_NAME}" --repo "${GITHUB_REPOSITORY}" --json url --jq .url)"
           {
             echo '## Storyboard ready for approval'
