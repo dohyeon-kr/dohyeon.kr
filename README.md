@@ -132,11 +132,32 @@ wrapper; do not copy privileged files from the Actions job. Back up the SQLite
 file before production rollout. Restarting the old service remains possible
 because the new tables do not alter old columns.
 
-GA4 unique visitors/referrers and Search Console queries/clicks/impressions/CTR/
-position are **not connected or implemented yet**. The dashboard clearly marks
-these connections as unavailable. Follow-up implementation requires property
-IDs, server-side Google credentials or OAuth, reporting endpoints, and data
-freshness/quota handling. Do not put Google credentials in theme assets.
+GA4 and Search Console reports are available to Ghost Owner/Administrator sessions
+through `/ghost/api/dashboard/google?provider=ga4|searchConsole&start=YYYY-MM-DD&end=YYYY-MM-DD`.
+GA4 reports period-wide total users, sessions, page/screen views, daily users,
+and the top 20 session source/medium rows. Search Console reports final web
+search totals, daily clicks, and the top 50 queries. Empty Search Console results
+are shown as unavailable, not as fabricated zeros. Query totals can differ from
+summary totals because Google omits anonymized queries. GA4 uses the property's
+timezone; Search Console uses Pacific time. Recent Google data can lag.
+
+Server setup (not part of theme assets or Git):
+
+- Enable Google Analytics Data API and Google Search Console API in Google Cloud.
+- Grant the service account GA4 Viewer and Search Console Restricted access.
+- Install its JSON credential at `/etc/dlog/google-service-account.json`, mode 0600,
+  readable only by the service user. Never commit or print its contents.
+- Create `/etc/dlog/google-reports.json` with `ga4PropertyId` (numeric string),
+  `searchConsoleSite` (exact API site ID such as `sc-domain:blog.dohyeon.kr`), and
+  optionally `credentials` (absolute key path; defaults to the path above).
+- The existing Python service uses standard-library HTTPS and `/usr/bin/openssl`
+  for RS256 signing; no new Python dependency or privileged deployment step is needed.
+- Tokens stay in server memory and are refreshed before expiry. Successful reports
+  are cached for five minutes; errors for 30 seconds, with at most 32 ranges per
+  provider. Errors are sanitized and never include Google's credential responses.
+- Google reports load separately, so Google outages do not interrupt local stats
+  or comment management. Configuration/key changes take full effect after a service restart.
+
 Approval queues, spam classification, threaded staff replies, and robots.txt directive analysis are also outside this first release. SEO checks are
 basic diagnostics, not a search-ranking score or proof of indexation.
 

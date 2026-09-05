@@ -914,3 +914,42 @@ tbody tr:hover {
     scroll-behavior: auto !important;
   }
 }
+
+.google-report {
+  margin-bottom: 24px;
+}
+.google-report > h3 {
+  padding: 20px 24px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.google-report > p {
+  margin: 12px 24px 20px;
+  line-height: 1.7;
+}
+.google-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+  padding: 0 24px 24px;
+}
+.google-summary > div {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 18px;
+}
+.google-summary dt {
+  color: #737373;
+  font-size: 12px;
+}
+.google-summary dd {
+  margin: 8px 0 0;
+  font-size: 28px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.google-report .tag {
+  flex-shrink: 0;
+}
+.google-report td:first-child {
+  overflow-wrap: anywhere;
+}

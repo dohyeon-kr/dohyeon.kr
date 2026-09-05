@@ -4,6 +4,11 @@
 from __future__ import annotations
 
 import json
+import base64
+import subprocess
+import tempfile
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 from contextlib import contextmanager
 import hashlib
 import hmac
@@ -20,7 +25,7 @@ from http.client import HTTPConnection
 from datetime import datetime, date, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlsplit, parse_qs
+from urllib.parse import unquote, urlsplit, parse_qs, quote, urlencode
 from zoneinfo import ZoneInfo
 
 
@@ -393,6 +398,139 @@ class CommentGuard:
         return True
 
 
+class GoogleReports:
+    """Read-only reports; credentials and tokens never leave the server."""
+
+    def __init__(self, config_path="/etc/dlog/google-reports.json"):
+        self.config_path = Path(config_path)
+        self._token = ""
+        self._expires = 0
+        self._token_lock = threading.Lock()
+        self._locks = {name: threading.Lock() for name in ("ga4", "searchConsole")}
+        self._cache = {name: {} for name in self._locks}
+
+    @staticmethod
+    def _json_request(url, body, headers):
+        request = Request(url, data=body, headers=headers)
+        with urlopen(request, timeout=8) as response:
+            return json.load(response)
+
+    def _access_token(self, config):
+        with self._token_lock:
+            if self._token and time.monotonic() < self._expires:
+                return self._token
+            key = json.loads(Path(config.get("credentials", "/etc/dlog/google-service-account.json")).read_text())
+            def encode(value):
+                return base64.urlsafe_b64encode(value).rstrip(b"=")
+            now = int(time.time())
+            claims = {"iss": key["client_email"], "aud": "https://oauth2.googleapis.com/token",
+                      "scope": "https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/webmasters.readonly",
+                      "iat": now, "exp": now + 3600}
+            unsigned = encode(b'{"alg":"RS256","typ":"JWT"}') + b"." + encode(json.dumps(claims).encode())
+            with tempfile.NamedTemporaryFile() as private:
+                private.write(key["private_key"].encode())
+                private.flush()
+                signed = subprocess.run(["/usr/bin/openssl", "dgst", "-sha256", "-sign", private.name],
+                                        input=unsigned, capture_output=True, check=True, timeout=5).stdout
+            token = self._json_request("https://oauth2.googleapis.com/token", urlencode({
+                "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                "assertion": (unsigned + b"." + encode(signed)).decode(),
+            }).encode(), {"Content-Type": "application/x-www-form-urlencoded"})
+            self._token = token["access_token"]
+            self._expires = time.monotonic() + max(0, int(token["expires_in"]) - 120)
+            return self._token
+
+    def _post(self, url, body, config):
+        return self._json_request(url, json.dumps(body).encode(), {
+            "Authorization": "Bearer " + self._access_token(config), "Content-Type": "application/json"})
+
+    def report(self, provider, start, end):
+        if provider not in self._locks:
+            raise ValueError("invalid provider")
+        first, last = date.fromisoformat(start), date.fromisoformat(end)
+        if first > last or (last - first).days > 365 or last > datetime.now(KST).date():
+            raise ValueError("invalid date range")
+        # Canonical dates prevent alternate representations from filling the cache.
+        start, end = first.isoformat(), last.isoformat()
+        with self._locks[provider]:
+            cache = self._cache[provider]
+            cached = cache.get((start, end))
+            if cached and cached[0] > time.monotonic():
+                return cached[1]
+            try:
+                config = json.loads(self.config_path.read_text())
+                data = self._ga4(start, end, config) if provider == "ga4" else self._search(start, end, config)
+                result = {"status": "connected", "start": start, "end": end,
+                          "updatedAt": datetime.now(KST).isoformat(), **data}
+                ttl = 300
+            except HTTPError as error:
+                messages = {401: "Google 인증이 만료되었습니다. 서버 인증 설정을 확인해 주세요.",
+                            403: "Google API 사용 설정과 속성 읽기 권한을 확인해 주세요.",
+                            429: "Google 조회 한도에 도달했습니다. 잠시 후 다시 시도해 주세요."}
+                result = {"status": "error", "message": messages.get(error.code, "Google 통계를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.")}
+                ttl = 30
+                if error.code == 401:
+                    with self._token_lock:
+                        self._expires = 0
+            except FileNotFoundError:
+                result = {"status": "error", "message": "서버의 Google 인증 설정이 필요합니다."}
+                ttl = 30
+            except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.SubprocessError):
+                result = {"status": "error", "message": "Google 연결을 확인할 수 없습니다. 잠시 후 다시 시도해 주세요."}
+                ttl = 30
+            if len(cache) >= 32:
+                cache.pop(next(iter(cache)))
+            cache[(start, end)] = (time.monotonic() + ttl, result)
+            return result
+
+    def _ga4(self, start, end, config):
+        property_id = str(config["ga4PropertyId"])
+        if not re.fullmatch(r"\d+", property_id):
+            raise ValueError("invalid property")
+        url = f"https://analyticsdata.googleapis.com/v1beta/properties/{property_id}:runReport"
+        def query(dimensions, metrics, limit, order=None):
+            body = {"dateRanges": [{"startDate": start, "endDate": end}],
+                    "dimensions": [{"name": name} for name in dimensions],
+                    "metrics": [{"name": name} for name in metrics], "limit": str(limit)}
+            if order:
+                body["orderBys"] = [{"metric": {"metricName": order}, "desc": True}]
+            return self._post(url, body, config)
+        metrics = ["totalUsers", "sessions", "screenPageViews"]
+        summary = query([], metrics, 1)
+        daily = query(["date"], metrics, 366)
+        sources = query(["sessionSourceMedium"], ["sessions"], 20, "sessions")
+        def values(row):
+            return [int(value["value"]) for value in row["metricValues"]]
+        totals = values(summary["rows"][0]) if summary.get("rows") else [0, 0, 0]
+        days = []
+        for row in daily.get("rows", []):
+            day = datetime.strptime(row["dimensionValues"][0]["value"], "%Y%m%d").date().isoformat()
+            users, sessions, views = values(row)
+            days.append({"day": day, "users": users, "sessions": sessions, "views": views})
+        metadata = summary.get("metadata", {})
+        return {"propertyId": property_id, "timezone": metadata.get("timeZone", "속성 시간대"),
+                "summary": dict(zip(["users", "sessions", "views"], totals)), "daily": sorted(days, key=lambda x: x["day"]),
+                "sources": [{"source": row["dimensionValues"][0]["value"], "sessions": values(row)[0]} for row in sources.get("rows", [])],
+                "thresholded": any(r.get("metadata", {}).get("subjectToThresholding", False) for r in [summary, daily, sources])}
+
+    def _search(self, start, end, config):
+        site = config["searchConsoleSite"]
+        url = "https://www.googleapis.com/webmasters/v3/sites/" + quote(site, safe="") + "/searchAnalytics/query"
+        def query(dimensions, limit):
+            return self._post(url, {"startDate": start, "endDate": end, "type": "web",
+                                   "dataState": "final", "dimensions": dimensions, "rowLimit": limit}, config)
+        # Totals are queried independently: anonymized queries are absent from the query table.
+        summary = query([], 1)
+        daily = query(["date"], 366)
+        queries = query(["query"], 50)
+        def values(row):
+            return {key: row[key] for key in ("clicks", "impressions", "ctr", "position")}
+        return {"site": site, "timezone": "America/Los_Angeles",
+                "summary": values(summary["rows"][0]) if summary.get("rows") else None,
+                "daily": sorted([{"day": row["keys"][0], **values(row)} for row in daily.get("rows", [])], key=lambda x: x["day"]),
+                "queries": [{"query": row["keys"][0], **values(row)} for row in queries.get("rows", [])]}
+
+
 class VisitServer(ThreadingHTTPServer):
     daemon_threads = True
 
@@ -400,6 +538,7 @@ class VisitServer(ThreadingHTTPServer):
         super().__init__(address, VisitHandler)
         self.store = store
         self.comment_guard = CommentGuard()
+        self.google_reports = GoogleReports()
 
 
 class VisitHandler(BaseHTTPRequestHandler):
@@ -507,6 +646,19 @@ class VisitHandler(BaseHTTPRequestHandler):
             return
         if self._path() == "/api/visit":
             self._send_json(200, self.server.store.get())
+            return
+        if self._path() == "/ghost/api/dashboard/google":
+            if not self._is_ghost_admin():
+                self._send_json(401, {"error": "ghost_admin_required"})
+                return
+            query = parse_qs(urlsplit(self.path).query)
+            try:
+                result = self.server.google_reports.report(query.get("provider", [""])[0],
+                                                          query.get("start", [""])[0], query.get("end", [""])[0])
+            except ValueError:
+                self._send_json(400, {"error": "invalid_report_query"})
+                return
+            self._send_json(200, result)
             return
         if self._path() in ("/ghost/api/dashboard", "/ghost/api/dashboard/post"):
             if not self._is_ghost_admin():

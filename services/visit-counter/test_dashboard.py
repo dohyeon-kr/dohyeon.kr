@@ -87,7 +87,15 @@ class DashboardTest(unittest.TestCase):
             return status, result
         try:
             self.assertEqual(call('GET', '/ghost/api/dashboard?start=2026-08-01&end=2026-08-02')[0], 401)
+            with patch.object(server.google_reports, 'report') as report:
+                self.assertEqual(call('GET', '/ghost/api/dashboard/google?provider=ga4&start=2026-08-01&end=2026-08-02')[0], 401)
+                report.assert_not_called()
             with patch.object(VisitHandler, '_is_ghost_admin', return_value=True):
+                self.assertEqual(call('GET', '/ghost/api/dashboard/google?provider=bad&start=2026-08-01&end=2026-08-02')[0], 400)
+                with patch.object(server.google_reports, 'report', return_value={'status': 'connected'}) as report:
+                    self.assertEqual(call('GET', '/ghost/api/dashboard/google?provider=ga4&start=2026-08-01&end=2026-08-02'), (200, {'status': 'connected'}))
+                    report.assert_called_once_with('ga4', '2026-08-01', '2026-08-02')
+
                 self.assertEqual(call('GET', '/ghost/api/dashboard?start=bad&end=bad')[0], 400)
                 self.assertEqual(call('GET', '/ghost/api/comments-admin?offset=-1')[0], 400)
                 self.assertEqual(call('GET', '/ghost/api/dashboard?start=2026-08-01&end=2026-08-02')[0], 200)
