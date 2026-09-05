@@ -217,7 +217,7 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
   const sublineY = interpolate(sublineReveal, [0, 1], [18, 0], clampInterpolation);
 
   const headlineBase = layout === 'statement-giant' ? 150 : layout === 'outro-minimal' ? 140 : photo ? 136 : 126;
-  const headingTop = hasPresetVisual || isCompare ? 1040 : photo ? 1000 : 700;
+  const headingTop = hasPresetVisual || isCompare ? 1040 : photo && layout !== 'photo-full-bleed' ? 1000 : 700;
   const headingHeight = 1310 - headingTop - (scene.subline ? 90 : 0);
   const heading = fitCopy(scene.headline, SAFE_CONTENT_WIDTH - 20, headingHeight, Math.min(headlineBase, hasPresetVisual || isCompare ? 98 : 124));
   const subline = fitCopy(scene.subline ?? '', SAFE_CONTENT_WIDTH - 20, 78, 30);

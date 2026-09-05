@@ -34,25 +34,25 @@
     {
       "diagramSpec": null,
       "kind": "hero",
-      "layout": "statement-giant",
+      "layout": "photo-full-bleed",
       "visual": {
-        "type": "none",
+        "type": "photo",
         "motif": null,
-        "query": null,
+        "query": "developer coding on laptop",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "컴포넌트의 지식 범위",
+        "concept": "UI 구현의 책임을 묻는 질문",
         "relation": {
-          "type": "bottleneck",
-          "description": "하나의 UI 컴포넌트에 여러 외부 책임이 몰리는 관계"
+          "type": "literal",
+          "description": "개발 작업 사진으로 구현 맥락을 제시한다"
         },
         "strategy": {
-          "type": "minimal",
-          "metaphor": "경계선을 넘나드는 의존성",
-          "rationale": "아이콘보다 질문 자체를 크게 제시해 설계의 출발점을 즉시 인식하게 한다."
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "구체적인 개발 맥락은 도입에서 보여주고 이후 도식의 전후 흐름은 유지한다"
         }
       },
       "transition": "fade",
@@ -64,8 +64,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline",
-        "hold-question"
+        "show-visual",
+        "show-headline"
       ],
       "beats": [
         {
@@ -88,12 +88,24 @@
         }
       ],
       "headline": "이 컴포넌트는\n어디까지 알아야 할까?",
-      "subline": "재사용성보다 먼저 정할 것",
+      "subline": null,
       "narration": "재사용성보다 먼저 물어야 할 게 있습니다. 이 컴포넌트는 어디까지 알아야 할까요?",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
+      "imageQuery": "developer coding on laptop",
+      "image": {
+        "query": "developer coding on laptop",
+        "title": "노트북에서 코드를 작성하는 손",
+        "creator": "Lukas Blazek",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/person-encoding-in-laptop-574071/",
+        "originalUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
     },
     {
       "diagramSpec": {
