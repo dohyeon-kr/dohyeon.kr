@@ -160,6 +160,9 @@ type TimedBeat = SubtitleBeat & {startSeconds: number; endSeconds: number};
 const timedBeats = (scene: RenderScene): TimedBeat[] => {
   const beats = scene.beats?.filter((beat) => beat.text.trim()) ?? [];
   if (!beats.length) return [];
+  if (scene.beatTimings?.length === beats.length) {
+    return beats.map((beat, index) => ({...beat, ...scene.beatTimings![index]}));
+  }
   const duration = Math.max(0.8, scene.audioDurationSeconds ?? 3.6);
   const rawPauseSeconds = beats.reduce((sum, beat) => sum + Math.max(0, beat.pauseAfterMs) / 1000, 0);
   const pauseBudget = Math.min(rawPauseSeconds, duration * 0.24);

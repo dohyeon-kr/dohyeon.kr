@@ -48,6 +48,7 @@ jobs:
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/02-chart.png" --public-dir=public --frame=145
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/03-flow.png" --public-dir=public --frame=260
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/04-type.png" --public-dir=public --frame=680
+          node scripts/render-template-preview.mjs "${RUNNER_TEMP}/shorts-integrated-preview" --silent
 
       - name: Upload template preview frames
         if: ${{ always() }}
@@ -57,5 +58,8 @@ jobs:
           path: |
             ${{ runner.temp }}/shorts-template-preview/*.png
             ${{ runner.temp }}/shorts-template-preview/*.mp4
+            ${{ runner.temp }}/shorts-integrated-preview/*.png
+            ${{ runner.temp }}/shorts-integrated-preview/*.mp4
+            ${{ runner.temp }}/shorts-integrated-preview/SCRIPT.txt
           retention-days: 7
           if-no-files-found: ignore

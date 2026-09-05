@@ -160,6 +160,7 @@ export type CandidateManifest = {
 };
 
 export type RenderScene = CandidateScene & {
+  beatTimings?: Array<{startSeconds: number; endSeconds: number}>;
   diagramFramesPath?: string | null;
   imagePath: string | null;
   audioPath: string | null;
