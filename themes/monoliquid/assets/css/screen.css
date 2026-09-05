@@ -423,7 +423,8 @@ iframe[src*="announcement-bar"] {
   height: 100%;
   max-width: 18ch;
   padding: 6px 10px;
-  border: 1px solid var(--color-frame);
+  border-right: 1px solid var(--color-frame);
+  border-left: 1px solid var(--color-frame);
   background: var(--color-canvas);
   color: var(--color-ink);
   font-size: 12px;
