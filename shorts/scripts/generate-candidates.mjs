@@ -4,7 +4,8 @@ import process from 'node:process';
 import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
-import {DiagramSpecSchema, validateDiagram} from '../src/visuals/diagram-spec.ts';
+import {DiagramSpecSchema} from '../src/visuals/diagram-spec.ts';
+import {GeneratedDiagramEventSchema} from './generated-diagram-schema.mjs';
 import {enrichVisuals} from './resolve-visuals.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
@@ -95,7 +96,7 @@ const CameraSchema = z.object({
 
 const SceneSchema = z.object({
   visualStory: z.object({initial: z.string(), trigger: z.string(), change: z.string(), invariant: z.string(), result: z.string()}).nullable(),
-  diagramSpec: DiagramSpecSchema.extend({physics: DiagramSpecSchema.shape.physics.unwrap(), nodes: z.array(DiagramSpecSchema.shape.nodes.element.extend({strokeStyle: z.enum(['solid', 'dashed']).nullable()})).min(1).max(40)}).nullable(),
+  diagramSpec: DiagramSpecSchema.extend({events: z.array(GeneratedDiagramEventSchema).max(120), physics: DiagramSpecSchema.shape.physics.unwrap(), nodes: z.array(DiagramSpecSchema.shape.nodes.element.extend({strokeStyle: z.enum(['solid', 'dashed']).nullable()})).min(1).max(40)}).nullable(),
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
   layout: z.enum(LAYOUTS),
   visual: VisualSchema,
@@ -133,6 +134,7 @@ pins는 동적 물체를 고정할 세계 좌표 x/y와 target이다. 시소는 
 물리 물체의 x/y/rotation/scale은 solver가 소유하므로 events에는 opacity만 허용한다. 물리 시간은 내레이션 길이에 맞춰 재생되며 실제 수치 예측이 아닌 개념적 비유로만 사용한다.
 800x560 공간에 rect/circle/line/text 객체를 조합한다. x/y는 중심점이다. 가장자리 여백 40, 라벨은 짧게 유지한다.
 events는 장면 전체 길이를 0..1로 정규화한 시간이다. 초기 상태→변화→결과를 x/y/rotation/scale/opacity로 표현한다.
+scale은 배율이며 from/to는 0.01~4 범위다. scale=0으로 숨기지 말고 opacity=0을 사용한다. opacity는 0~1, width는 1~800, height는 1~560이다.
 from/to는 절대 값이며 동일 객체의 동일 속성 이벤트는 겹치지 않는다. 불명확한 수치나 실제 데이터처럼 보이는 가짜 숫자를 생성하지 않는다.
 renderer 선택은 표현력의 보장이 아니다. 두 엔진이 공유하는 문법 범위 안에서만 객체를 생성하며 임의 코드는 작성하지 않는다.
 목표는 글을 요약해 슬라이드를 만드는 것이 아니다. 글 안의 한 가지 강한 생각을 독립적인 숏츠로 추출하고, 말의 의미·리듬·관계를 화면의 사건으로 번역한다.
@@ -298,9 +300,6 @@ const main = async () => {
 
   if (!response.output_parsed) throw new Error('The model did not return a parsed shorts plan.');
   const rawCandidates = response.output_parsed.candidates.slice(0, count);
-  for (const candidate of rawCandidates) for (const scene of candidate.scenes) {
-    if (scene.diagramSpec) validateDiagram(scene.diagramSpec);
-  }
   if (rawCandidates.length < count) throw new Error(`Expected ${count} candidates, received ${rawCandidates.length}.`);
 
   const enriched = [];
