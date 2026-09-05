@@ -4,6 +4,8 @@
 
 The creative target is a **motion infographic**, not a templated AI slideshow. See [`docs/creative-system.md`](docs/creative-system.md) for the canonical visual, motion, subtitle-rhythm, and asset policy.
 
+For the end-to-end operating procedure, approval checklist, engine routing, output locations and known limitations, see [제작·승인·렌더 운영 가이드](docs/production-workflow.md).
+
 ## Flow
 
 1. Run **Generate blog shorts** from GitHub Actions with a `dohyeon.kr` post URL.
