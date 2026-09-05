@@ -94,7 +94,7 @@ const CameraSchema = z.object({
 });
 
 const SceneSchema = z.object({
-  diagramSpec: DiagramSpecSchema.nullable(),
+  diagramSpec: DiagramSpecSchema.extend({physics: DiagramSpecSchema.shape.physics.unwrap()}).nullable(),
   kind: z.enum(['hero', 'photo', 'compare', 'statement', 'outro']),
   layout: z.enum(LAYOUTS),
   visual: VisualSchema,
@@ -125,7 +125,11 @@ const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
 
 const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
 도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
-diagramSpec은 version=1, renderer=remotion이 기본이다. Motion Canvas 호환 경로가 필요한 경우에만 motion-canvas를 명시한다.
+diagramSpec은 version=1, renderer=auto가 기본이다. 일반 도식은 Remotion, physics가 있는 장면은 Motion Canvas로 자동 선택된다.
+physics는 보통 null이다. 충돌/낙하/시소가 의미를 전달할 때만 seconds(0.1~10), gravity(x/y -2~2), bodies, pins를 작성한다.
+bodies는 rect 또는 정원 circle 노드의 target, isStatic, mass(0.1~100), restitution/friction(0~1), velocity(x/y -20~20)를 지정한다. 속도는 60Hz tick당 좌표 단위이다.
+pins는 동적 물체를 고정할 세계 좌표 x/y와 target이다. 시소는 막대 rect 중심에 pin을 두고 한쪽 위에 무게를 떨어뜨린다. 바닥은 static rect로 명시한다.
+물리 물체의 x/y/rotation/scale은 solver가 소유하므로 events에는 opacity만 허용한다. 물리 시간은 내레이션 길이에 맞춰 재생되며 실제 수치 예측이 아닌 개념적 비유로만 사용한다.
 800x560 공간에 rect/circle/line/text 객체를 조합한다. x/y는 중심점이다. 가장자리 여백 40, 라벨은 짧게 유지한다.
 events는 장면 전체 길이를 0..1로 정규화한 시간이다. 초기 상태→변화→결과를 x/y/rotation/scale/opacity로 표현한다.
 from/to는 절대 값이며 동일 객체의 동일 속성 이벤트는 겹치지 않는다. 불명확한 수치나 실제 데이터처럼 보이는 가짜 숫자를 생성하지 않는다.

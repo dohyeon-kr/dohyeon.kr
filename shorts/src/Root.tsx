@@ -3,6 +3,7 @@ import {Composition} from 'remotion';
 import {ShortVideo} from './ShortVideo';
 import type {RenderManifest, RenderScene} from './types';
 import {DiagramRenderer} from './visuals/DiagramRenderer';
+import {physicsExample} from './visuals/physics-example';
 import type {DiagramSpec} from './visuals/diagram-spec';
 
 const diagramExample: DiagramSpec = {
@@ -143,7 +144,10 @@ const templatePreviewProps: RenderManifest = {
 export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="DiagramPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: diagramExample, durationInFrames: 120}} />
-    <Composition id="MotionCanvasPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: {...diagramExample, renderer: 'motion-canvas' as const}, durationInFrames: 120}} />
+    <Composition id="MotionCanvasPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: {...diagramExample, renderer: 'motion-canvas' as const}, durationInFrames: 120, strict: true}} />
+    <Composition id="PhysicsPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: physicsExample, durationInFrames: 120, strict: true}} />
+    <Composition id="CanvasFallbackPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: diagramExample, durationInFrames: 120, failEngine: 'remotion' as const}} />
+    <Composition id="PhysicsFallbackPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: physicsExample, durationInFrames: 120, failEngine: 'motion-canvas' as const}} />
     <Composition
       id="ShortVideo"
       component={ShortVideo}

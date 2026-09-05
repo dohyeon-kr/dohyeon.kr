@@ -1,19 +1,23 @@
-import React, {useEffect, useRef} from 'react';
-import {continueRender, delayRender, cancelRender} from 'remotion';
-import {diagramState, type DiagramSpec} from './diagram-spec';
+import React, {useLayoutEffect, useRef, useState} from 'react';
+import {flushSync} from 'react-dom';
+import {continueRender, delayRender} from 'remotion';
+import type {DiagramSpec} from './diagram-spec';
+import {evaluatedDiagramState} from './physics';
 
 // Render one isolated Motion Canvas scene for each requested frame. This avoids
 // seek races and makes parallel/out-of-order Remotion renders deterministic.
 export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number}> = ({spec, progress}) => {
   const canvas = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
+  const [error, setError] = useState<Error | null>(null);
+  useLayoutEffect(() => {
     const handle = delayRender('Motion Canvas diagram');
     let cancelled = false;
     let dispose = () => {};
     (async () => {
       const core = await import('@motion-canvas/core');
+      const {ReadOnlyTimeEvents} = await import('@motion-canvas/core/lib/scenes/timeEvents/ReadOnlyTimeEvents');
       const {makeScene2D, Rect, Circle, Line, Txt, Node} = await import('@motion-canvas/2d');
-      const states = diagramState(spec, progress);
+      const states = evaluatedDiagramState(spec, progress);
       const description = makeScene2D(function* (view) {
         for (const node of states) {
           const group = new Node({x: node.x - 400, y: node.y - 280, rotation: node.rotation, scale: node.scale, opacity: node.opacity});
@@ -33,8 +37,10 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number}
       const scene = new description.klass({
         ...description, name: 'diagram', size: new core.Vector2(800, 560), resolutionScale: 1,
         playback: new core.PlaybackStatus(new core.PlaybackManager()), logger,
-        timeEventsClass: core.ReadOnlyTimeEvents, sharedWebGLContext,
-      } as ConstructorParameters<typeof description.klass>[0]);
+        timeEventsClass: ReadOnlyTimeEvents, sharedWebGLContext,
+        get variables() {return scene.variables;},
+        onReplaced: new core.ValueDispatcher(null!),
+      });
       await document.fonts.load('800 28px Pretendard');
       await scene.reset();
       const stage = new core.Stage();
@@ -46,8 +52,12 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number}
         context.clearRect(0, 0, 800, 560);
         context.drawImage(stage.finalBuffer, 0, 0);
       }
-    })().catch((error) => {if (!cancelled) cancelRender(error);}).finally(() => {dispose(); continueRender(handle);});
+    })().catch((cause) => {
+      // Commit the error boundary's fallback before releasing capture.
+      if (!cancelled) flushSync(() => setError(cause instanceof Error ? cause : new Error(String(cause))));
+    }).finally(() => {dispose(); continueRender(handle);});
     return () => {cancelled = true;};
   }, [spec, progress]);
+  if (error) throw error;
   return <canvas ref={canvas} width={800} height={560} style={{width: '100%', height: '100%'}} />;
 };

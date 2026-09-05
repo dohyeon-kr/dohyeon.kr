@@ -1,7 +1,21 @@
 import {z} from 'zod';
 export const DiagramSpecSchema = z.object({
   version: z.literal(1),
-  renderer: z.enum(['remotion', 'motion-canvas']),
+  renderer: z.enum(['auto', 'remotion', 'motion-canvas']),
+  physics: z.object({
+    seconds: z.number().min(.1).max(10),
+    gravity: z.object({x: z.number().min(-2).max(2), y: z.number().min(-2).max(2)}),
+    bodies: z.array(z.object({
+      target: z.string(), isStatic: z.boolean(),
+      mass: z.number().min(.1).max(100),
+      restitution: z.number().min(0).max(1),
+      friction: z.number().min(0).max(1),
+      velocity: z.object({x: z.number().min(-20).max(20), y: z.number().min(-20).max(20)}),
+    })).min(1).max(40),
+    pins: z.array(z.object({
+      target: z.string(), x: z.number().min(0).max(800), y: z.number().min(0).max(560),
+    })).max(40),
+  }).nullable().optional(),
   description: z.string().min(1).max(500),
   nodes: z.array(z.object({
     id: z.string().regex(/^[a-z][a-z0-9-]*$/),
@@ -22,8 +36,22 @@ export function validateDiagram(value: unknown): DiagramSpec {
   const spec = DiagramSpecSchema.parse(value);
   const ids = new Set(spec.nodes.map((n) => n.id));
   if (ids.size !== spec.nodes.length) throw new Error('Duplicate diagram node id');
+  const bodyIds = new Set(spec.physics?.bodies.map(b => b.target));
+  if (spec.physics) {
+    if (bodyIds.size !== spec.physics.bodies.length) throw new Error('Duplicate physics body');
+    for (const body of spec.physics.bodies) {
+      const node = spec.nodes.find(n => n.id === body.target);
+      if (!node || !['rect', 'circle'].includes(node.shape)) throw new Error('Physics bodies require rect or circle nodes');
+      if (node.shape === 'circle' && node.width !== node.height) throw new Error('Physics circles must have equal dimensions');
+    }
+    if (new Set(spec.physics.pins.map(p => p.target)).size !== spec.physics.pins.length) throw new Error('Duplicate physics pin');
+    for (const pin of spec.physics.pins) {
+      if (!bodyIds.has(pin.target) || spec.physics.bodies.find(b => b.target === pin.target)?.isStatic) throw new Error('Pin requires a dynamic body');
+    }
+  }
   for (const event of spec.events) {
     if (!ids.has(event.target)) throw new Error(`Unknown diagram target: ${event.target}`);
+    if (bodyIds.has(event.target) && event.property !== 'opacity') throw new Error('Physics owns body transforms; only opacity may be animated');
     if (event.end <= event.start) throw new Error('Diagram event must have positive duration');
     if (event.property === 'opacity' && [event.from, event.to].some((n) => n < 0 || n > 1)) throw new Error('Opacity must be in [0, 1]');
     if (event.property === 'scale' && [event.from, event.to].some((n) => n <= 0 || n > 4)) throw new Error('Scale must be in (0, 4]');
