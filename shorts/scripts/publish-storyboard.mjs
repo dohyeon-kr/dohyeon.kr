@@ -57,7 +57,7 @@ try {
       const bytes = await response.arrayBuffer();
       const type = response.headers.get('content-type') ?? '';
       ok = response.ok && bytes.byteLength === (await fs.stat(files.get(name))).size
-        && (name.endsWith('.pdf') ? type.includes('application/pdf') : type.startsWith('image/'));
+        && (name.endsWith('.pdf') ? new TextDecoder().decode(bytes.slice(0, 5)) === '%PDF-' : type.startsWith('image/'));
       if (ok) break;
       await new Promise(resolve => setTimeout(resolve, 2000));
     }
