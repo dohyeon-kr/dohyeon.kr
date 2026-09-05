@@ -1,9 +1,9 @@
 name: Build blog shorts storyboard
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [closed]
+    branches: [main]
     paths:
       - 'shorts/content/**/*.json'
   workflow_dispatch:
@@ -22,12 +22,14 @@ concurrency:
 
 jobs:
   storyboard:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
           fetch-depth: 2
 
       - name: Setup Node
@@ -35,21 +37,11 @@ jobs:
         with:
           node-version: 24.18.0
 
-      - name: Install shorts dependencies
-        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
-
-      - name: Install storyboard packaging tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y imagemagick img2pdf
-
       - name: Resolve manifests
         id: manifests
         env:
           EVENT_NAME: ${{ github.event_name }}
           MANIFEST_INPUT: ${{ inputs.manifest }}
-          BEFORE_SHA: ${{ github.event.before }}
-          CURRENT_SHA: ${{ github.sha }}
         shell: bash
         run: |
           set -euo pipefail
@@ -66,17 +58,28 @@ jobs:
               exit 1
             fi
             printf '%s\n' "${MANIFEST_INPUT}" >> "${list_file}"
-          elif [[ "${BEFORE_SHA}" =~ ^0+$ ]]; then
-            git diff-tree --no-commit-id --name-only --diff-filter=AMR -r "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
           else
-            git diff --name-only --diff-filter=AMR "${BEFORE_SHA}" "${CURRENT_SHA}" -- 'shorts/content/**/*.json' >> "${list_file}"
+            node shorts/scripts/candidate-selection.mjs
+            exit 0
           fi
 
           sort -u "${list_file}" -o "${list_file}"
           cat "${list_file}"
+          printf 'count=1\n' >> "${GITHUB_OUTPUT}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
 
+      - name: Install shorts dependencies
+        if: steps.manifests.outputs.count != '0'
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Install storyboard packaging tools
+        if: steps.manifests.outputs.count != '0'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick img2pdf
+
       - name: Render scene snapshots
+        if: steps.manifests.outputs.count != '0'
         env:
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
         shell: bash
@@ -89,6 +92,7 @@ jobs:
           done < "${LIST_FILE}"
 
       - name: Build mobile review sheets
+        if: steps.manifests.outputs.count != '0'
         shell: bash
         run: |
           set -euo pipefail
@@ -118,6 +122,7 @@ jobs:
           done < <(find shorts/out/storyboards -mindepth 1 -maxdepth 1 -type d -print0)
 
       - name: Publish draft release for mobile approval
+        if: steps.manifests.outputs.count != '0'
         env:
           GH_TOKEN: ${{ github.token }}
           TAG_NAME: shorts-storyboard-${{ github.run_id }}

@@ -11,8 +11,8 @@
 ## 2. 실제 제작 순서
 
 1. **후보 생성:** Actions의 **Generate blog shorts**에 블로그 URL을 입력한다. 생성 결과는 `shorts/content/<post-slug>/candidate-XX.json` 파일을 담은 PR로 받는다. 원문의 독립적인 논점과 훅을 선택하고, 원문에 없는 경험·통계·결과를 만들지 않는다.
-2. **대본·장면 검토:** 불필요한 후보를 삭제하고 선택한 JSON을 수정한다. 스크립트, 자막의 의미 단위와 강조, 시각화 관계, 사진 원출처와 라이선스를 함께 확인한 뒤 후보 PR을 병합한다.
-3. **스토리보드 생성:** main의 후보 JSON 변경은 **Build blog shorts storyboard**를 실행한다. 수동으로는 `manifest`에 `shorts/content/<post-slug>/candidate-01.json`처럼 저장소 루트 기준 경로를 입력한다. 이 단계는 TTS를 호출하지 않고 추정 장면 길이로 대표 스냅샷을 만든다.
+2. **대본·장면 검토:** PR 본문의 체크박스로 사용할 후보를 선택하고 필요한 JSON을 수정한다. 체크 변경 시 선택 후보만 무음 미리보기로 생성되며 미선택 후보 파일은 보관한다. 스크립트, 자막의 의미 단위와 강조, 시각화 관계, 사진 원출처와 라이선스를 함께 확인한 뒤 후보 PR을 병합한다.
+3. **스토리보드 생성:** 후보 PR 병합 시 **Build blog shorts storyboard**가 PR 본문에서 체크한 후보만 생성한다. 선택이 없으면 건너뛰고, main 직접 push는 자동 생성하지 않는다. 수동으로는 `manifest`에 `shorts/content/<post-slug>/candidate-01.json`처럼 저장소 루트 기준 경로를 입력한다. 이 단계는 TTS를 호출하지 않고 추정 장면 길이로 대표 스냅샷을 만든다.
 4. **휴대폰 검토:** 실행 요약에 있는 Draft Release 링크를 연다. 2열 모아보기 JPG로 장면 순서를 보고, PDF 또는 개별 PNG로 글자와 도식을 확인한다. Draft를 볼 수 있는 저장소 권한이 필요하다. 수정이 필요하면 JSON을 변경하고 스토리보드를 다시 만든다.
 5. **최종 렌더 승인:** 검토한 manifest로 **Render blog shorts**를 수동 실행하고 `storyboard_approved`를 체크한다. 체크하지 않으면 작업이 중단된다. 실제 TTS와 최종 영상 제작은 이 단계에서 수행한다.
 6. **최종 검수·게시:** 결과 아티팩트에서 MP4, SRT, 미디어 출처, 릴스용 텍스트와 스크립트를 확인한다. 실제 음성·자막 타이밍·움직임을 재검토한 뒤 게시한다. 현재 SNS 자동 업로드 단계는 없다.
@@ -28,7 +28,7 @@
 | 워크플로 | 실행 조건 | 결과와 확인 위치 |
 | --- | --- | --- |
 | [generate-shorts.yml](../../.github/workflows/generate-shorts.yml) | 블로그 URL로 수동 실행 | 후보 JSON PR |
-| [storyboard-shorts.yml](../../.github/workflows/storyboard-shorts.yml) | main 후보 JSON 변경 또는 manifest로 수동 실행 | 실행별 `shorts-storyboard-<run_id>` Draft Release: 장별 PNG, 모아보기 JPG, 장별 PDF |
+| [storyboard-shorts.yml](../../.github/workflows/storyboard-shorts.yml) | 후보 PR 병합 시 체크된 후보 또는 manifest로 수동 실행 | 실행별 `shorts-storyboard-<run_id>` Draft Release: 장별 PNG, 모아보기 JPG, 장별 PDF |
 | [render-shorts.yml](../../.github/workflows/render-shorts.yml) | manifest + 승인 체크로 수동 실행 | `blog-shorts-<run_id>` 아티팩트: MP4, SRT, MEDIA.md, REELS.txt, SCRIPT.txt. 보관 14일 |
 | [shorts-check.yml](../../.github/workflows/shorts-check.yml) | shorts 관련 PR | 타입 검사·테스트·엔진 및 폴백 프레임·물리 MP4·템플릿 프레임. 아티팩트 보관 7일 |
 | [shorts-template-preview.yml](../../.github/workflows/shorts-template-preview.yml) | main의 지정된 소스/패키지/워크플로 변경 또는 수동 실행 | 고정 태그 `shorts-template-preview` 공개 prerelease: 전체 템플릿 MP4 + PNG 한 장 |
