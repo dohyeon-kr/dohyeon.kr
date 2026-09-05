@@ -146,9 +146,9 @@
             "shape": "rect",
             "label": "다른 사람의 자리",
             "x": 400,
-            "y": 500,
+            "y": 460,
             "width": 300,
-            "height": 40,
+            "height": 65,
             "fill": "none"
           }
         ],
@@ -262,11 +262,11 @@
     {
       "diagramSpec": null,
       "kind": "photo",
-      "layout": "photo-full-bleed",
+      "layout": "photo-strip",
       "visual": {
         "type": "photo",
         "motif": null,
-        "query": "tired office team meeting after long discussion",
+        "query": "empty conference room table chairs",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -280,7 +280,7 @@
         "strategy": {
           "type": "photo",
           "metaphor": null,
-          "rationale": "피로한 협업 장면은 마찰이 결과의 문제가 아니라 다시 기여하려는 의욕의 문제임을 구체화한다."
+          "rationale": "실제 작업 공간 사진으로 맥락을 보여주고, 사진과 문구 영역을 분리해 가독성을 유지한다."
         }
       },
       "transition": "zoom",
@@ -330,8 +330,20 @@
       "narration": "끝없이 납득과 설득을 요구하면 조직의 피로도는 올라갑니다. 그리고 기분은 부차적인 문제가 아닙니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "tired office team meeting after long discussion",
-      "image": null
+      "imageQuery": "empty conference room table chairs",
+      "image": {
+        "query": "empty conference room table chairs",
+        "title": "빈 회의실의 테이블과 의자",
+        "creator": "Aheed Baithul Nafia",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/conference-table-and-chairs-in-an-empty-office-17739892/",
+        "originalUrl": "https://images.pexels.com/photos/17739892/pexels-photo-17739892/free-photo-of-conference-table-and-chairs-in-an-empty-office.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/17739892/pexels-photo-17739892/free-photo-of-conference-table-and-chairs-in-an-empty-office.jpeg?auto=compress&cs=tinysrgb&w=1600"
+      }
     },
     {
       "diagramSpec": {
@@ -373,7 +385,7 @@
           {
             "id": "motivation",
             "shape": "line",
-            "label": "다시 기여하고 싶은 힘",
+            "label": "기여 의욕",
             "x": 400,
             "y": 470,
             "width": 350,
@@ -624,20 +636,20 @@
             "id": "u",
             "shape": "line",
             "label": "",
-            "x": 420,
-            "y": 280,
-            "width": 130,
-            "height": 100,
+            "x": 425,
+            "y": 225,
+            "width": 155.56349186104046,
+            "height": 3,
             "fill": "gray"
           },
           {
             "id": "d",
             "shape": "line",
             "label": "",
-            "x": 420,
-            "y": 280,
-            "width": 130,
-            "height": 100,
+            "x": 425,
+            "y": 335,
+            "width": 155.56349186104046,
+            "height": 3,
             "fill": "white"
           }
         ],
@@ -673,6 +685,22 @@
             "to": 1,
             "start": 0.55,
             "end": 0.85
+          },
+          {
+            "target": "u",
+            "property": "rotation",
+            "from": -45,
+            "to": -45,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "d",
+            "property": "rotation",
+            "from": 45,
+            "to": 45,
+            "start": 0,
+            "end": 1
           }
         ]
       },
@@ -770,11 +798,11 @@
     {
       "diagramSpec": null,
       "kind": "photo",
-      "layout": "photo-split-left",
+      "layout": "photo-strip",
       "visual": {
         "type": "photo",
         "motif": null,
-        "query": "diverse team members collaborating around whiteboard",
+        "query": "team collaborating at computer",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -788,7 +816,7 @@
         "strategy": {
           "type": "photo",
           "metaphor": null,
-          "rationale": "다양한 사람이 같은 답을 복제하지 않고 함께 방향을 맞추는 장면을 사진으로 전달한다."
+          "rationale": "실제 작업 공간 사진으로 맥락을 보여주고, 사진과 문구 영역을 분리해 가독성을 유지한다."
         }
       },
       "transition": "fade",
@@ -839,8 +867,20 @@
       "narration": "모두가 같은 언어를 쓸 필요는 없습니다. 중요한 방향과 감각이 공유되었다면, 각자가 자신의 방식으로 결정할 여지를 남겨야 합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "diverse team members collaborating around whiteboard",
-      "image": null
+      "imageQuery": "team collaborating at computer",
+      "image": {
+        "query": "team collaborating at computer",
+        "title": "컴퓨터 앞에서 함께 일하는 팀",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-working-in-front-of-the-computer-3184357/",
+        "originalUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
     },
     {
       "diagramSpec": {
@@ -852,7 +892,7 @@
           {
             "id": "signal",
             "shape": "circle",
-            "label": "단서·방향",
+            "label": "방향",
             "x": 160,
             "y": 280,
             "width": 90,
@@ -862,40 +902,40 @@
           {
             "id": "person1",
             "shape": "circle",
-            "label": "각자의 판단",
+            "label": "판단",
             "x": 470,
             "y": 150,
-            "width": 90,
-            "height": 90,
+            "width": 112,
+            "height": 112,
             "fill": "white"
           },
           {
             "id": "person2",
             "shape": "circle",
-            "label": "각자의 판단",
+            "label": "판단",
             "x": 620,
             "y": 280,
-            "width": 90,
-            "height": 90,
+            "width": 112,
+            "height": 112,
             "fill": "white"
           },
           {
             "id": "person3",
             "shape": "circle",
-            "label": "각자의 판단",
+            "label": "판단",
             "x": 470,
             "y": 410,
-            "width": 90,
-            "height": 90,
+            "width": 112,
+            "height": 112,
             "fill": "white"
           },
           {
             "id": "e1",
             "shape": "line",
             "label": "",
-            "x": 300,
-            "y": 230,
-            "width": 170,
+            "x": 309.5,
+            "y": 215,
+            "width": 246.13207836444238,
             "height": 3,
             "fill": "white"
           },
@@ -903,9 +943,9 @@
             "id": "e2",
             "shape": "line",
             "label": "",
-            "x": 300,
+            "x": 384.5,
             "y": 280,
-            "width": 250,
+            "width": 359,
             "height": 3,
             "fill": "white"
           },
@@ -913,9 +953,9 @@
             "id": "e3",
             "shape": "line",
             "label": "",
-            "x": 300,
-            "y": 330,
-            "width": 170,
+            "x": 309.5,
+            "y": 345,
+            "width": 246.13207836444238,
             "height": 3,
             "fill": "white"
           }
@@ -968,6 +1008,22 @@
             "to": 1,
             "start": 0.6,
             "end": 0.9
+          },
+          {
+            "target": "e1",
+            "property": "rotation",
+            "from": -31.882007473894138,
+            "to": -31.882007473894138,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "e3",
+            "property": "rotation",
+            "from": 31.882007473894138,
+            "to": 31.882007473894138,
+            "start": 0,
+            "end": 1
           }
         ]
       },

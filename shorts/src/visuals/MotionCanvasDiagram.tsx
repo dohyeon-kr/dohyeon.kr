@@ -3,6 +3,7 @@ import {flushSync} from 'react-dom';
 import {continueRender, delayRender} from 'remotion';
 import type {DiagramSpec} from './diagram-spec';
 import {evaluatedDiagramState} from './physics';
+import {linePoints, nodeLabel} from './node-layout';
 
 // Render one isolated Motion Canvas scene for each requested frame. This avoids
 // seek races and makes parallel/out-of-order Remotion renders deterministic.
@@ -27,8 +28,9 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3};
           if (node.shape === 'rect') group.add(new Rect(props));
           if (node.shape === 'circle') group.add(new Circle(props));
-          if (node.shape === 'line') group.add(new Line({points: [[-node.width / 2, 0], [node.width / 2, 0]], stroke: '#fff', lineWidth: 3}));
-          if (node.label) group.add(new Txt({text: node.label, fontFamily: 'Pretendard', fontSize: 28, fontWeight: 800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
+          if (node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3}));
+          const label = nodeLabel(node);
+          if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: 'Pretendard', fontSize: label.fontSize, lineHeight: label.fontSize * 1.12, textAlign: 'center', fontWeight: 800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
         }
         yield;
       });

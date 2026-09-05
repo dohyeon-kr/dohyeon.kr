@@ -10,6 +10,8 @@ import {
 } from 'remotion';
 import {PresetVisual} from './visuals/PresetVisual';
 import {DiagramRenderer} from './visuals/DiagramRenderer';
+import {fitCopy} from './text-layout';
+import {subtitleAt} from './subtitles';
 import type {
   RenderManifest,
   RenderScene,
@@ -69,8 +71,8 @@ const fallbackVisual = (scene: RenderScene): SceneVisual => {
 };
 
 const fallbackLayout = (scene: RenderScene, visual: SceneVisual): SceneLayout => {
-  if (visual.type === 'photo') return 'photo-full-bleed';
   if (scene.layout) return scene.layout;
+  if (visual.type === 'photo') return 'photo-full-bleed';
   if (scene.kind === 'compare') return 'compare-columns';
   if (scene.kind === 'outro') return 'outro-minimal';
   return 'statement-offset';
@@ -155,30 +157,6 @@ const BlogChrome: React.FC<{index: number; total: number; sourceTitle: string}> 
   </div>
 );
 
-type TimedBeat = SubtitleBeat & {startSeconds: number; endSeconds: number};
-
-const timedBeats = (scene: RenderScene): TimedBeat[] => {
-  const beats = scene.beats?.filter((beat) => beat.text.trim()) ?? [];
-  if (!beats.length) return [];
-  if (scene.beatTimings?.length === beats.length) {
-    return beats.map((beat, index) => ({...beat, ...scene.beatTimings![index]}));
-  }
-  const duration = Math.max(0.8, scene.audioDurationSeconds ?? 3.6);
-  const rawPauseSeconds = beats.reduce((sum, beat) => sum + Math.max(0, beat.pauseAfterMs) / 1000, 0);
-  const pauseBudget = Math.min(rawPauseSeconds, duration * 0.24);
-  const pauseScale = rawPauseSeconds > 0 ? pauseBudget / rawPauseSeconds : 0;
-  const speechBudget = Math.max(0.5, duration - pauseBudget);
-  const weights = beats.map((beat) => Math.max(1, compactLength(beat.text)) * (beat.delivery === 'hold' ? 1.12 : 1));
-  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
-  let cursor = 0;
-  return beats.map((beat, index) => {
-    const span = (speechBudget * weights[index]) / totalWeight;
-    const startSeconds = cursor;
-    const endSeconds = Math.min(duration, startSeconds + span);
-    cursor = endSeconds + (Math.max(0, beat.pauseAfterMs) / 1000) * pauseScale;
-    return {...beat, startSeconds, endSeconds};
-  });
-};
 
 const highlightedText = (text: string, keyword: string | null | undefined) => {
   if (!keyword?.trim()) return text;
@@ -196,30 +174,14 @@ const highlightedText = (text: string, keyword: string | null | undefined) => {
 const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, photo}) => {
   const frame = useCurrentFrame();
   const seconds = frame / FPS;
-  const beats = timedBeats(scene);
-  const activeBeat = beats.find((item) => seconds >= item.startSeconds && seconds < item.endSeconds);
-  const fallbackCue = scene.captions?.find((item) => seconds >= item.startSeconds && seconds < item.endSeconds);
-  if (!activeBeat && !fallbackCue) return null;
-
-  const text = (activeBeat?.text ?? fallbackCue?.text ?? '').replace(/\s+/g, ' ').trim();
-  const length = compactLength(text);
-  const emphasis = activeBeat?.emphasis ?? 'mid';
-  const delivery = activeBeat?.delivery ?? 'normal';
-  const start = activeBeat?.startSeconds ?? fallbackCue?.startSeconds ?? seconds;
-  const entry = interpolate(seconds, [start, start + 0.11], [0, 1], clampInterpolation);
-  const baseFontSize = length > 19 ? 30 : length > 15 ? 34 : length > 11 ? 38 : 42;
-  const fontSize = baseFontSize + (emphasis === 'high' ? 5 : emphasis === 'low' ? -2 : 0);
-  const scale = emphasis === 'high'
-    ? interpolate(entry, [0, 1], [0.94, 1.035], clampInterpolation)
-    : interpolate(entry, [0, 1], [0.98, 1], clampInterpolation);
-  const y = delivery === 'push'
-    ? interpolate(entry, [0, 1], [12, -3], clampInterpolation)
-    : interpolate(entry, [0, 1], [7, 0], clampInterpolation);
+  const cue = subtitleAt(scene, seconds);
+  if (!cue) return null;
+  const text = cue.text.replace(/\s+/g, ' ').trim();
 
   return (
-    <div style={{position: 'absolute', left: SAFE_LEFT, right: SAFE_RIGHT + 20, bottom: SAFE_BOTTOM + 46, display: 'flex', justifyContent: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: entry, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left bottom'}}>
-      <div style={{maxWidth: SAFE_CONTENT_WIDTH - 18, padding: emphasis === 'high' ? '13px 19px 14px' : '12px 17px 13px', border: `${emphasis === 'high' ? 3 : 2}px solid ${photo ? BLACK : WHITE}`, borderRadius: 0, background: WHITE, color: BLACK, fontSize, fontWeight: 900, lineHeight: 1.08, letterSpacing: emphasis === 'high' ? '-0.055em' : '-0.045em', textAlign: 'left', whiteSpace: 'nowrap', wordBreak: 'keep-all'}}>
-        {highlightedText(text, activeBeat?.keyword)}
+    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none'}}>
+      <div style={{boxSizing: 'border-box', maxWidth: '100%', padding: '12px 17px 13px', border: `2px solid ${photo ? BLACK : WHITE}`, background: WHITE, color: BLACK, fontSize: 38, fontWeight: 800, lineHeight: 1.25, letterSpacing: '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
+        {highlightedText(text, 'keyword' in cue ? cue.keyword as string | null : null)}
       </div>
     </div>
   );
@@ -230,9 +192,9 @@ const ComparePanel: React.FC<{scene: RenderScene; reveal: number; versus: boolea
     {[scene.comparisonLeft, scene.comparisonRight].map((label, index) => {
       const local = Math.max(0, Math.min(1, reveal * 1.35 - index * 0.2));
       return (
-        <div key={`${label}-${index}`} style={{minHeight: 420, padding: '32px 28px', border: `2px solid ${WHITE}`, background: index === 1 ? WHITE : BLACK, color: index === 1 ? BLACK : WHITE, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', opacity: local, transform: `translateY(${(1 - local) * 24}px)`}}>
+        <div key={`${label}-${index}`} style={{boxSizing: 'border-box', minWidth: 0, height: 460, padding: '32px 28px', border: `2px solid ${WHITE}`, background: index === 1 ? WHITE : BLACK, color: index === 1 ? BLACK : WHITE, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', opacity: local, transform: `translateY(${(1 - local) * 24}px)`}}>
           <div style={{fontSize: 18, fontWeight: 900, letterSpacing: '0.08em'}}>{versus ? (index === 0 ? 'BEFORE' : 'AFTER') : `0${index + 1}`}</div>
-          <div style={{fontSize: 54, fontWeight: 900, lineHeight: 1.02, letterSpacing: '-0.055em', wordBreak: 'keep-all'}}>{label ?? ''}</div>
+          <div style={{fontSize: fitCopy(label ?? '', 320, 310, 50).fontSize, fontWeight: 900, lineHeight: 1.12, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>{fitCopy(label ?? '', 320, 310, 50).text}</div>
         </div>
       );
     })}
@@ -255,6 +217,10 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
   const sublineY = interpolate(sublineReveal, [0, 1], [18, 0], clampInterpolation);
 
   const headlineBase = layout === 'statement-giant' ? 150 : layout === 'outro-minimal' ? 140 : photo ? 136 : 126;
+  const headingTop = hasPresetVisual || isCompare ? 1010 : photo ? 1000 : 700;
+  const headingHeight = 1310 - headingTop - (scene.subline ? 90 : 0);
+  const heading = fitCopy(scene.headline, SAFE_CONTENT_WIDTH - 20, headingHeight, Math.min(headlineBase, hasPresetVisual || isCompare ? 98 : 124));
+  const subline = fitCopy(scene.subline ?? '', SAFE_CONTENT_WIDTH - 20, 78, 30);
 
   return (
     <AbsoluteFill style={{background: BLACK, color: WHITE, overflow: 'hidden'}}>
@@ -263,29 +229,31 @@ const SceneFrame: React.FC<{scene: RenderScene; index: number; total: number; so
 
         {photo ? (
           <>
-            <PhotoCover scene={scene} frame={frame} index={index} />
-            <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.18) 36%, rgba(0,0,0,.86) 78%, rgba(0,0,0,.96) 100%)'}} />
+            <div style={layout === 'photo-full-bleed' ? {position: 'absolute', inset: 0} : {position: 'absolute', top: CONTENT_TOP + 10, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, height: 520, overflow: 'hidden'}}>
+              <PhotoCover scene={scene} frame={frame} index={index} />
+            </div>
+            {layout === 'photo-full-bleed' ? <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.08) 36%, rgba(0,0,0,.86) 78%, rgba(0,0,0,.96) 100%)'}} /> : null}
           </>
         ) : null}
 
         <BlogChrome index={index} total={total} sourceTitle={sourceTitle} />
 
         {hasPresetVisual && !isCompare && !photo ? (
-          <div style={{position: 'absolute', top: CONTENT_TOP, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 22, height: layout === 'diagram-centered' ? 560 : 490, opacity: visualReveal, transform: `translateY(${(1 - visualReveal) * 20}px) scale(${0.985 + visualReveal * 0.015})`, transformOrigin: 'center center'}}>
+          <div data-layout="visual" style={{position: 'absolute', top: CONTENT_TOP + 10, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 22, height: 520, opacity: visualReveal, transform: `translateY(${(1 - visualReveal) * 20}px) scale(${0.985 + visualReveal * 0.015})`, transformOrigin: 'center center'}}>
             {scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} durationInFrames={durationInFrames} framesPath={scene.diagramFramesPath} /> : <PresetVisual visual={visual} camera={scene.camera} durationInFrames={durationInFrames} />}
           </div>
         ) : null}
 
         {isCompare ? <ComparePanel scene={scene} reveal={compareReveal} versus={layout === 'compare-versus'} /> : null}
 
-        <div style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, bottom: SAFE_BOTTOM + (photo ? 150 : hasPresetVisual || isCompare ? 128 : 190), zIndex: 20}}>
-          <div style={{fontSize: headlineSize(scene.headline, headlineBase), fontWeight: 900, lineHeight: 0.98, letterSpacing: '-0.065em', whiteSpace: 'pre-wrap', wordBreak: 'keep-all', textShadow: photo ? '0 4px 30px rgba(0,0,0,.58)' : 'none', opacity: headlineReveal, transform: `translateY(${headlineY}px)`}}>
-            {scene.headline}
+        <div data-layout="copy" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: headingTop, zIndex: 20}}>
+          <div style={{fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.12, letterSpacing: '-0.045em', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', textShadow: photo ? '0 4px 30px rgba(0,0,0,.58)' : 'none', opacity: headlineReveal, transform: `translateY(${headlineY}px)`}}>
+            {heading.text}
           </div>
 
           {scene.subline ? (
-            <div style={{marginTop: 25, maxWidth: 720, fontSize: 31, fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.04em', color: photo ? WHITE : GRAY, whiteSpace: 'pre-wrap', wordBreak: 'keep-all', opacity: sublineReveal, transform: `translateY(${sublineY}px)`}}>
-              {scene.subline}
+            <div style={{marginTop: 12, fontSize: subline.fontSize, fontWeight: 800, lineHeight: 1.12, letterSpacing: '-0.025em', color: photo ? WHITE : GRAY, whiteSpace: 'pre-wrap', opacity: sublineReveal, transform: `translateY(${sublineY}px)`}}>
+              {subline.text}
             </div>
           ) : null}
         </div>

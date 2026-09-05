@@ -156,40 +156,40 @@
             "id": "l1",
             "shape": "line",
             "label": "",
-            "x": 260,
-            "y": 205,
-            "width": 190,
-            "height": 2,
+            "x": 252.5,
+            "y": 202.5,
+            "width": 155.72411502397435,
+            "height": 3,
             "fill": "gray"
           },
           {
             "id": "l2",
             "shape": "line",
             "label": "",
-            "x": 540,
-            "y": 205,
-            "width": 190,
-            "height": 2,
+            "x": 547.5,
+            "y": 202.5,
+            "width": 155.72411502397435,
+            "height": 3,
             "fill": "gray"
           },
           {
             "id": "l3",
             "shape": "line",
             "label": "",
-            "x": 260,
-            "y": 355,
-            "width": 190,
-            "height": 2,
+            "x": 252.5,
+            "y": 357.5,
+            "width": 155.72411502397435,
+            "height": 3,
             "fill": "gray"
           },
           {
             "id": "l4",
             "shape": "line",
             "label": "",
-            "x": 540,
-            "y": 355,
-            "width": 190,
-            "height": 2,
+            "x": 547.5,
+            "y": 357.5,
+            "width": 155.72411502397435,
+            "height": 3,
             "fill": "gray"
           }
         ],
@@ -225,6 +225,38 @@
             "to": 1,
             "start": 0.4,
             "end": 0.65
+          },
+          {
+            "target": "l1",
+            "property": "rotation",
+            "from": 42.397437797500196,
+            "to": 42.397437797500196,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "l2",
+            "property": "rotation",
+            "from": 137.6025622024998,
+            "to": 137.6025622024998,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "l3",
+            "property": "rotation",
+            "from": -42.397437797500196,
+            "to": -42.397437797500196,
+            "start": 0,
+            "end": 1
+          },
+          {
+            "target": "l4",
+            "property": "rotation",
+            "from": -137.6025622024998,
+            "to": -137.6025622024998,
+            "start": 0,
+            "end": 1
           }
         ]
       },
@@ -440,7 +472,7 @@
             "id": "ui",
             "shape": "rect",
             "label": "UI",
-            "x": 220,
+            "x": 180,
             "y": 280,
             "width": 190,
             "height": 100,
@@ -459,8 +491,8 @@
           {
             "id": "composition",
             "shape": "rect",
-            "label": "Composition",
-            "x": 580,
+            "label": "연결 계층",
+            "x": 620,
             "y": 280,
             "width": 220,
             "height": 100,
@@ -470,20 +502,20 @@
             "id": "props",
             "shape": "line",
             "label": "props",
-            "x": 400,
+            "x": 397.5,
             "y": 240,
-            "width": 150,
-            "height": 2,
+            "width": 225,
+            "height": 3,
             "fill": "gray"
           },
           {
             "id": "events",
             "shape": "line",
             "label": "events",
-            "x": 400,
+            "x": 397.5,
             "y": 330,
-            "width": 150,
-            "height": 2,
+            "width": 225,
+            "height": 3,
             "fill": "gray"
           }
         ],
@@ -569,7 +601,7 @@
           "visualCue": "props와 events 흐름이 순서대로 나타난다"
         }
       ],
-      "headline": "UI와 Composition을\n나눈다",
+      "headline": "UI와 연결 계층을\n나눈다",
       "subline": "파일 개수보다 책임의 경계가 중요합니다",
       "narration": "그래서 서로 다른 책임이 만나는 자리를 분명히 합니다. UI는 화면을 그리고, Composition은 애플리케이션과 연결합니다.",
       "comparisonLeft": null,
@@ -580,11 +612,11 @@
     {
       "diagramSpec": null,
       "kind": "photo",
-      "layout": "photo-split-left",
+      "layout": "photo-strip",
       "visual": {
         "type": "photo",
         "motif": null,
-        "query": "frontend developer reviewing component architecture on monitor grayscale",
+        "query": "developer coding on laptop",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -598,7 +630,7 @@
         "strategy": {
           "type": "photo",
           "metaphor": null,
-          "rationale": "코드를 실제로 검토하는 장면이 설계 변경의 맥락을 구체적으로 전달한다."
+          "rationale": "실제 작업 공간 사진으로 맥락을 보여주고, 사진과 문구 영역을 분리해 가독성을 유지한다."
         }
       },
       "transition": "fade",
@@ -648,8 +680,20 @@
       "narration": "디자인이 바뀌면 UI를 고치고, 데이터 저장 방식이 바뀌면 Composition을 고칩니다. 한쪽의 변화가 다른 쪽으로 함부로 번지지 않습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "frontend developer reviewing component architecture on monitor grayscale",
-      "image": null
+      "imageQuery": "developer coding on laptop",
+      "image": {
+        "query": "developer coding on laptop",
+        "title": "노트북에서 코드를 작성하는 손",
+        "creator": "Lukas Blazek",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/person-encoding-in-laptop-574071/",
+        "originalUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
     },
     {
       "diagramSpec": null,
@@ -725,7 +769,7 @@
           {
             "id": "app",
             "shape": "rect",
-            "label": "애플리케이션 상태",
+            "label": "앱 상태",
             "x": 150,
             "y": 170,
             "width": 190,
@@ -745,7 +789,7 @@
           {
             "id": "comp",
             "shape": "rect",
-            "label": "Composition",
+            "label": "연결 계층",
             "x": 650,
             "y": 170,
             "width": 190,
@@ -755,7 +799,7 @@
           {
             "id": "state",
             "shape": "rect",
-            "label": "갱신된 상태",
+            "label": "새 상태",
             "x": 400,
             "y": 390,
             "width": 170,
@@ -766,40 +810,40 @@
             "id": "a",
             "shape": "line",
             "label": "props",
-            "x": 275,
+            "x": 285,
             "y": 170,
-            "width": 100,
-            "height": 2,
+            "width": 80,
+            "height": 3,
             "fill": "gray"
           },
           {
             "id": "b",
             "shape": "line",
             "label": "event",
-            "x": 525,
+            "x": 515,
             "y": 170,
-            "width": 100,
-            "height": 2,
+            "width": 80,
+            "height": 3,
             "fill": "gray"
           },
           {
             "id": "c",
             "shape": "line",
-            "label": "동작",
+            "label": "",
             "x": 650,
             "y": 280,
-            "width": 2,
-            "height": 120,
+            "width": 3,
+            "height": 150,
             "fill": "gray"
           },
           {
             "id": "d",
             "shape": "line",
-            "label": "반영",
-            "x": 300,
+            "label": "상태 갱신",
+            "x": 567.5,
             "y": 390,
-            "width": 170,
-            "height": 2,
+            "width": 165,
+            "height": 3,
             "fill": "gray"
           }
         ],
@@ -835,6 +879,14 @@
             "to": 1,
             "start": 0.7,
             "end": 0.9
+          },
+          {
+            "target": "d",
+            "property": "rotation",
+            "from": 180,
+            "to": 180,
+            "start": 0,
+            "end": 1
           }
         ]
       },

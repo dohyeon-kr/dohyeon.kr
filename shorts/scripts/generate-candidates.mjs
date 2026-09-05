@@ -5,6 +5,7 @@ import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
 import {DiagramSpecSchema, validateDiagram} from '../src/visuals/diagram-spec.ts';
+import {curatedPhoto} from './curated-photos.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.resolve(import.meta.dirname, '..');
@@ -189,6 +190,8 @@ Motion / choreography 원칙:
 
 layout 원칙:
 - 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
+- 6~9장면 중 최소 2장은 문맥에 맞는 실제 작업 공간/사물/협업 사진을 사용한다. 모든 사진을 full-bleed로 만들지 말고 photo-strip 등 사진과 문구가 분리된 배치를 포함한다.
+- 도식 라벨은 한글 2~6자로 짧게 쓴다. 긴 영문 용어는 본문에서 설명한다. line의 width가 길이이고 기본은 가로선이며 세로선은 height를 길게 쓴다. 대각선은 rotation 이벤트의 from/to를 같은 각도로 지정한다.
 - 같은 layout을 연속으로 사용하지 않는다.
 - photo-full-bleed는 강한 전환에만 사용하고 영상당 최대 1~2회.
 - diagram-centered는 그래프/도식/물리 비유가 중심인 장면에 사용한다.
@@ -318,7 +321,9 @@ const enrichVisuals = async (candidate) => {
   const scenes = [];
   for (const scene of candidate.scenes) {
     const imageQuery = scene.visual.type === 'photo' ? scene.visual.query : null;
-    scenes.push({...scene, camera: normalizeCamera(scene.camera), imageQuery, image: imageQuery ? await searchOpenverse(imageQuery) : null});
+    const image = imageQuery ? (await searchOpenverse(imageQuery)) ?? curatedPhoto(imageQuery) : null;
+    if (scene.visual.type === 'photo' && !image) throw new Error(`Photo could not be resolved: ${imageQuery}. Choose a concrete licensed photo instead of rendering a placeholder.`);
+    scenes.push({...scene, camera: normalizeCamera(scene.camera), imageQuery, image});
   }
   return {...candidate, scenes};
 };
