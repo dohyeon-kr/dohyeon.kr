@@ -1,0 +1,410 @@
+# 가장 똑똑하다면, 정말 그 방을 나와야 할까?
+
+원본: [candidate-02.json](https://github.com/dohyeon-kr/dohyeon.kr/blob/632860aa896484daf007fc9d74318c2383e7fd48/shorts/content/hyeonjado-hwangyeongeul-goreunda/candidate-02.json)
+
+JSON에서 자동 생성한 검토용 스토리보드입니다. 수정은 원본 JSON에 반영한 뒤 다시 생성하세요. 연출 설명은 기획 의도이며, 실제 배치·동작은 렌더된 스냅샷과 영상으로 확인합니다. 음성 생성 전이므로 재생 시간은 확정하지 않습니다.
+
+**첫 문장:** “내가 가장 똑똑한 사람이라면, 그 방을 나와라.”
+
+**기획 의도:** 인용 → 의문 → 배움의 구체적 사례 → 방의 의미 질문 → 혼자 성장을 떠맡는 상황 → 환경의 역할 → 해석 → 배움의 지속 여부를 묻는 결론으로 이어간다.
+
+**원문:** [현자도 환경을 고른다](<https://blog.dohyeon.kr/hyeonjado-hwangyeongeul-goreunda/>)
+
+## 1. 도입 — 내가 가장 똑똑하다면, 그 방을 나와라
+
+![장면 1](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-01.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-01.png)
+
+**내레이션**
+
+“내가 가장 똑똑한 사람이라면, 그 방을 나와라.”
+
+**화면 구성**
+
+- 주 문구: 내가 가장 똑똑하다면, 그 방을 나와라
+- 배치: 사진을 화면 전체에 배치
+- 전달할 관계: 방 안의 실제 공간을 보여주며 격언의 방을 시각적으로 제시한다.
+- 표현 방식: 사진 — 창으로 빛이 들어오는 방
+- 표현 이유: 사진을 풀블리드로 배치하고 기존 흑백 정규화와 하단 오버레이 위에 핵심 문구를 유지한다.
+- 사진 검색어: sunlit empty room
+- 사진 출처: [창으로 빛이 들어오는 방](<https://www.pexels.com/photo/an-empty-room-of-a-house-4258277/>) · 라이선스 pexels
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 주 문구 등장
+3. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. “내가 가장 똑똑한 사람이라면,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 연출 의도: 창으로 빛이 들어오는 방 사진이 화면을 채운다.
+2. **그 방을 나와라.”**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **나와라**
+   - 연출 의도: 사진 위 핵심 문구를 유지한다.
+
+## 2. 사진 — 정말 나오면 될까?
+
+![장면 2](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-02.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-02.png)
+
+**내레이션**
+
+성장에 관한 조언으로 자주 듣는 말이다. 그런데 정말 그러면 될까? 내가 가장 많이 안다는 이유만으로, 지금 있는 곳을 떠나야 할까?
+
+**화면 구성**
+
+- 주 문구: 정말 나오면 될까?
+- 배치: 사진을 화면 전체에 배치
+- 전달할 관계: 문고리의 구체적인 질감으로 떠나기 전 망설임을 보여준다.
+- 표현 방식: 사진 — 문고리 클로즈업
+- 표현 이유: 실제 공간과 사물의 질감을 풀블리드로 보여주고 문구는 어두운 영역에 배치한다.
+- 사진 검색어: door handle close up
+- 사진 출처: [문고리 클로즈업](<https://www.pexels.com/photo/door-handle-in-darkness-19836742/>) · 라이선스 pexels
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 주 문구 등장
+3. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 성장에 관한 조언으로 자주 듣는 말이다.
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 연출 의도: 문고리 클로즈업 사진이 화면을 채운다.
+2. 그런데 정말 그러면 될까?
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+3. 내가 가장 많이 안다는 이유만으로,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+4. **지금 있는 곳을 떠나야 할까?**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **떠나야**
+   - 연출 의도: 사진을 유지하며 질문과 핵심 문구를 읽게 한다.
+
+## 3. 비교 — 내가 많이 알아도 배움은 생긴다
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-03-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-03-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-03.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-03.png)
+
+**내레이션**
+
+내가 일을 가장 잘 아는 곳에서도 배움은 생긴다. 동료의 질문에 답하다 내 설명의 빈틈을 발견하고, 다른 관점으로 문제를 푸는 사람에게서 새로운 방법을 배우기도 한다. 내가 가장 많이 안다는 것만으로 배움이 끝나는 건 아니다.
+
+**화면 구성**
+
+- 주 문구: 내가 많이 알아도 배움은 생긴다
+- 배치: 도식을 중앙에 배치
+- 비교: 동료의 질문 ↔ 다른 관점
+- 전달할 관계: 동료의 질문과 다른 관점이 배움으로 모인다.
+- 표현 방식: 공간 도식 — 두 입력의 합류
+- 표현 이유: 질문과 다른 관점이 배움으로 연결되는 관계를 보여준다.
+- 도식 구성: 사각형 ‘동료의 질문’, 사각형 ‘다른 관점’, 원 ‘배움’, 선, 선
+
+**연출 흐름**
+
+- 시작: 동료의 질문과 다른 관점이 양쪽에 놓인다.
+- 사건: 내가 가장 많이 알아도 배울 수 있는 사례를 소개한다.
+- 변화: 두 경로가 중앙의 배움으로 연결된다.
+- 유지: 내 지식의 상대적 순위는 바뀌지 않는다.
+- 결과: 주변의 질문과 관점에서도 배움이 생긴다.
+
+1. 시각 요소 등장
+2. 시각 요소의 변화 진행
+3. 결과 강조
+
+도식에서 설정된 변화(시작 순서):
+
+- 동료의 질문: 오른쪽으로 이동
+- 다른 관점: 왼쪽으로 이동
+- 선: 영역이 넓어짐
+- 선: 영역이 넓어짐
+- 배움: 커짐
+
+카메라: 다가가기 · 중앙 · 약하게
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 내가 일을 가장 잘 아는 곳에서도 배움은 생긴다.
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+2. 동료의 질문에 답하다 내 설명의 빈틈을 발견하고,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+3. 다른 관점으로 문제를 푸는 사람에게서
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+4. 새로운 방법을 배우기도 한다.
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+5. 내가 가장 많이 안다는 것만으로
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+6. **배움이 끝나는 건 아니다.**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **배움**
+   - 연출 의도: 핵심 문구를 유지한다.
+
+## 4. 사진 — 방을 나온다는 건 무슨 의미일까?
+
+![장면 4](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-04.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-04.png)
+
+**내레이션**
+
+그렇다면 ‘방을 나온다’는 건 무슨 의미일까?
+
+**화면 구성**
+
+- 주 문구: 방을 나온다는 건 무슨 의미일까?
+- 배치: 사진을 화면 전체에 배치
+- 전달할 관계: 열린 문과 문 너머 공간으로 방을 나온다는 질문을 구체화한다.
+- 표현 방식: 사진 — 어두운 방의 열린 문
+- 표현 이유: 실제 공간과 사물의 질감을 풀블리드로 보여주고 문구는 어두운 영역에 배치한다.
+- 사진 검색어: open door dark room
+- 사진 출처: [어두운 방의 열린 문](<https://www.pexels.com/photo/open-door-in-a-dark-room-18968224/>) · 라이선스 pexels
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 주 문구 등장
+3. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 그렇다면 ‘방을 나온다’는 건
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 연출 의도: 어두운 방의 열린 문 사진이 화면을 채운다.
+2. **무슨 의미일까?**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **의미**
+   - 연출 의도: 사진을 유지하며 질문과 핵심 문구를 읽게 한다.
+
+## 5. 사진 — 질문도, 새로운 시도도 늘 내 몫이라면
+
+![장면 5](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-05.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-05.png)
+
+**내레이션**
+
+내가 어떤 의견을 내도 질문이 돌아오지 않고, 익숙한 방식만 반복하고, 새로운 시도는 늘 혼자 밀어붙여야 한다면. 그곳에서는 성장하려는 마음을 유지하는 일부터 내 몫이 된다.
+
+**화면 구성**
+
+- 주 문구: 질문도, 새로운 시도도 늘 내 몫이라면
+- 배치: 사진을 화면 전체에 배치
+- 전달할 관계: 사람 없이 남은 방을 통해 질문이 돌아오지 않는 상황을 표현한다.
+- 표현 방식: 사진 — 빈 회의실
+- 표현 이유: 실제 공간과 사물의 질감을 풀블리드로 보여주고 문구는 어두운 영역에 배치한다.
+- 사진 검색어: empty office room
+- 사진 출처: [빈 회의실](<https://www.pexels.com/photo/conference-table-and-chairs-in-an-empty-office-17739892/>) · 라이선스 pexels
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 주 문구 등장
+3. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 내가 어떤 의견을 내도 질문이 돌아오지 않고,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 연출 의도: 빈 회의실 사진이 화면을 채운다.
+2. 익숙한 방식만 반복하고,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+3. 새로운 시도는 늘 혼자 밀어붙여야 한다면.
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+4. 그곳에서는 성장하려는 마음을
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+5. **유지하는 일부터 내 몫이 된다.**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **내 몫**
+   - 연출 의도: 사진을 유지하며 질문과 핵심 문구를 읽게 한다.
+
+## 6. 비교 — 같은 노력도 환경에 따라 달라진다
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-06-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-06-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-06.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-06.png)
+
+**내레이션**
+
+물론 어디서든 배우려는 태도는 중요하다. 하지만 질문을 주고받을 동료가 있고, 시도해 볼 기회가 있고, 내 생각을 다시 보게 하는 피드백이 있다면, 같은 노력으로도 배움은 달라진다.
+
+**화면 구성**
+
+- 주 문구: 같은 노력도 환경에 따라 달라진다
+- 배치: 도식을 중앙에 배치
+- 비교: 좋은 태도 ↔ 좋은 환경
+- 전달할 관계: 태도와 환경이 중앙의 배움으로 함께 모인다.
+- 표현 방식: 공간 도식 — 두 입력의 합류
+- 표현 이유: 둘이 모순되지 않고 함께 작동한다는 관계를 두 경로의 수렴으로 보여준다.
+- 도식 구성: 사각형 ‘좋은 태도’, 사각형 ‘좋은 환경’, 원 ‘배움’, 선, 선
+
+**연출 흐름**
+
+- 시작: 왼쪽에는 태도, 오른쪽에는 환경이 각각 분리되어 있다.
+- 사건: 배움에는 둘 다 필요하다는 문장이 제시된다.
+- 변화: 두 요소가 중앙의 배움으로 모인다.
+- 유지: 태도와 환경은 서로 대체되지 않는다.
+- 결과: 배움은 태도와 환경의 결합으로 표현된다.
+
+1. 시각 요소 등장
+2. 시각 요소의 변화 진행
+3. 결과 강조
+
+도식에서 설정된 변화(시작 순서):
+
+- 좋은 태도: 오른쪽으로 이동
+- 좋은 환경: 왼쪽으로 이동
+- 선: 영역이 넓어짐
+- 선: 영역이 넓어짐
+- 배움: 커짐
+
+카메라: 다가가기 · 중앙 · 약하게
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 물론 어디서든 배우려는 태도는 중요하다.
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+2. 하지만 질문을 주고받을 동료가 있고,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+3. 시도해 볼 기회가 있고,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+4. 내 생각을 다시 보게 하는 피드백이 있다면,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+5. **같은 노력으로도 배움은 달라진다.**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **배움**
+   - 연출 의도: 핵심 문구를 유지한다.
+
+## 7. 핵심 메시지 — 내 성장을 의지 하나에 맡겨두지 말 것
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-07-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-07-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-07.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-07.png)
+
+**내레이션**
+
+그래서 나는 ‘그 방을 나와라’는 말을 이렇게 받아들이고 싶다. 내 성장을 의지 하나에만 맡겨두지 말라는 말로.
+
+**화면 구성**
+
+- 주 문구: 내 성장을 의지 하나에 맡겨두지 말 것
+- 배치: 도식을 중앙에 배치
+- 전달할 관계: 환경이라는 추가 기반이 성장 구조를 더 안정적으로 지지한다.
+- 표현 방식: 공간 도식 — 성장을 받치는 두 기반
+- 표현 이유: 추상적인 ‘환경의 도움’을 성장으로 들어오는 별도 경로로 구체화한다.
+- 도식 구성: 사각형 ‘내 의지’, 원 ‘성장’, 사각형 ‘환경’, 선, 선
+
+**연출 흐름**
+
+- 시작: 성장 영역이 작고 ‘의지’ 하나에만 연결되어 있다.
+- 사건: 성장을 도와주는 환경을 선택한다.
+- 변화: 환경 영역이 옆으로 확장되고 성장의 연결 경로가 늘어난다.
+- 유지: 개인의 태도는 그대로 유지된다.
+- 결과: 성장을 의지 하나에만 맡기지 않는 구조가 된다.
+
+1. 시각 요소 등장
+2. 시각 요소의 변화 진행
+3. 핵심 부분에 시선 집중
+4. 결과 강조
+
+도식에서 설정된 변화(시작 순서):
+
+- 환경: 영역이 넓어짐
+- 환경: 오른쪽으로 이동
+- 선: 영역이 넓어짐
+- 성장: 커짐
+
+카메라: 확대 · 주요 대상 · 중간 강도로
+
+장면 전환: 위로 밀며 전환
+
+**자막과 낭독 리듬**
+
+1. 그래서 나는 ‘그 방을 나와라’는 말을
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+2. 이렇게 받아들이고 싶다.
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+3. **내 성장을 의지 하나에만 맡겨두지 말라는 말로.**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **의지**
+   - 연출 의도: 핵심 문구를 유지한다.
+
+## 8. 마무리 — 나는 여기서 계속 배우고 있는가?
+
+![장면 8](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-08.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d2b98b874c8c1896ec65acf572dbf7ef27c93684/hyeonjado-hwangyeongeul-goreunda-candidate-02-scene-08.png)
+
+**내레이션**
+
+떠날지를 고민할 때 먼저 물어야 할 건, “내가 여기서 가장 똑똑한가?”보다 “나는 여기서 계속 배우고 있는가?”일 것이다.
+
+**화면 구성**
+
+- 주 문구: 나는 여기서 계속 배우고 있는가?
+- 배치: 사진을 화면 전체에 배치
+- 전달할 관계: 문 너머 공간을 바라보며 계속 배우고 있는지 질문을 남긴다.
+- 표현 방식: 사진 — 밝은 공간으로 이어지는 문
+- 표현 이유: 사진을 풀블리드로 배치하고 기존 흑백 정규화와 하단 오버레이 위에 핵심 문구를 유지한다.
+- 사진 검색어: doorway natural light
+- 사진 출처: [밝은 공간으로 이어지는 문](<https://www.pexels.com/photo/dark-room-with-natural-light-from-an-open-door-9663847/>) · 라이선스 pexels
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 주 문구 등장
+3. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 떠날지를 고민할 때 먼저 물어야 할 건,
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+   - 연출 의도: 밝은 공간으로 이어지는 문 사진이 화면을 채운다.
+2. “내가 여기서 가장 똑똑한가?”보다
+   - 강조 중 · 자연스럽게 · 뒤에 100ms 쉼
+3. **“나는 여기서 계속 배우고 있는가?”일 것이다.**
+   - 강조 강 · 여운을 두어 · 뒤에 280ms 쉼
+   - 강조 단어: **배우고**
+   - 연출 의도: 사진 위 핵심 문구를 유지한다.
+
+## 게시 문구
+
+내가 가장 똑똑한 사람이라면, 그 방을 나와라. 떠나기 전에 묻고 싶다. 나는 여기서 계속 배우고 있는가?
+
+#커리어 #성장환경 #이직 #조직문화 #배움
+
