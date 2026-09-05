@@ -5,6 +5,7 @@
   "scripts": {
     "generate": "node scripts/generate-candidates.mjs",
     "render": "node scripts/render-reels.mjs",
+    "storyboard": "node scripts/render.mjs --storyboard",
     "studio": "remotion studio src/index.tsx --public-dir=public"
   },
   "dependencies": {

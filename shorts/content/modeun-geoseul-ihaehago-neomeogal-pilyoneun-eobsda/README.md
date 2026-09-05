@@ -8,4 +8,4 @@ Selected candidate:
 
 This version keeps candidate 02 as the core, incorporates the goal-drift example from candidate 03, and adds the learning-debt-as-leverage takeaway near the end.
 
-Merge this PR to render the selected candidate.
+Merge this PR to generate scene-by-scene storyboard snapshots. Render the final video manually only after approving them.
