@@ -99,7 +99,7 @@ export const RemotionRoot: React.FC = () => (
       id="TemplatePreview"
       component={ShortVideo}
       durationInFrames={previewDuration(templatePreviewProps)}
-      calculateMetadata={({props}) => ({durationInFrames: previewDuration(props)})
+      calculateMetadata={({props}) => ({durationInFrames: previewDuration(props)})}
       fps={30}
       width={1080}
       height={1920}
