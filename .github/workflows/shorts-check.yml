@@ -61,5 +61,6 @@ jobs:
             ${{ runner.temp }}/shorts-integrated-preview/*.png
             ${{ runner.temp }}/shorts-integrated-preview/*.mp4
             ${{ runner.temp }}/shorts-integrated-preview/SCRIPT.txt
+            ${{ runner.temp }}/shorts-integrated-preview/*-BGM.md
           retention-days: 7
           if-no-files-found: ignore

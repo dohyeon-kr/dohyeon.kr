@@ -3,6 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import {spawn} from 'node:child_process';
 import OpenAI from 'openai';
+import {mixBgm} from './bgm.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
@@ -441,6 +442,7 @@ const main = async () => {
   );
 
   await fs.writeFile(path.join(outputRoot, `${slug}-${candidateId}.srt`), buildSrt(renderScenes), 'utf8');
+  await mixBgm(outputFile, renderScenes);
 
   const attributionLines = [
     `# Media sources — ${manifest.candidate?.title ?? candidateId}`,

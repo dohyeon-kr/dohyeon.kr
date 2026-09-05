@@ -79,6 +79,7 @@ jobs:
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
           SHORTS_TTS_RATE: 1.5
+          SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
         shell: bash
         run: |
@@ -97,6 +98,7 @@ jobs:
             shorts/out/*.mp4
             shorts/out/*.srt
             shorts/out/*-MEDIA.md
+            shorts/out/*-BGM.md
             shorts/out/*-REELS.txt
             shorts/out/*-SCRIPT.txt
           if-no-files-found: warn
