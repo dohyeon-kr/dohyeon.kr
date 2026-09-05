@@ -1,3 +1,4 @@
+import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {curatedPhoto} from './curated-photos.mjs';
 
 const normalizeOpenverseImage = (result, query) => ({
@@ -56,33 +57,46 @@ const normalizeCamera = (camera) => {
   return {...camera, startProgress, endProgress: Math.min(1, endProgress)};
 };
 
+const textFallback = (scene, reason, detail) => {
+  return {
+    ...scene,
+    kind: scene.kind === 'hero' || scene.kind === 'outro' ? scene.kind : 'statement',
+    layout: scene.kind === 'outro' ? 'outro-minimal' : 'statement-offset',
+    visual: {type: 'none', motif: null, query: null, value: null, xLabel: null, yLabel: null},
+    visualIntent: {...scene.visualIntent, strategy: {
+      type: 'minimal', metaphor: null,
+      rationale: `${reason === 'invalid-diagram' ? '도식 검증에 실패해' : '사용 가능한 사진을 찾지 못해'} 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다.`,
+    }},
+    visualStory: null,
+    diagramSpec: null,
+    comparisonLeft: null,
+    comparisonRight: null,
+    camera: {motion: 'static', target: 'center', intensity: 'subtle', startProgress: 0, endProgress: 1},
+    choreography: ['show-headline', ...(scene.subline ? ['show-subline'] : []), 'emphasize-result'],
+    beats: scene.beats.map(beat => ({...beat, visualCue: null})),
+    imageQuery: null,
+    image: null,
+    visualResolution: {status: 'fallback', originalQuery: scene.visual.query ?? null, reason, ...(detail ? {detail} : {})},
+  };
+};
+
 export const enrichVisuals = async (candidate, {search = searchOpenverse, curated = curatedPhoto, warn = console.warn} = {}) => {
   const scenes = [];
   for (const scene of candidate.scenes) {
+    if (scene.diagramSpec || scene.visual.type === 'diagram') {
+      try {
+        validateDiagram(scene.diagramSpec);
+      } catch (error) {
+        warn(`Invalid diagram in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${error.message}. Using a text scene; review its visual direction.`);
+        scenes.push(textFallback(scene, 'invalid-diagram', error.message));
+        continue;
+      }
+    }
     const imageQuery = scene.visual.type === 'photo' ? scene.visual.query?.trim() || null : null;
     const image = imageQuery ? (await search(imageQuery)) ?? curated(imageQuery) : null;
     if (scene.visual.type === 'photo' && !image) {
       warn(`Photo unavailable in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${JSON.stringify(imageQuery)}. Using a text scene; review its visual direction.`);
-      scenes.push({
-        ...scene,
-        kind: scene.kind === 'hero' || scene.kind === 'outro' ? scene.kind : 'statement',
-        layout: scene.kind === 'outro' ? 'outro-minimal' : 'statement-offset',
-        visual: {type: 'none', motif: null, query: null, value: null, xLabel: null, yLabel: null},
-        visualIntent: {...scene.visualIntent, strategy: {
-          type: 'minimal', metaphor: null,
-          rationale: '사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다.',
-        }},
-        visualStory: null,
-        diagramSpec: null,
-        comparisonLeft: null,
-        comparisonRight: null,
-        camera: {motion: 'static', target: 'center', intensity: 'subtle', startProgress: 0, endProgress: 1},
-        choreography: ['show-headline', ...(scene.subline ? ['show-subline'] : []), 'emphasize-result'],
-        beats: scene.beats.map(beat => ({...beat, visualCue: null})),
-        imageQuery: null,
-        image: null,
-        visualResolution: {status: 'fallback', originalQuery: imageQuery, reason: 'photo-unavailable'},
-      });
+      scenes.push(textFallback(scene, 'photo-unavailable'));
       continue;
     }
     scenes.push({...scene, camera: normalizeCamera(scene.camera), imageQuery, image});

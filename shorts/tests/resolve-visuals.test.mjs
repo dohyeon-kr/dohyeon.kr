@@ -43,7 +43,7 @@ test('an unresolved map photo preserves the candidate and later scenes without a
 });
 
 test('missing photo queries fall back without searching; non-photo scenes remain intact', async () => {
-  const diagram = {...photoScene(null), visual: {type: 'diagram', query: null}, diagramSpec: {nodes: []}};
+  const diagram = {...photoScene(null), visual: {type: 'diagram', query: null}, diagramSpec: {version: 1, renderer: 'auto', description: '도식', nodes: [{id: 'node', shape: 'rect', label: '입력', x: 100, y: 100, width: 100, height: 100, fill: 'white'}], events: []}};
   for (const query of [null, '', '   ']) {
     const result = await enrichVisuals({scenes: [photoScene(query), diagram]}, {
       search: async () => assert.fail('must not search'), warn: quiet,

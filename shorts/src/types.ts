@@ -110,7 +110,7 @@ export type CaptionCue = {
 };
 
 export type CandidateScene = {
-  visualResolution?: {status: 'fallback'; originalQuery: string | null; reason: 'photo-unavailable'};
+  visualResolution?: {status: 'fallback'; originalQuery: string | null; reason: 'photo-unavailable' | 'invalid-diagram'; detail?: string};
   visualStory?: {initial: string; trigger: string; change: string; invariant: string; result: string} | null;
   diagramSpec?: DiagramSpec | null;
   kind: SceneKind;

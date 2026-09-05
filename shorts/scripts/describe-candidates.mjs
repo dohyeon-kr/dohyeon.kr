@@ -68,7 +68,9 @@ export function describeCandidate(manifest, filename) {
       if (intent.strategy?.rationale) out.push(`- 표현 이유: ${md(intent.strategy.rationale)}`);
     }
     if (scene.visualResolution?.status === 'fallback') {
-      out.push(`- **시각 연출 검토 필요:** 사진을 찾지 못해 텍스트 장면으로 전환했습니다. 원래 검색어: ${md(scene.visualResolution.originalQuery) || '미지정'}`);
+      if (scene.visualResolution.reason === 'invalid-diagram') {
+        out.push(`- **시각 연출 검토 필요:** 도식 검증에 실패해 텍스트 장면으로 전환했습니다. 사유: ${md(scene.visualResolution.detail)}`);
+      } else out.push(`- **시각 연출 검토 필요:** 사진을 찾지 못해 텍스트 장면으로 전환했습니다. 원래 검색어: ${md(scene.visualResolution.originalQuery) || '미지정'}`);
     }
     const visual = scene.visual ?? {};
     if (visual.value) out.push(`- 표시 값: ${md(visual.value)}`);
