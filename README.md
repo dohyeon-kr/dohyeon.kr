@@ -77,7 +77,11 @@ when the editor link is opened.
 ## Blog dashboard
 
 Open `/ghost/dashboard/` after signing into Ghost with an Owner or Administrator
-account. The old `/ghost/comments-admin/` and `/assets/comments-admin.html` links
+account, or choose **DLOG 대시보드** directly below Dashboard in the Ghost sidebar.
+Nginx adds the small theme-hosted shortcut script/styles to the `/ghost/` HTML
+shell only. The script reattaches the link when Ghost rerenders its sidebar; it
+does not modify Ghost core files or change API permissions. Recheck the sidebar
+selector when upgrading Ghost. The old `/ghost/comments-admin/` and `/assets/comments-admin.html` links
 redirect to its comments view. Public theme assets contain only the UI; every
 statistics and moderation API request checks the Ghost staff session and role.
 

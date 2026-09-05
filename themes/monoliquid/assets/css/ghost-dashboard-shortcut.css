@@ -1,0 +1,21 @@
+/* Scope every rule to our link; the rest of Ghost Admin keeps its own styles. */
+.gh-nav-list li a.dlog-dashboard-shortcut,
+nav a.dlog-dashboard-shortcut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 20px;
+}
+nav a.dlog-dashboard-shortcut:hover {
+  background: rgba(128, 128, 128, 0.12);
+}
+nav a.dlog-dashboard-shortcut:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
