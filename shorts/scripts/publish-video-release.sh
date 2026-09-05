@@ -23,10 +23,13 @@ notes="${RUNNER_TEMP:-/tmp}/shorts-video-${SOURCE_RUN_ID}.md"
   echo 'SRT 자막, 대본, 게시 문구와 미디어/BGM 출처 파일도 함께 첨부합니다.'
   echo
   printf '[원본 렌더 실행](https://github.com/%s/actions/runs/%s) · [원본 커밋](https://github.com/%s/commit/%s)\n' "${GITHUB_REPOSITORY}" "${SOURCE_RUN_ID}" "${GITHUB_REPOSITORY}" "${SOURCE_SHA}"
+  echo
+  node "$(dirname "${BASH_SOURCE[0]}")/reels-release-copy.mjs" "${asset_dir}"
 } > "${notes}"
 
 if gh release view "${tag}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
   gh release upload "${tag}" "${assets[@]}" --repo "${GITHUB_REPOSITORY}" --clobber
+  gh release edit "${tag}" --repo "${GITHUB_REPOSITORY}" --notes-file "${notes}"
 else
   gh release create "${tag}" "${assets[@]}" \
     --repo "${GITHUB_REPOSITORY}" --target "${SOURCE_SHA}" \
