@@ -1,0 +1,51 @@
+name: Fill missing Ghost feature images
+
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+    inputs:
+      post_id:
+        description: 'Optional Ghost post ID (empty: scan new posts)'
+        type: string
+        required: false
+      apply:
+        description: Attach generated images to Ghost
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ghost-feature-images
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.event_name == 'workflow_dispatch' || vars.GHOST_FEATURE_IMAGES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - name: Install renderer dependencies
+        run: npm --prefix shorts ci --ignore-scripts --no-audit --no-fund
+      - name: Generate missing feature diagrams
+        env:
+          GHOST_URL: https://blog.dohyeon.kr
+          GHOST_ADMIN_API_KEY: ${{ secrets.GHOST_ADMIN_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
+          GHOST_POST_ID: ${{ inputs.post_id }}
+          GHOST_FEATURE_IMAGES_SINCE: ${{ vars.GHOST_FEATURE_IMAGES_SINCE }}
+          FEATURE_IMAGE_OUTPUT_DIR: ${{ runner.temp }}/ghost-feature-images
+          APPLY_IMAGES: ${{ github.event_name == 'schedule' || inputs.apply }}
+        run: |
+          args=()
+          if [ "$APPLY_IMAGES" = 'true' ]; then args+=(--apply); fi
+          node shorts/scripts/ghost-feature-images.mjs "${args[@]}"
+      # Draft covers and plans may contain unpublished content. Keep them off
+      # public Actions artifacts; use the local preview command for inspection.

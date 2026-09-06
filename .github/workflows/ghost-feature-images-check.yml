@@ -1,0 +1,27 @@
+name: Check Ghost feature images
+on:
+  pull_request:
+    paths:
+      - 'shorts/scripts/*feature*'
+      - 'shorts/src/FeatureImage.tsx'
+      - 'shorts/tests/feature-images.test.mjs'
+      - '.github/workflows/ghost-feature-images*.yml'
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - run: npm --prefix shorts ci --ignore-scripts --no-audit --no-fund
+      - run: node --test shorts/tests/feature-images.test.mjs
+      - name: Check cover types
+        working-directory: shorts
+        run: npx tsc --noEmit --allowImportingTsExtensions --skipLibCheck --esModuleInterop --jsx react-jsx --moduleResolution bundler --module esnext --target es2022 src/FeatureImage.tsx
+      - name: Render static Korean cover
+        run: |
+          node shorts/scripts/render-feature-image.mjs shorts/tests/fixtures/feature-image.json "${RUNNER_TEMP}/feature-image.png"
