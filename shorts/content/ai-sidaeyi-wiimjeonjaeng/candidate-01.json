@@ -8,9 +8,9 @@
   },
   "candidate": {
     "angle": "question",
-    "hook": "틀린 말은 아닌데, 왜 아무것도 남지 않을까요?",
+    "hook": "AI의 글, 왜 읽고 싶지 않을까요?",
     "title": "AI 시대의 승부처는 ‘평가 환경’이다",
-    "rationale": "원문의 ‘위임전쟁’을 유지하되 질문에서 결론으로 바로 점프하던 구조를 보완한 20장 확장 구성이다. 1~6장 ‘평균으로 수렴할 때 사라지는 것’에서는 AI가 모순과 편향을 정리하며 인간 경험의 고유한 좌표를 지울 수 있다는 문제를 복원한다. 7~12장 ‘개발과 이력서의 위임 경계’에서는 구현·편집과 문제 선택·경험·거부권을 구분한다. 13~20장 ‘판단이 작동하는 평가 환경’에서는 개인의 책임을 반복하는 대신 기준, 검증, 거부권, 피드백 루프로 논지를 발전시킨다. 기존 1장의 의미 불일치 사진은 질문형 타이포로 교체했고, 7장은 코드 검토 행동이 보이는 별도 사진으로 구성해 두 장면의 배경을 분리했다. 마지막은 요청대로 AI 결과물을 잘 평가할 수 있는 환경이 위임 경쟁의 핵심이라는 결론으로 수정했다.",
+    "rationale": "원문의 ‘위임전쟁’을 유지하되 결론보다 결론을 이끄는 질문을 먼저 제시하도록 도입을 재구성한 20장 확장 구성이다. 1~6장 ‘평균으로 수렴할 때 사라지는 것’에서는 AI가 모순과 편향을 정리하며 인간 경험의 고유한 좌표를 지울 수 있다는 문제를 복원한다. 7~12장 ‘개발과 이력서의 위임 경계’에서는 구현·편집과 문제 선택·경험·거부권을 구분한다. 13~20장 ‘판단이 작동하는 평가 환경’에서는 개인의 책임을 반복하는 대신 기준, 검증, 거부권, 피드백 루프로 논지를 발전시킨다. 1장은 ‘AI의 글, 왜 읽고 싶지 않을까?’라는 질문과 실제 AI 사용 장면 사진으로 시작하고, 7장은 코드 검토 행동이 보이는 별도 사진으로 구성해 두 장면의 배경을 분리했다. 마지막은 요청대로 AI 결과물을 잘 평가할 수 있는 환경이 위임 경쟁의 핵심이라는 결론으로 수정했다.",
     "viralScore": 9.1,
     "suggestedCaption": "AI가 평균적으로 좋은 결과를 만드는 시대에는 생성보다 평가가 중요해진다. 경험과 문제 선택은 사람이 남기고, AI 결과물을 검증하고 거부할 수 있는 환경을 만들어야 한다.",
     "hashtags": [
@@ -35,26 +35,26 @@
       "backgroundVideo": null,
       "visualStory": null,
       "diagramSpec": null,
-      "kind": "hero",
-      "layout": "statement-giant",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
       "visual": {
-        "type": "none",
+        "type": "photo",
         "motif": null,
-        "query": null,
+        "query": "person using ChatGPT computer",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "맞는 말인데 기억에 남지 않는 AI 콘텐츠의 역설",
+        "concept": "AI의 글을 읽고 싶지 않게 만드는 이유에 대한 질문",
         "relation": {
-          "type": "comparison",
-          "description": "논리적 정확성과 경험의 잔상이 일치하지 않는 문제를 질문한다"
+          "type": "literal",
+          "description": "사람이 AI 채팅 화면의 글을 읽는 실제 장면에서 거부감의 이유를 질문한다"
         },
         "strategy": {
-          "type": "minimal",
+          "type": "photo",
           "metaphor": null,
-          "rationale": "의미가 맞지 않던 사진을 제거하고 원문의 가장 강한 문제 제기를 첫 화면에 직접 남긴다."
+          "rationale": "AI라는 대상을 즉시 알아볼 수 있는 실제 사용 장면을 배경으로 두고, 결론을 선언하는 대신 독자가 느끼는 의문을 먼저 제시해 다음 장면의 평균화 설명으로 연결한다."
         }
       },
       "transition": "fade",
@@ -62,43 +62,56 @@
       "effects": [],
       "camera": {
         "motion": "push-in",
-        "target": "center",
+        "target": "subject",
         "intensity": "subtle",
         "startProgress": 0,
         "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "emphasize-result",
-        "제목과 자막을 분리하고 질문 문장을 끝까지 선명하게 유지한다"
+        "AI 화면과 사용자의 실루엣을 유지하고 질문 텍스트는 밝은 모니터 영역과 겹치지 않게 배치한다"
       ],
       "beats": [
         {
-          "text": "틀린 말은 아닌데",
+          "text": "AI의 글,",
           "emphasis": "mid",
-          "pauseAfterMs": 150,
+          "pauseAfterMs": 130,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": "틀린 말",
-          "visualCue": "첫 문장이 작게 나타난다"
+          "keyword": "AI의 글",
+          "visualCue": "AI 채팅 화면과 사용자의 실루엣이 먼저 보인다"
         },
         {
-          "text": "왜 아무것도 남지 않을까요",
+          "text": "왜 읽고 싶지 않을까요?",
           "emphasis": "high",
           "pauseAfterMs": 320,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "남지",
-          "visualCue": "질문이 화면 중앙에 크게 남는다"
+          "keyword": "왜",
+          "visualCue": "질문이 화면의 어두운 여백에 크게 남는다"
         }
       ],
-      "headline": "틀린 말은 아닌데\n왜 안 남을까?",
+      "headline": "AI의 글,\n왜 읽고 싶지 않을까?",
       "subline": null,
-      "narration": "틀린 말은 아닌데, 왜 아무것도 남지 않을까요?",
+      "narration": "AI의 글, 왜 읽고 싶지 않을까요?",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
+      "imageQuery": "person using ChatGPT computer",
+      "image": {
+        "query": "person using ChatGPT computer",
+        "title": "Person Using Chat GPT on Computer",
+        "creator": "Matheus Bertelli",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/person-using-chat-gpt-on-computer-16027811/",
+        "originalUrl": "https://images.pexels.com/photos/16027811/pexels-photo-16027811.jpeg?cs=srgb&dl=pexels-bertellifotografia-16027811.jpg&fm=jpg",
+        "thumbnailUrl": "https://images.pexels.com/photos/16027811/pexels-photo-16027811.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
     },
     {
       "backgroundVideo": null,
