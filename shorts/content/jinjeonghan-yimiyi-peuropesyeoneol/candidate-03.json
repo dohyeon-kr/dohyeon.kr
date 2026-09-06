@@ -1,0 +1,955 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-03",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/jinjeonghan-yimiyi-peuropesyeoneol/",
+    "title": "진정한 의미의 프로페셔널"
+  },
+  "candidate": {
+    "angle": "question",
+    "hook": "12px 하나에, 어디까지 대비해야 할까요?",
+    "title": "미래를 다 대비하면 현재가 복잡해진다",
+    "rationale": "원문의 12px 사례에 집중한 후보다. 기술 부채를 피하려는 선의가 어떻게 불필요한 설계와 피로로 이어지는지 보여주고, 현재 명확한 정보에 맞춰 결정하자는 결론으로 회수한다. 다른 후보의 기억 외부화·프로의 정의와 겹치지 않는다.",
+    "viralScore": 9,
+    "suggestedCaption": "기술 부채가 두려워질수록 아직 오지 않은 요구사항까지 설계하게 됩니다. 지금 필요한 복잡성인지 먼저 물어야 합니다.",
+    "hashtags": [
+      "#개발자",
+      "#기술부채",
+      "#소프트웨어개발",
+      "#완벽주의",
+      "#개발문화"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "presenter": {
+        "version": 1,
+        "actions": [
+          {
+            "start": 0,
+            "end": 1.8,
+            "name": "explain",
+            "intensity": 0.5
+          }
+        ],
+        "expressions": [
+          {
+            "start": 0,
+            "end": 2.4,
+            "name": "curious"
+          }
+        ]
+      },
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "presenter-bust",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "작은 요구사항 앞에서 커지는 판단 범위",
+        "relation": {
+          "type": "zoom-depth",
+          "description": "단순한 12px 결정 뒤에 얼마나 많은 미래 조건을 끌어들이는지 질문한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "질문을 화자가 직접 던져 문제의 출발점을 빠르게 공유한다."
+        }
+      },
+      "transition": "none",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline"
+      ],
+      "beats": [
+        {
+          "text": "12px 하나에,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "12px",
+          "visualCue": "질문 제목이 나타난다"
+        },
+        {
+          "text": "어디까지 대비해야 할까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "어디까지",
+          "visualCue": "질문부를 크게 고정한다"
+        }
+      ],
+      "headline": "12px 하나에,\n어디까지 대비해야 할까요?",
+      "subline": null,
+      "narration": "12px 하나에, 어디까지 대비해야 할까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "중앙에 명세 12px만 보인다.",
+        "trigger": "미래의 화면과 재사용 가능성을 미리 고려한다.",
+        "change": "rem, 루트 설정, 변수 노드가 연속해서 추가된다.",
+        "invariant": "원래 요구사항은 12px 텍스트 하나로 유지된다.",
+        "result": "작은 요구보다 준비 과정이 더 큰 구조가 된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "12px 명세에서 불확실한 미래 대비가 연쇄적으로 늘어나는 흐름",
+        "nodes": [
+          {
+            "id": "spec",
+            "shape": "rect",
+            "label": "12px 명세",
+            "blob": null,
+            "x": 132,
+            "y": 280,
+            "width": 180,
+            "height": 100,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "rem",
+            "shape": "rect",
+            "label": "rem 변환",
+            "blob": null,
+            "x": 340,
+            "y": 160,
+            "width": 180,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "root",
+            "shape": "rect",
+            "label": "루트 설정",
+            "blob": null,
+            "x": 340,
+            "y": 400,
+            "width": 180,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "variable",
+            "shape": "rect",
+            "label": "변수화",
+            "blob": null,
+            "x": 620,
+            "y": 280,
+            "width": 180,
+            "height": 100,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "line1",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 230,
+            "y": 220,
+            "width": 100,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "spec",
+              "target": "rem",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "line2",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 230,
+            "y": 340,
+            "width": 100,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "spec",
+              "target": "root",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "line3",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 480,
+            "y": 220,
+            "width": 100,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "rem",
+              "target": "variable",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "line4",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 480,
+            "y": 340,
+            "width": 100,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "root",
+              "target": "variable",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "rem",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.35
+          },
+          {
+            "target": "root",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.45
+          },
+          {
+            "target": "line1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.28,
+            "end": 0.42
+          },
+          {
+            "target": "line2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.38,
+            "end": 0.52
+          },
+          {
+            "target": "variable",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.65
+          },
+          {
+            "target": "line3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.62
+          },
+          {
+            "target": "line4",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.55,
+            "end": 0.67
+          }
+        ]
+      },
+      "kind": "photo",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "requirement-branching",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "하나의 명세에서 불필요한 준비가 분기되는 과정",
+        "relation": {
+          "type": "network-growth",
+          "description": "현재 요구 하나가 여러 미래 대비 작업으로 증식한다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "작은 명세에서 뻗어 나오는 설계 가지",
+          "rationale": "아이콘보다 작업 단계가 실제로 늘어나는 관계를 직접 보여준다."
+        }
+      },
+      "transition": "slide-left",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "명세는 단순히",
+          "emphasis": "low",
+          "pauseAfterMs": 60,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "12px 명세만 표시한다"
+        },
+        {
+          "text": "12px을 원합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 130,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "12px",
+          "visualCue": "중앙 명세를 고정한다"
+        },
+        {
+          "text": "그런데 미래를 대비하기 시작하면",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "미래",
+          "visualCue": "rem과 루트 설정이 등장한다"
+        },
+        {
+          "text": "변환과 변수화까지 따라옵니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "변수화",
+          "visualCue": "모든 경로가 변수화로 연결된다"
+        }
+      ],
+      "headline": "요구는 하나,\n준비는 계속 늘어난다",
+      "subline": null,
+      "narration": "명세는 단순히 12px을 원합니다. 그런데 미래를 대비하기 시작하면 변환과 변수화까지 따라옵니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "현재 작업 상자와 불확실한 미래 영역이 분리되어 있다.",
+        "trigger": "모든 미래 조건을 현재 작업으로 끌어온다.",
+        "change": "현재 작업 영역이 넓어지고 미래 영역과 중첩된다.",
+        "invariant": "실제로 확정된 요구는 작은 현재 상자 안에만 있다.",
+        "result": "불확실성이 현재의 복잡성을 차지한다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "미래의 불확실성이 현재 작업 영역을 잠식하는 도식",
+        "nodes": [
+          {
+            "id": "now",
+            "shape": "rect",
+            "label": "현재 작업",
+            "blob": null,
+            "x": 220,
+            "y": 280,
+            "width": 240,
+            "height": 150,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "future",
+            "shape": "rect",
+            "label": "불확실한 미래",
+            "blob": null,
+            "x": 590,
+            "y": 280,
+            "width": 260,
+            "height": 280,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "dashed"
+          }
+        ],
+        "events": [
+          {
+            "target": "future",
+            "property": "width",
+            "from": 260,
+            "to": 520,
+            "start": 0.25,
+            "end": 0.65
+          },
+          {
+            "target": "future",
+            "property": "x",
+            "from": 590,
+            "to": 460,
+            "start": 0.25,
+            "end": 0.65
+          }
+        ]
+      },
+      "kind": "compare",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "uncertainty-expansion",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "미래 불확실성이 현재의 범위를 침범하는 현상",
+        "relation": {
+          "type": "accumulation",
+          "description": "고려할 미지수가 현재 업무 공간 위로 누적된다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "현재를 잠식하는 미래 영역",
+          "rationale": "영역의 실제 확장으로 불필요한 고려가 차지하는 범위를 명확히 보여준다."
+        }
+      },
+      "transition": "wipe",
+      "transitionOptions": {
+        "durationMs": 420,
+        "intensity": 0.45,
+        "direction": "left",
+        "matchTarget": null
+      },
+      "effects": [],
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "subtle",
+        "startProgress": 0.15,
+        "endProgress": 0.8
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus"
+      ],
+      "beats": [
+        {
+          "text": "문제는 완벽성 자체가 아닙니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "완벽성",
+          "visualCue": "현재와 미래 영역을 나란히 보여준다"
+        },
+        {
+          "text": "아직 존재하지 않는 변수를",
+          "emphasis": "mid",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "변수",
+          "visualCue": "미래 영역이 왼쪽으로 확장된다"
+        },
+        {
+          "text": "현재 일로 끌어오는 게 문제입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 200,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "현재",
+          "visualCue": "확장 영역이 현재 작업과 겹친다"
+        }
+      ],
+      "headline": "미래의 변수가\n현재를 잠식한다",
+      "subline": null,
+      "narration": "문제는 완벽성 자체가 아닙니다. 아직 존재하지 않는 변수를 현재 일로 끌어오는 게 문제입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "작은 현재 요구가 흐름의 입구에 놓인다.",
+        "trigger": "미지의 조건들이 동시에 유입된다.",
+        "change": "좁은 작업 관문 앞에 조건들이 밀집한다.",
+        "invariant": "통과해야 할 현재 요구의 크기는 변하지 않는다.",
+        "result": "작업 흐름이 불필요한 고려 때문에 정체된다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "여러 미래 조건이 좁은 현재 작업 관문에 몰리는 병목",
+        "nodes": [
+          {
+            "id": "unknown1",
+            "shape": "circle",
+            "label": "화면",
+            "blob": null,
+            "x": 120,
+            "y": 120,
+            "width": 140,
+            "height": 140,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "unknown2",
+            "shape": "circle",
+            "label": "재사용",
+            "blob": null,
+            "x": 120,
+            "y": 280,
+            "width": 140,
+            "height": 140,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "unknown3",
+            "shape": "circle",
+            "label": "변경",
+            "blob": null,
+            "x": 120,
+            "y": 440,
+            "width": 140,
+            "height": 140,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "gate",
+            "shape": "rect",
+            "label": "현재 단계",
+            "blob": null,
+            "x": 450,
+            "y": 280,
+            "width": 180,
+            "height": 110,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "output",
+            "shape": "rect",
+            "label": "완료",
+            "blob": null,
+            "x": 675,
+            "y": 280,
+            "width": 150,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "unknown1",
+            "property": "x",
+            "from": 120,
+            "to": 270,
+            "start": 0.2,
+            "end": 0.55
+          },
+          {
+            "target": "unknown2",
+            "property": "x",
+            "from": 120,
+            "to": 270,
+            "start": 0.25,
+            "end": 0.6
+          },
+          {
+            "target": "unknown3",
+            "property": "x",
+            "from": 120,
+            "to": 270,
+            "start": 0.3,
+            "end": 0.65
+          }
+        ]
+      },
+      "kind": "photo",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "workflow-bottleneck",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "불필요한 고려가 만드는 작업 병목",
+        "relation": {
+          "type": "bottleneck",
+          "description": "여러 미래 조건이 현재 단계 앞에 몰리며 흐름을 막는다."
+        },
+        "strategy": {
+          "type": "simulation",
+          "metaphor": "좁은 관문 앞에 밀리는 조건들",
+          "rationale": "복잡하다는 상징보다 작업 흐름이 실제로 정체되는 원인을 보여준다."
+        }
+      },
+      "transition": "directional-blur",
+      "transitionOptions": {
+        "durationMs": 380,
+        "intensity": 0.35,
+        "direction": "right",
+        "matchTarget": null
+      },
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "고려할 것이 많아질수록",
+          "emphasis": "mid",
+          "pauseAfterMs": 70,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "많아질수록",
+          "visualCue": "세 조건이 관문으로 이동한다"
+        },
+        {
+          "text": "일은 복잡해지고,",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "복잡",
+          "visualCue": "조건들이 관문 앞에 모인다"
+        },
+        {
+          "text": "작업 흐름은 느려집니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 200,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "느려집니다",
+          "visualCue": "완료 영역은 비어 있는 채로 남는다"
+        }
+      ],
+      "headline": "복잡성은\n흐름을 막는다",
+      "subline": null,
+      "narration": "고려할 것이 많아질수록 일은 복잡해지고, 작업 흐름은 느려집니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "모든 가능성 대비와 현재 정보 기준 결정의 대비",
+        "relation": {
+          "type": "comparison",
+          "description": "미래 전체를 미리 해결하는 방식과 현재 확정된 정보만 처리하는 방식을 비교한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "두 판단 기준의 차이는 짧은 문구를 병치하는 편이 가장 명료하다."
+        }
+      },
+      "transition": "slide-left",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "지금 필요한 건",
+          "emphasis": "low",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "양쪽 판단 기준을 표시한다"
+        },
+        {
+          "text": "모든 가능성의 해결이 아니라,",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "모든 가능성",
+          "visualCue": "왼쪽 문구를 흐리게 낮춘다"
+        },
+        {
+          "text": "확정된 정보에 맞는 결정입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "확정된 정보",
+          "visualCue": "오른쪽 문구를 선명하게 강조한다"
+        }
+      ],
+      "headline": "무엇을 기준으로\n결정할 것인가",
+      "subline": null,
+      "narration": "지금 필요한 건 모든 가능성의 해결이 아니라, 확정된 정보에 맞는 결정입니다.",
+      "comparisonLeft": "모든 미래를\n미리 해결",
+      "comparisonRight": "현재 정보를\n기준으로 결정",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "현재 단계에 필요한 만큼만 설계하는 원칙",
+        "relation": {
+          "type": "balance",
+          "description": "기술 부채 관리와 현재 작업의 흐름 사이에서 적정 범위를 선택한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "결론의 판단을 다른 시각 요소 없이 문장 자체에 집중시킨다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "미래를 무시하자는 뜻은 아닙니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 140,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "미래",
+          "visualCue": "조건 문장을 먼저 보여준다"
+        },
+        {
+          "text": "현재 단계에 필요한 만큼만",
+          "emphasis": "high",
+          "pauseAfterMs": 100,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "필요한 만큼",
+          "visualCue": "핵심 구절을 크게 전환한다"
+        },
+        {
+          "text": "잘 결정하는 겁니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "결정",
+          "visualCue": "마지막 문장을 중앙에 고정한다"
+        }
+      ],
+      "headline": "현재 단계에\n필요한 만큼만 결정한다",
+      "subline": "미래의 문제는 문제가 생겼을 때 고칠 수 있다.",
+      "narration": "미래를 무시하자는 뜻은 아닙니다. 현재 단계에 필요한 만큼만 잘 결정하는 겁니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "commonPage": "blog-cta-v1",
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "transition": "blur-dissolve",
+      "transitionOptions": {
+        "durationMs": 600,
+        "intensity": 0.5
+      },
+      "headline": "더 자세한 이야기는\n블로그에서",
+      "subline": "프로필 링크에서 읽기",
+      "narration": "더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.",
+      "beats": [
+        {
+          "text": "더 자세한 이야기는",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "블로그에 정리했습니다.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "프로필 링크에서 읽어보세요.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [],
+      "imageQuery": null,
+      "image": null,
+      "comparisonLeft": null,
+      "comparisonRight": null
+    }
+  ]
+}
