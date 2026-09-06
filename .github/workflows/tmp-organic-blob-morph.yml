@@ -1,0 +1,180 @@
+name: Temporary organic blob morph patch
+
+on:
+  push:
+    branches:
+      - feat/organic-blob-morph
+    paths:
+      - .github/workflows/tmp-organic-blob-morph.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/organic-blob-morph
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: shorts/package-lock.json
+      - name: Patch organic blob morph support
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace(path, old, new):
+              p = Path(path)
+              s = p.read_text()
+              if old not in s:
+                  raise SystemExit(f'missing patch anchor in {path}: {old[:80]!r}')
+              p.write_text(s.replace(old, new, 1))
+
+          # diagram schema: blob shape + deterministic contour config + animatable noiseAmount
+          replace('shorts/src/visuals/diagram-spec.ts',
+            "    shape: z.enum(['rect', 'circle', 'line', 'text']),\n    label: z.string().max(60),",
+            "    shape: z.enum(['rect', 'circle', 'blob', 'line', 'text']),\n    label: z.string().max(60),\n    blob: z.object({seed: z.number().int().min(0).max(65535), amount: z.number().min(0).max(.45), points: z.number().int().min(12).max(64), frequency: z.number().min(.5).max(8)}).nullable().optional(),")
+          replace('shorts/src/visuals/diagram-spec.ts',
+            "    target: z.string(), property: z.enum(['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height']),",
+            "    target: z.string(), property: z.enum(['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height', 'noiseAmount']),")
+          replace('shorts/src/visuals/diagram-spec.ts',
+            "      if (!target || !['rect', 'circle'].includes(target.shape)) throw new Error(`Invalid connector anchor: ${id}`);",
+            "      if (!target || !['rect', 'circle', 'blob'].includes(target.shape)) throw new Error(`Invalid connector anchor: ${id}`);")
+          replace('shorts/src/visuals/diagram-spec.ts',
+            "  for (const node of spec.nodes) {\n    if (!node.connector) continue;",
+            "  for (const node of spec.nodes) {\n    if (node.shape === 'blob' && !node.blob) throw new Error('Blob nodes require blob settings');\n    if (node.shape !== 'blob' && node.blob) throw new Error('Blob settings are only valid for blob nodes');\n    if (!node.connector) continue;")
+          replace('shorts/src/visuals/diagram-spec.ts',
+            "    if (event.property === 'scale' && [event.from, event.to].some((n) => n <= 0 || n > 4)) throw new Error('Scale must be in (0, 4]');",
+            "    if (event.property === 'scale' && [event.from, event.to].some((n) => n <= 0 || n > 4)) throw new Error('Scale must be in (0, 4]');\n    if (event.property === 'noiseAmount') {\n      const node = spec.nodes.find(n => n.id === event.target);\n      if (node?.shape !== 'blob') throw new Error('noiseAmount animations require blob nodes');\n      if ([event.from, event.to].some((n) => n < 0 || n > .45)) throw new Error('noiseAmount must be in [0, .45]');\n    }")
+          replace('shorts/src/visuals/diagram-spec.ts',
+            "    const state = {width: node.width, height: node.height, x: node.x, y: node.y, rotation: 0, scale: 1, opacity: 1};\n    for (const property of ['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height'] as const) {",
+            "    const state = {width: node.width, height: node.height, x: node.x, y: node.y, rotation: 0, scale: 1, opacity: 1, noiseAmount: node.blob?.amount ?? 0};\n    for (const property of ['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height', 'noiseAmount'] as const) {")
+
+          # generated event schema
+          replace('shorts/scripts/generated-diagram-schema.mjs',
+            "  event(z.literal('height'), 1, 560),\n  event(z.enum(['x', 'y', 'rotation']), -800, 800),",
+            "  event(z.literal('height'), 1, 560),\n  event(z.literal('noiseAmount'), 0, .45),\n  event(z.enum(['x', 'y', 'rotation']), -800, 800),")
+
+          # shared deterministic organic contour helper
+          Path('shorts/src/visuals/blob-shape.ts').write_text(r'''type BlobLike = {
+            width: number;
+            height: number;
+            noiseAmount: number;
+            blob?: {seed: number; amount: number; points: number; frequency: number} | null;
+          };
+          export type BlobPoint = [number, number];
+          const phase = (seed: number, salt: number) => {
+            const x = Math.sin((seed + 1) * (12.9898 + salt * 7.233)) * 43758.5453;
+            return (x - Math.floor(x)) * Math.PI * 2;
+          };
+          export function organicBlobPoints(node: BlobLike): BlobPoint[] {
+            const cfg = node.blob;
+            if (!cfg) return [];
+            const amount = Math.max(0, Math.min(.45, node.noiseAmount));
+            const p1 = phase(cfg.seed, 1), p2 = phase(cfg.seed, 2), p3 = phase(cfg.seed, 3);
+            return Array.from({length: cfg.points}, (_, i) => {
+              const a = i / cfg.points * Math.PI * 2;
+              const wave = .56 * Math.sin(cfg.frequency * a + p1)
+                + .29 * Math.sin((cfg.frequency + 1.7) * a + p2)
+                + .15 * Math.sin((cfg.frequency * 2.1 + .5) * a + p3);
+              const radius = Math.max(.55, 1 + amount * wave);
+              return [Math.cos(a) * node.width / 2 * radius, Math.sin(a) * node.height / 2 * radius];
+            });
+          }
+          export function organicBlobPath(node: BlobLike) {
+            const points = organicBlobPoints(node);
+            if (!points.length) return '';
+            const n = points.length;
+            const p = (i: number) => points[(i + n) % n];
+            let d = `M ${points[0][0]} ${points[0][1]}`;
+            for (let i = 0; i < n; i++) {
+              const p0 = p(i - 1), p1 = p(i), p2 = p(i + 1), p3 = p(i + 2);
+              const c1: BlobPoint = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+              const c2: BlobPoint = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+              d += ` C ${c1[0]} ${c1[1]}, ${c2[0]} ${c2[1]}, ${p2[0]} ${p2[1]}`;
+            }
+            return d + ' Z';
+          }
+          ''')
+
+          # renderer: SVG blob in Remotion/shared effect layer; MotionCanvas auto fallback remains supported below
+          replace('shorts/src/visuals/DiagramRenderer.tsx',
+            "import {effectState, type LightEffect} from '../motion/schema';",
+            "import {effectState, type LightEffect} from '../motion/schema';\nimport {organicBlobPath} from './blob-shape';")
+          replace('shorts/src/visuals/DiagramRenderer.tsx',
+            "  if (node.shape === 'circle') return <>{hatch}<ellipse rx={node.width / 2} ry={node.height / 2} {...props} /></>;\n  if (node.shape === 'rect')",
+            "  if (node.shape === 'circle') return <>{hatch}<ellipse rx={node.width / 2} ry={node.height / 2} {...props} /></>;\n  if (node.shape === 'blob') return <>{hatch}<path d={organicBlobPath(node)} {...props} /></>;\n  if (node.shape === 'rect')")
+          replace('shorts/src/visuals/DiagramRenderer.tsx',
+            "        {node.shape === 'circle' && <ellipse rx={node.width / 2} ry={node.height / 2} fill={fill} stroke=\"#fff\" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}\n        {node.shape === 'line'",
+            "        {node.shape === 'circle' && <ellipse rx={node.width / 2} ry={node.height / 2} fill={fill} stroke=\"#fff\" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}\n        {node.shape === 'blob' && <path d={organicBlobPath(node)} fill={fill} stroke=\"#fff\" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}\n        {node.shape === 'line'")
+
+          # Motion Canvas uses a closed spline-like line from the same deterministic points
+          replace('shorts/src/visuals/MotionCanvasDiagram.tsx',
+            "import {linePoints, nodeLabel, LABEL_LINE_HEIGHT} from './node-layout';",
+            "import {linePoints, nodeLabel, LABEL_LINE_HEIGHT} from './node-layout';\nimport {organicBlobPoints} from './blob-shape';")
+          replace('shorts/src/visuals/MotionCanvasDiagram.tsx',
+            "          if (node.shape === 'circle') group.add(new Circle(props));\n          if (node.shape === 'line')",
+            "          if (node.shape === 'circle') group.add(new Circle(props));\n          if (node.shape === 'blob') group.add(new Line({points: organicBlobPoints(node), closed: true, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : [], radius: 18}));\n          if (node.shape === 'line')")
+
+          # label fitting and collision protection: treat blob conservatively like a circle
+          replace('shorts/src/visuals/node-layout.ts',
+            "node.width * (node.shape === 'circle' ? Math.SQRT1_2 : 1)",
+            "node.width * (['circle', 'blob'].includes(node.shape) ? Math.SQRT1_2 : 1)")
+          replace('shorts/src/visuals/node-layout.ts',
+            "node.height * (node.shape === 'circle' ? Math.SQRT1_2 : 1)",
+            "node.height * (['circle', 'blob'].includes(node.shape) ? Math.SQRT1_2 : 1)")
+          replace('shorts/src/visuals/layout-guard.ts',
+            "['rect', 'circle'].includes(object.shape)",
+            "['rect', 'circle', 'blob'].includes(object.shape)")
+
+          # generation prompt
+          replace('shorts/scripts/generate-candidates.mjs',
+            "800x560 공간에 rect/circle/line/text 객체를 조합한다. x/y는 중심점이다. 가장자리 여백 40, 라벨은 짧게 유지한다.",
+            "800x560 공간에 rect/circle/blob/line/text 객체를 조합한다. x/y는 중심점이다. 가장자리 여백 40, 라벨은 짧게 유지한다. blob은 원/타원을 결정적 노이즈로 왜곡한 유기적 비정형 도형이다. blob 설정은 seed(0~65535), amount(0~0.45), points(12~64), frequency(0.5~8)를 사용한다. 같은 형태의 모핑에서는 seed/points/frequency를 고정하고 events의 noiseAmount만 변화시킨다. 예: 고유성·불완전함은 noiseAmount 0.18~0.32, 평균화·정규화로 수렴할수록 0~0.05로 줄인다. 장식용 blob은 금지한다.")
+          replace('shorts/scripts/generate-candidates.mjs',
+            "events는 장면 전체 길이를 0..1로 정규화한 시간이다. 초기 상태→변화→결과를 x/y/rotation/scale/opacity로 표현한다.",
+            "events는 장면 전체 길이를 0..1로 정규화한 시간이다. 초기 상태→변화→결과를 x/y/rotation/scale/opacity/width/height/noiseAmount로 표현한다. noiseAmount는 blob에만 사용하며 0~0.45 범위다. seed를 바꾸거나 서로 다른 blob을 crossfade해서 모핑하지 말고 같은 blob의 noiseAmount를 연속 변화시켜 형태의 정체성을 유지한다.")
+
+          # creative policy
+          replace('shorts/docs/creative-system.md',
+            "## Motion and choreography\n",
+            "## 비정형 도형과 형태 모핑\n\n- `blob`은 원/타원의 둘레를 결정적 노이즈로 왜곡한 유기적 비정형 도형이다. 고유함, 불완전함, 예외, 모호한 경계처럼 ‘정형화되지 않음’ 자체가 의미일 때 사용한다. 장식용 배경 얼룩으로 남발하지 않는다.\n- 형태는 `seed`, `points`, `frequency`로 정체성을 고정하고 `noiseAmount`로 왜곡 강도를 조절한다. 같은 대상을 변화시키는 장면에서는 seed/points/frequency를 바꾸지 않는다.\n- 고유함 → 평균화, 불완전함 → 정리, 다양성 → 표준화 같은 의미는 **같은 blob의 `noiseAmount`를 낮춰 원/타원에 가까워지는 모핑**으로 표현한다. 예: 0.26 → 0.03. 반대 의미는 0.02 → 0.24처럼 증가시킨다.\n- 단순 scale/opacity crossfade로 형태 변화를 흉내내지 않는다. 경계 자체가 연속적으로 변해야 한다. 모핑은 장면 중반까지 진행하고 마지막 20~25%는 결과 형태를 읽는 시간으로 둔다.\n- `noiseAmount=0`은 사실상 정형 원/타원이며, 값이 커질수록 경계가 비정형화된다. 너무 높은 값은 의미보다 시각적 소음이 커지므로 일반적으로 0.18~0.32를 우선하고 0.45는 상한으로만 본다.\n- 라벨은 blob 내부의 보수적인 원형 안전영역 안에 둔다. 경계 요철과 라벨이 경쟁하면 도형을 키우거나 라벨을 줄이지 말고 문구를 축약한다. 연결선은 blob의 bounding box 외곽에 anchor되므로 강한 왜곡에서는 충분한 gap을 둔다.\n- 예: ‘한 사람의 고유한 경험’ = 서로 다른 seed의 blob들. ‘AI가 평균으로 수렴시킨다’ = 각 blob을 같은 seed 상태에서 noiseAmount를 낮춰 매끈한 원에 가깝게 만든다. 서로 다른 사람을 하나의 seed로 강제로 바꾸는 연출은 동일 개체 모핑으로 오해될 수 있으므로, 여러 개체가 한 평균으로 수렴하는 장면은 위치/불투명도/연결 구조와 함께 의미를 명확히 한다.\n\n## Motion and choreography\n")
+
+          # Add a focused test that imports TS through Node strip-types support.
+          Path('shorts/tests/blob-shape.test.mjs').write_text(r'''import test from 'node:test';
+          import assert from 'node:assert/strict';
+          import {organicBlobPoints} from '../src/visuals/blob-shape.ts';
+
+          test('organic blob contour is deterministic and smooths as noiseAmount approaches zero', () => {
+            const base = {width: 200, height: 200, blob: {seed: 42, amount: .28, points: 32, frequency: 2.4}};
+            const roughA = organicBlobPoints({...base, noiseAmount: .28});
+            const roughB = organicBlobPoints({...base, noiseAmount: .28});
+            const smooth = organicBlobPoints({...base, noiseAmount: 0});
+            assert.deepEqual(roughA, roughB);
+            assert.equal(roughA.length, 32);
+            const radii = smooth.map(([x, y]) => Math.hypot(x, y));
+            assert.ok(radii.every(r => Math.abs(r - 100) < 1e-9));
+            assert.ok(roughA.some(([x, y]) => Math.abs(Math.hypot(x, y) - 100) > 1));
+          });
+          ''')
+          PY
+
+          cd shorts
+          npm ci
+          npm test
+          npm run typecheck
+      - name: Commit patch and remove temporary workflow
+        shell: bash
+        run: |
+          rm .github/workflows/tmp-organic-blob-morph.yml
+          git config user.name "Dohyeon Ju"
+          git config user.email "48502765+dohyeon2@users.noreply.github.com"
+          git add shorts .github/workflows/tmp-organic-blob-morph.yml
+          git commit -m "feat(shorts): add organic blob morphing"
+          git push origin feat/organic-blob-morph
