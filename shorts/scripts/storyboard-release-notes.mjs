@@ -47,7 +47,7 @@ for (const manifestPath of manifests) {
     const heading = new RegExp(`(^## ${i + 1}\\. [^\\n]*\\n)`, 'm');
     const stem = name.replace(/\.png$/, '');
     let review = `![장면 ${i + 1}](${assetUrl(name)})`;
-    if (manifest.scenes[i].diagramSpec || manifest.scenes[i].backgroundVideo) {
+    if (manifest.scenes[i].diagramSpec || manifest.scenes[i].backgroundVideo || manifest.scenes[i].presenter != null) {
       for (const phase of ['initial', 'change']) await fs.access(path.join(directory, `${stem}-${phase}.png`));
       review = `| 시작 | 변화 | 결과 |\n| --- | --- | --- |\n| ![시작](${assetUrl(`${stem}-initial.png`)}) | ![변화](${assetUrl(`${stem}-change.png`)}) | ![결과](${assetUrl(name)}) |`;
     }
@@ -58,7 +58,7 @@ for (const manifestPath of manifests) {
   notes.push(`## ${prefix}`, '', '복사할 JSON 경로:', '', '```text', manifestPath, '```', '',
     `[렌더 실행 페이지](${renderUrl}) · [검토한 JSON](${sourceUrl}) · [전체 스토리보드 Markdown](${assetUrl(markdownName)})`, '',
     `[모아보기 JPG](${assetUrl(`${prefix}-contact-sheet.jpg`)}) · [장면별 PDF](${assetUrl(`${prefix}-storyboard.pdf`)})`, '');
-  if (manifest.scenes.some(scene => scene.diagramSpec || scene.backgroundVideo)) notes.push(`[시작 → 변화 → 결과 모아보기](${assetUrl(`${prefix}-motion-contact-sheet.jpg`)})`, '');
+  if (manifest.scenes.some(scene => scene.diagramSpec || scene.backgroundVideo || scene.presenter != null)) notes.push(`[시작 → 변화 → 결과 모아보기](${assetUrl(`${prefix}-motion-contact-sheet.jpg`)})`, '');
   details.push(description);
 }
 // Keep every render path even when several long candidates exceed a release body budget.

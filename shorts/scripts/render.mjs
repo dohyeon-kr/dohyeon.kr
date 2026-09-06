@@ -9,6 +9,7 @@ import OpenAI from 'openai';
 import {mixBgm} from './bgm.mjs';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateSceneMotion} from '../src/motion/validate.ts';
+import {validateScenePresenter} from '../src/presenter/schema.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
@@ -374,7 +375,9 @@ const main = async () => {
     }
 
     const speechDuration = storyboardOnly || silentPreview ? 3.6 : audioDurationSeconds;
-    const previewDuration = scene.commonPage === 'blog-cta-v1' ? Math.max(6, (speechDuration ?? 3.6) + 1.2) : speechDuration;
+    const presenterEnd = Math.max(0, ...['actions','expressions','mouths'].flatMap(key => (scene.presenter?.[key] ?? []).map(c=>c.end)));
+    const previewDuration = scene.commonPage === 'blog-cta-v1' ? Math.max(6, (speechDuration ?? 3.6) + 1.2) : (storyboardOnly || silentPreview) && scene.presenter != null ? Math.max(speechDuration ?? 3.6,presenterEnd) : speechDuration;
+    validateScenePresenter(scene, Math.max(2.2,(previewDuration ?? 3.6)+SCENE_TAIL_SECONDS));
     let videoPath = null;
     if (videos[index]) {
       try {
@@ -433,7 +436,7 @@ const main = async () => {
       const stem = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}`;
       const filename = `${stem}.png`;
       // Keep the familiar contact-sheet result, plus ordered state frames for motion review.
-      const samples = (scene.diagramSpec || scene.backgroundVideo) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
+      const samples = (scene.diagramSpec || scene.backgroundVideo || scene.presenter != null) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
       const images = [];
       for (const [phase, progress] of samples) {
         const target = phase === 'result' ? filename : `${stem}-${phase}.png`;
@@ -514,4 +517,3 @@ const main = async () => {
 };
 
 await main();
-

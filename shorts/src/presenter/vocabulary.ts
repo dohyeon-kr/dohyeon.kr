@@ -1,0 +1,9 @@
+export const ACTIONS = ['idle', 'explain', 'present', 'point', 'emphasize'] as const;
+export const EXPRESSIONS = ['neutral', 'smile', 'curious', 'serious', 'surprised'] as const;
+export const HAND_SHAPES = ['relaxed', 'open', 'palmUp', 'point', 'fist'] as const;
+export const MOUTH_SHAPES = ['rest', 'O', 'I', 'A', 'M'] as const;
+export type Action = typeof ACTIONS[number];
+export type Expression = typeof EXPRESSIONS[number];
+export type HandShape = typeof HAND_SHAPES[number];
+export type MouthShape = typeof MOUTH_SHAPES[number];
+export type Side = 'left' | 'right';

@@ -166,6 +166,12 @@ backgroundVideo는 등록 영상의 assetId, 구간, 속도, 크롭, 오버레�
 
 ## Motion and choreography
 
+### 발표자 캐릭터
+
+공개 계약과 프리셋 선택 기준은 [presenter-api.md](presenter-api.md), 기계 판독 스키마는 [presenter.schema.json](presenter.schema.json)를 따른다. 생성과 리뷰가 같은 GeneratedPresenterSchema를 공유한다. 직접 설명·질문하는 화자가 도움이 될 때만 presenter-bust 레이아웃을 선택하고 기존 사진·도식의 정보 전달을 대체하지 않는다. 이 레이아웃은 흰 배경과 원형 바스트, 제목·자막 분리 영역을 실제로 렌더한다. 공통 CTA에는 삽입하지 않는다.
+
+candidate는 동작/표정/시점을 지정한다. 현재 디자인은 손 없는 바스트이며 action은 작은 고개 반응만 표시한다. 새 후보는 idle/explain/emphasize 중심으로 작성하고 hand=null을 사용한다. 이전 손 필드는 호환용이며 화면에 손을 표시하지 않는다. 카라·둥근 눈썹·얕은 회색 명암으로 단순한 실루엣을 유지한다. 팔 관절이나 임의 SVG를 만들지 않는다. 발음 시간 정보 없이 mouths를 추측하지 않는다. 모든 시간은 장면 시작 기준 초, 같은 트랙 내 중첩과 실제 장면 범위 초과는 검증 오류다. 입력이 없는 입모양은 표정의 기본 입을 사용한다. 일반 후보의 presenter는 null이다.
+
 Scene transitions and element animations are different layers.
 
 For the expanded vocabulary, use [트랜지션·라이트 효과 사전](transitions-and-effects.md): 20 transition definitions and 11 light-effect definitions, including blur, directional blur, zoom blur, light wipe, light sweep, glow, light leaks, and path-following pulse halos (`flow-glow`). All catalog IDs are rendered; match-cut requires matching adjacent diagram geometry. Candidate manifests may include optional transitionOptions and effects, validated before rendering. It also defines intended use, timing, compositing, and Korean text protection.

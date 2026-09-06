@@ -4,6 +4,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
 const labels = {
+  'presenter-bust': '흰 페이지의 원형 발표자 바스트',
   hero: '도입', photo: '사진', compare: '비교', statement: '핵심 메시지', outro: '마무리',
   'photo-top-right': '오른쪽 위 사진과 텍스트', 'photo-full-bleed': '사진을 화면 전체에 배치',
   'photo-split-left': '왼쪽 사진과 오른쪽 텍스트', 'photo-strip': '띠 형태의 사진',
@@ -66,6 +67,13 @@ export function describeCandidate(manifest, filename) {
       `- 주 문구: ${md(scene.headline)}`);
     if (scene.subline) out.push(`- 보조 문구: ${md(scene.subline)}`);
     out.push(`- 배치: ${label(scene.layout)}`);
+    if (scene.presenter != null) {
+      out.push('- 발표자: 흰 페이지 / 원형 바스트 / 장면 기준 초');
+      for (const [track, cues] of Object.entries(scene.presenter)) if (Array.isArray(cues)) {
+        for (const cue of cues) out.push(`- ${md(track)} ${cue.start}~${cue.end}초: ${md(cue.name ?? cue.shape)}${cue.side ? ` (${md(cue.side)})` : ''}${cue.hand ? ` / 손 ${md(cue.hand)}` : ''}`);
+      }
+      if (!scene.presenter.mouths?.length) out.push('- 발음 트랙: 없음. 실제 TTS 립싱크 미연결 (표정의 기본 입 사용).');
+    }
     if (scene.comparisonLeft || scene.comparisonRight) out.push(`- 비교: ${md(scene.comparisonLeft)} ↔ ${md(scene.comparisonRight)}`);
     const intent = scene.visualIntent;
     if (intent) {
