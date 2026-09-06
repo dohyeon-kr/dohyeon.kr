@@ -11,8 +11,8 @@ export function nodeLabel(node: Node) {
   const line = node.shape === 'line';
   for (let size = 36; size >= LABEL_MIN_SIZE; size--) {
     // Reserve padding before wrapping, including the inscribed circle region.
-    const width = line ? Math.max(140, node.width) : node.width * (node.shape === 'circle' ? Math.SQRT1_2 : 1) - size;
-    const height = line ? 100 : node.height * (node.shape === 'circle' ? Math.SQRT1_2 : 1) - size * .7;
+    const width = line ? Math.max(140, node.width) : node.width * (['circle', 'blob'].includes(node.shape) ? Math.SQRT1_2 : 1) - size;
+    const height = line ? 100 : node.height * (['circle', 'blob'].includes(node.shape) ? Math.SQRT1_2 : 1) - size * .7;
     let fitted;
     try { fitted = fitCopy(node.label, width, height, size, LABEL_LINE_HEIGHT); } catch { continue; }
     if (fitted.fontSize === size) return {...fitted, y: line ? -(fitted.text.split('\n').length * size * LABEL_LINE_HEIGHT / 2 + size * .25 + 1.5) : 0};

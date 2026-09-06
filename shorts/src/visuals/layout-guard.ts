@@ -2,7 +2,7 @@ import {textUnits} from '../text-layout.ts';
 import {nodeLabel, LABEL_LINE_HEIGHT} from './node-layout.ts';
 import type {DiagramSpec} from './diagram-spec.ts';
 
-type State = DiagramSpec['nodes'][number] & {rotation: number; scale: number; opacity: number};
+type State = DiagramSpec['nodes'][number] & {rotation: number; scale: number; opacity: number; noiseAmount: number};
 type Point = [number, number];
 type Polygon = Point[];
 const INSET = 40;
@@ -56,7 +56,7 @@ export function assertDiagramLayout(states: State[], progress: number) {
     const a = visible[i], b = visible[j];
     if (a.label && b.label && polygonsOverlap(labelBox(a, .25), labelBox(b, .25))) fail('text-overlap', [a.id, b.id], 'label protection regions overlap');
     for (const [line, object] of [[a, b], [b, a]]) {
-      if (line.shape === 'line' && ['rect', 'circle'].includes(object.shape) && ['white', 'gray'].includes(object.fill)
+      if (line.shape === 'line' && ['rect', 'circle', 'blob'].includes(object.shape) && ['white', 'gray'].includes(object.fill)
         && polygonsOverlap(strokeBox(line), box(object, object.width, object.height))) fail('line-object', [line.id, object.id], 'line crosses a filled object; change anchors or layout');
     }
     for (const [label, other] of [[a, b], [b, a]]) {

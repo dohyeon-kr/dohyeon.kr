@@ -6,6 +6,7 @@ import {MotionCanvasDiagram} from './MotionCanvasDiagram';
 import {linePoints, nodeLabel, LABEL_LINE_HEIGHT} from './node-layout';
 import {LightEffects, FlowGlow} from '../motion/LightEffects';
 import {effectState, type LightEffect} from '../motion/schema';
+import {organicBlobPath} from './blob-shape';
 import {useVideoConfig} from 'remotion';
 type Engine = 'remotion' | 'motion-canvas';
 type Props = {effects?: LightEffect[] | null; layer?: 'geometry' | 'labels' | 'all'; spec: DiagramSpec; durationInFrames: number; framesPath?: string | null; strict?: boolean; failEngine?: Engine};
@@ -65,6 +66,7 @@ const NodeShape: React.FC<{node: ReturnType<typeof evaluatedDiagramState>[number
   const props = {fill, stroke: '#fff', strokeWidth: 3, strokeDasharray: node.strokeStyle === 'dashed' ? '12 10' : undefined};
   const hatch = <defs><pattern id={id} width={16} height={16} patternUnits="userSpaceOnUse"><path d="M-4 4L4 -4M0 16L16 0M12 20L20 12" stroke="#858585" strokeWidth={2} /></pattern></defs>;
   if (node.shape === 'circle') return <>{hatch}<ellipse rx={node.width / 2} ry={node.height / 2} {...props} /></>;
+  if (node.shape === 'blob') return <>{hatch}<path d={organicBlobPath(node)} {...props} /></>;
   if (node.shape === 'rect') return <>{hatch}<rect x={-node.width / 2} y={-node.height / 2} width={node.width} height={node.height} {...props} /></>;
   const points = linePoints(node);
   return node.shape === 'line' ? <line x1={points[0][0]} y1={points[0][1]} x2={points[1][0]} y2={points[1][1]} {...props} /> : null;
@@ -89,6 +91,7 @@ const EngineSurface: React.FC<Props & {engine: Engine}> = ({spec, durationInFram
       return <g key={node.id} transform={`translate(${node.x} ${node.y}) rotate(${node.rotation}) scale(${node.scale})`} opacity={node.opacity}>
         {node.shape === 'rect' && <rect x={-node.width / 2} y={-node.height / 2} width={node.width} height={node.height} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'circle' && <ellipse rx={node.width / 2} ry={node.height / 2} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
+        {node.shape === 'blob' && <path d={organicBlobPath(node)} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'line' && <line x1={points[0][0]} x2={points[1][0]} y1={points[0][1]} y2={points[1][1]} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.label && <text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily="Pretendard, sans-serif" fontSize={label.fontSize} fontWeight={800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * LABEL_LINE_HEIGHT}>{text}</tspan>)}</text>}
       </g>;

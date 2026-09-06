@@ -19,8 +19,9 @@ export const DiagramSpecSchema = z.object({
   description: z.string().min(1).max(500),
   nodes: z.array(z.object({
     id: z.string().regex(/^[a-z][a-z0-9-]*$/),
-    shape: z.enum(['rect', 'circle', 'line', 'text']),
+    shape: z.enum(['rect', 'circle', 'blob', 'line', 'text']),
     label: z.string().max(60),
+    blob: z.object({seed: z.number().int().min(0).max(65535), amount: z.number().min(0).max(.45), points: z.number().int().min(12).max(64), frequency: z.number().min(.5).max(8)}).nullable().optional(),
     x: z.number().min(0).max(800), y: z.number().min(0).max(560),
     width: z.number().min(1).max(800), height: z.number().min(1).max(560),
     fill: z.enum(['white', 'gray', 'none', 'hatch']),
@@ -28,7 +29,7 @@ export const DiagramSpecSchema = z.object({
     strokeStyle: z.enum(['solid', 'dashed']).nullable().optional(),
   })).min(1).max(40),
   events: z.array(z.object({
-    target: z.string(), property: z.enum(['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height']),
+    target: z.string(), property: z.enum(['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height', 'noiseAmount']),
     from: z.number().min(-800).max(800), to: z.number().min(-800).max(800),
     start: z.number().min(0).max(1), end: z.number().min(0).max(1),
   })).max(120),
@@ -52,11 +53,13 @@ export function validateDiagram(value: unknown): DiagramSpec {
     }
   }
   for (const node of spec.nodes) {
+    if (node.shape === 'blob' && !node.blob) throw new Error('Blob nodes require blob settings');
+    if (node.shape !== 'blob' && node.blob) throw new Error('Blob settings are only valid for blob nodes');
     if (!node.connector) continue;
     if (node.shape !== 'line' || node.connector.source === node.connector.target) throw new Error('Connector requires a line and distinct endpoints');
     for (const id of [node.connector.source, node.connector.target]) {
       const target = spec.nodes.find(n => n.id === id);
-      if (!target || !['rect', 'circle'].includes(target.shape)) throw new Error(`Invalid connector anchor: ${id}`);
+      if (!target || !['rect', 'circle', 'blob'].includes(target.shape)) throw new Error(`Invalid connector anchor: ${id}`);
     }
     if (spec.events.some(e => e.target === node.id && e.property !== 'opacity')) throw new Error('Connector geometry is owned by anchors; animate opacity only');
   }
@@ -68,6 +71,11 @@ export function validateDiagram(value: unknown): DiagramSpec {
     if (event.property === 'opacity' && [event.from, event.to].some((n) => n < 0 || n > 1)) throw new Error('Opacity must be in [0, 1]');
     if (['width', 'height'].includes(event.property) && [event.from, event.to].some(n => n < 1 || n > (event.property === 'width' ? 800 : 560))) throw new Error('Invalid animated dimensions');
     if (event.property === 'scale' && [event.from, event.to].some((n) => n <= 0 || n > 4)) throw new Error('Scale must be in (0, 4]');
+    if (event.property === 'noiseAmount') {
+      const node = spec.nodes.find(n => n.id === event.target);
+      if (node?.shape !== 'blob') throw new Error('noiseAmount animations require blob nodes');
+      if ([event.from, event.to].some((n) => n < 0 || n > .45)) throw new Error('noiseAmount must be in [0, .45]');
+    }
     if (spec.events.some((other) => other !== event && other.target === event.target && other.property === event.property && other.start < event.end && event.start < other.end)) throw new Error('Overlapping animations on the same property');
   }
   return spec;
@@ -75,8 +83,8 @@ export function validateDiagram(value: unknown): DiagramSpec {
 // Pure frame evaluation. No playback history, wall time, or random state.
 export function diagramState(spec: DiagramSpec, progress: number) {
   return spec.nodes.map((node) => {
-    const state = {width: node.width, height: node.height, x: node.x, y: node.y, rotation: 0, scale: 1, opacity: 1};
-    for (const property of ['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height'] as const) {
+    const state = {width: node.width, height: node.height, x: node.x, y: node.y, rotation: 0, scale: 1, opacity: 1, noiseAmount: node.blob?.amount ?? 0};
+    for (const property of ['x', 'y', 'rotation', 'scale', 'opacity', 'width', 'height', 'noiseAmount'] as const) {
       const events = spec.events.filter((e) => e.target === node.id && e.property === property).sort((a, b) => a.start - b.start);
       if (!events.length) continue;
       state[property] = events[0].from;
