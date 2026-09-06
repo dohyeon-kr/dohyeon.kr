@@ -7,8 +7,9 @@ import {eligible, GhostClient, ghostToken, processPost} from '../scripts/ghost-f
 import {featureDiagram, validateFeaturePlan} from '../scripts/feature-image-plan.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {evaluatedDiagramState} from '../src/visuals/physics.ts';
+import {nodeLabel} from '../src/visuals/node-layout.ts';
 
-const plan = {title: ['판단을 규칙으로'], relationship: 'sequence', labels: [['문제 발견'], ['규칙 저장'], ['자동 검증']], description: '발견한 문제를 규칙으로 저장해 자동 검증한다.'};
+const plan = {title: ['판단을 규칙으로'], relationship: 'sequence', labels: [['문제', '발견'], ['규칙', '저장'], ['자동', '검증']], description: '발견한 문제를 규칙으로 저장해 자동 검증한다.'};
 const post = {id: 'a'.repeat(24), title: '릴스 자동화', html: `<p>${'충분히 긴 본문. '.repeat(20)}</p>`, status: 'draft', updated_at: '2026-01-01T00:00:00Z', feature_image: null};
 
 test('existing images, fresh edits and empty drafts never invoke generation', async () => {
@@ -21,14 +22,18 @@ test('existing images, fresh edits and empty drafts never invoke generation', as
 
 test('all three fixed layouts pass shared geometry checks with long Korean labels', () => {
   for (const relationship of ['sequence', 'contrast', 'branch']) {
-    const labels = Array.from({length: relationship === 'contrast' ? 2 : 3}, () => ['받침있는문구', '여러줄의설명']);
+    const labels = Array.from({length: relationship === 'contrast' ? 2 : 3}, () => ['받침문구', '여러줄말']);
     const spec = validateDiagram(featureDiagram({...plan, relationship, labels}));
     assert.equal(spec.events.length, 0); // Cover is static; no intermediate motion states.
     evaluatedDiagramState(spec, 0);
     evaluatedDiagramState(spec, 1);
+    for (const node of spec.nodes.filter(node => node.label)) {
+      assert.equal(nodeLabel(node).text, node.label, 'renderer must preserve semantic line breaks');
+    }
   }
   assert.throws(() => validateFeaturePlan({...plan, relationship: 'contrast'}));
   assert.throws(() => validateFeaturePlan({...plan, labels: [['이문구는너무깁니다'], ['a'], ['b']]}));
+  assert.throws(() => validateFeaturePlan({...plan, labels: [['지침·검사'], ['a'], ['b']]}));
 });
 
 test('draft attaches only image fields with current revision and verifies the result', async () => {
