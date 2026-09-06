@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useId} from 'react';
 import {normalizePose, type RigPose} from './rig';
 
 /** Hand-authored SVG puppet. Local joint coordinates keep limbs connected during rotation. */
@@ -17,13 +17,20 @@ const Arm: React.FC<{side: 'left' | 'right'; shoulder: number; elbow: number}> =
   </g>
 );
 
-export const Presenter: React.FC<{pose?: Partial<RigPose>; background?: string; showJoints?: boolean}> = ({pose: input, background = 'none', showJoints = false}) => {
+export const Presenter: React.FC<{pose?: Partial<RigPose>; background?: string; showJoints?: boolean; outline?: boolean}> = ({pose: input, background = 'none', showJoints = false, outline = false}) => {
+  const outlineId = `presenter-outline-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   const p = normalizePose(input);
   const eyeHeight = Math.max(.5, 12 * (1 - p.blink));
   const eyebrow = p.expression === 'curious' ? -9 : p.expression === 'smile' ? -3 : 0;
   return <svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 0 920 1000" width="100%" height="100%" role="img" aria-label="도현 발표자 캐릭터">
     {background !== 'none' && <rect x="-60" width="920" height="1000" fill={background} />}
-    <g stroke="#111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+    {outline && <defs><filter id={outlineId} x="-10%" y="-10%" width="120%" height="120%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="silhouette" />
+      <feFlood floodColor="white" result="white" />
+      <feComposite in="white" in2="silhouette" operator="in" result="edge" />
+      <feMerge><feMergeNode in="edge" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter></defs>}
+    <g filter={outline ? `url(#${outlineId})` : undefined} stroke="#111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
       <g data-part="body">
         <path d="M278 799 L522 799 L536 1003 L417 1003 L400 864 L384 1003 L267 1003Z" fill="#111" />
         <path d="M310 425 Q399 390 490 425 L527 824 Q398 856 274 824Z" fill="#111" />

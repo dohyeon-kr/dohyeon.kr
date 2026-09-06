@@ -19,6 +19,8 @@ const pose = poseAt(frame / fps, {
 
 Controls: `headTilt` (degrees), `gazeX/Y` (-1…1), `blink` and `mouthOpen` (0…1), `expression` (neutral/smile/curious), and four arm joint angles. `rest`, `explain`, and `present` are gesture presets, not image swaps. The neck, shoulder and elbow transforms use local pivot coordinates; arm parts are nested. The head carries glasses and all facial features as one group.
 
+Set `outline` on dark backgrounds to add a crisp 2-unit white silhouette outside the opaque character. This is not a glow or a shadow; hair and trousers remain recognizable against black.
+
 Draw order is legs/torso/neck → arms → overshirt → head/ears/face/hair → eyebrows/eyes/glasses/nose/mouth. The cuff masks the rotating elbow seam. White opaque fills preserve the character on dark backgrounds. Body/head changes stay within limited angles; this is a front-facing puppet, not a 3D turntable. `showJoints` optionally marks neck/shoulder pivots for debugging.
 
 ## Preview and limits

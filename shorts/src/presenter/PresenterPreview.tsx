@@ -16,7 +16,7 @@ export const PresenterPreview: React.FC<{dark?: boolean}> = ({dark = false}) => 
   pose.headTilt += Math.sin(t * 1.4) * 2;
   pose.gazeX = Math.sin(t * .8) * .35;
   return <AbsoluteFill style={{background: dark ? '#080808' : '#fff'}}>
-    <div style={{position: 'absolute', inset: '60px 70px 0'}}><Presenter pose={pose} /></div>
+    <div style={{position: 'absolute', inset: '60px 70px 0'}}><Presenter pose={pose} outline={dark} /></div>
     <div style={{position: 'absolute', bottom: 20, width: '100%', textAlign: 'center', color: dark ? '#bbb' : '#555', fontFamily: 'sans-serif', fontSize: 18}}>SVG RIG · SYNTHETIC MOUTH DEMO · NO TTS</div>
   </AbsoluteFill>;
 };
