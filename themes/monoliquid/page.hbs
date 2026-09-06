@@ -30,6 +30,20 @@
             {{/if}}
             <section class="gh-content">
                 {{content}}
+                {{#is "page"}}
+                    {{#match slug "about"}}
+                        <p>
+                            <a href="https://www.instagram.com/dev_dohyeon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram @dev_dohyeon (새 탭에서 열기)">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
+                                    <rect x="3" y="3" width="18" height="18" rx="5"/>
+                                    <circle cx="12" cy="12" r="4"/>
+                                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                                </svg>
+                                Instagram @dev_dohyeon
+                            </a>
+                        </p>
+                    {{/match}}
+                {{/is}}
             </section>
         </article>
     {{/post}}
