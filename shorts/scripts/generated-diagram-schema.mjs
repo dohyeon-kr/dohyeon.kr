@@ -13,5 +13,6 @@ export const GeneratedDiagramEventSchema = z.union([
   event(z.literal('opacity'), 0, 1),
   event(z.literal('width'), 1, 800),
   event(z.literal('height'), 1, 560),
+  event(z.literal('noiseAmount'), 0, .45),
   event(z.enum(['x', 'y', 'rotation']), -800, 800),
 ]);

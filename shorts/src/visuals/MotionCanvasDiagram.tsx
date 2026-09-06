@@ -4,6 +4,7 @@ import {continueRender, delayRender} from 'remotion';
 import type {DiagramSpec} from './diagram-spec';
 import {evaluatedDiagramState} from './physics';
 import {linePoints, nodeLabel, LABEL_LINE_HEIGHT} from './node-layout';
+import {organicBlobPoints} from './blob-shape';
 
 // Render one isolated Motion Canvas scene for each requested frame. This avoids
 // seek races and makes parallel/out-of-order Remotion renders deterministic.
@@ -34,6 +35,7 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []};
           if (node.shape === 'rect') group.add(new Rect(props));
           if (node.shape === 'circle') group.add(new Circle(props));
+          if (node.shape === 'blob') group.add(new Line({points: organicBlobPoints(node), closed: true, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : [], radius: 18}));
           if (node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
           const label = nodeLabel(node);
           if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: 'Pretendard', fontSize: label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: 800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
