@@ -25,6 +25,8 @@ jobs:
         run: |
           npm run typecheck
           node --test tests/presenter.test.mjs tests/presenter-api.test.mjs
+          mkdir -p public/fonts
+          cp ../scripts/thumbnail-fonts/Pretendard-Bold.woff ../scripts/thumbnail-fonts/Pretendard-Regular.woff public/fonts/
           mkdir -p "${RUNNER_TEMP}/presenter-rig"
           for composition in PresenterRigPreview; do
             for frame in 0 30 60 90 120 150 180 210 240 270 300 330; do
