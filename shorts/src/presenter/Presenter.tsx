@@ -33,6 +33,8 @@ export const Presenter: React.FC<PresenterState & {pose?: Partial<RigPose>; show
     <rect width="1254" height="1254" fill="white" />
     <circle cx="627" cy="614" r="573" fill="white" />
     <g clipPath={`url(#${id})`} stroke="#111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+      {/* Keep the circular frame fixed; zoom the whole portrait around the hairline. */}
+      <g data-part="portrait-framing" transform="translate(627 135) scale(1.2) translate(-627 -135)">
       <g data-part="body-ink" filter={`url(#${id}-ink-body)`}>
       <g data-part="body">
         <path d="M466 714 Q511 678 551 680 L732 680 Q785 691 818 722 L862 1240 L413 1240Z" fill="#101010" />
@@ -104,6 +106,7 @@ export const Presenter: React.FC<PresenterState & {pose?: Partial<RigPose>; show
         </g>
       </g>
       {showJoints && <circle cx="620" cy="646" r="8" stroke="#e04747" fill="none" strokeWidth="3" />}
+      </g>
     </g>
     <circle cx="627" cy="614" r="573" fill="none" stroke="#111" strokeWidth="5" />
   </svg>;

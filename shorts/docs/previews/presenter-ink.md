@@ -1,5 +1,17 @@
 # Ink presenter motion proof
 
+## Face-focused framing update
+
+![Current 1.2× portrait framing](presenter-zoom.png)
+
+The current portrait scales all character layers uniformly by 1.2 around (627, 135),
+inside the unchanged circular clip. This keeps the hairline near its original position
+and crops more of the lower torso. The PNG above is rendered from the updated SVG.
+Typecheck and 27 presenter tests pass; default, nod, ±12° tilt, blink and open-mouth
+stills were visually checked. The older GIF/MP4 below predate this framing change.
+
+## Previous motion proof
+
 Current revision: lowered collar faces behind the neck, rigid matching lens rims,
 and an 8 Hz deterministic ink boil (seed 23 + inkFrame % 97, displacement 3.2 SVG units).
 Glasses, the white page and circular border remain unfiltered. `presenter-ink-collar.png`
