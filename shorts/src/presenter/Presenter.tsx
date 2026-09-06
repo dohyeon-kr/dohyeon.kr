@@ -1,57 +1,59 @@
 import React, {useId} from 'react';
-import {normalizePose, type RigPose} from './rig';
+import {normalizePose, solveArm, type RigPose} from './rig';
 
-/** Hand-authored SVG puppet. Local joint coordinates keep limbs connected during rotation. */
-const Arm: React.FC<{side: 'left' | 'right'; shoulder: number; elbow: number}> = ({side, shoulder, elbow}) => (
-  <g data-part={`${side}-upper-arm`} transform={`translate(${side === 'left' ? 235 : 565} 468) rotate(${shoulder})`}>
-    <path d="M-34-12 Q-49 4-45 48 L-37 153 Q0 177 37 153 L42 40 Q44 1 27-12Z" fill="white" />
-    <g data-part={`${side}-forearm`} transform={`translate(0 150) rotate(${elbow})`}>
-      <path d="M-28-16 Q0-28 28-16 L23 141 Q0 159-23 141Z" fill="white" />
-      <g data-part={`${side}-hand`} transform="translate(0 134)">
-        <path d="M-23 0 L-25 32 Q-38 52-29 65 Q-23 69-14 46 L-12 74 Q-10 85-4 78 L0 55 L3 81 Q9 91 13 79 L15 54 L20 75 Q27 80 28 67 L25 30 L22 0Z" fill="white" />
-        <path d="M-8 28 Q1 22 11 28" fill="none" strokeWidth="3" />
+/** A continuous rounded sleeve keeps a single clean outline across the elbow. */
+const Arm: React.FC<{side: 'left' | 'right'; pose: RigPose; front?: boolean; showJoints?: boolean}> = ({side, pose, front = false, showJoints}) => {
+  const {shoulder: s, elbow: e, wrist: w} = solveArm(side, {x: pose[`${side}HandX`], y: pose[`${side}HandY`]});
+  const cuff = {x: e.x + (w.x - e.x) * .69, y: e.y + (w.y - e.y) * .69};
+  const sleeve = `M${s.x} ${s.y} L${e.x} ${e.y} L${cuff.x} ${cuff.y}`;
+  const ux = (w.x-e.x)/112, uy = (w.y-e.y)/112;
+  const nx = -uy*30, ny = ux*30;
+  const forearm = `M${e.x+ux*20+nx} ${e.y+uy*20+ny} L${cuff.x+nx} ${cuff.y+ny} Q${cuff.x+ux*30} ${cuff.y+uy*30} ${cuff.x-nx} ${cuff.y-ny} L${e.x+ux*20-nx} ${e.y+uy*20-ny}`;
+  return <g data-part={`${side}-${front ? 'forearm' : 'sleeve'}`}>
+    {!front && <><path d={sleeve} fill="none" stroke="#111" strokeWidth="66" /><path d={sleeve} fill="none" stroke="white" strokeWidth="54" /></>}
+    {front && <>
+      <path d={`M${cuff.x} ${cuff.y} L${w.x} ${w.y}`} stroke="#111" strokeWidth="40" />
+      <path d={`M${cuff.x} ${cuff.y} L${w.x} ${w.y}`} stroke="white" strokeWidth="28" />
+      <path d={`${forearm}Z`} fill="white" stroke="none" />
+      <path d={forearm} fill="none" stroke="#111" strokeWidth="6" />
+      <g data-part={`${side}-hand`} transform={`translate(${w.x} ${w.y}) rotate(${pose[`${side}Wrist`]}) scale(${side === 'left' ? -1 : 1} 1)`}>
+        <path d="M-13 7 Q-25-5-27-20 Q-30-31-23-32 Q-18-32-13-19 L-13-43 Q-13-53-5-53 L10-51 Q18-50 18-40 L19-14 Q19 0 12 7" fill="white" />
+        <path d="M-3-47 L-3-33 M7-46 L7-32" fill="none" strokeWidth="3" />
       </g>
-    </g>
-    <path d="M-39 112 Q-2 122 38 112 L37 177 Q0 189-39 177Z" fill="white" />
-    <path d="M-26 66 L-14 116" fill="none" strokeWidth="3" />
-  </g>
-);
+      {showJoints && <g fill="none" stroke="#d44" strokeWidth="2">{[s,e,w].map((v,i) => <circle key={i} cx={v.x} cy={v.y} r="7" />)}</g>}
+    </>}
+  </g>;
+};
 
-export const Presenter: React.FC<{pose?: Partial<RigPose>; background?: string; showJoints?: boolean; outline?: boolean}> = ({pose: input, background = 'none', showJoints = false, outline = false}) => {
-  const outlineId = `presenter-outline-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
+export const Presenter: React.FC<{pose?: Partial<RigPose>; showJoints?: boolean}> = ({pose: input, showJoints = false}) => {
+  const clipId = `presenter-bust-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   const p = normalizePose(input);
   const eyeHeight = Math.max(.5, 12 * (1 - p.blink));
   const eyebrow = p.expression === 'curious' ? -9 : p.expression === 'smile' ? -3 : 0;
-  return <svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 0 920 1000" width="100%" height="100%" role="img" aria-label="도현 발표자 캐릭터">
-    {background !== 'none' && <rect x="-60" width="920" height="1000" fill={background} />}
-    {outline && <defs><filter id={outlineId} x="-10%" y="-10%" width="120%" height="120%">
-      <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="silhouette" />
-      <feFlood floodColor="white" result="white" />
-      <feComposite in="white" in2="silhouette" operator="in" result="edge" />
-      <feMerge><feMergeNode in="edge" /><feMergeNode in="SourceGraphic" /></feMerge>
-    </filter></defs>}
-    <g filter={outline ? `url(#${outlineId})` : undefined} stroke="#111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+  return <svg xmlns="http://www.w3.org/2000/svg" viewBox="60 -20 680 680" width="100%" height="100%" role="img" aria-label="도현 발표자 캐릭터 — 원형 바스트">
+    <defs><clipPath id={clipId}><circle cx="400" cy="320" r="320" /></clipPath></defs>
+    <circle cx="400" cy="320" r="320" fill="white" />
+    <g clipPath={`url(#${clipId})`} stroke="#111" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
       <g data-part="body">
-        <path d="M278 799 L522 799 L536 1003 L417 1003 L400 864 L384 1003 L267 1003Z" fill="#111" />
         <path d="M310 425 Q399 390 490 425 L527 824 Q398 856 274 824Z" fill="#111" />
         <path d="M355 355 L352 417 Q400 455 448 417 L445 355Z" fill="white" />
       </g>
-      <Arm side="left" shoulder={p.leftShoulder} elbow={p.leftElbow} />
-      <Arm side="right" shoulder={p.rightShoulder} elbow={p.rightElbow} />
+      <Arm side="left" pose={p} />
+      <Arm side="right" pose={p} />
       <g data-part="overshirt">
-        <path d="M351 407 L300 423 Q257 433 226 454 L259 552 L266 819 Q307 847 344 845 L343 520 L360 459Z" fill="white" />
-        <path d="M449 407 L500 423 Q543 433 574 454 L541 552 L534 819 Q493 847 456 845 L457 520 L440 459Z" fill="white" />
-        <path d="M352 405 L315 457 L340 448 L365 490Z M448 405 L485 457 L460 448 L435 490Z" fill="white" />
-        <path d="M287 554 L299 605 M513 554 L501 605 M323 743 L322 810 M477 743 L478 810" fill="none" strokeWidth="3" />
+        <path d="M352 407 Q282 420 226 454 Q250 507 266 650 L343 650 L343 503 Q345 456 352 407Z" fill="white" />
+        <path d="M448 407 Q518 420 574 454 Q550 507 534 650 L457 650 L457 503 Q455 456 448 407Z" fill="white" />
+        <path d="M352 407 L320 455 L355 477 M448 407 L480 455 L445 477" fill="none" strokeWidth="4" />
       </g>
+      <Arm side="left" pose={p} front showJoints={showJoints} />
+      <Arm side="right" pose={p} front showJoints={showJoints} />
       <g data-part="head" transform={`rotate(${p.headTilt} 400 395)`}>
         <g data-part="ears" fill="white">
           <path d="M285 246 Q254 229 257 270 Q260 304 286 303Z M515 246 Q546 229 543 270 Q540 304 514 303Z" />
           <path d="M277 261 Q265 255 272 283 M523 261 Q535 255 528 283" fill="none" strokeWidth="3" />
         </g>
         <path data-part="face" d="M281 177 Q284 89 400 95 Q516 89 519 177 L513 284 Q507 347 427 384 Q400 401 373 384 Q293 347 287 284Z" fill="white" />
-        <path data-part="hair" d="M274 255 Q246 217 255 167 Q228 107 282 63 Q327 20 391 57 Q425 24 466 51 Q529 64 540 124 Q560 180 525 251 L509 218 Q511 164 475 158 Q425 147 406 88 Q383 115 376 156 Q370 185 342 197 Q355 159 346 140 Q322 174 292 190 L291 250Z" fill="#111" />
-        <path d="M281 68 Q305 24 349 30 M390 57 Q397 15 432 19 M415 87 Q443 132 487 135 M355 76 Q299 96 284 145" fill="none" strokeWidth="3" />
+        <path data-part="hair" d="M279 249 Q245 211 254 146 Q254 52 328 43 Q363 36 395 59 Q434 33 474 52 Q548 77 542 159 Q543 218 520 249 L510 210 Q511 166 470 155 Q426 142 402 94 Q383 145 348 167 Q322 185 289 190 L291 245Z" fill="#111" />
         <g data-part="eyebrows" fill="#111" stroke="none">
           <path d="M309 206 Q334 197 359 204 L359 211 Q334 206 311 213Z" transform={`translate(0 ${eyebrow})`} />
           <path d="M441 204 Q466 197 491 206 L489 213 Q466 206 441 211Z" transform={`translate(0 ${p.expression === 'curious' ? 2 : eyebrow})`} />
@@ -60,7 +62,7 @@ export const Presenter: React.FC<{pose?: Partial<RigPose>; background?: string; 
           <ellipse cx={337 + p.gazeX * 5} cy={248 + p.gazeY * 4} rx="6.5" ry={eyeHeight} />
           <ellipse cx={463 + p.gazeX * 5} cy={248 + p.gazeY * 4} rx="6.5" ry={eyeHeight} />
         </g>
-        <g data-part="glasses" fill="none" strokeWidth="3.5">
+        <g data-part="glasses" fill="none" strokeWidth="4">
           <path d="M295 225 Q330 213 376 224 L374 269 Q369 286 335 286 Q302 286 299 270Z M505 225 Q470 213 424 224 L426 269 Q431 286 465 286 Q498 286 501 270Z M376 237 Q400 227 424 237 M295 232 L280 224 M505 232 L520 224" />
         </g>
         <path data-part="nose" d="M397 278 Q388 294 401 295" fill="none" strokeWidth="3.5" />
@@ -71,7 +73,8 @@ export const Presenter: React.FC<{pose?: Partial<RigPose>; background?: string; 
           </>}
         </g>
       </g>
-      {showJoints && <g stroke="#e04747" fill="none" strokeWidth="3"><circle cx="400" cy="395" r="8" /><circle cx="235" cy="468" r="8" /><circle cx="565" cy="468" r="8" /></g>}
+      {showJoints && <g stroke="#e04747" fill="none" strokeWidth="3"><circle cx="400" cy="395" r="8" /></g>}
     </g>
+    <circle cx="400" cy="320" r="320" fill="none" stroke="#111" strokeWidth="4" />
   </svg>;
 };

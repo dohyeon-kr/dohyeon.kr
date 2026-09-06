@@ -9,14 +9,14 @@ export const demoEnvelope: Envelope = {sampleRate: 30, samples: Array.from({leng
   const t = i / 30;
   return t > 1.4 && t < 4 || t > 5.5 && t < 7 ? Math.max(0, Math.sin(t * 17)) * .65 : 0;
 })};
-export const PresenterPreview: React.FC<{dark?: boolean}> = ({dark = false}) => {
+export const PresenterPreview: React.FC = () => {
   const frame = useCurrentFrame(), {fps} = useVideoConfig();
   const t = frame / fps;
   const pose = poseAt(t, {cues: demoCues, envelope: demoEnvelope, expression: t >= 5 ? 'curious' : 'smile'});
   pose.headTilt += Math.sin(t * 1.4) * 2;
   pose.gazeX = Math.sin(t * .8) * .35;
-  return <AbsoluteFill style={{background: dark ? '#080808' : '#fff'}}>
-    <div style={{position: 'absolute', inset: '60px 70px 0'}}><Presenter pose={pose} outline={dark} /></div>
-    <div style={{position: 'absolute', bottom: 20, width: '100%', textAlign: 'center', color: dark ? '#bbb' : '#555', fontFamily: 'sans-serif', fontSize: 18}}>SVG RIG · SYNTHETIC MOUTH DEMO · NO TTS</div>
+  return <AbsoluteFill style={{background: '#fff'}}>
+    <div style={{position: 'absolute', inset: '20px 20px 50px'}}><Presenter pose={pose} /></div>
+    <div style={{position: 'absolute', bottom: 14, width: '100%', textAlign: 'center', color: '#666', fontFamily: 'sans-serif', fontSize: 14}}>SVG RIG · SYNTHETIC MOUTH DEMO · NO TTS</div>
   </AbsoluteFill>;
 };

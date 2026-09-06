@@ -26,7 +26,7 @@ jobs:
           npm run typecheck
           node --test tests/presenter.test.mjs
           mkdir -p "${RUNNER_TEMP}/presenter-rig"
-          for composition in PresenterRigPreview PresenterRigDarkPreview; do
+          for composition in PresenterRigPreview; do
             for frame in 0 48 81 105 180; do
               npx remotion still src/index.tsx "$composition" "${RUNNER_TEMP}/presenter-rig/${composition}-${frame}.png" --frame="$frame"
             done

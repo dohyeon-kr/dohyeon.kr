@@ -3,23 +3,41 @@ export type Gesture = 'rest' | 'explain' | 'present';
 export type RigPose = {
   headTilt: number; gazeX: number; gazeY: number; blink: number;
   mouthOpen: number; expression: Expression;
-  leftShoulder: number; leftElbow: number; rightShoulder: number; rightElbow: number;
+  leftHandX: number; leftHandY: number; rightHandX: number; rightHandY: number;
+  leftWrist: number; rightWrist: number;
 };
 export const REST_POSE: RigPose = {headTilt: 0, gazeX: 0, gazeY: 0, blink: 0, mouthOpen: 0,
-  expression: 'neutral', leftShoulder: 0, leftElbow: 0, rightShoulder: 0, rightElbow: 0};
+  expression: 'neutral', leftHandX: 265, leftHandY: 690, rightHandX: 535, rightHandY: 690,
+  leftWrist: -12, rightWrist: 12};
 const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, Number.isFinite(n) ? n : 0));
 export function normalizePose(input: Partial<RigPose> = {}): RigPose {
   const p = {...REST_POSE, ...input};
   return {...p, headTilt: clamp(p.headTilt, -12, 12), gazeX: clamp(p.gazeX, -1, 1), gazeY: clamp(p.gazeY, -1, 1),
     blink: clamp(p.blink, 0, 1), mouthOpen: clamp(p.mouthOpen, 0, 1),
     expression: ['neutral', 'smile', 'curious'].includes(p.expression) ? p.expression : 'neutral',
-    leftShoulder: clamp(p.leftShoulder, -5, 12), leftElbow: clamp(p.leftElbow, 0, 65),
-    rightShoulder: clamp(p.rightShoulder, -12, 5), rightElbow: clamp(p.rightElbow, -65, 0)};
+    leftHandX: clamp(p.leftHandX, 160, 350), leftHandY: clamp(p.leftHandY, 510, 710),
+    rightHandX: clamp(p.rightHandX, 450, 640), rightHandY: clamp(p.rightHandY, 510, 710),
+    leftWrist: clamp(p.leftWrist, -35, 35), rightWrist: clamp(p.rightWrist, -35, 35)};
 }
 export const GESTURES: Record<Gesture, Partial<RigPose>> = {
-  rest: {}, explain: {leftShoulder: 10, leftElbow: 60, rightShoulder: -8, rightElbow: -48},
-  present: {rightShoulder: -12, rightElbow: -65, headTilt: -4},
+  rest: {}, explain: {rightHandX: 505, rightHandY: 550, rightWrist: 22},
+  present: {leftHandX: 295, leftHandY: 545, leftWrist: -22, headTilt: -3},
 };
+export type Point = {x: number; y: number};
+export const ARM_LENGTHS = {upper: 120, lower: 112};
+/** Analytic two-bone IK: fixed bend side and a reach margin avoid elbow flips/locking. */
+export function solveArm(side: 'left' | 'right', target: Point) {
+  const shoulder = {x: side === 'left' ? 250 : 550, y: 490};
+  const dx = Number.isFinite(target.x) ? target.x - shoulder.x : 0;
+  const dy = Number.isFinite(target.y) ? target.y - shoulder.y : 222;
+  const direction = Math.hypot(dx, dy) < 1e-6 ? Math.PI / 2 : Math.atan2(dy, dx);
+  const {upper, lower} = ARM_LENGTHS;
+  const distance = clamp(Math.hypot(dx, dy), Math.abs(upper - lower) + 4, upper + lower - 4);
+  const angle = direction + (side === 'left' ? 1 : -1) * Math.acos(clamp((upper ** 2 + distance ** 2 - lower ** 2) / (2 * upper * distance), -1, 1));
+  const elbow = {x: shoulder.x + upper * Math.cos(angle), y: shoulder.y + upper * Math.sin(angle)};
+  const wrist = {x: shoulder.x + distance * Math.cos(direction), y: shoulder.y + distance * Math.sin(direction)};
+  return {shoulder, elbow, wrist};
+}
 export type GestureCue = {startSeconds: number; endSeconds: number; gesture: Gesture};
 export type Envelope = {sampleRate: number; samples: readonly number[]};
 // Random access, not an accumulating simulation: seeking and parallel rendering agree.
@@ -43,9 +61,15 @@ export function poseAt(seconds: number, options: {cues?: readonly GestureCue[]; 
   // Last active cue wins. Smoothly enter and leave each authored gesture.
   for (const cue of options.cues ?? []) {
     if (t < cue.startSeconds || t > cue.endSeconds || cue.endSeconds <= cue.startSeconds || !GESTURES[cue.gesture]) continue;
-    const ramp = Math.min(.45, (cue.endSeconds - cue.startSeconds) / 2);
+    const ramp = Math.min(.7, (cue.endSeconds - cue.startSeconds) / 2);
     const weight = ease((t - cue.startSeconds) / ramp) * ease((cue.endSeconds - t) / ramp);
-    pose = Object.fromEntries(Object.entries(GESTURES[cue.gesture]).map(([key, value]) => [key, Number(value) * weight]));
+    pose = Object.fromEntries(Object.entries(GESTURES[cue.gesture]).map(([key, value]) => {
+      const base = Number(REST_POSE[key as keyof RigPose]);
+      // Wrist settles slightly after the arm; all motion remains random-access safe.
+      const w = key.endsWith('Wrist') ? ease((t - cue.startSeconds - .08) / ramp) * ease((cue.endSeconds - t) / ramp) : weight;
+      const arc = key.endsWith('HandX') ? (key.startsWith('left') ? -8 : 8) * Math.sin(Math.PI * weight) : 0;
+      return [key, base + (Number(value) - base) * w + arc];
+    }));
   }
   return normalizePose({...pose, blink: blinkAt(t), mouthOpen: envelopeAt(options.envelope, t), expression: options.expression ?? 'neutral'});
 }
