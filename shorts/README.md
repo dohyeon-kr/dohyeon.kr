@@ -137,6 +137,10 @@ This repository uses automated Remotion rendering. Review the current Remotion l
 
 스토리보드 생성 후 선택 코멘트를 반영해 OpenAI가 리뷰하고 개선 PR을 만듭니다. [실행 방법과 검증 범위](docs/storyboard-review.md)를 참고하세요.
 
+## Ghost 대표 이미지 자동 생성
+
+관리자나 API에서 저장한 글에 대표 이미지가 없으면 기존 도식 렌더러로 커버를 만들 수 있습니다. [적용 범위와 활성화 방법](docs/ghost-feature-images.md)을 참고하세요. Draft 상태와 기존 대표 이미지는 유지합니다.
+
 ## 생성 시 추가 요청과 확장 구성
 
 **Generate blog shorts → Run workflow → additional_request**에 선택적으로 강조점·관점·어조·구성을 입력할 수 있습니다. 비워 두면 기존 기본 동작을 유지합니다. 최대 4,000자이며 초과하면 API 호출 전에 실패합니다.
