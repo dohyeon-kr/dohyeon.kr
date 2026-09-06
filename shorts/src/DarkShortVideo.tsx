@@ -1,3 +1,6 @@
+import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
+import {validatePresenterOverlay} from './presenter/overlay';
+import {useContext} from 'react';
 import {BlogCta} from './BlogCta';
 import {PresenterScene} from './presenter/PresenterScene';
 import {VideoBackground} from './video/VideoBackground';
@@ -243,6 +246,7 @@ const CompareVisual: React.FC<{scene: RenderScene; frame: number; versus: boolea
 };
 
 const CaptionOverlay: React.FC<{scene: RenderScene}> = ({scene}) => {
+  const overlay = useContext(PresenterOverlayContext);
   const frame = useCurrentFrame();
   const seconds = frame / FPS;
   const cue = scene.captions?.find((item) => seconds >= item.startSeconds && seconds < item.endSeconds);
@@ -251,12 +255,12 @@ const CaptionOverlay: React.FC<{scene: RenderScene}> = ({scene}) => {
   const length = compactLength(text);
   const fontSize = length > 20 ? 29 : length > 16 ? 32 : length > 12 ? 35 : 38;
   return (
-    <div style={{position: 'absolute', left: SAFE_LEFT, right: SAFE_RIGHT + 24, bottom: SAFE_BOTTOM + 44, display: 'flex', justifyContent: 'center', zIndex: 30}}>
+    <div data-overlay-reserve="caption" style={{position: 'absolute', left: SAFE_LEFT, right: overlay ? 410 : SAFE_RIGHT + 24, bottom: SAFE_BOTTOM + 44, display: 'flex', justifyContent: 'center', zIndex: 30}}>
       <div
         style={{
           maxWidth: SAFE_CONTENT_WIDTH - 24, padding: '12px 20px 13px', borderRadius: 999,
           background: FG, color: BG, fontSize, fontWeight: 800, lineHeight: 1.1,
-          letterSpacing: '-0.025em', textAlign: 'center', whiteSpace: 'nowrap', wordBreak: 'keep-all',
+          letterSpacing: '-0.025em', textAlign: 'center', whiteSpace: overlay ? 'normal' : 'nowrap', wordBreak: 'keep-all',
           overflow: 'hidden', textOverflow: 'clip',
         }}
       >
@@ -274,6 +278,7 @@ const SceneFrame: React.FC<{
   sourceTitle: string;
   durationInFrames: number;
 }> = ({scene, index, total, sourceTitle, durationInFrames, layer}) => {
+  const overlay = useContext(PresenterOverlayContext);
   const frame = useCurrentFrame();
   const layout = fallbackLayout(scene);
   const visual = fallbackVisual(scene);
@@ -350,7 +355,7 @@ const SceneFrame: React.FC<{
         </div>
         <div style={{position: 'absolute', top: 78, right: SAFE_RIGHT + 20, fontSize: 20, color: MUTED, letterSpacing: '.08em', zIndex: 10}}>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</div>
 
-        <div style={{position: 'absolute', ...textStyle, transform: `translateY(${textY}px)`, opacity: reveal, zIndex: 12}}>
+        <div data-overlay-reserve="copy" style={{position: 'absolute', ...textStyle, ...(overlay && textStyle.bottom != null ? {bottom: Math.max(Number(textStyle.bottom), 650)} : {}), transform: `translateY(${textY}px)`, opacity: reveal, zIndex: 12}}>
           <div style={{fontSize: fontSizeFor(scene.headline, headlineBase), fontWeight: 800, lineHeight: 1.06, letterSpacing: '-0.055em', whiteSpace: 'pre-wrap', wordBreak: 'keep-all', textShadow: fullBleed ? '0 3px 24px rgba(0,0,0,.5)' : 'none'}}>{scene.headline}</div>
           {scene.subline ? <div style={{marginTop: 28, maxWidth: 700, fontSize: layout === 'photo-split-left' ? 25 : 28, lineHeight: 1.4, letterSpacing: '-0.025em', color: SOFT, whiteSpace: 'pre-wrap', wordBreak: 'keep-all'}}>{scene.subline}</div> : null}
         </div>
@@ -364,9 +369,11 @@ const SceneFrame: React.FC<{
   );
 };
 
-export const DarkShortVideo: React.FC<RenderManifest> = ({source, scenes}) => {
+export const DarkShortVideo: React.FC<RenderManifest> = ({source, scenes, presenterOverlay}) => {
+  validatePresenterOverlay({presenterOverlay, scenes});
   let cursor = 0;
   return (
+    <PresenterOverlayContext.Provider value={presenterOverlay != null}>
     <AbsoluteFill style={{background: BG}}>
       {scenes.map((scene, index) => {
         validateSceneMotion(scene, scenes[index - 1]);
@@ -383,6 +390,8 @@ export const DarkShortVideo: React.FC<RenderManifest> = ({source, scenes}) => {
           </Sequence>
         );
       })}
+      {presenterOverlay != null && <PersistentPresenter />}
     </AbsoluteFill>
+    </PresenterOverlayContext.Provider>
   );
 };

@@ -1,3 +1,6 @@
+import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
+import {validatePresenterOverlay} from './presenter/overlay';
+import {useContext} from 'react';
 import {BlogCta} from './BlogCta';
 import {PresenterScene} from './presenter/PresenterScene';
 import {VideoBackground} from './video/VideoBackground';
@@ -151,6 +154,7 @@ const highlightedText = (text: string, keyword: string | null | undefined) => {
 };
 
 const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, photo}) => {
+  const overlay = useContext(PresenterOverlayContext);
   const frame = useCurrentFrame();
   const seconds = frame / FPS;
   const cue = subtitleAt(scene, seconds);
@@ -158,7 +162,7 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
   const text = cue.text.replace(/\s+/g, ' ').trim();
 
   return (
-    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none'}}>
+    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? 600 : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none'}}>
       <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: '12px 17px 13px', border: '2px solid #484848', background: photo ? 'rgba(5,5,5,.88)' : '#151515', color: WHITE, fontSize: 38, fontWeight: 800, lineHeight: 1.25, letterSpacing: '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
         {highlightedText(text, 'keyword' in cue ? cue.keyword as string | null : null)}
       </div>
@@ -181,6 +185,7 @@ const ComparePanel: React.FC<{scene: RenderScene; reveal: number; versus: boolea
 );
 
 const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number; total: number; sourceTitle: string; durationInFrames: number}> = ({scene, index, total, sourceTitle, durationInFrames, layer}) => {
+  const overlay = useContext(PresenterOverlayContext);
   const frame = useCurrentFrame();
   const layoutRoot = useRef<HTMLDivElement>(null);
   useLayoutCheck(layoutRoot, frame);
@@ -201,7 +206,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
 
   const headlineBase = layout === 'statement-giant' ? 150 : layout === 'outro-minimal' ? 140 : photo ? 136 : 126;
   const headingTop = hasPresetVisual || isCompare ? 1040 : photo && layout !== 'photo-full-bleed' ? 1000 : 700;
-  const headingHeight = 1310 - headingTop - (scene.subline ? 90 : 0);
+  const headingHeight = 1310 - headingTop - (scene.subline ? 90 : 0) - (overlay ? 40 : 0);
   const heading = fitCopy(scene.headline, SAFE_CONTENT_WIDTH - 20, headingHeight, Math.min(headlineBase, hasPresetVisual || isCompare ? 98 : 124));
   const subline = fitCopy(scene.subline ?? '', SAFE_CONTENT_WIDTH - 20, 78, 30);
 
@@ -253,9 +258,11 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
   );
 };
 
-export const ShortVideo: React.FC<RenderManifest> = ({source, scenes}) => {
+export const ShortVideo: React.FC<RenderManifest> = ({source, scenes, presenterOverlay}) => {
+  validatePresenterOverlay({presenterOverlay, scenes});
   let cursor = 0;
   return (
+    <PresenterOverlayContext.Provider value={presenterOverlay != null}>
     <AbsoluteFill style={{background: BLACK}}>
       {scenes.map((scene, index) => {
         validateSceneMotion(scene, scenes[index - 1]);
@@ -272,6 +279,8 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes}) => {
           </Sequence>
         );
       })}
+      {presenterOverlay != null && <PersistentPresenter />}
     </AbsoluteFill>
+    </PresenterOverlayContext.Provider>
   );
 };

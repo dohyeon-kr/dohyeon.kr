@@ -423,3 +423,7 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 - 최소 6초, 실제 내레이션 종료 후 최소 1.2초를 확보한다. 화면 문구는 고정하고 CTA 진입 시 글자를 포함한 페이지 전체에 600ms 블러 디졸브를 적용한다. CTA에서는 별도 자막을 겹쳐 띄우지 않는다.
 - 스토리보드·최종 렌더·내레이션 텍스트에 같은 공통 페이지를 적용한다. 기존 후보도 다시 렌더하면 CTA가 붙는다. 이미 배포한 영상 파일은 바뀌지 않는다.
 - 원문 링크는 기존 배포용 캡션에 유지한다. 실제 인스타그램 프로필의 블로그 링크 설정은 별도로 확인한다.
+
+### 명시적으로 요청된 상시 발표자
+
+우측 하단 상시 발표자를 요청받은 수동 후보는 presenter-api.md의 manifest-level presenterOverlay를 사용한다. 이 모드에서는 사진·도식과 공통 CTA를 유지한 채 발표자를 별도 레이어로 합성한다. 장면마다 presenter-bust를 넣지 않는다.

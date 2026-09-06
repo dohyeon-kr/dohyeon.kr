@@ -9,6 +9,7 @@ import OpenAI from 'openai';
 import {mixBgm} from './bgm.mjs';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateSceneMotion} from '../src/motion/validate.ts';
+import {validatePresenterOverlay} from '../src/presenter/overlay.ts';
 import {validateScenePresenter} from '../src/presenter/schema.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
@@ -317,6 +318,7 @@ const main = async () => {
   }
 
   const manifest = withBlogCta(JSON.parse(await fs.readFile(manifestPath, 'utf8')));
+  validatePresenterOverlay(manifest);
   for (const [index, scene] of manifest.scenes.entries()) {
     validateSceneMotion(scene, manifest.scenes[index - 1]);
     if (!scene.diagramSpec) continue;
