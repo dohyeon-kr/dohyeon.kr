@@ -9,6 +9,7 @@ import OpenAI from 'openai';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
 import {CandidateSchema, SYSTEM_PROMPT, fetchPost, createDiagramRepair} from './generate-candidates.mjs';
+import {GeneratedPresenterSchema, normalizeGeneratedPresenter, validateScenePresenter} from '../src/presenter/schema.ts';
 import {candidatePath, validateSelection, START, END} from './candidate-selection.mjs';
 import {describeCandidate} from './describe-candidates.mjs';
 import {createPhotoSearch, enrichVisuals} from './resolve-visuals.mjs';
@@ -33,6 +34,7 @@ export function validateRevision(candidate, {deferDiagramValidation = false} = {
   if (!standard && !extended) throw new Error(`Expected 6–9 or 18–21 scenes; received ${sceneCount}`);
   const compact = value => value.replace(/[\s\p{P}\p{S}]/gu, '');
   for (const [i, scene] of candidate.scenes.entries()) {
+    validateScenePresenter({...scene,presenter:GeneratedPresenterSchema.safeParse(scene.presenter).success ? normalizeGeneratedPresenter(scene.presenter) : scene.presenter});
     validateBackgroundVideo(scene);
     if (compact(scene.narration) !== compact(scene.beats.map(b => b.text).join(''))) throw new Error(`Scene ${i + 1}: narration/beats mismatch`);
     if (scene.beats.some(b => b.keyword && !b.text.includes(b.keyword))) throw new Error(`Scene ${i + 1}: keyword absent from beat`);
@@ -48,7 +50,7 @@ export async function frameInput(manifest, directory) {
   const content = [];
   for (let i = 0; i < manifest.scenes.length; i++) {
     const stem = `${prefix}-scene-${String(i + 1).padStart(2, '0')}`;
-    for (const phase of (manifest.scenes[i].diagramSpec || manifest.scenes[i].backgroundVideo) ? ['-initial', '-change', ''] : ['']) {
+    for (const phase of (manifest.scenes[i].diagramSpec || manifest.scenes[i].backgroundVideo || manifest.scenes[i].presenter != null) ? ['-initial', '-change', ''] : ['']) {
       const bytes = await fs.readFile(path.join(directory.frames, prefix, `${stem}${phase}.png`));
       content.push({type: 'input_text', text: `장면 ${i + 1}, ${phase || 'result'}`},
         {type: 'input_image', image_url: `data:image/png;base64,${bytes.toString('base64')}`, detail: 'high'});

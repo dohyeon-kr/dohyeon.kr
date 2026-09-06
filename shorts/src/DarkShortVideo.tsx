@@ -1,4 +1,5 @@
 import {BlogCta} from './BlogCta';
+import {PresenterScene} from './presenter/PresenterScene';
 import {VideoBackground} from './video/VideoBackground';
 import React from 'react';
 import {SceneTransitionStage, type SceneLayer} from './motion/SceneTransition';
@@ -277,6 +278,7 @@ const SceneFrame: React.FC<{
   const layout = fallbackLayout(scene);
   const visual = fallbackVisual(scene);
   if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
+  if (scene.presenter != null) return <PresenterScene scene={scene} layer={layer} durationInFrames={durationInFrames} />;
 
   const fullBleed = layout === 'photo-full-bleed' && Boolean(scene.imagePath);
   const isCompare = !scene.diagramSpec && (layout === 'compare-columns' || layout === 'compare-versus');

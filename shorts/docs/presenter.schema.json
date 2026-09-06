@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1
+    },
+    "actions": {
+      "maxItems": 40,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 600
+          },
+          "end": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 600
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "idle",
+              "explain",
+              "present",
+              "point",
+              "emphasize"
+            ]
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ]
+          },
+          "hand": {
+            "type": "string",
+            "enum": [
+              "relaxed",
+              "open",
+              "palmUp",
+              "point",
+              "fist"
+            ]
+          },
+          "intensity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "expressions": {
+      "maxItems": 40,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 600
+          },
+          "end": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 600
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "neutral",
+              "smile",
+              "curious",
+              "serious",
+              "surprised"
+            ]
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "mouths": {
+      "maxItems": 4000,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 600
+          },
+          "end": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 600
+          },
+          "shape": {
+            "type": "string",
+            "enum": [
+              "rest",
+              "O",
+              "I",
+              "A",
+              "M"
+            ]
+          },
+          "intensity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "shape"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

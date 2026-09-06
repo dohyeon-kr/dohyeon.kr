@@ -1,4 +1,5 @@
 import {withBlogCta} from './blog-cta.mjs';
+import {GeneratedPresenterSchema} from '../src/presenter/schema.ts';
 import {BackgroundVideoSchema} from '../src/video/schema.ts';
 import {loadVideoCatalog} from './video-assets.mjs';
 import fs from 'node:fs/promises';
@@ -22,6 +23,7 @@ const shortsRoot = path.resolve(import.meta.dirname, '..');
 const allowedHosts = new Set(['dohyeon.kr', 'www.dohyeon.kr', 'blog.dohyeon.kr']);
 
 const LAYOUTS = [
+  'presenter-bust',
   'photo-top-right',
   'photo-full-bleed',
   'photo-split-left',
@@ -103,6 +105,7 @@ const CameraSchema = z.object({
 });
 
 const SceneSchema = z.object({
+  presenter: GeneratedPresenterSchema.nullable(),
   backgroundVideo: BackgroundVideoSchema.nullable(),
   visualStory: z.object({initial: z.string(), trigger: z.string(), change: z.string(), invariant: z.string(), result: z.string()}).nullable(),
   diagramSpec: DiagramSpecSchema.extend({events: z.array(GeneratedDiagramEventSchema).max(120), physics: DiagramSpecSchema.shape.physics.unwrap(), nodes: z.array(DiagramSpecSchema.shape.nodes.element.extend({connector: DiagramSpecSchema.shape.nodes.element.shape.connector.unwrap(), strokeStyle: z.enum(['solid', 'dashed']).nullable()})).min(1).max(40)}).nullable(),
@@ -137,6 +140,10 @@ export const CandidateSchema = z.object({
 const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
 
 export const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
+발표자 API: presenter는 기본 null이다. 화자가 질문·설명·판단을 직접 전하는 것이 더 명료할 때만 layout=presenter-bust를 선택한다. 흰 페이지에 제목/원형 바스트/자막을 별도로 예약한 실제 지원 레이아웃이다. 해당 장면 visual.type=none, diagramSpec/backgroundVideo=null, 비교 문구=null, effects=[], camera.motion=static을 사용한다. 사진·도식·공통 CTA를 발표자로 대체하지 않는다.
+presenter={version:1,actions:[],expressions:[]}이다. actions 항목은 start/end(장면 시작 기준 초), name(idle/explain/present/point/emphasize), side(left/right 또는 null=기본), hand(relaxed/open/palmUp/point/fist 또는 null=동작 기본), intensity(0~1 또는 null=1)를 모두 작성한다. expressions 항목은 start/end/name(neutral/smile/curious/serious/surprised)이다.
+구간은 시작 포함·끝 제외, 같은 트랙끼리 중첩 금지, end>start이다. 빈 트랙/빈 구간은 대기·중립 표정이다. 초 단위이지 정규화 진행률이 아니다. 문장의 의미에 맞는 동작 1~2개만 사용하고 보통 1.4초 이상의 구간으로 양끝에 손을 내리는 시간을 확보한다. explain=펼친 손 설명, present=손바닥 위로 제시, point=방향 가리키기(화면 좌표 추적 아님), emphasize=작은 주먹 강조다. 양쪽 동시 제스처는 지원하지 않는다.
+손·어깨 좌표나 SVG 코드는 작성하지 않는다. TTS 전에는 발음 타이밍을 추측하지 않고 mouths를 작성하지 않는다. 실제 음성 길이 확정 뒤 범위 검증을 거치며 범위 초과는 자동 잘라내지 않는다. 공개 계약·예시는 shorts/docs/presenter-api.md 및 shorts/src/presenter/api.ts를 따른다.
 공통 블로그 CTA는 코드에서 본문 결론 뒤에 자동 추가한다. 출력 scenes에는 CTA를 작성하지 말고 본문만 기본 6~9장 또는 확장 18~21장으로 구성한다. 기존 후보 리뷰에서도 commonPage가 있는 공통 CTA를 출력에서 제외한다.
 도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
 diagramSpec은 version=1, renderer=auto가 기본이다. 일반 도식은 Remotion, physics가 있는 장면은 Motion Canvas로 자동 선택된다.

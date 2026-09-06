@@ -1,10 +1,12 @@
 import {validateBackgroundVideo} from '../video/schema.ts';
+import {validateScenePresenter} from '../presenter/schema.ts';
 import {z} from 'zod';
 import {TRANSITIONS, LightEffectSchema, TransitionOptionsSchema} from './schema.ts';
 import {evaluatedDiagramState} from '../visuals/physics.ts';
 import type {CandidateScene} from '../types';
 
 export function validateSceneMotion(scene: CandidateScene, previous?: CandidateScene) {
+  validateScenePresenter(scene);
   validateBackgroundVideo(scene);
   if (scene.transition !== undefined) z.enum(TRANSITIONS).parse(scene.transition);
   if (scene.transitionOptions != null) TransitionOptionsSchema.parse(scene.transitionOptions);

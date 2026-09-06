@@ -1,20 +1,25 @@
-export type Expression = 'neutral' | 'smile' | 'curious';
+import {EXPRESSIONS, HAND_SHAPES, MOUTH_SHAPES, type Expression, type HandShape, type MouthShape} from './vocabulary.ts';
+export type {Expression} from './vocabulary.ts';
 export type Gesture = 'rest' | 'explain' | 'present';
 export type RigPose = {
   headTilt: number; gazeX: number; gazeY: number; blink: number;
   mouthOpen: number; expression: Expression;
   leftHandX: number; leftHandY: number; rightHandX: number; rightHandY: number;
   leftWrist: number; rightWrist: number;
+  leftHandShape: HandShape; rightHandShape: HandShape; mouthShape: MouthShape;
 };
 export const REST_POSE: RigPose = {headTilt: 0, gazeX: 0, gazeY: 0, blink: 0, mouthOpen: 0,
   expression: 'neutral', leftHandX: 265, leftHandY: 690, rightHandX: 535, rightHandY: 690,
-  leftWrist: -12, rightWrist: 12};
+  leftWrist: -12, rightWrist: 12, leftHandShape:'relaxed', rightHandShape:'relaxed', mouthShape:'rest'};
 const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, Number.isFinite(n) ? n : 0));
 export function normalizePose(input: Partial<RigPose> = {}): RigPose {
   const p = {...REST_POSE, ...input};
   return {...p, headTilt: clamp(p.headTilt, -12, 12), gazeX: clamp(p.gazeX, -1, 1), gazeY: clamp(p.gazeY, -1, 1),
     blink: clamp(p.blink, 0, 1), mouthOpen: clamp(p.mouthOpen, 0, 1),
-    expression: ['neutral', 'smile', 'curious'].includes(p.expression) ? p.expression : 'neutral',
+    expression: EXPRESSIONS.includes(p.expression) ? p.expression : 'neutral',
+    leftHandShape: HAND_SHAPES.includes(p.leftHandShape) ? p.leftHandShape : 'relaxed',
+    rightHandShape: HAND_SHAPES.includes(p.rightHandShape) ? p.rightHandShape : 'relaxed',
+    mouthShape: MOUTH_SHAPES.includes(p.mouthShape) ? p.mouthShape : 'rest',
     leftHandX: clamp(p.leftHandX, 160, 350), leftHandY: clamp(p.leftHandY, 510, 710),
     rightHandX: clamp(p.rightHandX, 450, 640), rightHandY: clamp(p.rightHandY, 510, 710),
     leftWrist: clamp(p.leftWrist, -35, 35), rightWrist: clamp(p.rightWrist, -35, 35)};
@@ -71,5 +76,6 @@ export function poseAt(seconds: number, options: {cues?: readonly GestureCue[]; 
       return [key, base + (Number(value) - base) * w + arc];
     }));
   }
-  return normalizePose({...pose, blink: blinkAt(t), mouthOpen: envelopeAt(options.envelope, t), expression: options.expression ?? 'neutral'});
+  const mouthOpen=envelopeAt(options.envelope,t);
+  return normalizePose({...pose, blink: blinkAt(t), mouthOpen, mouthShape:mouthOpen>0?'A':'rest', expression: options.expression ?? 'neutral'});
 }

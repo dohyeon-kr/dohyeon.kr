@@ -24,10 +24,16 @@ jobs:
         working-directory: shorts
         run: |
           npm run typecheck
-          node --test tests/presenter.test.mjs
+          node --test tests/presenter.test.mjs tests/presenter-api.test.mjs
           mkdir -p "${RUNNER_TEMP}/presenter-rig"
           for composition in PresenterRigPreview; do
-            for frame in 0 48 81 105 180; do
+            for frame in 0 30 60 90 120 150 180 210 240 270 300 330; do
+              npx remotion still src/index.tsx "$composition" "${RUNNER_TEMP}/presenter-rig/${composition}-${frame}.png" --frame="$frame"
+            done
+          done
+          npx remotion still src/index.tsx PresenterCases "${RUNNER_TEMP}/presenter-rig/presenter-cases.png"
+          for composition in PresenterCandidatePreview DarkPresenterCandidatePreview; do
+            for frame in 6 45 150 300; do
               npx remotion still src/index.tsx "$composition" "${RUNNER_TEMP}/presenter-rig/${composition}-${frame}.png" --frame="$frame"
             done
           done

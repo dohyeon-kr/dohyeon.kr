@@ -1,4 +1,5 @@
 import {loadVideoCatalog, validateVideoSelection} from './video-assets.mjs';
+import {GeneratedPresenterSchema, normalizeGeneratedPresenter, validateScenePresenter} from '../src/presenter/schema.ts';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {curatedPhoto} from './curated-photos.mjs';
@@ -94,6 +95,8 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
   const scenes = [];
   for (const originalScene of candidate.scenes) {
     let scene = originalScene;
+    if (scene.presenter != null && GeneratedPresenterSchema.safeParse(scene.presenter).success) scene = {...scene, presenter:normalizeGeneratedPresenter(scene.presenter)};
+    validateScenePresenter(scene);
     validateVideoSelection(scene, videoCatalog);
     const history = [];
     if (scene.diagramSpec || scene.visual.type === 'diagram') {
@@ -166,5 +169,4 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
   }
   return {...candidate, scenes};
 };
-
 

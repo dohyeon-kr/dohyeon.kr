@@ -47,7 +47,7 @@ export function storyboardFrames(manifest, manifestPath) {
   const prefix = `${safeName(path.basename(path.dirname(manifestPath)))}-${safeName(manifest.id || path.basename(manifestPath, '.json'))}`;
   const names = manifest.scenes.flatMap((scene, i) => {
     const stem = `${prefix}-scene-${String(i + 1).padStart(2, '0')}`;
-    return (scene.diagramSpec || scene.backgroundVideo ? ['-initial', '-change', ''] : ['']).map(phase => `${stem}${phase}.png`);
+    return (scene.diagramSpec || scene.backgroundVideo || scene.presenter != null ? ['-initial', '-change', ''] : ['']).map(phase => `${stem}${phase}.png`);
   });
   return {prefix, names};
 }

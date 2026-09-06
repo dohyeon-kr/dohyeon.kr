@@ -1,8 +1,10 @@
 import type {BackgroundVideo} from './video/schema';
+import type {PresenterSpec} from './presenter/schema';
 import type {DiagramSpec} from './visuals/diagram-spec';
 export type SceneKind = 'hero' | 'photo' | 'compare' | 'statement' | 'outro';
 
 export type SceneLayout =
+  | 'presenter-bust'
   | 'photo-top-right'
   | 'photo-full-bleed'
   | 'photo-split-left'
@@ -112,6 +114,7 @@ export type CaptionCue = {
 };
 
 export type CandidateScene = {
+  presenter?: PresenterSpec | null;
   commonPage?: 'blog-cta-v1';
   backgroundVideo?: BackgroundVideo | null;
   visualResolution?: {status: 'fallback'; originalQuery: string | null; reason: 'photo-unavailable' | 'invalid-diagram'; detail?: string};

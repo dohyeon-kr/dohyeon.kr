@@ -1,12 +1,14 @@
 # Programmable presenter prototype
 
+**Current public contract:** [Presenter API v1](presenter-api.md). Candidate authors should use semantic actions/expressions and the generated schema, not the low-level rig controls below. The white `presenter-bust` layout is now connected to both video renderers.
+
 The approved monochrome character concept is redrawn as editable SVG paths, not a PNG cutout or a pose-image slideshow. This is a first vector interpretation, not an exact automatic tracing. The reference portrait is not uploaded to the repository.
 
 ## Components
 
 - `src/presenter/Presenter.tsx`: pure React/SVG; white circular background, black border, bust-only clip. Outside the circle stays transparent. `data-part` groups identify editable body parts.
 - `src/presenter/rig.ts`: typed and bounded controls, gesture cues, blinking and optional amplitude-envelope sampling. All animation is a deterministic function of time, including reverse seeking.
-- `src/presenter/PresenterPreview.tsx`: an 8-second, 800×800 Remotion demonstration on white. Its mouth input is **synthetic, not real TTS**.
+- `src/presenter/PresenterPreview.tsx`: a 12-second, 800×800 demonstration on white. Its mouth input is **authored cases, not real TTS**. `PresenterGallery.tsx` shows all actions, hands, expressions and mouth shapes.
 
 ```tsx
 const pose = poseAt(frame / fps, {
@@ -33,4 +35,4 @@ Draw order is torso/neck → continuous back sleeves → overshirt → foregroun
 
 Run `npm run studio` in `shorts` and select `PresenterRigPreview`. The presenter-specific CI job renders rest, gesture, closed-eye, and speaking frames plus an MP4. Tests check target bounds, bone lengths, reach limits, bend direction and frame-to-frame continuity. Existing video scenes and CTA remain unchanged: this prototype is not automatically inserted into published reels.
 
-Real TTS ingestion, phoneme/viseme alignment, automatic semantic gesture selection, and placement beside existing slide content are **not implemented**. The envelope interface accepts 0…1 mouth amplitudes at a stated sample rate relative to the scene's audio start; absent input means a closed mouth. Amplitude-driven mouth motion is not phoneme-accurate lip sync. These integration tasks follow visual approval of the rig.
+Automatic real-TTS phoneme extraction/alignment is **not implemented**. A provider-neutral timed-phoneme adapter and render-manifest mouth track are available. Candidate generation/review now expose semantic actions/expressions. A dedicated white page renders the presenter; arbitrary floating overlays beside existing diagrams are not supported. See the current API guide for precedence, validation and the TTS boundary.
