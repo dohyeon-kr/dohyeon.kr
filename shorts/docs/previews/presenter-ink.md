@@ -1,5 +1,10 @@
 # Ink presenter motion proof
 
+Current revision: continuous collar faces, shortened underfold shadows and fixed
+local-space ink noise on the character (seed 23, displacement 3.2 SVG units).
+The white page and circular border remain unfiltered. `presenter-ink-collar.png`
+is a 3× detail crop for inspecting seams and edge texture, not a larger stroke setting.
+
 The PNG/GIF/MP4 beside this note are rendered from the actual `Presenter.tsx`
 SVG with React server rendering and SVG rasterization, not image-generated motion.
 The MP4 contains 192 frames at 24 fps (8 seconds); the GIF is a 16 fps derivative.
