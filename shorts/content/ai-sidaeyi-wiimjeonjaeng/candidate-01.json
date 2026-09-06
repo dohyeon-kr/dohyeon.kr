@@ -3357,7 +3357,7 @@
         "strategy": {
           "type": "spatial-diagram",
           "metaphor": "생성과 책임 사이의 평가 기반",
-          "rationale": "‘판단을 쥔다’는 선언을 반복하지 않고 판단이 실제로 작동하게 만드는 기준·검증·거부권의 구조를 최종 화면에 남긴다."
+          "rationale": "앞 장면에서 공유한 AI 맥락은 생략하고, ‘위임 경쟁의 승패’를 먼저 제시한 뒤 쉼을 두어 ‘평가 환경에 달렸습니다’로 닫는다. 평가 환경을 거쳐 결정·책임으로 이어지는 도식은 이 판단의 근거로 유지한다."
         }
       },
       "transition": "fade",
@@ -3378,27 +3378,27 @@
       ],
       "beats": [
         {
-          "text": "위임 경쟁에서 이기려면",
+          "text": "위임 경쟁의 승패,",
           "emphasis": "mid",
-          "pauseAfterMs": 130,
+          "pauseAfterMs": 180,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": "위임 경쟁",
+          "keyword": "위임 경쟁의 승패",
           "visualCue": "AI 결과가 평가 환경으로 전달된다"
         },
         {
-          "text": "AI가 만든 결과물을 잘 평가할 수 있는 환경을 만들어야 합니다",
+          "text": "평가 환경에 달렸습니다",
           "emphasis": "high",
           "pauseAfterMs": 340,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "평가할 수 있는 환경",
+          "keyword": "평가 환경",
           "visualCue": "평가 환경을 거쳐 결정·책임까지 흐름이 완성된다"
         }
       ],
-      "headline": "승부처는\n평가할 수 있는 환경",
+      "headline": "위임 경쟁의 승패,\n평가 환경에 달렸습니다",
       "subline": null,
-      "narration": "위임 경쟁에서 이기려면, AI가 만든 결과물을 잘 평가할 수 있는 환경을 만들어야 합니다.",
+      "narration": "위임 경쟁의 승패, 평가 환경에 달렸습니다",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
