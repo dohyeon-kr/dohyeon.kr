@@ -279,7 +279,7 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes, presenterO
           </Sequence>
         );
       })}
-      {presenterOverlay != null && <PersistentPresenter />}
+      {presenterOverlay != null && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
     </AbsoluteFill>
     </PresenterOverlayContext.Provider>
   );

@@ -390,7 +390,7 @@ export const DarkShortVideo: React.FC<RenderManifest> = ({source, scenes, presen
           </Sequence>
         );
       })}
-      {presenterOverlay != null && <PersistentPresenter />}
+      {presenterOverlay != null && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
     </AbsoluteFill>
     </PresenterOverlayContext.Provider>
   );

@@ -173,6 +173,7 @@ export type CandidateManifest = {
 };
 
 export type RenderScene = CandidateScene & {
+  overlayPresenter?: PresenterSpec | null;
   beatTimings?: Array<{startSeconds: number; endSeconds: number}>;
   diagramFramesPath?: string | null;
   videoPath?: string | null;
