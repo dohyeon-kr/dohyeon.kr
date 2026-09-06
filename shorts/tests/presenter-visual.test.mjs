@@ -28,8 +28,27 @@ test('all legacy hand/action inputs render a hand-free stable bust with rounded 
 test('multiple ink avatars have unique eye clip IDs and valid references',()=>{
   const svg=renderToStaticMarkup(React.createElement(React.Fragment,null,React.createElement(Presenter),React.createElement(Presenter,{expression:'curious'})));
   const ids=[...svg.matchAll(/ id="([^"]+)"/g)].map(m=>m[1]);
-  assert.equal(ids.length,6); assert.equal(new Set(ids).size,ids.length);
+  assert.equal(ids.length,10); assert.equal(new Set(ids).size,ids.length);
   for(const [,ref] of svg.matchAll(/url\(#([^\)]+)\)/g)) assert.ok(ids.includes(ref));
+});
+test('ink noise is deterministic and local to character layers, not the white page or frame',()=>{
+  const render=pose=>renderToStaticMarkup(React.createElement(Presenter,{pose}));
+  const rest=render({}), nod=render({headNod:1,headTilt:3,blink:.5});
+  const filter=svg=>svg.match(/<filter[\s\S]*?<\/filter>/)[0];
+  assert.equal(filter(rest),filter(nod)); assert.equal(rest,render({}));
+  assert.match(rest,/<feTurbulence[^>]*seed="23"/);
+  assert.match(rest,/<feDisplacementMap[^>]*scale="3.2"/);
+  assert.match(rest,/data-part="head"[^>]*><g data-part="head-ink" filter=/);
+  assert.match(rest,/data-part="body-ink" filter=/);
+  assert.doesNotMatch(rest,/<(?:rect|circle)[^>]*filter=/);
+});
+test('collar panels are closed, uninterrupted faces painted over their underfold',()=>{
+  const svg=renderToStaticMarkup(React.createElement(Presenter));
+  for(const side of ['left','right']) {
+    const path=svg.match(new RegExp(`data-part="collar-${side}" d="([^"]+)"`))[1];
+    assert.equal((path.match(/M/g)||[]).length,1); assert.ok(path.endsWith('Z'));
+    assert.ok(svg.indexOf('collar-underfold')<svg.indexOf(`collar-${side}`));
+  }
 });
 test('nod, eyelids and brows are separate layers while glasses and torso stay stable',()=>{
   const render=pose=>renderToStaticMarkup(React.createElement(Presenter,{pose}));

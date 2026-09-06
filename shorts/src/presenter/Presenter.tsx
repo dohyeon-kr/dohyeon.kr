@@ -4,7 +4,7 @@ import {statePose, type PresenterState} from './api';
 import {FACE_PRESETS, Mouth} from './Parts';
 
 // Independently editable ink layers in the reference portrait's coordinate space.
-// No frame-dependent randomness, CSS animation, or bitmap displacement.
+// Fixed local-space ink texture follows each rig layer; no temporal noise or CSS animation.
 export const Presenter: React.FC<PresenterState & {pose?: Partial<RigPose>; showJoints?: boolean}> = ({pose: input, showJoints = false, ...state}) => {
   const id = `presenter-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   const p = normalizePose({...statePose(state), ...input});
@@ -24,29 +24,37 @@ export const Presenter: React.FC<PresenterState & {pose?: Partial<RigPose>; show
       <clipPath id={id}><circle cx="627" cy="614" r="573" /></clipPath>
       <clipPath id={`${id}-eye-left`}><path d={eyePath} /></clipPath>
       <clipPath id={`${id}-eye-right`}><path d={eyePath} /></clipPath>
+      {[{name:'body',x:70,y:510,width:1090,height:740},{name:'head',x:330,y:90,width:510,height:620}].map(({name,...bounds})=><filter key={name} id={`${id}-ink-${name}`} filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" {...bounds} colorInterpolationFilters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency=".24" numOctaves="2" seed="23" result="ink-noise" />
+        <feDisplacementMap in="SourceGraphic" in2="ink-noise" scale="3.2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>)}
     </defs>
     <rect width="1254" height="1254" fill="white" />
     <circle cx="627" cy="614" r="573" fill="white" />
     <g clipPath={`url(#${id})`} stroke="#111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
+      <g data-part="body-ink" filter={`url(#${id}-ink-body)`}>
       <g data-part="body">
         <path d="M466 714 Q511 678 551 680 L732 680 Q785 691 818 722 L862 1240 L413 1240Z" fill="#101010" />
         <path data-part="neck" d={`M${neckPoint(522,557)} Q${neckPoint(531,617)} 527 678 Q518 697 516 723 C512 773 616 807 674 797 Q755 793 773 746 Q${neckPoint(749,620)} ${neckPoint(745,562)}Z`} fill="white" />
         <path d="M515 754 Q621 837 775 767" fill="none" stroke="#252525" strokeWidth="3" />
       </g>
-      <g data-part="overshirt"><path d="M524 654 C490 656 473 699 448 720 C398 740 301 770 231 811 Q181 840 159 909 L94 1127 L194 1233 L486 1233 Q520 1118 511 978 Q506 901 482 865 L475 823 L393 852 Q387 855 391 844 L453 717 Q481 670 524 654Z" fill="white" />
-        <path d="M745 648 Q787 650 807 695 L834 724 Q978 768 1035 819 C1081 852 1097 912 1124 1009 L1104 1233 L779 1233 Q782 1106 775 999 Q770 918 792 875 L792 832 L874 860 Q884 864 879 852 L836 744 Q804 665 745 648Z" fill="white" />
+      <g data-part="overshirt"><path d="M524 654 C490 656 473 699 448 720 C398 740 301 770 231 811 Q181 840 159 909 L94 1127 L194 1233 L486 1233 Q520 1118 511 978 Q503 900 484 825 L393 852 Q387 855 391 844 L453 717 Q481 670 524 654Z" fill="white" />
+        <path d="M745 648 Q787 650 807 695 L834 724 Q978 768 1035 819 C1081 852 1097 912 1124 1009 L1104 1233 L779 1233 Q782 1106 775 999 Q772 916 794 829 L874 860 Q884 864 879 852 L836 744 Q804 665 745 648Z" fill="white" />
         <g data-part="collar">
-          <path d="M524 654 Q495 688 504 737 Q501 800 514 831 L487 864 L475 823 L393 852 Q387 855 391 844 L453 717 Q481 670 524 654Z" fill="white" strokeWidth="4" />
-          <path d="M745 648 Q777 672 773 746 Q772 790 780 804 L807 819 L792 832 L874 860 Q884 864 879 852 L836 744 Q804 665 745 648Z" fill="white" strokeWidth="4" />
-          <path d="M475 823 L487 852 L516 909 L501 855 L485 818Z M793 832 L809 858 L868 869 L874 860Z" fill="#dedede" stroke="none" />
-          <path d="M524 654 Q504 688 504 737 Q503 786 514 810 M745 648 Q766 670 770 711" fill="none" strokeWidth="3" />
-          <path d="M475 823 Q474 850 487 864 Q519 900 515 940 M792 832 Q803 855 792 875 Q775 900 775 938" fill="none" strokeWidth="3.5" />
+          {/* Each collar is a single closed face. Short underfolds sit behind it,
+              never overpaint its boundary or cut a notch from the inner edge. */}
+          <path data-part="collar-underfold" d="M395 853 L475 831 L484 825 L481 838Z M794 829 Q794 847 812 851 L862 866 L874 860Z" fill="#e2e2e2" stroke="none" />
+          <path data-part="collar-left" d="M524 654 Q495 688 504 737 Q505 788 484 825 L396 854 Q388 857 392 846 L453 717 Q481 670 524 654Z" fill="white" strokeWidth="4" />
+          <path data-part="collar-right" d="M745 648 Q777 681 773 746 Q771 791 794 829 L873 860 Q883 864 879 853 L836 744 Q804 665 745 648Z" fill="white" strokeWidth="4" />
+          <path data-part="collar-seams" d="M476 834 Q480 853 491 866 Q510 887 513 914 M797 840 Q800 858 791 876 Q779 896 778 922" fill="none" strokeWidth="2.2" />
         </g>
         <g fill="none" strokeWidth="2.2">
           <path d="M230 865 Q287 1002 303 1160 M323 915 Q309 1053 318 1194 M986 909 Q966 1042 946 1154 M1061 917 Q1019 1010 1004 1117 M827 914 Q835 1091 825 1197 M464 929 Q454 1075 451 1180" />
         </g>
       </g>
+      </g>
       <g data-part="head" transform={headTransform}>
+        <g data-part="head-ink" filter={`url(#${id}-ink-head)`}>
         <path data-part="chin-shadow" d="M529 613 Q621 669 692 620 Q659 675 627 680 Q588 675 529 613Z" fill="#ddd" stroke="none" />
         <g data-part="ears" fill="white">
           <path d="M454 475 C415 450 416 504 434 545 Q457 585 482 558 L477 496Z M754 432 C784 398 807 431 795 473 Q791 512 763 518 L752 496Z" />
@@ -83,6 +91,7 @@ export const Presenter: React.FC<PresenterState & {pose?: Partial<RigPose>; show
         </g>
         <g data-part="mouth" transform="translate(620 540) rotate(-9) scale(1.65) translate(-401 -331)">
           <Mouth shape={p.mouthShape} intensity={p.mouthOpen} expression={p.expression} />
+        </g>
         </g>
       </g>
       {showJoints && <circle cx="620" cy="646" r="8" stroke="#e04747" fill="none" strokeWidth="3" />}

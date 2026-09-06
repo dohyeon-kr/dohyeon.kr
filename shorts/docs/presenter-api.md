@@ -6,6 +6,10 @@
 
 현재 외형은 참조 일러스트를 따라 재구성한 흑백 SVG 선화다. 길쭉한 얼굴, 가르마의 흐름, 눈꺼풀과 동공, 얇은 안경을 독립 파츠로 구성했다. 원본 래스터의 픽셀을 그대로 분리한 결과는 아니며 선의 세부 질감은 다르다. 얼굴 그라데이션은 제거하고 카라·턱 아래에만 얕은 그림자를 남겼다. 흰 배경·원형 크롭·손 없는 바스트를 유지한다.
 
+카라 양쪽은 끊김 없는 닫힌 면이며 그림자는 그 뒤에 그린다. 선의 미세한 요철은 고정 seed 23의 SVG fractal noise + displacement(scale 3.2)로 만든다. 머리와 몸통의 로컬 좌표에서 각각 처리하고 노이즈 자체를 시간에 따라 바꾸지 않는다. 머리 필터는 회전 그룹 안에 배치해 질감도 머리를 따라간다. 흰 배경과 원형 프레임에는 적용하지 않는다. 넓은 검정 면 내부에 종이 얼룩을 추가하는 방식은 아니다. 필터는 파츠 범위로 제한해 렌더 비용을 줄인다.
+
+구현 참고: [SVG feTurbulence](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feTurbulence), [feDisplacementMap](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feDisplacementMap).
+
 ### 직접 제어 (React / TypeScript)
 
 ```tsx
