@@ -2,9 +2,9 @@
 
 ## Face-focused framing update
 
-![Current 1.2× portrait framing](presenter-zoom.png)
+![Current 1.8× portrait framing](presenter-zoom.png)
 
-The current portrait scales all character layers uniformly by 1.2 around (627, 135),
+The current portrait scales all character layers uniformly by 1.8 (50% larger than the previous 1.2× framing) around (627, 135),
 inside the unchanged circular clip. This keeps the hairline near its original position
 and crops more of the lower torso. The PNG above is rendered from the updated SVG.
 Typecheck and 27 presenter tests pass; default, nod, ±12° tilt, blink and open-mouth
