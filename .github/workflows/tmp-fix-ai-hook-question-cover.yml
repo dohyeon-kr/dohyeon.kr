@@ -1,0 +1,175 @@
+name: Temporary AI hook cover fix
+
+on:
+  push:
+    branches:
+      - fix/ai-hook-question-cover
+    paths:
+      - .github/workflows/tmp-fix-ai-hook-question-cover.yml
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/ai-hook-question-cover
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Patch candidate and hook policy
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const candidatePath = 'shorts/content/ai-sidaeyi-wiimjeonjaeng/candidate-01.json';
+          const candidate = JSON.parse(fs.readFileSync(candidatePath, 'utf8'));
+          candidate.candidate.hook = 'AI의 글, 왜 읽고 싶지 않을까요?';
+          candidate.candidate.rationale = candidate.candidate.rationale
+            .replace(
+              '원문의 ‘위임전쟁’을 유지하되 질문에서 결론으로 바로 점프하던 구조를 보완한 20장 확장 구성이다.',
+              '원문의 ‘위임전쟁’을 유지하되 결론보다 결론을 이끄는 질문을 먼저 제시하도록 도입을 재구성한 20장 확장 구성이다.',
+            )
+            .replace(
+              '기존 1장의 의미 불일치 사진은 질문형 타이포로 교체했고',
+              '1장은 ‘AI의 글, 왜 읽고 싶지 않을까?’라는 질문과 실제 AI 사용 장면 사진으로 시작하고',
+            );
+
+          const cover = candidate.scenes[0];
+          cover.backgroundVideo = null;
+          cover.visualStory = null;
+          cover.diagramSpec = null;
+          cover.kind = 'photo';
+          cover.layout = 'photo-full-bleed';
+          cover.visual = {
+            type: 'photo',
+            motif: null,
+            query: 'person using ChatGPT computer',
+            value: null,
+            xLabel: null,
+            yLabel: null,
+          };
+          cover.visualIntent = {
+            concept: 'AI의 글을 읽고 싶지 않게 만드는 이유에 대한 질문',
+            relation: {
+              type: 'literal',
+              description: '사람이 AI 채팅 화면의 글을 읽는 실제 장면에서 거부감의 이유를 질문한다',
+            },
+            strategy: {
+              type: 'photo',
+              metaphor: null,
+              rationale: 'AI라는 대상을 즉시 알아볼 수 있는 실제 사용 장면을 배경으로 두고, 결론을 선언하는 대신 독자가 느끼는 의문을 먼저 제시해 다음 장면의 평균화 설명으로 연결한다.',
+            },
+          };
+          cover.transition = 'fade';
+          cover.transitionOptions = null;
+          cover.effects = [];
+          cover.camera = {
+            motion: 'push-in',
+            target: 'subject',
+            intensity: 'subtle',
+            startProgress: 0,
+            endProgress: 1,
+          };
+          cover.choreography = [
+            'show-visual',
+            'show-headline',
+            'emphasize-result',
+            'AI 화면과 사용자의 실루엣을 유지하고 질문 텍스트는 밝은 모니터 영역과 겹치지 않게 배치한다',
+          ];
+          cover.beats = [
+            {
+              text: 'AI의 글,',
+              emphasis: 'mid',
+              pauseAfterMs: 130,
+              delivery: 'normal',
+              visualPriority: 'mid',
+              keyword: 'AI의 글',
+              visualCue: 'AI 채팅 화면과 사용자의 실루엣이 먼저 보인다',
+            },
+            {
+              text: '왜 읽고 싶지 않을까요?',
+              emphasis: 'high',
+              pauseAfterMs: 320,
+              delivery: 'hold',
+              visualPriority: 'high',
+              keyword: '왜',
+              visualCue: '질문이 화면의 어두운 여백에 크게 남는다',
+            },
+          ];
+          cover.headline = 'AI의 글,\n왜 읽고 싶지 않을까?';
+          cover.subline = null;
+          cover.narration = 'AI의 글, 왜 읽고 싶지 않을까요?';
+          cover.comparisonLeft = null;
+          cover.comparisonRight = null;
+          cover.imageQuery = 'person using ChatGPT computer';
+          cover.image = {
+            query: 'person using ChatGPT computer',
+            title: 'Person Using Chat GPT on Computer',
+            creator: 'Matheus Bertelli',
+            license: 'pexels',
+            licenseVersion: null,
+            licenseUrl: 'https://www.pexels.com/license/',
+            source: 'pexels',
+            provider: 'pexels',
+            sourcePage: 'https://www.pexels.com/photo/person-using-chat-gpt-on-computer-16027811/',
+            originalUrl: 'https://images.pexels.com/photos/16027811/pexels-photo-16027811.jpeg?cs=srgb&dl=pexels-bertellifotografia-16027811.jpg&fm=jpg',
+            thumbnailUrl: 'https://images.pexels.com/photos/16027811/pexels-photo-16027811.jpeg?auto=compress&cs=tinysrgb&w=1000',
+          };
+          fs.writeFileSync(candidatePath, `${JSON.stringify(candidate, null, 2)}\n`);
+
+          const policyPath = 'shorts/docs/creative-system.md';
+          let policy = fs.readFileSync(policyPath, 'utf8');
+          const hookSection = `## 훅과 결론의 순서\n\n- 커버/첫 장면은 최종 결론을 선언하는 포스터가 아니라, 그 결론이 필요해지는 문제를 여는 장면이다. 결론보다 질문·모순·관찰을 먼저 둔다.\n- 가능하면 시청자가 다음 답을 궁금해하도록 짧고 구체적인 질문으로 시작한다. 질문은 낚시가 아니라 이후 설명과 결론으로 이어지는 인과의 첫 고리여야 한다.\n- \`핵심은 X다\`, \`승부처는 X다\` 같은 결론형 문장을 강한 훅으로 착각하지 않는다. 핵심 주장은 근거가 쌓인 뒤 또는 마지막에 둔다.\n- 2~3장 안에서 도입 질문의 원인이나 현상을 설명하기 시작하고, 결말에서는 도입의 질문을 회수해 답한다.\n- 질문의 대상이 AI 화면, 사람, 제품, 장소처럼 사진으로 즉시 식별 가능한 구체적 대상이면 첫 장면부터 photo-full-bleed 또는 photo-split을 우선 검토한다. 의미 있는 사진을 질문형 타이포로 제거하지 않는다. 단, 사진이 질문의 의미를 구체화하지 못하면 타이포만 사용하는 편이 낫다.\n- 예: \`AI의 글, 왜 읽고 싶지 않을까?\` → 평균화와 경험 손실을 설명 → 위임 경계와 평가 환경이라는 결론.\n\n`;
+          if (!policy.includes('## 훅과 결론의 순서')) {
+            const marker = '## Motion and choreography';
+            if (!policy.includes(marker)) throw new Error('creative-system insertion marker not found');
+            policy = policy.replace(marker, hookSection + marker);
+            fs.writeFileSync(policyPath, policy);
+          }
+
+          const generatorPath = 'shorts/scripts/generate-candidates.mjs';
+          let generator = fs.readFileSync(generatorPath, 'utf8');
+          const oldHookRule = '- 첫 장면은 2초 안에 멈춰 보게 만드는 질문, 반론, 재정의 중 하나여야 한다.';
+          const newHookRules = `- 첫 장면은 2초 안에 멈춰 보게 만드는 질문, 반론, 재정의 중 하나여야 한다.\n- 도입에서는 최종 결론이나 제목형 주장을 먼저 선언하지 않는다. 결론이 필요해지는 문제·모순·관찰을 먼저 보여주고, 가능하면 시청자가 다음 답을 궁금해하도록 짧은 질문으로 만든다.\n- 훅의 질문은 핵심 결론을 숨기는 낚시가 아니라 그 결론을 이끄는 인과의 첫 고리여야 한다. 2~3장 안에서 질문의 원인이나 현상을 설명하기 시작하고 마지막 결론에서 도입 질문을 회수한다.\n- 강한 결론을 훅으로 착각하지 않는다. ‘승부처는 X다’, ‘핵심은 X다’ 같은 결론형 문장은 도입보다 근거가 쌓인 뒤나 결말에 둔다. 예: ‘AI의 글, 왜 읽고 싶지 않을까?’ → 평균화/경험 손실 설명 → 위임·평가 결론.`;
+          if (!generator.includes('훅의 질문은 핵심 결론을 숨기는 낚시가 아니라')) {
+            if (!generator.includes(oldHookRule)) throw new Error('generate-candidates hook rule not found');
+            generator = generator.replace(oldHookRule, newHookRules);
+          }
+          const oldPhotoRule = '- 구체적인 사람/사물/장소/행동은 photo를 우선한다. photo query는 Openverse에서 찾기 좋은 영어 명사구로 작성한다.';
+          const newPhotoRules = `${oldPhotoRule}\n- 도입 질문의 대상이 AI 화면, 사람, 제품, 장소처럼 사진으로 즉시 식별 가능한 구체적 대상이면 커버에서도 photo-full-bleed 또는 photo-split을 우선 검토한다. 질문형 훅이라는 이유만으로 의미 있는 사진을 제거해 순수 타이포로 만들지 않는다.`;
+          if (!generator.includes('질문형 훅이라는 이유만으로 의미 있는 사진을 제거해')) {
+            if (!generator.includes(oldPhotoRule)) throw new Error('generate-candidates photo rule not found');
+            generator = generator.replace(oldPhotoRule, newPhotoRules);
+          }
+          fs.writeFileSync(generatorPath, generator);
+          NODE
+
+      - name: Validate patched files
+        shell: bash
+        run: |
+          node -e "JSON.parse(require('node:fs').readFileSync('shorts/content/ai-sidaeyi-wiimjeonjaeng/candidate-01.json','utf8'))"
+          node --check shorts/scripts/generate-candidates.mjs
+          grep -F 'AI의 글, 왜 읽고 싶지 않을까요?' shorts/content/ai-sidaeyi-wiimjeonjaeng/candidate-01.json
+          grep -F '## 훅과 결론의 순서' shorts/docs/creative-system.md
+
+      - name: Commit patch and remove temporary workflow
+        shell: bash
+        run: |
+          rm .github/workflows/tmp-fix-ai-hook-question-cover.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add shorts/content/ai-sidaeyi-wiimjeonjaeng/candidate-01.json shorts/docs/creative-system.md shorts/scripts/generate-candidates.mjs .github/workflows/tmp-fix-ai-hook-question-cover.yml
+          git commit -m 'fix(shorts): lead with question hook and AI cover photo'
+          git push origin HEAD:fix/ai-hook-question-cover
