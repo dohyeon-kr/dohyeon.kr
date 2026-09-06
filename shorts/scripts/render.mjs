@@ -1,3 +1,4 @@
+import {alignPresenter} from './align-presenter.mjs';
 import {withBlogCta} from './blog-cta.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
 import {videoFrameCount} from '../src/video/schema.ts';
@@ -9,7 +10,7 @@ import OpenAI from 'openai';
 import {mixBgm} from './bgm.mjs';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateSceneMotion} from '../src/motion/validate.ts';
-import {validatePresenterOverlay} from '../src/presenter/overlay.ts';
+import {validatePresenterOverlay, overlayNeedsAlignment} from '../src/presenter/overlay.ts';
 import {validateScenePresenter} from '../src/presenter/schema.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
@@ -356,6 +357,7 @@ const main = async () => {
     const prefix = `scene-${String(index + 1).padStart(2, '0')}`;
     const imageFile = images[index];
 
+    let overlayPresenter = null;
     let audioPath = null;
     let audioDurationSeconds = null;
     if (client && scene.narration?.trim()) {
@@ -372,8 +374,11 @@ const main = async () => {
       await fs.writeFile(rawAudioFile, Buffer.from(await speech.arrayBuffer()));
       await applySpeechRate(rawAudioFile, audioFile, TTS_RATE);
       audioPath = relativeStaticPath(audioFile);
-      audioDurationSeconds =
-        (await audioDuration(audioFile)) ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / (6.5 * TTS_RATE));
+      const measuredDuration = await audioDuration(audioFile);
+      if (overlayNeedsAlignment(manifest.presenterOverlay, scene) && measuredDuration == null) throw new Error(`Scene ${index + 1}: cannot measure final TTS duration for lip sync`);
+      audioDurationSeconds = measuredDuration ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / (6.5 * TTS_RATE));
+      overlayPresenter = await alignPresenter({client, audioFile, duration: measuredDuration, narration: scene.narration,
+        options: manifest.presenterOverlay, scene, reportFile: path.join(assetDir, `${prefix}-presenter-alignment.json`)});
     }
 
     const speechDuration = storyboardOnly || silentPreview ? 3.6 : audioDurationSeconds;
@@ -389,6 +394,7 @@ const main = async () => {
     renderScenes.push({
       ...scene,
       videoPath,
+      overlayPresenter,
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
       audioDurationSeconds: previewDuration,

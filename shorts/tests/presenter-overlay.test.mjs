@@ -19,9 +19,9 @@ test('overlay is opt-in, rejects unsupported positions and duplicate scene prese
 test('common CTA regeneration keeps one CTA and the persistent overlay',()=>{
   const result=withBlogCta(withBlogCta(manifest));
   assert.equal(result.scenes.length,15);
-  assert.deepEqual(result.presenterOverlay,{position:'bottom-right'});
+  assert.deepEqual(result.presenterOverlay,{position:'bottom-right',hideOnCommonCta:true,lipSync:'word-timestamps',nod:'speech'});
   assert.equal(result.scenes.filter(s=>s.commonPage).length,1);
-  assert.equal((describeCandidate(result,'candidate-01.json').match(/우측 하단 원형 바스트 상시 표시/g)||[]).length,15);
+  assert.equal((describeCandidate(result,'candidate-01.json').match(/우측 하단 원형 바스트 상시 표시/g)||[]).length,14);
 });
 test('merged candidate validates authored beats, scene schemas and intermediate diagram states',()=>{
   const scenes=manifest.scenes.filter(s=>!s.commonPage);

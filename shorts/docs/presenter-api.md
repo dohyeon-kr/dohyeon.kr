@@ -124,7 +124,7 @@ const presenter = {...candidate.presenter, mouths};
 validatePresenter(presenter, finalSceneDuration);
 ```
 
-현재 render.mjs의 TTS 호출은 MP3만 수신한다. **자동 발음 추출/강제 정렬/실제 TTS 립싱크 연결은 아직 없다.** candidate 에이전트는 mouths를 생성하지 않는다. 실제 타임스탬프를 확보한 어댑터가 render manifest의 presenter.mouths를 채우면 렌더러가 소비한다. 입력이 없으면 말하는 척하는 합성 입 움직임을 만들지 않는다. 음량만으로 O/I/A/M을 판별하지 않는다.
+장면별 presenter-bust는 타임스탬프를 확보한 어댑터가 presenter.mouths를 채울 때 이를 소비한다. 우측 하단 overlay의 선택적 TTS 연결은 아래 계약을 따른다. candidate 에이전트가 발음 시점을 지어내거나 음량만으로 O/I/A/M을 판별하지 않는다.
 
 ## 레이아웃·검수
 
@@ -134,4 +134,27 @@ validatePresenter(presenter, finalSceneDuration);
 
 ## 영상 전체 우측 하단 발표자
 
-수동 manifest 최상위에 `"presenterOverlay": {"position": "bottom-right"}`를 지정하면 발표자를 전체 영상의 독립 레이어로 표시한다. 장면의 `presenter`는 null로 두며 사진·도식 레이아웃을 그대로 사용한다. 전환과 공통 CTA에서도 캐릭터가 사라지거나 이동하지 않는다. 1080×1920 기준 x=700, y=1320, 190×190 원형이며 자막은 왼쪽 공간에 예약한다. 실제 텍스트/예약 영역과 발표자의 충돌을 프레임마다 검사한다. 기본 표정·깜빡임·선화 움직임을 사용하며 TTS 립싱크는 연결하지 않는다. 기존 presenter-bust와 동시 사용하거나 알 수 없는 위치를 지정하면 실패한다. 기계 판독 계약은 `src/presenter/overlay.ts`의 `PresenterOverlaySchema`다. 생성 모델의 장면별 presenter 계약과 별개인 수동 manifest 옵션이며 미지정 후보는 기존 동작을 유지한다.
+수동 manifest 최상위에 다음 옵션을 지정한다. 장면의 `presenter`는 null로 두고 사진·도식 레이아웃을 유지한다.
+
+```json
+{
+  "presenterOverlay": {
+    "position": "bottom-right",
+    "hideOnCommonCta": true,
+    "lipSync": "word-timestamps",
+    "nod": "speech"
+  }
+}
+```
+
+- 1080×1920 기준 x=700, y=1320, 190×190 원형. 본문 전환 효과 밖에 한 번만 표시하고 자막은 왼쪽 공간에 예약한다. 텍스트/예약 영역과의 충돌을 프레임마다 검사한다.
+- `hideOnCommonCta=true`이면 `commonPage=blog-cta-v1`이 시작되는 프레임부터 숨긴다. 본문 마지막 장과 CTA를 구분하며 페이지 번호에 의존하지 않는다. 생략하면 기존 CTA 포함 표시를 유지한다.
+- `lipSync=word-timestamps`는 최종 재생 속도가 적용된 TTS MP3를 Whisper `whisper-1`, `verbose_json`, `timestamp_granularities=['word']`, `language=ko`로 전사한다. 최종 파일의 실측 길이를 사용한다. 원본 음성 시점을 속도 조절 뒤 그대로 사용하는 오류를 피한다.
+- 단어의 시작/끝은 음성에서 얻고, 단어 내부는 한글 음절을 균등 분배해 모음 입형과 양순음 닫힘을 근사한다. **음소 수준 강제 정렬이나 정확한 한국어 발음 모델이 아니다.** 받침 연음·축약·음절 길이 차이와 전사 오류는 실제 음성 재생으로 검수한다. 현재 어댑터는 완성형 한글 단어를 지원하며 영어·숫자 표기는 조용히 추측하지 않고 오류를 낸다.
+- `nod=speech`는 발화 구간에서만 절제된 노딩을 생성한다. 쉼과 문장 경계로 구간을 나누고 1.6초 이하의 고개 반응을 한 번씩 넣는다. 반복 루프를 깔지 않는다. 깜빡임과 선화 시간은 영상 전체에서 연속적이다.
+- 무음 스토리보드는 음성 분석 API를 호출하지 않으며 입·노딩 시간을 만들어내지 않는다. `lipSync`/`nod` 생략 또는 `none`은 기존 대기 상태를 유지한다.
+- 최종 render scene의 `overlayPresenter`는 공개 PresenterSpec의 mouths/actions 트랙을 사용한다. candidate JSON에는 생성하지 않는다. 실제 음성이 있는데 필수 트랙이 없으면 렌더를 중단한다. 누락·역전·겹침·범위 초과 타임스탬프도 오류다.
+- 각 장면의 `scene-XX-presenter-alignment.json`에 최종 MP3 SHA-256, 모델, 단어 시각, 생성 트랙과 근사 방식 정보를 기록한다. 기존 OPENAI_API_KEY를 사용하며 해당 모드의 최종 TTS 렌더에서 장면당 전사 요청 한 번이 추가된다. 숨긴 CTA에는 전사 요청을 보내지 않는다.
+- 기계 판독 계약은 `src/presenter/overlay.ts`의 PresenterOverlaySchema. 기존 presenter-bust와 동시에 사용할 수 없다. 생성 모델의 장면별 presenter 계약과 별개인 수동 manifest 옵션이다.
+
+참고: [OpenAI 단어 타임스탬프 문서](https://developers.openai.com/api/docs/guides/speech-to-text#timestamp-granularities). 로컬 단위 테스트와 합성 타이밍을 쓴 렌더 검수는 실제 TTS의 청취 검수를 대체하지 않는다.
