@@ -1,3 +1,4 @@
+import {PresenterPreview} from './presenter/PresenterPreview';
 import {createBlogCta} from '../scripts/blog-cta.mjs';
 import React from 'react';
 import {templatePreviewProps, previewDuration} from './template-preview';
@@ -88,6 +89,8 @@ const blogCtaTransitionPreview: RenderManifest = {...defaultProps, scenes: [scen
 
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="PresenterRigPreview" component={PresenterPreview} durationInFrames={240} fps={30} width={800} height={1000} defaultProps={{dark: false}} />
+    <Composition id="PresenterRigDarkPreview" component={PresenterPreview} durationInFrames={240} fps={30} width={800} height={1000} defaultProps={{dark: true}} />
     <Composition id="BlogCtaTransitionPreview" component={ShortVideo} durationInFrames={previewDuration(blogCtaTransitionPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaTransitionPreview} />
     <Composition id="BlogCtaPreview" component={ShortVideo} durationInFrames={previewDuration(blogCtaPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaPreview} />
     <Composition id="DarkBlogCtaPreview" component={DarkShortVideo} durationInFrames={previewDuration(blogCtaPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaPreview} />

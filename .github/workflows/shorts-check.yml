@@ -11,6 +11,32 @@ permissions:
   contents: read
 
 jobs:
+  presenter-rig-preview:
+    if: github.event.action != 'edited'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Render programmable presenter
+        working-directory: shorts
+        run: |
+          npm run typecheck
+          node --test tests/presenter.test.mjs
+          mkdir -p "${RUNNER_TEMP}/presenter-rig"
+          for composition in PresenterRigPreview PresenterRigDarkPreview; do
+            for frame in 0 48 81 105 180; do
+              npx remotion still src/index.tsx "$composition" "${RUNNER_TEMP}/presenter-rig/${composition}-${frame}.png" --frame="$frame"
+            done
+          done
+          npx remotion render src/index.tsx PresenterRigPreview "${RUNNER_TEMP}/presenter-rig/presenter-rig.mp4" --concurrency=2
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+        with:
+          name: presenter-rig-${{ github.event.pull_request.number }}
+          path: ${{ runner.temp }}/presenter-rig/*
+          retention-days: 7
   blog-cta-preview:
     if: github.event.action != 'edited'
     runs-on: ubuntu-latest
