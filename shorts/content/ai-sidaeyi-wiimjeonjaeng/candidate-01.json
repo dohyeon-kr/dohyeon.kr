@@ -8,17 +8,17 @@
   },
   "candidate": {
     "angle": "question",
-    "hook": "누구나 같은 AI를 쓴다면, 차이는 어디서 날까요?",
-    "title": "자동화보다 어려운 것: 무엇을 맡기지 않을 것인가",
-    "rationale": "원문의 ‘위임전쟁’을 하나의 중심 논지로 유지한 확장 구성이다. 1~6장 ‘프롬프트보다 위임 경계’, 7~13장 ‘개발과 이력서의 판단’, 14~20장 ‘Human in the loop의 정체’로 구성한다. 반복되던 화살표 픽토그램과 번호 카드를 제거하고, 각 소주제에 구체적인 작업 사진과 관계 도식을 배치했다. 도입 영상은 요청됐지만 등록된 해변 영상이 논지와 맞지 않아 사용하지 않았다. 적합한 검토·분류 B-roll이 등록되기 전까지 도입은 관련 사진으로 유지하며 backgroundVideo는 미확보 상태다.",
-    "viralScore": 9,
-    "suggestedCaption": "누구나 같은 AI를 쓸 수 있다면 차이는 도구에서 나오지 않는다. 구현과 정리는 맡기되, 문제 선택과 판단과 책임은 끝까지 쥐는 능력에서 나온다.",
+    "hook": "틀린 말은 아닌데, 왜 아무것도 남지 않을까요?",
+    "title": "AI 시대의 승부처는 ‘평가 환경’이다",
+    "rationale": "원문의 ‘위임전쟁’을 유지하되 질문에서 결론으로 바로 점프하던 구조를 보완한 20장 확장 구성이다. 1~6장 ‘평균으로 수렴할 때 사라지는 것’에서는 AI가 모순과 편향을 정리하며 인간 경험의 고유한 좌표를 지울 수 있다는 문제를 복원한다. 7~12장 ‘개발과 이력서의 위임 경계’에서는 구현·편집과 문제 선택·경험·거부권을 구분한다. 13~20장 ‘판단이 작동하는 평가 환경’에서는 개인의 책임을 반복하는 대신 기준, 검증, 거부권, 피드백 루프로 논지를 발전시킨다. 기존 1장의 의미 불일치 사진은 질문형 타이포로 교체했고, 7장은 코드 검토 행동이 보이는 별도 사진으로 구성해 두 장면의 배경을 분리했다. 마지막은 요청대로 AI 결과물을 잘 평가할 수 있는 환경이 위임 경쟁의 핵심이라는 결론으로 수정했다.",
+    "viralScore": 9.1,
+    "suggestedCaption": "AI가 평균적으로 좋은 결과를 만드는 시대에는 생성보다 평가가 중요해진다. 경험과 문제 선택은 사람이 남기고, AI 결과물을 검증하고 거부할 수 있는 환경을 만들어야 한다.",
     "hashtags": [
       "#AI시대",
-      "#커리어",
+      "#위임전쟁",
       "#개발자",
-      "#HumanInTheLoop",
-      "#자동화"
+      "#커리어",
+      "#HumanInTheLoop"
     ]
   },
   "style": {
@@ -36,25 +36,25 @@
       "visualStory": null,
       "diagramSpec": null,
       "kind": "hero",
-      "layout": "photo-full-bleed",
+      "layout": "statement-giant",
       "visual": {
-        "type": "photo",
+        "type": "none",
         "motif": null,
-        "query": "team collaborating at computer",
+        "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "같은 AI를 사용하는 사람들 사이의 차이",
+        "concept": "맞는 말인데 기억에 남지 않는 AI 콘텐츠의 역설",
         "relation": {
           "type": "comparison",
-          "description": "도구가 같아진 뒤 무엇이 경쟁력을 가르는지 질문한다"
+          "description": "논리적 정확성과 경험의 잔상이 일치하지 않는 문제를 질문한다"
         },
         "strategy": {
-          "type": "photo",
+          "type": "minimal",
           "metaphor": null,
-          "rationale": "컴퓨터 앞에서 함께 일하는 구체적 장면이 보편화된 AI 작업 환경을 보여준다. 적합한 등록 영상이 없어 해변 영상을 억지로 사용하지 않았다."
+          "rationale": "의미가 맞지 않던 사진을 제거하고 원문의 가장 강한 문제 제기를 첫 화면에 직접 남긴다."
         }
       },
       "transition": "fade",
@@ -62,477 +62,458 @@
       "effects": [],
       "camera": {
         "motion": "push-in",
-        "target": "subject",
+        "target": "center",
         "intensity": "subtle",
         "startProgress": 0,
         "endProgress": 1
       },
       "choreography": [
-        "show-visual",
         "show-headline",
         "emphasize-result",
-        "사진은 제목 뒤에 유지하고 자막 영역을 비운다"
+        "제목과 자막을 분리하고 질문 문장을 끝까지 선명하게 유지한다"
       ],
       "beats": [
         {
-          "text": "누구나 같은 AI를 쓴다면",
+          "text": "틀린 말은 아닌데",
           "emphasis": "mid",
-          "pauseAfterMs": 120,
+          "pauseAfterMs": 150,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": "같은 AI",
-          "visualCue": "컴퓨터 앞의 협업 장면이 나타난다"
+          "keyword": "틀린 말",
+          "visualCue": "첫 문장이 작게 나타난다"
         },
         {
-          "text": "차이는 어디서 날까요",
+          "text": "왜 아무것도 남지 않을까요",
           "emphasis": "high",
-          "pauseAfterMs": 300,
+          "pauseAfterMs": 320,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "차이",
-          "visualCue": "질문을 화면 중앙에 남긴다"
+          "keyword": "남지",
+          "visualCue": "질문이 화면 중앙에 크게 남는다"
         }
       ],
-      "headline": "차이는\n어디서 날까?",
+      "headline": "틀린 말은 아닌데\n왜 안 남을까?",
       "subline": null,
-      "narration": "누구나 같은 AI를 쓴다면, 차이는 어디서 날까요?",
+      "narration": "틀린 말은 아닌데, 왜 아무것도 남지 않을까요?",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "team collaborating at computer",
-      "image": {
-        "query": "team collaborating at computer",
-        "title": "Mind Control Alt Delete",
-        "creator": "₡ґǘșϯγ Ɗᶏ Ⱪᶅṏⱳդ",
-        "license": "cc0",
-        "licenseVersion": "1.0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "flickr",
-        "provider": "flickr",
-        "sourcePage": "https://www.flickr.com/photos/148598741@N02/55132738995",
-        "originalUrl": "https://live.staticflickr.com/65535/55132738995_8ccdc648d5_b.jpg",
-        "thumbnailUrl": "https://api.openverse.org/v1/images/e2ab845e-cb70-4ac9-b16d-a12964084ad6/thumb/"
-      }
-    },
-    {
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "hero",
-      "layout": "statement-offset",
-      "visual": {
-        "type": "none",
-        "motif": null,
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "위임전쟁의 정의",
-        "relation": {
-          "type": "balance",
-          "description": "프롬프트 기술보다 맡길 일과 남길 일을 구분하는 능력이 중요하다"
-        },
-        "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "장식적 번호와 화살표를 제거하고 첫 질문에 대한 답만 선명하게 제시한다."
-        }
-      },
-      "transition": "slide-up",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-headline",
-        "emphasize-result"
-      ],
-      "beats": [
-        {
-          "text": "프롬프트보다 중요한 건",
-          "emphasis": "mid",
-          "pauseAfterMs": 100,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "프롬프트",
-          "visualCue": "기존 경쟁 기준이 작게 나타난다"
-        },
-        {
-          "text": "위임의 경계를 정하는 일입니다",
-          "emphasis": "high",
-          "pauseAfterMs": 250,
-          "delivery": "push",
-          "visualPriority": "high",
-          "keyword": "위임의 경계",
-          "visualCue": "새 기준을 크게 고정한다"
-        }
-      ],
-      "headline": "진짜 경쟁은\n위임의 경계",
-      "subline": null,
-      "narration": "프롬프트보다 중요한 건 위임의 경계를 정하는 일입니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "statement",
-      "layout": "statement-offset",
-      "visual": {
-        "type": "none",
-        "motif": null,
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "누구나 강력한 도구를 쓰는 환경",
-        "relation": {
-          "type": "network-growth",
-          "description": "AI 도구가 특별한 자산에서 보편적인 작업 환경으로 바뀐다"
-        },
-        "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "도구의 보편화라는 전제를 짧게 제시해 이후 비교의 기준을 만든다."
-        }
-      },
-      "transition": "fade",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-headline",
-        "show-subline",
-        "emphasize-result"
-      ],
-      "beats": [
-        {
-          "text": "누구나 강력한 도구를 가지면",
-          "emphasis": "mid",
-          "pauseAfterMs": 100,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "누구나",
-          "visualCue": "전제 문장이 나타난다"
-        },
-        {
-          "text": "도구 자체는 차이가 아닙니다",
-          "emphasis": "high",
-          "pauseAfterMs": 230,
-          "delivery": "hold",
-          "visualPriority": "high",
-          "keyword": "도구 자체",
-          "visualCue": "도구라는 단어의 강조가 낮아진다"
-        }
-      ],
-      "headline": "도구는 평준화된다",
-      "subline": "차이는 사용 여부 밖에서 생긴다",
-      "narration": "누구나 강력한 도구를 가지면 도구 자체는 차이가 아닙니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "compare",
-      "layout": "compare-columns",
-      "visual": {
-        "type": "none",
-        "motif": null,
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "전부 위임과 선택적 위임의 대비",
-        "relation": {
-          "type": "comparison",
-          "description": "같은 AI를 사용해도 판단을 남기는 방식에서 차이가 난다"
-        },
-        "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "사용 여부가 같은 두 작업자의 위임 범위만 병치해 실제 변수를 드러낸다."
-        }
-      },
-      "transition": "slide-left",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-headline",
-        "advance-visual"
-      ],
-      "beats": [
-        {
-          "text": "둘 다 AI를 써도",
-          "emphasis": "mid",
-          "pauseAfterMs": 90,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "두 열이 동시에 나타난다"
-        },
-        {
-          "text": "어디까지 맡겼는지는 다릅니다",
-          "emphasis": "high",
-          "pauseAfterMs": 240,
-          "delivery": "push",
-          "visualPriority": "high",
-          "keyword": "어디까지",
-          "visualCue": "두 열의 책임 범위를 대비한다"
-        }
-      ],
-      "headline": "사용은 같아도\n위임은 다르다",
-      "subline": null,
-      "narration": "둘 다 AI를 써도 어디까지 맡겼는지는 다릅니다.",
-      "comparisonLeft": "전부 자동화",
-      "comparisonRight": "반복만 자동화",
       "imageQuery": null,
       "image": null
     },
     {
       "backgroundVideo": null,
       "visualStory": {
-        "initial": "AI 영역과 사람 영역, 점선 경계와 영역 제목이 처음부터 보이고 다섯 업무가 위쪽에 놓여 있다.",
-        "trigger": "각 업무를 어디에 맡길지 분류한다.",
-        "change": "반복·정리·구현은 AI 영역으로, 판단·책임은 사람 영역으로 이동한다.",
-        "invariant": "영역과 점선은 업무 노드 뒤에, 업무 라벨과 영역 제목은 모든 객체 앞에 유지된다. 경계와 한글 라벨은 모든 중간 상태에서 가려지지 않는다.",
-        "result": "자동화 가능한 일과 사람이 유지할 일이 하나의 경계로 분리된다."
+        "initial": "서로 다른 세 경험이 화면 위쪽의 서로 떨어진 위치에 놓여 있다.",
+        "trigger": "AI가 세 경험을 하나의 답으로 종합한다.",
+        "change": "각 경험에서 중앙의 평균 답으로 연결선이 나타나고 평균 답이 강조된다.",
+        "invariant": "연결선은 경험과 평균 노드 뒤에 유지되고 모든 한글 라벨은 가려지지 않는다.",
+        "result": "서로 다른 경험이 하나의 안전한 중앙 답으로 수렴한다."
       },
       "diagramSpec": {
         "version": 1,
         "renderer": "auto",
         "physics": null,
-        "description": "다섯 업무가 위임 경계를 기준으로 AI 영역과 사람 영역에 분리된다.",
+        "description": "서로 다른 경험이 AI의 평균적인 답으로 수렴하는 구조",
         "nodes": [
           {
-            "id": "ai",
-            "shape": "rect",
-            "label": "",
-            "x": 252,
-            "y": 380,
-            "width": 414,
-            "height": 272,
-            "fill": "hatch",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "human",
-            "shape": "rect",
-            "label": "",
-            "x": 615,
-            "y": 380,
-            "width": 278,
-            "height": 272,
-            "fill": "none",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "boundary-top",
+            "id": "line-a",
             "shape": "line",
             "label": "",
-            "x": 467,
-            "y": 85,
+            "x": 0,
+            "y": 0,
             "width": 1,
-            "height": 82,
+            "height": 1,
             "fill": "none",
-            "connector": null,
-            "strokeStyle": "dashed"
+            "connector": {
+              "source": "exp-a",
+              "target": "average",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
           },
           {
-            "id": "boundary-bottom",
+            "id": "line-b",
             "shape": "line",
             "label": "",
-            "x": 467,
-            "y": 376,
+            "x": 0,
+            "y": 0,
             "width": 1,
-            "height": 280,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "exp-b",
+              "target": "average",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "line-c",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "exp-c",
+              "target": "average",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "exp-a",
+            "shape": "rect",
+            "label": "경험 A",
+            "x": 130,
+            "y": 130,
+            "width": 170,
+            "height": 100,
             "fill": "none",
             "connector": null,
-            "strokeStyle": "dashed"
+            "strokeStyle": "solid"
           },
           {
-            "id": "repeat",
+            "id": "exp-b",
             "shape": "rect",
-            "label": "반복",
-            "x": 98,
-            "y": 95,
-            "width": 100,
-            "height": 90,
+            "label": "경험 B",
+            "x": 400,
+            "y": 130,
+            "width": 170,
+            "height": 100,
             "fill": "gray",
             "connector": null,
             "strokeStyle": "solid"
           },
           {
-            "id": "organize",
+            "id": "exp-c",
             "shape": "rect",
-            "label": "정리",
-            "x": 225,
-            "y": 95,
-            "width": 100,
-            "height": 90,
-            "fill": "gray",
+            "label": "경험 C",
+            "x": 670,
+            "y": 130,
+            "width": 170,
+            "height": 100,
+            "fill": "none",
             "connector": null,
             "strokeStyle": "solid"
           },
           {
-            "id": "build",
+            "id": "average",
             "shape": "rect",
-            "label": "구현",
-            "x": 352,
-            "y": 95,
-            "width": 104,
-            "height": 90,
-            "fill": "gray",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "judge",
-            "shape": "rect",
-            "label": "판단",
-            "x": 570,
-            "y": 95,
-            "width": 104,
-            "height": 90,
+            "label": "평균 답",
+            "x": 400,
+            "y": 410,
+            "width": 240,
+            "height": 120,
             "fill": "white",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "responsibility",
-            "shape": "rect",
-            "label": "책임",
-            "x": 700,
-            "y": 95,
-            "width": 104,
-            "height": 90,
-            "fill": "white",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "boundary-label",
-            "shape": "text",
-            "label": "위임\n경계",
-            "x": 467,
-            "y": 180,
-            "width": 88,
-            "height": 96,
-            "fill": "none",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "ai-title",
-            "shape": "text",
-            "label": "AI에게 위임",
-            "x": 252,
-            "y": 470,
-            "width": 190,
-            "height": 64,
-            "fill": "none",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "human-title",
-            "shape": "text",
-            "label": "사람이 유지",
-            "x": 615,
-            "y": 470,
-            "width": 184,
-            "height": 64,
-            "fill": "none",
             "connector": null,
             "strokeStyle": "solid"
           }
         ],
         "events": [
           {
-            "target": "boundary-top",
+            "target": "line-a",
             "property": "opacity",
-            "from": 0.55,
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.42
+          },
+          {
+            "target": "line-b",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.28,
+            "end": 0.5
+          },
+          {
+            "target": "line-c",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.36,
+            "end": 0.58
+          },
+          {
+            "target": "average",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.08,
+            "start": 0.52,
+            "end": 0.68
+          },
+          {
+            "target": "average",
+            "property": "scale",
+            "from": 1.08,
+            "to": 1,
+            "start": 0.68,
+            "end": 0.76
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "experience-convergence",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "AI 답변이 평균으로 수렴하는 과정",
+        "relation": {
+          "type": "convergence",
+          "description": "서로 다른 경험과 판단이 안전하고 합리적인 하나의 답으로 모인다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "여러 좌표가 모이는 중앙 답",
+          "rationale": "평균화는 아이콘보다 여러 경험이 실제로 중앙에 수렴하는 공간 관계로 보여주는 편이 명확하다."
+        }
+      },
+      "transition": "wipe",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "push-in",
+        "target": "endpoint",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result",
+        "연결선은 노드 뒤에 두고 평균 답 라벨을 끝까지 노출한다"
+      ],
+      "beats": [
+        {
+          "text": "AI 글에서 사람이 사라지는 이유는",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "사람",
+          "visualCue": "서로 다른 경험 세 개가 나타난다"
+        },
+        {
+          "text": "답이 평균으로 수렴하기 때문입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "평균",
+          "visualCue": "세 경로가 평균 답으로 모인다"
+        }
+      ],
+      "headline": "답은 중앙으로 모인다",
+      "subline": null,
+      "narration": "AI 글에서 사람이 사라지는 이유는, 답이 평균으로 수렴하기 때문입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "모순, 망설임, 집착이 서로 떨어진 상태로 보인다.",
+        "trigger": "AI 정리가 시작된다.",
+        "change": "세 요소가 AI 정리로 모인 뒤 매끄러운 답으로 연결된다.",
+        "invariant": "연결선은 모든 노드와 라벨 뒤에 유지되고 왼쪽 세 라벨은 서로 겹치지 않는다.",
+        "result": "불완전한 요소가 정리되어 안전한 하나의 답이 남는다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "인간 경험의 모순과 망설임이 AI 정리를 거쳐 안전한 답으로 바뀐다. 결과 노드는 강조 확대 중에도 40-unit 안전영역 안에 유지된다.",
+        "nodes": [
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "contradiction",
+              "target": "organize",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "hesitation",
+              "target": "organize",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l3",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "obsession",
+              "target": "organize",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l4",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "organize",
+              "target": "safe-answer",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "contradiction",
+            "shape": "rect",
+            "label": "모순",
+            "x": 130,
+            "y": 120,
+            "width": 170,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "hesitation",
+            "shape": "rect",
+            "label": "망설임",
+            "x": 130,
+            "y": 280,
+            "width": 170,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "obsession",
+            "shape": "rect",
+            "label": "집착",
+            "x": 130,
+            "y": 440,
+            "width": 170,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "organize",
+            "shape": "rect",
+            "label": "AI 정리",
+            "x": 400,
+            "y": 280,
+            "width": 190,
+            "height": 120,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "safe-answer",
+            "shape": "rect",
+            "label": "안전한 답",
+            "x": 665,
+            "y": 280,
+            "width": 170,
+            "height": 110,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
             "to": 1,
             "start": 0.18,
             "end": 0.34
           },
           {
-            "target": "boundary-bottom",
+            "target": "l2",
             "property": "opacity",
-            "from": 0.55,
+            "from": 0,
             "to": 1,
-            "start": 0.18,
-            "end": 0.34
+            "start": 0.26,
+            "end": 0.42
           },
           {
-            "target": "repeat",
-            "property": "y",
-            "from": 95,
-            "to": 335,
+            "target": "l3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
             "start": 0.34,
-            "end": 0.62
+            "end": 0.5
           },
           {
-            "target": "organize",
-            "property": "y",
-            "from": 95,
-            "to": 335,
-            "start": 0.4,
-            "end": 0.66
-          },
-          {
-            "target": "build",
-            "property": "y",
-            "from": 95,
-            "to": 335,
-            "start": 0.46,
-            "end": 0.7
-          },
-          {
-            "target": "judge",
-            "property": "y",
-            "from": 95,
-            "to": 335,
+            "target": "l4",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
             "start": 0.5,
-            "end": 0.72
+            "end": 0.68
           },
           {
-            "target": "responsibility",
-            "property": "y",
-            "from": 95,
-            "to": 335,
-            "start": 0.54,
+            "target": "safe-answer",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.06,
+            "start": 0.62,
             "end": 0.74
           }
         ]
@@ -541,63 +522,347 @@
       "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "delegation-line",
+        "motif": "noise-removal",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "업무마다 다른 자동화 경계",
+        "concept": "AI가 경험의 불완전함을 정리하는 방식",
         "relation": {
-          "type": "balance",
-          "description": "반복과 구현은 AI 쪽으로, 판단과 책임은 사람 쪽으로 나뉜다"
+          "type": "convergence",
+          "description": "모순과 망설임과 집착이 정리되어 안전한 답으로 바뀐다"
         },
         "strategy": {
           "type": "spatial-diagram",
-          "metaphor": "업무를 가르는 점선 경계",
-          "rationale": "업무가 실제로 양쪽 영역에 분류되는 사건이 전부 위임과 선택적 위임의 차이를 설명한다."
+          "metaphor": "불완전함을 통과시키는 정리 장치",
+          "rationale": "정리 과정에서 무엇이 입력되고 무엇만 남는지를 흐름으로 보여줘야 손실의 원인을 설명할 수 있다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result",
+        "연결선은 노드 뒤에 두고 모순·망설임·집착 라벨을 가리지 않는다"
+      ],
+      "beats": [
+        {
+          "text": "AI는 모순과 망설임을 정리하고",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "정리",
+          "visualCue": "불완전한 세 요소가 정리 노드로 모인다"
+        },
+        {
+          "text": "가장 안전한 중앙으로 이동합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 240,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "안전한 중앙",
+          "visualCue": "안전한 답이 강조된다"
+        }
+      ],
+      "headline": "너무 잘 정리된 답",
+      "subline": null,
+      "narration": "AI는 모순과 망설임을 정리하고, 가장 안전한 중앙으로 이동합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "person writing notes at desk",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "평균이 아닌 한 사람의 경험 좌표",
+        "relation": {
+          "type": "literal",
+          "description": "한 사람이 자신의 판단과 망설임을 직접 기록한다"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "직접 기록하는 손과 문서는 인간 경험이 추상적인 평균이 아니라 특정한 사람의 기록임을 보여준다."
+        }
+      },
+      "transition": "defocus-refocus",
+      "transitionOptions": {
+        "durationMs": 450,
+        "intensity": 0.3,
+        "direction": "left",
+        "matchTarget": null
+      },
+      "effects": [],
+      "camera": {
+        "motion": "push-in",
+        "target": "detail",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "사진은 제목 뒤에 두고 손과 기록 영역을 자막이 덮지 않는다"
+      ],
+      "beats": [
+        {
+          "text": "하지만 사람의 경험은 평균값이 아니라",
+          "emphasis": "mid",
+          "pauseAfterMs": 110,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "평균값",
+          "visualCue": "직접 기록하는 손을 보여준다"
+        },
+        {
+          "text": "편향과 실수가 남은 하나의 좌표입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 270,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "하나의 좌표",
+          "visualCue": "개인의 기록에 시선을 고정한다"
+        }
+      ],
+      "headline": "경험은 평균이 아니다",
+      "subline": null,
+      "narration": "하지만 사람의 경험은 평균값이 아니라, 편향과 실수가 남은 하나의 좌표입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "person writing notes at desk",
+      "image": {
+        "query": "person writing notes at desk",
+        "title": "Man Working",
+        "creator": "Burst",
+        "license": "cc0",
+        "licenseVersion": "1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "stocksnap",
+        "provider": "stocksnap",
+        "sourcePage": "https://stocksnap.io/photo/man-working-UN5XQREKKP",
+        "originalUrl": "https://cdn.stocksnap.io/img-thumbs/960w/UN5XQREKKP.jpg",
+        "thumbnailUrl": "https://api.openverse.org/v1/images/c6ab46dd-43a4-4427-895e-c471c6a3d8b2/thumb/"
+      }
+    },
+    {
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "고유 경험, 과잉 정리, 평균적 글이 연결된 상태로 보인다.",
+        "trigger": "글을 더 매끄럽게 만들기 위한 정리가 시작된다.",
+        "change": "고유 경험의 명암이 낮아지고 평균적 글이 강조된다.",
+        "invariant": "연결선은 노드 뒤에 유지되며 세 한글 라벨은 모든 상태에서 가려지지 않는다.",
+        "result": "읽기 쉬운 글은 남지만 경험의 고유한 모양은 약해진다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "고유한 경험이 과잉 정리를 거치며 평균적인 글로 바뀌는 흐름",
+        "nodes": [
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "unique",
+              "target": "over-edit",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 18
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "over-edit",
+              "target": "generic",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 18
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "unique",
+            "shape": "rect",
+            "label": "고유 경험",
+            "x": 145,
+            "y": 280,
+            "width": 190,
+            "height": 120,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "over-edit",
+            "shape": "rect",
+            "label": "과잉 정리",
+            "x": 400,
+            "y": 280,
+            "width": 190,
+            "height": 120,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "generic",
+            "shape": "rect",
+            "label": "평균적 글",
+            "x": 655,
+            "y": 280,
+            "width": 190,
+            "height": 120,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.38
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.58
+          },
+          {
+            "target": "unique",
+            "property": "opacity",
+            "from": 1,
+            "to": 0.42,
+            "start": 0.46,
+            "end": 0.68
+          },
+          {
+            "target": "generic",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.07,
+            "start": 0.58,
+            "end": 0.72
+          },
+          {
+            "target": "generic",
+            "property": "scale",
+            "from": 1.07,
+            "to": 1,
+            "start": 0.72,
+            "end": 0.78
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "over-editing",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "과도한 편집이 인간의 고유성을 지우는 과정",
+        "relation": {
+          "type": "change-over-time",
+          "description": "고유한 경험이 매끄럽지만 평균적인 글로 바뀐다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "고유성을 희석하는 편집 통로",
+          "rationale": "고유 경험이 실제로 약해지는 명암 변화가 단순한 문장보다 편집의 대가를 분명히 보여준다."
         }
       },
       "transition": "wipe",
       "transitionOptions": null,
       "effects": [],
       "camera": {
-        "motion": "push-in",
-        "target": "inflection",
-        "intensity": "medium",
+        "motion": "pan-right",
+        "target": "endpoint",
+        "intensity": "subtle",
         "startProgress": 0,
         "endProgress": 1
       },
       "choreography": [
         "show-visual",
-        "show-delegation-boundary",
         "advance-visual",
-        "영역은 뒤에 유지하고 업무 라벨과 제목은 끝까지 가리지 않는다"
+        "emphasize-result",
+        "연결선은 세 노드 뒤에 두고 라벨은 끝까지 선명하게 유지한다"
       ],
       "beats": [
         {
-          "text": "반복과 구현은 넘길 수 있지만",
+          "text": "글을 매끄럽게 만들수록",
           "emphasis": "mid",
-          "pauseAfterMs": 100,
+          "pauseAfterMs": 110,
           "delivery": "normal",
           "visualPriority": "high",
-          "keyword": "넘길",
-          "visualCue": "세 업무가 AI 영역으로 이동한다"
+          "keyword": "매끄럽게",
+          "visualCue": "과잉 정리 통로가 나타난다"
         },
         {
-          "text": "판단과 책임은 남겨야 합니다",
+          "text": "경험의 고유한 모양까지 지워질 수 있습니다",
           "emphasis": "high",
-          "pauseAfterMs": 250,
+          "pauseAfterMs": 280,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "책임",
-          "visualCue": "판단과 책임이 사람 영역에 정착한다"
+          "keyword": "고유한 모양",
+          "visualCue": "고유 경험은 흐려지고 평균적 글이 남는다"
         }
       ],
-      "headline": "자동화의 경계선",
+      "headline": "정리할수록\n사람이 사라질 수 있다",
       "subline": null,
-      "narration": "반복과 구현은 넘길 수 있지만 판단과 책임은 남겨야 합니다.",
+      "narration": "글을 매끄럽게 만들수록, 경험의 고유한 모양까지 지워질 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -618,22 +883,22 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "첫 소주제의 결론",
+        "concept": "생성 경쟁에서 위임 경계 경쟁으로의 전환",
         "relation": {
           "type": "comparison",
-          "description": "자동화의 양과 자동화 금지선을 아는 능력을 대비한다"
+          "description": "더 잘 생성하는 능력과 맡기지 않을 부분을 정하는 능력을 대비한다"
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "첫 도식의 결과를 한 문장으로 압축해 다음 실무 사례로 연결한다."
+          "rationale": "첫 소주제의 원인과 결론을 한 문장으로 묶어 실무 적용으로 전환한다."
         }
       },
-      "transition": "fade",
+      "transition": "slide-up",
       "transitionOptions": null,
       "effects": [],
       "camera": {
-        "motion": "static",
+        "motion": "push-in",
         "target": "center",
         "intensity": "subtle",
         "startProgress": 0,
@@ -645,27 +910,27 @@
       ],
       "beats": [
         {
-          "text": "강한 사람은 모두 맡기는 사람이 아니라",
+          "text": "그래서 경쟁은 생성 능력이 아니라",
           "emphasis": "mid",
           "pauseAfterMs": 120,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "통념을 먼저 제시한다"
+          "keyword": "생성 능력",
+          "visualCue": "기존 경쟁 기준을 먼저 제시한다"
         },
         {
-          "text": "맡기면 안 될 것을 아는 사람입니다",
+          "text": "무엇을 맡기지 않을지 정하는 능력입니다",
           "emphasis": "high",
-          "pauseAfterMs": 300,
+          "pauseAfterMs": 310,
           "delivery": "drop",
           "visualPriority": "high",
-          "keyword": "안 될 것",
-          "visualCue": "반전 결론만 크게 남긴다"
+          "keyword": "맡기지 않을지",
+          "visualCue": "새 기준을 크게 고정한다"
         }
       ],
-      "headline": "자동화 금지선을\n아는 능력",
+      "headline": "경쟁은\n위임의 경계에서 난다",
       "subline": null,
-      "narration": "강한 사람은 모두 맡기는 사람이 아니라 맡기면 안 될 것을 아는 사람입니다.",
+      "narration": "그래서 경쟁은 생성 능력이 아니라, 무엇을 맡기지 않을지 정하는 능력입니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -675,94 +940,8 @@
       "backgroundVideo": null,
       "visualStory": null,
       "diagramSpec": null,
-      "kind": "hero",
-      "layout": "photo-full-bleed",
-      "visual": {
-        "type": "photo",
-        "motif": null,
-        "query": "team collaborating at computer",
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "개발과 문서 작업에서 이루어지는 공동 검토",
-        "relation": {
-          "type": "literal",
-          "description": "AI 산출물을 그대로 통과시키지 않고 사람이 함께 검토한다"
-        },
-        "strategy": {
-          "type": "photo",
-          "metaphor": null,
-          "rationale": "반복 화살표 대신 컴퓨터 앞에서 함께 검토하는 구체적 행동으로 실무 사례 전환을 알린다."
-        }
-      },
-      "transition": "defocus-refocus",
-      "transitionOptions": {
-        "durationMs": 450,
-        "intensity": 0.35,
-        "direction": "left",
-        "matchTarget": null
-      },
-      "effects": [],
-      "camera": {
-        "motion": "push-in",
-        "target": "subject",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-visual",
-        "show-headline",
-        "사진은 제목 뒤에 두고 인물의 얼굴과 화면을 자막이 덮지 않는다"
-      ],
-      "beats": [
-        {
-          "text": "이 경계는 글쓰기 밖에서도",
-          "emphasis": "mid",
-          "pauseAfterMs": 90,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "컴퓨터 앞의 공동 검토 장면이 나타난다"
-        },
-        {
-          "text": "같은 방식으로 작동합니다",
-          "emphasis": "high",
-          "pauseAfterMs": 220,
-          "delivery": "push",
-          "visualPriority": "high",
-          "keyword": "같은 방식",
-          "visualCue": "개발과 이력서라는 제목을 고정한다"
-        }
-      ],
-      "headline": "개발과 이력서의\n위임 경계",
-      "subline": null,
-      "narration": "이 경계는 글쓰기 밖에서도 같은 방식으로 작동합니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": "team collaborating at computer",
-      "image": {
-        "query": "team collaborating at computer",
-        "title": "Mind Control Alt Delete",
-        "creator": "₡ґǘșϯγ Ɗᶏ Ⱪᶅṏⱳդ",
-        "license": "cc0",
-        "licenseVersion": "1.0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "flickr",
-        "provider": "flickr",
-        "sourcePage": "https://www.flickr.com/photos/148598741@N02/55132738995",
-        "originalUrl": "https://live.staticflickr.com/65535/55132738995_8ccdc648d5_b.jpg",
-        "thumbnailUrl": "https://api.openverse.org/v1/images/e2ab845e-cb70-4ac9-b16d-a12964084ad6/thumb/"
-      }
-    },
-    {
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
       "kind": "photo",
-      "layout": "photo-split-left",
+      "layout": "photo-full-bleed",
       "visual": {
         "type": "photo",
         "motif": null,
@@ -772,19 +951,24 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "AI가 작성한 코드를 사람이 검토하는 개발 현장",
+        "concept": "개발 현장에서 AI 산출물을 검토하는 행동",
         "relation": {
           "type": "literal",
-          "description": "타이핑은 자동화하되 문제 선택과 검토는 사람이 수행한다"
+          "description": "코드를 생성하는 일과 결과를 검토하는 일이 한 작업 안에서 분리된다"
         },
         "strategy": {
           "type": "photo",
           "metaphor": null,
-          "rationale": "개발자가 코드 화면을 확인하는 구체적 행동이 구현과 판단의 역할 차이를 직접 보여준다."
+          "rationale": "코드 화면을 실제로 검토하는 행동이 위임 경계가 글쓰기 밖에서도 작동한다는 전환을 구체화한다."
         }
       },
-      "transition": "fade",
-      "transitionOptions": null,
+      "transition": "defocus-refocus",
+      "transitionOptions": {
+        "durationMs": 450,
+        "intensity": 0.32,
+        "direction": "right",
+        "matchTarget": null
+      },
       "effects": [],
       "camera": {
         "motion": "push-in",
@@ -794,32 +978,34 @@
         "endProgress": 1
       },
       "choreography": [
+        "chapter-work-boundary",
         "show-visual",
-        "show-headline"
+        "show-headline",
+        "코드 화면과 검토하는 손은 제목 뒤에 유지하고 자막과 겹치지 않는다"
       ],
       "beats": [
         {
-          "text": "코드 타이핑은 맡길 수 있지만",
+          "text": "이 경계는 글쓰기뿐 아니라",
           "emphasis": "mid",
           "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": "타이핑",
-          "visualCue": "코드 화면과 손동작을 보여준다"
+          "keyword": "글쓰기",
+          "visualCue": "코드를 검토하는 장면이 나타난다"
         },
         {
-          "text": "무엇을 풀지는 사람이 정합니다",
+          "text": "개발과 이력서에서도 작동합니다",
           "emphasis": "high",
-          "pauseAfterMs": 230,
-          "delivery": "hold",
+          "pauseAfterMs": 240,
+          "delivery": "push",
           "visualPriority": "high",
-          "keyword": "무엇",
-          "visualCue": "검토하는 사람 쪽에 시선을 고정한다"
+          "keyword": "개발과 이력서",
+          "visualCue": "두 적용 영역을 제목으로 고정한다"
         }
       ],
-      "headline": "개발의 경계",
-      "subline": "구현은 위임, 문제 선택은 유지",
-      "narration": "코드 타이핑은 맡길 수 있지만 무엇을 풀지는 사람이 정합니다.",
+      "headline": "개발과 이력서의\n위임 경계",
+      "subline": null,
+      "narration": "이 경계는 글쓰기뿐 아니라, 개발과 이력서에서도 작동합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": "software developer reviewing code",
@@ -839,31 +1025,140 @@
     },
     {
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "compare",
-      "layout": "compare-columns",
+      "visualStory": {
+        "initial": "사람의 경험·판단과 AI의 정리·구현이 양쪽에 나뉘어 있다.",
+        "trigger": "작업이 사람의 원천에서 AI 실행 영역으로 전달된다.",
+        "change": "두 영역 사이의 연결선이 나타나고 각 역할이 강조된다.",
+        "invariant": "연결선은 두 역할 노드 뒤에 유지되며 역할 라벨과 경계 문구는 가려지지 않는다.",
+        "result": "원천과 판단은 사람이, 정리와 구현은 AI가 담당한다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "사람이 제공할 원천과 AI에 맡길 실행 업무를 분리하는 위임 경계",
+        "nodes": [
+          {
+            "id": "handoff",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "human-source",
+              "target": "ai-work",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 28
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "human-source",
+            "shape": "rect",
+            "label": "경험·판단",
+            "x": 190,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "ai-work",
+            "shape": "rect",
+            "label": "정리·구현",
+            "x": 610,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "boundary-label",
+            "shape": "text",
+            "label": "위임 경계",
+            "x": 400,
+            "y": 150,
+            "width": 190,
+            "height": 64,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "handoff",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.42
+          },
+          {
+            "target": "human-source",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.05,
+            "start": 0.34,
+            "end": 0.5
+          },
+          {
+            "target": "human-source",
+            "property": "scale",
+            "from": 1.05,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.58
+          },
+          {
+            "target": "ai-work",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.05,
+            "start": 0.5,
+            "end": 0.66
+          },
+          {
+            "target": "ai-work",
+            "property": "scale",
+            "from": 1.05,
+            "to": 1,
+            "start": 0.66,
+            "end": 0.74
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
-        "motif": null,
+        "type": "diagram",
+        "motif": "delegation-boundary",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "개발 구현과 설계 판단의 차이",
+        "concept": "인간의 원천과 AI의 실행을 나누는 원칙",
         "relation": {
-          "type": "comparison",
-          "description": "코드 생성과 문제·구조·위험 선택은 서로 다른 책임이다"
+          "type": "flow",
+          "description": "사람이 제공한 경험과 판단을 AI가 정리하고 구현한다"
         },
         "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "산출과 판단을 분리하면 평균적으로 동작하는 코드에서 사라질 수 있는 맥락이 드러난다."
+          "type": "spatial-diagram",
+          "metaphor": "원천과 실행 사이의 위임선",
+          "rationale": "두 역할을 실제로 분리해 배치하면 AI 사용 여부가 아니라 위임 범위가 핵심임을 보여줄 수 있다."
         }
       },
-      "transition": "slide-left",
+      "transition": "wipe",
       "transitionOptions": null,
       "effects": [],
       "camera": {
@@ -874,51 +1169,310 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline",
-        "advance-visual"
+        "show-visual",
+        "show-delegation-boundary",
+        "advance-visual",
+        "연결선은 역할 노드 뒤에 두고 경계 문구와 한글 라벨을 끝까지 노출한다"
       ],
       "beats": [
         {
-          "text": "동작하는 코드를 만드는 것과",
-          "emphasis": "mid",
-          "pauseAfterMs": 100,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "동작",
-          "visualCue": "구현 열이 먼저 나타난다"
+          "text": "경험과 문제 선택은 사람이 남기고",
+          "emphasis": "high",
+          "pauseAfterMs": 110,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "사람",
+          "visualCue": "사람의 역할 노드가 강조된다"
         },
         {
-          "text": "맞는 구조를 고르는 건 다릅니다",
-          "emphasis": "high",
+          "text": "정리와 구현은 AI에게 맡깁니다",
+          "emphasis": "mid",
           "pauseAfterMs": 240,
-          "delivery": "push",
+          "delivery": "normal",
           "visualPriority": "high",
-          "keyword": "구조",
-          "visualCue": "판단 열을 강조한다"
+          "keyword": "AI",
+          "visualCue": "연결선 뒤에 AI 실행 역할이 강조된다"
         }
       ],
-      "headline": "구현과 판단은 다르다",
+      "headline": "원천은 사람,\n실행은 AI",
       "subline": null,
-      "narration": "동작하는 코드를 만드는 것과 맞는 구조를 고르는 건 다릅니다.",
-      "comparisonLeft": "AI: 구현 · 타이핑",
-      "comparisonRight": "사람: 문제 · 구조 · 위험",
+      "narration": "경험과 문제 선택은 사람이 남기고, 정리와 구현은 AI에게 맡깁니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
       "imageQuery": null,
       "image": null
     },
     {
       "backgroundVideo": null,
       "visualStory": {
-        "initial": "AI 생성 코드와 사람 검토 관문이 보이고 두 결과 경로는 숨겨져 있다.",
-        "trigger": "사람의 검토가 시작된다.",
-        "change": "수용 경로와 거부 경로가 차례로 나타난다.",
-        "invariant": "연결선은 노드 외곽에서 끝나며 노드와 라벨 뒤에 유지된다. 검토·수용·거부 라벨은 모든 상태에서 가려지지 않는다.",
-        "result": "사람의 거부권이 시스템의 구체적인 의도를 보존한다."
+        "initial": "AI 코드가 왼쪽에 있고 사람의 선택과 문제·구조·위험이 오른쪽에 놓여 있다.",
+        "trigger": "생성된 코드를 실제 시스템에 적용하려는 검토가 시작된다.",
+        "change": "AI 코드에서 사람 선택으로 연결된 뒤 세 판단 항목으로 경로가 갈라진다.",
+        "invariant": "연결선은 모든 노드 뒤에 있으며 문제·구조·위험 라벨은 이동이나 강조 중에도 가려지지 않는다.",
+        "result": "코드 생성과 문제·구조·위험의 선택이 서로 다른 책임으로 분리된다."
       },
       "diagramSpec": {
         "version": 1,
         "renderer": "auto",
         "physics": null,
-        "description": "AI 코드가 인간 검토를 거쳐 수용 또는 거부되는 흐름",
+        "description": "AI 코드 생성과 사람이 담당할 문제·구조·위험 선택을 분리하는 도식. 좌우 노드를 안전영역 안쪽으로 이동해 선 두께를 포함한 40-unit 여백을 유지한다.",
+        "nodes": [
+          {
+            "id": "l0",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "code",
+              "target": "choice",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "choice",
+              "target": "problem",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "choice",
+              "target": "structure",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l3",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "choice",
+              "target": "risk",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "code",
+            "shape": "rect",
+            "label": "AI 코드",
+            "x": 130,
+            "y": 280,
+            "width": 170,
+            "height": 110,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "choice",
+            "shape": "rect",
+            "label": "사람 선택",
+            "x": 400,
+            "y": 280,
+            "width": 190,
+            "height": 130,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "problem",
+            "shape": "rect",
+            "label": "문제",
+            "x": 670,
+            "y": 120,
+            "width": 170,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "structure",
+            "shape": "rect",
+            "label": "구조",
+            "x": 670,
+            "y": 280,
+            "width": 170,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "risk",
+            "shape": "rect",
+            "label": "위험",
+            "x": 670,
+            "y": 440,
+            "width": 170,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "l0",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.18,
+            "end": 0.34
+          },
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.38,
+            "end": 0.54
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.46,
+            "end": 0.62
+          },
+          {
+            "target": "l3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.54,
+            "end": 0.7
+          },
+          {
+            "target": "choice",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.06,
+            "start": 0.58,
+            "end": 0.74
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "code-decision-boundary",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "개발에서 구현과 판단의 책임 분리",
+        "relation": {
+          "type": "divergence",
+          "description": "AI가 만든 코드 이후의 문제·구조·위험 선택은 사람의 판단으로 갈라진다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "코드 이후에 놓인 사람의 선택 관문",
+          "rationale": "생성과 설계를 한 화살표로 묶지 않고 판단 항목을 실제로 갈라 놓아 책임 차이를 설명한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "push-in",
+        "target": "inflection",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "camera-focus",
+        "연결선은 노드 뒤에 유지하고 문제·구조·위험 라벨을 끝까지 노출한다"
+      ],
+      "beats": [
+        {
+          "text": "코드는 생성할 수 있어도",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "생성",
+          "visualCue": "AI 코드에서 사람 선택으로 흐름이 열린다"
+        },
+        {
+          "text": "어떤 문제와 구조를 택할지는 사람이 정합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "사람",
+          "visualCue": "문제·구조·위험 경로가 갈라진다"
+        }
+      ],
+      "headline": "구현과 설계는 다르다",
+      "subline": null,
+      "narration": "코드는 생성할 수 있어도, 어떤 문제와 구조를 택할지는 사람이 정합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "AI 코드와 사람 검토, 수용과 거부 노드가 보이고 연결선은 숨겨져 있다.",
+        "trigger": "사람이 생성된 코드를 검토한다.",
+        "change": "검토 관문 뒤에 수용 경로와 거부 경로가 차례로 나타난다.",
+        "invariant": "연결선은 노드 외곽에서 끝나며 모든 노드와 한글 라벨 뒤에 유지된다.",
+        "result": "사람은 승인만 하는 것이 아니라 생성된 코드를 거부할 수 있다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "AI 코드가 사람 검토를 거쳐 수용 또는 거부되는 관문",
         "nodes": [
           {
             "id": "l1",
@@ -934,7 +1488,7 @@
               "target": "review",
               "sourceSide": "right",
               "targetSide": "left",
-              "gap": 12
+              "gap": 14
             },
             "strokeStyle": "solid"
           },
@@ -952,7 +1506,7 @@
               "target": "accept",
               "sourceSide": "right",
               "targetSide": "left",
-              "gap": 12
+              "gap": 14
             },
             "strokeStyle": "solid"
           },
@@ -970,7 +1524,7 @@
               "target": "reject",
               "sourceSide": "right",
               "targetSide": "left",
-              "gap": 12
+              "gap": 14
             },
             "strokeStyle": "dashed"
           },
@@ -978,9 +1532,9 @@
             "id": "code",
             "shape": "rect",
             "label": "AI 코드",
-            "x": 145,
+            "x": 135,
             "y": 280,
-            "width": 190,
+            "width": 180,
             "height": 110,
             "fill": "gray",
             "connector": null,
@@ -1002,8 +1556,8 @@
             "id": "accept",
             "shape": "rect",
             "label": "수용",
-            "x": 660,
-            "y": 160,
+            "x": 665,
+            "y": 155,
             "width": 180,
             "height": 100,
             "fill": "white",
@@ -1014,8 +1568,8 @@
             "id": "reject",
             "shape": "rect",
             "label": "거부",
-            "x": 660,
-            "y": 400,
+            "x": 665,
+            "y": 405,
             "width": 180,
             "height": 100,
             "fill": "none",
@@ -1035,7 +1589,7 @@
           {
             "target": "review",
             "property": "scale",
-            "from": 0.94,
+            "from": 0.95,
             "to": 1.06,
             "start": 0.32,
             "end": 0.48
@@ -1053,15 +1607,15 @@
             "property": "opacity",
             "from": 0,
             "to": 1,
-            "start": 0.52,
-            "end": 0.66
+            "start": 0.5,
+            "end": 0.64
           },
           {
             "target": "l3",
             "property": "opacity",
             "from": 0,
             "to": 1,
-            "start": 0.62,
+            "start": 0.6,
             "end": 0.74
           }
         ]
@@ -1077,15 +1631,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "생성된 코드를 거부할 수 있는 인간 판단",
+        "concept": "AI 생성 코드를 거부할 수 있는 인간 판단",
         "relation": {
-          "type": "flow",
-          "description": "AI 산출물이 사람의 검토 관문에서 수용과 거부로 나뉜다"
+          "type": "divergence",
+          "description": "사람의 검토 관문에서 AI 코드가 수용과 거부로 나뉜다"
         },
         "strategy": {
           "type": "spatial-diagram",
           "metaphor": "사람이 운영하는 코드 관문",
-          "rationale": "검토 이후 흐름이 실제로 갈라져야 인간이 단순 승인자가 아니라 선택자임을 설명할 수 있다."
+          "rationale": "거부 경로가 실제로 존재해야 인간이 단순 승인자가 아니라 기준을 가진 선택자임을 보여줄 수 있다."
         }
       },
       "transition": "wipe",
@@ -1101,117 +1655,36 @@
       "choreography": [
         "show-visual",
         "advance-visual",
-        "camera-focus",
-        "연결선은 노드 뒤에 두고 한글 라벨은 끝까지 노출한다"
+        "emphasize-result",
+        "연결선은 노드 뒤에 두고 검토·수용·거부 라벨을 가리지 않는다"
       ],
       "beats": [
         {
-          "text": "중요한 건 코드를 받는 능력보다",
+          "text": "중요한 건 AI 코드를 받는 능력보다",
           "emphasis": "mid",
           "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "high",
           "keyword": "받는",
-          "visualCue": "AI 코드에서 검토 관문으로 흐름이 열린다"
+          "visualCue": "AI 코드가 검토 관문에 도착한다"
         },
         {
           "text": "거부할 수 있는 판단입니다",
           "emphasis": "high",
-          "pauseAfterMs": 250,
+          "pauseAfterMs": 270,
           "delivery": "drop",
           "visualPriority": "high",
           "keyword": "거부",
-          "visualCue": "거부 경로가 나타난다"
+          "visualCue": "거부 경로가 마지막에 선명하게 나타난다"
         }
       ],
-      "headline": "Human review는\n거부권이다",
+      "headline": "검토의 핵심은 거부권",
       "subline": null,
-      "narration": "중요한 건 코드를 받는 능력보다 거부할 수 있는 판단입니다.",
+      "narration": "중요한 건 AI 코드를 받는 능력보다, 거부할 수 있는 판단입니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
       "image": null
-    },
-    {
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "photo",
-      "layout": "photo-strip",
-      "visual": {
-        "type": "photo",
-        "motif": null,
-        "query": "person writing notes at desk",
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "본인의 경험을 바탕으로 이력서를 고치는 사람",
-        "relation": {
-          "type": "literal",
-          "description": "경험은 사람이 제공하고 표현만 편집한다"
-        },
-        "strategy": {
-          "type": "photo",
-          "metaphor": null,
-          "rationale": "직접 기록하고 수정하는 행동이 생성된 경험과 본인 경험의 차이를 텍스트 카드보다 구체적으로 보여준다."
-        }
-      },
-      "transition": "fade",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "push-in",
-        "target": "detail",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-visual",
-        "show-headline",
-        "show-subline"
-      ],
-      "beats": [
-        {
-          "text": "이력서 문장은 다듬어도 되지만",
-          "emphasis": "mid",
-          "pauseAfterMs": 100,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": "다듬어도",
-          "visualCue": "작성 중인 손과 문서를 보여준다"
-        },
-        {
-          "text": "경험까지 만들게 해선 안 됩니다",
-          "emphasis": "high",
-          "pauseAfterMs": 240,
-          "delivery": "hold",
-          "visualPriority": "high",
-          "keyword": "경험",
-          "visualCue": "경험이라는 기준을 고정한다"
-        }
-      ],
-      "headline": "이력서의 경계",
-      "subline": "표현은 위임, 경험은 본인",
-      "narration": "이력서 문장은 다듬어도 되지만 경험까지 만들게 해선 안 됩니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": "person writing notes at desk",
-      "image": {
-        "query": "person writing notes at desk",
-        "title": "Man Working",
-        "creator": "Burst",
-        "license": "cc0",
-        "licenseVersion": "1.0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "stocksnap",
-        "provider": "stocksnap",
-        "sourcePage": "https://stocksnap.io/photo/man-working-UN5XQREKKP",
-        "originalUrl": "https://cdn.stocksnap.io/img-thumbs/960w/UN5XQREKKP.jpg",
-        "thumbnailUrl": "https://api.openverse.org/v1/images/c6ab46dd-43a4-4427-895e-c471c6a3d8b2/thumb/"
-      }
     },
     {
       "backgroundVideo": null,
@@ -1228,15 +1701,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "이력서가 사람을 보여주는 신호로 남는 조건",
+        "concept": "이력서 경험의 출처가 신뢰 신호를 결정하는 조건",
         "relation": {
           "type": "comparison",
-          "description": "본인 경험을 편집한 문서는 신호를 유지하고 생성된 경험은 신호를 끊는다"
+          "description": "본인 경험을 편집한 문서와 AI가 생성한 경험을 직접 비교한다"
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "시간 변화가 아닌 경험의 출처 차이를 직접 병치해 신뢰 신호가 사라지는 이유를 명확히 한다."
+          "rationale": "시간 변화가 아닌 출처 차이이므로 BEFORE와 AFTER 없이 두 경험의 출처와 신호를 병치한다."
         }
       },
       "transition": "slide-left",
@@ -1251,33 +1724,34 @@
       },
       "choreography": [
         "show-headline",
-        "advance-visual"
+        "show-comparison",
+        "emphasize-result"
       ],
       "beats": [
         {
-          "text": "문장이 매끄러운지는 부차적이고",
+          "text": "이력서도 표현은 다듬을 수 있지만",
           "emphasis": "mid",
           "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "양쪽 문서의 표현은 비슷하게 유지한다"
+          "keyword": "표현",
+          "visualCue": "양쪽 문서의 표현은 비슷하게 나타난다"
         },
         {
-          "text": "누구의 경험인지가 핵심입니다",
+          "text": "경험의 출처까지 만들게 해선 안 됩니다",
           "emphasis": "high",
-          "pauseAfterMs": 250,
-          "delivery": "push",
+          "pauseAfterMs": 270,
+          "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "누구의 경험",
-          "visualCue": "경험의 출처만 강하게 대비한다"
+          "keyword": "경험의 출처",
+          "visualCue": "본인 경험과 생성 경험의 출처를 대비한다"
         }
       ],
-      "headline": "이력서는 신호다",
+      "headline": "이력서는 경험의 신호다",
       "subline": null,
-      "narration": "문장이 매끄러운지는 부차적이고 누구의 경험인지가 핵심입니다.",
-      "comparisonLeft": "본인 경험 → 신호 유지",
-      "comparisonRight": "생성 경험 → 신호 소멸",
+      "narration": "이력서도 표현은 다듬을 수 있지만, 경험의 출처까지 만들게 해선 안 됩니다.",
+      "comparisonLeft": "본인 경험\n신호 유지",
+      "comparisonRight": "생성 경험\n신호 소멸",
       "imageQuery": null,
       "image": null
     },
@@ -1296,15 +1770,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "개발과 이력서 사례의 공통 결론",
+        "concept": "개발과 이력서 사례의 공통 원칙",
         "relation": {
           "type": "convergence",
-          "description": "서로 다른 업무가 판단의 출처를 지켜야 한다는 원칙으로 모인다"
+          "description": "서로 다른 업무가 판단의 출처를 사람이 유지해야 한다는 원칙으로 모인다"
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "두 사례의 공통점을 짧게 묶어 Human in the loop의 의미로 연결한다."
+          "rationale": "두 적용 사례를 하나의 문장으로 묶어 개인 판단에서 평가 환경으로 논의를 확장한다."
         }
       },
       "transition": "fade",
@@ -1323,12 +1797,12 @@
       ],
       "beats": [
         {
-          "text": "산출물은 AI와 만들 수 있어도",
+          "text": "산출물은 함께 만들 수 있어도",
           "emphasis": "mid",
           "pauseAfterMs": 120,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": null,
+          "keyword": "함께",
           "visualCue": "조건 문장이 먼저 나타난다"
         },
         {
@@ -1338,12 +1812,12 @@
           "delivery": "hold",
           "visualPriority": "high",
           "keyword": "사람",
-          "visualCue": "결론을 크게 고정한다"
+          "visualCue": "판단의 출처라는 결론을 크게 남긴다"
         }
       ],
       "headline": "판단의 출처를\n지켜라",
       "subline": null,
-      "narration": "산출물은 AI와 만들 수 있어도 판단의 출처는 사람이어야 합니다.",
+      "narration": "산출물은 함께 만들 수 있어도, 판단의 출처는 사람이어야 합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -1351,104 +1825,18 @@
     },
     {
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "hero",
-      "layout": "photo-full-bleed",
-      "visual": {
-        "type": "photo",
-        "motif": null,
-        "query": "coworkers working together office",
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "AI 산출물을 함께 검토하고 결정하는 사람들",
-        "relation": {
-          "type": "literal",
-          "description": "사람이 결과를 확인하는 데 그치지 않고 기준과 결정을 소유한다"
-        },
-        "strategy": {
-          "type": "photo",
-          "metaphor": null,
-          "rationale": "반복 화살표 대신 사람이 함께 화면을 검토하는 행동을 보여줘 책임 루프 도식의 현실적 맥락을 만든다."
-        }
-      },
-      "transition": "defocus-refocus",
-      "transitionOptions": {
-        "durationMs": 450,
-        "intensity": 0.35,
-        "direction": "left",
-        "matchTarget": null
-      },
-      "effects": [],
-      "camera": {
-        "motion": "push-in",
-        "target": "subject",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-visual",
-        "show-headline",
-        "사진은 제목 뒤에 유지하고 얼굴과 화면은 자막이 덮지 않는다"
-      ],
-      "beats": [
-        {
-          "text": "Human in the loop는",
-          "emphasis": "mid",
-          "pauseAfterMs": 90,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "사람들이 결과를 함께 검토하는 장면이 나타난다"
-        },
-        {
-          "text": "최종 승인 버튼이 아닙니다",
-          "emphasis": "high",
-          "pauseAfterMs": 230,
-          "delivery": "drop",
-          "visualPriority": "high",
-          "keyword": "아닙니다",
-          "visualCue": "승인만 하는 역할이라는 통념을 부정한다"
-        }
-      ],
-      "headline": "루프 안의 인간은\n승인 버튼이 아니다",
-      "subline": null,
-      "narration": "Human in the loop는 최종 승인 버튼이 아닙니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": "coworkers working together office",
-      "image": {
-        "query": "coworkers working together office",
-        "title": "Natalie Nasatka, #herstory",
-        "creator": "U. S. Fish and Wildlife Service - Northeast Region",
-        "license": "pdm",
-        "licenseVersion": "1.0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
-        "source": "flickr",
-        "provider": "flickr",
-        "sourcePage": "https://www.flickr.com/photos/43322816@N08/25499621341",
-        "originalUrl": "https://live.staticflickr.com/1600/25499621341_41c3e5ff43_b.jpg",
-        "thumbnailUrl": "https://api.openverse.org/v1/images/6b854be5-6d59-4515-bd89-c6cf180b1bc1/thumb/"
-      }
-    },
-    {
-      "backgroundVideo": null,
       "visualStory": {
-        "initial": "문제 선택, AI 구현, 사람 판단, 결과·책임의 네 노드가 보이고 연결선은 숨겨져 있다.",
-        "trigger": "작업이 문제 선택에서 시작된다.",
-        "change": "AI 구현을 거쳐 사람 판단과 결과·책임으로 흐른 뒤 문제 선택으로 돌아온다.",
-        "invariant": "연결선은 노드 뒤에 있고 모든 한글 라벨은 앞에 유지된다. 선은 라벨 보호영역을 통과하지 않는다.",
-        "result": "사람이 문제와 판단과 책임을 연결하며 작업 루프를 닫는다."
+        "initial": "여러 AI 결과가 한 사람의 판단 노드 앞에 모여 있다.",
+        "trigger": "동시에 여러 결과를 평가해야 하는 상황이 발생한다.",
+        "change": "세 결과의 연결선이 하나의 판단 관문으로 모이고 이후 결정으로 이어진다.",
+        "invariant": "연결선은 결과·판단·결정 노드 뒤에 유지되며 모든 한글 라벨은 가려지지 않는다.",
+        "result": "개인의 판단 하나에 평가가 집중되면서 위임 구조의 병목이 드러난다."
       },
       "diagramSpec": {
         "version": 1,
         "renderer": "auto",
         "physics": null,
-        "description": "사람과 AI가 서로 다른 책임으로 구성하는 작업 루프",
+        "description": "여러 AI 결과가 한 사람의 판단에 집중되는 평가 병목. 결정 노드를 안전영역 안쪽으로 이동해 선 두께를 포함한 40-unit 여백을 확보했다.",
         "nodes": [
           {
             "id": "l1",
@@ -1460,11 +1848,11 @@
             "height": 1,
             "fill": "none",
             "connector": {
-              "source": "problem",
-              "target": "build",
+              "source": "out-a",
+              "target": "judgment",
               "sourceSide": "right",
               "targetSide": "left",
-              "gap": 24
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1478,11 +1866,11 @@
             "height": 1,
             "fill": "none",
             "connector": {
-              "source": "build",
-              "target": "review",
-              "sourceSide": "bottom",
-              "targetSide": "top",
-              "gap": 24
+              "source": "out-b",
+              "target": "judgment",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1496,11 +1884,11 @@
             "height": 1,
             "fill": "none",
             "connector": {
-              "source": "review",
-              "target": "result",
-              "sourceSide": "left",
-              "targetSide": "right",
-              "gap": 24
+              "source": "out-c",
+              "target": "judgment",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1514,58 +1902,70 @@
             "height": 1,
             "fill": "none",
             "connector": {
-              "source": "result",
-              "target": "problem",
-              "sourceSide": "top",
-              "targetSide": "bottom",
-              "gap": 24
+              "source": "judgment",
+              "target": "decision",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 18
             },
             "strokeStyle": "dashed"
           },
           {
-            "id": "problem",
+            "id": "out-a",
             "shape": "rect",
-            "label": "문제 선택",
-            "x": 170,
+            "label": "결과 A",
+            "x": 125,
             "y": 120,
-            "width": 210,
-            "height": 100,
-            "fill": "white",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "build",
-            "shape": "rect",
-            "label": "AI 구현",
-            "x": 630,
-            "y": 120,
-            "width": 210,
-            "height": 100,
+            "width": 160,
+            "height": 90,
             "fill": "gray",
             "connector": null,
             "strokeStyle": "solid"
           },
           {
-            "id": "review",
+            "id": "out-b",
             "shape": "rect",
-            "label": "사람 판단",
-            "x": 630,
-            "y": 420,
-            "width": 210,
-            "height": 100,
-            "fill": "white",
+            "label": "결과 B",
+            "x": 125,
+            "y": 280,
+            "width": 160,
+            "height": 90,
+            "fill": "gray",
             "connector": null,
             "strokeStyle": "solid"
           },
           {
-            "id": "result",
+            "id": "out-c",
             "shape": "rect",
-            "label": "결과·책임",
-            "x": 170,
-            "y": 420,
-            "width": 210,
-            "height": 100,
+            "label": "결과 C",
+            "x": 125,
+            "y": 440,
+            "width": 160,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "judgment",
+            "shape": "rect",
+            "label": "개인 판단",
+            "x": 400,
+            "y": 280,
+            "width": 190,
+            "height": 130,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "decision",
+            "shape": "rect",
+            "label": "결정",
+            "x": 668,
+            "y": 280,
+            "width": 170,
+            "height": 110,
             "fill": "white",
             "connector": null,
             "strokeStyle": "solid"
@@ -1577,24 +1977,40 @@
             "property": "opacity",
             "from": 0,
             "to": 1,
-            "start": 0.15,
-            "end": 0.3
+            "start": 0.18,
+            "end": 0.34
           },
           {
             "target": "l2",
             "property": "opacity",
             "from": 0,
             "to": 1,
-            "start": 0.3,
-            "end": 0.45
+            "start": 0.26,
+            "end": 0.42
           },
           {
             "target": "l3",
             "property": "opacity",
             "from": 0,
             "to": 1,
-            "start": 0.45,
-            "end": 0.6
+            "start": 0.34,
+            "end": 0.5
+          },
+          {
+            "target": "judgment",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.08,
+            "start": 0.46,
+            "end": 0.64
+          },
+          {
+            "target": "judgment",
+            "property": "scale",
+            "from": 1.08,
+            "to": 1,
+            "start": 0.64,
+            "end": 0.72
           },
           {
             "target": "l4",
@@ -1603,22 +2019,6 @@
             "to": 1,
             "start": 0.6,
             "end": 0.74
-          },
-          {
-            "target": "review",
-            "property": "scale",
-            "from": 0.94,
-            "to": 1.06,
-            "start": 0.54,
-            "end": 0.68
-          },
-          {
-            "target": "review",
-            "property": "scale",
-            "from": 1.06,
-            "to": 1,
-            "start": 0.68,
-            "end": 0.76
           }
         ]
       },
@@ -1626,22 +2026,22 @@
       "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "human-in-loop",
+        "motif": "evaluation-bottleneck",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "Human in the loop의 실제 책임 구조",
+        "concept": "개인의 판단만으로 운영되는 위임의 한계",
         "relation": {
-          "type": "flow",
-          "description": "사람이 문제와 판단과 책임을 연결하고 AI가 구현을 담당한다"
+          "type": "bottleneck",
+          "description": "여러 AI 결과가 한 사람의 판단에 몰려 평가가 불안정해진다"
         },
         "strategy": {
           "type": "spatial-diagram",
-          "metaphor": "사람의 책임으로 닫히는 작업 루프",
-          "rationale": "순환 구조를 직접 그리면 인간이 끝단 검수가 아니라 시작과 결과를 잇는 주체임을 보여준다."
+          "metaphor": "한 관문에 몰리는 평가 흐름",
+          "rationale": "개인의 책임을 강조하는 데서 멈추지 않고 결과가 한 관문에 집중되는 병목을 보여줘 평가 환경의 필요성을 만든다."
         }
       },
       "transition": "wipe",
@@ -1655,34 +2055,223 @@
         "endProgress": 1
       },
       "choreography": [
+        "chapter-evaluation-environment",
         "show-visual",
         "advance-visual",
-        "emphasize-result",
-        "연결선은 노드 뒤에 두고 모든 한글 라벨은 끝까지 노출한다"
+        "연결선은 모든 노드 뒤에 두고 개인 판단 라벨을 끝까지 노출한다"
       ],
       "beats": [
         {
-          "text": "사람은 문제와 위험을 정하고",
+          "text": "그런데 개인의 판단만 강조하면",
+          "emphasis": "mid",
+          "pauseAfterMs": 110,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "개인의 판단",
+          "visualCue": "여러 결과가 한 판단 관문에 모인다"
+        },
+        {
+          "text": "위임은 여전히 불안정합니다",
+          "emphasis": "high",
+          "pauseAfterMs": 270,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "불안정",
+          "visualCue": "판단 관문이 병목으로 강조된다"
+        }
+      ],
+      "headline": "판단만으로는 부족하다",
+      "subline": null,
+      "narration": "그런데 개인의 판단만 강조하면, 위임은 여전히 불안정합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "AI 결과, 평가 환경, 사람 결정이 가로로 분리되어 있다.",
+        "trigger": "AI가 결과물을 생성한다.",
+        "change": "결과가 기준·검증·거부권을 가진 평가 환경을 통과해 사람의 결정으로 전달된다.",
+        "invariant": "연결선은 세 노드 뒤에 유지되고 평가 환경의 두 줄 라벨은 모든 상태에서 가려지지 않는다.",
+        "result": "개인의 감각이 아니라 명시된 평가 환경이 결과와 결정을 연결한다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "AI 결과가 기준·검증·거부권을 갖춘 평가 환경을 거쳐 사람의 결정으로 전달된다. 좌우 노드를 안전영역 안쪽으로 이동해 선 두께를 포함한 40-unit 여백을 유지한다.",
+        "nodes": [
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "ai-output",
+              "target": "environment",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "environment",
+              "target": "human-decision",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "ai-output",
+            "shape": "rect",
+            "label": "AI 결과",
+            "x": 130,
+            "y": 280,
+            "width": 170,
+            "height": 110,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "environment",
+            "shape": "rect",
+            "label": "평가 환경\n기준·검증·거부권",
+            "x": 400,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "human-decision",
+            "shape": "rect",
+            "label": "사람 결정",
+            "x": 670,
+            "y": 280,
+            "width": 170,
+            "height": 110,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.18,
+            "end": 0.38
+          },
+          {
+            "target": "environment",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.06,
+            "start": 0.34,
+            "end": 0.52
+          },
+          {
+            "target": "environment",
+            "property": "scale",
+            "from": 1.06,
+            "to": 1,
+            "start": 0.52,
+            "end": 0.6
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.56,
+            "end": 0.74
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "evaluation-environment",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "AI 결과물을 판단 가능한 상태로 만드는 평가 환경",
+        "relation": {
+          "type": "flow",
+          "description": "AI 결과가 기준과 검증과 거부권을 통과한 뒤 사람의 결정으로 이어진다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "결정 앞에 놓인 평가 환경",
+          "rationale": "개인의 판단이라는 추상어보다 결과가 통과해야 할 구조를 보여줘 ‘잘 평가할 수 있는 환경’의 의미를 구체화한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "push-in",
+        "target": "inflection",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result",
+        "연결선은 세 노드 뒤에 유지하고 평가 환경의 두 줄 라벨을 가리지 않는다"
+      ],
+      "beats": [
+        {
+          "text": "좋은 위임에는",
           "emphasis": "mid",
           "pauseAfterMs": 100,
           "delivery": "normal",
-          "visualPriority": "high",
-          "keyword": "위험",
-          "visualCue": "문제 선택에서 사람 판단까지 흐름이 이어진다"
+          "visualPriority": "mid",
+          "keyword": "좋은 위임",
+          "visualCue": "AI 결과와 사람 결정 사이의 빈 공간이 나타난다"
         },
         {
-          "text": "결과의 책임까지 쥡니다",
+          "text": "AI 결과물을 평가할 환경이 필요합니다",
           "emphasis": "high",
-          "pauseAfterMs": 250,
+          "pauseAfterMs": 290,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "책임",
-          "visualCue": "결과에서 문제 선택으로 루프가 닫힌다"
+          "keyword": "평가할 환경",
+          "visualCue": "기준·검증·거부권을 가진 평가 환경이 채워진다"
         }
       ],
-      "headline": "루프를 닫는 것은 책임",
+      "headline": "좋은 위임은\n평가 환경에서 시작된다",
       "subline": null,
-      "narration": "사람은 문제와 위험을 정하고 결과의 책임까지 쥡니다.",
+      "narration": "좋은 위임에는 AI 결과물을 평가할 환경이 필요합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -1703,15 +2292,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "인간 검수와 인간 책임의 차이",
+        "concept": "평가 취향과 명시된 평가 기준의 차이",
         "relation": {
           "type": "comparison",
-          "description": "결과를 확인하는 역할과 기준을 정하고 거부하는 역할을 구분한다"
+          "description": "막연한 느낌으로 고르는 방식과 좋은 결과의 조건을 먼저 정의하는 방식을 대비한다"
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "비슷해 보이는 두 역할을 병치해야 Human in the loop를 단순 검수로 오해하지 않는다."
+          "rationale": "기준의 유무라는 실제 비교 변수를 두 열로 분리해 평가 환경의 첫 조건을 명확히 한다."
         }
       },
       "transition": "slide-left",
@@ -1726,284 +2315,281 @@
       },
       "choreography": [
         "show-headline",
-        "advance-visual"
-      ],
-      "beats": [
-        {
-          "text": "사람이 확인만 하는 루프가 아니라",
-          "emphasis": "mid",
-          "pauseAfterMs": 100,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "확인 역할을 낮은 명암으로 둔다"
-        },
-        {
-          "text": "기준을 소유하는 루프여야 합니다",
-          "emphasis": "high",
-          "pauseAfterMs": 250,
-          "delivery": "push",
-          "visualPriority": "high",
-          "keyword": "기준",
-          "visualCue": "기준 설정과 거부권을 강조한다"
-        }
-      ],
-      "headline": "검수가 아니라 소유",
-      "subline": null,
-      "narration": "사람이 확인만 하는 루프가 아니라 기준을 소유하는 루프여야 합니다.",
-      "comparisonLeft": "결과만 확인",
-      "comparisonRight": "기준 설정 · 거부 · 책임",
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "statement",
-      "layout": "statement-offset",
-      "visual": {
-        "type": "none",
-        "motif": null,
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "자동화 이후에도 남아야 하는 인간의 세 요소",
-        "relation": {
-          "type": "accumulation",
-          "description": "경험과 판단과 책임이 함께 남을 때 인간의 역할이 완성된다"
-        },
-        "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "세 핵심어를 순차적으로 쌓아 사람이 유지해야 할 최소 조건을 기억하게 한다."
-        }
-      },
-      "transition": "slide-up",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-headline",
-        "advance-visual",
+        "show-comparison",
         "emphasize-result"
       ],
       "beats": [
         {
-          "text": "경험을 남기고 판단을 쥐고",
+          "text": "먼저 좋은 결과가 무엇인지",
           "emphasis": "mid",
           "pauseAfterMs": 110,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": "판단",
-          "visualCue": "경험과 판단이 차례로 쌓인다"
+          "keyword": "좋은 결과",
+          "visualCue": "두 평가 방식을 병치한다"
         },
         {
-          "text": "책임을 끝까지 놓지 않습니다",
+          "text": "기준을 사람이 정의해야 합니다",
           "emphasis": "high",
-          "pauseAfterMs": 260,
-          "delivery": "hold",
+          "pauseAfterMs": 270,
+          "delivery": "push",
           "visualPriority": "high",
-          "keyword": "책임",
-          "visualCue": "책임이 마지막에 가장 크게 남는다"
+          "keyword": "기준",
+          "visualCue": "명시한 기준 열을 선명하게 강조한다"
         }
       ],
-      "headline": "경험 · 판단 · 책임",
-      "subline": "자동화 뒤에도 사람이 가져야 할 것",
-      "narration": "경험을 남기고 판단을 쥐고 책임을 끝까지 놓지 않습니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
+      "headline": "평가의 시작은 기준",
+      "subline": null,
+      "narration": "먼저 좋은 결과가 무엇인지, 기준을 사람이 정의해야 합니다.",
+      "comparisonLeft": "막연한 취향\n그때그때 선택",
+      "comparisonRight": "명시한 기준\n좋은 결과 정의",
       "imageQuery": null,
       "image": null
     },
     {
       "backgroundVideo": null,
       "visualStory": {
-        "initial": "사람 판단이 받침점으로 고정된 지렛대 위에 AI 실행력과 결과가 놓여 있다.",
-        "trigger": "AI 실행력의 무게가 지렛대 왼쪽에 작용한다.",
-        "change": "지렛대가 사람 판단을 중심으로 기울며 반대편 결과가 실제로 올라간다.",
-        "invariant": "받침점은 막대 뒤에, 막대와 물체는 라벨 뒤에 유지된다. ‘AI 실행력’, ‘사람 판단’, ‘큰 결과’ 라벨은 이동 물체와 겹치지 않는다.",
-        "result": "사람의 방향 결정과 AI의 실행력이 결합해 큰 결과를 움직인다."
+        "initial": "AI 결과와 사람 결정 사이에 비어 있는 검증 영역이 보인다.",
+        "trigger": "AI 결과가 검증 영역으로 들어온다.",
+        "change": "맥락, 위험, 의도 세 검사가 차례로 나타나고 각각의 경로가 사람 결정으로 이어진다.",
+        "invariant": "해칭 영역은 연결선과 검사 노드 뒤에 유지된다. 맥락·위험·의도 라벨은 모든 중간 상태에서 가려지지 않는다.",
+        "result": "AI 결과가 세 검사를 통과한 뒤에만 사람의 결정으로 전달된다."
       },
       "diagramSpec": {
         "version": 1,
         "renderer": "auto",
-        "physics": {
-          "seconds": 3.2,
-          "gravity": {
-            "x": 0,
-            "y": 0.28
-          },
-          "bodies": [
-            {
-              "target": "lever",
-              "isStatic": false,
-              "mass": 4,
-              "restitution": 0.04,
-              "friction": 0.85,
-              "velocity": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            {
-              "target": "weight",
-              "isStatic": false,
-              "mass": 8,
-              "restitution": 0.03,
-              "friction": 0.9,
-              "velocity": {
-                "x": 0,
-                "y": 0.3
-              }
-            },
-            {
-              "target": "outcome",
-              "isStatic": false,
-              "mass": 2,
-              "restitution": 0.03,
-              "friction": 0.9,
-              "velocity": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            {
-              "target": "floor",
-              "isStatic": true,
-              "mass": 100,
-              "restitution": 0,
-              "friction": 0.9,
-              "velocity": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          ],
-          "pins": [
-            {
-              "target": "lever",
-              "x": 400,
-              "y": 340
-            }
-          ]
-        },
-        "description": "사람 판단을 받침점으로 삼은 지렛대에 AI 실행력이 작용해 반대편 결과를 들어 올린다.",
+        "physics": null,
+        "description": "AI 결과가 맥락·위험·의도 검증을 거쳐 사람 결정으로 이어지는 평가 환경",
         "nodes": [
           {
-            "id": "floor",
+            "id": "zone",
             "shape": "rect",
             "label": "",
             "x": 400,
-            "y": 500,
-            "width": 680,
-            "height": 16,
-            "fill": "gray",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "pivot",
-            "shape": "circle",
-            "label": "",
-            "x": 400,
-            "y": 380,
-            "width": 70,
-            "height": 70,
+            "y": 280,
+            "width": 270,
+            "height": 380,
             "fill": "hatch",
             "connector": null,
             "strokeStyle": "solid"
           },
           {
-            "id": "lever",
-            "shape": "rect",
+            "id": "a1",
+            "shape": "line",
             "label": "",
-            "x": 400,
-            "y": 340,
-            "width": 440,
-            "height": 24,
-            "fill": "white",
-            "connector": null,
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "output",
+              "target": "context",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
             "strokeStyle": "solid"
           },
           {
-            "id": "weight",
-            "shape": "rect",
+            "id": "a2",
+            "shape": "line",
             "label": "",
-            "x": 250,
-            "y": 160,
-            "width": 120,
-            "height": 70,
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "output",
+              "target": "risk",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "a3",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "output",
+              "target": "intent",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "b1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "context",
+              "target": "decision",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "b2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "risk",
+              "target": "decision",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "b3",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "intent",
+              "target": "decision",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "output",
+            "shape": "rect",
+            "label": "AI 결과",
+            "x": 125,
+            "y": 280,
+            "width": 160,
+            "height": 110,
             "fill": "gray",
             "connector": null,
             "strokeStyle": "solid"
           },
           {
-            "id": "outcome",
+            "id": "context",
             "shape": "rect",
-            "label": "",
-            "x": 580,
-            "y": 280,
-            "width": 150,
-            "height": 80,
-            "fill": "none",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "weight-label",
-            "shape": "text",
-            "label": "AI 실행력",
-            "x": 130,
-            "y": 90,
-            "width": 180,
-            "height": 56,
-            "fill": "none",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "outcome-label",
-            "shape": "text",
-            "label": "큰 결과",
-            "x": 675,
-            "y": 100,
-            "width": 150,
-            "height": 56,
-            "fill": "none",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "pivot-label",
-            "shape": "text",
-            "label": "사람 판단",
+            "label": "맥락",
             "x": 400,
-            "y": 450,
+            "y": 150,
             "width": 180,
-            "height": 56,
-            "fill": "none",
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "risk",
+            "shape": "rect",
+            "label": "위험",
+            "x": 400,
+            "y": 280,
+            "width": 180,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "intent",
+            "shape": "rect",
+            "label": "의도",
+            "x": 400,
+            "y": 410,
+            "width": 180,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "decision",
+            "shape": "rect",
+            "label": "사람 결정",
+            "x": 675,
+            "y": 280,
+            "width": 160,
+            "height": 110,
+            "fill": "white",
             "connector": null,
             "strokeStyle": "solid"
           }
         ],
         "events": [
           {
-            "target": "outcome-label",
+            "target": "a1",
             "property": "opacity",
-            "from": 0.45,
+            "from": 0,
             "to": 1,
-            "start": 0.62,
-            "end": 0.76
+            "start": 0.16,
+            "end": 0.3
+          },
+          {
+            "target": "b1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.28,
+            "end": 0.42
+          },
+          {
+            "target": "a2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.44
+          },
+          {
+            "target": "b2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.42,
+            "end": 0.56
+          },
+          {
+            "target": "a3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.44,
+            "end": 0.58
+          },
+          {
+            "target": "b3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
@@ -2011,25 +2597,25 @@
       "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "delegation-leverage",
+        "motif": "context-risk-intent-check",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "인간 판단과 AI 실행력이 결합하는 레버리지",
+        "concept": "AI 결과를 구체적인 맥락에서 검증하는 과정",
         "relation": {
-          "type": "small-input-large-output",
-          "description": "사람이 정한 방향 위에서 AI의 실행력이 큰 결과를 움직인다"
+          "type": "flow",
+          "description": "AI 결과가 맥락과 위험과 의도를 확인한 뒤 사람의 결정으로 이어진다"
         },
         "strategy": {
-          "type": "physical-metaphor",
-          "metaphor": "사람 판단을 받침점으로 삼는 지렛대",
-          "rationale": "상승 화살표보다 실제로 기울어지는 지렛대가 판단과 실행력의 역할 차이를 정확히 설명한다."
+          "type": "spatial-diagram",
+          "metaphor": "세 검사를 통과하는 결과물",
+          "rationale": "검증을 체크 아이콘 하나로 줄이지 않고 무엇을 다시 확인하는지 세 경로로 보여준다."
         }
       },
-      "transition": "zoom",
+      "transition": "wipe",
       "transitionOptions": null,
       "effects": [],
       "camera": {
@@ -2041,33 +2627,513 @@
       },
       "choreography": [
         "show-visual",
-        "apply-ai-force",
+        "advance-visual",
         "emphasize-result",
-        "받침점은 막대 뒤에 두고 세 라벨은 이동 물체보다 앞에 유지한다"
+        "해칭 영역은 뒤에 두고 연결선과 맥락·위험·의도 라벨을 선명하게 유지한다"
       ],
       "beats": [
         {
-          "text": "AI의 힘은 실행력에서 나오고",
+          "text": "그다음 결과를 검증하고",
           "emphasis": "mid",
           "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "high",
-          "keyword": "실행력",
-          "visualCue": "AI 실행력의 무게가 지렛대에 작용한다"
+          "keyword": "검증",
+          "visualCue": "AI 결과가 검증 영역으로 들어간다"
         },
         {
-          "text": "방향은 사람의 판단에서 나옵니다",
+          "text": "맥락과 위험을 다시 확인해야 합니다",
           "emphasis": "high",
-          "pauseAfterMs": 260,
+          "pauseAfterMs": 270,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "판단",
-          "visualCue": "사람 판단을 중심으로 결과가 올라간다"
+          "keyword": "맥락과 위험",
+          "visualCue": "맥락·위험·의도 검사 경로가 차례로 열린다"
         }
       ],
-      "headline": "판단이 레버리지를 만든다",
+      "headline": "생성 뒤에는 검증이 필요하다",
       "subline": null,
-      "narration": "AI의 힘은 실행력에서 나오고 방향은 사람의 판단에서 나옵니다.",
+      "narration": "그다음 결과를 검증하고, 맥락과 위험을 다시 확인해야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "AI 결과와 평가 관문, 수용과 거부 경로가 보이고 연결선은 숨겨져 있다.",
+        "trigger": "평가 기준이 결과물에 적용된다.",
+        "change": "관문까지의 흐름이 나타난 뒤 기준 충족 경로와 수정 요청 경로가 갈라진다.",
+        "invariant": "연결선은 모든 노드 뒤에 있고 수용·거부·수정 라벨은 가려지지 않는다.",
+        "result": "기준을 넘지 못한 결과는 거부되고 수정 방향과 함께 되돌아간다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "AI 결과를 평가해 수용하거나 수정 요청과 함께 거부하는 흐름",
+        "nodes": [
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "output",
+              "target": "gate",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "gate",
+              "target": "accept",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l3",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "gate",
+              "target": "revise",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "output",
+            "shape": "rect",
+            "label": "AI 결과",
+            "x": 135,
+            "y": 280,
+            "width": 180,
+            "height": 110,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "gate",
+            "shape": "rect",
+            "label": "평가 관문",
+            "x": 400,
+            "y": 280,
+            "width": 210,
+            "height": 130,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "accept",
+            "shape": "rect",
+            "label": "수용",
+            "x": 665,
+            "y": 155,
+            "width": 180,
+            "height": 100,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "revise",
+            "shape": "rect",
+            "label": "거부·수정",
+            "x": 655,
+            "y": 405,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.18,
+            "end": 0.36
+          },
+          {
+            "target": "gate",
+            "property": "scale",
+            "from": 0.95,
+            "to": 1.06,
+            "start": 0.32,
+            "end": 0.48
+          },
+          {
+            "target": "gate",
+            "property": "scale",
+            "from": 1.06,
+            "to": 1,
+            "start": 0.48,
+            "end": 0.56
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.64
+          },
+          {
+            "target": "l3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.6,
+            "end": 0.74
+          },
+          {
+            "target": "revise",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.06,
+            "start": 0.66,
+            "end": 0.76
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "reject-and-revise",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "평가 기준을 통과하지 못한 결과를 거부하는 구조",
+        "relation": {
+          "type": "divergence",
+          "description": "평가 관문에서 수용과 거부·수정 요청이 갈라진다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "수정 요청을 돌려보내는 평가 관문",
+          "rationale": "거부권은 상징이 아니라 실제 대안 경로이므로 수용과 수정 요청의 분기로 표현한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "push-in",
+        "target": "endpoint",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result",
+        "연결선은 관문과 결과 노드 뒤에 유지하고 거부·수정 라벨을 끝까지 노출한다"
+      ],
+      "beats": [
+        {
+          "text": "기준을 못 넘으면 거부하고",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "거부",
+          "visualCue": "거부·수정 경로가 선명하게 나타난다"
+        },
+        {
+          "text": "수정 방향을 다시 돌려보내야 합니다",
+          "emphasis": "mid",
+          "pauseAfterMs": 270,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "수정 방향",
+          "visualCue": "점선 경로가 수정 요청임을 강조한다"
+        }
+      ],
+      "headline": "거부권까지 있어야 평가다",
+      "subline": null,
+      "narration": "기준을 못 넘으면 거부하고, 수정 방향을 다시 돌려보내야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "기준, 검증, 거부, 수정의 네 단계가 고리 형태로 배치되어 있고 연결선은 숨겨져 있다.",
+        "trigger": "평가 기준이 적용된다.",
+        "change": "기준에서 검증, 거부, 수정으로 연결선이 순서대로 나타난 뒤 다시 기준으로 돌아온다.",
+        "invariant": "연결선은 네 단계 노드 뒤에 유지된다. 단계 라벨과 번호는 모든 상태에서 가려지지 않는다.",
+        "result": "평가는 한 번의 승인이 아니라 기준과 검증과 거부가 반복되는 루프로 닫힌다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "기준·검증·거부·수정이 반복되는 평가 피드백 루프",
+        "nodes": [
+          {
+            "id": "l1",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "criteria",
+              "target": "verify",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 24
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "verify",
+              "target": "reject",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 24
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l3",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "reject",
+              "target": "revise",
+              "sourceSide": "left",
+              "targetSide": "right",
+              "gap": 24
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "l4",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "revise",
+              "target": "criteria",
+              "sourceSide": "top",
+              "targetSide": "bottom",
+              "gap": 24
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "criteria",
+            "shape": "rect",
+            "label": "1 기준",
+            "x": 170,
+            "y": 130,
+            "width": 210,
+            "height": 100,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "verify",
+            "shape": "rect",
+            "label": "2 검증",
+            "x": 630,
+            "y": 130,
+            "width": 210,
+            "height": 100,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "reject",
+            "shape": "rect",
+            "label": "3 거부",
+            "x": 630,
+            "y": 430,
+            "width": 210,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "revise",
+            "shape": "rect",
+            "label": "4 수정",
+            "x": 170,
+            "y": 430,
+            "width": 210,
+            "height": 100,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "l1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.14,
+            "end": 0.28
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.28,
+            "end": 0.42
+          },
+          {
+            "target": "l3",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.42,
+            "end": 0.56
+          },
+          {
+            "target": "l4",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.56,
+            "end": 0.72
+          },
+          {
+            "target": "criteria",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.05,
+            "start": 0.66,
+            "end": 0.76
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "evaluation-feedback-loop",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "승인이 아닌 반복 가능한 평가 루프",
+        "relation": {
+          "type": "flow",
+          "description": "기준 설정, 검증, 거부, 수정이 순환하며 다음 평가로 이어진다"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "수정 결과가 기준으로 돌아오는 평가 고리",
+          "rationale": "Human in the loop를 마지막 승인으로 오해하지 않도록 네 단계의 순환 구조와 환류 경로를 직접 보여준다."
+        }
+      },
+      "transition": "wipe",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "pull-out",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "advance-visual",
+        "emphasize-result",
+        "연결선은 네 단계 노드 뒤에 두고 단계 라벨과 번호를 끝까지 노출한다"
+      ],
+      "beats": [
+        {
+          "text": "평가는 한 번의 승인이 아니라",
+          "emphasis": "mid",
+          "pauseAfterMs": 110,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "한 번의 승인",
+          "visualCue": "기준에서 검증과 거부로 흐름이 이어진다"
+        },
+        {
+          "text": "기준과 검증과 거부가 반복되는 루프입니다",
+          "emphasis": "high",
+          "pauseAfterMs": 290,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "반복되는 루프",
+          "visualCue": "수정에서 기준으로 돌아오며 고리가 닫힌다"
+        }
+      ],
+      "headline": "평가는 루프다",
+      "subline": null,
+      "narration": "평가는 한 번의 승인이 아니라, 기준과 검증과 거부가 반복되는 루프입니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -2088,15 +3154,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "위임전쟁의 승부처",
+        "concept": "Human in the loop의 재정의",
         "relation": {
           "type": "comparison",
-          "description": "더 많은 자동화와 더 정확한 경계 설정을 대비한다"
+          "description": "끝에서 승인하는 역할과 평가 구조 전체를 소유하는 역할을 대비한다"
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "전체 논지를 반전 문장으로 압축해 마지막 책임 도식으로 연결한다."
+          "rationale": "마지막 도식 전에 Human in the loop의 의미를 짧게 재정의해 결론의 초점을 평가 환경으로 고정한다."
         }
       },
       "transition": "fade",
@@ -2115,27 +3181,27 @@
       ],
       "beats": [
         {
-          "text": "승부는 더 많이 맡기는 데 있지 않고",
+          "text": "Human in the loop의 핵심은 승인 버튼이 아니라",
           "emphasis": "mid",
-          "pauseAfterMs": 120,
+          "pauseAfterMs": 130,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "자동화의 양을 작게 제시한다"
+          "keyword": "승인 버튼",
+          "visualCue": "승인 버튼이라는 통념을 먼저 낮은 명암으로 제시한다"
         },
         {
-          "text": "더 정확히 나누는 데 있습니다",
+          "text": "평가 구조를 소유하는 것입니다",
           "emphasis": "high",
-          "pauseAfterMs": 300,
+          "pauseAfterMs": 310,
           "delivery": "drop",
           "visualPriority": "high",
-          "keyword": "정확히",
-          "visualCue": "경계의 정확도를 크게 고정한다"
+          "keyword": "평가 구조",
+          "visualCue": "평가 구조라는 결론만 크게 남긴다"
         }
       ],
-      "headline": "양이 아니라\n경계의 정확도",
+      "headline": "승인이 아니라\n평가 구조의 소유",
       "subline": null,
-      "narration": "승부는 더 많이 맡기는 데 있지 않고 더 정확히 나누는 데 있습니다.",
+      "narration": "Human in the loop의 핵심은 승인 버튼이 아니라, 평가 구조를 소유하는 것입니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -2144,20 +3210,20 @@
     {
       "backgroundVideo": null,
       "visualStory": {
-        "initial": "AI 실행과 사람의 판단·책임이 연결된 상태로 함께 보인다.",
-        "trigger": "실행 업무가 AI 쪽으로 넘어간다.",
-        "change": "AI 실행 영역은 낮은 명암으로 물러나고 사람의 판단·책임은 선명하게 남는다.",
-        "invariant": "연결선은 두 노드 뒤에 유지되고 사람의 판단·책임 라벨은 끝까지 가려지지 않는다.",
-        "result": "도구와 실행은 넘겨도 판단과 책임은 사람이 유지한다."
+        "initial": "AI 결과, 평가 환경, 사람의 결정·책임이 가로로 배치되고 연결선은 숨겨져 있다.",
+        "trigger": "AI가 결과물을 생성한다.",
+        "change": "결과가 기준·검증·거부권을 갖춘 평가 환경을 거쳐 사람의 결정과 책임으로 이어진다.",
+        "invariant": "연결선은 세 노드 뒤에 유지되며 평가 환경과 결정·책임 라벨은 마지막까지 선명하게 보인다.",
+        "result": "위임 경쟁의 승부처가 생성 속도가 아니라 결과물을 잘 평가할 수 있는 환경으로 남는다."
       },
       "diagramSpec": {
         "version": 1,
         "renderer": "auto",
         "physics": null,
-        "description": "AI 실행은 뒤로 물러나고 사람의 판단과 책임은 선명하게 남는 마지막 상태",
+        "description": "AI 결과가 평가 환경을 거쳐 사람의 결정과 책임으로 이어지는 최종 결론",
         "nodes": [
           {
-            "id": "handoff",
+            "id": "l1",
             "shape": "line",
             "label": "",
             "x": 0,
@@ -2166,34 +3232,64 @@
             "height": 1,
             "fill": "none",
             "connector": {
-              "source": "ai-work",
-              "target": "human-core",
+              "source": "output",
+              "target": "environment",
               "sourceSide": "right",
               "targetSide": "left",
-              "gap": 24
+              "gap": 16
             },
             "strokeStyle": "solid"
           },
           {
-            "id": "ai-work",
+            "id": "l2",
+            "shape": "line",
+            "label": "",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1,
+            "fill": "none",
+            "connector": {
+              "source": "environment",
+              "target": "ownership",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "output",
             "shape": "rect",
-            "label": "AI 실행",
-            "x": 230,
+            "label": "AI 결과",
+            "x": 125,
             "y": 280,
-            "width": 240,
-            "height": 120,
+            "width": 160,
+            "height": 110,
             "fill": "gray",
             "connector": null,
             "strokeStyle": "solid"
           },
           {
-            "id": "human-core",
+            "id": "environment",
             "shape": "rect",
-            "label": "판단·책임",
-            "x": 570,
+            "label": "평가 환경\n기준·검증·거부권",
+            "x": 400,
             "y": 280,
-            "width": 240,
-            "height": 120,
+            "width": 250,
+            "height": 150,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "ownership",
+            "shape": "rect",
+            "label": "결정·책임",
+            "x": 665,
+            "y": 280,
+            "width": 160,
+            "height": 110,
             "fill": "white",
             "connector": null,
             "strokeStyle": "solid"
@@ -2201,35 +3297,43 @@
         ],
         "events": [
           {
-            "target": "handoff",
+            "target": "l1",
             "property": "opacity",
             "from": 0,
             "to": 1,
-            "start": 0.18,
-            "end": 0.36
+            "start": 0.16,
+            "end": 0.34
           },
           {
-            "target": "ai-work",
-            "property": "opacity",
-            "from": 1,
-            "to": 0.4,
-            "start": 0.42,
-            "end": 0.66
-          },
-          {
-            "target": "human-core",
+            "target": "environment",
             "property": "scale",
             "from": 0.96,
-            "to": 1.08,
-            "start": 0.5,
-            "end": 0.68
+            "to": 1.07,
+            "start": 0.3,
+            "end": 0.5
           },
           {
-            "target": "human-core",
+            "target": "environment",
             "property": "scale",
-            "from": 1.08,
+            "from": 1.07,
             "to": 1,
-            "start": 0.68,
+            "start": 0.5,
+            "end": 0.58
+          },
+          {
+            "target": "l2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.54,
+            "end": 0.72
+          },
+          {
+            "target": "ownership",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1.06,
+            "start": 0.64,
             "end": 0.76
           }
         ]
@@ -2238,22 +3342,22 @@
       "layout": "diagram-centered",
       "visual": {
         "type": "diagram",
-        "motif": "held-responsibility",
+        "motif": "evaluated-delegation",
         "query": null,
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "실행을 넘겨도 판단과 책임은 유지하는 결론",
+        "concept": "위임 경쟁에서 이기기 위한 최종 구조",
         "relation": {
-          "type": "balance",
-          "description": "AI에게 실행을 맡기면서 가치 판단과 책임은 사람이 선명하게 보유한다"
+          "type": "flow",
+          "description": "AI 결과를 평가 가능한 환경이 사람의 결정과 책임으로 연결한다"
         },
         "strategy": {
           "type": "spatial-diagram",
-          "metaphor": "물러나는 실행과 남아 있는 책임",
-          "rationale": "반복 화살표나 추상 아이콘 대신 두 책임 영역의 명암 변화로 무엇을 넘기고 무엇을 쥐는지 보여준다."
+          "metaphor": "생성과 책임 사이의 평가 기반",
+          "rationale": "‘판단을 쥔다’는 선언을 반복하지 않고 판단이 실제로 작동하게 만드는 기준·검증·거부권의 구조를 최종 화면에 남긴다."
         }
       },
       "transition": "fade",
@@ -2261,7 +3365,7 @@
       "effects": [],
       "camera": {
         "motion": "pull-out",
-        "target": "subject",
+        "target": "center",
         "intensity": "subtle",
         "startProgress": 0,
         "endProgress": 1
@@ -2270,31 +3374,31 @@
         "show-visual",
         "advance-visual",
         "show-headline",
-        "연결선은 노드 뒤에 두고 판단·책임 라벨을 마지막까지 선명하게 유지한다"
+        "연결선은 세 노드 뒤에 두고 평가 환경과 결정·책임 라벨을 마지막 프레임까지 선명하게 유지한다"
       ],
       "beats": [
         {
-          "text": "도구는 넘겨도",
+          "text": "위임 경쟁에서 이기려면",
           "emphasis": "mid",
-          "pauseAfterMs": 120,
+          "pauseAfterMs": 130,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": "도구",
-          "visualCue": "AI 실행 영역이 뒤로 물러난다"
+          "keyword": "위임 경쟁",
+          "visualCue": "AI 결과가 평가 환경으로 전달된다"
         },
         {
-          "text": "판단과 책임은 쥐고 있어야 합니다",
+          "text": "AI가 만든 결과물을 잘 평가할 수 있는 환경을 만들어야 합니다",
           "emphasis": "high",
-          "pauseAfterMs": 320,
+          "pauseAfterMs": 340,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "책임",
-          "visualCue": "사람의 판단·책임만 선명하게 남는다"
+          "keyword": "평가할 수 있는 환경",
+          "visualCue": "평가 환경을 거쳐 결정·책임까지 흐름이 완성된다"
         }
       ],
-      "headline": "끝까지 쥘 것:\n판단과 책임",
-      "subline": "이것이 위임전쟁의 핵심이다",
-      "narration": "도구는 넘겨도 판단과 책임은 쥐고 있어야 합니다.",
+      "headline": "승부처는\n평가할 수 있는 환경",
+      "subline": null,
+      "narration": "위임 경쟁에서 이기려면, AI가 만든 결과물을 잘 평가할 수 있는 환경을 만들어야 합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
