@@ -131,3 +131,7 @@ validatePresenter(presenter, finalSceneDuration);
 `presenter-bust`는 두 렌더 테마에서 같은 흰 페이지를 사용한다. 1080×1920 기준 제목 y=230, 보조 문구 y=550, 원형 캐릭터 540×540 (x=270,y=680), 자막 y=1370에 분리한다. 사진/도식/영상 배경/비교 문구는 함께 지정할 수 없다. camera.motion=static, effects=[]를 사용한다. 장면 전환은 기존 transition으로 지정한다. 제목/보조 문구/자막의 실제 한글 폭과 시각 영역 침범은 폰트 로딩 후 DOM 검사로 확인한다. 내용이 넘치면 문구를 줄인다.
 
 `PresenterCases`: 동작/손/표정/입 비교 시트. `PresenterRigPreview`: 12초 수동 입모양 데모(음성 없음). `PresenterCandidatePreview`와 `DarkPresenterCandidatePreview`: 양 렌더 경로의 한글 페이지 검수. CI는 정지 프레임과 동작 MP4를 출력한다. 발음 타이밍 검수와 시각 검수는 별도다.
+
+## 영상 전체 우측 하단 발표자
+
+수동 manifest 최상위에 `"presenterOverlay": {"position": "bottom-right"}`를 지정하면 발표자를 전체 영상의 독립 레이어로 표시한다. 장면의 `presenter`는 null로 두며 사진·도식 레이아웃을 그대로 사용한다. 전환과 공통 CTA에서도 캐릭터가 사라지거나 이동하지 않는다. 1080×1920 기준 x=700, y=1320, 190×190 원형이며 자막은 왼쪽 공간에 예약한다. 실제 텍스트/예약 영역과 발표자의 충돌을 프레임마다 검사한다. 기본 표정·깜빡임·선화 움직임을 사용하며 TTS 립싱크는 연결하지 않는다. 기존 presenter-bust와 동시 사용하거나 알 수 없는 위치를 지정하면 실패한다. 기계 판독 계약은 `src/presenter/overlay.ts`의 `PresenterOverlaySchema`다. 생성 모델의 장면별 presenter 계약과 별개인 수동 manifest 옵션이며 미지정 후보는 기존 동작을 유지한다.

@@ -67,6 +67,7 @@ export function describeCandidate(manifest, filename) {
       `- 주 문구: ${md(scene.headline)}`);
     if (scene.subline) out.push(`- 보조 문구: ${md(scene.subline)}`);
     out.push(`- 배치: ${label(scene.layout)}`);
+    if (manifest.presenterOverlay != null) out.push('- 발표자: 우측 하단 원형 바스트 상시 표시 (장면 전환·공통 CTA 포함). 기본 표정, 실제 TTS 립싱크 미연결.');
     if (scene.presenter != null) {
       out.push('- 발표자: 흰 페이지 / 원형 바스트 / 장면 기준 초');
       for (const [track, cues] of Object.entries(scene.presenter)) if (Array.isArray(cues)) {

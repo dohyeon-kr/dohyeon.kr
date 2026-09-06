@@ -1,4 +1,5 @@
 import type {BackgroundVideo} from './video/schema';
+import type {PresenterOverlaySpec} from './presenter/overlay';
 import type {PresenterSpec} from './presenter/schema';
 import type {DiagramSpec} from './visuals/diagram-spec';
 export type SceneKind = 'hero' | 'photo' | 'compare' | 'statement' | 'outro';
@@ -140,6 +141,7 @@ export type CandidateScene = {
 };
 
 export type CandidateManifest = {
+  presenterOverlay?: PresenterOverlaySpec | null;
   schemaVersion: 1 | 2 | 3;
   id: string;
   status: 'candidate';
