@@ -406,3 +406,14 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 - Gideon O. Burton, Brigham Young University, Silva Rhetoricae: [생략법](https://rhetoric.byu.edu/Figures/E/ellipsis.htm)은 문맥상 이해되는 말의 생략, [도치법](https://rhetoric.byu.edu/Figures/A/anastrophe.htm)은 강조를 위한 통상 어순의 변경으로 설명한다.
 - 같은 자료의 [대조](https://rhetoric.byu.edu/Figures/A/antithesis.htm), [대구](https://rhetoric.byu.edu/Figures/P/parallelism.htm), [점층](https://rhetoric.byu.edu/Figures/C/climax.htm)을 형태 구분의 근거로 삼았다.
 - Gopen & Swan, [The Science of Scientific Writing](https://www.gatsby.ucl.ac.uk/~pel/misc/gopen_swan.pdf), American Scientist (1990): 알려진 맥락과 강조할 새 정보를 배치하는 원칙을 참고했다. 영어 과학 글쓰기 논의를 한국어의 보편 법칙으로 단정하지 않는다. 여기의 화제 제시·종결부 초점·핵심어 회수와 한국어 예시는 숏폼 편집에 맞춘 적용 전략이며, 낭독의 자연스러움으로 최종 판단한다.
+
+
+## 공통 블로그 CTA 엔딩
+
+- 본문 결론 뒤에 공통 CTA 한 장을 코드로 추가한다. 기본 6~9장 / 확장 18~21장은 본문 분량이며 CTA는 별도 한 장이다.
+- 생성·AI 리뷰는 본문만 작성한다. `commonPage: blog-cta-v1` 페이지는 공통 모듈이 추가·교체하며 중복되지 않는다. 본문의 마지막 결론 장면을 CTA로 대체하지 않는다.
+- 공통 화면: “더 자세한 이야기는 / 블로그에서”, `blog.dohyeon.kr`, “프로필 링크에서 읽기”. 내레이션: “더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.”
+- 공통 CTA는 사진 필수 규칙의 예외다. 검정 배경, 흰색 제목, 회색 보조문구로 시선을 읽기 동선에 집중한다. 링크를 누를 수 있는 버튼이나 QR처럼 표현하지 않는다.
+- 최소 6초, 실제 내레이션 종료 후 최소 1.2초를 확보한다. 화면 문구는 고정하고 공통 fade만 적용한다. CTA에서는 별도 자막을 겹쳐 띄우지 않는다.
+- 스토리보드·최종 렌더·내레이션 텍스트에 같은 공통 페이지를 적용한다. 기존 후보도 다시 렌더하면 CTA가 붙는다. 이미 배포한 영상 파일은 바뀌지 않는다.
+- 원문 링크는 기존 배포용 캡션에 유지한다. 실제 인스타그램 프로필의 블로그 링크 설정은 별도로 확인한다.

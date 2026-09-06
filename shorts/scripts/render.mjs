@@ -1,3 +1,4 @@
+import {withBlogCta} from './blog-cta.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
 import {videoFrameCount} from '../src/video/schema.ts';
 import fs from 'node:fs/promises';
@@ -314,7 +315,7 @@ const main = async () => {
     throw new Error('Manifest must be a JSON file under shorts/content/.');
   }
 
-  const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+  const manifest = withBlogCta(JSON.parse(await fs.readFile(manifestPath, 'utf8')));
   for (const [index, scene] of manifest.scenes.entries()) {
     validateSceneMotion(scene, manifest.scenes[index - 1]);
     if (!scene.diagramSpec) continue;
@@ -372,7 +373,8 @@ const main = async () => {
         (await audioDuration(audioFile)) ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / (6.5 * TTS_RATE));
     }
 
-    const previewDuration = storyboardOnly || silentPreview ? 3.6 : audioDurationSeconds;
+    const speechDuration = storyboardOnly || silentPreview ? 3.6 : audioDurationSeconds;
+    const previewDuration = scene.commonPage === 'blog-cta-v1' ? Math.max(6, (speechDuration ?? 3.6) + 1.2) : speechDuration;
     let videoPath = null;
     if (videos[index]) {
       try {
@@ -385,7 +387,7 @@ const main = async () => {
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
       audioDurationSeconds: previewDuration,
-      captions: buildCaptionCues(scene.narration, previewDuration ?? 3.6),
+      captions: buildCaptionCues(scene.narration, speechDuration ?? 3.6),
     });
   }
 

@@ -59,6 +59,11 @@ jobs:
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/02-chart.png" --public-dir=public --frame=145
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/03-flow.png" --public-dir=public --frame=260
           npx remotion still src/index.tsx TemplatePreview "${RUNNER_TEMP}/shorts-template-preview/04-type.png" --public-dir=public --frame=680
+          for composition in BlogCtaPreview DarkBlogCtaPreview; do
+            for frame in 1 45 179; do
+              npx remotion still src/index.tsx "$composition" "${RUNNER_TEMP}/shorts-template-preview/${composition}-${frame}.png" --public-dir=public --frame="$frame"
+            done
+          done
           node scripts/render-template-preview.mjs "${RUNNER_TEMP}/shorts-integrated-preview" --silent
 
       - name: Render video backgrounds

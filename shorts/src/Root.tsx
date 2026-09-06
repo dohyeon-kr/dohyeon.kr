@@ -1,3 +1,4 @@
+import {createBlogCta} from '../scripts/blog-cta.mjs';
 import React from 'react';
 import {templatePreviewProps, previewDuration} from './template-preview';
 import {Composition} from 'remotion';
@@ -81,8 +82,12 @@ const defaultProps: RenderManifest = {
   ],
 };
 
+const blogCtaPreview: RenderManifest = {...defaultProps, scenes: [scene({...createBlogCta(), audioDurationSeconds: 6} as Partial<RenderScene> & Pick<RenderScene, 'kind' | 'headline'>)]};
+
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="BlogCtaPreview" component={ShortVideo} durationInFrames={previewDuration(blogCtaPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaPreview} />
+    <Composition id="DarkBlogCtaPreview" component={DarkShortVideo} durationInFrames={previewDuration(blogCtaPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaPreview} />
     <Composition id="MotionEffectsPreview" component={ShortVideo} durationInFrames={previewDuration(motionPreviewProps)} fps={30} width={1080} height={1920} defaultProps={motionPreviewProps} />
     <Composition id="MotionEffectsGallery" component={ShortVideo} durationInFrames={previewDuration(motionGalleryProps)} fps={30} width={1080} height={1920} defaultProps={motionGalleryProps} />
     <Composition id="DarkMotionEffectsPreview" component={DarkShortVideo} durationInFrames={previewDuration(motionPreviewProps)} fps={30} width={1080} height={1920} defaultProps={motionPreviewProps} />

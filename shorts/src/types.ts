@@ -112,6 +112,7 @@ export type CaptionCue = {
 };
 
 export type CandidateScene = {
+  commonPage?: 'blog-cta-v1';
   backgroundVideo?: BackgroundVideo | null;
   visualResolution?: {status: 'fallback'; originalQuery: string | null; reason: 'photo-unavailable' | 'invalid-diagram'; detail?: string};
   visualStory?: {initial: string; trigger: string; change: string; invariant: string; result: string} | null;

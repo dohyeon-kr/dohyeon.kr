@@ -1,3 +1,4 @@
+import {BlogCta} from './BlogCta';
 import {VideoBackground} from './video/VideoBackground';
 import React, {useRef} from 'react';
 import {useLayoutCheck} from './use-layout-check';
@@ -183,6 +184,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
   const layoutRoot = useRef<HTMLDivElement>(null);
   useLayoutCheck(layoutRoot, frame);
   const visual = fallbackVisual(scene);
+  if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
   const layout = fallbackLayout(scene, visual);
 
   const photo = visual.type === 'photo';
