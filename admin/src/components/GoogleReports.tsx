@@ -17,11 +17,52 @@ type State<T> =
   | ({ status: "connected"; updatedAt: string; timezone: string } & T);
 export type GA4 = State<{
   propertyId: string;
-  summary: { users: number; sessions: number; views: number };
+  summary: {
+    users: number;
+    sessions: number;
+    views: number;
+    averageEngagementSeconds?: number | null;
+  };
   daily: { day: string; users: number; sessions: number; views: number }[];
-  sources: { source: string; sessions: number }[];
+  sources: EngagementSource[];
+  social?: EngagementSource[];
+  sourcesTruncated?: boolean;
   thresholded: boolean;
 }>;
+type EngagementSource = {
+  source: string;
+  sessions: number;
+  averageEngagementSeconds?: number | null;
+};
+export const duration = (seconds: number | null | undefined) => {
+  if (seconds == null || !Number.isFinite(seconds)) return "—";
+  const rounded = Math.round(seconds);
+  return `${Math.floor(rounded / 60)}분 ${rounded % 60}초`;
+};
+function EngagementTable({ rows }: { rows: EngagementSource[] }) {
+  return (
+    <div className="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>소스 / 매체</th>
+            <th>세션</th>
+            <th>세션당 평균 참여 시간</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.source}>
+              <td>{row.source}</td>
+              <td>{number(row.sessions)}</td>
+              <td>{duration(row.averageEngagementSeconds)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 type SearchMetrics = {
   clicks: number;
   impressions: number;
@@ -202,7 +243,30 @@ export function GA4Panel({ state }: { state: GA4 }) {
               <dt>페이지·화면 조회</dt>
               <dd>{number(state.summary.views)}</dd>
             </div>
+            <div>
+              <dt>세션당 평균 참여 시간</dt>
+              <dd>{duration(state.summary.averageEngagementSeconds)}</dd>
+            </div>
           </dl>
+          <p className="muted small">
+            사이트가 활성화되어 있던 총 시간 ÷ 세션 수입니다. 신규 방문과
+            재방문을 모두 포함합니다.
+          </p>
+          <h3>SNS 채널별 유입과 참여 시간</h3>
+          <p className="muted small">
+            Instagram · Threads · Facebook의 소스 별칭과 하위 도메인을
+            합산합니다. 평균 시간은 총 참여 시간과 총 세션으로 계산합니다.
+          </p>
+          {state.social?.length ? (
+            <EngagementTable rows={state.social} />
+          ) : (
+            <p className="muted">이 기간에 반환된 SNS 데이터가 없습니다.</p>
+          )}
+          {state.sourcesTruncated && (
+            <p className="muted small">
+              유입 경로가 많아 SNS 합계에 일부 경로가 빠질 수 있습니다.
+            </p>
+          )}
           <ReportChart
             rows={state.daily}
             metric="users"
@@ -215,24 +279,7 @@ export function GA4Panel({ state }: { state: GA4 }) {
             수 있습니다.
           </p>
           {state.sources.length ? (
-            <div className="table-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>소스 / 매체</th>
-                    <th>세션</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {state.sources.map((row) => (
-                    <tr key={row.source}>
-                      <td>{row.source}</td>
-                      <td>{number(row.sessions)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <EngagementTable rows={state.sources} />
           ) : (
             <p className="muted">이 기간에 반환된 유입 경로가 없습니다.</p>
           )}
