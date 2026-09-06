@@ -24,7 +24,7 @@ jobs:
         working-directory: shorts
         run: |
           npm run typecheck
-          node --test tests/presenter.test.mjs tests/presenter-api.test.mjs
+          node --test tests/presenter.test.mjs tests/presenter-api.test.mjs tests/presenter-visual.test.mjs
           mkdir -p public/fonts
           cp ../scripts/thumbnail-fonts/Pretendard-Bold.woff ../scripts/thumbnail-fonts/Pretendard-Regular.woff public/fonts/
           mkdir -p "${RUNNER_TEMP}/presenter-rig"

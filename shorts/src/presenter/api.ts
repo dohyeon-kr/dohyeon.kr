@@ -3,6 +3,8 @@ import {validatePresenter, type PresenterSpec} from './schema.ts';
 import type {Action, Expression, HandShape, MouthShape, Side} from './vocabulary.ts';
 export * from './vocabulary.ts';
 export * from './schema.ts';
+// v1 hand fields remain readable for old candidates, but the current bust never draws them.
+export const PRESENTER_CAPABILITIES = {hands:false, depth:'layered-shading', expressions:true, mouthTracks:true} as const;
 
 export const ACTION_PRESETS: Record<Action, {hand: HandShape; side: Side; x: number; y: number; wrist: number; tilt: number}> = {
   idle: {hand:'relaxed',side:'right',x:535,y:690,wrist:12,tilt:0},

@@ -1,5 +1,7 @@
 # Programmable presenter prototype
 
+Current visual revision: hands/forearms are removed; the shirt uses a stable rest contour. Rounded eyebrow ends, folded collar planes and subtle grayscale shading provide layered depth without a 3D mesh. Legacy hand controls remain readable for candidate compatibility only; see the current design notice in presenter-api.md.
+
 **Current public contract:** [Presenter API v1](presenter-api.md). Candidate authors should use semantic actions/expressions and the generated schema, not the low-level rig controls below. The white `presenter-bust` layout is now connected to both video renderers.
 
 The approved monochrome character concept is redrawn as editable SVG paths, not a PNG cutout or a pose-image slideshow. This is a first vector interpretation, not an exact automatic tracing. The reference portrait is not uploaded to the repository.

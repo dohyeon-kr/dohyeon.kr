@@ -87,12 +87,12 @@ const defaultProps: RenderManifest = {
 const blogCtaPreview: RenderManifest = {...defaultProps, scenes: [scene({...createBlogCta(), audioDurationSeconds: 6} as Partial<RenderScene> & Pick<RenderScene, 'kind' | 'headline'>)]};
 
 const blogCtaTransitionPreview: RenderManifest = {...defaultProps, scenes: [scene({kind: 'statement', headline: '판단의 기준을\n스스로 세우세요.', transition: 'none', audioDurationSeconds: 2.4}), ...blogCtaPreview.scenes]};
-const presenterCandidatePreview:RenderManifest = {...defaultProps,scenes:[scene({kind:'statement',layout:'presenter-bust',headline:'설명은 자연스럽게,\n제어는 명확하게.',subline:'동작 · 손 · 표정 · 입모양을 따로 제어합니다.',presenter:demoTracks,transition:'blur-dissolve',audioDurationSeconds:12,captions:[{startSeconds:0,endSeconds:4,text:'각 동작을 의미 단위로 선택합니다.'},{startSeconds:4,endSeconds:8,text:'손 모양과 표정은 프리셋으로 제어합니다.'},{startSeconds:8,endSeconds:12,text:'입모양은 발음 시간 정보와 연결합니다.'}]})]};
+const presenterCandidatePreview:RenderManifest = {...defaultProps,scenes:[scene({kind:'statement',layout:'presenter-bust',headline:'설명은 자연스럽게,\n제어는 명확하게.',subline:'표정 · 입모양과 작은 고개 움직임으로 표현합니다.',presenter:demoTracks,transition:'blur-dissolve',audioDurationSeconds:12,captions:[{startSeconds:0,endSeconds:4,text:'각 동작을 의미 단위로 선택합니다.'},{startSeconds:4,endSeconds:8,text:'차분한 표정으로 설명에 집중합니다.'},{startSeconds:8,endSeconds:12,text:'입모양은 발음 시간 정보와 연결합니다.'}]})]};
 
 export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="PresenterRigPreview" component={PresenterPreview} durationInFrames={360} fps={30} width={800} height={800} />
-    <Composition id="PresenterCases" component={PresenterGallery} durationInFrames={1} fps={30} width={1500} height={1450} />
+    <Composition id="PresenterCases" component={PresenterGallery} durationInFrames={1} fps={30} width={1500} height={740} />
     <Composition id="PresenterCandidatePreview" component={ShortVideo} durationInFrames={previewDuration(presenterCandidatePreview)} fps={30} width={1080} height={1920} defaultProps={presenterCandidatePreview} />
     <Composition id="DarkPresenterCandidatePreview" component={DarkShortVideo} durationInFrames={previewDuration(presenterCandidatePreview)} fps={30} width={1080} height={1920} defaultProps={presenterCandidatePreview} />
     <Composition id="BlogCtaTransitionPreview" component={ShortVideo} durationInFrames={previewDuration(blogCtaTransitionPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaTransitionPreview} />
