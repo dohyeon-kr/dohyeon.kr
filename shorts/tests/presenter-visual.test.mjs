@@ -25,9 +25,20 @@ test('all legacy hand/action inputs render a hand-free stable bust with rounded 
     if(contour) assert.equal(shape,contour); contour=shape;
   }
 });
-test('multiple shaded avatars have unique gradient IDs and valid references',()=>{
+test('multiple ink avatars have unique eye clip IDs and valid references',()=>{
   const svg=renderToStaticMarkup(React.createElement(React.Fragment,null,React.createElement(Presenter),React.createElement(Presenter,{expression:'curious'})));
   const ids=[...svg.matchAll(/ id="([^"]+)"/g)].map(m=>m[1]);
-  assert.equal(ids.length,8); assert.equal(new Set(ids).size,ids.length);
+  assert.equal(ids.length,6); assert.equal(new Set(ids).size,ids.length);
   for(const [,ref] of svg.matchAll(/url\(#([^\)]+)\)/g)) assert.ok(ids.includes(ref));
+});
+test('nod, eyelids and brows are separate layers while glasses and torso stay stable',()=>{
+  const render=pose=>renderToStaticMarkup(React.createElement(Presenter,{pose}));
+  const rest=render({}), moving=render({headNod:1,blink:1,browLeft:-1,browRight:.5});
+  const part=(svg,name)=>svg.match(new RegExp(`data-part="${name}"[^>]*>([\\s\\S]*?)</g>`))?.[1];
+  assert.equal(part(rest,'glasses'),part(moving,'glasses'));
+  assert.equal(part(rest,'overshirt'),part(moving,'overshirt'));
+  assert.notEqual(part(rest,'eyebrows'),part(moving,'eyebrows'));
+  assert.match(moving,/data-part="head" transform="translate\(0 9\)/);
+  assert.notEqual(rest.match(/data-part="upper-eyelid" d="([^"]+)"/)[1],moving.match(/data-part="upper-eyelid" d="([^"]+)"/)[1]);
+  assert.doesNotMatch(moving,/Gradient|NaN|Infinity/);
 });

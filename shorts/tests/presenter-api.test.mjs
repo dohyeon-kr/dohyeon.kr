@@ -84,3 +84,24 @@ test('TTS adapter accepts timed basic phonemes, preserves closures, rejects gues
 test('published JSON schema matches the runtime source',()=>{
   assert.deepEqual(JSON.parse(fs.readFileSync(new URL('../docs/presenter.schema.json',import.meta.url),'utf8')),z.toJSONSchema(PresenterSchema));
 });
+test('direct motion controls are independent and clamped without changing the v1 candidate schema',()=>{
+  const p=statePose({motion:{nod:5,tilt:-30,blink:2,browLeft:-2,browRight:.5}});
+  assert.equal(p.headNod,1); assert.equal(p.headTilt,-12); assert.equal(p.blink,1);
+  assert.equal(p.browLeft,-1); assert.equal(p.browRight,.5);
+  assert.equal(statePose({motion:{nod:NaN}}).headNod,0);
+  assert.throws(()=>validatePresenter({motion:{nod:1}}));
+});
+test('authored actions produce one bounded nod, return to rest and support random access',()=>{
+  const evaluate=compilePresenter({actions:[{start:1,end:3,name:'emphasize'}]},4);
+  assert.ok(evaluate(1.5).headNod>0);
+  for(const t of [0,1,2,2.9,3,4]) assert.equal(evaluate(t).headNod,0);
+  const saved=evaluate(1.4); evaluate(3); assert.deepEqual(evaluate(1.4),saved);
+  assert.equal(compilePresenter({actions:[{start:1,end:3,name:'idle'}]},4)(1.5).headNod,0);
+});
+test('eye and brow transitions blend at expression boundaries including adjacent cues',()=>{
+  const evaluate=compilePresenter({expressions:[{start:0,end:1,name:'smile'},{start:1,end:2,name:'curious'}]},3);
+  assert.equal(evaluate(1).expressionFrom,'smile'); assert.equal(evaluate(1).expressionMix,0);
+  assert.ok(Math.abs(evaluate(1.09).expressionMix-.5)<1e-8);
+  assert.equal(evaluate(1.3).expressionMix,1);
+  assert.equal(evaluate(2).expressionFrom,'curious'); assert.equal(evaluate(2).expression,'neutral');
+});

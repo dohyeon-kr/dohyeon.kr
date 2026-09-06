@@ -1,6 +1,6 @@
 # Programmable presenter prototype
 
-Current visual revision: hands/forearms are removed; the shirt uses a stable rest contour. Rounded eyebrow ends, folded collar planes and subtle grayscale shading provide layered depth without a 3D mesh. Legacy hand controls remain readable for candidate compatibility only; see the current design notice in presenter-api.md.
+Current visual revision: reference-inspired monochrome ink SVG, with elongated face proportions, flowing hair strands, almond eyelids and clipped pupils. This is a vector reconstruction, not a pixel-exact split of the reference raster. Hands remain absent. `headNod`, `browLeft/Right` and the direct `motion` interface extend the existing controls; the neck follows the head while shoulders stay fixed. Existing candidate actions trigger one nod; eyes/brows blend over 180ms. See presenter-api.md for the current contract. Older hand/IK notes below describe compatibility fields only.
 
 **Current public contract:** [Presenter API v1](presenter-api.md). Candidate authors should use semantic actions/expressions and the generated schema, not the low-level rig controls below. The white `presenter-bust` layout is now connected to both video renderers.
 
