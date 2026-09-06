@@ -495,22 +495,48 @@ class GoogleReports:
             if order:
                 body["orderBys"] = [{"metric": {"metricName": order}, "desc": True}]
             return self._post(url, body, config)
-        metrics = ["totalUsers", "sessions", "screenPageViews"]
+        metrics = ["totalUsers", "sessions", "screenPageViews", "userEngagementDuration"]
         summary = query([], metrics, 1)
         daily = query(["date"], metrics, 366)
-        sources = query(["sessionSourceMedium"], ["sessions"], 20, "sessions")
+        sources = query(["sessionSourceMedium"], ["sessions", "userEngagementDuration"], 10000, "sessions")
         def values(row):
-            return [int(value["value"]) for value in row["metricValues"]]
-        totals = values(summary["rows"][0]) if summary.get("rows") else [0, 0, 0]
+            return [float(value["value"]) for value in row["metricValues"]]
+        totals = values(summary["rows"][0]) if summary.get("rows") else [0, 0, 0, 0]
         days = []
         for row in daily.get("rows", []):
             day = datetime.strptime(row["dimensionValues"][0]["value"], "%Y%m%d").date().isoformat()
-            users, sessions, views = values(row)
+            users, sessions, views, engagement = values(row)
             days.append({"day": day, "users": users, "sessions": sessions, "views": views})
+        source_rows = []
+        social = {}
+        for row in sources.get("rows", []):
+            source = row["dimensionValues"][0]["value"]
+            sessions, engagement = values(row)
+            source_rows.append({"source": source, "sessions": sessions,
+                                "averageEngagementSeconds": engagement / sessions if sessions else None})
+            host = source.split(" / ")[0].strip().lower()
+            channel = None
+            for label, aliases, domains in [
+                ("Instagram", {"ig", "instagram"}, {"instagram.com"}),
+                ("Threads", {"threads"}, {"threads.com", "threads.net"}),
+                ("Facebook", {"fb", "facebook"}, {"facebook.com", "fb.com"}),
+            ]:
+                if host in aliases or any(host == d or host.endswith("." + d) for d in domains):
+                    channel = label
+                    break
+            if channel:
+                item = social.setdefault(channel, {"source": channel, "sessions": 0, "engagement": 0})
+                item["sessions"] += sessions
+                item["engagement"] += engagement
+        social_rows = [{"source": item["source"], "sessions": item["sessions"],
+                        "averageEngagementSeconds": item["engagement"] / item["sessions"] if item["sessions"] else None}
+                       for item in social.values()]
         metadata = summary.get("metadata", {})
         return {"propertyId": property_id, "timezone": metadata.get("timeZone", "속성 시간대"),
-                "summary": dict(zip(["users", "sessions", "views"], totals)), "daily": sorted(days, key=lambda x: x["day"]),
-                "sources": [{"source": row["dimensionValues"][0]["value"], "sessions": values(row)[0]} for row in sources.get("rows", [])],
+                "summary": {**dict(zip(["users", "sessions", "views"], totals[:3])), "averageEngagementSeconds": totals[3] / totals[1] if totals[1] else None}, "daily": sorted(days, key=lambda x: x["day"]),
+                "sources": source_rows[:20],
+                "social": sorted(social_rows, key=lambda x: x["sessions"], reverse=True),
+                "sourcesTruncated": sources.get("rowCount", len(source_rows)) > len(source_rows),
                 "thresholded": any(r.get("metadata", {}).get("subjectToThresholding", False) for r in [summary, daily, sources])}
 
     def _search(self, start, end, config):

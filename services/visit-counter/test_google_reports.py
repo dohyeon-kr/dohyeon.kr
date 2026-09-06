@@ -27,14 +27,21 @@ class GoogleReportsTest(unittest.TestCase):
     def test_ga4_period_users_are_not_summed_and_cache_reuses_result(self):
         def row(dimensions, values):
             return {'dimensionValues': [{'value': x} for x in dimensions], 'metricValues': [{'value': str(x)} for x in values]}
-        responses = [{'rows': [row([], [3, 7, 12])], 'metadata': {'timeZone': 'Asia/Seoul'}},
-                     {'rows': [row(['20260102'], [3, 4, 7]), row(['20260101'], [2, 3, 5])]},
-                     {'rows': [row(['google / organic'], [7])]}]
+        responses = [{'rows': [row([], [3, 7, 12, 140.5])], 'metadata': {'timeZone': 'Asia/Seoul'}},
+                     {'rows': [row(['20260102'], [3, 4, 7, 100]), row(['20260101'], [2, 3, 5, 40.5])]},
+                     {'rows': [row(['google / organic'], [7, 140.5]), row(['facebook.com / referral'], [5, 500]), row(['m.facebook.com / referral'], [4, 40]), row(['ig / social'], [10, 125.5]), row(['l.threads.com / referral'], [10, 300]), row(['fakefacebook.com / referral'], [1, 99])]}]
         with patch.object(self.reports, '_post', side_effect=responses) as post:
             data = self.reports.report('ga4', '2026-01-01', '2026-01-02')
             self.assertEqual(data['summary']['users'], 3)
             self.assertEqual([x['day'] for x in data['daily']], ['2026-01-01', '2026-01-02'])
             self.assertEqual(data['sources'][0]['sessions'], 7)
+            self.assertAlmostEqual(data['summary']['averageEngagementSeconds'], 140.5 / 7)
+            channels = {x['source']: x for x in data['social']}
+            self.assertEqual(channels['Facebook']['sessions'], 9)
+            self.assertEqual(channels['Facebook']['averageEngagementSeconds'], 60)
+            self.assertEqual(channels['Instagram']['averageEngagementSeconds'], 12.55)
+            self.assertEqual(channels['Threads']['sessions'], 10)
+            self.assertFalse(data['sourcesTruncated'])
             self.assertEqual(data, self.reports.report('ga4', '2026-01-01', '2026-01-02'))
             self.assertEqual(post.call_count, 3)
 
@@ -71,3 +78,10 @@ class GoogleReportsTest(unittest.TestCase):
         data = self.reports.report('ga4', '2026-01-01', '2026-01-02')
         self.assertEqual(data['status'], 'error')
         self.assertNotIn(self.temp.name, json.dumps(data))
+
+    def test_empty_ga4_has_no_average(self):
+        with patch.object(self.reports, '_post', return_value={}):
+            data = self.reports.report('ga4', '2026-01-01', '2026-01-02')
+            self.assertEqual(data['status'], 'connected')
+            self.assertIsNone(data['summary']['averageEngagementSeconds'])
+            self.assertEqual(data['social'], [])
