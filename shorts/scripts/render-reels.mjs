@@ -1,3 +1,4 @@
+import {withBlogCta} from './blog-cta.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
@@ -24,7 +25,7 @@ const main = async () => {
   if (!manifestArg) throw new Error('Usage: node render-reels.mjs <shorts/content/.../candidate-XX.json>');
 
   const manifestPath = path.resolve(repoRoot, manifestArg);
-  const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+  const manifest = withBlogCta(JSON.parse(await fs.readFile(manifestPath, 'utf8')));
   const slug = safeName(path.basename(path.dirname(manifestPath)));
   const candidateId = safeName(manifest.id || path.basename(manifestPath, '.json'));
   const base = path.join(outputRoot, `${slug}-${candidateId}`);

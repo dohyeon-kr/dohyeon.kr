@@ -1,3 +1,4 @@
+import {withBlogCta} from './blog-cta.mjs';
 import {BackgroundVideoSchema} from '../src/video/schema.ts';
 import {loadVideoCatalog} from './video-assets.mjs';
 import fs from 'node:fs/promises';
@@ -136,6 +137,7 @@ export const CandidateSchema = z.object({
 const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
 
 export const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
+공통 블로그 CTA는 코드에서 본문 결론 뒤에 자동 추가한다. 출력 scenes에는 CTA를 작성하지 말고 본문만 기본 6~9장 또는 확장 18~21장으로 구성한다. 기존 후보 리뷰에서도 commonPage가 있는 공통 CTA를 출력에서 제외한다.
 도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
 diagramSpec은 version=1, renderer=auto가 기본이다. 일반 도식은 Remotion, physics가 있는 장면은 Motion Canvas로 자동 선택된다.
 physics는 보통 null이다. 충돌/낙하/시소가 의미를 전달할 때만 seconds(0.1~10), gravity(x/y -2~2), bodies, pins를 작성한다.
@@ -400,7 +402,7 @@ const main = async () => {
   await fs.mkdir(outputDir, {recursive: true});
 
   for (const [index, candidate] of enriched.entries()) {
-    const manifest = {
+    const manifest = withBlogCta({
       schemaVersion: 3,
       id: `candidate-${String(index + 1).padStart(2, '0')}`,
       status: 'candidate',
@@ -424,7 +426,7 @@ const main = async () => {
         decorativeLabels: 'forbidden',
       },
       scenes: candidate.scenes,
-    };
+    });
     manifest.scenes.forEach((scene, i) => validateSceneMotion(scene, manifest.scenes[i - 1]));
     await fs.writeFile(path.join(outputDir, `${manifest.id}.json`), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
   }

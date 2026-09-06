@@ -1,3 +1,4 @@
+import {BlogCta} from './BlogCta';
 import {VideoBackground} from './video/VideoBackground';
 import React, {useRef} from 'react';
 import {useLayoutCheck} from './use-layout-check';
@@ -183,6 +184,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
   const layoutRoot = useRef<HTMLDivElement>(null);
   useLayoutCheck(layoutRoot, frame);
   const visual = fallbackVisual(scene);
+  if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
   const layout = fallbackLayout(scene, visual);
 
   const photo = visual.type === 'photo';
@@ -260,7 +262,7 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes}) => {
         cursor += durationInFrames;
         return (
           <Sequence key={`${index}-${scene.headline}`} from={from} durationInFrames={durationInFrames}>
-            <SceneTransitionStage type={fallbackTransition(scene, index)} options={scene.transitionOptions} durationInFrames={durationInFrames}
+            <SceneTransitionStage blurText={scene.commonPage === 'blog-cta-v1'} type={fallbackTransition(scene, index)} options={scene.transitionOptions} durationInFrames={durationInFrames}
               previousFrames={index > 0 ? sceneFrames(scenes[index - 1]) : undefined}
               previous={index > 0 ? layer => <SceneFrame layer={layer} scene={scenes[index - 1]} index={index - 1} total={scenes.length} sourceTitle={source.title} durationInFrames={sceneFrames(scenes[index - 1])} /> : undefined}
               current={layer => <SceneFrame layer={layer} scene={scene} index={index} total={scenes.length} sourceTitle={source.title} durationInFrames={durationInFrames} />} />

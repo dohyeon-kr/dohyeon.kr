@@ -3,10 +3,10 @@ import {AbsoluteFill, Freeze, useCurrentFrame, useVideoConfig} from 'remotion';
 import {transitionProgress, type SceneTransition, type TransitionOptions} from './schema';
 
 export type SceneLayer = 'visual' | 'text';
-type Props = {type: SceneTransition; options?: TransitionOptions | null; durationInFrames: number; previousFrames?: number; previous?: (layer: SceneLayer) => React.ReactNode; current: (layer: SceneLayer) => React.ReactNode};
+type Props = {blurText?: boolean; type: SceneTransition; options?: TransitionOptions | null; durationInFrames: number; previousFrames?: number; previous?: (layer: SceneLayer) => React.ReactNode; current: (layer: SceneLayer) => React.ReactNode};
 
 // Visual handles hold the previous end frame. Audio and scene offsets never overlap.
-export const SceneTransitionStage: React.FC<Props> = ({type, options, durationInFrames, previousFrames, previous, current}) => {
+export const SceneTransitionStage: React.FC<Props> = ({blurText = false, type, options, durationInFrames, previousFrames, previous, current}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const id = `transition-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
@@ -63,7 +63,7 @@ export const SceneTransitionStage: React.FC<Props> = ({type, options, durationIn
     {p < 1 && visual(oldFrame('visual'), old)}
     {visual(current('visual'), next)}
     {p < 1 ? overlay : null}
-    {p < 1 && <AbsoluteFill style={{...old, filter: undefined, opacity: Math.min(1 - p, Number(old.opacity ?? 1))}}>{oldFrame('text')}</AbsoluteFill>}
-    <AbsoluteFill style={{...next, filter: undefined, opacity: Math.min(p, Number(next.opacity ?? 1))}}>{current('text')}</AbsoluteFill>
+    {p < 1 && <AbsoluteFill style={{...old, filter: blurText ? old.filter : undefined, opacity: Math.min(1 - p, Number(old.opacity ?? 1))}}>{oldFrame('text')}</AbsoluteFill>}
+    <AbsoluteFill style={{...next, filter: blurText ? next.filter : undefined, opacity: Math.min(p, Number(next.opacity ?? 1))}}>{current('text')}</AbsoluteFill>
   </AbsoluteFill>;
 };

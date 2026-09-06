@@ -1,3 +1,4 @@
+import {createBlogCta} from '../scripts/blog-cta.mjs';
 import React from 'react';
 import {templatePreviewProps, previewDuration} from './template-preview';
 import {Composition} from 'remotion';
@@ -81,8 +82,15 @@ const defaultProps: RenderManifest = {
   ],
 };
 
+const blogCtaPreview: RenderManifest = {...defaultProps, scenes: [scene({...createBlogCta(), audioDurationSeconds: 6} as Partial<RenderScene> & Pick<RenderScene, 'kind' | 'headline'>)]};
+
+const blogCtaTransitionPreview: RenderManifest = {...defaultProps, scenes: [scene({kind: 'statement', headline: '판단의 기준을\n스스로 세우세요.', transition: 'none', audioDurationSeconds: 2.4}), ...blogCtaPreview.scenes]};
+
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="BlogCtaTransitionPreview" component={ShortVideo} durationInFrames={previewDuration(blogCtaTransitionPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaTransitionPreview} />
+    <Composition id="BlogCtaPreview" component={ShortVideo} durationInFrames={previewDuration(blogCtaPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaPreview} />
+    <Composition id="DarkBlogCtaPreview" component={DarkShortVideo} durationInFrames={previewDuration(blogCtaPreview)} fps={30} width={1080} height={1920} defaultProps={blogCtaPreview} />
     <Composition id="MotionEffectsPreview" component={ShortVideo} durationInFrames={previewDuration(motionPreviewProps)} fps={30} width={1080} height={1920} defaultProps={motionPreviewProps} />
     <Composition id="MotionEffectsGallery" component={ShortVideo} durationInFrames={previewDuration(motionGalleryProps)} fps={30} width={1080} height={1920} defaultProps={motionGalleryProps} />
     <Composition id="DarkMotionEffectsPreview" component={DarkShortVideo} durationInFrames={previewDuration(motionPreviewProps)} fps={30} width={1080} height={1920} defaultProps={motionPreviewProps} />
