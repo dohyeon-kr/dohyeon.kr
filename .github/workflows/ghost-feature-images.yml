@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 24.18.0
       - name: Install renderer dependencies
-        run: npm --prefix shorts ci --ignore-scripts --no-audit --no-fund
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
       - name: Generate missing feature diagrams
         env:
           GHOST_URL: https://blog.dohyeon.kr
