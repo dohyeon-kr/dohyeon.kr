@@ -24,7 +24,9 @@ jobs:
       - name: Install ffmpeg
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Apply patch
-        run: python3 shorts/scripts/tmp-organic-blob-patch.py
+        run: |
+          python3 shorts/scripts/tmp-organic-blob-patch.py
+          python3 shorts/scripts/tmp-organic-blob-type-fix.py
       - name: Validate
         working-directory: shorts
         run: |
@@ -33,7 +35,7 @@ jobs:
           npm run typecheck
       - name: Commit result and remove temporary files
         run: |
-          rm .github/workflows/tmp-organic-blob-morph.yml shorts/scripts/tmp-organic-blob-patch.py
+          rm .github/workflows/tmp-organic-blob-morph.yml shorts/scripts/tmp-organic-blob-patch.py shorts/scripts/tmp-organic-blob-type-fix.py
           git config user.name "Dohyeon Ju"
           git config user.email "48502765+dohyeon2@users.noreply.github.com"
           git add shorts .github/workflows/tmp-organic-blob-morph.yml
