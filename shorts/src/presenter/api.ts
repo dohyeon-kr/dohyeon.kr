@@ -4,7 +4,7 @@ import type {Action, Expression, HandShape, MouthShape, Side} from './vocabulary
 export * from './vocabulary.ts';
 export * from './schema.ts';
 // v1 hand fields remain readable for old candidates, but the current bust never draws them.
-export const PRESENTER_CAPABILITIES = {hands:false, depth:'layered-ink', expressions:true, mouthTracks:true, nod:true, brows:true} as const;
+export const PRESENTER_CAPABILITIES = {hands:false, depth:'layered-ink', expressions:true, mouthTracks:true, nod:true, brows:true, inkBoil:true} as const;
 
 export const ACTION_PRESETS: Record<Action, {hand: HandShape; side: Side; x: number; y: number; wrist: number; tilt: number}> = {
   idle: {hand:'relaxed',side:'right',x:535,y:690,wrist:12,tilt:0},
@@ -13,7 +13,7 @@ export const ACTION_PRESETS: Record<Action, {hand: HandShape; side: Side; x: num
   point: {hand:'point',side:'right',x:526,y:535,wrist:28,tilt:2},
   emphasize: {hand:'fist',side:'right',x:490,y:550,wrist:8,tilt:-1},
 };
-export type PresenterState = {action?: Action; side?: Side; hand?: HandShape; intensity?: number; expression?: Expression; mouth?: {shape:MouthShape; intensity?:number}; motion?: {nod?:number; tilt?:number; blink?:number; browLeft?:number; browRight?:number}};
+export type PresenterState = {action?: Action; side?: Side; hand?: HandShape; intensity?: number; expression?: Expression; mouth?: {shape:MouthShape; intensity?:number}; motion?: {nod?:number; tilt?:number; blink?:number; browLeft?:number; browRight?:number; inkFrame?:number}};
 const ease = (x:number) => {const p=Math.min(1,Math.max(0,x)); return p*p*(3-2*p);};
 export function statePose(state: PresenterState = {}, weight = 1, wristWeight = weight): RigPose {
   const preset = ACTION_PRESETS[state.action ?? 'idle'];
@@ -32,7 +32,7 @@ export function statePose(state: PresenterState = {}, weight = 1, wristWeight = 
     headTilt:preset.tilt*w,
   });
   const motion=state.motion;
-  if(motion) Object.assign(pose, Object.fromEntries(Object.entries({headNod:motion.nod,headTilt:motion.tilt,blink:motion.blink,browLeft:motion.browLeft,browRight:motion.browRight}).filter(([,v])=>v!==undefined)));
+  if(motion) Object.assign(pose, Object.fromEntries(Object.entries({headNod:motion.nod,headTilt:motion.tilt,blink:motion.blink,browLeft:motion.browLeft,browRight:motion.browRight,inkFrame:motion.inkFrame}).filter(([,v])=>v!==undefined)));
   return normalizePose(pose);
 }
 /** Validate once, evaluate deterministically at scene-local seconds (end-exclusive cues). */
@@ -62,6 +62,8 @@ export function compilePresenter(input: PresenterSpec, duration = 600) {
       p.headNod=(progress<.5 ? Math.sin(Math.PI*progress*2)**2 : 0) * weight * (action.intensity ?? 1) * (action.name==='emphasize' ? 1 : .65);
     }
     p.blink=blinkAt(t);
+    // Drawing-on-threes at 24 fps: a subtle 8 Hz ink boil, deterministic when seeking.
+    p.inkFrame=Math.floor((Math.max(0,t)%(97/8))*8);
     return p;
   };
 }

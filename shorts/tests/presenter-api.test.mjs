@@ -84,6 +84,15 @@ test('TTS adapter accepts timed basic phonemes, preserves closures, rejects gues
 test('published JSON schema matches the runtime source',()=>{
   assert.deepEqual(JSON.parse(fs.readFileSync(new URL('../docs/presenter.schema.json',import.meta.url),'utf8')),z.toJSONSchema(PresenterSchema));
 });
+test('ink boil is quantized to 8 Hz, deterministic on seek and finite at extreme times',()=>{
+  const evaluate=compilePresenter({});
+  assert.equal(evaluate(0).inkFrame,0); assert.equal(evaluate(.124).inkFrame,0);
+  assert.equal(evaluate(.125).inkFrame,1); assert.equal(evaluate(.25).inkFrame,2);
+  const p=evaluate(1.23); evaluate(5); assert.deepEqual(evaluate(1.23),p);
+  for(const t of [-1,NaN,Infinity,Number.MAX_VALUE]) assert.ok(Number.isFinite(evaluate(t).inkFrame));
+  assert.equal(statePose({motion:{inkFrame:3.7}}).inkFrame,3);
+  assert.equal(statePose({motion:{inkFrame:-10}}).inkFrame,0);
+});
 test('direct motion controls are independent and clamped without changing the v1 candidate schema',()=>{
   const p=statePose({motion:{nod:5,tilt:-30,blink:2,browLeft:-2,browRight:.5}});
   assert.equal(p.headNod,1); assert.equal(p.headTilt,-12); assert.equal(p.blink,1);

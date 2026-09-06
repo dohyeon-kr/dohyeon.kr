@@ -31,7 +31,7 @@ test('multiple ink avatars have unique eye clip IDs and valid references',()=>{
   assert.equal(ids.length,10); assert.equal(new Set(ids).size,ids.length);
   for(const [,ref] of svg.matchAll(/url\(#([^\)]+)\)/g)) assert.ok(ids.includes(ref));
 });
-test('ink noise is deterministic and local to character layers, not the white page or frame',()=>{
+test('ink noise is stable within an ink frame and local to character layers, not the white page or frame',()=>{
   const render=pose=>renderToStaticMarkup(React.createElement(Presenter,{pose}));
   const rest=render({}), nod=render({headNod:1,headTilt:3,blink:.5});
   const filter=svg=>svg.match(/<filter[\s\S]*?<\/filter>/)[0];
@@ -41,6 +41,30 @@ test('ink noise is deterministic and local to character layers, not the white pa
   assert.match(rest,/data-part="head"[^>]*><g data-part="head-ink" filter=/);
   assert.match(rest,/data-part="body-ink" filter=/);
   assert.doesNotMatch(rest,/<(?:rect|circle)[^>]*filter=/);
+});
+test('manufactured glasses have identical rims, no noise ancestor, and cancel nod squash',()=>{
+  for(const headNod of [0,.5,1]) {
+    const svg=renderToStaticMarkup(React.createElement(Presenter,{pose:{headNod,inkFrame:47}}));
+    const rims=[...svg.matchAll(/<rect data-part="lens-rim"[^>]*>/g)].map(m=>m[0]);
+    assert.equal(rims.length,2);
+    assert.equal(rims[0].replace(/x="[^"]+"/,''),rims[1].replace(/x="[^"]+"/,''));
+    const ancestors=[];
+    for(const m of svg.matchAll(/<\/?g\b[^>]*>/g)) {
+      if(m[0].includes('data-part="glasses"')) break;
+      if(m[0].startsWith('</')) ancestors.pop(); else ancestors.push(m[0]);
+    }
+    assert.ok(ancestors.some(g=>g.includes('data-part="head"')));
+    assert.ok(ancestors.every(g=>!g.includes('filter=')));
+    const scale=Number(svg.match(/data-part="glasses"[^>]*scale\(1 ([\d.]+)\)/)[1]);
+    assert.ok(Math.abs(scale*(1-headNod*.018)-1)<1e-12);
+    assert.ok(svg.indexOf('data-part="collar"')<svg.indexOf('data-part="neck-front"'));
+  }
+});
+test('changing ink frame changes texture but never changes glasses geometry',()=>{
+  const render=inkFrame=>renderToStaticMarkup(React.createElement(Presenter,{pose:{inkFrame}}));
+  const a=render(0),b=render(1);
+  assert.notEqual(a.match(/seed="\d+"/)[0],b.match(/seed="\d+"/)[0]);
+  assert.equal(a.match(/data-part="glasses"[\s\S]*?<\/g>/)[0],b.match(/data-part="glasses"[\s\S]*?<\/g>/)[0]);
 });
 test('collar panels are closed, uninterrupted faces painted over their underfold',()=>{
   const svg=renderToStaticMarkup(React.createElement(Presenter));

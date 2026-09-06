@@ -6,7 +6,9 @@
 
 현재 외형은 참조 일러스트를 따라 재구성한 흑백 SVG 선화다. 길쭉한 얼굴, 가르마의 흐름, 눈꺼풀과 동공, 얇은 안경을 독립 파츠로 구성했다. 원본 래스터의 픽셀을 그대로 분리한 결과는 아니며 선의 세부 질감은 다르다. 얼굴 그라데이션은 제거하고 카라·턱 아래에만 얕은 그림자를 남겼다. 흰 배경·원형 크롭·손 없는 바스트를 유지한다.
 
-카라 양쪽은 끊김 없는 닫힌 면이며 그림자는 그 뒤에 그린다. 선의 미세한 요철은 고정 seed 23의 SVG fractal noise + displacement(scale 3.2)로 만든다. 머리와 몸통의 로컬 좌표에서 각각 처리하고 노이즈 자체를 시간에 따라 바꾸지 않는다. 머리 필터는 회전 그룹 안에 배치해 질감도 머리를 따라간다. 흰 배경과 원형 프레임에는 적용하지 않는다. 넓은 검정 면 내부에 종이 얼룩을 추가하는 방식은 아니다. 필터는 파츠 범위로 제한해 렌더 비용을 줄인다.
+카라 양쪽은 끊김 없는 닫힌 면이며 그림자는 그 뒤에 그린다. 카라 윗부분은 낮추고 목을 카라보다 나중에 그려 피부 앞에 옷깃이 솟지 않게 한다. 안경은 동일 규격의 둥근 사각 렌즈와 브리지로 구성하고 잉크 필터 밖에 둔다. 노딩의 미세한 세로 축소도 역보정해 프레임 비율이 찌그러지지 않는다.
+
+선의 미세한 요철은 SVG fractal noise + displacement(scale 3.2)로 만든다. `compilePresenter`는 초당 8번 `inkFrame`을 바꿔 손그림의 line-boil 효과를 낸다. 같은 시각은 같은 seed를 사용하므로 역재생·탐색·병렬 렌더에도 재현된다. 머리와 몸통의 로컬 좌표에서 각각 처리하며, 안경·흰 배경·원형 테두리는 효과에서 제외한다. 넓은 검정 면 내부에 종이 얼룩을 추가하는 방식은 아니다. 필터는 파츠 범위로 제한해 렌더 비용을 줄인다.
 
 구현 참고: [SVG feTurbulence](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feTurbulence), [feDisplacementMap](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feDisplacementMap).
 
@@ -17,6 +19,8 @@
 ```
 
 `motion`은 직접 호출용이며 candidate JSON 필드가 아니다. `nod`는 -1…1(양수는 숙임), `tilt`는 -12…12도, `blink`는 0…1, `browLeft/Right`는 -1…1(음수는 올림)이다. 실제 말하기에는 tilt ±3도 안팎을 권장한다. 저수준 `pose`의 대응 필드는 `headNod/headTilt/blink/browLeft/browRight`이며 명시한 pose 필드가 우선한다. 자동 시간 진행은 없으므로 프레임별 값을 전달하거나 `compilePresenter`를 사용한다.
+
+`motion.inkFrame` 또는 `pose.inkFrame`으로 질감 프레임을 직접 제어할 수 있다(0 이상의 정수, 소수는 내림). 일정한 값을 유지하면 정적 질감이다. 예: `<Presenter pose={{...evaluate(t), inkFrame: 0}} />`로 정지시키거나 `inkFrame: Math.floor(t * 12)`로 초당 12번 바꾼다. 기존 candidate JSON은 수정 없이 기본 8Hz 효과를 사용한다.
 
 기존 candidate의 `actions`는 한 번의 완만한 노딩과 작은 기울임을, `expressions`는 눈매·눈썹의 180ms 전환을 구동한다. 노딩 중 목의 윗부분이 머리를 따라가고 어깨와 카라는 고정된다. 깜빡임은 눈꺼풀 경로와 동공 클립을 함께 변경하며 안경 자체는 변형하지 않는다. 입은 기존 rest/O/I/A/M 트랙을 유지한다. 180ms보다 짧게 표정을 연속 교체하지 말고 표정당 충분한 시간을 둔다. 깊은 숙임/측면 회전을 지원하는 3D 리그는 아니다.
 

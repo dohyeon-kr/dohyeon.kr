@@ -2,13 +2,13 @@ import {EXPRESSIONS, HAND_SHAPES, MOUTH_SHAPES, type Expression, type HandShape,
 export type {Expression} from './vocabulary.ts';
 export type Gesture = 'rest' | 'explain' | 'present';
 export type RigPose = {
-  headTilt: number; headNod: number; browLeft: number; browRight: number; gazeX: number; gazeY: number; blink: number;
+  headTilt: number; headNod: number; browLeft: number; browRight: number; gazeX: number; gazeY: number; blink: number; inkFrame: number;
   mouthOpen: number; expression: Expression; expressionFrom: Expression; expressionMix: number;
   leftHandX: number; leftHandY: number; rightHandX: number; rightHandY: number;
   leftWrist: number; rightWrist: number;
   leftHandShape: HandShape; rightHandShape: HandShape; mouthShape: MouthShape;
 };
-export const REST_POSE: RigPose = {headTilt: 0, headNod: 0, browLeft: 0, browRight: 0, gazeX: 0, gazeY: 0, blink: 0, mouthOpen: 0,
+export const REST_POSE: RigPose = {headTilt: 0, headNod: 0, browLeft: 0, browRight: 0, gazeX: 0, gazeY: 0, blink: 0, inkFrame: 0, mouthOpen: 0,
   expression: 'neutral', expressionFrom:'neutral', expressionMix:1, leftHandX: 265, leftHandY: 690, rightHandX: 535, rightHandY: 690,
   leftWrist: -12, rightWrist: 12, leftHandShape:'relaxed', rightHandShape:'relaxed', mouthShape:'rest'};
 const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, Number.isFinite(n) ? n : 0));
@@ -16,6 +16,7 @@ export function normalizePose(input: Partial<RigPose> = {}): RigPose {
   const p = {...REST_POSE, ...input};
   return {...p, headTilt: clamp(p.headTilt, -12, 12), gazeX: clamp(p.gazeX, -1, 1), gazeY: clamp(p.gazeY, -1, 1),
     headNod: clamp(p.headNod, -1, 1), browLeft: clamp(p.browLeft, -1, 1), browRight: clamp(p.browRight, -1, 1),
+    inkFrame: Math.floor(clamp(p.inkFrame,0,Number.MAX_SAFE_INTEGER)),
     blink: clamp(p.blink, 0, 1), mouthOpen: clamp(p.mouthOpen, 0, 1),
     expression: EXPRESSIONS.includes(p.expression) ? p.expression : 'neutral',
     expressionFrom: EXPRESSIONS.includes(p.expressionFrom) ? p.expressionFrom : 'neutral', expressionMix: clamp(p.expressionMix,0,1),
