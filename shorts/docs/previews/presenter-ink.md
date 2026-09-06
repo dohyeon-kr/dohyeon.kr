@@ -1,8 +1,8 @@
 # Ink presenter motion proof
 
-Current revision: continuous collar faces, shortened underfold shadows and fixed
-local-space ink noise on the character (seed 23, displacement 3.2 SVG units).
-The white page and circular border remain unfiltered. `presenter-ink-collar.png`
+Current revision: lowered collar faces behind the neck, rigid matching lens rims,
+and an 8 Hz deterministic ink boil (seed 23 + inkFrame % 97, displacement 3.2 SVG units).
+Glasses, the white page and circular border remain unfiltered. `presenter-ink-collar.png`
 is a 3× detail crop for inspecting seams and edge texture, not a larger stroke setting.
 
 The PNG/GIF/MP4 beside this note are rendered from the actual `Presenter.tsx`
