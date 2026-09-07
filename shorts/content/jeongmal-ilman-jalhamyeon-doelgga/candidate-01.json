@@ -8,16 +8,16 @@
   },
   "candidate": {
     "angle": "question",
-    "hook": "실무 1등이 왜 팀장은 아닐까요?",
-    "title": "실무 1등에게 팀을 맡기지 않는 이유",
-    "rationale": "문단 흐름은 능력과 보상의 의문 → 권한을 맡기는 기준 → 함께 겪으며 쌓는 신뢰 → 측정 가능한 성장의 편중 → 함께하는 시간의 질입니다. 이 후보는 앞부분의 ‘내가 지금 보고 있는 능력은 그 자리가 요구하는 것의 전부일까요’와 ‘그 사람에게 어디까지 맡길 수 있는지’를 핵심 문장으로 삼았습니다. 실무 평가와 책임 위임의 차이만 다뤄 다른 후보와 분리합니다. 요청한 18장 확장을 후보마다 적용하면 신뢰·관계 논거가 중복되므로, 독립된 세 소주제를 억지로 만들지 않고 후보별 6장, 전체 18장으로 구성했습니다. 약 35~45초를 예상합니다. 제공 영상은 업무 맥락과 맞지 않아 사용하지 않았으며 적합한 영상은 미확보 상태입니다.",
-    "viralScore": 87,
-    "suggestedCaption": "실무를 평가할 때와 팀을 맡길 때, 조직이 묻는 질문은 같지 않습니다.",
+    "hook": "정말 일만 잘하면 될까요?",
+    "title": "정말 일만 잘하면 될까?",
+    "rationale": "기존 세 후보를 이어 붙이지 않고 처음부터 쓴 단일 서사입니다. 총 20페이지(본문 19 + 공통 CTA 1)로 21페이지 이내입니다. 기 1–4: 능력과 보상의 기대에 의문을 만듭니다. 승 5–10: 조직이 맡기는 책임과 함께한 경험을 거쳐 8페이지에서 신뢰를 명명합니다. 전 11–16: 측정하기 어려운 경험을 놓치는 성장 방식에서, 같이 보내는 시간의 질과 복합적인 동행의 감각으로 이동합니다. 결 17–19: 조직을 윤택하게 만드는 능력을 인정하고 도입 질문을 회수해 함께 만드는 시간의 질로 답합니다. 20: 공통 CTA. 군대·국가별 채용·AI 대체로 주제를 넓히지 않습니다. 사진은 페이지 의미에 맞게 새로 선정했습니다. 1/14, 5/17, 11/19의 같은 사진은 질문과 결론을 연결하는 의도적 회수입니다. 실제 재생 시간은 TTS 생성 후 확정합니다.",
+    "viralScore": 0,
+    "suggestedCaption": "정말 일만 잘하면 될까요? 능력과 보상의 관계에서 출발해, 누군가와 오래 함께 일하고 싶은 이유를 생각해봤습니다. 일을 잘한다는 믿음, 함께 웃었던 기억, 그리고 같이 만드는 시간의 질에 관한 이야기입니다.",
     "hashtags": [
-      "#커리어",
-      "#리더십",
       "#직장생활",
-      "#신뢰"
+      "#신뢰",
+      "#커리어",
+      "#함께하는시간"
     ]
   },
   "style": {
@@ -40,21 +40,21 @@
       "visual": {
         "type": "photo",
         "motif": null,
-        "query": "office team meeting",
+        "query": "책상에서 노트북으로 일하는 손",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "실무 성과와 팀장 선임이 어긋나는 듯 보이는 장면",
+        "concept": "일을 잘하면 충분한가라는 질문으로 시작합니다.",
         "relation": {
-          "type": "comparison",
-          "description": "일을 가장 잘하는 사람과 책임을 맡는 사람이 반드시 같지는 않습니다."
+          "type": "literal",
+          "description": "일을 잘하면 충분한가라는 질문으로 시작합니다."
         },
         "strategy": {
           "type": "photo",
           "metaphor": null,
-          "rationale": "실제 회의 공간으로 팀을 맡는 상황을 보여주는 편이 직급 아이콘보다 질문의 맥락을 빠르게 전달합니다."
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
         }
       },
       "transition": "none",
@@ -68,49 +68,186 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-visual: 회의 사진을 흑백 풀블리드로 제시한다",
-        "show-headline: 상단 어두운 여백에 질문을 즉시 표시한다",
-        "emphasize-result: 사진 속 특정 인물을 무능한 상사로 지목하지 않고 하단 자막 영역을 분리한다"
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
       ],
       "beats": [
         {
-          "text": "실무 1등이",
-          "emphasis": "mid",
-          "pauseAfterMs": 60,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "회의 맥락과 질문을 함께 제시"
-        },
-        {
-          "text": "왜 팀장은 아닐까요?",
+          "text": "정말 일만 잘하면 될까요?",
           "emphasis": "high",
-          "pauseAfterMs": 180,
+          "pauseAfterMs": 220,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "팀장",
-          "visualCue": "질문 후반을 강조"
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
         }
       ],
-      "headline": "실무 1등이\n왜 팀장은 아닐까요?",
+      "headline": "정말 일만\n잘하면 될까?",
       "subline": null,
-      "narration": "실무 1등이 왜 팀장은 아닐까요?",
+      "narration": "정말 일만 잘하면 될까요?",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": "office team meeting",
+      "imageQuery": "책상에서 노트북으로 일하는 손",
       "image": {
-        "query": "office team meeting",
-        "title": "컴퓨터 앞에서 함께 일하는 팀",
-        "creator": "fauxels",
+        "query": "책상에서 노트북으로 일하는 손",
+        "title": "책상에서 노트북으로 일하는 손",
+        "creator": "cottonbro studio",
         "license": "pexels",
         "licenseVersion": null,
         "licenseUrl": "https://www.pexels.com/license/",
         "source": "pexels",
         "provider": "pexels",
-        "sourcePage": "https://www.pexels.com/photo/people-working-in-front-of-the-computer-3184357/",
-        "originalUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        "thumbnailUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1000"
+        "sourcePage": "https://www.pexels.com/photo/person-using-a-laptop-on-a-table-7439136/",
+        "originalUrl": "https://images.pexels.com/photos/7439136/pexels-photo-7439136.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/7439136/pexels-photo-7439136.jpeg?auto=compress&cs=tinysrgb&w=1000"
       }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "첫 번째 항목만 보입니다.",
+        "trigger": "내레이션이 다음 판단 근거를 말합니다.",
+        "change": "다음 항목이 순서대로 나타납니다.",
+        "invariant": "도형 위치는 고정합니다. 라벨은 도형 위, 제목은 도식 위, 자막은 도식 아래에 분리합니다.",
+        "result": "세 항목을 마지막 25% 동안 함께 읽습니다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "세 판단 요소가 순서대로 나타나고 함께 남습니다.",
+        "nodes": [
+          {
+            "id": "item-0",
+            "shape": "rect",
+            "label": "능력",
+            "x": 160,
+            "y": 280,
+            "width": 200,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "item-1",
+            "shape": "rect",
+            "label": "성과",
+            "x": 400,
+            "y": 280,
+            "width": 200,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "item-2",
+            "shape": "rect",
+            "label": "보상",
+            "x": 640,
+            "y": 280,
+            "width": 200,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "item-0",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.05,
+            "end": 0.18
+          },
+          {
+            "target": "item-1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.25,
+            "end": 0.38
+          },
+          {
+            "target": "item-2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.45,
+            "end": 0.5800000000000001
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "필자가 품었던 능력·성과·보상의 기대를 보여줍니다.",
+        "relation": {
+          "type": "accumulation",
+          "description": "필자가 품었던 능력·성과·보상의 기대를 보여줍니다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "앞 항목을 지우지 않고 다음 항목을 순서대로 더해 생각의 누적을 보여줍니다. 수치나 인과를 그래프로 꾸미지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "능력을 키우고 좋은 성과를 내면,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "인정과 보상도 따라올 거라고 생각했습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "능력을 키우면\n보상도 따라올까",
+      "subline": null,
+      "narration": "능력을 키우고 좋은 성과를 내면, 인정과 보상도 따라올 거라고 생각했습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
     },
     {
       "presenter": null,
@@ -118,7 +255,7 @@
       "visualStory": null,
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "statement-giant",
       "visual": {
         "type": "none",
         "motif": null,
@@ -128,15 +265,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "개발자가 익숙하게 보는 실무 능력의 기준",
+        "concept": "첫 질문의 의문을 익숙한 말에서 구체화합니다.",
         "relation": {
           "type": "literal",
-          "description": "코드 작성과 기술 문제 해결이 먼저 떠오르는 평가 기준입니다."
+          "description": "첫 질문의 의문을 익숙한 말에서 구체화합니다."
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+          "rationale": "문장의 질문이나 관점 전환을 잠시 읽는 장면입니다. 새 상징 없이 핵심어에 시선을 모읍니다."
         }
       },
       "transition": "fade",
@@ -150,147 +287,63 @@
         "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
-        "show-subline",
         "emphasize-result"
       ],
       "beats": [
         {
-          "text": "개발자는 코드를 잘 짜고",
-          "emphasis": "mid",
-          "pauseAfterMs": 60,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "기술 문제를 푸는 능력을 먼저 봅니다.",
+          "text": "그런데 “일만 잘하면 됐지”라는 말은",
           "emphasis": "mid",
           "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "mid",
-          "keyword": "먼저",
-          "visualCue": null
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
         },
         {
-          "text": "팀을 맡기는 사람은 다른 질문을 더합니다.",
+          "text": "왜 어딘가 부족하게 들릴까요?",
           "emphasis": "high",
-          "pauseAfterMs": 180,
+          "pauseAfterMs": 220,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "더합니다",
-          "visualCue": null
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
         }
       ],
-      "headline": "우리가 먼저 보는 것",
-      "subline": "코드 작성 · 기술 문제 해결",
-      "narration": "개발자는 코드를 잘 짜고 기술 문제를 푸는 능력을 먼저 봅니다. 팀을 맡기는 사람은 다른 질문을 더합니다.",
+      "headline": "“일만 잘하면 됐지”",
+      "subline": null,
+      "narration": "그런데 “일만 잘하면 됐지”라는 말은 왜 어딘가 부족하게 들릴까요?",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null,
-      "visualResolution": {
-        "status": "fallback",
-        "originalQuery": "programmer computer screen",
-        "reason": "photo-unavailable"
-      }
+      "image": null
     },
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": {
-        "initial": "실무 능력 카드만 보입니다.",
-        "trigger": "책임을 맡기는 사람의 질문이 추가됩니다.",
-        "change": "우선순위와 문제 공유 카드가 차례로 나타납니다.",
-        "invariant": "실무 능력은 사라지지 않습니다. 모든 카드 라벨은 앞뒤 상태에서 가리지 않으며 카드 사이에는 연결선을 두지 않습니다.",
-        "result": "능력을 대체하는 것이 아니라 판단 기준을 더하는 구조가 남습니다."
-      },
-      "diagramSpec": {
-        "version": 1,
-        "renderer": "auto",
-        "physics": null,
-        "description": "실무 기준 아래에 책임 위임의 질문 두 개를 추가한다. 모든 라벨은 24px 이상, 줄 높이 1.5, 내부 여백과 라벨 보호영역을 확보한다.",
-        "nodes": [
-          {
-            "id": "skill",
-            "shape": "rect",
-            "label": "실무 능력",
-            "blob": null,
-            "x": 400,
-            "y": 145,
-            "width": 240,
-            "height": 100,
-            "fill": "white",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "priority",
-            "shape": "rect",
-            "label": "우선순위",
-            "blob": null,
-            "x": 235,
-            "y": 345,
-            "width": 240,
-            "height": 110,
-            "fill": "gray",
-            "connector": null,
-            "strokeStyle": "solid"
-          },
-          {
-            "id": "report",
-            "shape": "rect",
-            "label": "문제 공유",
-            "blob": null,
-            "x": 565,
-            "y": 345,
-            "width": 240,
-            "height": 110,
-            "fill": "gray",
-            "connector": null,
-            "strokeStyle": "solid"
-          }
-        ],
-        "events": [
-          {
-            "target": "priority",
-            "property": "opacity",
-            "from": 0,
-            "to": 1,
-            "start": 0.2,
-            "end": 0.35
-          },
-          {
-            "target": "report",
-            "property": "opacity",
-            "from": 0,
-            "to": 1,
-            "start": 0.48,
-            "end": 0.65
-          }
-        ]
-      },
-      "kind": "statement",
-      "layout": "diagram-centered",
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-strip",
       "visual": {
-        "type": "diagram",
-        "motif": "delegation-criteria",
-        "query": null,
+        "type": "photo",
+        "motif": null,
+        "query": "창가에서 노트북으로 작업하는 사람",
         "value": null,
         "xLabel": null,
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "책임이 커질 때 추가되는 판단 기준",
+        "concept": "성과와 위임이 일치하지 않는 관찰로 다음 장면의 질문을 만듭니다.",
         "relation": {
-          "type": "accumulation",
-          "description": "실무 능력 위에 선택과 공유 방식에 대한 질문이 추가됩니다."
+          "type": "literal",
+          "description": "성과와 위임이 일치하지 않는 관찰로 다음 장면의 질문을 만듭니다."
         },
         "strategy": {
-          "type": "spatial-diagram",
+          "type": "photo",
           "metaphor": null,
-          "rationale": "기존 기준을 남기고 새 기준을 등장시키면 능력 대신 처세가 필요하다는 오독을 막을 수 있습니다."
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
         }
       },
       "transition": "fade",
@@ -304,47 +357,216 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-visual: 실무 능력 카드를 먼저 표시한다",
-        "advance-visual: 예산 질문에 우선순위 카드를 등장시킨다",
-        "advance-visual: 문제 질문에 문제 공유 카드를 등장시킨다",
-        "emphasize-result: 마지막 20%는 세 카드를 고정하고 라벨과 자막의 분리를 유지한다"
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
       ],
       "beats": [
         {
-          "text": "예산이 부족하면 무엇을 먼저 선택할까.",
+          "text": "실무를 가장 잘하는 사람이",
           "emphasis": "mid",
-          "pauseAfterMs": 140,
-          "delivery": "normal",
-          "visualPriority": "high",
-          "keyword": "먼저",
-          "visualCue": "우선순위 카드 등장"
-        },
-        {
-          "text": "문제가 생기면 숨기지 않고 알릴까.",
-          "emphasis": "high",
-          "pauseAfterMs": 140,
-          "delivery": "hold",
-          "visualPriority": "high",
-          "keyword": "알릴까",
-          "visualCue": "문제 공유 카드 등장"
-        },
-        {
-          "text": "결과뿐 아니라 판단 방식도 봅니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 150,
+          "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "세 기준을 함께 유지"
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "언제나 팀장이 되지는 않습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
         }
       ],
-      "headline": "맡기는 사람이\n더 묻는 것",
+      "headline": "잘하는 일과\n맡기는 자리",
       "subline": null,
-      "narration": "예산이 부족하면 무엇을 먼저 선택할까. 문제가 생기면 숨기지 않고 알릴까. 결과뿐 아니라 판단 방식도 봅니다.",
+      "narration": "실무를 가장 잘하는 사람이 언제나 팀장이 되지는 않습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
+      "imageQuery": "창가에서 노트북으로 작업하는 사람",
+      "image": {
+        "query": "창가에서 노트북으로 작업하는 사람",
+        "title": "창가에서 노트북으로 작업하는 사람",
+        "creator": "cottonbro studio",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/man-using-a-laptop-5483070/",
+        "originalUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "자료를 함께 검토하는 동료들",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "책임이 커지면 조직의 우선순위를 판단해야 합니다.",
+        "relation": {
+          "type": "literal",
+          "description": "책임이 커지면 조직의 우선순위를 판단해야 합니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "팀을 맡길 때는 다른 질문도 생깁니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "자원이 부족할 때, 무엇을 먼저 선택할까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "무엇을 먼저\n선택할까",
+      "subline": null,
+      "narration": "팀을 맡길 때는 다른 질문도 생깁니다. 자원이 부족할 때, 무엇을 먼저 선택할까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "자료를 함께 검토하는 동료들",
+      "image": {
+        "query": "자료를 함께 검토하는 동료들",
+        "title": "자료를 함께 검토하는 동료들",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-having-a-meeting-3184303/",
+        "originalUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-strip",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "회의에서 대화하는 동료들",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "보이지 않는 순간의 행동까지 맡겨야 한다는 긴장을 쌓습니다.",
+        "relation": {
+          "type": "literal",
+          "description": "보이지 않는 순간의 행동까지 맡겨야 한다는 긴장을 쌓습니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "문제가 생기면 숨기지 않고 알릴까요?",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "누가 지켜보지 않아도 합의한 방향으로 일할까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "문제가 생기면\n어떻게 할까",
+      "subline": null,
+      "narration": "문제가 생기면 숨기지 않고 알릴까요? 누가 지켜보지 않아도 합의한 방향으로 일할까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "회의에서 대화하는 동료들",
+      "image": {
+        "query": "회의에서 대화하는 동료들",
+        "title": "회의에서 대화하는 동료들",
+        "creator": "Thirdman",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/smiling-colleagues-in-a-meeting-7993951/",
+        "originalUrl": "https://images.pexels.com/photos/7993951/pexels-photo-7993951.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/7993951/pexels-photo-7993951.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
     },
     {
       "presenter": null,
@@ -362,15 +584,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "실무 평가에서 책임 위임으로 넓어지는 질문",
+        "concept": "앞 장면의 구체적인 판단들을 두 질문으로 묶습니다.",
         "relation": {
           "type": "comparison",
-          "description": "무엇을 할 수 있는가와 어디까지 맡길 수 있는가를 구별합니다."
+          "description": "앞 장면의 구체적인 판단들을 두 질문으로 묶습니다."
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "두 질문을 나란히 읽게 하는 것이 능력과 신뢰를 서로 배척하는 아이콘보다 정확합니다."
+          "rationale": "이미 나온 두 질문을 나란히 놓고 판단의 범위가 넓어지는 과정을 읽게 합니다."
         }
       },
       "transition": "fade",
@@ -384,35 +606,189 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-visual: 왼쪽 질문을 먼저 표시한다",
-        "advance-visual: 오른쪽 위임 질문을 추가한다",
-        "emphasize-result: 두 질문을 모두 남겨 대체가 아닌 확장임을 보여준다"
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
       ],
       "beats": [
         {
-          "text": "무엇을 할 수 있는가에서",
+          "text": "무엇을 할 수 있는지에 더해,",
           "emphasis": "mid",
           "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "왼쪽 질문 표시"
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
         },
         {
-          "text": "어디까지 맡길 수 있는가로 질문이 넓어집니다.",
+          "text": "어디까지 맡길 수 있는지를 보게 됩니다.",
           "emphasis": "high",
-          "pauseAfterMs": 180,
+          "pauseAfterMs": 220,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "맡길",
-          "visualCue": "오른쪽 질문 추가"
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
         }
       ],
-      "headline": "질문이 넓어집니다",
+      "headline": "질문이\n넓어집니다",
       "subline": null,
-      "narration": "무엇을 할 수 있는가에서 어디까지 맡길 수 있는가로 질문이 넓어집니다.",
-      "comparisonLeft": "무엇을\n할 수 있는가",
-      "comparisonRight": "어디까지\n맡길 수 있는가",
+      "narration": "무엇을 할 수 있는지에 더해, 어디까지 맡길 수 있는지를 보게 됩니다.",
+      "comparisonLeft": "무엇을\n할 수 있나",
+      "comparisonRight": "어디까지\n맡길 수 있나",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "첫 번째 항목만 보입니다.",
+        "trigger": "내레이션이 다음 판단 근거를 말합니다.",
+        "change": "다음 항목이 순서대로 나타납니다.",
+        "invariant": "도형 위치는 고정합니다. 라벨은 도형 위, 제목은 도식 위, 자막은 도식 아래에 분리합니다.",
+        "result": "세 항목을 마지막 25% 동안 함께 읽습니다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "세 판단 요소가 순서대로 나타나고 함께 남습니다.",
+        "nodes": [
+          {
+            "id": "item-0",
+            "shape": "rect",
+            "label": "문제 해결",
+            "x": 160,
+            "y": 280,
+            "width": 200,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "item-1",
+            "shape": "rect",
+            "label": "약속 이행",
+            "x": 400,
+            "y": 280,
+            "width": 200,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "item-2",
+            "shape": "rect",
+            "label": "같은 방향",
+            "x": 640,
+            "y": 280,
+            "width": 200,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "item-0",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.05,
+            "end": 0.18
+          },
+          {
+            "target": "item-1",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.25,
+            "end": 0.38
+          },
+          {
+            "target": "item-2",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.45,
+            "end": 0.5800000000000001
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "충분한 질문을 쌓은 뒤 신뢰를 명명합니다.",
+        "relation": {
+          "type": "accumulation",
+          "description": "충분한 질문을 쌓은 뒤 신뢰를 명명합니다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "앞 항목을 지우지 않고 다음 항목을 순서대로 더해 생각의 누적을 보여줍니다. 수치나 인과를 그래프로 꾸미지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "문제를 풀 능력, 약속을 지키는 태도,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "함께 정한 방향으로 움직일 거라는 믿음.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "저는 그것이 신뢰라고 생각합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "저는 그것이\n신뢰라고 생각합니다",
+      "subline": null,
+      "narration": "문제를 풀 능력, 약속을 지키는 태도, 함께 정한 방향으로 움직일 거라는 믿음. 저는 그것이 신뢰라고 생각합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
       "imageQuery": null,
       "image": null
     },
@@ -421,8 +797,91 @@
       "backgroundVideo": null,
       "visualStory": null,
       "diagramSpec": null,
-      "kind": "statement",
-      "layout": "statement-offset",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "함께 일하며 인사하는 동료들",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "신뢰를 관념에서 실제 관계 속 행동으로 옮깁니다.",
+        "relation": {
+          "type": "literal",
+          "description": "신뢰를 관념에서 실제 관계 속 행동으로 옮깁니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "작은 약속을 지키고 어려운 일을 함께 겪으며,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "사람들은 서로를 알아갑니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "작은 약속부터\n함께한 경험까지",
+      "subline": null,
+      "narration": "작은 약속을 지키고 어려운 일을 함께 겪으며, 사람들은 서로를 알아갑니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "함께 일하며 인사하는 동료들",
+      "image": {
+        "query": "함께 일하며 인사하는 동료들",
+        "title": "함께 일하며 인사하는 동료들",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/colleagues-shaking-each-other-s-hands-3184291/",
+        "originalUrl": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
       "visual": {
         "type": "none",
         "motif": null,
@@ -432,15 +891,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "성과만 보던 관점에서 함께 일한 이력으로 시선 전환",
+        "concept": "시험·계약이 모든 상황을 담지 못하기 때문에 함께한 경험이 필요합니다.",
         "relation": {
-          "type": "literal",
-          "description": "내가 보지 못한 신뢰와 기여도 인사를 이해하는 판단 근거일 수 있습니다."
+          "type": "comparison",
+          "description": "시험·계약이 모든 상황을 담지 못하기 때문에 함께한 경험이 필요합니다."
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+          "rationale": "이미 나온 두 질문을 나란히 놓고 판단의 범위가 넓어지는 과정을 읽게 합니다."
         }
       },
       "transition": "fade",
@@ -454,40 +913,600 @@
         "endProgress": 1
       },
       "choreography": [
+        "show-visual",
         "show-headline",
         "emphasize-result"
       ],
       "beats": [
         {
-          "text": "실무 능력만으로 이해되지 않는 인사라면,",
+          "text": "점수로 확인하지 못했고,",
           "emphasis": "mid",
-          "pauseAfterMs": 130,
+          "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": null
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
         },
         {
-          "text": "내가 놓친 신뢰와 기여는 없는지도 봐야 합니다.",
+          "text": "계약에도 적어두지 않은 상황에서",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "그 경험이 판단의 근거가 됩니다.",
           "emphasis": "high",
-          "pauseAfterMs": 180,
+          "pauseAfterMs": 220,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "놓친",
-          "visualCue": null
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
         }
       ],
-      "headline": "내 기준에서\n놓친 것은 없을까",
+      "headline": "점수에 없는 상황",
       "subline": null,
-      "narration": "실무 능력만으로 이해되지 않는 인사라면, 내가 놓친 신뢰와 기여는 없는지도 봐야 합니다.",
+      "narration": "점수로 확인하지 못했고, 계약에도 적어두지 않은 상황에서 그 경험이 판단의 근거가 됩니다.",
+      "comparisonLeft": "시험과 계약",
+      "comparisonRight": "함께한 경험",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-strip",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "작업 중 이야기를 나누는 세 사람",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "조직의 평가 이야기에서 개인의 성장 선택으로 넘어갈 이유를 만듭니다.",
+        "relation": {
+          "type": "literal",
+          "description": "조직의 평가 이야기에서 개인의 성장 선택으로 넘어갈 이유를 만듭니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "그런데 이런 신뢰는 실적처럼 비교하기 어렵습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "잘 보이지 않는 만큼, 그 가치를 놓치기도 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "경험에는\n점수표가 없습니다",
+      "subline": null,
+      "narration": "그런데 이런 신뢰는 실적처럼 비교하기 어렵습니다. 잘 보이지 않는 만큼, 그 가치를 놓치기도 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "작업 중 이야기를 나누는 세 사람",
+      "image": {
+        "query": "작업 중 이야기를 나누는 세 사람",
+        "title": "작업 중 이야기를 나누는 세 사람",
+        "creator": "Ketut Subiyanto",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-smiling-while-on-a-meeting-4623195/",
+        "originalUrl": "https://images.pexels.com/photos/4623195/pexels-photo-4623195.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/4623195/pexels-photo-4623195.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "측정 가능한 능력에 집중하면 관계에 쓰는 시간이 줄어드는 문제를 보여줍니다.",
+        "relation": {
+          "type": "comparison",
+          "description": "측정 가능한 능력에 집중하면 관계에 쓰는 시간이 줄어드는 문제를 보여줍니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "이미 나온 두 질문을 나란히 놓고 판단의 범위가 넓어지는 과정을 읽게 합니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "그래서 성장하려고 공부는 더 하면서,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "사람을 만나고 알아가는 일은 나중으로 미루기도 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "공부는 오늘,\n사람은 나중에?",
+      "subline": null,
+      "narration": "그래서 성장하려고 공부는 더 하면서, 사람을 만나고 알아가는 일은 나중으로 미루기도 합니다.",
+      "comparisonLeft": "공부는\n오늘",
+      "comparisonRight": "만남은\n나중에",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "회의 중 서로 바라보며 웃는 동료들",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "관계는 혼자 계획할 수 없으며 함께하는 시간을 필요로 합니다.",
+        "relation": {
+          "type": "literal",
+          "description": "관계는 혼자 계획할 수 없으며 함께하는 시간을 필요로 합니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "책은 혼자 펼칠 수 있지만, 만남은 서로 시간을 맞춰야 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "관계가 깊어질 시간도 지금의 성장 안에 필요합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "함께할 시간도\n지금 필요합니다",
+      "subline": null,
+      "narration": "책은 혼자 펼칠 수 있지만, 만남은 서로 시간을 맞춰야 합니다. 관계가 깊어질 시간도 지금의 성장 안에 필요합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "회의 중 서로 바라보며 웃는 동료들",
+      "image": {
+        "query": "회의 중 서로 바라보며 웃는 동료들",
+        "title": "회의 중 서로 바라보며 웃는 동료들",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/photo-of-three-people-smiling-while-having-a-meeting-3184338/",
+        "originalUrl": "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-strip",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "책상에서 노트북으로 일하는 손",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "신뢰를 쌓는 시간의 양에서 그 시간을 어떻게 경험하는지로 관점을 전환합니다.",
+        "relation": {
+          "type": "literal",
+          "description": "신뢰를 쌓는 시간의 양에서 그 시간을 어떻게 경험하는지로 관점을 전환합니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "그렇다면 저는 좋은 결과를 만드는 동안,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "동료가 저와 보내는 시간도 살피고 있었을까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "함께한 시간은\n어땠을까",
+      "subline": null,
+      "narration": "그렇다면 저는 좋은 결과를 만드는 동안, 동료가 저와 보내는 시간도 살피고 있었을까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "책상에서 노트북으로 일하는 손",
+      "image": {
+        "query": "책상에서 노트북으로 일하는 손",
+        "title": "책상에서 노트북으로 일하는 손",
+        "creator": "cottonbro studio",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/person-using-a-laptop-on-a-table-7439136/",
+        "originalUrl": "https://images.pexels.com/photos/7439136/pexels-photo-7439136.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/7439136/pexels-photo-7439136.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "앞의 평가와 시간 이야기를 다시 함께 일하고 싶은 이유로 모읍니다.",
+        "relation": {
+          "type": "literal",
+          "description": "앞의 평가와 시간 이야기를 다시 함께 일하고 싶은 이유로 모읍니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "문장의 질문이나 관점 전환을 잠시 읽는 장면입니다. 새 상징 없이 핵심어에 시선을 모읍니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "같이 일하고 싶다는 감각은",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "생각보다 복합적입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "“같이 일하고 싶다”",
+      "subline": null,
+      "narration": "같이 일하고 싶다는 감각은 생각보다 복합적입니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null,
-      "visualResolution": {
-        "status": "fallback",
-        "originalQuery": "coworkers project discussion",
-        "reason": "photo-unavailable"
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "사무실에서 함께 웃는 동료들",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "복합적인 감각의 실체를 구체적인 경험으로 설명합니다.",
+        "relation": {
+          "type": "literal",
+          "description": "복합적인 감각의 실체를 구체적인 경험으로 설명합니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "일을 잘한다는 믿음에, 편하게 대화했던 기억,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "어려울 때 도움을 받고 함께 웃었던 시간까지 섞여 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "믿음과 대화,\n함께 웃었던 기억",
+      "subline": null,
+      "narration": "일을 잘한다는 믿음에, 편하게 대화했던 기억, 어려울 때 도움을 받고 함께 웃었던 시간까지 섞여 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "사무실에서 함께 웃는 동료들",
+      "image": {
+        "query": "사무실에서 함께 웃는 동료들",
+        "title": "사무실에서 함께 웃는 동료들",
+        "creator": "Yan Krukau",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/colleagues-smiling-and-having-fun-7793667/",
+        "originalUrl": "https://images.pexels.com/photos/7793667/pexels-photo-7793667.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/7793667/pexels-photo-7793667.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-strip",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "자료를 함께 검토하는 동료들",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "성과의 가치에서 오랜 동행의 조건으로 이어갑니다.",
+        "relation": {
+          "type": "literal",
+          "description": "성과의 가치에서 오랜 동행의 조건으로 이어갑니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "우리 조직을 윤택하게 만드는 능력은 중요합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "그리고 오래 같이 가려면, 함께 만드는 시간도 좋아야 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "우리 조직을\n윤택하게 만드는 일",
+      "subline": null,
+      "narration": "우리 조직을 윤택하게 만드는 능력은 중요합니다. 그리고 오래 같이 가려면, 함께 만드는 시간도 좋아야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "자료를 함께 검토하는 동료들",
+      "image": {
+        "query": "자료를 함께 검토하는 동료들",
+        "title": "자료를 함께 검토하는 동료들",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-having-a-meeting-3184303/",
+        "originalUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1000"
       }
     },
     {
@@ -506,15 +1525,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "팀장을 맡기는 기준으로 도입 질문 회수",
+        "concept": "첫 질문을 직접 회수하고 함께 만드는 시간의 질이라는 답을 제시합니다.",
         "relation": {
           "type": "literal",
-          "description": "실무 능력에 더해 판단을 믿고 책임을 맡길 수 있어야 한다는 결론입니다."
+          "description": "첫 질문을 직접 회수하고 함께 만드는 시간의 질이라는 답을 제시합니다."
         },
         "strategy": {
           "type": "minimal",
           "metaphor": null,
-          "rationale": "새 상징 없이 위임의 기준을 문장으로 확정해야 능력의 중요성을 지우지 않고 결론을 전달할 수 있습니다."
+          "rationale": "문장의 질문이나 관점 전환을 잠시 읽는 장면입니다. 새 상징 없이 핵심어에 시선을 모읍니다."
         }
       },
       "transition": "fade",
@@ -528,37 +1547,129 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline: 실무 1등이라는 도입 핵심어를 회수한다",
-        "emphasize-result: 판단을 믿는다는 종결부를 강조한다",
-        "hold-result: 결론을 고정하고 공통 CTA는 이 장면에 넣지 않는다"
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
       ],
       "beats": [
         {
-          "text": "팀을 맡길 때는 실무 1등인지에 더해,",
+          "text": "정말 일만 잘하면 될까요?",
           "emphasis": "mid",
-          "pauseAfterMs": 150,
+          "pauseAfterMs": 100,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도입 핵심어 회수"
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
         },
         {
-          "text": "그 판단을 믿을 수 있는지도 봅니다.",
+          "text": "오래 함께하고 싶다면,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "같이 만드는 시간의 질에도 더 마음을 써야 합니다.",
           "emphasis": "high",
-          "pauseAfterMs": 300,
+          "pauseAfterMs": 220,
           "delivery": "hold",
           "visualPriority": "high",
-          "keyword": "판단",
-          "visualCue": "결론 후반 강조"
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
         }
       ],
-      "headline": "실무 1등을 넘어\n판단을 믿을 수 있는가",
+      "headline": "일을 잘하는 것에서\n함께하는 시간까지",
       "subline": null,
-      "narration": "팀을 맡길 때는 실무 1등인지에 더해, 그 판단을 믿을 수 있는지도 봅니다.",
+      "narration": "정말 일만 잘하면 될까요? 오래 함께하고 싶다면, 같이 만드는 시간의 질에도 더 마음을 써야 합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
       "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "작업 중 이야기를 나누는 세 사람",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "새 근거를 추가하지 않고 함께하는 시간의 질을 중시하는 이유로 닫습니다.",
+        "relation": {
+          "type": "literal",
+          "description": "새 근거를 추가하지 않고 함께하는 시간의 질을 중시하는 이유로 닫습니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 행동과 표정이 문장의 맥락을 만듭니다. 실제 인물을 평가하거나 특정 직급으로 지목하지 않습니다."
+        }
+      },
+      "transition": "cross-dissolve",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "beats": [
+        {
+          "text": "저는 그게 더 본질적이라고 생각합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞 문장의 질문을 이어 설명합니다."
+        },
+        {
+          "text": "결국 사람은 다른 사람과 즐겁고 싶을 뿐이니까요.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "마지막 의미를 유지합니다."
+        }
+      ],
+      "headline": "사람은 다른 사람과\n즐겁고 싶으니까요",
+      "subline": null,
+      "narration": "저는 그게 더 본질적이라고 생각합니다. 결국 사람은 다른 사람과 즐겁고 싶을 뿐이니까요.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "작업 중 이야기를 나누는 세 사람",
+      "image": {
+        "query": "작업 중 이야기를 나누는 세 사람",
+        "title": "작업 중 이야기를 나누는 세 사람",
+        "creator": "Ketut Subiyanto",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-smiling-while-on-a-meeting-4623195/",
+        "originalUrl": "https://images.pexels.com/photos/4623195/pexels-photo-4623195.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/4623195/pexels-photo-4623195.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
     },
     {
       "commonPage": "blog-cta-v1",
