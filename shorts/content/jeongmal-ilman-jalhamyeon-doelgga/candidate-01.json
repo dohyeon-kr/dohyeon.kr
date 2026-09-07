@@ -501,12 +501,30 @@
           "visualPriority": "mid"
         },
         {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "누가 지켜보지 않아도 합의한 방향으로 일할까요?",
+          "visualCue": "마지막 의미를 유지합니다.",
+          "visualPriority": "mid"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 100,
+          "text": "조직이 어려워졌을 때도",
+          "visualCue": "조직이 어려워진 상황으로 질문의 범위를 넓힙니다.",
+          "visualPriority": "mid"
+        },
+        {
           "delivery": "hold",
           "emphasis": "high",
           "keyword": null,
           "pauseAfterMs": 220,
-          "text": "누가 지켜보지 않아도 합의한 방향으로 일할까요?",
-          "visualCue": "마지막 의미를 유지합니다.",
+          "text": "함께 돌파구를 찾으려 노력할까요?",
+          "visualCue": "어려운 상황에서도 함께 해결하려는 태도를 강조합니다.",
           "visualPriority": "high"
         }
       ],
@@ -527,7 +545,7 @@
       "comparisonRight": null,
       "diagramSpec": null,
       "effects": [],
-      "headline": "문제가 생기면\n어떻게 할까",
+      "headline": "어려울 때도\n함께 해결할까",
       "image": {
         "creator": "Thirdman",
         "license": "pexels",
@@ -544,7 +562,7 @@
       "imageQuery": "회의에서 대화하는 동료들",
       "kind": "photo",
       "layout": "photo-strip",
-      "narration": "문제가 생기면 숨기지 않고 알릴까요? 누가 지켜보지 않아도 합의한 방향으로 일할까요?",
+      "narration": "문제가 생기면 숨기지 않고 알릴까요? 누가 지켜보지 않아도 합의한 방향으로 일할까요? 조직이 어려워졌을 때도 함께 돌파구를 찾으려 노력할까요?",
       "presenter": null,
       "subline": null,
       "transition": "fade",
@@ -558,9 +576,9 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "보이지 않는 순간의 행동까지 맡겨야 한다는 긴장을 쌓습니다.",
+        "concept": "문제 공개와 합의한 방향의 실행에 더해, 조직이 어려워졌을 때도 함께 돌파구를 찾는 태도를 신뢰의 판단 기준으로 제시합니다.",
         "relation": {
-          "description": "보이지 않는 순간의 행동까지 맡겨야 한다는 긴장을 쌓습니다.",
+          "description": "문제 공개와 합의한 방향의 실행에 더해, 조직이 어려워졌을 때도 함께 돌파구를 찾는 태도를 신뢰의 판단 기준으로 제시합니다.",
           "type": "literal"
         },
         "strategy": {
