@@ -1302,7 +1302,7 @@
           "emphasis": "mid",
           "keyword": null,
           "pauseAfterMs": 100,
-          "text": "그래서 같이 일하고 싶다는 감각은",
+          "text": "같이 일하고 싶다는 감각은",
           "visualCue": "제목과 분리된 자막 영역에 의미 단위로 표시합니다.",
           "visualPriority": "mid"
         },
@@ -1337,7 +1337,7 @@
       "imageQuery": null,
       "kind": "statement",
       "layout": "statement-giant",
-      "narration": "그래서 같이 일하고 싶다는 감각은 생각보다 복합적입니다.",
+      "narration": "같이 일하고 싶다는 감각은 생각보다 복합적입니다.",
       "presenter": null,
       "subline": null,
       "transition": "fade",
