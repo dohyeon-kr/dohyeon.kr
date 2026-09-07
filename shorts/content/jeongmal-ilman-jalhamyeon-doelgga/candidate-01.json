@@ -965,17 +965,8 @@
           "emphasis": "mid",
           "keyword": null,
           "pauseAfterMs": 100,
-          "text": "사회에서 받는 인정은 지식과 능력만으로 결정되지 않습니다.",
-          "visualCue": "제목과 분리된 자막 영역에 의미 단위로 표시합니다.",
-          "visualPriority": "mid"
-        },
-        {
-          "delivery": "normal",
-          "emphasis": "mid",
-          "keyword": null,
-          "pauseAfterMs": 100,
-          "text": "하지만 함께 쌓은 신뢰는",
-          "visualCue": "제목과 분리된 자막 영역에 의미 단위로 표시합니다.",
+          "text": "신뢰는 눈에 보이는 것이 아닙니다.",
+          "visualCue": "신뢰가 눈에 보이지 않는다는 전제를 제시합니다.",
           "visualPriority": "mid"
         },
         {
@@ -983,8 +974,8 @@
           "emphasis": "high",
           "keyword": null,
           "pauseAfterMs": 220,
-          "text": "시험 점수나 자격증처럼 눈에 보이지 않습니다.",
-          "visualCue": "핵심 문장을 유지하며 다음 장면으로 연결합니다.",
+          "text": "하지만 시험 성적이나 자격증은 알아보기 쉽죠.",
+          "visualCue": "눈에 보이는 성적·자격증으로 대비한 뒤 다음 장면의 '그래서'로 연결합니다.",
           "visualPriority": "high"
         }
       ],
@@ -1005,7 +996,7 @@
       "comparisonRight": null,
       "diagramSpec": null,
       "effects": [],
-      "headline": "신뢰는 점수처럼\n보이지 않습니다",
+      "headline": "신뢰는 보이지 않고\n성적은 잘 보입니다",
       "image": {
         "creator": "Ketut Subiyanto",
         "license": "pexels",
@@ -1022,7 +1013,7 @@
       "imageQuery": "작업 중 이야기를 나누는 세 사람",
       "kind": "photo",
       "layout": "photo-strip",
-      "narration": "사회에서 받는 인정은 지식과 능력만으로 결정되지 않습니다. 하지만 함께 쌓은 신뢰는 시험 점수나 자격증처럼 눈에 보이지 않습니다.",
+      "narration": "신뢰는 눈에 보이는 것이 아닙니다. 하지만 시험 성적이나 자격증은 알아보기 쉽죠.",
       "presenter": null,
       "subline": null,
       "transition": "fade",
@@ -1036,9 +1027,9 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "지식과 능력 외에 신뢰도 인정의 근거이지만 점수처럼 눈에 보이지 않는다는 차이를 설명합니다.",
+        "concept": "신뢰의 비가시성과 성적·자격증의 가시성을 대비해, 다음 장면에서 인정받으려는 노력이 공부에 쏠리는 원인을 제시합니다.",
         "relation": {
-          "description": "지식과 능력 외에 신뢰도 인정의 근거이지만 점수처럼 눈에 보이지 않는다는 차이를 설명합니다.",
+          "description": "신뢰의 비가시성과 성적·자격증의 가시성을 대비해, 다음 장면에서 인정받으려는 노력이 공부에 쏠리는 원인을 제시합니다.",
           "type": "literal"
         },
         "strategy": {
