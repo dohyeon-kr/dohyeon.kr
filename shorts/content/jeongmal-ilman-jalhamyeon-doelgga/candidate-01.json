@@ -363,7 +363,7 @@
         "show-visual",
         "show-headline",
         "emphasize-result",
-        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+        "hold-result: 사진의 업무 맥락과 제목을 유지하고 자막과 우측 하단 프레젠터 영역을 분리합니다."
       ],
       "comparisonLeft": null,
       "comparisonRight": null,
@@ -371,19 +371,19 @@
       "effects": [],
       "headline": "좋은 구조인가,\n지금 필요한 일인가",
       "image": {
-        "creator": "cottonbro studio",
+        "creator": "Andrew Neel",
         "license": "pexels",
         "licenseUrl": "https://www.pexels.com/license/",
         "licenseVersion": null,
-        "originalUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "originalUrl": "https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "provider": "pexels",
-        "query": "창가에서 노트북으로 작업하는 사람",
+        "query": "노트북과 메모가 놓인 작업 책상",
         "source": "pexels",
-        "sourcePage": "https://www.pexels.com/photo/man-using-a-laptop-5483070/",
-        "thumbnailUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1000",
-        "title": "창가에서 노트북으로 작업하는 사람"
+        "sourcePage": "https://www.pexels.com/photo/macbook-pro-on-brown-wooden-table-2312369/",
+        "thumbnailUrl": "https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "노트북과 메모가 놓인 작업 책상"
       },
-      "imageQuery": "창가에서 노트북으로 작업하는 사람",
+      "imageQuery": "노트북과 메모가 놓인 작업 책상",
       "kind": "photo",
       "layout": "photo-strip",
       "narration": "기술적으로 더 좋은 구조를 만들 수 있어도, 지금 조직은 약속한 출시일을 지키는 일이 더 중요할 수 있습니다.",
@@ -393,7 +393,7 @@
       "transitionOptions": null,
       "visual": {
         "motif": null,
-        "query": "창가에서 노트북으로 작업하는 사람",
+        "query": "노트북과 메모가 놓인 작업 책상",
         "type": "photo",
         "value": null,
         "xLabel": null,
@@ -406,9 +406,9 @@
           "type": "literal"
         },
         "strategy": {
+          "type": "photo",
           "metaphor": null,
-          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
-          "type": "photo"
+          "rationale": "노트북과 메모가 놓인 작업 책상 사진으로 실제 업무의 맥락을 보여줍니다. 사진 속 인물의 신뢰 수준이나 조직 내 지위를 단정하지 않습니다."
         }
       },
       "visualStory": null
@@ -638,17 +638,30 @@
       "choreography": [
         "show-visual",
         "show-headline",
-        "emphasize-result"
+        "emphasize-result",
+        "hold-result: 사진의 업무 맥락과 제목을 유지하고 자막과 우측 하단 프레젠터 영역을 분리합니다."
       ],
       "comparisonLeft": null,
       "comparisonRight": null,
       "diagramSpec": null,
       "effects": [],
       "headline": "‘내 사람인가’",
-      "image": null,
-      "imageQuery": null,
-      "kind": "statement",
-      "layout": "statement-giant",
+      "image": {
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "같은 테이블에서 업무를 논의하는 사람들",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/group-of-people-gathered-around-wooden-table-3184360/",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "같은 테이블에서 업무를 논의하는 사람들"
+      },
+      "imageQuery": "같은 테이블에서 업무를 논의하는 사람들",
+      "kind": "photo",
+      "layout": "photo-strip",
       "narration": "조직은 계속 확인합니다. ‘내 사람인가.’ 우리와 같은 관점으로 상황을 보고, 우리의 일을 자기 일로 받아들일 사람인가입니다.",
       "presenter": null,
       "subline": null,
@@ -656,8 +669,8 @@
       "transitionOptions": null,
       "visual": {
         "motif": null,
-        "query": null,
-        "type": "none",
+        "query": "같은 테이블에서 업무를 논의하는 사람들",
+        "type": "photo",
         "value": null,
         "xLabel": null,
         "yLabel": null
@@ -669,9 +682,9 @@
           "type": "literal"
         },
         "strategy": {
+          "type": "photo",
           "metaphor": null,
-          "rationale": "문장의 질문이나 관점 전환을 잠시 읽는 장면입니다. 새 상징 없이 핵심어에 시선을 모읍니다.",
-          "type": "minimal"
+          "rationale": "같은 테이블에서 업무를 논의하는 사람들 사진으로 실제 업무의 맥락을 보여줍니다. 사진 속 인물의 신뢰 수준이나 조직 내 지위를 단정하지 않습니다."
         }
       },
       "visualStory": null
@@ -964,7 +977,7 @@
         "show-visual",
         "show-headline",
         "emphasize-result",
-        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+        "hold-result: 사진의 업무 맥락과 제목을 유지하고 자막과 우측 하단 프레젠터 영역을 분리합니다."
       ],
       "comparisonLeft": null,
       "comparisonRight": null,
@@ -976,15 +989,15 @@
         "license": "pexels",
         "licenseUrl": "https://www.pexels.com/license/",
         "licenseVersion": null,
-        "originalUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "originalUrl": "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "provider": "pexels",
-        "query": "자료를 함께 검토하는 동료들",
+        "query": "테이블에 모여 업무를 검토하는 사람들",
         "source": "pexels",
-        "sourcePage": "https://www.pexels.com/photo/people-having-a-meeting-3184303/",
-        "thumbnailUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1000",
-        "title": "자료를 함께 검토하는 동료들"
+        "sourcePage": "https://www.pexels.com/photo/photo-of-people-leaning-on-wooden-table-3184325/",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "테이블에 모여 업무를 검토하는 사람들"
       },
-      "imageQuery": "자료를 함께 검토하는 동료들",
+      "imageQuery": "테이블에 모여 업무를 검토하는 사람들",
       "kind": "photo",
       "layout": "photo-full-bleed",
       "narration": "좋은 해결책을 알아도 실행할 권한이 바로 생기지는 않습니다. 그 판단을 믿고 맡길 수 있을 때, 더 큰 기여의 기회가 열립니다.",
@@ -994,7 +1007,7 @@
       "transitionOptions": null,
       "visual": {
         "motif": null,
-        "query": "자료를 함께 검토하는 동료들",
+        "query": "테이블에 모여 업무를 검토하는 사람들",
         "type": "photo",
         "value": null,
         "xLabel": null,
@@ -1007,9 +1020,9 @@
           "type": "literal"
         },
         "strategy": {
+          "type": "photo",
           "metaphor": null,
-          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
-          "type": "photo"
+          "rationale": "테이블에 모여 업무를 검토하는 사람들 사진으로 실제 업무의 맥락을 보여줍니다. 사진 속 인물의 신뢰 수준이나 조직 내 지위를 단정하지 않습니다."
         }
       },
       "visualStory": null
@@ -1777,7 +1790,7 @@
         "show-visual",
         "show-headline",
         "emphasize-result",
-        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+        "hold-result: 사진의 업무 맥락과 제목을 유지하고 자막과 우측 하단 프레젠터 영역을 분리합니다."
       ],
       "comparisonLeft": null,
       "comparisonRight": null,
@@ -1789,15 +1802,15 @@
         "license": "pexels",
         "licenseUrl": "https://www.pexels.com/license/",
         "licenseVersion": null,
-        "originalUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "originalUrl": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1600",
         "provider": "pexels",
-        "query": "자료를 함께 검토하는 동료들",
+        "query": "노트북과 자료를 펼친 회의 테이블의 탑뷰",
         "source": "pexels",
-        "sourcePage": "https://www.pexels.com/photo/people-having-a-meeting-3184303/",
-        "thumbnailUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1000",
-        "title": "자료를 함께 검토하는 동료들"
+        "sourcePage": "https://www.pexels.com/photo/top-view-photo-of-people-near-wooden-table-3183150/",
+        "thumbnailUrl": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "노트북과 자료를 펼친 회의 테이블의 탑뷰"
       },
-      "imageQuery": "자료를 함께 검토하는 동료들",
+      "imageQuery": "노트북과 자료를 펼친 회의 테이블의 탑뷰",
       "kind": "photo",
       "layout": "photo-full-bleed",
       "narration": "무엇을 더 공부할지만 묻기보다, 우리 조직이 무엇을 이루고 무엇을 지키려는지 이해해야 합니다. 그 관점이 실제 우선순위와 선택에 드러나도록 노력해야 합니다.",
@@ -1807,7 +1820,7 @@
       "transitionOptions": null,
       "visual": {
         "motif": null,
-        "query": "자료를 함께 검토하는 동료들",
+        "query": "노트북과 자료를 펼친 회의 테이블의 탑뷰",
         "type": "photo",
         "value": null,
         "xLabel": null,
@@ -1820,9 +1833,9 @@
           "type": "literal"
         },
         "strategy": {
+          "type": "photo",
           "metaphor": null,
-          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
-          "type": "photo"
+          "rationale": "노트북과 자료를 펼친 회의 테이블의 탑뷰 사진으로 실제 업무의 맥락을 보여줍니다. 사진 속 인물의 신뢰 수준이나 조직 내 지위를 단정하지 않습니다."
         }
       },
       "visualStory": null
@@ -2005,5 +2018,11 @@
     "subtitles": "burned-in",
     "theme": "monochrome-editorial-dark",
     "visualDensity": "high"
+  },
+  "presenterOverlay": {
+    "position": "bottom-right",
+    "hideOnCommonCta": true,
+    "lipSync": "word-timestamps",
+    "nod": "speech"
   }
 }
