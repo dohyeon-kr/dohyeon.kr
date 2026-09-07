@@ -1,0 +1,2009 @@
+{
+  "candidate": {
+    "angle": "question",
+    "hashtags": [
+      "#조직생활",
+      "#신뢰",
+      "#커리어",
+      "#일하는방식"
+    ],
+    "hook": "정말 일만 잘하면 될까요?",
+    "rationale": "새로 재구성한 Ghost 드래프트를 기준으로 전체 대본을 다시 썼습니다. 단일 후보, 본문 20페이지 + 공통 CTA 1페이지로 총 21페이지입니다. 기 1–4: 공정해 보이는 능력 평가에서 우리의 일을 맡길 사람을 고르는 질문으로 전환합니다. 승 5–11: 조직의 우선순위, 큰 권한과 판단, 내 사람인지의 확인, 신뢰와 기여 범위를 연결합니다. 전 12–16: 추천·학연·지연·혈연을 행동 예측의 근거로 설명하고 부작용은 다른 문제로 짧게 구분한 뒤 능력 역시 신뢰의 근거임을 밝힙니다. 결 17–20: 눈에 보이는 시험 기준에 노력이 쏠리는 이유에서 조직의 목표·관점을 이해하고 실제 판단으로 기여해야 한다는 결론으로 돌아옵니다. 21: CTA. 친해짐·즐거움·시간의 질을 중심 논지로 삼지 않습니다. 기존의 출처가 있는 업무 사진을 재검토해 유지했고, 혈연·지연·학연은 특정 사진 인물에 귀속하지 않도록 비교 문구로 설명합니다. 실제 크롭·렌더·TTS 검수는 미완료입니다.",
+    "suggestedCaption": "정말 일만 잘하면 될까요? 조직은 가장 유능한 사람을 가리는 곳일까요, 우리의 일을 맡길 사람을 고르는 곳일까요. ‘능력’도 신뢰를 판단하는 근거 중 하나라는 관점에서 조직의 인정과 보상을 살펴봅니다.",
+    "title": "정말 일만 잘하면 될까?",
+    "viralScore": 0
+  },
+  "id": "candidate-01",
+  "scenes": [
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "정말 일만 잘하면 될까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "정말 일만\n잘하면 될까?",
+      "image": {
+        "creator": "cottonbro studio",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/7439136/pexels-photo-7439136.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "책상에서 노트북으로 일하는 손",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/person-using-a-laptop-on-a-table-7439136/",
+        "thumbnailUrl": "https://images.pexels.com/photos/7439136/pexels-photo-7439136.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "책상에서 노트북으로 일하는 손"
+      },
+      "imageQuery": "책상에서 노트북으로 일하는 손",
+      "kind": "hero",
+      "layout": "photo-full-bleed",
+      "narration": "정말 일만 잘하면 될까요?",
+      "presenter": null,
+      "subline": null,
+      "transition": "none",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "책상에서 노트북으로 일하는 손",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "정말 일만 잘하면 될까요?",
+        "relation": {
+          "description": "정말 일만 잘하면 될까요?",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "배경이나 친분보다 일의 결과로 평가하자는 말입니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "공정하게 들립니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "“일만 잘하면 됐지”",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "narration": "배경이나 친분보다 일의 결과로 평가하자는 말입니다. 공정하게 들립니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "배경이나 친분보다 일의 결과로 평가하자는 말입니다. 공정하게 들립니다.",
+        "relation": {
+          "description": "배경이나 친분보다 일의 결과로 평가하자는 말입니다. 공정하게 들립니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장의 질문이나 관점 전환을 잠시 읽는 장면입니다. 새 상징 없이 핵심어에 시선을 모읍니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "그런데 실무 ‘능력’이 가장 뛰어난 사람이",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "가장 높은 자리와 큰 보상을 얻는 것은 아닙니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "‘능력’의 순위와\n인정의 순위",
+      "image": {
+        "creator": "cottonbro studio",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "창가에서 노트북으로 작업하는 사람",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/man-using-a-laptop-5483070/",
+        "thumbnailUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "창가에서 노트북으로 작업하는 사람"
+      },
+      "imageQuery": "창가에서 노트북으로 작업하는 사람",
+      "kind": "photo",
+      "layout": "photo-strip",
+      "narration": "그런데 실무 ‘능력’이 가장 뛰어난 사람이 가장 높은 자리와 큰 보상을 얻는 것은 아닙니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "창가에서 노트북으로 작업하는 사람",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "그런데 실무 ‘능력’이 가장 뛰어난 사람이 가장 높은 자리와 큰 보상을 얻는 것은 아닙니다.",
+        "relation": {
+          "description": "그런데 실무 ‘능력’이 가장 뛰어난 사람이 가장 높은 자리와 큰 보상을 얻는 것은 아닙니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "일을 가장 잘하는 사람과",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "우리의 일을 맡길 사람을 고르는 것은",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "질문이 다릅니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": "누가 가장 잘할까",
+      "comparisonRight": "누구에게 맡길까",
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "누구를\n고르는 걸까요?",
+      "image": null,
+      "imageQuery": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "narration": "일을 가장 잘하는 사람과 우리의 일을 맡길 사람을 고르는 것은 질문이 다릅니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "일을 가장 잘하는 사람과 우리의 일을 맡길 사람을 고르는 것은 질문이 다릅니다.",
+        "relation": {
+          "description": "일을 가장 잘하는 사람과 우리의 일을 맡길 사람을 고르는 것은 질문이 다릅니다.",
+          "type": "comparison"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장에서 비교하는 두 관점을 나란히 유지합니다. 도식이나 상징을 추가하지 않습니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "기술적으로 더 좋은 구조를 만들 수 있어도,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "지금 조직은 약속한 출시일을 지키는 일이",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "더 중요할 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "좋은 구조인가,\n지금 필요한 일인가",
+      "image": {
+        "creator": "cottonbro studio",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "창가에서 노트북으로 작업하는 사람",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/man-using-a-laptop-5483070/",
+        "thumbnailUrl": "https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "창가에서 노트북으로 작업하는 사람"
+      },
+      "imageQuery": "창가에서 노트북으로 작업하는 사람",
+      "kind": "photo",
+      "layout": "photo-strip",
+      "narration": "기술적으로 더 좋은 구조를 만들 수 있어도, 지금 조직은 약속한 출시일을 지키는 일이 더 중요할 수 있습니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "창가에서 노트북으로 작업하는 사람",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "기술적으로 더 좋은 구조를 만들 수 있어도, 지금 조직은 약속한 출시일을 지키는 일이 더 중요할 수 있습니다.",
+        "relation": {
+          "description": "기술적으로 더 좋은 구조를 만들 수 있어도, 지금 조직은 약속한 출시일을 지키는 일이 더 중요할 수 있습니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "임원처럼 큰 권한을 가진 사람은",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "무엇을 하고 무엇을 포기할지 결정합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "그 답을 모두 미리 정해줄 수는 없습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "더 큰 권한에는\n더 큰 판단이 따릅니다",
+      "image": {
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "자료를 함께 검토하는 동료들",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-having-a-meeting-3184303/",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "자료를 함께 검토하는 동료들"
+      },
+      "imageQuery": "자료를 함께 검토하는 동료들",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "narration": "임원처럼 큰 권한을 가진 사람은 무엇을 하고 무엇을 포기할지 결정합니다. 그 답을 모두 미리 정해줄 수는 없습니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "자료를 함께 검토하는 동료들",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "임원처럼 큰 권한을 가진 사람은 무엇을 하고 무엇을 포기할지 결정합니다. 그 답을 모두 미리 정해줄 수는 없습니다.",
+        "relation": {
+          "description": "임원처럼 큰 권한을 가진 사람은 무엇을 하고 무엇을 포기할지 결정합니다. 그 답을 모두 미리 정해줄 수는 없습니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "내 의도를 이해하고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "내가 없어도 우리가 중요하게 여기는 것을 지킬까요?",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "조직이 어려워져도 함께 돌파구를 찾으려 할까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "우리를 위해\n판단할 사람인가",
+      "image": {
+        "creator": "Thirdman",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/7993951/pexels-photo-7993951.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "회의에서 대화하는 동료들",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/smiling-colleagues-in-a-meeting-7993951/",
+        "thumbnailUrl": "https://images.pexels.com/photos/7993951/pexels-photo-7993951.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "회의에서 대화하는 동료들"
+      },
+      "imageQuery": "회의에서 대화하는 동료들",
+      "kind": "photo",
+      "layout": "photo-strip",
+      "narration": "내 의도를 이해하고, 내가 없어도 우리가 중요하게 여기는 것을 지킬까요? 조직이 어려워져도 함께 돌파구를 찾으려 할까요?",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "회의에서 대화하는 동료들",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "내 의도를 이해하고, 내가 없어도 우리가 중요하게 여기는 것을 지킬까요? 조직이 어려워져도 함께 돌파구를 찾으려 할까요?",
+        "relation": {
+          "description": "내 의도를 이해하고, 내가 없어도 우리가 중요하게 여기는 것을 지킬까요? 조직이 어려워져도 함께 돌파구를 찾으려 할까요?",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "조직은 계속 확인합니다. ‘내 사람인가.’",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "우리와 같은 관점으로 상황을 보고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "우리의 일을 자기 일로 받아들일 사람인가입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "‘내 사람인가’",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "narration": "조직은 계속 확인합니다. ‘내 사람인가.’ 우리와 같은 관점으로 상황을 보고, 우리의 일을 자기 일로 받아들일 사람인가입니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "조직은 계속 확인합니다. ‘내 사람인가.’ 우리와 같은 관점으로 상황을 보고, 우리의 일을 자기 일로 받아들일 사람인가입니다.",
+        "relation": {
+          "description": "조직은 계속 확인합니다. ‘내 사람인가.’ 우리와 같은 관점으로 상황을 보고, 우리의 일을 자기 일로 받아들일 사람인가입니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장의 질문이나 관점 전환을 잠시 읽는 장면입니다. 새 상징 없이 핵심어에 시선을 모읍니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "그 사람이 무엇을 해낼 수 있는지뿐 아니라,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "그 힘을 우리를 위해 쓸지도 믿어야 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "그 신뢰가 있어야 판단을 맡길 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": {
+        "description": "내레이션의 판단 근거를 순서대로 표시하고 함께 유지합니다.",
+        "events": [
+          {
+            "end": 0.18,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.05,
+            "target": "item-0",
+            "to": 1
+          },
+          {
+            "end": 0.38,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.25,
+            "target": "item-1",
+            "to": 1
+          },
+          {
+            "end": 0.5800000000000001,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.45,
+            "target": "item-2",
+            "to": 1
+          }
+        ],
+        "nodes": [
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-0",
+            "label": "무엇을 해낼까",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 160,
+            "y": 280
+          },
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-1",
+            "label": "어디에 쓸까",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 400,
+            "y": 280
+          },
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-2",
+            "label": "맡길 수 있을까",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 640,
+            "y": 280
+          }
+        ],
+        "physics": null,
+        "renderer": "remotion",
+        "version": 1
+      },
+      "effects": [],
+      "headline": "신뢰는 위임의\n바탕입니다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "narration": "그 사람이 무엇을 해낼 수 있는지뿐 아니라, 그 힘을 우리를 위해 쓸지도 믿어야 합니다. 그 신뢰가 있어야 판단을 맡길 수 있습니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "diagram",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "그 사람이 무엇을 해낼 수 있는지뿐 아니라, 그 힘을 우리를 위해 쓸지도 믿어야 합니다. 그 신뢰가 있어야 판단을 맡길 수 있습니다.",
+        "relation": {
+          "description": "그 사람이 무엇을 해낼 수 있는지뿐 아니라, 그 힘을 우리를 위해 쓸지도 믿어야 합니다. 그 신뢰가 있어야 판단을 맡길 수 있습니다.",
+          "type": "accumulation"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "세 판단 근거를 같은 크기로 순서대로 더합니다. 수치 비교나 확인되지 않은 인과를 표현하지 않습니다.",
+          "type": "spatial-diagram"
+        }
+      },
+      "visualStory": {
+        "change": "다음 항목이 순서대로 나타납니다.",
+        "initial": "첫 번째 항목만 보입니다.",
+        "invariant": "도형 위치는 고정합니다. 라벨은 도형 위, 제목은 도식 위, 자막은 도식 아래에 분리합니다.",
+        "result": "세 항목을 마지막 25% 동안 함께 읽습니다.",
+        "trigger": "내레이션이 다음 판단 근거를 말합니다."
+      }
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "일은 결과물을 만드는 동시에,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "왜 이 일을 부탁했는지 이해하고",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "우리에게 필요한 선택을 할 사람임을 보여주는 기회입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "일은 계속\n증명하는 과정입니다",
+      "image": {
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "함께 일하며 인사하는 동료들",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/colleagues-shaking-each-other-s-hands-3184291/",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "함께 일하며 인사하는 동료들"
+      },
+      "imageQuery": "함께 일하며 인사하는 동료들",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "narration": "일은 결과물을 만드는 동시에, 왜 이 일을 부탁했는지 이해하고 우리에게 필요한 선택을 할 사람임을 보여주는 기회입니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "함께 일하며 인사하는 동료들",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "일은 결과물을 만드는 동시에, 왜 이 일을 부탁했는지 이해하고 우리에게 필요한 선택을 할 사람임을 보여주는 기회입니다.",
+        "relation": {
+          "description": "일은 결과물을 만드는 동시에, 왜 이 일을 부탁했는지 이해하고 우리에게 필요한 선택을 할 사람임을 보여주는 기회입니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "좋은 해결책을 알아도 실행할 권한이 바로 생기지는 않습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "그 판단을 믿고 맡길 수 있을 때,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "더 큰 기여의 기회가 열립니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "기여할 수 있는\n범위도 넓어집니다",
+      "image": {
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "자료를 함께 검토하는 동료들",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-having-a-meeting-3184303/",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "자료를 함께 검토하는 동료들"
+      },
+      "imageQuery": "자료를 함께 검토하는 동료들",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "narration": "좋은 해결책을 알아도 실행할 권한이 바로 생기지는 않습니다. 그 판단을 믿고 맡길 수 있을 때, 더 큰 기여의 기회가 열립니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "자료를 함께 검토하는 동료들",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "좋은 해결책을 알아도 실행할 권한이 바로 생기지는 않습니다. 그 판단을 믿고 맡길 수 있을 때, 더 큰 기여의 기회가 열립니다.",
+        "relation": {
+          "description": "좋은 해결책을 알아도 실행할 권한이 바로 생기지는 않습니다. 그 판단을 믿고 맡길 수 있을 때, 더 큰 기여의 기회가 열립니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "모든 사람을 충분히 겪어본 뒤에 일을 맡길 수는 없습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "추천과 공유한 배경, 이어져 온 관계도",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "판단의 근거가 됩니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": {
+        "description": "내레이션의 판단 근거를 순서대로 표시하고 함께 유지합니다.",
+        "events": [
+          {
+            "end": 0.18,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.05,
+            "target": "item-0",
+            "to": 1
+          },
+          {
+            "end": 0.38,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.25,
+            "target": "item-1",
+            "to": 1
+          },
+          {
+            "end": 0.5800000000000001,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.45,
+            "target": "item-2",
+            "to": 1
+          }
+        ],
+        "nodes": [
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-0",
+            "label": "추천",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 160,
+            "y": 280
+          },
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-1",
+            "label": "공유한 배경",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 400,
+            "y": 280
+          },
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-2",
+            "label": "이어질 관계",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 640,
+            "y": 280
+          }
+        ],
+        "physics": null,
+        "renderer": "remotion",
+        "version": 1
+      },
+      "effects": [],
+      "headline": "직접 겪지 못한\n사람을 판단할 때",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "narration": "모든 사람을 충분히 겪어본 뒤에 일을 맡길 수는 없습니다. 추천과 공유한 배경, 이어져 온 관계도 판단의 근거가 됩니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "diagram",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "모든 사람을 충분히 겪어본 뒤에 일을 맡길 수는 없습니다. 추천과 공유한 배경, 이어져 온 관계도 판단의 근거가 됩니다.",
+        "relation": {
+          "description": "모든 사람을 충분히 겪어본 뒤에 일을 맡길 수는 없습니다. 추천과 공유한 배경, 이어져 온 관계도 판단의 근거가 됩니다.",
+          "type": "accumulation"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "세 판단 근거를 같은 크기로 순서대로 더합니다. 수치 비교나 확인되지 않은 인과를 표현하지 않습니다.",
+          "type": "spatial-diagram"
+        }
+      },
+      "visualStory": {
+        "change": "다음 항목이 순서대로 나타납니다.",
+        "initial": "첫 번째 항목만 보입니다.",
+        "invariant": "도형 위치는 고정합니다. 라벨은 도형 위, 제목은 도식 위, 자막은 도식 아래에 분리합니다.",
+        "result": "세 항목을 마지막 25% 동안 함께 읽습니다.",
+        "trigger": "내레이션이 다음 판단 근거를 말합니다."
+      }
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "혈연은 앞으로도 이어질 관계가,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "지연은 공동체의 평판과 추천이",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "상대의 행동을 가늠하는 단서가 됩니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": "이어질 관계",
+      "comparisonRight": "평판과 추천",
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "관계와 평판도\n판단의 단서입니다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "narration": "혈연은 앞으로도 이어질 관계가, 지연은 공동체의 평판과 추천이 상대의 행동을 가늠하는 단서가 됩니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "혈연은 앞으로도 이어질 관계가, 지연은 공동체의 평판과 추천이 상대의 행동을 가늠하는 단서가 됩니다.",
+        "relation": {
+          "description": "혈연은 앞으로도 이어질 관계가, 지연은 공동체의 평판과 추천이 상대의 행동을 가늠하는 단서가 됩니다.",
+          "type": "comparison"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장에서 비교하는 두 관점을 나란히 유지합니다. 도식이나 상징을 추가하지 않습니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "학연도 어떤 교육과 경험을 공유했는지로",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "사고방식과 판단 기준을 가늠하게 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "친분만이 아니라 예측할 근거가 있는 셈입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": "교육과 경험",
+      "comparisonRight": "관점과 판단",
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "공유한 배경에서\n관점을 가늠합니다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "narration": "학연도 어떤 교육과 경험을 공유했는지로 사고방식과 판단 기준을 가늠하게 합니다. 친분만이 아니라 예측할 근거가 있는 셈입니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "학연도 어떤 교육과 경험을 공유했는지로 사고방식과 판단 기준을 가늠하게 합니다. 친분만이 아니라 예측할 근거가 있는 셈입니다.",
+        "relation": {
+          "description": "학연도 어떤 교육과 경험을 공유했는지로 사고방식과 판단 기준을 가늠하게 합니다. 친분만이 아니라 예측할 근거가 있는 셈입니다.",
+          "type": "comparison"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장에서 비교하는 두 관점을 나란히 유지합니다. 도식이나 상징을 추가하지 않습니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "이런 관계가 기회를 독점하거나",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "불공정한 대우로 이어지는 부작용도 있습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "다만 그 부작용을 막는 것과",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "관계가 왜 신뢰의 근거가 되는지는 다른 문제입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "부작용과 작동 이유는\n다른 문제입니다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "narration": "이런 관계가 기회를 독점하거나 불공정한 대우로 이어지는 부작용도 있습니다. 다만 그 부작용을 막는 것과 관계가 왜 신뢰의 근거가 되는지는 다른 문제입니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "이런 관계가 기회를 독점하거나 불공정한 대우로 이어지는 부작용도 있습니다. 다만 그 부작용을 막는 것과 관계가 왜 신뢰의 근거가 되는지는 다른 문제입니다.",
+        "relation": {
+          "description": "이런 관계가 기회를 독점하거나 불공정한 대우로 이어지는 부작용도 있습니다. 다만 그 부작용을 막는 것과 관계가 왜 신뢰의 근거가 되는지는 다른 문제입니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장의 질문이나 관점 전환을 잠시 읽는 장면입니다. 새 상징 없이 핵심어에 시선을 모읍니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "성적과 경력도 앞으로 일을 잘 해낼지 판단하는 자료입니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "‘능력’ 역시 신뢰와 별개가 아니라,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "사람을 믿기 위해 확인하는 근거 중 하나입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": {
+        "description": "내레이션의 판단 근거를 순서대로 표시하고 함께 유지합니다.",
+        "events": [
+          {
+            "end": 0.18,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.05,
+            "target": "item-0",
+            "to": 1
+          },
+          {
+            "end": 0.38,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.25,
+            "target": "item-1",
+            "to": 1
+          },
+          {
+            "end": 0.5800000000000001,
+            "from": 0,
+            "property": "opacity",
+            "start": 0.45,
+            "target": "item-2",
+            "to": 1
+          }
+        ],
+        "nodes": [
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-0",
+            "label": "성적과 경력",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 160,
+            "y": 280
+          },
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-1",
+            "label": "앞으로의 수행",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 400,
+            "y": 280
+          },
+          {
+            "connector": null,
+            "fill": "none",
+            "height": 130,
+            "id": "item-2",
+            "label": "믿고 맡길 근거",
+            "shape": "rect",
+            "strokeStyle": "solid",
+            "width": 200,
+            "x": 640,
+            "y": 280
+          }
+        ],
+        "physics": null,
+        "renderer": "remotion",
+        "version": 1
+      },
+      "effects": [],
+      "headline": "‘능력’도 신뢰의\n근거 중 하나입니다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "narration": "성적과 경력도 앞으로 일을 잘 해낼지 판단하는 자료입니다. ‘능력’ 역시 신뢰와 별개가 아니라, 사람을 믿기 위해 확인하는 근거 중 하나입니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "diagram",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "성적과 경력도 앞으로 일을 잘 해낼지 판단하는 자료입니다. ‘능력’ 역시 신뢰와 별개가 아니라, 사람을 믿기 위해 확인하는 근거 중 하나입니다.",
+        "relation": {
+          "description": "성적과 경력도 앞으로 일을 잘 해낼지 판단하는 자료입니다. ‘능력’ 역시 신뢰와 별개가 아니라, 사람을 믿기 위해 확인하는 근거 중 하나입니다.",
+          "type": "accumulation"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "세 판단 근거를 같은 크기로 순서대로 더합니다. 수치 비교나 확인되지 않은 인과를 표현하지 않습니다.",
+          "type": "spatial-diagram"
+        }
+      },
+      "visualStory": {
+        "change": "다음 항목이 순서대로 나타납니다.",
+        "initial": "첫 번째 항목만 보입니다.",
+        "invariant": "도형 위치는 고정합니다. 라벨은 도형 위, 제목은 도식 위, 자막은 도식 아래에 분리합니다.",
+        "result": "세 항목을 마지막 25% 동안 함께 읽습니다.",
+        "trigger": "내레이션이 다음 판단 근거를 말합니다."
+      }
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "신뢰는 눈에 보이지 않지만,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "성적과 자격증은 알아보기 쉽습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "그래서 인정받으려는 노력도",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "공부와 기술을 익히는 데 쏠리기 쉽습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": "신뢰는 보이지 않고",
+      "comparisonRight": "성적은 잘 보입니다",
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "눈에 보이는 기준에\n노력이 쏠립니다",
+      "image": null,
+      "imageQuery": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "narration": "신뢰는 눈에 보이지 않지만, 성적과 자격증은 알아보기 쉽습니다. 그래서 인정받으려는 노력도 공부와 기술을 익히는 데 쏠리기 쉽습니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "신뢰는 눈에 보이지 않지만, 성적과 자격증은 알아보기 쉽습니다. 그래서 인정받으려는 노력도 공부와 기술을 익히는 데 쏠리기 쉽습니다.",
+        "relation": {
+          "description": "신뢰는 눈에 보이지 않지만, 성적과 자격증은 알아보기 쉽습니다. 그래서 인정받으려는 노력도 공부와 기술을 익히는 데 쏠리기 쉽습니다.",
+          "type": "comparison"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장에서 비교하는 두 관점을 나란히 유지합니다. 도식이나 상징을 추가하지 않습니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "하지만 시험은 정해진 문제의 답을 찾는 일이고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "조직에서는 지금 무엇을 풀어야 할지부터 판단해야 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "내가 아는 좋은 답과 우리에게 필요한 답은 다를 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result"
+      ],
+      "comparisonLeft": "정해진 문제의 답",
+      "comparisonRight": "지금 필요한 판단",
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "시험의 답과\n조직의 답",
+      "image": null,
+      "imageQuery": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "narration": "하지만 시험은 정해진 문제의 답을 찾는 일이고, 조직에서는 지금 무엇을 풀어야 할지부터 판단해야 합니다. 내가 아는 좋은 답과 우리에게 필요한 답은 다를 수 있습니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "하지만 시험은 정해진 문제의 답을 찾는 일이고, 조직에서는 지금 무엇을 풀어야 할지부터 판단해야 합니다. 내가 아는 좋은 답과 우리에게 필요한 답은 다를 수 있습니다.",
+        "relation": {
+          "description": "하지만 시험은 정해진 문제의 답을 찾는 일이고, 조직에서는 지금 무엇을 풀어야 할지부터 판단해야 합니다. 내가 아는 좋은 답과 우리에게 필요한 답은 다를 수 있습니다.",
+          "type": "comparison"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "문장에서 비교하는 두 관점을 나란히 유지합니다. 도식이나 상징을 추가하지 않습니다.",
+          "type": "minimal"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "무엇을 더 공부할지만 묻기보다,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "우리 조직이 무엇을 이루고 무엇을 지키려는지 이해해야 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "그 관점이 실제 우선순위와 선택에 드러나도록 노력해야 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "우리의 관점에서\n판단하고 기여하기",
+      "image": {
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "자료를 함께 검토하는 동료들",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-having-a-meeting-3184303/",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184303/pexels-photo-3184303.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "자료를 함께 검토하는 동료들"
+      },
+      "imageQuery": "자료를 함께 검토하는 동료들",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "narration": "무엇을 더 공부할지만 묻기보다, 우리 조직이 무엇을 이루고 무엇을 지키려는지 이해해야 합니다. 그 관점이 실제 우선순위와 선택에 드러나도록 노력해야 합니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "fade",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "자료를 함께 검토하는 동료들",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "무엇을 더 공부할지만 묻기보다, 우리 조직이 무엇을 이루고 무엇을 지키려는지 이해해야 합니다. 그 관점이 실제 우선순위와 선택에 드러나도록 노력해야 합니다.",
+        "relation": {
+          "description": "무엇을 더 공부할지만 묻기보다, 우리 조직이 무엇을 이루고 무엇을 지키려는지 이해해야 합니다. 그 관점이 실제 우선순위와 선택에 드러나도록 노력해야 합니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "backgroundVideo": null,
+      "beats": [
+        {
+          "text": "정말 일만 잘하면 될까요?",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "조직은 ‘능력’ 순서대로 상을 주는 곳이 아닙니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "우리의 일을 맡길 사람에게 권한을 줍니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "독립된 자막 영역에 의미 단위로 표시합니다."
+        },
+        {
+          "text": "그 믿음을 쌓는 일이 더 큰 기여와 인정, 보상으로 이어집니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "핵심 판단을 유지하고 다음 장면으로 연결합니다."
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [
+        "show-visual",
+        "show-headline",
+        "emphasize-result",
+        "hold-result: 흑백 사진 위에 제목, 하단 독립 영역에 자막을 배치합니다. 표정과 손동작이 제목·자막에 가리지 않는지 실제 크롭을 검토합니다."
+      ],
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "diagramSpec": null,
+      "effects": [],
+      "headline": "우리의 일을\n맡길 사람",
+      "image": {
+        "creator": "Ketut Subiyanto",
+        "license": "pexels",
+        "licenseUrl": "https://www.pexels.com/license/",
+        "licenseVersion": null,
+        "originalUrl": "https://images.pexels.com/photos/4623195/pexels-photo-4623195.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "provider": "pexels",
+        "query": "작업 중 이야기를 나누는 세 사람",
+        "source": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-smiling-while-on-a-meeting-4623195/",
+        "thumbnailUrl": "https://images.pexels.com/photos/4623195/pexels-photo-4623195.jpeg?auto=compress&cs=tinysrgb&w=1000",
+        "title": "작업 중 이야기를 나누는 세 사람"
+      },
+      "imageQuery": "작업 중 이야기를 나누는 세 사람",
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "narration": "정말 일만 잘하면 될까요? 조직은 ‘능력’ 순서대로 상을 주는 곳이 아닙니다. 우리의 일을 맡길 사람에게 권한을 줍니다. 그 믿음을 쌓는 일이 더 큰 기여와 인정, 보상으로 이어집니다.",
+      "presenter": null,
+      "subline": null,
+      "transition": "cross-dissolve",
+      "transitionOptions": null,
+      "visual": {
+        "motif": null,
+        "query": "작업 중 이야기를 나누는 세 사람",
+        "type": "photo",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "정말 일만 잘하면 될까요? 조직은 ‘능력’ 순서대로 상을 주는 곳이 아닙니다. 우리의 일을 맡길 사람에게 권한을 줍니다. 그 믿음을 쌓는 일이 더 큰 기여와 인정, 보상으로 이어집니다.",
+        "relation": {
+          "description": "정말 일만 잘하면 될까요? 조직은 ‘능력’ 순서대로 상을 주는 곳이 아닙니다. 우리의 일을 맡길 사람에게 권한을 줍니다. 그 믿음을 쌓는 일이 더 큰 기여와 인정, 보상으로 이어집니다.",
+          "type": "literal"
+        },
+        "strategy": {
+          "metaphor": null,
+          "rationale": "기존에 확보한 업무·회의 사진으로 조직의 판단과 위임이라는 맥락을 보여줍니다. 사진 속 인물의 직급·친족·학력·평판을 주장하지 않습니다. 즐거움이나 친밀함을 신뢰의 근거로 해설하지 않습니다.",
+          "type": "photo"
+        }
+      },
+      "visualStory": null
+    },
+    {
+      "beats": [
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 160,
+          "text": "더 자세한 이야기는",
+          "visualCue": null,
+          "visualPriority": "high"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 160,
+          "text": "블로그에 정리했습니다.",
+          "visualCue": null,
+          "visualPriority": "high"
+        },
+        {
+          "delivery": "normal",
+          "emphasis": "mid",
+          "keyword": null,
+          "pauseAfterMs": 160,
+          "text": "프로필 링크에서 읽어보세요.",
+          "visualCue": null,
+          "visualPriority": "high"
+        }
+      ],
+      "camera": {
+        "endProgress": 1,
+        "intensity": "subtle",
+        "motion": "static",
+        "startProgress": 0,
+        "target": "center"
+      },
+      "choreography": [],
+      "commonPage": "blog-cta-v1",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "headline": "더 자세한 이야기는\n블로그에서",
+      "image": null,
+      "imageQuery": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "narration": "더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.",
+      "subline": "프로필 링크에서 읽기",
+      "transition": "blur-dissolve",
+      "transitionOptions": {
+        "durationMs": 600,
+        "intensity": 0.5
+      },
+      "visual": {
+        "motif": null,
+        "query": null,
+        "type": "none",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      }
+    }
+  ],
+  "schemaVersion": 3,
+  "source": {
+    "title": "정말 일만 잘하면 될까?",
+    "url": "https://blog.dohyeon.kr/jeongmal-ilman-jalhamyeon-doelgga/"
+  },
+  "status": "candidate",
+  "style": {
+    "artDirection": "monochrome-editorial-motion",
+    "decorativeLabels": "forbidden",
+    "motionLanguage": "sharp-subtle",
+    "safeArea": "shorts-reels",
+    "subtitles": "burned-in",
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high"
+  }
+}

@@ -29,3 +29,13 @@ test('optional request and input bounds', () => {
   assert.throws(() => buildGenerationInput({}, NaN));
   assert.throws(() => buildGenerationInput({}, 9));
 });
+
+test('ships continuity, example scope and direct explanatory voice to generation and review', () => {
+  const input = JSON.parse(buildGenerationInput({title: 't', url: 'u', body: 'b'}, 3));
+  assert.deepEqual(input.editorialPolicy.continuityReview, SHORTS_EDITORIAL_POLICY.continuityReview);
+  const rules = input.editorialPolicy.continuityReview.join('\n');
+  for (const phrase of ['편집 대화', '사례의 범위', '측정하기 쉬운 성장', '편집자의 반박', '도입과 같은 질문']) {
+    assert.ok(rules.includes(phrase), `Missing continuity rule: ${phrase}`);
+  }
+  assert.ok(input.editorialPolicy.koreanHumanizer.some(rule => rule.includes('정리된 관점 설명') && rule.includes('실제 경험')));
+});
