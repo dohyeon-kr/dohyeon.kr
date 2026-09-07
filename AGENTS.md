@@ -82,6 +82,32 @@ If deployment behavior needs to change, update the server wrapper and sudoers
 configuration deliberately instead of expanding privileged commands inline in
 `.github/workflows/deploy.yml`.
 
+## Shorts narration voice
+
+Before generating, reviewing, or manually rewriting shorts narration, read
+[the shorts narration style policy](shorts/docs/narration-style.md). It is the
+canonical voice policy for reels/shorts and takes precedence over the blog voice
+for narration structure and sentence style.
+
+- Shorts are informational content. Keep the author's viewpoint and important
+  vocabulary, but do not copy the blog's long visible thinking process, repeated
+  self-correction, or deliberately loose paragraph rhythm into narration.
+- Build a complete arc: `problem/question -> context/cause -> evidence/contrast ->
+  insight/turn -> explicit conclusion`. Do not jump from the hook straight to the
+  final claim when the source contains enough material to build the argument.
+- The final body scene must answer or recover the opening question/key phrase.
+  CTA is separate and must not substitute for a conclusion.
+- Apply the Korean naturalization rules adapted from `dotoricode/korean-humanizer`:
+  remove empty intensifiers/adjectives, translation-like formalism, filler
+  connectives, passive/hidden agents, forced triplets, excessive hedging, and
+  generic AI vocabulary when a more concrete phrase is available. Preserve facts,
+  numbers, proper nouns, quotations, conditions, and information density.
+- Keep narration as natural spoken Korean. Default to a consistent
+  `~합니다 / ~입니다` register unless an approved candidate intentionally uses a
+  different register. Do not mix endings merely for variation.
+- Generation code must keep the same rules in its structured editorial policy;
+  documentation-only compliance is not sufficient.
+
 ## Shorts Korean Typography
 
 For shorts generation, diagram layout, underline effects, or motion changes, follow
