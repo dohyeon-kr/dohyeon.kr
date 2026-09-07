@@ -1,0 +1,661 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-03",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/jeongmal-ilman-jalhamyeon-doelgga/",
+    "title": "정말 일만 잘하면 될까?"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "점수도 계약도 있는데, 왜 같이 일한 경험을 볼까요?",
+    "title": "점수와 계약으로는 보이지 않는 것",
+    "rationale": "원문의 중간 부분은 작은 약속과 협업 경험 → 시험·계약의 역할과 한계 → 학연·지연의 양면 → 깊은 신뢰에 필요한 시간 순서로 전개됩니다. 핵심 문장은 ‘점수로 확인하지 못했고 계약에도 적어두지 않은 상황’과 ‘한 번의 좋은 결과로 확인할 수 있는 것과 여러 상황을 함께 겪어야 알 수 있는 것은 다릅니다’입니다. 이 후보는 신뢰의 판단 근거에 집중하고 승진 기준과 개인의 시간 배분은 다루지 않습니다. 후보 간 중복 없이 각각 18장으로 확장할 독립 근거가 부족해 6장으로 구성했습니다. 학연·지연을 정당화하지 않도록 배제와 검증 대체에 대한 경계를 결론 전에 보존했습니다. 약 40~50초 예상입니다. 적합한 배경 영상은 미확보 상태로 사진과 도식을 사용합니다.",
+    "viralScore": 82,
+    "suggestedCaption": "점수와 계약은 중요합니다. 다만 거기에 담기지 않은 상황에서의 판단은 무엇으로 알 수 있을까요?",
+    "hashtags": [
+      "#신뢰",
+      "#협업",
+      "#조직문화",
+      "#직장생활"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "명시적인 평가와 약속이 있는데도 협업 경험을 보는 이유",
+        "relation": {
+          "type": "comparison",
+          "description": "문서로 확인하는 근거와 함께 일하며 얻는 근거 사이의 질문을 엽니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "none",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "점수도 계약도 있는데,",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "왜 같이 일한 경험을 볼까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경험",
+          "visualCue": null
+        }
+      ],
+      "headline": "계약으로는\n충분하지 않을까요?",
+      "subline": null,
+      "narration": "점수도 계약도 있는데, 왜 같이 일한 경험을 볼까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "contract documents desk",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "시험과 계약이 맡는 서로 다른 역할",
+        "relation": {
+          "type": "comparison",
+          "description": "시험은 같은 판단 기준을, 계약은 명확한 약속과 책임을 제공합니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "역할을 두 문구로 대조하면 문서 아이콘 두 개보다 각각의 효용을 정확히 읽을 수 있습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline: 두 제도의 역할을 먼저 인정한다",
+        "show-visual: 시험과 계약의 역할을 순서대로 표시한다",
+        "emphasize-result: 우열이나 승패 표시 없이 두 열을 유지한다"
+      ],
+      "beats": [
+        {
+          "text": "시험은 낯선 사람도 같은 기준으로 판단하게 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 130,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "기준",
+          "visualCue": "시험 열 표시"
+        },
+        {
+          "text": "계약은 약속과 책임을 명확히 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "책임",
+          "visualCue": "계약 열 표시"
+        }
+      ],
+      "headline": "각자의 역할은 분명합니다",
+      "subline": null,
+      "narration": "시험은 낯선 사람도 같은 기준으로 판단하게 합니다. 계약은 약속과 책임을 명확히 합니다.",
+      "comparisonLeft": "시험\n같은 판단 기준",
+      "comparisonRight": "계약\n약속과 책임",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "명시 범위라는 점선 영역 안에 점수와 계약 카드가 있습니다.",
+        "trigger": "미명시 상황 카드가 영역 밖에 등장합니다.",
+        "change": "기존 문서가 남은 채 문서만으로 확인하지 못한 상황이 시야에 들어옵니다.",
+        "invariant": "점선 영역의 제목은 상단 안쪽에, 카드는 아래쪽에 둡니다. 밖의 카드와 영역 경계는 겹치지 않고 모든 라벨은 항상 보입니다.",
+        "result": "시험과 계약의 역할은 보존하면서 그 밖의 판단 질문을 분리해 보여줍니다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "점수와 계약의 명시 범위 밖에 상황 카드가 나타나는 개념도. 영역을 먼저 그리고 카드를 나중에 그린다. 라벨 최소 24px와 줄 높이 1.5, 내부 여백을 확보한다.",
+        "nodes": [
+          {
+            "id": "scope",
+            "shape": "rect",
+            "label": "",
+            "blob": null,
+            "x": 255,
+            "y": 280,
+            "width": 370,
+            "height": 380,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "scope-label",
+            "shape": "text",
+            "label": "명시 범위",
+            "blob": null,
+            "x": 255,
+            "y": 145,
+            "width": 230,
+            "height": 60,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "score",
+            "shape": "rect",
+            "label": "점수",
+            "blob": null,
+            "x": 255,
+            "y": 250,
+            "width": 230,
+            "height": 90,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "contract",
+            "shape": "rect",
+            "label": "계약",
+            "blob": null,
+            "x": 255,
+            "y": 370,
+            "width": 230,
+            "height": 90,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "unknown",
+            "shape": "rect",
+            "label": "미명시 상황",
+            "blob": null,
+            "x": 615,
+            "y": 280,
+            "width": 230,
+            "height": 120,
+            "fill": "hatch",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "unknown",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.55
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "explicit-scope",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "명시된 기준과 약속 밖에서 생기는 상황",
+        "relation": {
+          "type": "comparison",
+          "description": "문서로 확인한 범위와 미리 적어두지 않은 상황을 공간적으로 구별합니다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "적어둔 범위 밖의 상황",
+          "rationale": "경계 밖에 상황을 추가하면 시험과 계약이 무용하다는 오해 없이 적용 범위의 차이를 보여줄 수 있습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual: 점선 영역과 점수·계약 카드를 표시한다",
+        "advance-visual: 경계 밖의 미명시 상황 카드를 등장시킨다",
+        "emphasize-result: 마지막 20%는 정지하고 영역 제목과 카드 라벨을 가리지 않는다"
+      ],
+      "beats": [
+        {
+          "text": "그런데 함께 일하면",
+          "emphasis": "low",
+          "pauseAfterMs": 60,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "명시 범위를 먼저 보여줌"
+        },
+        {
+          "text": "점수로 확인하지 못했고",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "점수 카드 유지"
+        },
+        {
+          "text": "계약에도 적지 않은 상황을 만납니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "상황",
+          "visualCue": "영역 밖 카드 등장"
+        }
+      ],
+      "headline": "적어두지 않은 상황",
+      "subline": null,
+      "narration": "그런데 함께 일하면 점수로 확인하지 못했고 계약에도 적지 않은 상황을 만납니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "평소 함께 겪은 행동이 판단의 근거가 되는 과정",
+        "relation": {
+          "type": "accumulation",
+          "description": "약속을 지키고 어려운 이야기를 나눈 경험이 이후 판단에 대한 믿음을 만듭니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "그때 어떤 판단을 할지는",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "평소 함께 일한 경험에서 믿음을 얻습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 140,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경험",
+          "visualCue": null
+        },
+        {
+          "text": "약속을 지키고 어려운 이야기를 나눈 경험입니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "함께 보아온 행동",
+      "subline": null,
+      "narration": "그때 어떤 판단을 할지는 평소 함께 일한 경험에서 믿음을 얻습니다. 약속을 지키고 어려운 이야기를 나눈 경험입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "coworkers conversation",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "학연·지연에서 배제해야 할 기준과 의미 있는 관찰의 구별",
+        "relation": {
+          "type": "comparison",
+          "description": "출신과 친분으로 검증을 대체하는 것과 실제 행동을 오래 관찰한 경험은 구별해야 합니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "두 기준을 직접 대조해야 같은 학교나 친분 자체를 신뢰의 증거로 오해하지 않습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline: 친분 자체와 경험을 구별한다",
+        "show-visual: 검증 대체의 문제를 왼쪽에 먼저 표시한다",
+        "advance-visual: 실제 행동 관찰을 오른쪽에 표시한다",
+        "emphasize-result: 두 열의 문구를 고정해 경계 조건을 끝까지 읽게 한다"
+      ],
+      "beats": [
+        {
+          "text": "학연과 지연도 구별해서 봐야 합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "비교의 맥락 복원"
+        },
+        {
+          "text": "출신과 친분이 검증을 대신하고 외부인을 막는 건 경계해야 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 150,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경계",
+          "visualCue": "왼쪽 경계 조건 표시"
+        },
+        {
+          "text": "다만 오래 지켜본 행동은 판단 근거가 됩니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "행동",
+          "visualCue": "오른쪽 관찰 근거 표시"
+        }
+      ],
+      "headline": "친분과 경험은\n같지 않습니다",
+      "subline": null,
+      "narration": "학연과 지연도 구별해서 봐야 합니다. 출신과 친분이 검증을 대신하고 외부인을 막는 건 경계해야 합니다. 다만 오래 지켜본 행동은 판단 근거가 됩니다.",
+      "comparisonLeft": "출신·친분\n검증 대체는 경계",
+      "comparisonRight": "행동 관찰\n판단의 근거",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-split-left",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "team working together",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "점수와 계약 밖의 판단을 알려주는 경험으로 질문 회수",
+        "relation": {
+          "type": "accumulation",
+          "description": "한 번의 좋은 결과와 여러 상황을 함께 겪으며 얻는 신뢰를 구별합니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "함께 일하는 장면과 결론을 분리하면 가짜 신뢰 점수 없이 경험의 의미를 마무리할 수 있습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual: 함께 일하는 사진을 왼쪽에 제시한다",
+        "show-headline: 오른쪽에 점수와 계약 밖이라는 도입 회수 문구를 표시한다",
+        "emphasize-result: 함께 겪은 경험을 마지막 초점으로 남기며 자막과 제목을 분리한다"
+      ],
+      "beats": [
+        {
+          "text": "한 번의 좋은 결과로는 알 수 없는 판단이 있습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "결과와 경험의 차이 환기"
+        },
+        {
+          "text": "점수와 계약 밖의 신뢰는,",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": "도입 핵심어 회수"
+        },
+        {
+          "text": "여러 상황을 함께 겪으며 쌓입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 300,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "함께",
+          "visualCue": "경험을 결론 초점으로 고정"
+        }
+      ],
+      "headline": "점수와 계약 밖의 신뢰\n함께 겪으며 쌓입니다",
+      "subline": null,
+      "narration": "한 번의 좋은 결과로는 알 수 없는 판단이 있습니다. 점수와 계약 밖의 신뢰는, 여러 상황을 함께 겪으며 쌓입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "team working together",
+      "image": {
+        "query": "team working together",
+        "title": "컴퓨터 앞에서 함께 일하는 팀",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-working-in-front-of-the-computer-3184357/",
+        "originalUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "commonPage": "blog-cta-v1",
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "transition": "blur-dissolve",
+      "transitionOptions": {
+        "durationMs": 600,
+        "intensity": 0.5
+      },
+      "headline": "더 자세한 이야기는\n블로그에서",
+      "subline": "프로필 링크에서 읽기",
+      "narration": "더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.",
+      "beats": [
+        {
+          "text": "더 자세한 이야기는",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "블로그에 정리했습니다.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "프로필 링크에서 읽어보세요.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [],
+      "imageQuery": null,
+      "image": null,
+      "comparisonLeft": null,
+      "comparisonRight": null
+    }
+  ]
+}

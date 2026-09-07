@@ -1,0 +1,626 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/jeongmal-ilman-jalhamyeon-doelgga/",
+    "title": "정말 일만 잘하면 될까?"
+  },
+  "candidate": {
+    "angle": "question",
+    "hook": "실무 1등이 왜 팀장은 아닐까요?",
+    "title": "실무 1등에게 팀을 맡기지 않는 이유",
+    "rationale": "문단 흐름은 능력과 보상의 의문 → 권한을 맡기는 기준 → 함께 겪으며 쌓는 신뢰 → 측정 가능한 성장의 편중 → 함께하는 시간의 질입니다. 이 후보는 앞부분의 ‘내가 지금 보고 있는 능력은 그 자리가 요구하는 것의 전부일까요’와 ‘그 사람에게 어디까지 맡길 수 있는지’를 핵심 문장으로 삼았습니다. 실무 평가와 책임 위임의 차이만 다뤄 다른 후보와 분리합니다. 요청한 18장 확장을 후보마다 적용하면 신뢰·관계 논거가 중복되므로, 독립된 세 소주제를 억지로 만들지 않고 후보별 6장, 전체 18장으로 구성했습니다. 약 35~45초를 예상합니다. 제공 영상은 업무 맥락과 맞지 않아 사용하지 않았으며 적합한 영상은 미확보 상태입니다.",
+    "viralScore": 87,
+    "suggestedCaption": "실무를 평가할 때와 팀을 맡길 때, 조직이 묻는 질문은 같지 않습니다.",
+    "hashtags": [
+      "#커리어",
+      "#리더십",
+      "#직장생활",
+      "#신뢰"
+    ]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "office team meeting",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "실무 성과와 팀장 선임이 어긋나는 듯 보이는 장면",
+        "relation": {
+          "type": "comparison",
+          "description": "일을 가장 잘하는 사람과 책임을 맡는 사람이 반드시 같지는 않습니다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "실제 회의 공간으로 팀을 맡는 상황을 보여주는 편이 직급 아이콘보다 질문의 맥락을 빠르게 전달합니다."
+        }
+      },
+      "transition": "none",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual: 회의 사진을 흑백 풀블리드로 제시한다",
+        "show-headline: 상단 어두운 여백에 질문을 즉시 표시한다",
+        "emphasize-result: 사진 속 특정 인물을 무능한 상사로 지목하지 않고 하단 자막 영역을 분리한다"
+      ],
+      "beats": [
+        {
+          "text": "실무 1등이",
+          "emphasis": "mid",
+          "pauseAfterMs": 60,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "회의 맥락과 질문을 함께 제시"
+        },
+        {
+          "text": "왜 팀장은 아닐까요?",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "팀장",
+          "visualCue": "질문 후반을 강조"
+        }
+      ],
+      "headline": "실무 1등이\n왜 팀장은 아닐까요?",
+      "subline": null,
+      "narration": "실무 1등이 왜 팀장은 아닐까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "office team meeting",
+      "image": {
+        "query": "office team meeting",
+        "title": "컴퓨터 앞에서 함께 일하는 팀",
+        "creator": "fauxels",
+        "license": "pexels",
+        "licenseVersion": null,
+        "licenseUrl": "https://www.pexels.com/license/",
+        "source": "pexels",
+        "provider": "pexels",
+        "sourcePage": "https://www.pexels.com/photo/people-working-in-front-of-the-computer-3184357/",
+        "originalUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        "thumbnailUrl": "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1000"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "개발자가 익숙하게 보는 실무 능력의 기준",
+        "relation": {
+          "type": "literal",
+          "description": "코드 작성과 기술 문제 해결이 먼저 떠오르는 평가 기준입니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "show-subline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "개발자는 코드를 잘 짜고",
+          "emphasis": "mid",
+          "pauseAfterMs": 60,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "기술 문제를 푸는 능력을 먼저 봅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": "먼저",
+          "visualCue": null
+        },
+        {
+          "text": "팀을 맡기는 사람은 다른 질문을 더합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "더합니다",
+          "visualCue": null
+        }
+      ],
+      "headline": "우리가 먼저 보는 것",
+      "subline": "코드 작성 · 기술 문제 해결",
+      "narration": "개발자는 코드를 잘 짜고 기술 문제를 푸는 능력을 먼저 봅니다. 팀을 맡기는 사람은 다른 질문을 더합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "programmer computer screen",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "실무 능력 카드만 보입니다.",
+        "trigger": "책임을 맡기는 사람의 질문이 추가됩니다.",
+        "change": "우선순위와 문제 공유 카드가 차례로 나타납니다.",
+        "invariant": "실무 능력은 사라지지 않습니다. 모든 카드 라벨은 앞뒤 상태에서 가리지 않으며 카드 사이에는 연결선을 두지 않습니다.",
+        "result": "능력을 대체하는 것이 아니라 판단 기준을 더하는 구조가 남습니다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "실무 기준 아래에 책임 위임의 질문 두 개를 추가한다. 모든 라벨은 24px 이상, 줄 높이 1.5, 내부 여백과 라벨 보호영역을 확보한다.",
+        "nodes": [
+          {
+            "id": "skill",
+            "shape": "rect",
+            "label": "실무 능력",
+            "blob": null,
+            "x": 400,
+            "y": 145,
+            "width": 240,
+            "height": 100,
+            "fill": "white",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "priority",
+            "shape": "rect",
+            "label": "우선순위",
+            "blob": null,
+            "x": 235,
+            "y": 345,
+            "width": 240,
+            "height": 110,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "report",
+            "shape": "rect",
+            "label": "문제 공유",
+            "blob": null,
+            "x": 565,
+            "y": 345,
+            "width": 240,
+            "height": 110,
+            "fill": "gray",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "priority",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.35
+          },
+          {
+            "target": "report",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.48,
+            "end": 0.65
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "delegation-criteria",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "책임이 커질 때 추가되는 판단 기준",
+        "relation": {
+          "type": "accumulation",
+          "description": "실무 능력 위에 선택과 공유 방식에 대한 질문이 추가됩니다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "기존 기준을 남기고 새 기준을 등장시키면 능력 대신 처세가 필요하다는 오독을 막을 수 있습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual: 실무 능력 카드를 먼저 표시한다",
+        "advance-visual: 예산 질문에 우선순위 카드를 등장시킨다",
+        "advance-visual: 문제 질문에 문제 공유 카드를 등장시킨다",
+        "emphasize-result: 마지막 20%는 세 카드를 고정하고 라벨과 자막의 분리를 유지한다"
+      ],
+      "beats": [
+        {
+          "text": "예산이 부족하면 무엇을 먼저 선택할까.",
+          "emphasis": "mid",
+          "pauseAfterMs": 140,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "먼저",
+          "visualCue": "우선순위 카드 등장"
+        },
+        {
+          "text": "문제가 생기면 숨기지 않고 알릴까.",
+          "emphasis": "high",
+          "pauseAfterMs": 140,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "알릴까",
+          "visualCue": "문제 공유 카드 등장"
+        },
+        {
+          "text": "결과뿐 아니라 판단 방식도 봅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "세 기준을 함께 유지"
+        }
+      ],
+      "headline": "맡기는 사람이\n더 묻는 것",
+      "subline": null,
+      "narration": "예산이 부족하면 무엇을 먼저 선택할까. 문제가 생기면 숨기지 않고 알릴까. 결과뿐 아니라 판단 방식도 봅니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-columns",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "실무 평가에서 책임 위임으로 넓어지는 질문",
+        "relation": {
+          "type": "comparison",
+          "description": "무엇을 할 수 있는가와 어디까지 맡길 수 있는가를 구별합니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "두 질문을 나란히 읽게 하는 것이 능력과 신뢰를 서로 배척하는 아이콘보다 정확합니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual: 왼쪽 질문을 먼저 표시한다",
+        "advance-visual: 오른쪽 위임 질문을 추가한다",
+        "emphasize-result: 두 질문을 모두 남겨 대체가 아닌 확장임을 보여준다"
+      ],
+      "beats": [
+        {
+          "text": "무엇을 할 수 있는가에서",
+          "emphasis": "mid",
+          "pauseAfterMs": 100,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "왼쪽 질문 표시"
+        },
+        {
+          "text": "어디까지 맡길 수 있는가로 질문이 넓어집니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "맡길",
+          "visualCue": "오른쪽 질문 추가"
+        }
+      ],
+      "headline": "질문이 넓어집니다",
+      "subline": null,
+      "narration": "무엇을 할 수 있는가에서 어디까지 맡길 수 있는가로 질문이 넓어집니다.",
+      "comparisonLeft": "무엇을\n할 수 있는가",
+      "comparisonRight": "어디까지\n맡길 수 있는가",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-offset",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "성과만 보던 관점에서 함께 일한 이력으로 시선 전환",
+        "relation": {
+          "type": "literal",
+          "description": "내가 보지 못한 신뢰와 기여도 인사를 이해하는 판단 근거일 수 있습니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "사용 가능한 사진을 찾지 못해 원래 문구와 내레이션을 유지한 텍스트 장면으로 전환했습니다. 시각 연출 검토가 필요합니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "실무 능력만으로 이해되지 않는 인사라면,",
+          "emphasis": "mid",
+          "pauseAfterMs": 130,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "내가 놓친 신뢰와 기여는 없는지도 봐야 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "놓친",
+          "visualCue": null
+        }
+      ],
+      "headline": "내 기준에서\n놓친 것은 없을까",
+      "subline": null,
+      "narration": "실무 능력만으로 이해되지 않는 인사라면, 내가 놓친 신뢰와 기여는 없는지도 봐야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "visualResolution": {
+        "status": "fallback",
+        "originalQuery": "coworkers project discussion",
+        "reason": "photo-unavailable"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "팀장을 맡기는 기준으로 도입 질문 회수",
+        "relation": {
+          "type": "literal",
+          "description": "실무 능력에 더해 판단을 믿고 책임을 맡길 수 있어야 한다는 결론입니다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "새 상징 없이 위임의 기준을 문장으로 확정해야 능력의 중요성을 지우지 않고 결론을 전달할 수 있습니다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline: 실무 1등이라는 도입 핵심어를 회수한다",
+        "emphasize-result: 판단을 믿는다는 종결부를 강조한다",
+        "hold-result: 결론을 고정하고 공통 CTA는 이 장면에 넣지 않는다"
+      ],
+      "beats": [
+        {
+          "text": "팀을 맡길 때는 실무 1등인지에 더해,",
+          "emphasis": "mid",
+          "pauseAfterMs": 150,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "도입 핵심어 회수"
+        },
+        {
+          "text": "그 판단을 믿을 수 있는지도 봅니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 300,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "판단",
+          "visualCue": "결론 후반 강조"
+        }
+      ],
+      "headline": "실무 1등을 넘어\n판단을 믿을 수 있는가",
+      "subline": null,
+      "narration": "팀을 맡길 때는 실무 1등인지에 더해, 그 판단을 믿을 수 있는지도 봅니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "commonPage": "blog-cta-v1",
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "transition": "blur-dissolve",
+      "transitionOptions": {
+        "durationMs": 600,
+        "intensity": 0.5
+      },
+      "headline": "더 자세한 이야기는\n블로그에서",
+      "subline": "프로필 링크에서 읽기",
+      "narration": "더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.",
+      "beats": [
+        {
+          "text": "더 자세한 이야기는",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "블로그에 정리했습니다.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "프로필 링크에서 읽어보세요.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [],
+      "imageQuery": null,
+      "image": null,
+      "comparisonLeft": null,
+      "comparisonRight": null
+    }
+  ]
+}
