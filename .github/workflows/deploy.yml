@@ -16,7 +16,7 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && vars.GHOST_PRODUCTION_MYSQL_READY == 'true'
+    if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
     outputs:
