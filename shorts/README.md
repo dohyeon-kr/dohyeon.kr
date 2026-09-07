@@ -86,7 +86,7 @@ Those services are material pools, not the art direction. Any future resolver mu
 
 Optional repository variables:
 
-- `SHORTS_TEXT_MODEL` — defaults to `gpt-5.6-sol`. Candidate generation uses `reasoning.effort: low`.
+- `SHORTS_TEXT_MODEL` — candidate generation and diagram repair default to `gpt-6-astra`. Generation and ordinary repair use `reasoning.effort: low` (Astra Light); diagram redesign retains `medium`. An explicitly configured repository variable overrides this default; set it to `gpt-6-astra` or remove it to use Astra. Standalone storyboard review and Ghost feature-image planning retain their existing Sol defaults when this shared variable is unset.
 - `SHORTS_TTS_MODEL` — defaults to `gpt-4o-mini-tts`.
 - `SHORTS_TTS_VOICE` — defaults to `alloy`.
 

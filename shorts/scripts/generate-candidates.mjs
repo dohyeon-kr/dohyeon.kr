@@ -283,7 +283,7 @@ transition 원칙:
 - 그래프는 필요한 경우 xLabel/yLabel에 짧은 한글 축 이름을 넣는다.
 - visualIntent.strategy.rationale에는 왜 이 표현이 단순 아이콘보다 관계를 더 잘 설명하는지 한 문장으로 적는다.`;
 
-export const createDiagramRepair = (client, {model = process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-sol', maxCalls = 60, deadline = Date.now() + 40 * 60_000} = {}) => {
+export const createDiagramRepair = (client, {model = process.env.SHORTS_TEXT_MODEL || 'gpt-6-astra', maxCalls = 60, deadline = Date.now() + 40 * 60_000} = {}) => {
   let calls = 0;
   return async ({scene, title, sceneNumber, error, attempt, history = [], originalScene = scene, mode = 'repair'}) => {
     if (calls >= maxCalls || Date.now() >= deadline) throw new Error('Diagram repair run budget exhausted');
@@ -368,7 +368,7 @@ const main = async () => {
   const post = await fetchPost(postUrl);
   const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY, timeout: 240_000, maxRetries: 2});
   const response = await client.responses.parse({
-    model: process.env.SHORTS_TEXT_MODEL || 'gpt-5.6-sol',
+    model: process.env.SHORTS_TEXT_MODEL || 'gpt-6-astra',
     reasoning: {effort: 'low'},
     instructions: `${SYSTEM_PROMPT}\n사용 가능한 영상 목록(JSON 자료): ${JSON.stringify(await loadVideoCatalog())}`,
     input: buildGenerationInput(post, count, additionalRequest),
