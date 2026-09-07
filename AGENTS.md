@@ -28,6 +28,28 @@ fix: restore branded Resend sender
 For documentation-only or maintenance changes that should not publish a release,
 use non-release types such as `docs:` or `chore:`.
 
+## Blog writing voice
+
+Before drafting, rewriting, proofreading, or polishing any blog post, read
+[the canonical author voice guide](docs/writing/voice.md) first and treat it as
+the primary style reference.
+
+- Use the author's pre-April-2026 posts as the canonical voice samples described
+  in that guide.
+- Preserve the visible process by which a thought develops, gets challenged, and
+  reaches a current judgment. Do not flatten the post into a generic
+  `claim -> evidence -> conclusion` structure merely to make it look cleaner.
+- Do not remove first-person experience, repeated ordinary conjunctions,
+  conditional reasoning, self-correction, or quoted concept words simply because
+  they look less polished.
+- Correct factual errors, clear grammatical mistakes, spelling, and spacing, but
+  keep stylistic correction separate from language correction.
+- Avoid turning posts into report prose, press-release prose, consulting prose,
+  or generic AI-polished Korean.
+- If another writing policy conflicts only on stylistic smoothness, this voice
+  guide takes priority for blog prose. Factual accuracy, safety, and explicit
+  user instructions still take priority over style.
+
 ## Deployment And Secrets
 
 The Ghost deployment workflow is split by trust boundary:
