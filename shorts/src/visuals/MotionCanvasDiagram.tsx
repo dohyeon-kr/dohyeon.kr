@@ -40,14 +40,14 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           view.add(group);
           const fill = node.fill === 'white' ? '#fff' : node.fill === 'gray' ? '#303030' : node.fill === 'hatch' ? hatch : null;
           const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []};
-          if (spec.notebook && node.role==='sticker') {const s=sprites[node.stickerAsset??'paper'];const tile=document.createElement('canvas');tile.width=node.width;tile.height=node.height;tile.getContext('2d')!.drawImage(sheets[s.file],s.crop[0],s.crop[1],s.crop[2],s.crop[3],0,0,node.width,node.height);group.add(new Img({src:tile.toDataURL(),width:node.width,height:node.height,compositeOperation:'screen'}));}
+          if (spec.notebook && node.role==='sticker') {const s=sprites[node.stickerAsset??'paper'];const tile=document.createElement('canvas');tile.width=node.width;tile.height=node.height;tile.getContext('2d')!.drawImage(sheets[s.file],s.crop[0],s.crop[1],s.crop[2],s.crop[3],0,0,node.width,node.height);const ctx=tile.getContext('2d')!, pixels=ctx.getImageData(0,0,tile.width,tile.height);for(let i=0;i<pixels.data.length;i+=4)pixels.data[i+3]=Math.max(0,Math.min(255,pixels.data[i+2]*6-178.5));ctx.putImageData(pixels,0,0);group.add(new Img({src:tile.toDataURL(),width:node.width,height:node.height}));}
           if (spec.notebook && node.role!=='sticker' && ['rect','circle','line'].includes(node.shape)) group.add(new Line({points: sketchPoints(node), closed:node.shape!=='line', fill:node.shape==='line'||node.fill==='none'?null:node.fill==='hatch'?hatch:notebookFill(node), stroke:texturedInk,lineWidth:5,lineDash:props.lineDash}));
           if (!spec.notebook && node.shape === 'rect') group.add(new Rect(props));
           if (!spec.notebook && node.shape === 'circle') group.add(new Circle(props));
           if (node.shape === 'blob') group.add(new Line({points: organicBlobPoints(node), closed: true, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : [], radius: 18}));
           if (!spec.notebook && node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
           const label = nodeLabel(node);
-          if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: spec.notebook?NOTEBOOK_FONT:'Pretendard', fontSize: label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: spec.notebook?400:800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
+          if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: spec.notebook?NOTEBOOK_FONT:'Pretendard', fontSize: spec.notebook?label.fontSize*4/3:label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: spec.notebook?400:800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
         }
         yield;
       });

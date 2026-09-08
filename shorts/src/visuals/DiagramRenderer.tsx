@@ -60,7 +60,7 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
     {layer !== 'geometry' && <svg viewBox="0 0 800 560" width="100%" height="100%" style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
       {states.filter(node => node.label).map(node => {
         const label = nodeLabel(node); const lines = label.text.split('\n');
-        return <g key={node.id} transform={`translate(${node.x} ${node.y}) rotate(${node.rotation}) scale(${node.scale})`} opacity={node.opacity}>{node.fill === 'hatch' && <rect x={-node.width * .4} y={label.y - lines.length * label.fontSize * LABEL_LINE_HEIGHT / 2 - 4} width={node.width * .8} height={lines.length * label.fontSize * LABEL_LINE_HEIGHT + 8} fill="#050505" />}<text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily={spec.notebook ? NOTEBOOK_FONT : "Pretendard, sans-serif"} fontSize={label.fontSize} fontWeight={spec.notebook ? 400 : 800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * LABEL_LINE_HEIGHT}>{text}</tspan>)}</text></g>;
+        return <g key={node.id} transform={`translate(${node.x} ${node.y}) rotate(${node.rotation}) scale(${node.scale})`} opacity={node.opacity}>{node.fill === 'hatch' && <rect x={-node.width * .4} y={label.y - lines.length * label.fontSize * LABEL_LINE_HEIGHT / 2 - 4} width={node.width * .8} height={lines.length * label.fontSize * LABEL_LINE_HEIGHT + 8} fill="#050505" />}<text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily={spec.notebook ? NOTEBOOK_FONT : "Pretendard, sans-serif"} fontSize={spec.notebook ? label.fontSize*4/3 : label.fontSize} fontWeight={spec.notebook ? 400 : 800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * LABEL_LINE_HEIGHT}>{text}</tspan>)}</text></g>;
       })}
     </svg>}
   </div>;
@@ -102,7 +102,7 @@ const EngineSurface: React.FC<Props & {engine: Engine}> = ({spec, durationInFram
         {node.shape === 'blob' && <path d={organicBlobPath(node)} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'line' && <line x1={points[0][0]} x2={points[1][0]} y1={points[0][1]} y2={points[1][1]} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         </>}
-        {node.label && <text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily={spec.notebook ? NOTEBOOK_FONT : "Pretendard, sans-serif"} fontSize={label.fontSize} fontWeight={spec.notebook ? 400 : 800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * LABEL_LINE_HEIGHT}>{text}</tspan>)}</text>}
+        {node.label && <text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily={spec.notebook ? NOTEBOOK_FONT : "Pretendard, sans-serif"} fontSize={spec.notebook ? label.fontSize*4/3 : label.fontSize} fontWeight={spec.notebook ? 400 : 800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * LABEL_LINE_HEIGHT}>{text}</tspan>)}</text>}
       </g>;
     })}
   </svg>;
