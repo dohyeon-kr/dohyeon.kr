@@ -69,10 +69,12 @@ only their hashes are stored in SQLite. Comment creation requires a same-origin
 request, a short-lived challenge, an empty honeypot, and passes length, link,
 and rate limits. The Ghost-native member comments helper is not rendered.
 
-Post edit links are hidden by default. An authenticated administrator can open
-any post once with `?admin-tools=1` to enable them in that browser, or use
-`?admin-tools=0` to hide them again. Ghost Admin still enforces authentication
-when the editor link is opened.
+Post edit links appear automatically after the browser confirms its Ghost staff
+session through `GET /ghost/api/admin/users/me/?include=roles`. Owner and
+Administrator sessions also see the dashboard link. Controls stay hidden for
+signed-out visitors or failed requests, and the session is rechecked when the
+page regains focus or is restored. No local-storage opt-in is required. Ghost
+Admin still enforces permissions when the editor link is opened.
 
 ## Blog dashboard
 
