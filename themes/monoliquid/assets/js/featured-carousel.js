@@ -18,6 +18,7 @@
   var paused = motion.matches, hovering = false, visible = true;
   var duration = 5000;
   var drag = null, suppressClickUntil = 0;
+  var settleFrame = 0;
   function update() {
     var left = track.getBoundingClientRect().left;
     var prior = active;
@@ -32,8 +33,26 @@
   }
   function go(index) {
     elapsed = 0;
+    cancelAnimationFrame(settleFrame);
+    // Keep native snap disabled until settling finishes. Restoring it on release
+    // first would rewind the drag before the next scroll animation starts.
+    track.classList.add('is-settling');
     var target = slides[Math.max(0, Math.min(slides.length - 1, index))];
-    track.scrollBy({left: target.getBoundingClientRect().left - track.getBoundingClientRect().left, behavior: motion.matches ? 'instant' : 'smooth'});
+    var from = track.scrollLeft;
+    var to = from + target.getBoundingClientRect().left - track.getBoundingClientRect().left;
+    var started = performance.now();
+    function settle(now) {
+      var t = motion.matches ? 1 : Math.min((now - started) / 320, 1);
+      track.scrollLeft = from + (to - from) * (1 - Math.pow(1 - t, 3));
+      if (t < 1) {
+        settleFrame = requestAnimationFrame(settle);
+      } else {
+        settleFrame = 0;
+        track.classList.remove('is-settling');
+        update();
+      }
+    }
+    settleFrame = requestAnimationFrame(settle);
   }
   function tick(now) {
     if (lastTime) elapsed += now - lastTime;
@@ -66,6 +85,8 @@
     elapsed = 0;
     if (event.pointerType !== 'mouse' || event.button !== 0 || !event.isPrimary ||
         event.ctrlKey || event.metaKey || event.altKey || event.shiftKey || slides.length < 2) return;
+    cancelAnimationFrame(settleFrame);
+    settleFrame = 0;
     suppressClickUntil = 0;
     drag = {id: event.pointerId, x: event.clientX, left: track.scrollLeft, index: active, moved: false};
     sync();
@@ -92,8 +113,10 @@
       var cancelled = event.type !== 'pointerup';
       var step = !cancelled && Math.abs(delta) >= Math.min(80, track.clientWidth * 0.12)
         ? (delta < 0 ? 1 : -1) : 0;
-      track.classList.remove('is-dragging');
       go(gesture.index + step);
+      track.classList.remove('is-dragging');
+    } else if (track.classList.contains('is-settling')) {
+      go(gesture.index);
     }
     if (track.hasPointerCapture(gesture.id)) track.releasePointerCapture(gesture.id);
     sync();
@@ -117,7 +140,7 @@
   section.addEventListener('focusout', function () { setTimeout(sync, 0); });
   document.addEventListener('visibilitychange', sync);
   motion.addEventListener('change', function () { paused = motion.matches; sync(); });
-  window.addEventListener('pagehide', function () { cancelAnimationFrame(frame); });
+  window.addEventListener('pagehide', function () { cancelAnimationFrame(frame); cancelAnimationFrame(settleFrame); });
   window.addEventListener('pageshow', sync);
   if (window.ResizeObserver) new ResizeObserver(update).observe(track);
   if (window.IntersectionObserver) new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; sync(); }).observe(section);

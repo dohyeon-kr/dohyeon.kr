@@ -1543,6 +1543,7 @@ iframe[src*="announcement-bar"] {
 @media (hover: hover) and (pointer: fine) {
   .featured-carousel.is-ready .featured-carousel__slide { cursor: grab; user-select: none; -webkit-user-select: none; }
 }
-.featured-carousel__track.is-dragging { scroll-snap-type: none; scroll-behavior: auto; }
+.featured-carousel__track.is-dragging,
+.featured-carousel__track.is-settling { scroll-snap-type: none; scroll-behavior: auto; }
 .featured-carousel__track.is-dragging,
 .featured-carousel__track.is-dragging .featured-carousel__slide { cursor: grabbing; user-select: none; -webkit-user-select: none; }
