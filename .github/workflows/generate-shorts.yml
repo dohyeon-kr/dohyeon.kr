@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       additional_request:
-        description: 'Optional editorial request (max 4000 characters): focus, tone, or 3 subtopics / 18–21 scenes'
+        description: 'Optional editorial request (max 4000 characters): focus, tone, scope; extend only for one coherent question'
         required: false
         default: ''
         type: string
@@ -47,7 +47,7 @@ jobs:
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
-      - name: Generate candidates
+      - name: Analyze (Astra Light), compose (Sol Light), review (Astra Light) JSON
         id: candidates
         env:
           SHORTS_DIAGNOSTICS_DIR: ${{ runner.temp }}/shorts-generation-diagnostics

@@ -9,7 +9,7 @@ For the end-to-end operating procedure, approval checklist, engine routing, outp
 ## Flow
 
 1. Run **Generate blog shorts** from GitHub Actions with a `dohyeon.kr` post URL.
-2. GPT extracts 3–8 independent viral angles instead of summarizing the whole article.
+2. Inside the generation action, Astra Light analyzes source evidence and locks each script, Sol Light composes scene JSON, and Astra Light reviews and minimally corrects the JSON. See [3단계 생성 지침](docs/generation-stages.md). No preview, TTS, or render is added to these model stages.
 3. Every scene receives semantic subtitle beats, a visual relationship, a visual strategy, a layout, element choreography, camera motion, and a scene transition.
 4. Photo scenes receive a relevant Openverse search result. The default resolver only accepts CC0 or Public Domain Mark results.
 5. The workflow converts candidate JSON into readable `candidate-XX.md` storyboards, builds a linked README index, and opens a review PR containing both. Each storyboard presents narration, screen copy and layout, visual relationships, diagram changes, camera/transition direction, and subtitle emphasis/pacing in scene order. No additional model call or TTS is needed. The Actions summary and PR body link to the candidate index for mobile review.
@@ -56,7 +56,7 @@ Each scene can choose one of these layouts:
 - `compare-versus`
 - `outro-minimal`
 
-The generator avoids repeating the same layout consecutively and avoids two text-only scenes in a row.
+The generator prioritizes continuity over layout variety. Captions carry the language; central headlines are empty by default, and diagrams keep only essential labels.
 
 ## Motion
 
@@ -86,7 +86,8 @@ Those services are material pools, not the art direction. Any future resolver mu
 
 Optional repository variables:
 
-- `SHORTS_TEXT_MODEL` — candidate generation and diagram repair default to `gpt-6-astra`. Generation and ordinary repair use `reasoning.effort: low` (Astra Light); diagram redesign retains `medium`. An explicitly configured repository variable overrides this default; set it to `gpt-6-astra` or remove it to use Astra. Standalone storyboard review and Ghost feature-image planning retain their existing Sol defaults when this shared variable is unset.
+- Generation stages are fixed to `gpt-6-astra` → `gpt-5.6-sol` → `gpt-6-astra`, all with `reasoning.effort: low`. `SHORTS_TEXT_MODEL` does not override them.
+- `SHORTS_TEXT_MODEL` still configures existing diagram repair (default `gpt-6-astra`; ordinary repair `low`, redesign `medium`). Other workflows retain their own existing model configuration.
 - `SHORTS_TTS_MODEL` — defaults to `gpt-4o-mini-tts`.
 - `SHORTS_TTS_VOICE` — defaults to `alloy`.
 
@@ -145,8 +146,8 @@ This repository uses automated Remotion rendering. Review the current Remotion l
 
 **Generate blog shorts → Run workflow → additional_request**에 선택적으로 강조점·관점·어조·구성을 입력할 수 있습니다. 비워 두면 기존 기본 동작을 유지합니다. 최대 4,000자이며 초과하면 API 호출 전에 실패합니다.
 
-예: “내용이 충분하면 소주제 3개로 나눠 총 18~21장으로 구성해줘. 각 소주제는 6~7장으로 완결하고 결론을 다음 질문으로 연결해줘.”
+예: “조직이 판단을 위임하는 기준이라는 질문에 집중해줘. 필요한 근거는 보존하고, 연고주의처럼 별도 설명이 필요한 논점은 다른 후보로 분리해줘.”
 
-기본은 6~9장입니다. 확장 구성의 전체 도입·최종 결론은 18~21장에 포함됩니다. 원문 근거가 부족하면 억지로 늘리지 않습니다. 후보 수는 페이지/소주제 수와 별개입니다. 로컬에서는 SHORTS_ADDITIONAL_REQUEST 환경변수를 사용합니다.
+기본 6~9장/확장 18~21장은 참고 범위입니다. 같은 질문을 심화할 때만 확장하며, 장수나 세 부분을 채우기 위해 늘리지 않습니다. 공통 CTA는 본문 뒤 별도로 붙습니다. 후보 수는 페이지/소주제 수와 별개입니다. 로컬에서는 SHORTS_ADDITIONAL_REQUEST 환경변수를 사용합니다.
 
 추가 요청은 생성 단계의 환경변수로만 전달하며 셸 소스에 보간하지 않습니다. 모델에는 시스템 지침과 분리된 JSON의 editorialRequest로, 원문은 sourceArticle로 전달합니다. 추가 요청은 콘텐츠 편집만 지시하며 사실 근거·스키마·검증·승인 규칙을 덮어쓸 수 없습니다. 모델 호출에는 실행 도구나 비밀 값을 제공하지 않습니다. 구조화 출력과 기존 검증·사람의 승인 절차를 유지합니다. JSON 분리와 프롬프트만으로 인젝션을 완전히 방지하는 것은 아니므로 결과의 사실성과 요청 준수 여부도 리뷰해야 합니다.

@@ -8,13 +8,13 @@ import {zodTextFormat} from 'openai/helpers/zod';
 import {CandidateSchema} from '../scripts/generate-candidates.mjs';
 
 const scene = () => ({narration: '그럴 수 있다.', beats: [{text: '그럴 수 있다', keyword: '있다'}], camera: {startProgress: 0, endProgress: 1}, visual: {type: 'none'}});
-test('accepts standard and extended scene counts only', () => {
+test('accepts narrative-driven scene counts and rejects empty revisions', () => {
   for (let count = 0; count <= 22; count++) {
     const candidate = {scenes: Array.from({length: count}, scene)};
-    if ((count >= 6 && count <= 9) || (count >= 18 && count <= 21)) {
+    if (count > 0) {
       assert.doesNotThrow(() => validateRevision(candidate), `${count} scenes`);
     } else {
-      assert.throws(() => validateRevision(candidate), /Expected 6–9 or 18–21 scenes/, `${count} scenes`);
+      assert.throws(() => validateRevision(candidate), /Expected at least one body scene/, `${count} scenes`);
     }
   }
 });
