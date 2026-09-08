@@ -99,17 +99,17 @@ export async function generateInStages({client, post, count, additionalRequest =
     findings: z.array(z.object({analysisId: text, location: text, category: z.enum(['narrative', 'visual', 'fidelity']), problem: text, reason: text, change: text, resolved: z.boolean()})),
     candidates: entries,
   });
-  const call = async (stage, schema, instructions, input) => {
+  const call = async (stage, schema, instructions, input, checkpointName = stage) => {
     const model = models[stage];
-    console.log(`Shorts generation stage: ${stage} (${model}, low)`);
+    console.log(`Shorts generation stage: ${checkpointName} (${model}, low)`);
     try {
       const response = await client.responses.parse({model, store: false, reasoning: {effort: 'low'}, instructions, input: JSON.stringify(input), text: {format: zodTextFormat(schema, `shorts_${stage}_v1`)}});
       if (!response.output_parsed) throw new Error('Model refused or returned incomplete structured output');
-      await checkpoint(stage, {model, effort: 'low', result: response.output_parsed});
+      await checkpoint(checkpointName, {model, effort: 'low', result: response.output_parsed});
       return schema.parse(response.output_parsed);
     } catch (error) {
-      await checkpoint(`${stage}-error`, {model, error: error.message});
-      throw new Error(`${stage}: ${error.message}`, {cause: error});
+      await checkpoint(`${checkpointName}-error`, {model, error: error.message});
+      throw new Error(`${checkpointName}: ${error.message}`, {cause: error});
     }
   };
   const {sceneGuidance, ...narrativePolicy} = SHORTS_EDITORIAL_POLICY;
@@ -117,13 +117,21 @@ export async function generateInStages({client, post, count, additionalRequest =
   validateAnalysis(analysis, post, count);
   const visual = await call('visual', VisualSchema, `${TRUST}\n${visualInstructions}\n${VISUAL_POLICY}\n2단계는 analysis의 범위·질문·답·논거·조건과 대본을 보존한다. 각 후보 analysisId와 순서를 유지한다. script의 narration을 원문자 그대로 이어 사용하며 장면 분할과 공백/줄바꿈만 변경할 수 있다. 요약·추가·재작성하지 않는다. beats도 narration과 같은 텍스트를 보존한다.`, {analysis, videoCatalog});
   validateCandidates(visual.candidates, analysis, {preserveScript: true});
-  const reviewed = await call('review', ReviewSchema, `${visualInstructions}\n${REVIEW_PROMPT}\n편집 기준: ${JSON.stringify(narrativePolicy)}`, {sourceArticle: post, analysis, generated: visual, videoCatalog});
-  if (reviewed.status !== 'passed' || reviewed.blockingReasons.length || reviewed.findings.some(f => !f.resolved)) throw new Error(`Review blocked: ${reviewed.blockingReasons.join('; ') || 'unresolved findings'}`);
-  validateCandidates(reviewed.candidates, analysis);
-  const validIds = new Set(analysis.candidates.map(c => c.id));
-  if (reviewed.findings.some(f => !validIds.has(f.analysisId))) throw new Error('Review finding references unknown candidate');
-  reviewed.candidates.forEach((entry, i) => {
-    if (JSON.stringify(entry.candidate) !== JSON.stringify(visual.candidates[i].candidate) && !reviewed.findings.some(f => f.analysisId === entry.analysisId)) throw new Error(`Review changed ${entry.analysisId} without recording a reason`);
-  });
-  return reviewed.candidates.map(entry => entry.candidate);
+  const reviewedCandidates = [];
+  const findings = [];
+  for (const [index, original] of visual.candidates.entries()) {
+    // Keep the full source and analysis for fidelity/scope checks, but only emit
+    // one candidate's large scene JSON per request to avoid batch timeouts.
+    const reviewed = await call('review', ReviewSchema, `${visualInstructions}\n${REVIEW_PROMPT}\n이번 요청에서는 generated에 있는 후보 하나만 검토하고 반환한다. analysis의 다른 후보는 범위 비교용 참고 자료다. findings도 검토 대상 후보만 기록한다.\n편집 기준: ${JSON.stringify(narrativePolicy)}`, {sourceArticle: post, analysis, generated: {candidates: [original]}, videoCatalog}, `review-${index + 1}`);
+    if (reviewed.status !== 'passed' || reviewed.blockingReasons.length || reviewed.findings.some(f => !f.resolved)) throw new Error(`Review blocked: ${reviewed.blockingReasons.join('; ') || 'unresolved findings'}`);
+    validateCandidates(reviewed.candidates, {candidates: [analysis.candidates[index]]});
+    if (reviewed.findings.some(f => f.analysisId !== original.analysisId)) throw new Error('Review finding references unknown candidate');
+    const entry = reviewed.candidates[0];
+    if (JSON.stringify(entry.candidate) !== JSON.stringify(original.candidate) && !reviewed.findings.length) throw new Error(`Review changed ${entry.analysisId} without recording a reason`);
+    reviewedCandidates.push(entry);
+    findings.push(...reviewed.findings);
+  }
+  validateCandidates(reviewedCandidates, analysis);
+  await checkpoint('review', {model: models.review, effort: 'low', result: {scope: 'json-only', status: 'passed', blockingReasons: [], findings, candidates: reviewedCandidates}});
+  return reviewedCandidates.map(entry => entry.candidate);
 }
