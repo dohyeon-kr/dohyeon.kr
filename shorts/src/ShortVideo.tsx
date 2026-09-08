@@ -1,3 +1,4 @@
+import {NotebookTitleScene} from './NotebookTitleScene';
 import {NotebookTexture} from './visuals/NotebookTexture';
 import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
 import {validatePresenterOverlay} from './presenter/overlay';
@@ -193,6 +194,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
   useLayoutCheck(layoutRoot, frame);
   const visual = fallbackVisual(scene);
   if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
+  if (scene.layout==='notebook-title') return <NotebookTitleScene scene={scene} layer={layer}/>;
   if (scene.diagramSpec?.notebook) return <NotebookScene scene={scene} layer={layer} durationInFrames={durationInFrames}/>;
   if (scene.presenter != null) return <PresenterScene scene={scene} layer={layer} durationInFrames={durationInFrames} />;
   const layout = fallbackLayout(scene, visual);

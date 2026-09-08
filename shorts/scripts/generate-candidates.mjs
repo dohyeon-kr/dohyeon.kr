@@ -24,6 +24,7 @@ const shortsRoot = path.resolve(import.meta.dirname, '..');
 const allowedHosts = new Set(['dohyeon.kr', 'www.dohyeon.kr', 'blog.dohyeon.kr']);
 
 const LAYOUTS = [
+  'notebook-title',
   'presenter-bust',
   'photo-top-right',
   'photo-full-bleed',
@@ -148,6 +149,7 @@ presenter={version:1,actions:[],expressions:[]}이다. actions 항목은 start/e
 공통 블로그 CTA는 코드에서 본문 결론 뒤에 자동 추가한다. 출력 scenes에는 CTA를 작성하지 말고 본문만 작성한다. 기본 6~9장/확장 18~21장은 참고 범위이며 확정 대본의 논리와 근거 보존을 우선한다. 기존 후보 리뷰에서도 commonPage가 있는 공통 CTA를 출력에서 제외한다.
 도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
 diagramSpec은 version=1, renderer=auto가 기본이다. 일반 도식은 Remotion, physics가 있는 장면은 Motion Canvas로 자동 선택된다.
+오답노트 테마의 제목 오프닝을 요청하면 첫 장면은 layout=notebook-title, kind=hero, visual.type=photo, diagramSpec=null로 만든다. 제목은 84px 최대 세 줄 분량으로 짧게 쓰며 마지막 줄을 파란 강조로 사용한다. subline은 짧은 필기체 메모이고 내레이션 전체를 반복하지 않는다. 실제 주제를 보여주는 사진을 검색하여 합성하며 이미지 밑줄과 찢은 종이 마스크는 엔진 애셋으로 처리한다. 오프닝은 3~4초 안팎이며 다음 장면부터 본문으로 들어간다. 제목 페이지는 본문의 첫 장면이며 별도 썸네일이 아니다.
 오답노트 테마는 명시적으로 요청된 경우 diagramSpec.notebook={theme:'error-notebook',maxStickerOverlap:0.2}로 선택한다. 보통 notebook=null, node.role=null이다. 스티커만 rect에 role='sticker'를 지정하고 의미 없는 장식은 넣지 않는다. 다른 도형을 sticker로 바꿔 검증을 우회하지 않는다. 스티커 겹침은 회전·확대 및 선 두께를 포함한 자기 footprint 대비 다른 보이는 도형 footprint와 겹친 합집합 면적 비율이다. 기본 20%, 허용 상한 40%이며 여러 작은 겹침도 합쳐 검사한다. 종이 배경은 엔진이 별도 배경으로 그린다. 라벨·자막·안전영역은 완화하지 않으며 채워진 스티커와 선의 교차만 면적 예산 안에서 허용한다. 낙서 선은 ID 기반으로 고정되어 프레임마다 떨리지 않고 기존 events/connector로 제어한다. 이 테마는 headline에 짧은 주제 제목을 쓰고 좌측 상단 필기체 테이프로 표시한다. 전체 화면은 고정 종이 질감을 은은하게 합성하고 자막 줄마다 받침 여백을 둔 파란 공책 선을 표시한다. 이 테마의 자막은 고정 46px·최대 두 줄이므로 의미 단위를 짧게 작성한다. 프레젠터는 기존 원형을 사용한다. 도식 라벨은 나눔손글씨펜이고 자막은 Pretendard다. stickerAsset에는 paper/blue/tape/check/star/underline을 선택할 수 있다. 노트 테마 장면마다 의미를 강조하는 이미지 스티커 1~2개를 배치하되 라벨 보호영역을 침범하지 않는다. 종이와 잉크는 실제 이미지 질감을 합성하며 선 경로는 코드로 제어한다.
 physics는 보통 null이다. 충돌/낙하/시소가 의미를 전달할 때만 seconds(0.1~10), gravity(x/y -2~2), bodies, pins를 작성한다.
 bodies는 rect 또는 정원 circle 노드의 target, isStatic, mass(0.1~100), restitution/friction(0~1), velocity(x/y -20~20)를 지정한다. 속도는 60Hz tick당 좌표 단위이다.

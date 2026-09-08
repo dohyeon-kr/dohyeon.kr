@@ -11,7 +11,7 @@ import type {RenderManifest, RenderScene} from './types';
 import {DiagramRenderer} from './visuals/DiagramRenderer';
 import {physicsExample} from './visuals/physics-example';
 import type {DiagramSpec} from './visuals/diagram-spec';
-import {notebookPreviewProps, notebookDiagrams} from './notebook-preview';
+import {notebookOpeningPreviewProps, notebookPreviewProps, notebookDiagrams} from './notebook-preview';
 import {Presenter as CirclePresenter} from './presenter/Presenter';
 
 const diagramExample: DiagramSpec = {
@@ -93,6 +93,7 @@ const presenterCandidatePreview:RenderManifest = {...defaultProps,scenes:[scene(
 
 export const RemotionRoot: React.FC = () => (
   <>
+    <Composition id="NotebookOpeningPreview" component={ShortVideo} durationInFrames={previewDuration(notebookOpeningPreviewProps)} fps={30} width={1080} height={1920} defaultProps={notebookOpeningPreviewProps}/>
     <Composition id="NotebookPreview" component={ShortVideo} durationInFrames={previewDuration(notebookPreviewProps)} fps={30} width={1080} height={1920} defaultProps={notebookPreviewProps}/>
     <Composition id="NotebookCanvasPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec:{...notebookDiagrams[0],renderer:'motion-canvas' as const},durationInFrames:120,strict:true}}/>
     <Composition id="NotebookPresenterPreview" component={CirclePresenter} durationInFrames={1} fps={30} width={600} height={600}/>

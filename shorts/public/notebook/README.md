@@ -9,3 +9,10 @@ Full-frame grain: Paper001 Color by Lennart Demes / ambientCG, CC0 1.0.
 Source: https://ambientcg.com/view?id=Paper001
 Mirror: https://commons.wikimedia.org/wiki/File:Paper001_4K_Color.png
 Downloaded by prepare-notebook-assets.mjs. Grayscale soft-light overlay at 20%; static coordinates across shots.
+
+Opening demo photograph: olia danilevich, Two Men Looking at a Laptop (Pexels).
+https://www.pexels.com/photo/two-men-looking-at-a-laptop-4974920/
+License: https://www.pexels.com/license/
+Download preview only: node scripts/prepare-notebook-assets.mjs --preview-photo
+The actual photo is composited through the generated blue paper sprite alpha mask; the image is not an AI illustration.
+Underlines reuse the generated marks.webp crop [15,412,464,158], sized independently from text and revealed by clipping, not scaling glyphs.

@@ -5,6 +5,7 @@ import type {DiagramSpec} from './visuals/diagram-spec';
 export type SceneKind = 'hero' | 'photo' | 'compare' | 'statement' | 'outro';
 
 export type SceneLayout =
+  | 'notebook-title'
   | 'presenter-bust'
   | 'photo-top-right'
   | 'photo-full-bleed'
