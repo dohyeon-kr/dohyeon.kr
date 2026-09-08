@@ -3,12 +3,39 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import {wordsToPresenter} from '../src/presenter/word-timing.ts';
+import {wordsToPresenter, normalizeWordTiming} from '../src/presenter/word-timing.ts';
 import {compilePresenter} from '../src/presenter/api.ts';
 import {overlayTimeline, overlayVisible} from '../src/presenter/overlay.ts';
 import {alignPresenter} from '../scripts/align-presenter.mjs';
 const options={position:'bottom-right',hideOnCommonCta:true,lipSync:'word-timestamps',nod:'speech'};
 const words=[{word:'프로는',start:.4,end:1.2},{word:'어려운',start:1.3,end:2.1},{word:'일을',start:2.2,end:2.8},{word:'해냅니다.',start:3.6,end:4.8}];
+test('provider normalization bounds tiny overlap and audio-edge corrections',()=>{
+ const raw=[{word:'우리',start:-.01,end:.5},{word:'조직',start:.49,end:1.01}];
+ const normalized=normalizeWordTiming(raw,1);
+ assert.deepEqual(normalized.words,[{word:'우리',start:0,end:.5},{word:'조직',start:.5,end:1}]);
+ assert.equal(normalized.corrections.length,2);
+ assert.equal(raw[0].start,-.01);
+ assert.doesNotThrow(()=>wordsToPresenter(normalized.words,1,options));
+ for(const input of [null,[],[null],[{word:'아',start:0,end:0}], [{word:'아',start:0,end:NaN}], [{word:'아',start:0,end:1.03}], [{word:'아',start:0,end:.6},{word:'이',start:.5,end:1}]]) assert.throws(()=>normalizeWordTiming(input,1));
+});
+test('invalid alignment retries once and retains both raw responses on failure or recovery',async()=>{
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'presenter-retry-'));
+ try {
+  const audioFile=path.join(dir,'audio.mp3'),reportFile=path.join(dir,'report.json');
+  await fs.writeFile(audioFile,'fixture');
+  for(const recover of [true,false]) {
+   let calls=0;
+   const client={audio:{transcriptions:{create:async request=>{request.file.destroy();calls++;return {text:'아',words:recover&&calls===2?[{word:'아',start:0,end:1}]:[{word:'아',start:0,end:0}]};}}}};
+   const run=()=>alignPresenter({client,audioFile,reportFile,duration:1,narration:'아',options,scene:{}});
+   if(recover) await run(); else await assert.rejects(run,/Word 0: zero or reversed duration/);
+   assert.equal(calls,2);
+   const report=JSON.parse(await fs.readFile(reportFile));
+   assert.equal(report.attempts.length,2);assert.equal(report.attempts[0].words[0].end,0);
+   assert.match(report.attempts[0].error,/zero or reversed/);
+   assert.equal(Boolean(report.tracks),recover);
+  }
+ } finally {await fs.rm(dir,{recursive:true,force:true});}
+});
 test('final-audio word intervals drive Korean vowels, bilabial closure and rest during gaps',()=>{
  const tracks=wordsToPresenter(words,5,options), pose=compilePresenter(tracks,5);
  assert.equal(pose(.1).mouthShape,'rest');
