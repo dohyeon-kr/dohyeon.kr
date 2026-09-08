@@ -17,6 +17,7 @@
   var active = 0, elapsed = 0, lastTime = 0, frame = 0;
   var paused = motion.matches, hovering = false, visible = true;
   var duration = 5000;
+  var drag = null, suppressClickUntil = 0;
   function update() {
     var left = track.getBoundingClientRect().left;
     var prior = active;
@@ -47,7 +48,7 @@
     play.textContent = paused ? '▶' : 'Ⅱ';
     play.setAttribute('aria-label', paused ? '자동 재생 시작' : '자동 재생 일시정지');
     play.setAttribute('aria-pressed', String(paused));
-    if (!paused && !hovering && visible && !document.hidden && !section.contains(document.activeElement) && slides.length > 1) frame = requestAnimationFrame(tick);
+    if (!paused && !hovering && !drag && visible && !document.hidden && !section.contains(document.activeElement) && slides.length > 1) frame = requestAnimationFrame(tick);
   }
   previous.addEventListener('click', function () { go(active - 1); });
   next.addEventListener('click', function () { go(active + 1); });
@@ -60,7 +61,56 @@
     go(active + (event.key === 'ArrowLeft' ? -1 : 1));
   });
   track.addEventListener('scroll', update, {passive: true});
-  track.addEventListener('pointerdown', function () { elapsed = 0; }, {passive: true});
+  // Touch/trackpads keep native scrolling; mouse pointers can grab the slide.
+  track.addEventListener('pointerdown', function (event) {
+    elapsed = 0;
+    if (event.pointerType !== 'mouse' || event.button !== 0 || !event.isPrimary ||
+        event.ctrlKey || event.metaKey || event.altKey || event.shiftKey || slides.length < 2) return;
+    suppressClickUntil = 0;
+    drag = {id: event.pointerId, x: event.clientX, left: track.scrollLeft, index: active, moved: false};
+    sync();
+  });
+  track.addEventListener('pointermove', function (event) {
+    if (!drag || event.pointerId !== drag.id) return;
+    var delta = event.clientX - drag.x;
+    if (!drag.moved && Math.abs(delta) < 6) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      track.classList.add('is-dragging');
+      track.setPointerCapture(drag.id);
+    }
+    event.preventDefault();
+    track.scrollLeft = drag.left - delta;
+  });
+  function finishDrag(event) {
+    if (!drag || event.pointerId !== drag.id) return;
+    var gesture = drag;
+    drag = null;
+    if (gesture.moved) {
+      suppressClickUntil = Date.now() + 500;
+      var delta = event.clientX - gesture.x;
+      var cancelled = event.type !== 'pointerup';
+      var step = !cancelled && Math.abs(delta) >= Math.min(80, track.clientWidth * 0.12)
+        ? (delta < 0 ? 1 : -1) : 0;
+      track.classList.remove('is-dragging');
+      go(gesture.index + step);
+    }
+    if (track.hasPointerCapture(gesture.id)) track.releasePointerCapture(gesture.id);
+    sync();
+  }
+  track.addEventListener('pointerup', finishDrag);
+  track.addEventListener('pointercancel', finishDrag);
+  track.addEventListener('lostpointercapture', finishDrag);
+  track.addEventListener('pointerleave', function (event) {
+    if (drag && !drag.moved) finishDrag(event);
+  });
+  track.addEventListener('dragstart', function (event) { event.preventDefault(); });
+  track.addEventListener('click', function (event) {
+    if (event.detail > 0 && Date.now() < suppressClickUntil) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, true);
   section.addEventListener('mouseenter', function () { hovering = true; sync(); });
   section.addEventListener('mouseleave', function () { hovering = false; sync(); });
   section.addEventListener('focusin', sync);
