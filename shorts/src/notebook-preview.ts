@@ -26,8 +26,16 @@ export const notebookPreviewProps:RenderManifest={...templatePreviewProps,id:'er
   presenterOverlay:{position:'bottom-right',frame:'circle',hideOnCommonCta:true,lipSync:'none',nod:'none'},
   scenes:[...notebookDiagrams.map((diagramSpec,i):RenderScene=>({
     ...templatePreviewProps.scenes[0],headline:['SDK 버전 관리','요청 추적','대화와 기록'][i],subline:null,layout:'diagram-centered',transition:'fade',
-    visual:{type:'diagram',motif:null,query:null,value:null,xLabel:null,yLabel:null},diagramSpec,beats:[],
+    visual:{type:'diagram',motif:null,query:null,value:null,xLabel:null,yLabel:null},diagramSpec,beats:[{text:captions[i],keyword:['직접 선택','같은 요청','티켓과 PR'][i],emphasis:'high',delivery:'normal',pauseAfterMs:0,visualPriority:'high',visualCue:null}],
     narration:'',captions:[{startSeconds:0,endSeconds:4,text:captions[i]}],audioDurationSeconds:4,
     overlayPresenter:{actions:[{name:'explain',start:.4,end:3.5,intensity:.4}],expressions:[{name:'smile',start:.4,end:3.5}]},
   })),{...templatePreviewProps.scenes[0],...createBlogCta(),audioDurationSeconds:6} as RenderScene],
 };
+
+export const notebookOpeningPreviewProps:RenderManifest={...notebookPreviewProps,id:'notebook-opening-preview',scenes:[{
+  ...templatePreviewProps.scenes[0],kind:'hero',layout:'notebook-title',transition:'none',
+  headline:'프론트엔드와\n백엔드 개발자\n협업하기',subline:'함께 만들고, 함께 기록하기',
+  visual:{type:'photo',motif:null,query:'developers working together laptop',value:null,xLabel:null,yLabel:null},
+  image:{query:'developers working together laptop',title:'Two Men Looking at a Laptop',creator:'olia danilevich',license:'Pexels',licenseVersion:null,licenseUrl:'https://www.pexels.com/license/',source:'Pexels',provider:'Pexels',sourcePage:'https://www.pexels.com/photo/two-men-looking-at-a-laptop-4974920/',originalUrl:'https://images.pexels.com/photos/4974920/pexels-photo-4974920.jpeg',thumbnailUrl:null},
+  imagePath:'notebook/opening-photo.jpg',diagramSpec:null,beats:[],captions:[],narration:'',audioPath:null,audioDurationSeconds:3.4,
+},...notebookPreviewProps.scenes]};

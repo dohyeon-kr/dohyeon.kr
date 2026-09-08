@@ -1,3 +1,4 @@
+import {NotebookTitleScene} from './NotebookTitleScene';
 import {NotebookTexture} from './visuals/NotebookTexture';
 import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
 import {validatePresenterOverlay} from './presenter/overlay';
@@ -193,6 +194,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
   useLayoutCheck(layoutRoot, frame);
   const visual = fallbackVisual(scene);
   if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
+  if (scene.layout==='notebook-title') return <NotebookTitleScene scene={scene} layer={layer}/>;
   if (scene.diagramSpec?.notebook) return <NotebookScene scene={scene} layer={layer} durationInFrames={durationInFrames}/>;
   if (scene.presenter != null) return <PresenterScene scene={scene} layer={layer} durationInFrames={durationInFrames} />;
   const layout = fallbackLayout(scene, visual);
@@ -274,7 +276,7 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes, presenterO
         cursor += durationInFrames;
         return (
           <Sequence key={`${index}-${scene.headline}`} from={from} durationInFrames={durationInFrames}>
-            <SceneTransitionStage blurText={scene.commonPage === 'blog-cta-v1'} type={fallbackTransition(scene, index)} options={scene.transitionOptions} durationInFrames={durationInFrames}
+            <SceneTransitionStage blurText={scene.commonPage === 'blog-cta-v1'} type={scenes[index-1]?.layout==='notebook-title' && scene.transition!=='none' ? 'dip-to-black' : fallbackTransition(scene, index)} options={scene.transitionOptions} durationInFrames={durationInFrames}
               previousFrames={index > 0 ? sceneFrames(scenes[index - 1]) : undefined}
               previous={index > 0 ? layer => <SceneFrame layer={layer} scene={scenes[index - 1]} index={index - 1} total={scenes.length} sourceTitle={source.title} durationInFrames={sceneFrames(scenes[index - 1])} /> : undefined}
               current={layer => <SceneFrame layer={layer} scene={scene} index={index} total={scenes.length} sourceTitle={source.title} durationInFrames={durationInFrames} />} />

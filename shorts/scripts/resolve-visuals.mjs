@@ -158,7 +158,7 @@ export const enrichVisuals = async (candidate, {search = searchOpenverse, curate
       }
     }
     if (scene.visual.type === 'photo' && !image) {
-      if (photoFailureMode === 'throw') throw new Error(`Scene ${scenes.length + 1}: photo unavailable after ${photoHistory.length} searches: ${photoHistory.map(h => JSON.stringify(h.query)).join(', ')}`);
+      if (photoFailureMode === 'throw' || scene.layout === 'notebook-title') throw new Error(`Scene ${scenes.length + 1}: photo unavailable after ${photoHistory.length} searches: ${photoHistory.map(h => JSON.stringify(h.query)).join(', ')}`);
       warn(`Photo unavailable in ${JSON.stringify(candidate.title)}, scene ${scenes.length + 1}: ${JSON.stringify(imageQuery)}. Using a text scene; review its visual direction.`);
       scenes.push(textFallback(scene, 'photo-unavailable'));
       await onProgress({status: 'resolved', sceneNumber: scenes.length, scene: scenes.at(-1)});

@@ -336,7 +336,7 @@ const main = async () => {
     fs.mkdir(tempRoot, {recursive: true}),
   ]);
   await copyFonts();
-  if(manifest.scenes.some(scene=>scene.diagramSpec?.notebook)) await prepareNotebookAssets();
+  if(manifest.scenes.some(scene=>scene.diagramSpec?.notebook || scene.layout==='notebook-title')) await prepareNotebookAssets();
 
   // Acquire and inspect every requested visual before spending on narration.
   const videoCatalog = manifest.scenes.some(s => s.backgroundVideo) ? await loadVideoCatalog() : [];

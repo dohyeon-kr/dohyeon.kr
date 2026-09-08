@@ -1,10 +1,11 @@
+import {validateSceneMotion} from '../src/motion/validate.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {zodTextFormat} from 'openai/helpers/zod';
 import {CandidateSchema} from '../scripts/generate-candidates.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {evaluatedDiagramState,validateDiagramLayout} from '../src/visuals/physics.ts';
-import {notebookDiagrams,notebookPreviewProps} from '../src/notebook-preview.ts';
+import {notebookOpeningPreviewProps,notebookDiagrams,notebookPreviewProps} from '../src/notebook-preview.ts';
 import {PresenterOverlaySchema,validatePresenterOverlay,overlayVisible} from '../src/presenter/overlay.ts';
 test('schema defaults, bounded allowance and opt-in sticker contract',()=>{
   const spec=notebookDiagrams[0];
@@ -24,4 +25,11 @@ test('paper presenter preserves overlay tracks and common CTA hiding',()=>{
   assert.doesNotThrow(()=>validatePresenterOverlay(notebookPreviewProps));
   assert.equal(overlayVisible(notebookPreviewProps.presenterOverlay,{commonPage:'blog-cta-v1'}),false);
   assert.throws(()=>PresenterOverlaySchema.parse({position:'bottom-right',frame:'unknown'}));
+});
+
+test('notebook title is a real-photo opening and cannot become a diagram or later title card',()=>{
+  const scene=notebookOpeningPreviewProps.scenes[0];
+  assert.doesNotThrow(()=>validateSceneMotion(scene));
+  assert.throws(()=>validateSceneMotion({...scene,visual:{...scene.visual,type:'diagram'}}),/photograph/);
+  assert.throws(()=>validateSceneMotion(scene,scene),/first hero/);
 });

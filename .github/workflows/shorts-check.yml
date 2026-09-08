@@ -213,7 +213,7 @@ jobs:
         working-directory: shorts
         run: |
           npm run typecheck
-          node scripts/prepare-notebook-assets.mjs
+          node scripts/prepare-notebook-assets.mjs --preview-photo
           node --test tests/notebook-*.test.mjs tests/layout-guard.test.mjs tests/presenter-overlay.test.mjs
           mkdir -p public/fonts "${RUNNER_TEMP}/notebook"
           cp public/notebook/paper-grain.png public/notebook/NanumPenScript-Regular.ttf "${RUNNER_TEMP}/notebook/"
@@ -221,6 +221,11 @@ jobs:
           for frame in 0 24 60 145 190 275 330 400; do
             npx remotion still src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/frame-${frame}.png" --frame="$frame"
           done
+          cp public/notebook/opening-photo.jpg "${RUNNER_TEMP}/notebook/"
+          for frame in 5 24 60 109 116 170; do
+            npx remotion still src/index.tsx NotebookOpeningPreview "${RUNNER_TEMP}/notebook/opening-${frame}.png" --frame="$frame"
+          done
+          npx remotion render src/index.tsx NotebookOpeningPreview "${RUNNER_TEMP}/notebook/opening.mp4" --concurrency=2
           npx remotion still src/index.tsx NotebookCanvasPreview "${RUNNER_TEMP}/notebook/canvas.png" --frame=60
           npx remotion still src/index.tsx NotebookPresenterPreview "${RUNNER_TEMP}/notebook/presenter.png"
           npx remotion render src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/notebook.mp4" --concurrency=2
