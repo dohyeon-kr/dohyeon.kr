@@ -1,0 +1,29 @@
+{{#if posts}}
+<section class="featured-carousel" data-featured-carousel aria-label="주요 글" aria-roledescription="캐러셀">
+    <div class="featured-carousel__toolbar">
+        <h2>FEATURED</h2>
+        <div class="featured-carousel__controls" hidden>
+            <div class="featured-carousel__progress" aria-hidden="true"><span></span></div>
+            <button type="button" data-featured-play aria-label="자동 재생 일시정지" aria-pressed="false">Ⅱ</button>
+            <button type="button" data-featured-prev aria-label="이전 글" aria-controls="featured-posts">←</button>
+            <span data-featured-position></span>
+            <button type="button" data-featured-next aria-label="다음 글" aria-controls="featured-posts">→</button>
+        </div>
+    </div>
+    <div class="featured-carousel__track" id="featured-posts" tabindex="0" aria-label="주요 글 목록">
+        {{#foreach posts}}
+        <a class="featured-carousel__slide" href="{{url}}" aria-label="{{title}}">
+            {{#if feature_image}}
+                <img class="featured-carousel__image" src="{{img_url feature_image size="l"}}" alt="" width="1200" height="675" loading="{{#if @first}}eager{{else}}lazy{{/if}}">
+            {{/if}}
+            <div class="featured-carousel__copy">
+                <div class="featured-carousel__meta">{{#primary_tag}}<span>{{name}}</span>{{/primary_tag}}<time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY.MM.DD"}}</time></div>
+                <h3>{{title}}</h3>
+                {{#if excerpt}}<p>{{excerpt words="24"}}</p>{{/if}}
+                <span class="featured-carousel__link">Read Entry <span aria-hidden="true">↗</span></span>
+            </div>
+        </a>
+        {{/foreach}}
+    </div>
+</section>
+{{/if}}
