@@ -26,7 +26,7 @@ export const notebookPreviewProps:RenderManifest={...templatePreviewProps,id:'er
   presenterOverlay:{position:'bottom-right',frame:'circle',hideOnCommonCta:true,lipSync:'none',nod:'none'},
   scenes:[...notebookDiagrams.map((diagramSpec,i):RenderScene=>({
     ...templatePreviewProps.scenes[0],headline:['SDK 버전 관리','요청 추적','대화와 기록'][i],subline:null,layout:'diagram-centered',transition:'fade',
-    visual:{type:'diagram',motif:null,query:null,value:null,xLabel:null,yLabel:null},diagramSpec,beats:[],
+    visual:{type:'diagram',motif:null,query:null,value:null,xLabel:null,yLabel:null},diagramSpec,beats:[{text:captions[i],keyword:['직접 선택','같은 요청','티켓과 PR'][i],emphasis:'high',delivery:'normal',pauseAfterMs:0,visualPriority:'high',visualCue:null}],
     narration:'',captions:[{startSeconds:0,endSeconds:4,text:captions[i]}],audioDurationSeconds:4,
     overlayPresenter:{actions:[{name:'explain',start:.4,end:3.5,intensity:.4}],expressions:[{name:'smile',start:.4,end:3.5}]},
   })),{...templatePreviewProps.scenes[0],...createBlogCta(),audioDurationSeconds:6} as RenderScene],

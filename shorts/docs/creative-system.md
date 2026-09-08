@@ -491,3 +491,5 @@ ambientCG Paper001(CC0)을 전체 화면 위에 고정된 soft-light 20%로 합�
 제목 밑줄과 본문 자막 밑줄 모두 기존 생성 marks.webp의 underline 이미지 crop을 재사용한다. 너비와 두께, reveal 시점을 독립 제어한다.
 제목 → 사진 → 이미지 밑줄/짧은 메모가 등장하고 본문으로 전환한다. 3~4초 안팎의 제목 장면을 본문 첫 장면으로 구성하며 같은 문구의 자막을 이중 표시하지 않는다.
 `NotebookOpeningPreview`는 제목부터 본문, CTA까지 연결된 무음 예제다. 사진 출처와 라이선스는 preview manifest와 public/notebook/README.md에 기록한다.
+
+노트 자막은 beats.keyword 뒤에 papers.webp의 실제 highlighter 이미지를 50%로 합성한다. 글자 크기·위치는 고정하고 마커만 짧게 reveal한다. 핵심어는 한 줄에 들어가는 짧은 구절로 고르며 본문 전체를 칠하지 않는다. keyword가 없는 자막에는 임의의 강조어를 만들지 않는다.

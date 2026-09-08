@@ -2,6 +2,7 @@ import React, {useState, useEffect, useId} from 'react';
 import {staticFile, delayRender, continueRender, cancelRender} from 'remotion';
 export const NOTEBOOK_FONT='Nanum Pen Script';
 export const sprites={
+  highlighter:{file:'papers.webp',sheet:[1536,1024],crop:[1020,684,511,130]},
   paper:{file:'papers.webp',sheet:[1536,1024],crop:[24,576,496,339]},
   blue:{file:'papers.webp',sheet:[1536,1024],crop:[526,155,491,354]},
   tape:{file:'papers.webp',sheet:[1536,1024],crop:[537,565,438,190]},
