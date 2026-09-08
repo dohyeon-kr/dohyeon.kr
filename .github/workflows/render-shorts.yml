@@ -92,6 +92,15 @@ jobs:
             node shorts/scripts/render-reels.mjs "${manifest}"
           done < "${LIST_FILE}"
 
+      - name: Upload presenter alignment diagnostics
+        if: ${{ always() }}
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        with:
+          name: presenter-alignment-${{ github.run_id }}
+          path: shorts/public/generated/**/scene-*-presenter-alignment.json
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Upload rendered shorts
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
         with:
