@@ -289,12 +289,10 @@ rm secrets/ghost.env
 
 Push to `main` or run the `Release & Deploy Ghost` workflow manually.
 
-The release job is fail-closed unless the repository variable
-`GHOST_PRODUCTION_MYSQL_READY` is exactly `true`. Keep it unset while this
-repository still uses the SQLite development Compose contract. Set it only
-after MySQL 8 is provisioned, content is exported and restored, the production
-Compose file and root wrapper are reviewed together, and a rollback backup has
-been tested.
+The current Compose contract explicitly uses SQLite. Deployment does not depend
+on a MySQL migration flag: pushes to `main` run verification and release before
+the restricted wrapper deploys the verified revision. Database migration is a
+separate change and must not block theme updates.
 
 The workflow:
 
@@ -388,5 +386,5 @@ database__client=sqlite3
 
 Ghost's supported production database is MySQL 8. Before treating this as a real
 production blog, migrate the compose file to MySQL 8 and set
-`GHOST_NODE_ENV=production`. The deployment workflow intentionally stays
-disabled through `GHOST_PRODUCTION_MYSQL_READY` until that migration is ready.
+`GHOST_NODE_ENV=production`. Database migration is managed separately from the deployment workflow; the
+current SQLite setup can receive verified theme and service updates.

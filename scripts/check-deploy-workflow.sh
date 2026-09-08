@@ -11,7 +11,10 @@ deploy_job="$(sed -n '/^  deploy:/,$p' "$workflow")"
 grep -Fq "  group: ghost-production" "$workflow"
 grep -Fq "  cancel-in-progress: false" "$workflow"
 grep -Fq "permissions:" "$workflow"
-grep -Fq "    if: github.ref == 'refs/heads/main' && vars.GHOST_PRODUCTION_MYSQL_READY == 'true'" "$workflow"
+if grep -Fq "GHOST_PRODUCTION_MYSQL_READY" "$workflow"; then
+  echo "Deployment must not depend on a MySQL migration flag; the current Compose uses SQLite." >&2
+  exit 1
+fi
 [[ "$(grep -Fc "    if: github.ref == 'refs/heads/main'" "$workflow")" == 2 ]]
 grep -Fq "          persist-credentials: false" "$workflow"
 grep -Fq "          node-version: 24.18.0" "$workflow"
