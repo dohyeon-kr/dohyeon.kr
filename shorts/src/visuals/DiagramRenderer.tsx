@@ -8,6 +8,8 @@ import {LightEffects, FlowGlow} from '../motion/LightEffects';
 import {effectState, type LightEffect} from '../motion/schema';
 import {organicBlobPath} from './blob-shape';
 import {useVideoConfig} from 'remotion';
+import {sketchPath, NOTEBOOK_INK, notebookFill} from './notebook-style';
+import {NotebookPaper} from './NotebookPaper';
 type Engine = 'remotion' | 'motion-canvas';
 type Props = {effects?: LightEffect[] | null; layer?: 'geometry' | 'labels' | 'all'; spec: DiagramSpec; durationInFrames: number; framesPath?: string | null; strict?: boolean; failEngine?: Engine};
 class EngineBoundary extends React.Component<{engine: Engine; strict: boolean; children: (engine: Engine) => React.ReactNode}, {error: Error | null}> {
@@ -35,6 +37,7 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
   return <div style={{position: 'relative', width: '100%', height: '100%'}}>
     <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;}`}</style>
     {layer !== 'labels' && <>
+      {spec.notebook && <NotebookPaper />}
       <EngineBoundary key={JSON.stringify(spec)} engine={engine} strict={strict}>
         {(selected) => <EngineSurface {...rest} spec={geometrySpec} engine={selected} failEngine={failEngine} />}
       </EngineBoundary>
@@ -60,11 +63,12 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
     </svg>}
   </div>;
 };
-const NodeShape: React.FC<{node: ReturnType<typeof evaluatedDiagramState>[number]}> = ({node}) => {
+const NodeShape: React.FC<{node: ReturnType<typeof evaluatedDiagramState>[number]; notebook?: boolean}> = ({node, notebook}) => {
   const id = `node-hatch-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   const fill = node.fill === 'white' ? '#fff' : node.fill === 'none' ? 'none' : node.fill === 'hatch' ? `url(#${id})` : '#303030';
   const props = {fill, stroke: '#fff', strokeWidth: 3, strokeDasharray: node.strokeStyle === 'dashed' ? '12 10' : undefined};
   const hatch = <defs><pattern id={id} width={16} height={16} patternUnits="userSpaceOnUse"><path d="M-4 4L4 -4M0 16L16 0M12 20L20 12" stroke="#858585" strokeWidth={2} /></pattern></defs>;
+  if (notebook && ['rect','circle','line'].includes(node.shape)) return <>{hatch}<path d={sketchPath(node)} fill={node.shape==='line'?'none':node.fill==='hatch'?fill:notebookFill(node)} stroke={NOTEBOOK_INK} strokeWidth={3} strokeLinejoin="round" strokeDasharray={props.strokeDasharray}/></>;
   if (node.shape === 'circle') return <>{hatch}<ellipse rx={node.width / 2} ry={node.height / 2} {...props} /></>;
   if (node.shape === 'blob') return <>{hatch}<path d={organicBlobPath(node)} {...props} /></>;
   if (node.shape === 'rect') return <>{hatch}<rect x={-node.width / 2} y={-node.height / 2} width={node.width} height={node.height} {...props} /></>;
@@ -89,13 +93,14 @@ const EngineSurface: React.FC<Props & {engine: Engine}> = ({spec, durationInFram
       const label = nodeLabel(node);
       const lines = label.text.split('\n');
       return <g key={node.id} transform={`translate(${node.x} ${node.y}) rotate(${node.rotation}) scale(${node.scale})`} opacity={node.opacity}>
+        {spec.notebook ? <NodeShape node={node} notebook /> : <>
         {node.shape === 'rect' && <rect x={-node.width / 2} y={-node.height / 2} width={node.width} height={node.height} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'circle' && <ellipse rx={node.width / 2} ry={node.height / 2} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'blob' && <path d={organicBlobPath(node)} fill={fill} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
         {node.shape === 'line' && <line x1={points[0][0]} x2={points[1][0]} y1={points[0][1]} y2={points[1][1]} stroke="#fff" strokeWidth={3} strokeDasharray={node.strokeStyle === 'dashed' ? '12 10' : undefined} />}
+        </>}
         {node.label && <text textAnchor="middle" dominantBaseline="central" fill={node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'} fontFamily="Pretendard, sans-serif" fontSize={label.fontSize} fontWeight={800}>{lines.map((text, i) => <tspan key={i} x={0} y={label.y + (i - (lines.length - 1) / 2) * label.fontSize * LABEL_LINE_HEIGHT}>{text}</tspan>)}</text>}
       </g>;
     })}
   </svg>;
 };
-

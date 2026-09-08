@@ -1,6 +1,7 @@
 import {textUnits} from '../text-layout.ts';
 import {nodeLabel, LABEL_LINE_HEIGHT} from './node-layout.ts';
 import type {DiagramSpec} from './diagram-spec.ts';
+import {coveredFraction} from './overlap-area.ts';
 
 type State = DiagramSpec['nodes'][number] & {rotation: number; scale: number; opacity: number; noiseAmount: number};
 type Point = [number, number];
@@ -24,7 +25,7 @@ export function polygonsOverlap(a: Polygon, b: Polygon) {
   }
   return true;
 }
-const strokeBox = (n: State) => n.height > n.width ? box(n, 3, n.height) : box(n, n.width, 3);
+const strokeBox = (n: State, thickness = 3) => n.height > n.width ? box(n, thickness, n.height) : box(n, n.width, thickness);
 const labelBox = (n: State, protection = 0) => {
   const label = nodeLabel(n), lines = label.text.split('\n');
   return box(n, Math.max(...lines.map(textUnits)) * label.fontSize + protection * label.fontSize * 2,
@@ -36,35 +37,45 @@ const checkInset = (polygon: Polygon) => polygon.every(([x, y]) => x >= INSET - 
  * Shape/shape overlaps are legal for territories and physical metaphors.
  * Text protection and line/text intersections are never silently exempted.
  */
-export function assertDiagramLayout(states: State[], progress: number) {
+export function assertDiagramLayout(states: State[], progress: number, notebook?: DiagramSpec['notebook']) {
   const fail = (rule: string, ids: string[], detail: string): never => {
     throw new Error(`[layout:${rule}] t=${progress.toFixed(6)} nodes=${ids.join(',')}: ${detail}`);
   };
   const visible = states.filter(n => n.opacity > 0);
+  const lineBox = (n: State) => strokeBox(n, notebook ? 5 : 3);
   for (const n of visible) {
     if (![n.x, n.y, n.width, n.height, n.rotation, n.scale, n.opacity].every(Number.isFinite)) fail('finite', [n.id], 'non-finite geometry');
-    const region = n.shape === 'line' ? strokeBox(n) : box(n, n.width + (n.shape === 'text' ? 0 : 3), n.height + (n.shape === 'text' ? 0 : 3));
+    if (n.role === 'sticker' && (!notebook || n.shape !== 'rect')) fail('sticker-policy', [n.id], 'stickers require error-notebook rect nodes');
+    const region = n.shape === 'line' ? lineBox(n) : box(n, n.width + (n.shape === 'text' ? 0 : 3), n.height + (n.shape === 'text' ? 0 : 3));
     if (!checkInset(region)) fail('safe-area', [n.id], 'visible geometry must stay inside the 40-unit inset');
     if (n.shape === 'line' && Math.max(n.width, n.height) * n.scale < 6) fail('line-dot', [n.id], 'visible line is shorter than two stroke widths; reveal with opacity at full length');
     if (n.label) {
       if (nodeLabel(n).fontSize * n.scale < 24 - EPS) fail('text-size', [n.id], 'transformed label is smaller than 24 units');
       if (!checkInset(labelBox(n))) fail('text-safe-area', [n.id], 'label leaves the safe area');
-      if (n.shape === 'line' && polygonsOverlap(strokeBox(n), labelBox(n, .25))) fail('line-label', [n.id], 'line crosses its own label protection region');
+      if (n.shape === 'line' && polygonsOverlap(lineBox(n), labelBox(n, .25))) fail('line-label', [n.id], 'line crosses its own label protection region');
     }
+  }
+  if (notebook) for (const sticker of visible.filter(n => n.role === 'sticker')) {
+    const others = visible.filter(n => n !== sticker && n.shape !== 'text');
+    const footprint = box(sticker, sticker.width + 3, sticker.height + 3);
+    const covers = others.map(n => n.shape === 'line' ? lineBox(n) : box(n, n.width + 3, n.height + 3));
+    const ratio = coveredFraction(footprint, covers);
+    if (ratio > notebook.maxStickerOverlap + EPS) fail('sticker-overlap', [sticker.id, ...others.filter((_,i) => polygonsOverlap(footprint,covers[i])).map(n=>n.id)], `${(ratio*100).toFixed(2)}% exceeds ${(notebook.maxStickerOverlap*100).toFixed(2)}% of sticker footprint (union area)`);
   }
   for (let i = 0; i < visible.length; i++) for (let j = i + 1; j < visible.length; j++) {
     const a = visible[i], b = visible[j];
     if (a.label && b.label && polygonsOverlap(labelBox(a, .25), labelBox(b, .25))) fail('text-overlap', [a.id, b.id], 'label protection regions overlap');
     for (const [line, object] of [[a, b], [b, a]]) {
       if (line.shape === 'line' && ['rect', 'circle', 'blob'].includes(object.shape) && ['white', 'gray'].includes(object.fill)
-        && polygonsOverlap(strokeBox(line), box(object, object.width, object.height))) fail('line-object', [line.id, object.id], 'line crosses a filled object; change anchors or layout');
+        && !(notebook && object.role === 'sticker')
+        && polygonsOverlap(lineBox(line), box(object, object.width, object.height))) fail('line-object', [line.id, object.id], 'line crosses a filled object; change anchors or layout');
     }
     for (const [label, other] of [[a, b], [b, a]]) {
       if (!label.label || other.shape === 'text') continue;
       if (other.shape === 'line') {
-        if (polygonsOverlap(labelBox(label, .25), strokeBox(other))) fail('line-text', [other.id, label.id], 'line enters label protection region');
+        if (polygonsOverlap(labelBox(label, .25), lineBox(other))) fail('line-text', [other.id, label.id], 'line enters label protection region');
       } else if (other.fill === 'white' || other.fill === 'gray') {
-        if (polygonsOverlap(labelBox(label), box(other, other.width, other.height))) fail('text-object', [label.id, other.id], 'another filled object covers label space');
+        if (polygonsOverlap(labelBox(label, notebook && other.role === 'sticker' ? .25 : 0), box(other, other.width, other.height))) fail('text-object', [label.id, other.id], 'another filled object covers label space');
       }
     }
   }

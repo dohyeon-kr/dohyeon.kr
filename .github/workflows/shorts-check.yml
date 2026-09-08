@@ -199,3 +199,31 @@ jobs:
             shorts/out/*-MEDIA.md
           if-no-files-found: warn
           retention-days: 7
+
+  notebook-preview:
+    if: github.event.action != 'edited'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Verify and render notebook theme
+        working-directory: shorts
+        run: |
+          npm run typecheck
+          node --test tests/notebook-*.test.mjs tests/layout-guard.test.mjs tests/presenter-overlay.test.mjs
+          mkdir -p public/fonts "${RUNNER_TEMP}/notebook"
+          cp ../scripts/thumbnail-fonts/Pretendard-Bold.woff ../scripts/thumbnail-fonts/Pretendard-Regular.woff public/fonts/
+          for frame in 0 24 60 145 190 275 330 400; do
+            npx remotion still src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/frame-${frame}.png" --frame="$frame"
+          done
+          npx remotion still src/index.tsx NotebookCanvasPreview "${RUNNER_TEMP}/notebook/canvas.png" --frame=60
+          npx remotion still src/index.tsx TornPaperPresenterPreview "${RUNNER_TEMP}/notebook/presenter.png"
+          npx remotion render src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/notebook.mp4" --concurrency=2
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+        with:
+          name: notebook-preview-${{ github.event.pull_request.number }}
+          path: ${{ runner.temp }}/notebook/*
+          retention-days: 7

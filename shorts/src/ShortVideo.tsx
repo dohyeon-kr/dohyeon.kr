@@ -2,6 +2,7 @@ import {PersistentPresenter, PresenterOverlayContext} from './presenter/Persiste
 import {validatePresenterOverlay} from './presenter/overlay';
 import {useContext} from 'react';
 import {BlogCta} from './BlogCta';
+import {NotebookScene} from './NotebookScene';
 import {PresenterScene} from './presenter/PresenterScene';
 import {VideoBackground} from './video/VideoBackground';
 import React, {useRef} from 'react';
@@ -191,6 +192,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
   useLayoutCheck(layoutRoot, frame);
   const visual = fallbackVisual(scene);
   if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
+  if (scene.diagramSpec?.notebook) return <NotebookScene scene={scene} layer={layer} durationInFrames={durationInFrames}/>;
   if (scene.presenter != null) return <PresenterScene scene={scene} layer={layer} durationInFrames={durationInFrames} />;
   const layout = fallbackLayout(scene, visual);
 

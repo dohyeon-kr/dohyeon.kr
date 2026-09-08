@@ -5,6 +5,7 @@ import type {DiagramSpec} from './diagram-spec';
 import {evaluatedDiagramState} from './physics';
 import {linePoints, nodeLabel, LABEL_LINE_HEIGHT} from './node-layout';
 import {organicBlobPoints} from './blob-shape';
+import {sketchPoints, NOTEBOOK_INK, notebookFill} from './notebook-style';
 
 // Render one isolated Motion Canvas scene for each requested frame. This avoids
 // seek races and makes parallel/out-of-order Remotion renders deterministic.
@@ -33,10 +34,11 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           view.add(group);
           const fill = node.fill === 'white' ? '#fff' : node.fill === 'gray' ? '#303030' : node.fill === 'hatch' ? hatch : null;
           const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []};
-          if (node.shape === 'rect') group.add(new Rect(props));
-          if (node.shape === 'circle') group.add(new Circle(props));
+          if (spec.notebook && ['rect','circle','line'].includes(node.shape)) group.add(new Line({points: sketchPoints(node), closed:node.shape!=='line', fill:node.shape==='line'?null:node.fill==='hatch'?hatch:notebookFill(node), stroke:NOTEBOOK_INK,lineWidth:3,lineDash:props.lineDash}));
+          if (!spec.notebook && node.shape === 'rect') group.add(new Rect(props));
+          if (!spec.notebook && node.shape === 'circle') group.add(new Circle(props));
           if (node.shape === 'blob') group.add(new Line({points: organicBlobPoints(node), closed: true, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : [], radius: 18}));
-          if (node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
+          if (!spec.notebook && node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
           const label = nodeLabel(node);
           if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: 'Pretendard', fontSize: label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: 800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
         }
@@ -73,4 +75,3 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
   if (error) throw error;
   return <canvas ref={canvas} width={800} height={560} style={{width: '100%', height: '100%'}} />;
 };
-
