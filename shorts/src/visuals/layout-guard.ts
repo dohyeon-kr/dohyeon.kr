@@ -43,10 +43,11 @@ export function assertDiagramLayout(states: State[], progress: number, notebook?
   };
   const visible = states.filter(n => n.opacity > 0);
   const lineBox = (n: State) => strokeBox(n, notebook ? 10 : 3);
+  const outlinePad = (n: State) => notebook && n.role !== 'sticker' ? 5 : 3;
   for (const n of visible) {
     if (![n.x, n.y, n.width, n.height, n.rotation, n.scale, n.opacity].every(Number.isFinite)) fail('finite', [n.id], 'non-finite geometry');
     if (n.role === 'sticker' && (!notebook || n.shape !== 'rect')) fail('sticker-policy', [n.id], 'stickers require error-notebook rect nodes');
-    const region = n.shape === 'line' ? lineBox(n) : box(n, n.width + (n.shape === 'text' ? 0 : 3), n.height + (n.shape === 'text' ? 0 : 3));
+    const region = n.shape === 'line' ? lineBox(n) : box(n, n.width + (n.shape === 'text' ? 0 : outlinePad(n)), n.height + (n.shape === 'text' ? 0 : outlinePad(n)));
     if (!checkInset(region)) fail('safe-area', [n.id], 'visible geometry must stay inside the 40-unit inset');
     if (n.shape === 'line' && Math.max(n.width, n.height) * n.scale < 6) fail('line-dot', [n.id], 'visible line is shorter than two stroke widths; reveal with opacity at full length');
     if (n.label) {
@@ -58,7 +59,7 @@ export function assertDiagramLayout(states: State[], progress: number, notebook?
   if (notebook) for (const sticker of visible.filter(n => n.role === 'sticker')) {
     const others = visible.filter(n => n !== sticker && n.shape !== 'text');
     const footprint = box(sticker, sticker.width + 3, sticker.height + 3);
-    const covers = others.map(n => n.shape === 'line' ? lineBox(n) : box(n, n.width + 3, n.height + 3));
+    const covers = others.map(n => n.shape === 'line' ? lineBox(n) : box(n, n.width + outlinePad(n), n.height + outlinePad(n)));
     const ratio = coveredFraction(footprint, covers);
     if (ratio > notebook.maxStickerOverlap + EPS) fail('sticker-overlap', [sticker.id, ...others.filter((_,i) => polygonsOverlap(footprint,covers[i])).map(n=>n.id)], `${(ratio*100).toFixed(2)}% exceeds ${(notebook.maxStickerOverlap*100).toFixed(2)}% of sticker footprint (union area)`);
   }
@@ -74,7 +75,7 @@ export function assertDiagramLayout(states: State[], progress: number, notebook?
       if (!label.label || other.shape === 'text') continue;
       if (other.shape === 'line') {
         if (polygonsOverlap(labelBox(label, .25), lineBox(other))) fail('line-text', [other.id, label.id], 'line enters label protection region');
-      } else if (other.fill === 'white' || other.fill === 'gray') {
+      } else if (other.fill === 'white' || other.fill === 'gray' || (notebook && other.role === 'sticker')) {
         if (polygonsOverlap(labelBox(label, notebook && other.role === 'sticker' ? .25 : 0), box(other, other.width, other.height))) fail('text-object', [label.id, other.id], 'another filled object covers label space');
       }
     }

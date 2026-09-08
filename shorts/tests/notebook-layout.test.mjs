@@ -24,9 +24,9 @@ test('only opted-in stickers can overlap a line; ordinary line-object checks sta
 });
 test('threshold boundary includes stroke; each sticker and union are checked',()=>{
   const sticker=node('sticker',{role:'sticker'});
-  // Footprints are 103 wide: displacement 82.4 gives exactly 20% overlap.
-  assert.doesNotThrow(()=>assertDiagramLayout([sticker,node('edge',{x:382.4})],.5,policy));
-  assert.throws(()=>assertDiagramLayout([sticker,node('edge',{x:382.3})],.5,policy),/sticker-overlap.*20/);
+  // Sticker footprint 103, textured outline footprint 105: displacement 83.4 gives 20%.
+  assert.doesNotThrow(()=>assertDiagramLayout([sticker,node('edge',{x:383.4})],.5,policy));
+  assert.throws(()=>assertDiagramLayout([sticker,node('edge',{x:383.3})],.5,policy),/sticker-overlap.*20/);
   assert.throws(()=>assertDiagramLayout([sticker,node('left',{x:210}),node('right',{x:390})],.5,policy),/sticker-overlap/);
   assert.throws(()=>assertDiagramLayout([node('large',{width:250}),node('tiny',{role:'sticker',width:20})],.5,policy),/100.00%/);
 });
@@ -36,6 +36,7 @@ test('motion, hidden states and text protections are not bypassed by the theme',
   assert.throws(()=>assertDiagramLayout([sticker,{...edge,scale:1.4}],.5,policy),/sticker-overlap/);
   assert.throws(()=>assertDiagramLayout([{...sticker,label:'기록'},node('line',{shape:'line',width:180,height:1,fill:'none'})],.5,policy),/line-text/);
   assert.throws(()=>assertDiagramLayout([sticker,node('text',{shape:'text',fill:'none',label:'받침'})],.5,policy),/text-object/);
+  assert.throws(()=>assertDiagramLayout([{...sticker,fill:'none',stickerAsset:'check'},node('text',{shape:'text',fill:'none',label:'받침'})],.5,policy),/text-object/);
   assert.throws(()=>assertDiagramLayout([{...sticker,x:50,rotation:45}],.5,policy),/safe-area/);
 });
 test('doodle shape is deterministic and remains within the declared footprint',()=>{
