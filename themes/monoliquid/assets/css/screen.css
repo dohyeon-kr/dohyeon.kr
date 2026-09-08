@@ -1534,3 +1534,7 @@ iframe[src*="announcement-bar"] {
   .featured-carousel__progress { width: 36px; }
   .featured-carousel__toolbar h2 { font-size: 16px; }
 }
+
+
+.featured-carousel__toolbar h2 small { display: inline-block; margin-left: 8px; font-family: var(--font-sans); font-size: 12px; font-weight: 600; }
+.featured-carousel__status { margin: 0; padding: 28px 16px; color: var(--color-muted); font-size: 14px; }

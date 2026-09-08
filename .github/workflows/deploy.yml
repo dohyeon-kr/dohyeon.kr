@@ -75,6 +75,19 @@ jobs:
           [[ "${deploy_sha}" =~ ^[0-9a-f]{40}$ ]]
           printf 'sha=%s\n' "${deploy_sha}" >> "${GITHUB_OUTPUT}"
 
+  verify-public-site:
+    runs-on: ubuntu-latest
+    needs: deploy
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout deployed revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Verify public carousel and weekly ranking
+        run: python3 scripts/check-live-carousel.py
+
   deploy:
     runs-on: self-hosted
     needs: release
@@ -87,3 +100,4 @@ jobs:
         env:
           DEPLOY_SHA: ${{ needs.release.outputs.deploy_sha }}
         run: sudo /usr/local/sbin/deploy-ghost-blog "$DEPLOY_SHA"
+

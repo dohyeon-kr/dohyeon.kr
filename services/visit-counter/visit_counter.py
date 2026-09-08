@@ -352,6 +352,27 @@ class VisitStore:
                 "coverage": {"visitsSince": visits_since, "postDailySince": since},
                 "updatedAt": datetime.now(KST).isoformat(), "timezone": "Asia/Seoul"}
 
+    def featured_week(self, slugs: object, now: datetime | None = None) -> dict:
+        # Candidates come from Ghost's published-post template, never lifetime totals.
+        if (not isinstance(slugs, list) or len(slugs) > 1000
+                or any(not isinstance(slug, str) or not self.valid_slug(slug) for slug in slugs)):
+            raise ValueError("invalid candidates")
+        end = date.fromisoformat(self._day(now))
+        start = end - timedelta(days=6)
+        candidates = set(slugs)
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT slug, SUM(total) AS views FROM stats_post_daily "
+                "WHERE day BETWEEN ? AND ? GROUP BY slug HAVING SUM(total) > 0 "
+                "ORDER BY views DESC, slug ASC", (start.isoformat(), end.isoformat())
+            ).fetchall()
+            since = connection.execute(
+                "SELECT value FROM dashboard_meta WHERE key = 'post_daily_since'"
+            ).fetchone()[0]
+        posts = [{"slug": slug, "views": views} for slug, views in rows if slug in candidates][:3]
+        return {"posts": posts, "start": start.isoformat(), "end": end.isoformat(),
+                "timezone": "Asia/Seoul", "postDailySince": since}
+
     def admin_delete_comment(self, comment_id: str) -> bool:
         if not re.fullmatch(r"[0-9a-f]{32}", comment_id):
             raise ValueError("invalid comment")
@@ -725,6 +746,18 @@ class VisitHandler(BaseHTTPRequestHandler):
         self._send_json(404, {"error": "not_found"})
 
     def do_POST(self) -> None:  # noqa: N802
+        if self._path() == "/api/visit/featured":
+            if not self._valid_origin():
+                self._send_json(403, {"error": "invalid_origin"})
+                return
+            payload = self._read_json(limit=131072)
+            try:
+                result = self.server.store.featured_week(payload.get("slugs") if payload else None)
+            except ValueError:
+                self._send_json(400, {"error": "invalid_candidates"})
+                return
+            self._send_json(200, result)
+            return
         admin_comment_id = self._comment_admin_id()
         if admin_comment_id is not None:
             if not self._valid_origin() or not self._is_ghost_admin():
@@ -831,3 +864,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

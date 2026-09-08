@@ -24,17 +24,9 @@
                 </div>
             </div>
 
-            {{#is "home"}}
-                {{#get "posts" filter="featured:true" include="tags" limit="5"}}
-                    {{#if posts}}
-                        {{> "featured-carousel"}}
-                    {{else}}
-                        {{#get "posts" include="tags" limit="5"}}
-                            {{> "featured-carousel"}}
-                        {{/get}}
-                    {{/if}}
-                {{/get}}
-            {{/is}}
+            {{#unless pagination.prev}}
+                {{> "featured-carousel"}}
+            {{/unless}}
 
             {{#foreach posts to="5"}}
                 {{> "post-card"}}
@@ -48,3 +40,4 @@
 
     {{pagination}}
 </main>
+
