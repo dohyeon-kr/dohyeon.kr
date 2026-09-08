@@ -9,10 +9,21 @@ export function normalizeWordTiming(input: unknown, duration: number) {
   if (!Number.isFinite(duration) || duration <= 0) throw new Error('Invalid audio duration');
   const words: TimedWord[] = [];
   const corrections: {index: number; from: TimedWord; to: TimedWord}[] = [];
+  const omitted: {index: number; word: TimedWord; reason: 'zero-duration'}[] = [];
+  let previousStart = -Infinity;
   for (const [index, item] of input.entries()) {
     const fail = (reason: string): never => {throw new Error(`Word ${index}: ${reason}; start=${item?.start}, end=${item?.end}, duration=${duration}`);};
     if (!item || typeof item.word !== 'string' || !Number.isFinite(item.start) || !Number.isFinite(item.end)) fail('invalid timestamp');
-    if (item.end <= item.start) fail('zero or reversed duration');
+    if (item.end < item.start) fail('reversed duration');
+    if (item.start < previousStart) fail('out-of-order word');
+    previousStart = item.start;
+    if (item.end === item.start) {
+      if (item.start < 0 || item.end > duration) fail('zero-duration word outside audio');
+      // No measured interval means no defensible viseme. Keep the spoken
+      // audio and caption intact; omit only this token from animation input.
+      omitted.push({index, word:{word:item.word,start:item.start,end:item.end}, reason:'zero-duration'});
+      continue;
+    }
     const previous = words.at(-1);
     if (previous && item.start < previous.start) fail('out-of-order word');
     const start = Math.max(0, previous?.end ?? 0, item.start);
@@ -23,7 +34,8 @@ export function normalizeWordTiming(input: unknown, duration: number) {
     if (start !== item.start || end !== item.end) corrections.push({index, from:{word:item.word,start:item.start,end:item.end}, to:word});
     words.push(word);
   }
-  return {words, corrections};
+  if (!words.length) throw new Error('No positive-duration speech word timestamps');
+  return {words, corrections, omitted};
 }
 const vowels: MouthShape[] = ['A','A','A','A','A','A','A','A','O','A','A','I','O','O','A','A','I','O','I','I','I'];
 // Word boundaries come from the final audio. Syllable/viseme timing inside each
