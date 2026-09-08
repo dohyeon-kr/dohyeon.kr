@@ -1,3 +1,4 @@
+import {NotebookTexture} from './visuals/NotebookTexture';
 import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
 import {validatePresenterOverlay} from './presenter/overlay';
 import {NotebookScene} from './NotebookScene';
@@ -393,6 +394,7 @@ export const DarkShortVideo: React.FC<RenderManifest> = ({source, scenes, presen
         );
       })}
       {presenterOverlay != null && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
+      <NotebookTexture scenes={scenes} framesForScene={sceneFrames}/>
     </AbsoluteFill>
     </PresenterOverlayContext.Provider>
   );

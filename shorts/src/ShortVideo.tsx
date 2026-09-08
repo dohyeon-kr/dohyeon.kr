@@ -1,3 +1,4 @@
+import {NotebookTexture} from './visuals/NotebookTexture';
 import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
 import {validatePresenterOverlay} from './presenter/overlay';
 import {useContext} from 'react';
@@ -282,6 +283,7 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes, presenterO
         );
       })}
       {presenterOverlay != null && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
+      <NotebookTexture scenes={scenes} framesForScene={sceneFrames}/>
     </AbsoluteFill>
     </PresenterOverlayContext.Provider>
   );

@@ -478,3 +478,7 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 
 검수 composition: NotebookPreview, NotebookCanvasPreview, NotebookPresenterPreview.
 NotebookPreview는 무음 레이아웃/동작 예제다. 실제 렌더에서 폰트 로딩, 스티커, 질감과 중간 프레임을 확인한다.
+
+노트 장면은 좌측 상단에 짧은 주제 제목을 필기체와 파란 테이프로 표시한다. headline에는 주제만 간결하게 쓴다.
+자막 각 줄 아래에는 받침과 간격을 둔 얇은 파란 공책 선을 둔다. 46px 글씨와 최대 두 줄을 유지하며 줄 높이는 82px다.
+ambientCG Paper001(CC0)을 전체 화면 위에 고정된 soft-light 20%로 합성한다. 발표자에도 같은 종이 질감이 적용된다. 공통 CTA와 다른 테마는 제외한다.
