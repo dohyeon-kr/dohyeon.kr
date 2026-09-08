@@ -57,7 +57,7 @@ export function selectDiagramEngine(spec: DiagramSpec): 'remotion' | 'motion-can
 // Both backends receive the same checked geometry, including every rendered frame.
 export function evaluatedDiagramState(spec: DiagramSpec, progress: number) {
   const states = resolveConnectors(rawDiagramState(spec, progress));
-  assertDiagramLayout(states, progress);
+  assertDiagramLayout(states, progress, spec.notebook);
   return states;
 }
 export function validateDiagramLayout(spec: DiagramSpec) {

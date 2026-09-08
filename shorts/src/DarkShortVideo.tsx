@@ -1,5 +1,7 @@
+import {NotebookTexture} from './visuals/NotebookTexture';
 import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
 import {validatePresenterOverlay} from './presenter/overlay';
+import {NotebookScene} from './NotebookScene';
 import {useContext} from 'react';
 import {BlogCta} from './BlogCta';
 import {PresenterScene} from './presenter/PresenterScene';
@@ -283,6 +285,7 @@ const SceneFrame: React.FC<{
   const layout = fallbackLayout(scene);
   const visual = fallbackVisual(scene);
   if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
+  if (scene.diagramSpec?.notebook) return <NotebookScene scene={scene} layer={layer} durationInFrames={durationInFrames}/>;
   if (scene.presenter != null) return <PresenterScene scene={scene} layer={layer} durationInFrames={durationInFrames} />;
 
   const fullBleed = layout === 'photo-full-bleed' && Boolean(scene.imagePath);
@@ -391,6 +394,7 @@ export const DarkShortVideo: React.FC<RenderManifest> = ({source, scenes, presen
         );
       })}
       {presenterOverlay != null && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
+      <NotebookTexture scenes={scenes} framesForScene={sceneFrames}/>
     </AbsoluteFill>
     </PresenterOverlayContext.Provider>
   );
