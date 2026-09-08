@@ -15,7 +15,7 @@ export const NotebookScene: React.FC<{scene:RenderScene; layer:SceneLayer; durat
   const presenter=useContext(PresenterOverlayContext);
   useLayoutCheck(root,frame);
   const cue=subtitleAt(scene,frame/fps), width=presenter?590:800;
-  const keyword=cue && 'keyword' in cue?cue.keyword:null;
+  const keyword=cue && 'keyword' in cue && typeof cue.keyword==='string'?cue.keyword:null;
   const highlightProgress=cue?Math.max(0,Math.min(1,(frame-cue.startSeconds*fps-2)/8)):0;
   const copy=cue ? fitCopy(cue.text,width,138,46,1.5) : null;
   if (copy && (copy.fontSize!==46 || copy.text.split('\n').length>2)) throw new Error('[layout:notebook-caption] shorten the semantic beat; keep 46px and at most two lines');
