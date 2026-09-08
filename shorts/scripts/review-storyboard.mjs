@@ -30,9 +30,7 @@ export async function resolveManifest(name) {
 }
 export function validateRevision(candidate, {deferDiagramValidation = false} = {}) {
   const sceneCount = candidate.scenes.length;
-  const standard = sceneCount >= 6 && sceneCount <= 9;
-  const extended = sceneCount >= 18 && sceneCount <= 21;
-  if (!standard && !extended) throw new Error(`Expected 6–9 or 18–21 scenes; received ${sceneCount}`);
+  if (!sceneCount) throw new Error('Expected at least one body scene');
   const compact = value => value.replace(/[\s\p{P}\p{S}]/gu, '');
   for (const [i, scene] of candidate.scenes.entries()) {
     validateScenePresenter({...scene,presenter:GeneratedPresenterSchema.safeParse(scene.presenter).success ? normalizeGeneratedPresenter(scene.presenter) : scene.presenter});

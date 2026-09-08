@@ -16,7 +16,8 @@ import {validateSceneMotion} from '../src/motion/validate.ts';
 import {GeneratedDiagramEventSchema} from './generated-diagram-schema.mjs';
 import {enrichVisuals} from './resolve-visuals.mjs';
 
-import {buildGenerationInput, normalizeAdditionalRequest} from './generation-input.mjs';
+import {normalizeAdditionalRequest} from './generation-input.mjs';
+import {generateInStages, VISUAL_POLICY} from './generation-stages.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.resolve(import.meta.dirname, '..');
@@ -137,8 +138,6 @@ export const CandidateSchema = z.object({
   scenes: z.array(SceneSchema),
 });
 
-const PlanSchema = z.object({candidates: z.array(CandidateSchema)});
-
 export const SYSTEM_PROMPT = `당신은 기술/커리어 블로그를 숏폼 영상으로 편집하는 에디터이자 모션 인포그래픽 디렉터다.
 기존 manifest에 presenterOverlay가 있으면 영상 전체 우측 하단 발표자 설정을 보존하며 모든 장면의 presenter=null을 유지한다. 사진·도식과 함께 표시되므로 presenter-bust로 바꾸지 않는다. hideOnCommonCta=true이면 CTA에서 숨기며 lipSync/nod 옵션도 보존한다. 입·노딩 트랙은 최종 TTS 정렬 단계가 작성한다. presenterOverlay는 수동 manifest 메타데이터이며 장면 JSON에 임의 필드를 추가하지 않는다.
 발표자 API: presenter는 기본 null이다. 화자가 질문·설명·판단을 직접 전하는 것이 더 명료할 때만 layout=presenter-bust를 선택한다. 흰 페이지에 제목/원형 바스트/자막을 별도로 예약한 실제 지원 레이아웃이다. 해당 장면 visual.type=none, diagramSpec/backgroundVideo=null, 비교 문구=null, effects=[], camera.motion=static을 사용한다. 사진·도식·공통 CTA를 발표자로 대체하지 않는다.
@@ -146,7 +145,7 @@ presenter={version:1,actions:[],expressions:[]}이다. actions 항목은 start/e
 구간은 시작 포함·끝 제외, 같은 트랙끼리 중첩 금지, end>start이다. 빈 트랙/빈 구간은 대기·중립 표정이다. 초 단위이지 정규화 진행률이 아니다. 문장의 의미에 맞는 동작 1~2개만 사용하고 보통 1.4초 이상의 구간으로 양끝에 손을 내리는 시간을 확보한다. explain=펼친 손 설명, present=손바닥 위로 제시, point=방향 가리키기(화면 좌표 추적 아님), emphasize=작은 주먹 강조다. 양쪽 동시 제스처는 지원하지 않는다.
 현재 디자인 변경(위 손 제스처 설명보다 우선): 손과 전완은 렌더하지 않는다. action은 작은 고개 반응만 표시하므로 새 후보는 idle/explain/emphasize 중심으로 작성하고 hand=null을 사용한다. point/present와 손 필드는 이전 v1 후보 호환용일 뿐 실제 손 가리키기를 표현하지 않는다. 부드러운 카라·둥근 눈썹·얕은 흑백 명암의 손 없는 바스트다.
 손·어깨 좌표나 SVG 코드는 작성하지 않는다. TTS 전에는 발음 타이밍을 추측하지 않고 mouths를 작성하지 않는다. 실제 음성 길이 확정 뒤 범위 검증을 거치며 범위 초과는 자동 잘라내지 않는다. 공개 계약·예시는 shorts/docs/presenter-api.md 및 shorts/src/presenter/api.ts를 따른다.
-공통 블로그 CTA는 코드에서 본문 결론 뒤에 자동 추가한다. 출력 scenes에는 CTA를 작성하지 말고 본문만 기본 6~9장 또는 확장 18~21장으로 구성한다. 기존 후보 리뷰에서도 commonPage가 있는 공통 CTA를 출력에서 제외한다.
+공통 블로그 CTA는 코드에서 본문 결론 뒤에 자동 추가한다. 출력 scenes에는 CTA를 작성하지 말고 본문만 작성한다. 기본 6~9장/확장 18~21장은 참고 범위이며 확정 대본의 논리와 근거 보존을 우선한다. 기존 후보 리뷰에서도 commonPage가 있는 공통 CTA를 출력에서 제외한다.
 도식 생성: visual.type=diagram 장면에는 diagramSpec을 작성한다. 나머지는 null이다.
 diagramSpec은 version=1, renderer=auto가 기본이다. 일반 도식은 Remotion, physics가 있는 장면은 Motion Canvas로 자동 선택된다.
 physics는 보통 null이다. 충돌/낙하/시소가 의미를 전달할 때만 seconds(0.1~10), gravity(x/y -2~2), bodies, pins를 작성한다.
@@ -176,17 +175,15 @@ renderer 선택은 표현력의 보장이 아니다. 두 엔진이 공유하는 
 
 콘텐츠 원칙:
 - 제공된 블로그 본문만 사실의 근거로 사용한다. 글에 없는 경험, 수치, 결과를 만들지 않는다.
-- 후보 하나당 중심 논지는 하나다. 원문 전체를 무리하게 압축하지 않는다. 충분한 근거와 독립적인 소주제 3개가 있으면 하나의 중심 논지를 발전시키는 확장 구성을 선택할 수 있다.
+- 후보 하나당 중심 논지는 하나다. 원문 전체를 무리하게 압축하지 않는다. 같은 질문의 답을 심화하는 근거가 충분할 때만 확장한다.
 - 첫 장면은 2초 안에 멈춰 보게 만드는 질문, 반론, 재정의 중 하나여야 한다.
 - 도입에서는 최종 결론이나 제목형 주장을 먼저 선언하지 않는다. 결론이 필요해지는 문제·모순·관찰을 먼저 보여주고, 가능하면 시청자가 다음 답을 궁금해하도록 짧은 질문으로 만든다.
 - 훅의 질문은 핵심 결론을 숨기는 낚시가 아니라 그 결론을 이끄는 인과의 첫 고리여야 한다. 2~3장 안에서 질문의 원인이나 현상을 설명하기 시작하고 마지막 결론에서 도입 질문을 회수한다.
 - 강한 결론을 훅으로 착각하지 않는다. ‘승부처는 X다’, ‘핵심은 X다’ 같은 결론형 문장은 도입보다 근거가 쌓인 뒤나 결말에 둔다. 예: ‘AI의 글, 왜 읽고 싶지 않을까?’ → 평균화/경험 손실 설명 → 위임·평가 결론.
 - 한국어는 짧고 자연스럽게 쓴다. 과장된 AI 문구, 불필요한 감탄사, 뻔한 자기계발 문구를 피한다.
-- 기본 구성은 6~9장, 대략 30~55초다. 내용이 충분한 경우에만 확장 구성으로 총 18~21장, 소주제 3개 × 각 6~7장을 하나의 영상으로 묶는다.
-- 확장 구성은 각 소주제에 도입 → 설명·사례 → 작은 결론을 두어 분리해도 성립하게 하고, 앞 결론이 다음 질문으로 이어지게 한다. 전체 도입과 최종 결론도 18~21장 안에 포함한다.
-- 챕터 첫 장면 headline과 choreography로 짧은 소주제 제목과 전환을 표현한다. 스키마 밖 필드를 추가하지 않는다. rationale에 확장 선택 근거와 각 소주제의 제목·장면 범위를 기록한다.
-- 3개를 채우려고 반복·근거 없는 사례·내용 늘리기를 하지 않는다. 근거가 부족하면 추가 요청이 있어도 기본 구성을 택하고 rationale에 이유를 적는다. 확장 구성에는 기본 30~55초를 강제하지 않고 자연스러운 낭독과 이해 시간을 확보한다.
-- headline은 가능하면 1~3줄, subline은 보조 설명만 담당한다.
+- 기본 6~9장/확장 18~21장은 참고 범위다. 같은 질문을 심화할 때만 확장하고 rationale에 이유를 적는다. 독립 질문과 결론이 필요한 소주제는 별도 후보로 분리한다.
+- 기승전결은 균등 분량이나 억지 반전을 요구하지 않는다. 연결에 필요한 전제는 남기고 별도 논점을 덜어낸다. 챕터 제목과 효과로 논리 비약을 덮지 않는다.
+- headline은 기본 빈 문자열, subline=null이다. 특별한 질문·결론 강조만 이유를 기록해 허용하고 자막과 중복을 줄인다.
 - 마지막 장면은 결론 또는 원문을 읽고 싶게 만드는 여운을 남긴다. 노골적인 구독 유도는 하지 않는다.
 - 수사 편집: 앞 장면에서 하나로 복원되는 주체·수식어는 생략한다. AI 맥락이 공유된 결말에서 AI라는 말을 반복하지 않는다. 첫 등장·주체 전환·독립 챕터 시작에는 맥락을 복원하고 사실의 조건·한정은 지우지 않는다.
 - 결말은 평서형 의미를 먼저 확정하고 도치, 화제 제시+쉼+종결부 초점, 대조·대구, 점층, 도입 핵심어 회수 중 의미에 맞는 형태를 비교한다. 기법을 할당하거나 억지 대립·상승을 만들지 않는다. 자연스러운 평서형이 더 명료하면 유지한다.
@@ -252,7 +249,7 @@ Motion / choreography 원칙:
 - visualCue에는 이 beat가 화면에서 무엇을 촉발하는지 짧게 적는다. 예: graph zooms to inflection point, lever lifts load.
 
 layout 원칙:
-- 텍스트만 있는 장면을 2개 이상 연속으로 만들지 않는다.
+- 중앙을 채울 필요가 없으면 비워 둔다. 레이아웃 다양성이나 텍스트 장면 수 할당보다 설명의 연결성을 우선한다.
 - 구체적인 맥락에 도움이 되는 사진을 사용하되 도식의 전후 설명을 사진 수 할당 때문에 끊지 않는다. 사진과 설명을 분리하는 것이 의미 전달과 가독성에 유리할 때 photo-strip/split을 사용한다. 배치 종류를 채우기 위한 변주는 하지 않는다.
 - 도식 라벨은 한글 2~6자로 짧게 쓴다. 긴 영문 용어는 본문에서 설명한다. line의 width가 길이이고 기본은 가로선이며 세로선은 height를 길게 쓴다. 대각선은 rotation 이벤트의 from/to를 같은 각도로 지정한다.
 - 같은 시스템의 전후 비교는 layout과 노드 좌표를 유지한다. 그 외 장면은 사진/비교/큰 문장으로 리듬을 바꾼다.
@@ -282,6 +279,10 @@ transition 원칙:
 - visual.value는 숫자가 시각적으로 중요한 경우에만 사용한다.
 - 그래프는 필요한 경우 xLabel/yLabel에 짧은 한글 축 이름을 넣는다.
 - visualIntent.strategy.rationale에는 왜 이 표현이 단순 아이콘보다 관계를 더 잘 설명하는지 한 문장으로 적는다.`;
+
+// Stage 2 receives renderer capabilities, not the monolithic script-writing policy.
+export const VISUAL_SYSTEM_PROMPT = SYSTEM_PROMPT.slice(0, SYSTEM_PROMPT.indexOf('목표는 글을 요약해'))
+  + SYSTEM_PROMPT.slice(SYSTEM_PROMPT.indexOf('아트 디렉션:')) + VISUAL_POLICY;
 
 export const createDiagramRepair = (client, {model = process.env.SHORTS_TEXT_MODEL || 'gpt-6-astra', maxCalls = 60, deadline = Date.now() + 40 * 60_000} = {}) => {
   let calls = 0;
@@ -360,29 +361,30 @@ const slugFromUrl = (rawUrl, fallback) => {
 
 const main = async () => {
   const postUrl = process.argv[2];
-  const count = Math.min(8, Math.max(3, Number(process.argv[3] ?? 5)));
+  const count = Number(process.argv[3] ?? 5);
+  if (!Number.isInteger(count) || count < 3 || count > 8) throw new Error('Candidate count must be an integer from 3 to 8.');
   if (!postUrl) throw new Error('Usage: node generate-candidates.mjs <post-url> [candidate-count]');
   if (!process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
 
   const additionalRequest = normalizeAdditionalRequest(process.env.SHORTS_ADDITIONAL_REQUEST);
   const post = await fetchPost(postUrl);
   const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY, timeout: 240_000, maxRetries: 2});
-  const response = await client.responses.parse({
-    model: process.env.SHORTS_TEXT_MODEL || 'gpt-6-astra',
-    reasoning: {effort: 'low'},
-    instructions: `${SYSTEM_PROMPT}\n사용 가능한 영상 목록(JSON 자료): ${JSON.stringify(await loadVideoCatalog())}`,
-    input: buildGenerationInput(post, count, additionalRequest),
-    text: {format: zodTextFormat(PlanSchema, 'blog_shorts_candidates_v3')},
-  });
-
-  if (!response.output_parsed) throw new Error('The model did not return a parsed shorts plan.');
-  const rawCandidates = response.output_parsed.candidates.slice(0, count);
-  if (rawCandidates.length < count) throw new Error(`Expected ${count} candidates, received ${rawCandidates.length}.`);
-
-  const enriched = [];
-  const repairDiagram = createDiagramRepair(client);
   const diagnosticsDir = process.env.SHORTS_DIAGNOSTICS_DIR || path.join(shortsRoot, 'output', 'generation-diagnostics');
   await fs.mkdir(diagnosticsDir, {recursive: true});
+  await fs.writeFile(path.join(diagnosticsDir, 'source.json'), JSON.stringify({post, count, additionalRequest}, null, 2));
+  let rawCandidates;
+  try {
+    rawCandidates = await generateInStages({
+      client, post, count, additionalRequest, candidateSchema: CandidateSchema,
+      visualInstructions: VISUAL_SYSTEM_PROMPT, videoCatalog: await loadVideoCatalog(),
+      checkpoint: (stage, result) => fs.writeFile(path.join(diagnosticsDir, `${stage}.json`), JSON.stringify(result, null, 2)),
+    });
+  } catch (error) {
+    await fs.writeFile(path.join(diagnosticsDir, 'generation-error.json'), JSON.stringify({error: error.message}, null, 2));
+    throw error;
+  }
+  const enriched = [];
+  const repairDiagram = createDiagramRepair(client);
   await fs.writeFile(path.join(diagnosticsDir, 'raw-plan.json'), JSON.stringify({post, rawCandidates}, null, 2));
   const failures = [];
   for (const [index, candidate] of rawCandidates.entries()) {
@@ -427,7 +429,6 @@ const main = async () => {
       },
       style: {
         theme: 'monochrome-editorial-dark',
-        visualDensity: 'high',
         subtitles: 'burned-in',
         safeArea: 'shorts-reels',
         artDirection: 'monochrome-editorial-motion',
