@@ -10,7 +10,7 @@
 | 장면 생성 | gpt-5.6-sol / low | 분석 JSON을 받아 원문자 대본을 보존하며 장면·자막 분할, 사진·도식·모션 구성 |
 | 리뷰·수정 | gpt-6-astra / low | 원문 + 분석 + 장면 JSON을 검토하고 필요한 수정만 직접 수행. 문제 위치·이유·수정 내용·해결 여부와 최종 후보 반환 |
 
-모델은 `generation-stages.mjs`의 STAGE_MODELS로 고정한다. 공유 `SHORTS_TEXT_MODEL`이 세 단계를 같은 모델로 덮어쓰지 않는다. 해당 변수는 기존 도식 오류 복구에 계속 적용된다. 정상 편집 경로는 총 3회 호출이며 SDK의 전송 재시도와 기존 도식 복구 호출은 별도다. 새 편집 왕복 루프는 추가하지 않는다.
+모델은 `generation-stages.mjs`의 STAGE_MODELS로 고정한다. 공유 `SHORTS_TEXT_MODEL`이 세 단계를 같은 모델로 덮어쓰지 않는다. 해당 변수는 기존 도식 오류 복구에 계속 적용된다. 리뷰는 후보별로 순차 호출한다. 매 요청에 전체 원문·분석과 검토 대상 후보 하나의 장면 JSON을 전달해 한 응답의 출력량을 줄인다. 정상 편집 경로는 분석 1회 + 장면 생성 1회 + 후보 수만큼의 리뷰 호출이며 SDK의 전송 재시도와 기존 도식 복구 호출은 별도다. 새 편집 왕복 루프는 추가하지 않는다.
 
 ## 매체별 역할과 지침 배분
 
@@ -41,4 +41,4 @@
 
 `scope=json-only`: 실제 가독성·겹침·TTS 길이·자막 노출·움직임 경쟁·이미지 확보를 확인 완료로 판정하지 않는다. 실제 매체 확보는 리뷰 후 기존 enrichVisuals에서 처리한다.
 
-진단 경로에 source.json, analysis.json, visual.json, review.json 및 실패 시 오류 JSON을 저장한다. 기존 아티팩트 보존(14일)을 사용하며 shorts/content에 중간 결과를 발행하지 않는다. raw-plan.json은 이제 리뷰 후 최종 후보이고, 리뷰 이전 장면은 visual.json에 남는다. 자동 이어받기를 지원한다는 의미는 아니다.
+진단 경로에 source.json, analysis.json, visual.json, 후보별 review-1.json … review-N.json, 전체 통과 시 합친 review.json 및 실패 시 후보 번호가 포함된 오류 JSON을 저장한다. 기존 아티팩트 보존(14일)을 사용하며 shorts/content에 중간 결과를 발행하지 않는다. raw-plan.json은 이제 리뷰 후 최종 후보이고, 리뷰 이전 장면은 visual.json에 남는다. 자동 이어받기를 지원한다는 의미는 아니다.

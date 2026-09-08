@@ -14,22 +14,29 @@ function fixture() {
   const review = {scope: 'json-only', status: 'passed', blockingReasons: [], findings: [], candidates: structuredClone(visual.candidates)};
   return {analysis, visual, review};
 }
-function setup(f = fixture()) {
+function setup(f = fixture(), transformReview = value => value) {
   const calls = [], checkpoints = [];
-  const replies = [f.analysis, f.visual, f.review];
+  const replies = [f.analysis, f.visual, ...f.review.candidates.map(candidate => transformReview({...f.review, candidates: [candidate], findings: f.review.findings.filter(finding => finding.analysisId === candidate.analysisId)}))];
   const client = {responses: {parse: async request => {calls.push(request); return {output_parsed: replies.shift()};}}};
   return {calls, checkpoints, run: () => generateInStages({client, post, count: 3, candidateSchema, visualInstructions: 'Renderer capabilities only', videoCatalog: [], checkpoint: async (stage, result) => checkpoints.push({stage, result})})};
 }
-test('three JSON calls use Astra/Sol/Astra low and preserve candidate output contract', async () => {
+test('candidate reviews use Astra/Sol/Astra low and preserve candidate output contract', async () => {
   const s = setup(); const result = await s.run();
-  assert.deepEqual(s.calls.map(c => c.model), Object.values(STAGE_MODELS));
+  assert.deepEqual(s.calls.map(c => c.model), [STAGE_MODELS.analysis, STAGE_MODELS.visual, ...Array(3).fill(STAGE_MODELS.review)]);
   assert.ok(s.calls.every(c => c.reasoning.effort === 'low' && c.store === false));
   assert.equal(result.length, 3); assert.equal(result[0].analysisId, undefined);
-  assert.deepEqual(s.checkpoints.map(c => c.stage), ['analysis', 'visual', 'review']);
+  assert.deepEqual(s.checkpoints.map(c => c.stage), ['analysis', 'visual', 'review-1', 'review-2', 'review-3', 'review']);
   const second = JSON.parse(s.calls[1].input);
   assert.ok(second.analysis); assert.equal(second.sourceArticle, undefined);
   assert.doesNotMatch(s.calls[0].instructions, /Renderer capabilities/);
-  assert.ok(JSON.parse(s.calls[2].input).sourceArticle);
+  s.calls.slice(2).forEach((call, index) => {
+    const input = JSON.parse(call.input);
+    assert.deepEqual(input.sourceArticle, post);
+    assert.equal(input.analysis.candidates.length, 3);
+    assert.equal(input.generated.candidates.length, 1);
+    assert.equal(input.generated.candidates[0].analysisId, `c${index}`);
+  });
+  assert.deepEqual(s.checkpoints.at(-1).result.result.candidates.map(c => c.candidate), result);
 });
 test('missing source quote or evidence link stops before visual generation', async () => {
   for (const change of [f => f.analysis.evidence[0].quote = '조작한 인용', f => f.analysis.candidates[0].script[1].evidenceIds = ['missing']]) {
@@ -51,7 +58,7 @@ test('visual rewrite, subtitle loss, or candidate swap is rejected before review
 test('blocked review is checkpointed and never returned for publication', async () => {
   const f = fixture(); f.review.status = 'blocked'; f.review.blockingReasons = ['근거 부족'];
   const s = setup(f); await assert.rejects(s.run, /Review blocked: 근거 부족/);
-  assert.equal(s.checkpoints.at(-1).stage, 'review'); assert.equal(s.calls.length, 3);
+  assert.equal(s.checkpoints.at(-1).stage, 'review-1'); assert.equal(s.calls.length, 3);
 });
 test('review changes require a reason and synchronized subtitles', async () => {
   const f = fixture(); const scene = f.review.candidates[0].candidate.scenes[0];
@@ -68,4 +75,36 @@ test('refusal and malformed output stop and save diagnostic error', async () => 
     await assert.rejects(s.run, /analysis:/); assert.equal(s.calls.length, 1);
     assert.equal(s.checkpoints.at(-1).stage, 'analysis-error');
   }
+});
+
+test('later candidate timeout keeps completed review diagnostics and returns no partial result', async () => {
+  const f = fixture(); const checkpoints = [];
+  const replies = [f.analysis, f.visual, {...f.review, candidates: [f.review.candidates[0]]}];
+  let calls = 0;
+  const client = {responses: {parse: async () => {
+    calls++;
+    if (!replies.length) throw new Error('Request timed out.');
+    return {output_parsed: replies.shift()};
+  }}};
+  await assert.rejects(() => generateInStages({client, post, count: 3, candidateSchema, visualInstructions: '', videoCatalog: [], checkpoint: async (stage, result) => checkpoints.push({stage, result})}), /review-2: Request timed out/);
+  assert.equal(calls, 4);
+  assert.deepEqual(checkpoints.map(c => c.stage), ['analysis', 'visual', 'review-1', 'review-2-error']);
+  assert.equal(checkpoints[2].result.result.candidates[0].analysisId, 'c0');
+});
+
+test('review cannot return extra candidates, wrong identity, or a mismatched subtitle', async () => {
+  for (const change of [
+    f => f.review.candidates[0].analysisId = 'c1',
+    f => f.review.candidates[0].candidate.scenes[0].beats = [],
+    f => f.review.candidates.splice(0, 1),
+  ]) {
+    const f = fixture(); change(f);
+    await assert.rejects(setup(f).run, /identity\/order|Subtitle\/narration mismatch/);
+  }
+});
+
+test('single-candidate reviews reject extra output and findings for another candidate', async () => {
+  await assert.rejects(setup(fixture(), review => ({...review, candidates: [...review.candidates, ...review.candidates]})).run, /Stage changed candidate count/);
+  const finding = {analysisId: 'c1', location: 'scene 1', category: 'visual', problem: 'overlap', reason: 'readability', change: 'spacing', resolved: true};
+  await assert.rejects(setup(fixture(), review => ({...review, findings: [finding]})).run, /Review finding references unknown candidate/);
 });
