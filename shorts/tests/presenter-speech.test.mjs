@@ -27,11 +27,11 @@ test('invalid alignment retries once and retains both raw responses on failure o
    let calls=0;
    const client={audio:{transcriptions:{create:async request=>{request.file.destroy();calls++;return {text:'아',words:recover&&calls===2?[{word:'아',start:0,end:1}]:[{word:'아',start:0,end:0}]};}}}};
    const run=()=>alignPresenter({client,audioFile,reportFile,duration:1,narration:'아',options,scene:{}});
-   if(recover) await run(); else await assert.rejects(run,/Word 0: zero or reversed duration/);
+   if(recover) await run(); else await assert.rejects(run,/No positive-duration speech word timestamps/);
    assert.equal(calls,2);
    const report=JSON.parse(await fs.readFile(reportFile));
    assert.equal(report.attempts.length,2);assert.equal(report.attempts[0].words[0].end,0);
-   assert.match(report.attempts[0].error,/zero or reversed/);
+   assert.match(report.attempts[0].error,/No positive-duration/);
    assert.equal(Boolean(report.tracks),recover);
   }
  } finally {await fs.rm(dir,{recursive:true,force:true});}
@@ -85,5 +85,36 @@ test('alignment sends the final audio to word timestamp API and records provenan
   assert.equal(await alignPresenter({client,audioFile,duration:5,narration:'안내',options,scene:{commonPage:'blog-cta-v1'},reportFile}),null);
   assert.equal(calls,1);
   await assert.rejects(()=>alignPresenter({client,audioFile,duration:null,narration:'본문',options,scene:{},reportFile}),/measured final audio/);
+ } finally {await fs.rm(dir,{recursive:true,force:true});}
+});
+
+test('logged scene-06 zero-duration boundary retains adjacent measured speech',()=>{
+ const t=4.579999923706055;
+ const raw=[{word:'판단을',start:4,end:t},{word:'할',start:t,end:t},{word:'사람',start:t,end:5.1}];
+ const result=normalizeWordTiming(raw,6.432);
+ assert.deepEqual(result.words,[raw[0],raw[2]]);
+ assert.deepEqual(result.omitted,[{index:1,word:raw[1],reason:'zero-duration'}]);
+ assert.deepEqual(result.corrections,[]);
+ const tracks=wordsToPresenter(result.words,6.432,options);
+ assert.ok(tracks.mouths.length>0);
+ assert.ok(tracks.mouths.every(c=>c.end>c.start));
+ for(const raw of [
+  [{word:'아',start:0,end:1},{word:'이',start:2,end:1}],
+  [{word:'아',start:0,end:1},{word:'이',start:7,end:7}],
+  [{word:'아',start:0,end:1},{word:'이',start:2,end:2},{word:'우',start:1.5,end:3}],
+ ]) assert.throws(()=>normalizeWordTiming(raw,6.432));
+});
+test('mixed zero-duration response succeeds without repeating transcription',async()=>{
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'presenter-zero-'));
+ try {
+  const audioFile=path.join(dir,'audio.mp3'),reportFile=path.join(dir,'report.json');
+  await fs.writeFile(audioFile,'fixture');let calls=0;
+  const raw=[{word:'아',start:0,end:.5},{word:'이',start:.5,end:.5},{word:'우',start:.5,end:1}];
+  const client={audio:{transcriptions:{create:async request=>{request.file.destroy();calls++;return {text:'아 이 우',words:raw};}}}};
+  await alignPresenter({client,audioFile,reportFile,duration:1,narration:'아 이 우',options,scene:{}});
+  assert.equal(calls,1);
+  const report=JSON.parse(await fs.readFile(reportFile));
+  assert.deepEqual(report.attempts[0].words,raw);assert.equal(report.attempts[0].omitted.length,1);
+  assert.equal(report.words.length,2);assert.ok(report.tracks.mouths.length);
  } finally {await fs.rm(dir,{recursive:true,force:true});}
 });

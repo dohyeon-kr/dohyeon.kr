@@ -25,6 +25,8 @@ export async function alignPresenter({client, audioFile, duration, narration, op
   try {
     const normalized = normalizeWordTiming(result.words, duration);
     entry.corrections = normalized.corrections;
+    entry.omitted = normalized.omitted;
+    if (normalized.omitted.length) console.warn(`Presenter alignment for ${audioFile}: omitted ${normalized.omitted.length} zero-duration animation tokens; audio and captions unchanged`);
     tracks = wordsToPresenter(normalized.words, duration, options);
     Object.assign(report, {text:result.text, words:normalized.words, tracks});
   } catch (error) {
