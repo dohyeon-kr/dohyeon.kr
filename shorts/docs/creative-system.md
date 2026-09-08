@@ -493,3 +493,5 @@ ambientCG Paper001(CC0)을 전체 화면 위에 고정된 soft-light 20%로 합�
 `NotebookOpeningPreview`는 제목부터 본문, CTA까지 연결된 무음 예제다. 사진 출처와 라이선스는 preview manifest와 public/notebook/README.md에 기록한다.
 
 노트 자막은 beats.keyword 뒤에 papers.webp의 실제 highlighter 이미지를 50%로 합성한다. 글자 크기·위치는 고정하고 마커만 짧게 reveal한다. 핵심어는 한 줄에 들어가는 짧은 구절로 고르며 본문 전체를 칠하지 않는다. keyword가 없는 자막에는 임의의 강조어를 만들지 않는다.
+
+제목 오프닝에서 본문으로 넘어갈 때는 글자가 동시에 겹치지 않도록 dip-to-black을 사용한다. 명시적인 none 전환은 유지한다.
