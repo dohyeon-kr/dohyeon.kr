@@ -42,7 +42,7 @@ export function assertDiagramLayout(states: State[], progress: number, notebook?
     throw new Error(`[layout:${rule}] t=${progress.toFixed(6)} nodes=${ids.join(',')}: ${detail}`);
   };
   const visible = states.filter(n => n.opacity > 0);
-  const lineBox = (n: State) => strokeBox(n, notebook ? 5 : 3);
+  const lineBox = (n: State) => strokeBox(n, notebook ? 10 : 3);
   for (const n of visible) {
     if (![n.x, n.y, n.width, n.height, n.rotation, n.scale, n.opacity].every(Number.isFinite)) fail('finite', [n.id], 'non-finite geometry');
     if (n.role === 'sticker' && (!notebook || n.shape !== 'rect')) fail('sticker-policy', [n.id], 'stickers require error-notebook rect nodes');

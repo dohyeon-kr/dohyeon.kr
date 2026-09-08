@@ -466,13 +466,15 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 이 테마는 자막 고정 46px·최대 두 줄, 중앙 도식과 하단 자막 영역 분리를 적용한다.
 공통 CTA는 기존 검정/흰색 화면을 유지한다. 스케치에 전체 문장을 반복하지 않는다.
 
-`presenterOverlay.frame: "torn-paper-blue"`는 기존 발표자 바스트를 투명하게 합성한다.
-뒤쪽 구멍/그림자 → 얼굴·몸통 → 앞쪽 접힌 종이 순서다. 머리는 구멍 위로 나오고
-몸통 하단은 앞쪽 종이에 가려진다. 이 프레임 내부의 의도된 가림은 별도 합성으로
-관리하며 스티커 면적 예산을 적용하지 않는다. 발표자와 자막·주요 도식 간 간격 검사는
-그대로 유지한다. 기존 입·고개 트랙과 hideOnCommonCta 설정도 유지한다.
-외부 사진을 프레임으로 복제하지 않고 코드로 작성한 벡터를 사용한다.
+프레젠터는 기존 원형으로 표시한다. 과거 torn-paper-blue 값도 원형으로 렌더한다.
+도식 라벨은 눈누에서 확인한 나눔손글씨펜(Nanum Pen Script), 자막은 Pretendard다.
+실제 papers.webp/marks.webp 시트를 잘라 보여주는 sprite 방식으로 종이와 강조 요소를 합성한다.
+스티커는 role=sticker와 stickerAsset=paper/blue/tape/check/star/underline으로 선택한다.
+노트 테마에서 장면 의미와 연결되는 이미지 스티커 1~2개를 적극적으로 활용한다.
+라벨이 있는 스티커는 paper/blue를 사용하고 다른 마커 스티커는 빈 라벨을 사용한다.
+선은 고정 시드 경로의 흔들림과 5px 잉크 이미지 패턴을 함께 적용한다. 프레임마다 랜덤 노이즈를 재생성하지 않는다.
+선 검사는 경로 흔들림을 포함한 10px envelope로 강화한다. 텍스트 보호 영역은 유지한다.
+짧은 라벨과 메모에 필기체를 쓰고, 긴 정보는 기존 자막으로 분리한다.
 
-실행 가능한 검수용 composition: NotebookPreview, NotebookCanvasPreview,
-TornPaperPresenterPreview. NotebookPreview는 무음 레이아웃/동작 예제이며 완성 대본이나
-최종 TTS 영상이 아니다. 코드 검사, 스틸 검수, 실제 영상·음성 검수를 구분해서 보고한다.
+검수 composition: NotebookPreview, NotebookCanvasPreview, NotebookPresenterPreview.
+NotebookPreview는 무음 레이아웃/동작 예제다. 실제 렌더에서 폰트 로딩, 스티커, 질감과 중간 프레임을 확인한다.

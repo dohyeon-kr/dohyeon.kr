@@ -1,7 +1,6 @@
 import React, {createContext, useLayoutEffect, useMemo, useRef} from 'react';
 import {cancelRender, continueRender, delayRender, useCurrentFrame, useVideoConfig} from 'remotion';
 import {Presenter} from './Presenter';
-import {TornPaperPresenter} from './TornPaperPresenter';
 import {compilePresenter} from './api';
 import {PRESENTER_OVERLAY_BOX, overlayTimeline, overlayVisible, type PresenterOverlaySpec} from './overlay';
 import type {RenderScene} from '../types';
@@ -41,7 +40,7 @@ export const PersistentPresenter: React.FC<{scenes: RenderScene[]; options: Pres
     return () => {cancelled = true;};
   }, [frame, visible]);
   if (!visible) return null;
-  return <div ref={root} data-presenter-overlay="bottom-right" style={{position:'absolute', ...PRESENTER_OVERLAY_BOX, borderRadius:options.frame==='torn-paper-blue'?0:'50%', overflow:'hidden', zIndex:100, pointerEvents:'none'}}>
-    {options.frame==='torn-paper-blue' ? <TornPaperPresenter pose={pose}/> : <Presenter pose={pose} />}
+  return <div ref={root} data-presenter-overlay="bottom-right" style={{position:'absolute', ...PRESENTER_OVERLAY_BOX, borderRadius:'50%', overflow:'hidden', zIndex:100, pointerEvents:'none'}}>
+    <Presenter pose={pose} />
   </div>;
 };

@@ -213,6 +213,7 @@ jobs:
         working-directory: shorts
         run: |
           npm run typecheck
+          node scripts/prepare-notebook-assets.mjs
           node --test tests/notebook-*.test.mjs tests/layout-guard.test.mjs tests/presenter-overlay.test.mjs
           mkdir -p public/fonts "${RUNNER_TEMP}/notebook"
           cp ../scripts/thumbnail-fonts/Pretendard-Bold.woff ../scripts/thumbnail-fonts/Pretendard-Regular.woff public/fonts/
@@ -220,7 +221,7 @@ jobs:
             npx remotion still src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/frame-${frame}.png" --frame="$frame"
           done
           npx remotion still src/index.tsx NotebookCanvasPreview "${RUNNER_TEMP}/notebook/canvas.png" --frame=60
-          npx remotion still src/index.tsx TornPaperPresenterPreview "${RUNNER_TEMP}/notebook/presenter.png"
+          npx remotion still src/index.tsx NotebookPresenterPreview "${RUNNER_TEMP}/notebook/presenter.png"
           npx remotion render src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/notebook.mp4" --concurrency=2
       - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:

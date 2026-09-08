@@ -21,6 +21,7 @@ export const DiagramSpecSchema = z.object({
   nodes: z.array(z.object({
     id: z.string().regex(/^[a-z][a-z0-9-]*$/),
     role: z.enum(['sticker']).nullable().optional(),
+    stickerAsset: z.enum(['paper','blue','tape','check','star','underline']).nullable().optional(),
     shape: z.enum(['rect', 'circle', 'blob', 'line', 'text']),
     label: z.string().max(60),
     blob: z.object({seed: z.number().int().min(0).max(65535), amount: z.number().min(0).max(.45), points: z.number().int().min(12).max(64), frequency: z.number().min(.5).max(8)}).nullable().optional(),
@@ -55,6 +56,7 @@ export function validateDiagram(value: unknown): DiagramSpec {
     }
   }
   for (const node of spec.nodes) {
+    if (node.stickerAsset && node.role !== 'sticker') throw new Error('Sticker asset requires sticker role');
     if (node.role === 'sticker' && (!spec.notebook || node.shape !== 'rect')) throw new Error('Sticker role requires error-notebook and a rect node');
     if (node.shape === 'blob' && !node.blob) throw new Error('Blob nodes require blob settings');
     if (node.shape !== 'blob' && node.blob) throw new Error('Blob settings are only valid for blob nodes');

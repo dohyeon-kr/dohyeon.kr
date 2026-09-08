@@ -11,17 +11,17 @@ const noise = (id: string, i: number) => {
 export function sketchPoints(node: Node): SketchPoint[] {
   const {width:w,height:h,id}=node;
   if (node.shape==='line') return Array.from({length:17},(_,i)=> {
-    const along=i/16-.5, offset=i===0||i===16 ? 0 : (noise(id,i)-.5)*2;
+    const along=i/16-.5, offset=i===0||i===16 ? 0 : (noise(id,i)-.5)*5;
     return h>w ? [offset,along*h] : [along*w,offset];
   });
   if (node.shape==='circle') return Array.from({length:64},(_,i)=> {
-    const a=i/64*Math.PI*2, inset=noise(id,i)*1.2;
+    const a=i/64*Math.PI*2, inset=noise(id,i)*4;
     return [Math.cos(a)*Math.max(0,w/2-inset),Math.sin(a)*Math.max(0,h/2-inset)];
   });
   if (node.shape!=='rect') return [];
   return Array.from({length:48},(_,i)=> {
     const side=Math.floor(i/12), t=(i%12)/12;
-    const inset=i%12===0 ? 0 : noise(id,i)*(node.role==='sticker'?1.4:1.1);
+    const inset=i%12===0 ? 0 : noise(id,i)*(node.role==='sticker'?3.8:3.2);
     return side===0 ? [-w/2+t*w,-h/2+inset] : side===1 ? [w/2-inset,-h/2+t*h] : side===2 ? [w/2-t*w,h/2-inset] : [-w/2+inset,h/2-t*h];
   });
 }

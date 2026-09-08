@@ -12,7 +12,7 @@ import {DiagramRenderer} from './visuals/DiagramRenderer';
 import {physicsExample} from './visuals/physics-example';
 import type {DiagramSpec} from './visuals/diagram-spec';
 import {notebookPreviewProps, notebookDiagrams} from './notebook-preview';
-import {TornPaperPresenter} from './presenter/TornPaperPresenter';
+import {Presenter as CirclePresenter} from './presenter/Presenter';
 
 const diagramExample: DiagramSpec = {
   version: 1, renderer: 'remotion', description: '입력이 관문 앞에 모이는 개념도',
@@ -95,7 +95,7 @@ export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="NotebookPreview" component={ShortVideo} durationInFrames={previewDuration(notebookPreviewProps)} fps={30} width={1080} height={1920} defaultProps={notebookPreviewProps}/>
     <Composition id="NotebookCanvasPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec:{...notebookDiagrams[0],renderer:'motion-canvas' as const},durationInFrames:120,strict:true}}/>
-    <Composition id="TornPaperPresenterPreview" component={TornPaperPresenter} durationInFrames={1} fps={30} width={600} height={600}/>
+    <Composition id="NotebookPresenterPreview" component={CirclePresenter} durationInFrames={1} fps={30} width={600} height={600}/>
     <Composition id="PresenterRigPreview" component={PresenterPreview} durationInFrames={360} fps={30} width={800} height={800} />
     <Composition id="PresenterCases" component={PresenterGallery} durationInFrames={1} fps={30} width={1500} height={740} />
     <Composition id="PresenterCandidatePreview" component={ShortVideo} durationInFrames={previewDuration(presenterCandidatePreview)} fps={30} width={1080} height={1920} defaultProps={presenterCandidatePreview} />
