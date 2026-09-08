@@ -38,9 +38,9 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
     <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;}`}</style>
     {layer !== 'labels' && <>
       {spec.notebook && <NotebookPaper />}
-      <EngineBoundary key={JSON.stringify(spec)} engine={engine} strict={strict}>
+      <div style={{position: 'relative', width: '100%', height: '100%'}}><EngineBoundary key={JSON.stringify(spec)} engine={engine} strict={strict}>
         {(selected) => <EngineSurface {...rest} spec={geometrySpec} engine={selected} failEngine={failEngine} />}
-      </EngineBoundary>
+      </EngineBoundary></div>
       {(rest.effects ?? []).filter(e => e.type !== 'flow-glow' && effectState(e, frame, fps).opacity > 0).map((effect, i) => {
         const node = states.find(n => n.id === effect.target);
         if (!node) return null;
