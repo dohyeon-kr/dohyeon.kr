@@ -216,6 +216,7 @@ jobs:
           node scripts/prepare-notebook-assets.mjs
           node --test tests/notebook-*.test.mjs tests/layout-guard.test.mjs tests/presenter-overlay.test.mjs
           mkdir -p public/fonts "${RUNNER_TEMP}/notebook"
+          cp public/notebook/NanumPenScript-Regular.ttf "${RUNNER_TEMP}/notebook/"
           cp ../scripts/thumbnail-fonts/Pretendard-Bold.woff ../scripts/thumbnail-fonts/Pretendard-Regular.woff public/fonts/
           for frame in 0 24 60 145 190 275 330 400; do
             npx remotion still src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/frame-${frame}.png" --frame="$frame"

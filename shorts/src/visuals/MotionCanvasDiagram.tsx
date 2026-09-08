@@ -40,7 +40,7 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           view.add(group);
           const fill = node.fill === 'white' ? '#fff' : node.fill === 'gray' ? '#303030' : node.fill === 'hatch' ? hatch : null;
           const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []};
-          if (spec.notebook && node.role==='sticker') {const s=sprites[node.stickerAsset??'paper'];const tile=document.createElement('canvas');tile.width=node.width;tile.height=node.height;tile.getContext('2d')!.drawImage(sheets[s.file],...s.crop,0,0,node.width,node.height);group.add(new Img({src:tile.toDataURL(),width:node.width,height:node.height,compositeOperation:'screen'}));}
+          if (spec.notebook && node.role==='sticker') {const s=sprites[node.stickerAsset??'paper'];const tile=document.createElement('canvas');tile.width=node.width;tile.height=node.height;tile.getContext('2d')!.drawImage(sheets[s.file],s.crop[0],s.crop[1],s.crop[2],s.crop[3],0,0,node.width,node.height);group.add(new Img({src:tile.toDataURL(),width:node.width,height:node.height,compositeOperation:'screen'}));}
           if (spec.notebook && node.role!=='sticker' && ['rect','circle','line'].includes(node.shape)) group.add(new Line({points: sketchPoints(node), closed:node.shape!=='line', fill:node.shape==='line'||node.fill==='none'?null:node.fill==='hatch'?hatch:notebookFill(node), stroke:texturedInk,lineWidth:5,lineDash:props.lineDash}));
           if (!spec.notebook && node.shape === 'rect') group.add(new Rect(props));
           if (!spec.notebook && node.shape === 'circle') group.add(new Circle(props));
