@@ -157,7 +157,7 @@
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     credentials: 'same-origin',
-    body: JSON.stringify({slugs: candidates.map(function (slide) { return slide.dataset.featuredSlug; })})
+    body: JSON.stringify({candidates: candidates.map(function (slide) { return {slug: slide.dataset.featuredSlug, publishedAt: slide.dataset.featuredPublishedAt}; })})
   }).then(function (response) {
     if (!response.ok) throw new Error('Ranking unavailable');
     return response.json();
@@ -165,9 +165,9 @@
     if (!Array.isArray(data.posts)) throw new Error('Invalid ranking');
     data.posts.slice(0, 3).forEach(function (post) {
       var source = candidates.find(function (slide) { return slide.dataset.featuredSlug === post.slug; });
-      if (!source || !Number.isFinite(post.views) || post.views <= 0) return;
+      if (!source || !Number.isFinite(post.views) || post.views < 0 || !Number.isFinite(post.score) || post.score < 0) return;
       var slide = source.cloneNode(true);
-      slide.querySelector('[data-featured-views]').textContent = '최근 7일 조회수 ' + post.views.toLocaleString('ko-KR');
+      slide.querySelector('[data-featured-views]').textContent = '최근 7일 조회수 ' + post.views.toLocaleString('ko-KR') + ' · 댓글 ' + post.comments.toLocaleString('ko-KR');
       var image = slide.querySelector('img');
       if (image) {
         image.loading = track.children.length ? 'lazy' : 'eager';
@@ -176,7 +176,7 @@
       track.appendChild(slide);
     });
     if (!track.children.length) {
-      status.textContent = '최근 7일간 집계된 조회수가 없습니다.';
+      status.textContent = '추천할 공개 글이 없습니다.';
       return;
     }
     status.hidden = true;
@@ -184,7 +184,8 @@
     section.title = data.start + ' ~ ' + data.end + ' (한국 시간, 오늘 포함)';
     initialize();
   }).catch(function () {
-    status.textContent = '인기 글을 불러오지 못했습니다. 잠시 후 새로고침해 주세요.';
+    status.textContent = '추천 글을 불러오지 못했습니다. 잠시 후 새로고침해 주세요.';
   });
 })();
+
 

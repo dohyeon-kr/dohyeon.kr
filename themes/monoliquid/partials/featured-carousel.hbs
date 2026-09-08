@@ -1,6 +1,6 @@
 <section class="featured-carousel" data-featured-carousel aria-label="주요 글" aria-roledescription="캐러셀">
     <div class="featured-carousel__toolbar">
-        <h2>FEATURED <small>최근 7일 인기 글</small></h2>
+        <h2>FEATURED <small>지금 읽어볼 글</small></h2>
         <div class="featured-carousel__controls" hidden>
             <div class="featured-carousel__progress" aria-hidden="true"><span></span></div>
             <button type="button" data-featured-play aria-label="자동 재생 일시정지" aria-pressed="false">Ⅱ</button>
@@ -9,12 +9,12 @@
             <button type="button" data-featured-next aria-label="다음 글" aria-controls="featured-posts">→</button>
         </div>
     </div>
-    <p class="featured-carousel__status" role="status">최근 7일 인기 글을 불러오는 중입니다.</p>
-    <div class="featured-carousel__track" id="featured-posts" tabindex="0" aria-label="최근 7일 조회수 상위 글" hidden></div>
+    <p class="featured-carousel__status" role="status">지금 읽어볼 글을 불러오는 중입니다.</p>
+    <div class="featured-carousel__track" id="featured-posts" tabindex="0" aria-label="반응과 최신성을 반영한 추천 글" hidden></div>
     <template data-featured-candidates>
         {{#get "posts" include="tags" limit="all" as |candidates|}}
         {{#foreach candidates}}
-        <a class="featured-carousel__slide" data-featured-slug="{{slug}}" href="{{url}}" aria-label="{{title}}">
+        <a class="featured-carousel__slide" data-featured-slug="{{slug}}" data-featured-published-at="{{date published_at format="YYYY-MM-DDTHH:mm:ssZ"}}" href="{{url}}" aria-label="{{title}}">
             {{#if feature_image}}
                 <img class="featured-carousel__image" src="{{img_url feature_image size="l"}}" alt="" width="1200" height="675" loading="lazy">
             {{/if}}
@@ -29,3 +29,4 @@
         {{/get}}
     </template>
 </section>
+

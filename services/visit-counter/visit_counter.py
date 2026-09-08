@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import math
 import base64
 import subprocess
 import tempfile
@@ -36,6 +37,8 @@ class VisitStore:
     def __init__(self, database_path: Path) -> None:
         self.database_path = database_path
         self.database_path.parent.mkdir(parents=True, exist_ok=True)
+        self._featured_lock = threading.Lock()
+        self._featured_snapshot = None
         self._initialize()
 
     @contextmanager
@@ -352,26 +355,66 @@ class VisitStore:
                 "coverage": {"visitsSince": visits_since, "postDailySince": since},
                 "updatedAt": datetime.now(KST).isoformat(), "timezone": "Asia/Seoul"}
 
-    def featured_week(self, slugs: object, now: datetime | None = None) -> dict:
-        # Candidates come from Ghost's published-post template, never lifetime totals.
-        if (not isinstance(slugs, list) or len(slugs) > 1000
-                or any(not isinstance(slug, str) or not self.valid_slug(slug) for slug in slugs)):
+    def featured_week(self, candidates: object, now: datetime | None = None) -> dict:
+        """Read-only ranking; metadata is public Ghost template input, never persisted."""
+        current = (now or datetime.now(KST)).astimezone(KST)
+        hour = current.replace(minute=0, second=0, microsecond=0)
+        if not isinstance(candidates, list) or len(candidates) > 1000:
             raise ValueError("invalid candidates")
-        end = date.fromisoformat(self._day(now))
+        published = {}
+        for candidate in candidates:
+            if not isinstance(candidate, dict):
+                raise ValueError("invalid candidate")
+            slug, stamp = candidate.get("slug"), candidate.get("publishedAt")
+            if not isinstance(slug, str) or not self.valid_slug(slug) or slug in published:
+                raise ValueError("invalid candidate slug")
+            try:
+                if not isinstance(stamp, str) or len(stamp) > 40:
+                    raise ValueError("invalid publication date")
+                publication = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+                if publication.tzinfo is None or publication > current:
+                    raise ValueError("invalid publication date")
+            except (ValueError, TypeError, OverflowError) as error:
+                raise ValueError("invalid publication date") from error
+            published[slug] = publication
+        end = current.date()
         start = end - timedelta(days=6)
-        candidates = set(slugs)
-        with self._connect() as connection:
-            rows = connection.execute(
-                "SELECT slug, SUM(total) AS views FROM stats_post_daily "
-                "WHERE day BETWEEN ? AND ? GROUP BY slug HAVING SUM(total) > 0 "
-                "ORDER BY views DESC, slug ASC", (start.isoformat(), end.isoformat())
-            ).fetchall()
-            since = connection.execute(
-                "SELECT value FROM dashboard_meta WHERE key = 'post_daily_since'"
-            ).fetchone()[0]
-        posts = [{"slug": slug, "views": views} for slug, views in rows if slug in candidates][:3]
-        return {"posts": posts, "start": start.isoformat(), "end": end.isoformat(),
-                "timezone": "Asia/Seoul", "postDailySince": since}
+        # Snapshot reactions on the first request of each KST hour. The cache is
+        # global, independent of untrusted candidate input, and bounded to one hour.
+        with self._featured_lock:
+            if self._featured_snapshot is None or self._featured_snapshot[0] != hour:
+                with self._connect() as connection:
+                    views = dict(connection.execute(
+                        "SELECT slug, SUM(total) FROM stats_post_daily "
+                        "WHERE day BETWEEN ? AND ? GROUP BY slug",
+                        (start.isoformat(), end.isoformat())))
+                    comments = dict(connection.execute(
+                        "SELECT c.post_slug, COUNT(*) FROM anonymous_comments c "
+                        "LEFT JOIN comment_moderation m ON m.comment_id = c.id "
+                        "WHERE c.status = 'visible' AND COALESCE(m.hidden, 0) = 0 "
+                        "AND julianday(c.created_at) >= julianday(?) "
+                        "AND julianday(c.created_at) <= julianday(?) GROUP BY c.post_slug",
+                        (datetime.combine(start, datetime.min.time(), KST).isoformat(),
+                         current.isoformat())))
+                    since = connection.execute(
+                        "SELECT value FROM dashboard_meta WHERE key = 'post_daily_since'"
+                    ).fetchone()[0]
+                self._featured_snapshot = (hour, views, comments, since, current.isoformat())
+            _, views, comments, since, computed_at = self._featured_snapshot
+        posts = []
+        for slug, publication in published.items():
+            age = max(0, (hour - publication).total_seconds() / 86400)
+            view_count = max(0, views.get(slug, 0))
+            comment_count = comments.get(slug, 0)
+            reaction = 10 * math.log1p(view_count + 8 * comment_count)
+            freshness = 20 * 2 ** (-age / 3)
+            posts.append({"slug": slug, "views": view_count, "comments": comment_count,
+                          "reactionScore": reaction, "freshnessScore": freshness,
+                          "score": reaction + freshness})
+        posts.sort(key=lambda post: (-post["score"], -published[post["slug"]].timestamp(), post["slug"]))
+        return {"posts": posts[:3], "start": start.isoformat(), "end": end.isoformat(),
+                "timezone": "Asia/Seoul", "postDailySince": since,
+                "computedAt": computed_at, "algorithm": "engagement-recency-v1"}
 
     def admin_delete_comment(self, comment_id: str) -> bool:
         if not re.fullmatch(r"[0-9a-f]{32}", comment_id):
@@ -752,7 +795,7 @@ class VisitHandler(BaseHTTPRequestHandler):
                 return
             payload = self._read_json(limit=131072)
             try:
-                result = self.server.store.featured_week(payload.get("slugs") if payload else None)
+                result = self.server.store.featured_week(payload.get("candidates") if payload else None)
             except ValueError:
                 self._send_json(400, {"error": "invalid_candidates"})
                 return
@@ -864,4 +907,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 

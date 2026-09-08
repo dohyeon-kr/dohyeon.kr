@@ -13,6 +13,7 @@ class Page(HTMLParser):
         super().__init__()
         self.featured = False
         self.slugs = []
+        self.candidates = []
         self.scripts = []
         self.styles = []
 
@@ -22,6 +23,7 @@ class Page(HTMLParser):
             self.featured = True
         if 'data-featured-slug' in attrs:
             self.slugs.append(attrs['data-featured-slug'])
+            self.candidates.append({'slug': attrs['data-featured-slug'], 'publishedAt': attrs.get('data-featured-published-at')})
         if tag == 'script':
             self.scripts.append(attrs.get('src', ''))
         if tag == 'link' and attrs.get('rel') == 'stylesheet':
@@ -49,16 +51,17 @@ def verify():
         raise RuntimeError('Ghost did not render published carousel candidates')
     script = next((s for s in page.scripts if '/assets/js/featured-carousel.js' in s), None)
     stylesheet = next((s for s in page.styles if '/assets/css/screen.css' in s), None)
-    if not script or '/api/visit/featured' not in read(script):
+    if not script or 'featuredPublishedAt' not in read(script):
         raise RuntimeError('Public carousel JavaScript is missing or stale')
     if not stylesheet or '.featured-carousel__slide' not in read(stylesheet):
         raise RuntimeError('Public carousel CSS is missing or stale')
-    data = json.loads(read('/api/visit/featured', json.dumps({'slugs': page.slugs}).encode()))
+    data = json.loads(read('/api/visit/featured', json.dumps({'candidates': page.candidates}).encode()))
     posts = data['posts']
     assert data['timezone'] == 'Asia/Seoul'
-    assert len(posts) <= 3
-    assert all(p['slug'] in page.slugs and p['views'] > 0 for p in posts)
-    assert [p['views'] for p in posts] == sorted([p['views'] for p in posts], reverse=True)
+    assert data['algorithm'] == 'engagement-recency-v1'
+    assert len(posts) == min(3, len(page.slugs))
+    assert all(p['slug'] in page.slugs and p['views'] >= 0 and p['score'] >= 0 for p in posts)
+    assert [p['score'] for p in posts] == sorted([p['score'] for p in posts], reverse=True)
     print(json.dumps({'verified': True, 'start': data['start'], 'end': data['end'], 'posts': posts}, ensure_ascii=False))
 
 
@@ -72,3 +75,4 @@ if __name__ == '__main__':
             if attempt == 5:
                 raise
             time.sleep(10)
+
