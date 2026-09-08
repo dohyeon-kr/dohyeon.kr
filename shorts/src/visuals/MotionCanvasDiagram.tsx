@@ -34,7 +34,7 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           view.add(group);
           const fill = node.fill === 'white' ? '#fff' : node.fill === 'gray' ? '#303030' : node.fill === 'hatch' ? hatch : null;
           const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []};
-          if (spec.notebook && ['rect','circle','line'].includes(node.shape)) group.add(new Line({points: sketchPoints(node), closed:node.shape!=='line', fill:node.shape==='line'?null:node.fill==='hatch'?hatch:notebookFill(node), stroke:NOTEBOOK_INK,lineWidth:3,lineDash:props.lineDash}));
+          if (spec.notebook && ['rect','circle','line'].includes(node.shape)) group.add(new Line({points: sketchPoints(node), closed:node.shape!=='line', fill:node.shape==='line'||node.fill==='none'?null:node.fill==='hatch'?hatch:notebookFill(node), stroke:NOTEBOOK_INK,lineWidth:3,lineDash:props.lineDash}));
           if (!spec.notebook && node.shape === 'rect') group.add(new Rect(props));
           if (!spec.notebook && node.shape === 'circle') group.add(new Circle(props));
           if (node.shape === 'blob') group.add(new Line({points: organicBlobPoints(node), closed: true, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : [], radius: 18}));
