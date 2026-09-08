@@ -1547,3 +1547,40 @@ iframe[src*="announcement-bar"] {
 .featured-carousel__track.is-settling { scroll-snap-type: none; scroll-behavior: auto; }
 .featured-carousel__track.is-dragging,
 .featured-carousel__track.is-dragging .featured-carousel__slide { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+
+/* Match the archive's divider notches below the featured toolbar. */
+.featured-carousel__toolbar {
+  position: relative;
+  border-bottom: 1px solid var(--color-frame);
+}
+.featured-carousel__toolbar::before,
+.featured-carousel__toolbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  width: 0;
+  height: 0;
+  transform: translateY(50%);
+  pointer-events: none;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+.featured-carousel__toolbar::before {
+  left: 0;
+  border-right: 0;
+  border-left: 6px solid var(--color-frame);
+}
+.featured-carousel__toolbar::after {
+  right: 0;
+  border-right: 6px solid var(--color-frame);
+  border-left: 0;
+}
+[data-theme="dark"] .featured-carousel__toolbar::before,
+.dark:not([data-theme]) .featured-carousel__toolbar::before {
+  border-left-color: var(--color-nickel);
+}
+[data-theme="dark"] .featured-carousel__toolbar::after,
+.dark:not([data-theme]) .featured-carousel__toolbar::after {
+  border-right-color: var(--color-nickel);
+}
