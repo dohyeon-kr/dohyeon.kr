@@ -2,6 +2,29 @@ import {validatePresenter, type PresenterSpec, type MouthCue} from './schema.ts'
 import type {MouthShape} from './vocabulary.ts';
 
 export type TimedWord = {word: string; start: number; end: number};
+// Provider boundary only: tolerate at most one 20ms timestamp tick.
+// Do not invent a duration for zero-length words or reorder spoken words.
+export function normalizeWordTiming(input: unknown, duration: number) {
+  if (!Array.isArray(input) || !input.length) throw new Error('Missing speech word timestamps');
+  if (!Number.isFinite(duration) || duration <= 0) throw new Error('Invalid audio duration');
+  const words: TimedWord[] = [];
+  const corrections: {index: number; from: TimedWord; to: TimedWord}[] = [];
+  for (const [index, item] of input.entries()) {
+    const fail = (reason: string): never => {throw new Error(`Word ${index}: ${reason}; start=${item?.start}, end=${item?.end}, duration=${duration}`);};
+    if (!item || typeof item.word !== 'string' || !Number.isFinite(item.start) || !Number.isFinite(item.end)) fail('invalid timestamp');
+    if (item.end <= item.start) fail('zero or reversed duration');
+    const previous = words.at(-1);
+    if (previous && item.start < previous.start) fail('out-of-order word');
+    const start = Math.max(0, previous?.end ?? 0, item.start);
+    const end = Math.min(duration, item.end);
+    if (start - item.start > .020000001 || item.end - end > .020000001) fail('timestamp correction exceeds 20ms');
+    if (end <= start) fail('no positive interval after correction');
+    const word = {word:item.word, start, end};
+    if (start !== item.start || end !== item.end) corrections.push({index, from:{word:item.word,start:item.start,end:item.end}, to:word});
+    words.push(word);
+  }
+  return {words, corrections};
+}
 const vowels: MouthShape[] = ['A','A','A','A','A','A','A','A','O','A','A','I','O','O','A','A','I','O','I','I','I'];
 // Word boundaries come from the final audio. Syllable/viseme timing inside each
 // word is an approximation, not measured phoneme alignment or Korean G2P.
