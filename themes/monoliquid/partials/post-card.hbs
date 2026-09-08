@@ -10,6 +10,7 @@
                     <a href="{{url}}">{{name}}</a>
                 {{/primary_tag}}
                 <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY.MM.DD"}}</time>
+                <span data-post-list-view-counter data-post-slug="{{slug}}">조회수 —</span>
             </div>
             {{#if excerpt}}
                 <p>{{excerpt words="24"}}</p>
