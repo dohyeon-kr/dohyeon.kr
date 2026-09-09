@@ -6,6 +6,7 @@ on:
       - 'shorts/src/templates/**'
       - 'shorts/public/templates/**'
       - 'shorts/scripts/verify-notebook-render.mjs'
+      - 'shorts/scripts/verify-collaboration-layout.mjs'
       - '.github/workflows/shorts-notebook-check.yml'
   workflow_dispatch:
 
@@ -24,9 +25,13 @@ jobs:
       - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
       - name: Check Korean text, photo print, diagrams, presenter and intermediate frames
         run: node shorts/scripts/verify-notebook-render.mjs --video
+      - name: Check collaboration typography, diagrams and persistent presenter
+        run: node shorts/scripts/verify-collaboration-layout.mjs --photos
       - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         if: always()
         with:
           name: notebook-template-preview
-          path: shorts/out/notebook-check/
+          path: |
+            shorts/out/notebook-check/
+            shorts/out/collaboration-layout/
           retention-days: 7

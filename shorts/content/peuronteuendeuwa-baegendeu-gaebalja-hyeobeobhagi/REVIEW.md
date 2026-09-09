@@ -55,3 +55,20 @@
 ## 공통 CTA 처리
 
 사용자 검토 요청에 따라 후보 JSON과 검토 문서의 공통 CTA 장면을 제거했다. `render.mjs`와 `render-reels.mjs`가 `withBlogCta`를 호출하므로 결과 영상의 공통 엔딩은 유지된다. 본문 13장 보존과 런타임 CTA 단일 추가를 확인했다.
+
+## 도식·타이포·프레젠터 보완 (2026-09-09)
+
+- 본문 전체에 우측 하단 `presenterOverlay` 복원. 공통 CTA는 숨김. 실제 음성이 준비되면 기존 단어 타임스탬프 기반 입 모양·노딩 경로를 사용한다.
+- 사진이 없는 2·12장은 최대 152px 타이포를 중앙에 배치. 자막과 하단 구획선은 발표자 왼쪽 580px 영역에 배치한다. 길어진 자막은 의미를 보존하며 나눴다.
+- 도식 8장: SDK 자동 동기화(3), 패키지 발행·설치 분리(4), 구버전 앱·서버 호환성(5), Bruno 토큰 저장·재사용(6), 추적 맥락 분리(8), traceparent 연결(9), 같은 요청을 따라 확인(10), 대화·티켓·PR(11).
+- 사진은 1·7·13장의 실제 맥락을 위한 기존 3장을 보존했다. 사진 실패를 도식으로 조용히 대체하지 않는다.
+- 타입 검사와 템플릿·상시 발표자 테스트 6개 통과. 후보 스키마·자막 일치·580px 자막 배치·8개 도식의 중간 상태 기하 검증 통과.
+- 로컬 실제 렌더는 `uv_interface_addresses` 환경 오류로 실행 불가. 기존 Notebook template render check에 실제 후보 56개 프레임 검사(실제 사진 포함)를 연결했다. 결과 확인 전까지 렌더 검증 완료로 판단하지 않는다.
+
+### 도식 설계에 참고한 공식 문서
+
+조사는 표현의 정확성 보강용이다. 원문에 없는 저자의 경험·성과·새 운영 규칙을 내레이션에 추가하지 않았다.
+
+- [GitHub Packages npm registry](https://docs.github.com/packages/working-with-a-github-packages-registry/working-with-the-npm-registry): 발행과 의존성 설치를 분리한 SDK 도식의 관계를 확인.
+- [Bruno 환경변수](https://docs.usebruno.com/variables/environment-variables), [Request chaining](https://docs.usebruno.com/v2/testing/script/request-chaining): 요청에서 받은 값을 후속 요청에 재사용하는 흐름을 확인. 모든 요청마다 자동 로그인한다거나 무한 유효 토큰이라는 의미는 넣지 않음.
+- [W3C Trace Context](https://www.w3.org/TR/trace-context/): traceparent의 추적 문맥 전달 역할을 확인. traceparent 전체가 전 구간에서 동일하다고 표시하지 않으며 고정 가짜 ID·처리 시간을 만들지 않음.
