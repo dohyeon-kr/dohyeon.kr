@@ -3,7 +3,7 @@ import {AbsoluteFill, Html5Audio, Img, Sequence, interpolate, staticFile, useCur
 import type {RenderManifest, RenderScene} from '../types';
 import {previewSceneFrames} from '../template-preview';
 import {subtitleAt} from '../subtitles';
-import {fitCopy} from '../text-layout';
+import {fitCopy, textUnits} from '../text-layout';
 import {useLayoutCheck} from '../use-layout-check';
 import {DiagramRenderer} from '../visuals/DiagramRenderer';
 import {PresetVisual} from '../visuals/PresetVisual';
@@ -53,7 +53,11 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   const compare = !scene.diagramSpec && (scene.kind === 'compare' || scene.layout?.startsWith('compare-'));
   const hasVisual = compare || scene.presenter != null || scene.backgroundVideo || scene.imagePath || scene.diagramSpec || (scene.visual && scene.visual.type !== 'none');
   const headingHeight = hasVisual ? 275 : scene.subline ? 650 : 850;
-  const heading = copy(index === 0 ? title : scene.headline, WIDTH, headingHeight, hasVisual ? (index === 0 ? 100 : 80) : 152);
+  const headingText = index === 0 ? title : scene.headline;
+  // Preserve Korean words when enlarging an intentionally line-broken heading.
+  const longestWord = Math.max(1, ...headingText.split(/\s+/).map(textUnits));
+  const headingSize = hasVisual ? (index === 0 ? 100 : 80) : Math.min(152, Math.floor(WIDTH / longestWord));
+  const heading = copy(headingText, WIDTH, headingHeight, headingSize);
   // Common CTA deliberately retains its established shared design and duration.
   if (isCta) return <AbsoluteFill style={{opacity: reveal(frame, 0), filter: `blur(${(1 - reveal(frame, 0)) * 12}px)`}}><BlogCta layer="visual" scene={scene} /><BlogCta layer="text" scene={scene} /></AbsoluteFill>;
   return <AbsoluteFill ref={root} style={{color: INK, opacity: exit, fontFamily: 'Pretendard, Arial, sans-serif'}}>
