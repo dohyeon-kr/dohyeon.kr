@@ -1,5 +1,6 @@
 import {validatePresenter, type PresenterSpec, type MouthCue} from './schema.ts';
 import type {MouthShape} from './vocabulary.ts';
+import {speechReading} from './speech-text.ts';
 
 export type TimedWord = {word: string; start: number; end: number};
 // Provider boundary only: tolerate at most one 20ms timestamp tick.
@@ -41,18 +42,19 @@ const vowels: MouthShape[] = ['A','A','A','A','A','A','A','A','O','A','A','I','O
 // Word boundaries come from the final audio. Syllable/viseme timing inside each
 // word is an approximation, not measured phoneme alignment or Korean G2P.
 export function wordsToPresenter(words: readonly TimedWord[], duration: number, options: {lipSync?: string; nod?: string}): PresenterSpec {
+  if (!Number.isFinite(duration) || duration <= 0) throw new Error('Invalid audio duration');
   if (!words.length) throw new Error('Speech alignment returned no word timestamps');
   let previousEnd = 0;
   const mouths: MouthCue[] = [];
   for (const item of words) {
     if (typeof item.word !== 'string' || !Number.isFinite(item.start) || !Number.isFinite(item.end) || item.start < previousEnd || item.start < 0 || item.end <= item.start || item.end > duration) throw new Error('Invalid or overlapping speech word timestamps');
     previousEnd = item.end;
-    const text = item.word.normalize('NFC').replace(/[\s\p{P}\p{S}]/gu, '');
+    // Nod-only mode needs measured speech intervals, not a pronunciation adapter.
+    if (options.lipSync !== 'word-timestamps') continue;
+    const {text} = speechReading(item.word);
     if (!text) continue;
-    if (!/^[가-힣]+$/.test(text)) throw new Error(`Korean speech adapter requires Hangul words: ${item.word}`);
     const syllables = [...text];
     const step = (item.end - item.start) / syllables.length;
-    if (options.lipSync !== 'word-timestamps') continue;
     syllables.forEach((char, i) => {
       const code = char.charCodeAt(0) - 0xac00, onset = Math.floor(code / 588), vowel = Math.floor(code % 588 / 28), coda = code % 28;
       const start = item.start + step * i, end = i === syllables.length - 1 ? item.end : item.start + step * (i + 1);
@@ -66,7 +68,7 @@ export function wordsToPresenter(words: readonly TimedWord[], duration: number, 
   if (options.nod === 'speech') {
     // One restrained nod per phrase, leaving silent gaps and avoiding a bobble loop.
     const phrases: TimedWord[][] = [];
-    for (const word of words.filter(w => /[가-힣]/.test(w.word))) {
+    for (const word of words.filter(w => /[\p{L}\p{N}]/u.test(w.word))) {
       const phrase = phrases.at(-1), last = phrase?.at(-1);
       if (!phrase || !last || word.start - last.end > .3 || word.end - phrase[0].start > 2.8 || /[.!?。！？]$/.test(last.word.trim())) phrases.push([word]);
       else phrase.push(word);

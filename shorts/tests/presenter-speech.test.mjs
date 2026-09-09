@@ -56,7 +56,7 @@ test('nod is bounded to spoken phrases and remains deterministic on seek',()=>{
  const first=pose(.9);pose(4);assert.deepEqual(pose(.9),first);
 });
 test('invalid, missing, overlapping or unsupported word timing fails instead of fabricating speech',()=>{
- for(const input of [[],[{word:'아',start:0,end:NaN}],[{word:'아',start:1,end:1}], [{word:'아',start:-.1,end:.2}], [{word:'아',start:0,end:6}], [{word:'아',start:0,end:2},{word:'이',start:1,end:3}], [{word:'code',start:0,end:1}]]) assert.throws(()=>wordsToPresenter(input,5,options));
+ for(const input of [[],[{word:'아',start:0,end:NaN}],[{word:'아',start:1,end:1}], [{word:'아',start:-.1,end:.2}], [{word:'아',start:0,end:6}], [{word:'아',start:0,end:2},{word:'이',start:1,end:3}], [{word:'漢字',start:0,end:1}]]) assert.throws(()=>wordsToPresenter(input,5,options));
 });
 test('timeline uses the exact scene tail and hides the presenter at the CTA boundary',()=>{
  const scenes=[{narration:'프로는',audioDurationSeconds:5,overlayPresenter:wordsToPresenter(words,5,options)}, {commonPage:'blog-cta-v1',audioDurationSeconds:6}];
