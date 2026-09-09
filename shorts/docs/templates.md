@@ -37,7 +37,8 @@ Use diagrams and comparisons only when they materially help understanding.
 
 - 1080×1920, full-bleed pale ivory graph paper. Fixed paper background, black
   Pretendard, muted orange rules and emphasis, 2px separators and small endpoint dots.
-- Content uses x=80..900, y=180..1554. Four conceptual columns merge into full-width
+- Content is authored at x=80..900, y=180..1554 and translated down 100px
+  by the notebook renderer (effective y=280..1654). Four conceptual columns merge into full-width
   title/visual rows or two comparison columns. Maximum three meaningful regions.
 - The first frame uses the candidate's overall title, then short scene messages.
   Titles with visuals 80–100px; text-only scenes use a vertically centered
@@ -53,6 +54,20 @@ Use diagrams and comparisons only when they materially help understanding.
   Explicit scene presenters and persistent presenter tracks remain supported.
   Lower-right presenter space is reserved beside the caption.
 
+### Reels vertical offset
+
+The supplied phone screenshot showed the upper label beneath the Reels header
+and excess space between subtitles and the account profile. Apply one 100px
+vertical offset to all body content and the persistent presenter at 1080×1920.
+Paper and the common CTA remain in their existing positions. Effective label
+y=280, upper rule y=338, lower rule y=1470, caption y=1510..1654,
+and presenter y=1420..1610. Photos, diagrams, text and their motion move together.
+Do not add the offset to candidate JSON or diagram coordinates a second time.
+Other templates keep their existing presenter placement. These are calibration
+values for the supplied screenshot, not a universal platform safe-area guarantee.
+Check the rendered preview against Reels header, action buttons and account UI;
+existing exported videos need a new render before the change appears.
+
 ### Printed photographs and tape stickers
 
 Use original resolved photos, with their provenance and license retained. Search
@@ -62,8 +77,14 @@ Do not bake frames, tape, captions or generated lettering into the source image.
 `PrintedPhoto.tsx` composes three independent layers:
 
 1. White print backing: 18px at top/left/right and 40px at bottom, very faint contact shadow.
-2. Original image: `object-fit: contain`, preserving faces, writing and the entire
-   image. Extra white space is allowed when the original aspect ratio differs.
+2. Original photograph: `object-fit: cover`, filling a portrait 3:4 frame.
+   Choose the source so the important subject survives the center crop. Use a
+   750×1000px region without a heading, 540×720px with a heading, and
+   427.5×570px when a subline needs space. Region top is y=320 without a
+   heading or y=600 with one, before the shared 100px offset. For diagrams
+   supplied as images, use `visual.type=photo`, `diagramSpec=null` and
+   `image.source=authored-diagram`; those use `contain` so labels
+   and relationships remain intact. Do not apply photographic cropping to text.
 3. One matte ivory PNG tape sticker at the top center: 220px asset width, -4°,
    opacity .62. About half the visible tape overlaps the print edge, the rest
    touches the notebook. Keep it within the white border, away from the subject.
@@ -115,7 +136,7 @@ The effect is reproducible when rendering frames out of order and works on both
 geometry backends. Keep subtitles and the bottom-right presenter unobstructed.
 Reference: [SVG displacement](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feDisplacementMap).
 
-Large notebook headings (fitted size at least 100px) share the diagram's 100ms
-scribble filter. Only the glyph edges shift slightly; font metrics, line breaks
-and placement stay unchanged. Captions, small headings, diagram labels and the
+All non-empty notebook headlines, regardless of fitted size, share the diagram's
+100ms scribble filter. Only the glyph edges shift slightly; font metrics, line breaks
+and placement stay unchanged. Captions, sublines, diagram labels and the
 common CTA remain unfiltered. The existing bottom-right presenter stays visible.

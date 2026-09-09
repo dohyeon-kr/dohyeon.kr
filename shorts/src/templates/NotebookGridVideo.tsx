@@ -19,6 +19,8 @@ import {ScribbleFilter} from '../visuals/ScribbleFilter';
 
 const INK = '#171715', ACCENT = '#c87829', RULE = '#bcb5a9';
 const LEFT = 80, WIDTH = 820;
+// Calibrated against the supplied Reels screenshot; keep the paper full-bleed.
+const CONTENT_OFFSET_Y = 100;
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const reveal = (frame: number, start: number) => interpolate(frame, [start, start + 12], [0, 1], clamp);
 
@@ -60,18 +62,24 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   const longestWord = Math.max(1, ...headingText.split(/\s+/).map(textUnits));
   const headingSize = hasVisual ? (index === 0 ? 100 : 80) : Math.min(152, Math.floor(WIDTH / longestWord));
   const heading = copy(headingText, WIDTH, headingHeight, headingSize);
-  const scribbleHeading = heading.fontSize >= 100 && Boolean(headingText.trim());
+  const scribbleHeading = Boolean(headingText.trim());
   const diagramLayout = scene.diagramSpec
     ? {left: 40, top: headingText.trim() ? 600 : 320, width: 900, height: headingText.trim() ? 570 : 850}
     : {left: LEFT, top: 600, width: WIDTH, height: 570};
+  const photoHeight = scene.subline ? 570 : headingText.trim() ? 720 : 1000;
+  const photoLayout = {left: LEFT + (WIDTH - photoHeight * .75) / 2,
+    top: headingText.trim() ? 600 : 320, width: photoHeight * .75, height: photoHeight};
+  const visualLayout = scene.imagePath && !compare && !scene.presenter && !scene.backgroundVideo
+    ? photoLayout : diagramLayout;
   // Common CTA deliberately retains its established shared design and duration.
   if (isCta) return <AbsoluteFill style={{opacity: reveal(frame, 0), filter: `blur(${(1 - reveal(frame, 0)) * 12}px)`}}><BlogCta layer="visual" scene={scene} /><BlogCta layer="text" scene={scene} /></AbsoluteFill>;
   return <AbsoluteFill ref={root} style={{color: INK, opacity: exit, fontFamily: 'Pretendard, Arial, sans-serif'}}>
+    <AbsoluteFill style={{transform: `translateY(${CONTENT_OFFSET_Y}px)`}}>
     {scribbleHeading && <ScribbleFilter id={titleScribbleId} />}
     <Rule top={238} progress={lines} />
     <div data-layout-text="label" style={{position: 'absolute', left: LEFT, top: 180, background: INK, color: '#fff', padding: '8px 14px', fontSize: 28, fontWeight: 800, opacity: content}}>{String(index + 1).padStart(2, '0')} · {index === 0 ? '주제' : scene.kind === 'outro' ? '정리' : '노트'}</div>
     <div data-layout-text="headline" style={{position: 'absolute', top: hasVisual ? 285 : 350, left: LEFT, width: WIDTH, height: headingHeight, filter: scribbleHeading ? `url(#${titleScribbleId})` : undefined, display: 'flex', alignItems: hasVisual ? 'flex-start' : 'center', fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.25, whiteSpace: 'pre-wrap', opacity: content, transform: `translateY(${(1 - content) * 10}px)`}}>{heading.text}</div>
-    {hasVisual && <div data-layout="visual" data-overlay-reserve="visual" style={{position: 'absolute', ...diagramLayout, opacity: reveal(frame, 16)}}>
+    {hasVisual && <div data-layout="visual" data-overlay-reserve="visual" style={{position: 'absolute', ...visualLayout, opacity: reveal(frame, 16)}}>
       {compare ? <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', height: '100%', borderTop: `2px solid ${RULE}`, borderBottom: `2px solid ${RULE}`}}>
         {[scene.comparisonLeft, scene.comparisonRight].map((text, i) => {
           const fitted = copy(text ?? '', 350, 430, 56);
@@ -82,7 +90,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
         })}
       </div> : scene.presenter != null ? <ScenePresenter scene={scene} frames={frames} />
         : scene.backgroundVideo ? <VideoBackground scene={scene} />
-        : scene.imagePath ? <PrintedPhoto src={scene.imagePath} />
+        : scene.imagePath ? <PrintedPhoto src={scene.imagePath} fit={scene.image?.source === 'authored-diagram' ? 'contain' : 'cover'} />
         : <div style={{width: '100%', height: '100%', filter: 'invert(1)', mixBlendMode: 'multiply'}}>
           {scene.diagramSpec ? <div style={{width: '100%', height: '100%', transform: 'scale(1.08)'}}><DiagramRenderer spec={scene.diagramSpec} durationInFrames={frames} scribble /></div> : scene.visual ? <PresetVisual visual={scene.visual} durationInFrames={frames} /> : null}
         </div>}
@@ -96,6 +104,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
         return start < 0 || !keyword ? caption.text : <>{caption.text.slice(0, start)}<span style={{textDecoration: 'underline', textDecorationColor: ACCENT, textDecorationThickness: 5, textUnderlineOffset: 9}}>{keyword}</span>{caption.text.slice(start + keyword.length)}</>;
       })()}</div>
     </div>
+    </AbsoluteFill>
   </AbsoluteFill>;
 };
 
@@ -112,6 +121,6 @@ export const NotebookGridVideo: React.FC<RenderManifest> = ({scenes, candidate, 
         {scene.audioPath && <Html5Audio src={staticFile(scene.audioPath)} />}
       </Sequence>;
     })}
-    {presenterOverlay && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
+    {presenterOverlay && <PersistentPresenter scenes={scenes} options={presenterOverlay} offsetY={CONTENT_OFFSET_Y} />}
   </AbsoluteFill>;
 };
