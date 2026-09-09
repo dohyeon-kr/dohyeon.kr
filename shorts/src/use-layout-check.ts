@@ -21,13 +21,15 @@ export function useLayoutCheck(root: RefObject<HTMLDivElement | null>, frame: nu
       const overlap = (a: DOMRect, b: DOMRect) => a.left < b.right - .5 && b.left < a.right - .5 && a.top < b.bottom - .5 && b.top < a.bottom - .5;
       const text = [...el.querySelectorAll<HTMLElement>('[data-layout-text]')].filter(visible).map(element => {
         const range = document.createRange(); range.selectNodeContents(element);
-        return {id: element.dataset.layoutText!, rect: range.getBoundingClientRect()};
+        return {id: element.dataset.layoutText!, rect: range.getBoundingClientRect(), assetScene: element.closest('[data-layout-overlap="assets"]')};
       }).filter(item => item.rect.width > 0 && item.rect.height > 0);
       const fail = (message: string) => {throw new Error(`[layout:measured] frame=${frame}: ${message}`);};
       for (const {id, rect} of text) {
         if (rect.left < canvas.left - .5 || rect.right > canvas.right + .5 || rect.top < canvas.top - .5 || rect.bottom > canvas.bottom + .5) fail(`${id} leaves the canvas`);
       }
       for (let i = 0; i < text.length; i++) for (let j = i + 1; j < text.length; j++) {
+        // Asset labels may occlude each other within one layered UI composition.
+        if (text[i].assetScene && text[i].assetScene === text[j].assetScene) continue;
         if (overlap(text[i].rect, text[j].rect)) fail(`${text[i].id} overlaps ${text[j].id}`);
       }
       for (const visual of el.querySelectorAll('[data-layout="visual"]')) {
