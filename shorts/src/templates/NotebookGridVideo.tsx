@@ -19,6 +19,8 @@ import {ScribbleFilter} from '../visuals/ScribbleFilter';
 
 const INK = '#171715', ACCENT = '#c87829', RULE = '#bcb5a9';
 const LEFT = 80, WIDTH = 820;
+// Calibrated against the supplied Reels screenshot; keep the paper full-bleed.
+const CONTENT_OFFSET_Y = 100;
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const reveal = (frame: number, start: number) => interpolate(frame, [start, start + 12], [0, 1], clamp);
 
@@ -67,6 +69,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   // Common CTA deliberately retains its established shared design and duration.
   if (isCta) return <AbsoluteFill style={{opacity: reveal(frame, 0), filter: `blur(${(1 - reveal(frame, 0)) * 12}px)`}}><BlogCta layer="visual" scene={scene} /><BlogCta layer="text" scene={scene} /></AbsoluteFill>;
   return <AbsoluteFill ref={root} style={{color: INK, opacity: exit, fontFamily: 'Pretendard, Arial, sans-serif'}}>
+    <AbsoluteFill style={{transform: `translateY(${CONTENT_OFFSET_Y}px)`}}>
     {scribbleHeading && <ScribbleFilter id={titleScribbleId} />}
     <Rule top={238} progress={lines} />
     <div data-layout-text="label" style={{position: 'absolute', left: LEFT, top: 180, background: INK, color: '#fff', padding: '8px 14px', fontSize: 28, fontWeight: 800, opacity: content}}>{String(index + 1).padStart(2, '0')} · {index === 0 ? '주제' : scene.kind === 'outro' ? '정리' : '노트'}</div>
@@ -96,6 +99,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
         return start < 0 || !keyword ? caption.text : <>{caption.text.slice(0, start)}<span style={{textDecoration: 'underline', textDecorationColor: ACCENT, textDecorationThickness: 5, textUnderlineOffset: 9}}>{keyword}</span>{caption.text.slice(start + keyword.length)}</>;
       })()}</div>
     </div>
+    </AbsoluteFill>
   </AbsoluteFill>;
 };
 
@@ -112,6 +116,6 @@ export const NotebookGridVideo: React.FC<RenderManifest> = ({scenes, candidate, 
         {scene.audioPath && <Html5Audio src={staticFile(scene.audioPath)} />}
       </Sequence>;
     })}
-    {presenterOverlay && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
+    {presenterOverlay && <PersistentPresenter scenes={scenes} options={presenterOverlay} offsetY={CONTENT_OFFSET_Y} />}
   </AbsoluteFill>;
 };
