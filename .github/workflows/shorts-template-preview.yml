@@ -1,22 +1,19 @@
 name: Publish shorts template preview
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'shorts/src/**'
-      - 'shorts/package.json'
-      - 'shorts/scripts/render-template-preview.mjs'
-      - 'shorts/scripts/bgm.mjs'
-      - '.github/workflows/shorts-template-preview.yml'
   workflow_dispatch:
+    inputs:
+      generate_previews:
+        description: Generate and publish template preview (uses paid TTS)
+        type: boolean
+        default: false
 
 permissions:
   contents: write
 
 jobs:
   publish-preview:
+    if: github.event_name == 'workflow_dispatch' && inputs.generate_previews
     runs-on: ubuntu-latest
 
     steps:
@@ -38,7 +35,7 @@ jobs:
           cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
 
       - name: Render public preview
-        # Public previews use real TTS; PR checks explicitly use --silent.
+        # Public previews use real TTS only after explicit manual opt-in.
         working-directory: shorts
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

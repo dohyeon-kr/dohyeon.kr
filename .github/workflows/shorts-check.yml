@@ -2,17 +2,40 @@ name: Shorts pipeline check
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited]
+    types: [opened, synchronize, reopened]
     paths:
       - 'shorts/**'
       - '.github/workflows/*shorts*.yml'
+  workflow_dispatch:
+    inputs:
+      generate_previews:
+        description: Generate preview images and videos (otherwise validation only)
+        type: boolean
+        default: false
+      manifest:
+        description: Optional candidate path under shorts/content/ for silent preview
+        type: string
+        required: false
 
 permissions:
   contents: read
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Typecheck and unit tests (no preview generation)
+        working-directory: shorts
+        run: |
+          npm run typecheck
+          npm test
   presenter-rig-preview:
-    if: github.event.action != 'edited'
+    if: github.event_name == 'workflow_dispatch' && inputs.generate_previews
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -42,11 +65,11 @@ jobs:
           npx remotion render src/index.tsx PresenterRigPreview "${RUNNER_TEMP}/presenter-rig/presenter-rig.mp4" --concurrency=2
       - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
-          name: presenter-rig-${{ github.event.pull_request.number }}
+          name: presenter-rig-${{ github.run_id }}
           path: ${{ runner.temp }}/presenter-rig/*
           retention-days: 7
   blog-cta-preview:
-    if: github.event.action != 'edited'
+    if: github.event_name == 'workflow_dispatch' && inputs.generate_previews
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -70,12 +93,12 @@ jobs:
           npx remotion render src/index.tsx BlogCtaTransitionPreview "${RUNNER_TEMP}/blog-cta/transition.mp4" --public-dir=public --concurrency=2
       - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
-          name: blog-cta-preview-${{ github.event.pull_request.number }}
+          name: blog-cta-preview-${{ github.run_id }}
           path: ${{ runner.temp }}/blog-cta/*
           retention-days: 7
 
   preview:
-    if: github.event.action != 'edited'
+    if: github.event_name == 'workflow_dispatch' && inputs.generate_previews
     runs-on: ubuntu-latest
 
     steps:
@@ -106,7 +129,7 @@ jobs:
           cp scripts/thumbnail-fonts/Pretendard-Regular.woff shorts/public/fonts/
 
       - name: Render template preview frames
-        # Both engines must render in CI before this engine change is merged.
+        # Explicitly requested visual QA; PR validation does not render previews.
         working-directory: shorts
         run: |
           mkdir -p "${RUNNER_TEMP}/shorts-template-preview"
@@ -136,7 +159,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
-          name: shorts-template-preview-${{ github.event.pull_request.number }}
+          name: shorts-template-preview-${{ github.run_id }}
           path: |
             shorts/out/video-background/**
             shorts/out/motion-effects/*.png
@@ -152,8 +175,9 @@ jobs:
           if-no-files-found: ignore
 
   candidate-review:
+    if: github.event_name == 'workflow_dispatch' && inputs.generate_previews && inputs.manifest != ''
     concurrency:
-      group: shorts-candidate-review-${{ github.event.pull_request.number }}
+      group: shorts-candidate-review-${{ github.ref }}
       cancel-in-progress: true
     runs-on: ubuntu-latest
     steps:
@@ -163,12 +187,22 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
-      - name: Select checked candidates in this PR
+      - name: Validate explicitly selected candidate
         id: candidates
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: node shorts/scripts/select-preview-candidates.mjs
+          MANIFEST_INPUT: ${{ inputs.manifest }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs/promises';
+          import path from 'node:path';
+          import {candidatePath, validateSelection} from './shorts/scripts/candidate-selection.mjs';
+          const manifest = process.env.MANIFEST_INPUT;
+          if (!candidatePath.test(manifest || '')) throw new Error('Invalid candidate manifest path');
+          await validateSelection([manifest]);
+          const list = path.join(process.env.RUNNER_TEMP, 'preview-manifests.txt');
+          await fs.writeFile(list, manifest + '\n');
+          await fs.appendFile(process.env.GITHUB_OUTPUT, `count=1\nlist_file=${list}\n`);
+          JS
       - name: Install review tools
         if: steps.candidates.outputs.count != '0'
         run: |
@@ -191,7 +225,7 @@ jobs:
         if: ${{ always() && steps.candidates.outputs.count != '' && steps.candidates.outputs.count != '0' }}
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
-          name: shorts-candidate-review-${{ github.event.pull_request.number }}
+          name: shorts-candidate-review-${{ github.run_id }}
           path: |
             shorts/out/storyboards/**/*.png
             shorts/out/*.mp4
@@ -201,7 +235,7 @@ jobs:
           retention-days: 7
 
   notebook-preview:
-    if: github.event.action != 'edited'
+    if: github.event_name == 'workflow_dispatch' && inputs.generate_previews
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -231,6 +265,6 @@ jobs:
           npx remotion render src/index.tsx NotebookPreview "${RUNNER_TEMP}/notebook/notebook.mp4" --concurrency=2
       - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
-          name: notebook-preview-${{ github.event.pull_request.number }}
+          name: notebook-preview-${{ github.run_id }}
           path: ${{ runner.temp }}/notebook/*
           retention-days: 7
