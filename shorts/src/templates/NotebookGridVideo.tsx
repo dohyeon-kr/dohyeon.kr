@@ -58,13 +58,16 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   const longestWord = Math.max(1, ...headingText.split(/\s+/).map(textUnits));
   const headingSize = hasVisual ? (index === 0 ? 100 : 80) : Math.min(152, Math.floor(WIDTH / longestWord));
   const heading = copy(headingText, WIDTH, headingHeight, headingSize);
+  const diagramLayout = scene.diagramSpec
+    ? {left: 40, top: headingText.trim() ? 600 : 320, width: 900, height: headingText.trim() ? 570 : 850}
+    : {left: LEFT, top: 600, width: WIDTH, height: 570};
   // Common CTA deliberately retains its established shared design and duration.
   if (isCta) return <AbsoluteFill style={{opacity: reveal(frame, 0), filter: `blur(${(1 - reveal(frame, 0)) * 12}px)`}}><BlogCta layer="visual" scene={scene} /><BlogCta layer="text" scene={scene} /></AbsoluteFill>;
   return <AbsoluteFill ref={root} style={{color: INK, opacity: exit, fontFamily: 'Pretendard, Arial, sans-serif'}}>
     <Rule top={238} progress={lines} />
     <div data-layout-text="label" style={{position: 'absolute', left: LEFT, top: 180, background: INK, color: '#fff', padding: '8px 14px', fontSize: 28, fontWeight: 800, opacity: content}}>{String(index + 1).padStart(2, '0')} · {index === 0 ? '주제' : scene.kind === 'outro' ? '정리' : '노트'}</div>
     <div data-layout-text="headline" style={{position: 'absolute', top: hasVisual ? 285 : 350, left: LEFT, width: WIDTH, height: headingHeight, display: 'flex', alignItems: hasVisual ? 'flex-start' : 'center', fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.25, whiteSpace: 'pre-wrap', opacity: content, transform: `translateY(${(1 - content) * 10}px)`}}>{heading.text}</div>
-    {hasVisual && <div data-layout="visual" data-overlay-reserve="visual" style={{position: 'absolute', left: LEFT, top: 600, width: WIDTH, height: 570, opacity: reveal(frame, 16)}}>
+    {hasVisual && <div data-layout="visual" data-overlay-reserve="visual" style={{position: 'absolute', ...diagramLayout, opacity: reveal(frame, 16)}}>
       {compare ? <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', height: '100%', borderTop: `2px solid ${RULE}`, borderBottom: `2px solid ${RULE}`}}>
         {[scene.comparisonLeft, scene.comparisonRight].map((text, i) => {
           const fitted = copy(text ?? '', 350, 430, 56);
@@ -77,7 +80,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
         : scene.backgroundVideo ? <VideoBackground scene={scene} />
         : scene.imagePath ? <PrintedPhoto src={scene.imagePath} />
         : <div style={{width: '100%', height: '100%', filter: 'invert(1)', mixBlendMode: 'multiply'}}>
-          {scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} durationInFrames={frames} /> : scene.visual ? <PresetVisual visual={scene.visual} durationInFrames={frames} /> : null}
+          {scene.diagramSpec ? <div style={{width: '100%', height: '100%', transform: 'scale(1.08)'}}><DiagramRenderer spec={scene.diagramSpec} durationInFrames={frames} scribble /></div> : scene.visual ? <PresetVisual visual={scene.visual} durationInFrames={frames} /> : null}
         </div>}
     </div>}
     {scene.subline && <div data-layout-text="subline" style={{position: 'absolute', left: LEFT, top: hasVisual ? 1200 : 1110, width: WIDTH, fontSize: description.fontSize, lineHeight: 1.25, whiteSpace: 'pre-wrap', opacity: reveal(frame, 22)}}>{description.text}</div>}
