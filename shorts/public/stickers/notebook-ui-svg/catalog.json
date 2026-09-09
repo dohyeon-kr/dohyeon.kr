@@ -1,5 +1,11 @@
 {
   "version": 1,
+  "renderDefaults": {
+    "component": "NotebookUiAsset",
+    "scribble": true,
+    "frequencyHz": 10,
+    "textLayer": "unfiltered"
+  },
   "coordinateSystem": "SVG viewBox units; anchors include transparent padding",
   "layerOrder": [
     "window",

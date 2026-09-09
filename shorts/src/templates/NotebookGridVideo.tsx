@@ -5,6 +5,7 @@ import {previewSceneFrames} from '../template-preview';
 import {subtitleAt} from '../subtitles';
 import {fitCopy, textUnits} from '../text-layout';
 import {useLayoutCheck} from '../use-layout-check';
+import {NotebookUiScene} from '../visuals/NotebookUiScene';
 import {DiagramRenderer} from '../visuals/DiagramRenderer';
 import {PresetVisual} from '../visuals/PresetVisual';
 import {VideoBackground} from '../video/VideoBackground';
@@ -52,8 +53,8 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   const caption = copy(cue?.text ?? '', overlay ? 580 : WIDTH, 144, 48, 36);
   if (caption.text.split('\n').length > 2) throw new Error('[layout:notebook] Split subtitle into beats of at most two lines');
   const description = copy(scene.subline ?? '', WIDTH, 110, 44);
-  const compare = !scene.diagramSpec && (scene.kind === 'compare' || scene.layout?.startsWith('compare-'));
-  const hasVisual = compare || scene.presenter != null || scene.backgroundVideo || scene.imagePath || scene.diagramSpec || (scene.visual && scene.visual.type !== 'none');
+  const compare = !scene.uiMotion && !scene.diagramSpec && (scene.kind === 'compare' || scene.layout?.startsWith('compare-'));
+  const hasVisual = scene.uiMotion || compare || scene.presenter != null || scene.backgroundVideo || scene.imagePath || scene.diagramSpec || (scene.visual && scene.visual.type !== 'none');
   const headingHeight = hasVisual ? 275 : scene.subline ? 650 : 850;
   const headingText = index === 0 ? title : scene.headline;
   // Preserve Korean words when enlarging an intentionally line-broken heading.
@@ -61,7 +62,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   const headingSize = hasVisual ? (index === 0 ? 100 : 80) : Math.min(152, Math.floor(WIDTH / longestWord));
   const heading = copy(headingText, WIDTH, headingHeight, headingSize);
   const scribbleHeading = heading.fontSize >= 100 && Boolean(headingText.trim());
-  const diagramLayout = scene.diagramSpec
+  const diagramLayout = scene.uiMotion || scene.diagramSpec
     ? {left: 40, top: headingText.trim() ? 600 : 320, width: 900, height: headingText.trim() ? 570 : 850}
     : {left: LEFT, top: 600, width: WIDTH, height: 570};
   // Common CTA deliberately retains its established shared design and duration.
@@ -82,6 +83,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
         })}
       </div> : scene.presenter != null ? <ScenePresenter scene={scene} frames={frames} />
         : scene.backgroundVideo ? <VideoBackground scene={scene} />
+        : scene.uiMotion ? <div style={{position:'absolute',left:(visualLayout.width-scene.uiMotion.width*Math.min(visualLayout.width/scene.uiMotion.width,visualLayout.height/scene.uiMotion.height))/2,top:(visualLayout.height-scene.uiMotion.height*Math.min(visualLayout.width/scene.uiMotion.width,visualLayout.height/scene.uiMotion.height))/2,transform:`scale(${Math.min(visualLayout.width/scene.uiMotion.width,visualLayout.height/scene.uiMotion.height)})`,transformOrigin:'top left'}}><NotebookUiScene spec={scene.uiMotion} durationInFrames={frames} /></div>
         : scene.imagePath ? <PrintedPhoto src={scene.imagePath} />
         : <div style={{width: '100%', height: '100%', filter: 'invert(1)', mixBlendMode: 'multiply'}}>
           {scene.diagramSpec ? <div style={{width: '100%', height: '100%', transform: 'scale(1.08)'}}><DiagramRenderer spec={scene.diagramSpec} durationInFrames={frames} scribble /></div> : scene.visual ? <PresetVisual visual={scene.visual} durationInFrames={frames} /> : null}
@@ -115,3 +117,4 @@ export const NotebookGridVideo: React.FC<RenderManifest> = ({scenes, candidate, 
     {presenterOverlay && <PersistentPresenter scenes={scenes} options={presenterOverlay} />}
   </AbsoluteFill>;
 };
+

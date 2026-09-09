@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "width": 800,
+  "height": 560,
+  "nodes": [
+    {"id":"window","asset":"window","x":40,"y":40,"width":700,"layer":0},
+    {"id":"button","asset":"button","x":270,"y":280,"width":240,"layer":1,"label":"열기","labelSize":28},
+    {"id":"popup","asset":"popup","x":165,"y":155,"width":440,"opacity":0,"layer":3,"label":"안내","labelSize":32},
+    {"id":"cursor","asset":"cursor","x":615,"y":380,"width":70,"layer":4},
+    {"id":"click","asset":"click-rays","x":435,"y":310,"width":42,"opacity":0,"layer":5}
+  ],
+  "events": [
+    {"target":"cursor","property":"x","from":615,"to":454.08,"start":0.1,"end":0.3},
+    {"target":"cursor","property":"y","from":380,"to":331.83,"start":0.1,"end":0.3},
+    {"target":"click","property":"opacity","from":0,"to":1,"start":0.3,"end":0.32},
+    {"target":"click","property":"opacity","from":1,"to":0,"start":0.34,"end":0.36},
+    {"target":"popup","property":"opacity","from":0,"to":1,"start":0.4,"end":0.48},
+    {"target":"cursor","property":"opacity","from":1,"to":0,"start":0.37,"end":0.4}
+  ],
+  "states": [{"target":"button","at":0.32,"asset":"button-pressed"}]
+}

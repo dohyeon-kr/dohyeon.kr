@@ -1,3 +1,4 @@
+import {NotebookUiMotionSchema} from '../src/visuals/notebook-ui-motion-schema.ts';
 import {getTemplate} from '../src/templates/registry.ts';
 import {SYSTEM_PROMPT, VISUAL_SYSTEM_PROMPT, renderPrompt} from './shorts-prompts.mjs';
 import {withBlogCta} from './blog-cta.mjs';
@@ -108,6 +109,7 @@ const CameraSchema = z.object({
 });
 
 const SceneSchema = z.object({
+  uiMotion: NotebookUiMotionSchema.nullable().optional(),
   presenter: GeneratedPresenterSchema.nullable(),
   backgroundVideo: BackgroundVideoSchema.nullable(),
   visualStory: z.object({initial: z.string(), trigger: z.string(), change: z.string(), invariant: z.string(), result: z.string()}).nullable(),
@@ -315,3 +317,4 @@ const main = async () => {
 };
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) await main();
+

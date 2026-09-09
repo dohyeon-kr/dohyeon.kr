@@ -1,3 +1,4 @@
+import {validateSceneUiMotion} from '../visuals/notebook-ui-motion.ts';
 import {validateBackgroundVideo} from '../video/schema.ts';
 import {validateScenePresenter} from '../presenter/schema.ts';
 import {z} from 'zod';
@@ -6,6 +7,7 @@ import {evaluatedDiagramState} from '../visuals/physics.ts';
 import type {CandidateScene} from '../types';
 
 export function validateSceneMotion(scene: CandidateScene, previous?: CandidateScene) {
+  validateSceneUiMotion(scene);
   validateScenePresenter(scene);
   validateBackgroundVideo(scene);
   if (scene.transition !== undefined) z.enum(TRANSITIONS).parse(scene.transition);
@@ -32,3 +34,4 @@ export function validateSceneMotion(scene: CandidateScene, previous?: CandidateS
     if (!a || !b || a.shape !== b.shape || ['x', 'y', 'width', 'height', 'scale', 'rotation', 'opacity'].some(key => Math.abs(Number(a[key as keyof typeof a]) - Number(b[key as keyof typeof b])) > .01)) throw new Error('match-cut target geometry must match across the boundary');
   }
 }
+

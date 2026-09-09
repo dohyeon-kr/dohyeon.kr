@@ -399,10 +399,16 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
+      "visualStory": {
+        "initial": "짧은 문구가 들어간 창과 긴 문구 설정 버튼",
+        "trigger": "커서가 긴 문구 버튼을 클릭",
+        "change": "버튼이 눌리고 문구가 여러 줄로 늘어남",
+        "invariant": "창과 기준 좌표는 고정하고 자막·발표자 예약 영역을 침범하지 않는다",
+        "result": "설정만 바꿔 화면이 어떻게 달라지는지 확인"
+      },
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-giant",
+      "layout": "diagram-centered",
       "visual": {
         "type": "none",
         "motif": null,
@@ -412,15 +418,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "문구가 길어지면 화면은 괜찮을까?",
+        "concept": "설정만 바꿔 화면이 어떻게 달라지는지 확인",
         "relation": {
-          "type": "literal",
-          "description": "문구가 길어지면 화면은 괜찮을까?"
+          "type": "change-over-time",
+          "description": "버튼이 눌리고 문구가 여러 줄로 늘어남"
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
+          "rationale": "사용자가 바꾸는 입력과 화면의 반응을 같은 장면에서 직접 보여준다"
         }
       },
       "transition": "fade",
@@ -434,8 +440,10 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline",
-        "emphasize-result"
+        "짧은 문구가 들어간 창과 긴 문구 설정 버튼",
+        "커서가 긴 문구 버튼을 클릭",
+        "버튼이 눌리고 문구가 여러 줄로 늘어남",
+        "설정만 바꿔 화면이 어떻게 달라지는지 확인"
       ],
       "beats": [
         {
@@ -475,21 +483,131 @@
           "visualCue": null
         }
       ],
-      "headline": "문구가 길어지면\n화면은 괜찮을까?",
+      "headline": "긴 문구도\n바로 확인",
       "subline": null,
       "narration": "그래서 화면에 넣을 문구나 데이터 조건을 설정에서 직접 고르게 했습니다. 공지 제목이 길어지거나 표시할 내용이 없을 때도 화면이 괜찮은지 바로 확인할 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "uiMotion": {
+        "version": 1,
+        "width": 800,
+        "height": 560,
+        "scribble": true,
+        "nodes": [
+          {
+            "id": "window",
+            "asset": "window",
+            "x": 40,
+            "y": 40,
+            "width": 700
+          },
+          {
+            "id": "button",
+            "asset": "button",
+            "x": 90,
+            "y": 300,
+            "width": 200,
+            "layer": 1,
+            "label": "긴 문구",
+            "labelSize": 28
+          },
+          {
+            "id": "copy",
+            "asset": "text-lines-short",
+            "x": 335,
+            "y": 145,
+            "width": 340,
+            "layer": 1
+          },
+          {
+            "id": "cursor",
+            "asset": "cursor",
+            "x": 615,
+            "y": 380,
+            "width": 70,
+            "layer": 4
+          },
+          {
+            "id": "click",
+            "asset": "click-rays",
+            "x": 221.16153846153844,
+            "y": 322.7,
+            "width": 42,
+            "layer": 5,
+            "opacity": 0
+          }
+        ],
+        "events": [
+          {
+            "target": "cursor",
+            "property": "x",
+            "from": 615,
+            "to": 240.3846153846154,
+            "start": 0.1,
+            "end": 0.27
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 380,
+            "to": 343.9423076923077,
+            "start": 0.1,
+            "end": 0.27
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.27,
+            "end": 0.28500000000000003
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.29500000000000004,
+            "end": 0.315
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.32,
+            "end": 0.35000000000000003
+          }
+        ],
+        "states": [
+          {
+            "target": "button",
+            "at": 0.29,
+            "asset": "button-pressed"
+          },
+          {
+            "target": "copy",
+            "at": 0.36,
+            "asset": "text-lines-long"
+          }
+        ]
+      }
     },
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
+      "visualStory": {
+        "initial": "창 안에 열기 버튼",
+        "trigger": "커서가 열기 버튼을 클릭",
+        "change": "클릭 표시와 버튼 상태 변화 후 팝업 등장",
+        "invariant": "창과 기준 좌표는 고정하고 자막·발표자 예약 영역을 침범하지 않는다",
+        "result": "정지된 예시에서 실제 조작 과정으로 전환"
+      },
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-giant",
+      "layout": "diagram-centered",
       "visual": {
         "type": "none",
         "motif": null,
@@ -499,15 +617,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "버튼을 누른 뒤까지 직접 확인",
+        "concept": "정지된 예시에서 실제 조작 과정으로 전환",
         "relation": {
-          "type": "literal",
-          "description": "버튼을 누른 뒤까지 직접 확인"
+          "type": "change-over-time",
+          "description": "클릭 표시와 버튼 상태 변화 후 팝업 등장"
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
+          "rationale": "사용자가 바꾸는 입력과 화면의 반응을 같은 장면에서 직접 보여준다"
         }
       },
       "transition": "fade",
@@ -521,8 +639,10 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline",
-        "emphasize-result"
+        "창 안에 열기 버튼",
+        "커서가 열기 버튼을 클릭",
+        "클릭 표시와 버튼 상태 변화 후 팝업 등장",
+        "정지된 예시에서 실제 조작 과정으로 전환"
       ],
       "beats": [
         {
@@ -562,13 +682,124 @@
           "visualCue": null
         }
       ],
-      "headline": "버튼을 누른 뒤까지\n직접 확인",
+      "headline": "눌러서\n다음 화면까지",
       "subline": null,
       "narration": "팝업이 열린 모습만 따로 보여주는 대신, 버튼을 눌러 팝업을 열게 했습니다. 22개 예시는 이렇게 직접 조작하는 3개로 정리했고, 버튼을 누른 뒤 화면이 바뀌는 과정까지 확인합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "uiMotion": {
+        "version": 1,
+        "width": 800,
+        "height": 560,
+        "nodes": [
+          {
+            "id": "window",
+            "asset": "window",
+            "x": 40,
+            "y": 40,
+            "width": 700,
+            "layer": 0
+          },
+          {
+            "id": "button",
+            "asset": "button",
+            "x": 270,
+            "y": 280,
+            "width": 240,
+            "layer": 1,
+            "label": "열기",
+            "labelSize": 28
+          },
+          {
+            "id": "popup",
+            "asset": "popup",
+            "x": 165,
+            "y": 155,
+            "width": 440,
+            "opacity": 0,
+            "layer": 3,
+            "label": "안내",
+            "labelSize": 32
+          },
+          {
+            "id": "cursor",
+            "asset": "cursor",
+            "x": 615,
+            "y": 380,
+            "width": 70,
+            "layer": 4
+          },
+          {
+            "id": "click",
+            "asset": "click-rays",
+            "x": 432.8538461538462,
+            "y": 312.7,
+            "width": 42,
+            "layer": 5,
+            "opacity": 0
+          }
+        ],
+        "events": [
+          {
+            "target": "cursor",
+            "property": "x",
+            "from": 615,
+            "to": 452.0769230769231,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 380,
+            "to": 333.9423076923077,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.315
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.325,
+            "end": 0.345
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.35,
+            "end": 0.38
+          },
+          {
+            "target": "popup",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.48
+          }
+        ],
+        "states": [
+          {
+            "target": "button",
+            "at": 0.32,
+            "asset": "button-pressed"
+          }
+        ],
+        "scribble": true
+      }
     },
     {
       "presenter": null,
@@ -660,10 +891,16 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
+      "visualStory": {
+        "initial": "응답 데이터 카드와 배너가 있는 창",
+        "trigger": "커서가 비우기 버튼을 클릭",
+        "change": "빈 데이터로 교체 → 화살표 몸통·머리 두 획 → 빈 배너, 후반 오류 안내",
+        "invariant": "창과 기준 좌표는 고정하고 자막·발표자 예약 영역을 침범하지 않는다",
+        "result": "응답 변경으로 빈 상태와 실패 상태 확인"
+      },
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-giant",
+      "layout": "diagram-centered",
       "visual": {
         "type": "none",
         "motif": null,
@@ -673,15 +910,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "데이터가 없을 때도 화면으로 확인",
+        "concept": "응답 변경으로 빈 상태와 실패 상태 확인",
         "relation": {
-          "type": "literal",
-          "description": "데이터가 없을 때도 화면으로 확인"
+          "type": "change-over-time",
+          "description": "빈 데이터로 교체 → 화살표 몸통·머리 두 획 → 빈 배너, 후반 오류 안내"
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
+          "rationale": "사용자가 바꾸는 입력과 화면의 반응을 같은 장면에서 직접 보여준다"
         }
       },
       "transition": "fade",
@@ -695,8 +932,10 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline",
-        "emphasize-result"
+        "응답 데이터 카드와 배너가 있는 창",
+        "커서가 비우기 버튼을 클릭",
+        "빈 데이터로 교체 → 화살표 몸통·머리 두 획 → 빈 배너, 후반 오류 안내",
+        "응답 변경으로 빈 상태와 실패 상태 확인"
       ],
       "beats": [
         {
@@ -736,13 +975,253 @@
           "visualCue": null
         }
       ],
-      "headline": "데이터가 없을 때도\n화면으로 확인",
+      "headline": "데이터를 바꾸면\n화면도 바뀐다",
       "subline": null,
       "narration": "그래서 서버가 보내줄 데이터를 화면에서 직접 바꾸는 테스트 도구를 붙였습니다. 배너 목록을 비우면 배너가 없는 화면을 보고, 오류 응답을 넣으면 실패 안내를 확인합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "uiMotion": {
+        "version": 1,
+        "width": 800,
+        "height": 560,
+        "scribble": true,
+        "nodes": [
+          {
+            "id": "data",
+            "asset": "data-card",
+            "x": 30,
+            "y": 130,
+            "width": 250,
+            "layer": 0
+          },
+          {
+            "id": "button",
+            "asset": "button",
+            "x": 65,
+            "y": 360,
+            "width": 190,
+            "layer": 1,
+            "label": "비우기",
+            "labelSize": 28
+          },
+          {
+            "id": "arrow",
+            "asset": "arrow",
+            "x": 300,
+            "y": 220,
+            "width": 140,
+            "drawProgress": 0,
+            "layer": 1
+          },
+          {
+            "id": "window",
+            "asset": "window",
+            "x": 460,
+            "y": 130,
+            "width": 310
+          },
+          {
+            "id": "banner",
+            "asset": "banner",
+            "x": 476,
+            "y": 177,
+            "width": 278,
+            "layer": 1
+          },
+          {
+            "id": "error",
+            "asset": "popup",
+            "x": 470,
+            "y": 165,
+            "width": 290,
+            "layer": 3,
+            "opacity": 0,
+            "label": "오류 안내",
+            "labelSize": 28
+          },
+          {
+            "id": "cursor",
+            "asset": "cursor",
+            "x": 630,
+            "y": 400,
+            "width": 70,
+            "layer": 4
+          },
+          {
+            "id": "click",
+            "asset": "click-rays",
+            "x": 188.23846153846154,
+            "y": 380.2,
+            "width": 42,
+            "layer": 5,
+            "opacity": 0
+          },
+          {
+            "id": "error-button",
+            "asset": "button",
+            "x": 65,
+            "y": 450,
+            "width": 190,
+            "layer": 1,
+            "label": "오류 응답",
+            "labelSize": 28
+          }
+        ],
+        "events": [
+          {
+            "target": "cursor",
+            "property": "x",
+            "from": 630,
+            "to": 207.46153846153848,
+            "start": 0.08,
+            "end": 0.23
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 400,
+            "to": 401.4423076923077,
+            "start": 0.08,
+            "end": 0.23
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.23,
+            "end": 0.245
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.255,
+            "end": 0.275
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.28,
+            "end": 0.31
+          },
+          {
+            "target": "arrow",
+            "property": "drawProgress",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.48,
+            "easing": "linear"
+          },
+          {
+            "target": "error",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.78,
+            "end": 0.85
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.6,
+            "end": 0.62
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 401.4423076923077,
+            "to": 491.4423076923077,
+            "start": 0.62,
+            "end": 0.69
+          },
+          {
+            "target": "click",
+            "property": "y",
+            "from": 380.2,
+            "to": 470.2,
+            "start": 0.62,
+            "end": 0.68
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.69,
+            "end": 0.705
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.715,
+            "end": 0.735
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.74,
+            "end": 0.77
+          },
+          {
+            "target": "arrow",
+            "property": "drawProgress",
+            "from": 1,
+            "to": 0,
+            "start": 0.61,
+            "end": 0.62,
+            "easing": "linear"
+          },
+          {
+            "target": "arrow",
+            "property": "drawProgress",
+            "from": 0,
+            "to": 1,
+            "start": 0.71,
+            "end": 0.78,
+            "easing": "linear"
+          }
+        ],
+        "states": [
+          {
+            "target": "button",
+            "at": 0.25,
+            "asset": "button-pressed"
+          },
+          {
+            "target": "data",
+            "at": 0.28,
+            "asset": "data-card-empty"
+          },
+          {
+            "target": "banner",
+            "at": 0.5,
+            "asset": "banner-empty"
+          },
+          {
+            "target": "error-button",
+            "at": 0.71,
+            "asset": "button-pressed"
+          },
+          {
+            "target": "data",
+            "at": 0.72,
+            "asset": "data-card"
+          }
+        ]
+      }
     },
     {
       "presenter": null,
