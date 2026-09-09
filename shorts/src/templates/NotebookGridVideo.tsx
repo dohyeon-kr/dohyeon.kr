@@ -3,7 +3,7 @@ import {AbsoluteFill, Html5Audio, Img, Sequence, interpolate, staticFile, useCur
 import type {RenderManifest, RenderScene} from '../types';
 import {previewSceneFrames} from '../template-preview';
 import {subtitleAt} from '../subtitles';
-import {fitCopy} from '../text-layout';
+import {fitCopy, textUnits} from '../text-layout';
 import {useLayoutCheck} from '../use-layout-check';
 import {DiagramRenderer} from '../visuals/DiagramRenderer';
 import {PresetVisual} from '../visuals/PresetVisual';
@@ -26,8 +26,8 @@ function copy(text: string, width: number, height: number, preferred: number, mi
   if (text.trim() && result.fontSize < minimum) throw new Error(`[layout:notebook] Shorten copy to keep it readable at ${minimum}px: ${text}`);
   return result;
 }
-const Rule: React.FC<{top: number; progress: number}> = ({top, progress}) => <div style={{position: 'absolute', left: LEFT, top, width: WIDTH, height: 2, background: ACCENT, transform: `scaleX(${progress})`, transformOrigin: 'left'}}>
-  {[0, WIDTH - 5].map(left => <span key={left} style={{position: 'absolute', left, top: -2, width: 6, height: 6, borderRadius: '50%', background: ACCENT}} />)}
+const Rule: React.FC<{top: number; progress: number; width?: number}> = ({top, progress, width = WIDTH}) => <div style={{position: 'absolute', left: LEFT, top, width, height: 2, background: ACCENT, transform: `scaleX(${progress})`, transformOrigin: 'left'}}>
+  {[0, width - 5].map(left => <span key={left} style={{position: 'absolute', left, top: -2, width: 6, height: 6, borderRadius: '50%', background: ACCENT}} />)}
 </div>;
 
 const ScenePresenter: React.FC<{scene: RenderScene; frames: number}> = ({scene, frames}) => {
@@ -49,16 +49,21 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   const cue = subtitleAt(scene, frame / 30);
   const caption = copy(cue?.text ?? '', overlay ? 580 : WIDTH, 144, 48, 36);
   if (caption.text.split('\n').length > 2) throw new Error('[layout:notebook] Split subtitle into beats of at most two lines');
-  const heading = copy(index === 0 ? title : scene.headline, WIDTH, 275, index === 0 ? 100 : 80);
   const description = copy(scene.subline ?? '', WIDTH, 110, 44);
   const compare = !scene.diagramSpec && (scene.kind === 'compare' || scene.layout?.startsWith('compare-'));
   const hasVisual = compare || scene.presenter != null || scene.backgroundVideo || scene.imagePath || scene.diagramSpec || (scene.visual && scene.visual.type !== 'none');
+  const headingHeight = hasVisual ? 275 : scene.subline ? 650 : 850;
+  const headingText = index === 0 ? title : scene.headline;
+  // Preserve Korean words when enlarging an intentionally line-broken heading.
+  const longestWord = Math.max(1, ...headingText.split(/\s+/).map(textUnits));
+  const headingSize = hasVisual ? (index === 0 ? 100 : 80) : Math.min(152, Math.floor(WIDTH / longestWord));
+  const heading = copy(headingText, WIDTH, headingHeight, headingSize);
   // Common CTA deliberately retains its established shared design and duration.
   if (isCta) return <AbsoluteFill style={{opacity: reveal(frame, 0), filter: `blur(${(1 - reveal(frame, 0)) * 12}px)`}}><BlogCta layer="visual" scene={scene} /><BlogCta layer="text" scene={scene} /></AbsoluteFill>;
   return <AbsoluteFill ref={root} style={{color: INK, opacity: exit, fontFamily: 'Pretendard, Arial, sans-serif'}}>
     <Rule top={238} progress={lines} />
     <div data-layout-text="label" style={{position: 'absolute', left: LEFT, top: 180, background: INK, color: '#fff', padding: '8px 14px', fontSize: 28, fontWeight: 800, opacity: content}}>{String(index + 1).padStart(2, '0')} · {index === 0 ? '주제' : scene.kind === 'outro' ? '정리' : '노트'}</div>
-    <div data-layout-text="headline" style={{position: 'absolute', top: hasVisual ? 285 : 385, left: LEFT, width: WIDTH, fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.25, whiteSpace: 'pre-wrap', opacity: content, transform: `translateY(${(1 - content) * 10}px)`}}>{heading.text}</div>
+    <div data-layout-text="headline" style={{position: 'absolute', top: hasVisual ? 285 : 350, left: LEFT, width: WIDTH, height: headingHeight, display: 'flex', alignItems: hasVisual ? 'flex-start' : 'center', fontSize: heading.fontSize, fontWeight: 900, lineHeight: 1.25, whiteSpace: 'pre-wrap', opacity: content, transform: `translateY(${(1 - content) * 10}px)`}}>{heading.text}</div>
     {hasVisual && <div data-layout="visual" data-overlay-reserve="visual" style={{position: 'absolute', left: LEFT, top: 600, width: WIDTH, height: 570, opacity: reveal(frame, 16)}}>
       {compare ? <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', height: '100%', borderTop: `2px solid ${RULE}`, borderBottom: `2px solid ${RULE}`}}>
         {[scene.comparisonLeft, scene.comparisonRight].map((text, i) => {
@@ -75,8 +80,8 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
           {scene.diagramSpec ? <DiagramRenderer spec={scene.diagramSpec} durationInFrames={frames} /> : scene.visual ? <PresetVisual visual={scene.visual} durationInFrames={frames} /> : null}
         </div>}
     </div>}
-    {scene.subline && <div data-layout-text="subline" style={{position: 'absolute', left: LEFT, top: hasVisual ? 1200 : 800, width: WIDTH, fontSize: description.fontSize, lineHeight: 1.25, whiteSpace: 'pre-wrap', opacity: reveal(frame, 22)}}>{description.text}</div>}
-    <Rule top={1370} progress={lines} />
+    {scene.subline && <div data-layout-text="subline" style={{position: 'absolute', left: LEFT, top: hasVisual ? 1200 : 1110, width: WIDTH, fontSize: description.fontSize, lineHeight: 1.25, whiteSpace: 'pre-wrap', opacity: reveal(frame, 22)}}>{description.text}</div>}
+    <Rule top={1370} progress={lines} width={overlay ? 580 : WIDTH} />
     <div data-layout="caption" style={{position: 'absolute', left: LEFT, top: 1410, width: overlay ? 580 : WIDTH, height: 144}}>
       <div data-layout-text="caption" style={{fontSize: caption.fontSize, lineHeight: 1.25, fontWeight: 700, whiteSpace: 'pre-wrap'}}>{(() => {
         const keyword = cue && 'keyword' in cue && typeof cue.keyword === 'string' ? cue.keyword : null;

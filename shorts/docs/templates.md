@@ -40,7 +40,9 @@ Use diagrams and comparisons only when they materially help understanding.
 - Content uses x=80..900, y=180..1554. Four conceptual columns merge into full-width
   title/visual rows or two comparison columns. Maximum three meaningful regions.
 - The first frame uses the candidate's overall title, then short scene messages.
-  Titles 80–100px, body 44px; subtitles prefer 48px and never drop below 36px.
+  Titles with visuals 80–100px; text-only scenes use a vertically centered
+  850px region and 152px preferred title size (650px when a subline is present).
+  Body 44px; subtitles prefer 48px and never drop below 36px.
   Runtime rejects text that cannot fit and subtitles exceeding two lines.
 - Lines reveal first, then text and visuals with short fades and 10px movement.
   Scene transitions/cameras/effects are normalized to this template's restrained
@@ -90,3 +92,13 @@ and add the renderer mapping in `TemplateVideo.tsx`. Add the same ID to the work
 choice list. `templates.test.mjs` detects selector/catalog drift. Extend render
 verification with Korean title, caption, comparison, photo, diagram and transition
 frames, including intermediate motion states.
+
+### Text-only scenes and persistent presenter
+
+Use deliberate short lines in text-only headings so the large title occupies the
+central page instead of leaving a small label above an empty visual region.
+When `presenterOverlay` is explicitly requested, keep it on every body scene,
+including photos and diagrams. Reserve 580px for captions and the lower rule;
+the existing 190px bottom-right presenter remains separate. Split long beats by
+meaning to preserve two-line captions. The common CTA remains hidden according
+to `hideOnCommonCta`. Never replace this overlay with per-scene presenters.
