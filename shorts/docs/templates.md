@@ -82,7 +82,8 @@ Do not bake frames, tape, captions or generated lettering into the source image.
    750×1000px region without a heading, 540×720px with a heading, and
    427.5×570px when a subline needs space. Region top is y=320 without a
    heading or y=600 with one, before the shared 100px offset. For diagrams
-   supplied as images, set `visual.type=diagram`; those use `contain` so labels
+   supplied as images, use `visual.type=photo`, `diagramSpec=null` and
+   `image.source=authored-diagram`; those use `contain` so labels
    and relationships remain intact. Do not apply photographic cropping to text.
 3. One matte ivory PNG tape sticker at the top center: 220px asset width, -4°,
    opacity .62. About half the visible tape overlaps the print edge, the rest
