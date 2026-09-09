@@ -11,8 +11,8 @@
 ## 2. 실제 제작 순서
 
 1. **후보 생성:** Actions의 **Generate blog shorts**에 블로그 URL을 입력한다. 생성 결과는 `shorts/content/<post-slug>/candidate-XX.json` 파일을 담은 PR로 받는다. 원문의 독립적인 논점과 훅을 선택하고, 원문에 없는 경험·통계·결과를 만들지 않는다.
-2. **대본·장면 검토:** PR 본문의 체크박스로 사용할 후보를 선택하고 필요한 JSON을 수정한다. 체크 변경 시 선택 후보만 무음 미리보기로 생성되며 미선택 후보 파일은 보관한다. 스크립트, 자막의 의미 단위와 강조, 시각화 관계, 사진 원출처와 라이선스를 함께 확인한 뒤 후보 PR을 병합한다.
-3. **스토리보드 생성:** 후보 PR 병합 시 **Build blog shorts storyboard**가 PR 본문에서 체크한 후보만 생성한다. 선택이 없으면 건너뛰고, main 직접 push는 자동 생성하지 않는다. 수동으로는 `manifest`에 `shorts/content/<post-slug>/candidate-01.json`처럼 저장소 루트 기준 경로를 입력한다. 이 단계는 TTS를 호출하지 않고 추정 장면 길이로 대표 스냅샷을 만든다.
+2. **대본·장면 검토:** PR 본문의 체크박스는 사용할 후보의 기록용이다. PR 생성·수정에서는 타입 검사와 단위 테스트만 실행하며 체크 변경·머지로는 프리뷰를 생성하지 않는다. 무음 프리뷰가 필요하면 **Shorts pipeline check**를 수동 실행하며 `generate_previews`(기본 해제)를 체크하고 `manifest`를 입력한다.
+3. **스토리보드 생성:** **Build blog shorts storyboard**를 수동 실행하고 `generate_previews`를 체크한다. `manifest`에는 `shorts/content/<post-slug>/candidate-01.json`처럼 저장소 루트 기준 경로를 입력하고, 후보가 있는 브랜치를 선택한다. 체크 해제 시 렌더 작업 전체를 건너뛴다. 이 단계는 TTS를 호출하지 않고 추정 장면 길이로 대표 스냅샷을 만든다.
 4. **휴대폰 검토:** 실행 요약에 있는 Draft Release 링크를 연다. 2열 모아보기 JPG로 장면 순서를 보고, PDF 또는 개별 PNG로 글자와 도식을 확인한다. Draft를 볼 수 있는 저장소 권한이 필요하다. 수정이 필요하면 JSON을 변경하고 스토리보드를 다시 만든다.
 5. **최종 렌더 승인:** 검토한 manifest로 **Render blog shorts**를 수동 실행하고 `storyboard_approved`를 체크한다. 체크하지 않으면 작업이 중단된다. 실제 TTS와 최종 영상 제작은 이 단계에서 수행한다.
 6. **최종 검수·게시:** 결과 아티팩트에서 MP4, SRT, 미디어 출처, 릴스용 텍스트와 스크립트를 확인한다. 실제 음성·자막 타이밍·움직임을 재검토한 뒤 게시한다. 현재 SNS 자동 업로드 단계는 없다.
@@ -28,10 +28,10 @@
 | 워크플로 | 실행 조건 | 결과와 확인 위치 |
 | --- | --- | --- |
 | [generate-shorts.yml](../../.github/workflows/generate-shorts.yml) | 블로그 URL로 수동 실행 | 후보 JSON PR |
-| [storyboard-shorts.yml](../../.github/workflows/storyboard-shorts.yml) | 후보 PR 병합 시 체크된 후보 또는 manifest로 수동 실행 | 실행별 `shorts-storyboard-<run_id>` Draft Release: 장별 PNG, 모아보기 JPG, 장별 PDF |
+| [storyboard-shorts.yml](../../.github/workflows/storyboard-shorts.yml) | 수동 실행 + manifest + generate_previews 체크 | 실행별 `shorts-storyboard-<run_id>` Draft Release: 장별 PNG, 모아보기 JPG, 장별 PDF |
 | [render-shorts.yml](../../.github/workflows/render-shorts.yml) | manifest + 승인 체크로 수동 실행 | `blog-shorts-<run_id>` 아티팩트: MP4, SRT, MEDIA.md, REELS.txt, SCRIPT.txt. 보관 14일 |
-| [shorts-check.yml](../../.github/workflows/shorts-check.yml) | shorts 관련 PR | 타입 검사·테스트·엔진 및 폴백 프레임·물리 MP4·템플릿 프레임. 아티팩트 보관 7일 |
-| [shorts-template-preview.yml](../../.github/workflows/shorts-template-preview.yml) | main의 지정된 소스/패키지/워크플로 변경 또는 수동 실행 | 고정 태그 `shorts-template-preview` 공개 prerelease: 전체 템플릿 MP4 + PNG 한 장 |
+| [shorts-check.yml](../../.github/workflows/shorts-check.yml) | PR은 검증만; 수동 실행 + generate_previews 체크 시 프리뷰 추가 | 타입 검사·테스트; 명시적으로 요청한 프리뷰 아티팩트 보관 7일 |
+| [shorts-template-preview.yml](../../.github/workflows/shorts-template-preview.yml) | 수동 실행 + generate_previews 체크 (유료 TTS) | 고정 태그 `shorts-template-preview` 공개 prerelease |
 
 **템플릿 미리보기와 후보 승인용 스토리보드는 서로 다르다.** [템플릿 Release](https://github.com/dohyeon-kr/dohyeon.kr/releases/tag/shorts-template-preview)에 PNG가 한 장만 보이는 것은 현재 설정대로다. 그 PNG는 TemplatePreview의 145번째 프레임이며, 모든 장의 스냅샷이 아니다. 해당 Release는 실행 시 교체되는 공개 미리보기이므로 후보별 승인 기록으로 사용하지 않는다. 최종 후보 영상은 아직 Release가 아니라 Actions 아티팩트로 전달된다.
 

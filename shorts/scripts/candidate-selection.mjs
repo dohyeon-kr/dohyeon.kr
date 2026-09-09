@@ -42,7 +42,7 @@ export async function reviewBody(directory, postUrl = '') {
   const repo = process.env.GITHUB_REPOSITORY || 'dohyeon-kr/dohyeon.kr';
   const branch = process.env.CANDIDATE_BRANCH || `automation/shorts-${process.env.GITHUB_RUN_ID}`;
   const index = `https://github.com/${repo}/blob/${branch}/${directory}/README.md`;
-  return `Generated from ${postUrl}.\n\n[후보별 대본·스토리보드 읽기](${index})\n\n## 사용할 후보 선택\n\n진행할 후보만 체크하세요. 선택하지 않은 후보도 파일로 보관됩니다.\n체크를 변경하면 선택한 후보의 무음 미리보기와 장면 이미지를 Actions에서 생성합니다.\n아무것도 체크하지 않으면 후보 렌더링을 건너뜁니다.\n\n${START}\n${names.map(n => `- [ ] \`${directory}/${n}\``).join('\n')}\n${END}\n\n병합하면 체크된 후보만 검토용 스토리보드 Draft Release로 생성합니다.\n최종 영상은 스토리보드 검토 후 Render blog shorts에서 해당 JSON 경로와 승인 체크로 실행하세요.\nJSON 수정 후에는 다음 명령으로 검토 문서를 갱신하세요:\n\`node shorts/scripts/describe-candidates.mjs "${directory}"\`\n`;
+  return `Generated from ${postUrl}.\n\n[후보별 대본·스토리보드 읽기](${index})\n\n## 사용할 후보 선택\n\n진행할 후보만 체크하세요. 선택하지 않은 후보도 파일로 보관됩니다.\n이 체크박스는 선택 기록용이며 PR 생성·수정·머지로 프리뷰를 자동 생성하지 않습니다.\n\n${START}\n${names.map(n => `- [ ] \`${directory}/${n}\``).join('\n')}\n${END}\n\n프리뷰가 필요하면 Shorts pipeline check 또는 Build blog shorts storyboard를 수동 실행하고 generate_previews(기본 해제)를 체크하세요. 후보가 있는 브랜치와 manifest 경로를 직접 선택하세요.\n최종 영상은 스토리보드 검토 후 Render blog shorts에서 해당 JSON 경로와 승인 체크로 실행하세요.\nJSON 수정 후에는 다음 명령으로 검토 문서를 갱신하세요:\n\`node shorts/scripts/describe-candidates.mjs "${directory}"\`\n`;
 }
 
 async function main() {
