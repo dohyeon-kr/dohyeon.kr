@@ -3,6 +3,10 @@ name: Review and improve shorts storyboard
 on:
   workflow_dispatch:
     inputs:
+      allow_paid_review:
+        description: 'Explicitly enable paid API review; prefer Codex with shared prompts'
+        type: boolean
+        default: false
       manifest:
         description: Candidate JSON path under shorts/content/
         required: true
@@ -18,6 +22,9 @@ on:
         default: ''
         type: string
 
+env:
+  SHORTS_IMAGE_GENERATION: disabled
+
 permissions:
   contents: write
   pull-requests: write
@@ -28,6 +35,7 @@ concurrency:
 
 jobs:
   review:
+    if: inputs.allow_paid_review
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -47,6 +55,9 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Resolve canonical prompts from repository
+        run: node shorts/scripts/export-prompts.mjs "${RUNNER_TEMP}/shorts-prompts.json" "$MANIFEST"
+
       - name: Validate selected candidate
         run: node shorts/scripts/review-storyboard.mjs validate "$MANIFEST"
       - name: Review images and improve candidate with OpenAI

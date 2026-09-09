@@ -1,4 +1,7 @@
 import {resolveTemplate} from '../src/templates/registry.ts';
+import {createStoryboardRenderer, previewScale} from './storyboard-renderer.mjs';
+import {cachedSpeech} from './audio-cache.mjs';
+import {renderPrompt} from './shorts-prompts.mjs';
 import {alignPresenter} from './align-presenter.mjs';
 import {withBlogCta} from './blog-cta.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
@@ -7,7 +10,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import {spawn} from 'node:child_process';
-import OpenAI from 'openai';
+import OpenAI from './shorts-openai.mjs';
 import {mixBgm} from './bgm.mjs';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateSceneMotion} from '../src/motion/validate.ts';
@@ -306,8 +309,11 @@ const buildSrt = (scenes) => {
 const main = async () => {
   const storyboardOnly = process.argv.includes(STORYBOARD_FLAG);
   const silentPreview = process.argv.includes('--silent');
+  const prepareAudioOnly = process.argv.includes('--prepare-audio');
+  if (prepareAudioOnly && (storyboardOnly || silentPreview)) throw new Error('--prepare-audio cannot be combined with preview flags');
+  const scale = storyboardOnly || silentPreview ? previewScale() : 1;
   const manifestArg = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
-  if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json> [--storyboard]');
+  if (!manifestArg) throw new Error('Usage: node render.mjs <shorts/content/.../candidate-XX.json> [--storyboard | --silent | --prepare-audio]');
   if (!storyboardOnly && !silentPreview && !process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
   if (!Number.isFinite(TTS_RATE) || TTS_RATE < 0.5 || TTS_RATE > 2) {
     throw new Error(`SHORTS_TTS_RATE must be between 0.5 and 2. Received: ${TTS_RATE}`);
@@ -365,15 +371,14 @@ const main = async () => {
     if (client && scene.narration?.trim()) {
       const rawAudioFile = path.join(assetDir, `${prefix}-raw.mp3`);
       const audioFile = path.join(assetDir, `${prefix}.mp3`);
-      const speech = await client.audio.speech.create({
+      const speech = await cachedSpeech({client, request: {
         model: process.env.SHORTS_TTS_MODEL || 'gpt-4o-mini-tts',
         voice: process.env.SHORTS_TTS_VOICE || 'alloy',
         input: scene.narration,
-        instructions:
-          '한국어로 차분하고 또렷하게 말한다. 프레젠테이션 숏폼 내레이션처럼 군더더기 없이, 자연스러운 속도와 낮은 과장도로 읽는다.',
+        instructions: renderPrompt('tts'),
         response_format: 'mp3',
-      });
-      await fs.writeFile(rawAudioFile, Buffer.from(await speech.arrayBuffer()));
+      }});
+      await fs.writeFile(rawAudioFile, speech);
       await applySpeechRate(rawAudioFile, audioFile, TTS_RATE);
       audioPath = relativeStaticPath(audioFile);
       const measuredDuration = await audioDuration(audioFile);
@@ -425,6 +430,11 @@ const main = async () => {
   ] : []);
   await fs.writeFile(path.join(outputRoot, `${slug}-${candidateId}-VIDEO.md`), ['# Video sources and edits', '', ...videoSources].join('\n'));
 
+  if (prepareAudioOnly) {
+    console.log('Audio and alignment prepared and cached; no video rendered.');
+    return;
+  }
+
   if (storyboardOnly) {
     const storyboardDir = path.join(outputRoot, 'storyboards', `${slug}-${candidateId}`);
     await fs.mkdir(storyboardDir, {recursive: true});
@@ -433,37 +443,38 @@ const main = async () => {
       '',
       `Source: ${manifest.source.url}`,
       '',
+      `Preview scale: ${scale}; no TTS. Timing is estimated and requires final playback review.`,
       'Approve these scene snapshots before manually running the final render workflow.',
       ...videoSources,
       '',
     ];
-    let sceneStartFrame = 0;
-    for (const [index, scene] of renderScenes.entries()) {
-      const duration = Math.max(
-        Math.round(2.2 * FPS),
-        Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS),
-      );
-      const stem = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}`;
-      const filename = `${stem}.png`;
-      // Keep the familiar contact-sheet result, plus ordered state frames for motion review.
-      const samples = (scene.diagramSpec || scene.backgroundVideo || scene.presenter != null) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
-      const images = [];
-      for (const [phase, progress] of samples) {
-        const target = phase === 'result' ? filename : `${stem}-${phase}.png`;
-        const snapshotFrame = sceneStartFrame + Math.min(duration - 10, Math.round(duration * progress));
-        await run(process.platform === 'win32' ? 'npx.cmd' : 'npx', [
-          'remotion', 'still', 'src/index.tsx', 'ShortVideo', path.join(storyboardDir, target),
-          `--props=${propsFile}`, '--public-dir=public', `--frame=${snapshotFrame}`,
-        ], {cwd: shortsRoot, env: process.env});
-        images.push(`![${phase}](${target})`);
+    const renderer = await createStoryboardRenderer(renderManifest, scale);
+    try {
+      let sceneStartFrame = 0;
+      for (const [index, scene] of renderScenes.entries()) {
+        const duration = Math.max(
+          Math.round(2.2 * FPS),
+          Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS),
+        );
+        const stem = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}`;
+        const filename = `${stem}.png`;
+        // Keep the familiar contact-sheet result, plus ordered state frames for motion review.
+        const samples = (scene.diagramSpec || scene.backgroundVideo || scene.presenter != null) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
+        const images = [];
+        for (const [phase, progress] of samples) {
+          const target = phase === 'result' ? filename : `${stem}-${phase}.png`;
+          const snapshotFrame = sceneStartFrame + Math.min(duration - 10, Math.round(duration * progress));
+          await renderer.render(path.join(storyboardDir, target), snapshotFrame);
+          images.push(`![${phase}](${target})`);
+        }
+        storyboardLines.push(`## Scene ${index + 1}`, '', ...images, '',
+          `- Headline: ${scene.headline.replace(/\n/g, ' / ')}`,
+          `- Narration: ${scene.narration || '(none)'}`, '');
+        if (scene.visualStory) for (const [key, value] of Object.entries(scene.visualStory)) storyboardLines.push(`- ${key}: ${value}`);
+        sceneStartFrame += duration;
       }
-      storyboardLines.push(`## Scene ${index + 1}`, '', ...images, '',
-        `- Headline: ${scene.headline.replace(/\n/g, ' / ')}`,
-        `- Narration: ${scene.narration || '(none)'}`, '');
-      if (scene.visualStory) for (const [key, value] of Object.entries(scene.visualStory)) storyboardLines.push(`- ${key}: ${value}`);
-      sceneStartFrame += duration;
-    }
-    await fs.writeFile(path.join(storyboardDir, `${slug}-${candidateId}-STORYBOARD.md`), `${storyboardLines.join('\n')}\n`, 'utf8');
+      await fs.writeFile(path.join(storyboardDir, `${slug}-${candidateId}-STORYBOARD.md`), `${storyboardLines.join('\n')}\n`, 'utf8');
+    } finally {await renderer.close();}
     console.log(`Rendered storyboard snapshots to ${path.relative(repoRoot, storyboardDir)}.`);
     return;
   }
@@ -484,13 +495,13 @@ const main = async () => {
       '--codec=h264',
       '--crf=18',
       '--concurrency=50%',
-      ...(silentPreview ? ['--scale=0.5'] : []),
+      ...(silentPreview ? [`--scale=${scale}`] : []),
     ],
     {cwd: shortsRoot, env: process.env},
   );
 
   await fs.writeFile(path.join(outputRoot, `${slug}-${candidateId}.srt`), buildSrt(renderScenes), 'utf8');
-  await mixBgm(outputFile, renderScenes);
+  if (!silentPreview) await mixBgm(outputFile, renderScenes);
 
   const attributionLines = [
     `# Media sources — ${manifest.candidate?.title ?? candidateId}`,

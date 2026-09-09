@@ -55,3 +55,6 @@ shorts/.tmp/
 shorts/out/
 shorts/public/generated/
 shorts/public/fonts/
+
+# Content-addressed speech cache (persisted by Actions, never committed).
+shorts/.cache/
