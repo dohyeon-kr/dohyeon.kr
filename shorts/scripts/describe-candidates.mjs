@@ -5,6 +5,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
+const bodyScenes = manifest => manifest.scenes.filter(scene => !scene.commonPage);
+
 const labels = {
   'presenter-bust': '흰 페이지의 원형 발표자 바스트',
   hero: '도입', photo: '사진', compare: '비교', statement: '핵심 메시지', outro: '마무리',
@@ -65,7 +67,7 @@ export function describeCandidate(manifest, filename) {
     'JSON에서 자동 생성한 검토용 스토리보드입니다. 수정은 원본 JSON에 반영한 뒤 다시 생성하세요. 연출 설명은 기획 의도이며, 실제 배치·동작은 렌더된 스냅샷과 영상으로 확인합니다. 음성 생성 전이므로 재생 시간은 확정하지 않습니다.', '',
     `**첫 문장:** ${md(c.hook)}`, '', `**기획 의도:** ${md(c.rationale)}`, '',
     `**원문:** ${link(manifest.source?.title || '블로그', manifest.source?.url)}`, ''];
-  for (const [index, scene] of manifest.scenes.entries()) {
+  for (const [index, scene] of bodyScenes(manifest).entries()) {
     out.push(`## ${index + 1}. ${label(scene.kind)} — ${md(scene.headline)}`, '',
       '**내레이션**', '', md(scene.narration), '', '**화면 구성**', '',
       `- 주 문구: ${md(scene.headline)}`);
@@ -164,7 +166,7 @@ export async function describeDirectory(directory) {
     index.push(`## ${md(manifest.id || filename)} · ${md(manifest.candidate?.title)}`, '',
       `**첫 문장:** ${md(manifest.candidate?.hook)}`, '',
       `${md(manifest.candidate?.rationale)}`, '',
-      `[스토리보드 읽기](${outputName}) · [원본 JSON](${filename}) · ${manifest.scenes.length}장면`, '');
+      `[스토리보드 읽기](${outputName}) · [원본 JSON](${filename}) · 본문 ${bodyScenes(manifest).length}장면`, '');
   }
   // Remove only generated companions of deleted candidates, not other authored documents.
   for (const name of await fs.readdir(directory)) {

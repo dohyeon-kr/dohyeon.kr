@@ -129,3 +129,10 @@ Default flow: Codex creates/revises candidate JSON → unpaid preview → user f
 explicit final approval → final render with cached TTS and alignment. Do not dispatch paid generation/review
 as a substitute for a request to create or edit content here. Paid API fallback requires explicit user intent.
 No image-generation API calls in shorts workflows; stock photos and deterministic diagram rendering remain available.
+
+## Shorts review documents
+
+Show only authored body scenes in script/storyboard review Markdown and page counts.
+Omit common pages marked with `commonPage` (including the shared blog CTA); do not
+ask the user to review the same common ending for every candidate. Preserve the
+body conclusion. Keep the shared CTA assembly in the final render pipeline.
