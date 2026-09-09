@@ -114,3 +114,8 @@ unfiltered SVG layer; node positions and authored motion retain their timing.
 The effect is reproducible when rendering frames out of order and works on both
 geometry backends. Keep subtitles and the bottom-right presenter unobstructed.
 Reference: [SVG displacement](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feDisplacementMap).
+
+Large notebook headings (fitted size at least 100px) share the diagram's 100ms
+scribble filter. Only the glyph edges shift slightly; font metrics, line breaks
+and placement stay unchanged. Captions, small headings, diagram labels and the
+common CTA remain unfiltered. The existing bottom-right presenter stays visible.

@@ -31,7 +31,7 @@ const composition=await selectComposition({serveUrl,id:'ShortVideo',inputProps,b
 let start=0,count=0;
 for(const [i,s] of inputProps.scenes.entries()) {
  const duration=previewSceneFrames(s);
- if(photos || s.visual.type!=='photo') for(const f of [...new Set([5,22,Math.floor(duration*.45),Math.floor(duration*.85), ...(i===3 ? [159,160,161,162] : [])])]) {
+ if(photos || s.visual.type!=='photo') for(const f of [...new Set([5,22,Math.floor(duration*.45),Math.floor(duration*.85), ...((i===1 || i===3 || i===11) ? [159,160,161,162] : [])])]) {
   await renderStill({serveUrl,composition,inputProps,browserExecutable,frame:start+f,scale:.5,output:path.join(output,`scene-${String(i+1).padStart(2,'0')}-${f}.png`)});count++;
  }
  start+=duration;
