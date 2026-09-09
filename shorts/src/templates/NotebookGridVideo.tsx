@@ -90,7 +90,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
         })}
       </div> : scene.presenter != null ? <ScenePresenter scene={scene} frames={frames} />
         : scene.backgroundVideo ? <VideoBackground scene={scene} />
-        : scene.imagePath ? <PrintedPhoto src={scene.imagePath} fit={scene.visual?.type === 'diagram' ? 'contain' : 'cover'} />
+        : scene.imagePath ? <PrintedPhoto src={scene.imagePath} fit={scene.image?.source === 'authored-diagram' ? 'contain' : 'cover'} />
         : <div style={{width: '100%', height: '100%', filter: 'invert(1)', mixBlendMode: 'multiply'}}>
           {scene.diagramSpec ? <div style={{width: '100%', height: '100%', transform: 'scale(1.08)'}}><DiagramRenderer spec={scene.diagramSpec} durationInFrames={frames} scribble /></div> : scene.visual ? <PresetVisual visual={scene.visual} durationInFrames={frames} /> : null}
         </div>}
