@@ -59,7 +59,7 @@ const NotebookScene: React.FC<{scene: RenderScene; index: number; title: string;
   const headingSize = hasVisual ? (index === 0 ? 100 : 80) : Math.min(152, Math.floor(WIDTH / longestWord));
   const heading = copy(headingText, WIDTH, headingHeight, headingSize);
   const diagramLayout = scene.diagramSpec
-    ? {left: 40, top: headingText.trim() ? 550 : 320, width: 900, height: headingText.trim() ? 600 : 850}
+    ? {left: 40, top: headingText.trim() ? 600 : 320, width: 900, height: headingText.trim() ? 570 : 850}
     : {left: LEFT, top: 600, width: WIDTH, height: 570};
   // Common CTA deliberately retains its established shared design and duration.
   if (isCta) return <AbsoluteFill style={{opacity: reveal(frame, 0), filter: `blur(${(1 - reveal(frame, 0)) * 12}px)`}}><BlogCta layer="visual" scene={scene} /><BlogCta layer="text" scene={scene} /></AbsoluteFill>;

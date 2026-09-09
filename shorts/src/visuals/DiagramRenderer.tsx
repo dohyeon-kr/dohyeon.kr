@@ -33,7 +33,7 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
   const layer = rest.layer ?? 'all';
   const scribbleId = `scribble-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   // Discrete 100ms redraws are reproducible even when frames render out of order.
-  const scribbleSeed = 1 + Math.floor(frame * 10 / fps); 
+  const scribbleSeed = 1 + Math.floor(frame * 10 / fps);
   const geometrySpec = useMemo(() => ({...spec, nodes: spec.nodes.map(node => ({...node, label: ''}))}), [spec]);
   return <div style={{position: 'relative', width: '100%', height: '100%'}}>
     <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;}`}</style>

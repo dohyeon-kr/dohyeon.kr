@@ -107,7 +107,7 @@ to `hideOnCommonCta`. Never replace this overlay with per-scene presenters.
 
 Notebook diagrams use a wider 900px visual area and a 1.08 drawing scale.
 Without a heading, the area begins at y=320 and is 850px tall; with a heading it
-begins at y=550 and is 600px tall. Photos and comparisons retain their layout.
+begins at y=600 and is 570px tall. Photos and comparisons retain their layout.
 Geometry receives a subtle SVG displacement (maximum 2px per axis before
 scaling), redrawn every 100ms from the scene frame and FPS. Text is a separate,
 unfiltered SVG layer; node positions and authored motion retain their timing.
