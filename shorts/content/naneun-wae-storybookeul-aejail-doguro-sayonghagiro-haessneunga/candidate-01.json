@@ -592,7 +592,8 @@
             "at": 0.36,
             "asset": "text-lines-long"
           }
-        ]
+        ],
+        "headlineOverlapLimit": 0.05
       }
     },
     {
@@ -798,7 +799,8 @@
             "asset": "button-pressed"
           }
         ],
-        "scribble": true
+        "scribble": true,
+        "headlineOverlapLimit": 0.05
       }
     },
     {
@@ -1220,7 +1222,8 @@
             "at": 0.72,
             "asset": "data-card"
           }
-        ]
+        ],
+        "headlineOverlapLimit": 0.05
       }
     },
     {

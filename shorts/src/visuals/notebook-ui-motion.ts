@@ -9,6 +9,7 @@ export type UiNode = {
 export type UiEvent = {target: string; property: UiProperty; from: number; to: number; start: number; end: number; easing?: 'linear' | 'smooth' | null};
 export type UiStateChange = {target: string; at: number; asset: NotebookUiAssetId};
 export type NotebookUiMotionSpec = {
+  headlineOverlapLimit?: number | null;
   version: 1; width: number; height: number; scribble?: boolean | null;
   nodes: UiNode[]; events: UiEvent[]; states?: UiStateChange[] | null;
 };
@@ -21,6 +22,7 @@ const range = (p: UiProperty, v: number) => finite(v) && ((p === 'opacity' || p 
 
 export function validateNotebookUiMotion(spec: NotebookUiMotionSpec) {
   if (spec.version !== 1 || !finite(spec.width) || !finite(spec.height) || spec.width <= 0 || spec.height <= 0) throw new Error('Invalid UI canvas');
+  if (spec.headlineOverlapLimit != null && (!finite(spec.headlineOverlapLimit) || spec.headlineOverlapLimit < 0 || spec.headlineOverlapLimit > 0.05)) throw new Error('Invalid headline overlap limit (0..0.05)');
   if (spec.scribble != null && typeof spec.scribble !== 'boolean') throw new Error('Invalid scribble flag');
   if (!Array.isArray(spec.nodes) || !spec.nodes.length || !Array.isArray(spec.events) || (spec.states != null && !Array.isArray(spec.states))) throw new Error('Invalid UI tracks');
   const nodes = new Map<string,UiNode>();
