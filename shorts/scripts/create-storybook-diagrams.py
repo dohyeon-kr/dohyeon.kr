@@ -4,6 +4,20 @@ from PIL import Image, ImageDraw, ImageFont
 import random, math
 from fontTools.ttLib import TTFont
 import tempfile
+import sys
+
+SHORTS = '--shorts' in sys.argv
+SHORTS_COPY = {
+ '회차 상황 · 오전/오후 · 서버 판정\n레이아웃 스트레스 → Controls': '긴 공지 제목 · 표시할 내용 없음\n설정에서 조건 선택',
+ '버튼 누르기 · 팝업 열기 · 출석 · 입력\n실제 화면 조작 → 상태 전이': '버튼 누르기 · 팝업 열기 · 글자 입력\n직접 조작 → 화면 변화',
+ '03  API 응답 조건': '03  서버가 보내줄 데이터',
+ '상태 코드 · 빈 배열 · 필드/값 변경\nMSW 응답 오버라이드 → 다시 요청': '배너 목록 비우기 · 오류 응답 넣기\n테스트 도구에서 변경 → 화면 확인',
+ 'Storybook의 실제 화면': '함께 눌러보는 화면',
+ '버튼 · 팝업 · 빈 상태 · 오류 상태\n짧은 사용자 흐름과 상태 변화를 확인': '버튼 · 팝업 · 데이터 없음 · 오류 안내\n동료도 여러 상황을 직접 확인',
+ '컨트롤로 사용자 동작을 건너뛰지 않습니다.': '버튼을 누르는 과정도 함께 확인합니다.',
+ '같은 조건에서 응답을 바꾸고,': '서버 데이터를 바꿔보면서,',
+ 'UI에 미치는 영향을 함께 봅니다.': '화면이 어떻게 달라지는지 함께 봅니다.',
+}
 
 OUT = Path(__file__).resolve().parents[1] / 'public/articles/storybook-agile'
 OUT.mkdir(parents=True, exist_ok=True)
@@ -23,6 +37,7 @@ def start(k,title,sub):
  line([(72,196),(1128,196)],ORANGE,3)
 
 def text(x,y,s,size=40,color=INK):
+ if SHORTS:s=SHORTS_COPY.get(s,s)
  f=ImageFont.truetype(str(FONT),size)
  for i,line_ in enumerate(s.split('\n')):
   assert d.textlength(line_,font=f) <= W-x-45, (s,size)
@@ -47,6 +62,9 @@ def box(x,y,w,h,title,body='',accent=False):
  if body:text(x+28,y+90,body,32)
 
 def finish(name):
+ if SHORTS:
+  if name != 'three-inputs':return
+  name += '-shorts'
  im.save(OUT/f'{name}.png',optimize=True)
  im.resize((450,600)).save(OUT/f'{name}-preview.png',optimize=True)
 

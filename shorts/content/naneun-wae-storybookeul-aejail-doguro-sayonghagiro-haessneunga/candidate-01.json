@@ -10,7 +10,7 @@
     "angle": "experience",
     "hook": "화면을 다 만들고 보여주면 수정 의견이 나왔습니다. 그런데 동료가 실제로 눌러볼 수 있는 화면을 본 것도 그때가 처음이었습니다.",
     "title": "완성하고 보여주니까,\n완성하고\n고치게 됐다",
-    "rationale": "사용자 승인 제목으로 한 편에 통합했다. 완성 후 공유로 수정이 늦어진 경험에서 출발해, 시작 조건·사용자 행동·API 응답을 함께 확인하는 방법을 사례로 쌓고 구현 중간의 공유로 회수한다. 본문 12장면과 공통 CTA 1장면이며 시리즈로 분할하지 않는다.",
+    "rationale": "완성 후 공유로 수정이 늦어진 경험에서 출발한다. 조작 가능한 화면을 공유하는 방법론을 긴 문구·빈 데이터·버튼·서버 응답 사례로 설명하고 구현 중간의 공유로 회수한다. 특정 제품의 보상일·회차·출석 맥락을 전제하지 않는 단일 영상이다.",
     "viralScore": 75,
     "suggestedCaption": "완성하고 보여주니까, 완성하고 고치게 됐다. 아직 고치기 쉬울 때 함께 눌러보기 위해 Storybook을 바꿨습니다.\n원문: https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
     "hashtags": [
@@ -139,10 +139,10 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "왜 동료가 구현 중간에 결과물을 보기 어려웠는지 설명한다.",
+        "concept": "같이 보는 화면은 아직 없었습니다",
         "relation": {
           "type": "literal",
-          "description": "왜 동료가 구현 중간에 결과물을 보기 어려웠는지 설명한다."
+          "description": "같이 보는 화면은 아직 없었습니다"
         },
         "strategy": {
           "type": "minimal",
@@ -175,7 +175,7 @@
           "visualCue": null
         },
         {
-          "text": "구현한 화면은 개발자의 로컬에 있었습니다.",
+          "text": "구현한 화면은 개발자의 컴퓨터 안에 있었습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -184,7 +184,7 @@
           "visualCue": null
         },
         {
-          "text": "API가 준비되지 않으면",
+          "text": "서버에서 데이터를 보내주는 API가 준비되지 않으면",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -204,7 +204,7 @@
       ],
       "headline": "같이 보는 화면은\n아직 없었습니다",
       "subline": null,
-      "narration": "디자인은 피그마에, 구현한 화면은 개발자의 로컬에 있었습니다. API가 준비되지 않으면 화면을 제대로 보여주기도 어려웠습니다.",
+      "narration": "디자인은 피그마에, 구현한 화면은 개발자의 컴퓨터 안에 있었습니다. 서버에서 데이터를 보내주는 API가 준비되지 않으면 화면을 제대로 보여주기도 어려웠습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -226,10 +226,10 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "뒤늦은 재작업에서 구현 중간의 공유로 확인 시점을 옮긴다.",
+        "concept": "미완성 화면을 함께 실행하는 검토 환경",
         "relation": {
           "type": "flow",
-          "description": "뒤늦은 재작업에서 구현 중간의 공유로 확인 시점을 옮긴다."
+          "description": "미완성 화면을 함께 실행하는 검토 환경"
         },
         "strategy": {
           "type": "photo",
@@ -259,7 +259,7 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "공유 시점의 변화를 도식 전체로 보여준다."
         },
         {
           "text": "이미 만든 코드를 다시 고쳐야 했습니다.",
@@ -268,30 +268,30 @@
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "공유 시점의 변화를 도식 전체로 보여준다."
         },
         {
-          "text": "그래서 스토리북에 미완성 화면을 공유하고,",
+          "text": "그래서 화면을 따로 실행해볼 수 있는 스토리북에",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "공유 시점의 변화를 도식 전체로 보여준다."
         },
         {
-          "text": "직접 눌러보도록 했습니다.",
+          "text": "미완성 화면을 공유하고 직접 눌러보도록 했습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 180,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "공유 시점의 변화를 도식 전체로 보여준다."
         }
       ],
       "headline": "",
       "subline": null,
-      "narration": "의견이 달라졌을 때는 이미 만든 코드를 다시 고쳐야 했습니다. 그래서 스토리북에 미완성 화면을 공유하고, 직접 눌러보도록 했습니다.",
+      "narration": "의견이 달라졌을 때는 이미 만든 코드를 다시 고쳐야 했습니다. 그래서 화면을 따로 실행해볼 수 있는 스토리북에 미완성 화면을 공유하고 직접 눌러보도록 했습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": "authored Storybook feedback-timing",
@@ -325,10 +325,10 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "공유만 해서는 부족했던 이유를 정적 스토리 사례로 구체화한다.",
+        "concept": "화면은 22개, 버튼을 눌러도 그대로",
         "relation": {
           "type": "literal",
-          "description": "공유만 해서는 부족했던 이유를 정적 스토리 사례로 구체화한다."
+          "description": "화면은 22개, 버튼을 눌러도 그대로"
         },
         "strategy": {
           "type": "minimal",
@@ -352,7 +352,7 @@
       ],
       "beats": [
         {
-          "text": "처음에는 출석과 응모가 있는 메인 화면을",
+          "text": "처음에는 같은 화면의 여러 모습을",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -361,7 +361,7 @@
           "visualCue": null
         },
         {
-          "text": "스토리 22개로 나눠두었습니다.",
+          "text": "스토리북에 22개 예시로 만들어두었습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -379,7 +379,7 @@
           "visualCue": null
         },
         {
-          "text": "사용 흐름을 머릿속으로 붙여야 했습니다.",
+          "text": "실제 사용 과정을 확인하기는 어려웠습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 180,
           "delivery": "normal",
@@ -388,9 +388,9 @@
           "visualCue": null
         }
       ],
-      "headline": "스토리 22개,\n이어지지 않는 화면",
+      "headline": "예시는 22개,\n버튼을 눌러도 그대로",
       "subline": null,
-      "narration": "처음에는 출석과 응모가 있는 메인 화면을 스토리 22개로 나눠두었습니다. 하지만 버튼을 눌러도 다음 상태로 이어지지 않아 사용 흐름을 머릿속으로 붙여야 했습니다.",
+      "narration": "처음에는 같은 화면의 여러 모습을 스토리북에 22개 예시로 만들어두었습니다. 하지만 버튼을 눌러도 다음 상태로 이어지지 않아 실제 사용 과정을 확인하기는 어려웠습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -399,10 +399,16 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
+      "visualStory": {
+        "initial": "짧은 문구가 들어간 창과 긴 문구 설정 버튼",
+        "trigger": "커서가 긴 문구 버튼을 클릭",
+        "change": "버튼이 눌리고 문구가 여러 줄로 늘어남",
+        "invariant": "창과 기준 좌표는 고정하고 자막·발표자 예약 영역을 침범하지 않는다",
+        "result": "설정만 바꿔 화면이 어떻게 달라지는지 확인"
+      },
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-giant",
+      "layout": "diagram-centered",
       "visual": {
         "type": "none",
         "motif": null,
@@ -412,15 +418,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "정적 화면을 나열하던 문제를 조건 조합으로 해결한다.",
+        "concept": "설정만 바꿔 화면이 어떻게 달라지는지 확인",
         "relation": {
-          "type": "literal",
-          "description": "정적 화면을 나열하던 문제를 조건 조합으로 해결한다."
+          "type": "change-over-time",
+          "description": "버튼이 눌리고 문구가 여러 줄로 늘어남"
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
+          "rationale": "사용자가 바꾸는 입력과 화면의 반응을 같은 장면에서 직접 보여준다"
         }
       },
       "transition": "fade",
@@ -434,12 +440,14 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline",
-        "emphasize-result"
+        "짧은 문구가 들어간 창과 긴 문구 설정 버튼",
+        "커서가 긴 문구 버튼을 클릭",
+        "버튼이 눌리고 문구가 여러 줄로 늘어남",
+        "설정만 바꿔 화면이 어떻게 달라지는지 확인"
       ],
       "beats": [
         {
-          "text": "그래서 화면의 시작 조건을",
+          "text": "그래서 화면에 넣을 문구나 데이터 조건을",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -448,7 +456,7 @@
           "visualCue": null
         },
         {
-          "text": "컨트롤에서 고르게 했습니다.",
+          "text": "설정에서 직접 고르게 했습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -457,7 +465,7 @@
           "visualCue": null
         },
         {
-          "text": "보상일에 긴 공지가 있는 경우도",
+          "text": "공지 제목이 길어지거나 표시할 내용이 없을 때도",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -466,7 +474,7 @@
           "visualCue": null
         },
         {
-          "text": "조건을 조합하면 바로 볼 수 있습니다.",
+          "text": "화면이 괜찮은지 바로 확인할 수 있습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 180,
           "delivery": "normal",
@@ -475,21 +483,131 @@
           "visualCue": null
         }
       ],
-      "headline": "보상일에\n공지가 길어진다면?",
+      "headline": "긴 문구도\n바로 확인",
       "subline": null,
-      "narration": "그래서 화면의 시작 조건을 컨트롤에서 고르게 했습니다. 보상일에 긴 공지가 있는 경우도 조건을 조합하면 바로 볼 수 있습니다.",
+      "narration": "그래서 화면에 넣을 문구나 데이터 조건을 설정에서 직접 고르게 했습니다. 공지 제목이 길어지거나 표시할 내용이 없을 때도 화면이 괜찮은지 바로 확인할 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
+      "image": null,
+      "uiMotion": {
+        "version": 1,
+        "width": 800,
+        "height": 560,
+        "scribble": true,
+        "nodes": [
+          {
+            "id": "window",
+            "asset": "window",
+            "x": 40,
+            "y": 40,
+            "width": 700
+          },
+          {
+            "id": "button",
+            "asset": "button",
+            "x": 90,
+            "y": 300,
+            "width": 200,
+            "layer": 1,
+            "label": "긴 문구",
+            "labelSize": 28
+          },
+          {
+            "id": "copy",
+            "asset": "text-lines-short",
+            "x": 335,
+            "y": 145,
+            "width": 340,
+            "layer": 1
+          },
+          {
+            "id": "cursor",
+            "asset": "cursor",
+            "x": 615,
+            "y": 380,
+            "width": 70,
+            "layer": 4
+          },
+          {
+            "id": "click",
+            "asset": "click-rays",
+            "x": 221.16153846153844,
+            "y": 322.7,
+            "width": 42,
+            "layer": 5,
+            "opacity": 0
+          }
+        ],
+        "events": [
+          {
+            "target": "cursor",
+            "property": "x",
+            "from": 615,
+            "to": 240.3846153846154,
+            "start": 0.1,
+            "end": 0.27
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 380,
+            "to": 343.9423076923077,
+            "start": 0.1,
+            "end": 0.27
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.27,
+            "end": 0.28500000000000003
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.29500000000000004,
+            "end": 0.315
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.32,
+            "end": 0.35000000000000003
+          }
+        ],
+        "states": [
+          {
+            "target": "button",
+            "at": 0.29,
+            "asset": "button-pressed"
+          },
+          {
+            "target": "copy",
+            "at": 0.36,
+            "asset": "text-lines-long"
+          }
+        ]
+      }
     },
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
+      "visualStory": {
+        "initial": "창 안에 열기 버튼",
+        "trigger": "커서가 열기 버튼을 클릭",
+        "change": "클릭 표시와 버튼 상태 변화 후 팝업 등장",
+        "invariant": "창과 기준 좌표는 고정하고 자막·발표자 예약 영역을 침범하지 않는다",
+        "result": "정지된 예시에서 실제 조작 과정으로 전환"
+      },
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "statement-giant",
+      "layout": "diagram-centered",
       "visual": {
         "type": "none",
         "motif": null,
@@ -499,15 +617,15 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "시작 조건을 선택한 다음 실제 동작과 상태 전이를 확인한다.",
+        "concept": "정지된 예시에서 실제 조작 과정으로 전환",
         "relation": {
-          "type": "literal",
-          "description": "시작 조건을 선택한 다음 실제 동작과 상태 전이를 확인한다."
+          "type": "change-over-time",
+          "description": "클릭 표시와 버튼 상태 변화 후 팝업 등장"
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
+          "rationale": "사용자가 바꾸는 입력과 화면의 반응을 같은 장면에서 직접 보여준다"
         }
       },
       "transition": "fade",
@@ -521,12 +639,14 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline",
-        "emphasize-result"
+        "창 안에 열기 버튼",
+        "커서가 열기 버튼을 클릭",
+        "클릭 표시와 버튼 상태 변화 후 팝업 등장",
+        "정지된 예시에서 실제 조작 과정으로 전환"
       ],
       "beats": [
         {
-          "text": "출석이나 팝업 열기는",
+          "text": "팝업이 열린 모습만 따로 보여주는 대신,",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -535,7 +655,7 @@
           "visualCue": null
         },
         {
-          "text": "실제 버튼을 눌러 도달하게 했습니다.",
+          "text": "버튼을 눌러 팝업을 열게 했습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -544,7 +664,7 @@
           "visualCue": null
         },
         {
-          "text": "22개 스토리는 시나리오 중심의 3개로 정리됐고,",
+          "text": "22개 예시는 이렇게 직접 조작하는 3개로 정리했고,",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -553,7 +673,7 @@
           "visualCue": null
         },
         {
-          "text": "이제 상태가 바뀌는 과정도 확인합니다.",
+          "text": "버튼을 누른 뒤 화면이 바뀌는 과정까지 확인합니다.",
           "emphasis": "mid",
           "pauseAfterMs": 180,
           "delivery": "normal",
@@ -562,285 +682,123 @@
           "visualCue": null
         }
       ],
-      "headline": "조건은 고르고\n행동은 직접",
+      "headline": "눌러서\n다음 화면까지",
       "subline": null,
-      "narration": "출석이나 팝업 열기는 실제 버튼을 눌러 도달하게 했습니다. 22개 스토리는 시나리오 중심의 3개로 정리됐고, 이제 상태가 바뀌는 과정도 확인합니다.",
+      "narration": "팝업이 열린 모습만 따로 보여주는 대신, 버튼을 눌러 팝업을 열게 했습니다. 22개 예시는 이렇게 직접 조작하는 3개로 정리했고, 버튼을 누른 뒤 화면이 바뀌는 과정까지 확인합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
-      "image": null
-    },
-    {
-      "presenter": null,
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "statement",
-      "layout": "statement-giant",
-      "visual": {
-        "type": "none",
-        "motif": null,
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "사용자 행동 외에 서버 응답도 함께 바꿔볼 필요가 생긴다.",
-        "relation": {
-          "type": "literal",
-          "description": "사용자 행동 외에 서버 응답도 함께 바꿔볼 필요가 생긴다."
-        },
-        "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
-        }
-      },
-      "transition": "fade",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-headline",
-        "emphasize-result"
-      ],
-      "beats": [
-        {
-          "text": "그런데 API 응답이 비거나 오류가 나는 경우는",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "매번 테스트용 응답 코드를 고쳐야 했습니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "프론트엔드에 익숙하지 않은 동료는",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "직접 시험하기도 어려웠습니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 180,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        }
-      ],
-      "headline": "응답이 비면\n화면은 어떻게 될까?",
-      "subline": null,
-      "narration": "그런데 API 응답이 비거나 오류가 나는 경우는 매번 테스트용 응답 코드를 고쳐야 했습니다. 프론트엔드에 익숙하지 않은 동료는 직접 시험하기도 어려웠습니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "presenter": null,
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "statement",
-      "layout": "statement-giant",
-      "visual": {
-        "type": "none",
-        "motif": null,
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "동료가 코드를 수정하지 않고 응답 조건을 시험하는 방법을 제시한다.",
-        "relation": {
-          "type": "literal",
-          "description": "동료가 코드를 수정하지 않고 응답 조건을 시험하는 방법을 제시한다."
-        },
-        "strategy": {
-          "type": "minimal",
-          "metaphor": null,
-          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
-        }
-      },
-      "transition": "fade",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-headline",
-        "emphasize-result"
-      ],
-      "beats": [
-        {
-          "text": "스토리북에 테스트용 API 응답을 바꾸는",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "MSW 패널을 붙였습니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "배너 응답을 빈 배열로 바꾸면 배너가 사라지고,",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "오류 상태 코드로 바꾸면 실패 화면을 확인합니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 180,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": null
-        }
-      ],
-      "headline": "빈 배열을 넣고\n빈 화면을 확인",
-      "subline": null,
-      "narration": "스토리북에 테스트용 API 응답을 바꾸는 MSW 패널을 붙였습니다. 배너 응답을 빈 배열로 바꾸면 배너가 사라지고, 오류 상태 코드로 바꾸면 실패 화면을 확인합니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
-    },
-    {
-      "presenter": null,
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "photo",
-      "layout": "photo-full-bleed",
-      "visual": {
-        "type": "photo",
-        "motif": null,
-        "query": "authored Storybook three-inputs",
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "visualIntent": {
-        "concept": "앞서 설명한 조건·행동·응답의 역할을 세 가지 입력 도식으로 정리한다.",
-        "relation": {
-          "type": "flow",
-          "description": "앞서 설명한 조건·행동·응답의 역할을 세 가지 입력 도식으로 정리한다."
-        },
-        "strategy": {
-          "type": "photo",
-          "metaphor": null,
-          "rationale": "설명한 관계를 새 도식 전체로 정리한다. 같은 이미지를 다른 장면에 반복하지 않는다. 라벨과 자막은 분리한다."
-        }
-      },
-      "transition": "fade",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [
-        "show-visual",
-        "emphasize-result"
-      ],
-      "beats": [
-        {
-          "text": "시작 조건은 컨트롤에서 고르고,",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
-        },
-        {
-          "text": "사용자 행동은 화면에서 직접 해봅니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
-        },
-        {
-          "text": "서버 응답은 패널에서 바꿉니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 80,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
-        },
-        {
-          "text": "같은 화면을 여러 조건에서 확인하는 겁니다.",
-          "emphasis": "mid",
-          "pauseAfterMs": 180,
-          "delivery": "normal",
-          "visualPriority": "mid",
-          "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
-        }
-      ],
-      "headline": "",
-      "subline": null,
-      "narration": "시작 조건은 컨트롤에서 고르고, 사용자 행동은 화면에서 직접 해봅니다. 서버 응답은 패널에서 바꿉니다. 같은 화면을 여러 조건에서 확인하는 겁니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": "authored Storybook three-inputs",
-      "image": {
-        "query": "authored Storybook three-inputs",
-        "title": "화면을 만드는 세 가지 입력",
-        "creator": "주도현 · Codex 도식 제작",
-        "license": "author-owned",
-        "licenseVersion": null,
-        "licenseUrl": null,
-        "source": "authored-diagram",
-        "provider": "dohyeon.kr",
-        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
-        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/three-inputs.png",
-        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/three-inputs.png"
+      "image": null,
+      "uiMotion": {
+        "version": 1,
+        "width": 800,
+        "height": 560,
+        "nodes": [
+          {
+            "id": "window",
+            "asset": "window",
+            "x": 40,
+            "y": 40,
+            "width": 700,
+            "layer": 0
+          },
+          {
+            "id": "button",
+            "asset": "button",
+            "x": 270,
+            "y": 280,
+            "width": 240,
+            "layer": 1,
+            "label": "열기",
+            "labelSize": 28
+          },
+          {
+            "id": "popup",
+            "asset": "popup",
+            "x": 165,
+            "y": 155,
+            "width": 440,
+            "opacity": 0,
+            "layer": 3,
+            "label": "안내",
+            "labelSize": 32
+          },
+          {
+            "id": "cursor",
+            "asset": "cursor",
+            "x": 615,
+            "y": 380,
+            "width": 70,
+            "layer": 4
+          },
+          {
+            "id": "click",
+            "asset": "click-rays",
+            "x": 432.8538461538462,
+            "y": 312.7,
+            "width": 42,
+            "layer": 5,
+            "opacity": 0
+          }
+        ],
+        "events": [
+          {
+            "target": "cursor",
+            "property": "x",
+            "from": 615,
+            "to": 452.0769230769231,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 380,
+            "to": 333.9423076923077,
+            "start": 0.1,
+            "end": 0.3
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.315
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.325,
+            "end": 0.345
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.35,
+            "end": 0.38
+          },
+          {
+            "target": "popup",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.48
+          }
+        ],
+        "states": [
+          {
+            "target": "button",
+            "at": 0.32,
+            "asset": "button-pressed"
+          }
+        ],
+        "scribble": true
       }
     },
     {
@@ -859,10 +817,10 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "조작 가능한 화면이 실제 협업의 판단 시점을 앞당기는 사례로 이어진다.",
+        "concept": "서버가 데이터를 못 보내준다면?",
         "relation": {
           "type": "literal",
-          "description": "조작 가능한 화면이 실제 협업의 판단 시점을 앞당기는 사례로 이어진다."
+          "description": "서버가 데이터를 못 보내준다면?"
         },
         "strategy": {
           "type": "minimal",
@@ -886,7 +844,7 @@
       ],
       "beats": [
         {
-          "text": "백엔드 개발자도 실제 API를 수정하기 전에",
+          "text": "이번에는 서버에서 데이터가 안 오거나",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -895,7 +853,7 @@
           "visualCue": null
         },
         {
-          "text": "예상 응답을 넣어볼 수 있습니다.",
+          "text": "오류가 났을 때의 화면도 확인하고 싶었습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -904,7 +862,7 @@
           "visualCue": null
         },
         {
-          "text": "빈 상태나 예외 처리를 어떻게 할지",
+          "text": "그런데 매번 테스트용 응답 코드를 고쳐야 해서",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -913,7 +871,7 @@
           "visualCue": null
         },
         {
-          "text": "결과물을 보면서 함께 논의합니다.",
+          "text": "개발에 익숙하지 않은 동료는 시험하기 어려웠습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 180,
           "delivery": "normal",
@@ -922,9 +880,530 @@
           "visualCue": null
         }
       ],
-      "headline": "API 수정 전에\n화면부터 함께",
+      "headline": "서버가 데이터를\n못 보내준다면?",
       "subline": null,
-      "narration": "백엔드 개발자도 실제 API를 수정하기 전에 예상 응답을 넣어볼 수 있습니다. 빈 상태나 예외 처리를 어떻게 할지 결과물을 보면서 함께 논의합니다.",
+      "narration": "이번에는 서버에서 데이터가 안 오거나 오류가 났을 때의 화면도 확인하고 싶었습니다. 그런데 매번 테스트용 응답 코드를 고쳐야 해서 개발에 익숙하지 않은 동료는 시험하기 어려웠습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "응답 데이터 카드와 배너가 있는 창",
+        "trigger": "커서가 비우기 버튼을 클릭",
+        "change": "빈 데이터로 교체 → 화살표 몸통·머리 두 획 → 빈 배너, 후반 오류 안내",
+        "invariant": "창과 기준 좌표는 고정하고 자막·발표자 예약 영역을 침범하지 않는다",
+        "result": "응답 변경으로 빈 상태와 실패 상태 확인"
+      },
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "응답 변경으로 빈 상태와 실패 상태 확인",
+        "relation": {
+          "type": "change-over-time",
+          "description": "빈 데이터로 교체 → 화살표 몸통·머리 두 획 → 빈 배너, 후반 오류 안내"
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "사용자가 바꾸는 입력과 화면의 반응을 같은 장면에서 직접 보여준다"
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "응답 데이터 카드와 배너가 있는 창",
+        "커서가 비우기 버튼을 클릭",
+        "빈 데이터로 교체 → 화살표 몸통·머리 두 획 → 빈 배너, 후반 오류 안내",
+        "응답 변경으로 빈 상태와 실패 상태 확인"
+      ],
+      "beats": [
+        {
+          "text": "그래서 서버가 보내줄 데이터를",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "화면에서 직접 바꾸는 테스트 도구를 붙였습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "배너 목록을 비우면 배너가 없는 화면을 보고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "오류 응답을 넣으면 실패 안내를 확인합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "데이터를 바꾸면\n화면도 바뀐다",
+      "subline": null,
+      "narration": "그래서 서버가 보내줄 데이터를 화면에서 직접 바꾸는 테스트 도구를 붙였습니다. 배너 목록을 비우면 배너가 없는 화면을 보고, 오류 응답을 넣으면 실패 안내를 확인합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null,
+      "uiMotion": {
+        "version": 1,
+        "width": 800,
+        "height": 560,
+        "scribble": true,
+        "nodes": [
+          {
+            "id": "data",
+            "asset": "data-card",
+            "x": 30,
+            "y": 130,
+            "width": 250,
+            "layer": 0
+          },
+          {
+            "id": "button",
+            "asset": "button",
+            "x": 65,
+            "y": 360,
+            "width": 190,
+            "layer": 1,
+            "label": "비우기",
+            "labelSize": 28
+          },
+          {
+            "id": "arrow",
+            "asset": "arrow",
+            "x": 300,
+            "y": 220,
+            "width": 140,
+            "drawProgress": 0,
+            "layer": 1
+          },
+          {
+            "id": "window",
+            "asset": "window",
+            "x": 460,
+            "y": 130,
+            "width": 310
+          },
+          {
+            "id": "banner",
+            "asset": "banner",
+            "x": 476,
+            "y": 177,
+            "width": 278,
+            "layer": 1
+          },
+          {
+            "id": "error",
+            "asset": "popup",
+            "x": 470,
+            "y": 165,
+            "width": 290,
+            "layer": 3,
+            "opacity": 0,
+            "label": "오류 안내",
+            "labelSize": 28
+          },
+          {
+            "id": "cursor",
+            "asset": "cursor",
+            "x": 630,
+            "y": 400,
+            "width": 70,
+            "layer": 4
+          },
+          {
+            "id": "click",
+            "asset": "click-rays",
+            "x": 188.23846153846154,
+            "y": 380.2,
+            "width": 42,
+            "layer": 5,
+            "opacity": 0
+          },
+          {
+            "id": "error-button",
+            "asset": "button",
+            "x": 65,
+            "y": 450,
+            "width": 190,
+            "layer": 1,
+            "label": "오류 응답",
+            "labelSize": 28
+          }
+        ],
+        "events": [
+          {
+            "target": "cursor",
+            "property": "x",
+            "from": 630,
+            "to": 207.46153846153848,
+            "start": 0.08,
+            "end": 0.23
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 400,
+            "to": 401.4423076923077,
+            "start": 0.08,
+            "end": 0.23
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.23,
+            "end": 0.245
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.255,
+            "end": 0.275
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.28,
+            "end": 0.31
+          },
+          {
+            "target": "arrow",
+            "property": "drawProgress",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.48,
+            "easing": "linear"
+          },
+          {
+            "target": "error",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.78,
+            "end": 0.85
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.6,
+            "end": 0.62
+          },
+          {
+            "target": "cursor",
+            "property": "y",
+            "from": 401.4423076923077,
+            "to": 491.4423076923077,
+            "start": 0.62,
+            "end": 0.69
+          },
+          {
+            "target": "click",
+            "property": "y",
+            "from": 380.2,
+            "to": 470.2,
+            "start": 0.62,
+            "end": 0.68
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.69,
+            "end": 0.705
+          },
+          {
+            "target": "click",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.715,
+            "end": 0.735
+          },
+          {
+            "target": "cursor",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.74,
+            "end": 0.77
+          },
+          {
+            "target": "arrow",
+            "property": "drawProgress",
+            "from": 1,
+            "to": 0,
+            "start": 0.61,
+            "end": 0.62,
+            "easing": "linear"
+          },
+          {
+            "target": "arrow",
+            "property": "drawProgress",
+            "from": 0,
+            "to": 1,
+            "start": 0.71,
+            "end": 0.78,
+            "easing": "linear"
+          }
+        ],
+        "states": [
+          {
+            "target": "button",
+            "at": 0.25,
+            "asset": "button-pressed"
+          },
+          {
+            "target": "data",
+            "at": 0.28,
+            "asset": "data-card-empty"
+          },
+          {
+            "target": "banner",
+            "at": 0.5,
+            "asset": "banner-empty"
+          },
+          {
+            "target": "error-button",
+            "at": 0.71,
+            "asset": "button-pressed"
+          },
+          {
+            "target": "data",
+            "at": 0.72,
+            "asset": "data-card"
+          }
+        ]
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "authored Storybook three-inputs",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "문구·버튼·서버 데이터로 여러 상황 확인",
+        "relation": {
+          "type": "flow",
+          "description": "문구·버튼·서버 데이터로 여러 상황 확인"
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "앞서 설명한 긴 문구·빈 데이터, 버튼 조작, 서버 데이터를 세 입력 도식으로 정리한다. 회차·출석 등 제품 고유 용어는 숏츠 전용 이미지에서 제거했다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "긴 문구나 빈 데이터는 설정에서 고르고,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞서 설명한 조건·동작·서버 데이터의 역할을 도식으로 정리한다."
+        },
+        {
+          "text": "버튼은 화면에서 직접 눌러봅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞서 설명한 조건·동작·서버 데이터의 역할을 도식으로 정리한다."
+        },
+        {
+          "text": "서버가 보내줄 데이터도 바꿔봅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞서 설명한 조건·동작·서버 데이터의 역할을 도식으로 정리한다."
+        },
+        {
+          "text": "동료가 여러 상황을 직접 확인할 수 있게 한 겁니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "앞서 설명한 조건·동작·서버 데이터의 역할을 도식으로 정리한다."
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "긴 문구나 빈 데이터는 설정에서 고르고, 버튼은 화면에서 직접 눌러봅니다. 서버가 보내줄 데이터도 바꿔봅니다. 동료가 여러 상황을 직접 확인할 수 있게 한 겁니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "authored Storybook three-inputs",
+      "image": {
+        "query": "authored Storybook three-inputs",
+        "title": "화면을 만드는 세 가지 입력 — 숏츠용 쉬운 사례",
+        "creator": "주도현 · Codex 도식 제작",
+        "license": "author-owned",
+        "licenseVersion": null,
+        "licenseUrl": null,
+        "source": "authored-diagram",
+        "provider": "dohyeon.kr",
+        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d0c3743827d25f39b1cbeadded6c3b39e08f8c67/shorts/public/articles/storybook-agile/three-inputs-shorts.png",
+        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/d0c3743827d25f39b1cbeadded6c3b39e08f8c67/shorts/public/articles/storybook-agile/three-inputs-shorts.png"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "서버를 고치기 전에 화면부터 함께",
+        "relation": {
+          "type": "literal",
+          "description": "서버를 고치기 전에 화면부터 함께"
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "백엔드 개발자도 실제 서버를 고치기 전에",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "바꾸려는 데이터를 이 도구에 넣어볼 수 있습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "데이터가 없거나 오류가 날 때 무엇을 보여줄지,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "같은 화면을 보면서 함께 논의합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "서버를 고치기 전에\n화면부터 함께",
+      "subline": null,
+      "narration": "백엔드 개발자도 실제 서버를 고치기 전에 바꾸려는 데이터를 이 도구에 넣어볼 수 있습니다. 데이터가 없거나 오류가 날 때 무엇을 보여줄지, 같은 화면을 보면서 함께 논의합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -946,10 +1425,10 @@
         "yLabel": null
       },
       "visualIntent": {
-        "concept": "검토 환경의 범위를 밝혀 실제 앱 전체를 대체한다는 오해를 막는다.",
+        "concept": "화면 검토와 실제 앱 검증의 범위",
         "relation": {
           "type": "flow",
-          "description": "검토 환경의 범위를 밝혀 실제 앱 전체를 대체한다는 오해를 막는다."
+          "description": "화면 검토와 실제 앱 검증의 범위"
         },
         "strategy": {
           "type": "photo",
@@ -973,45 +1452,45 @@
       ],
       "beats": [
         {
-          "text": "물론 실제 API 연결과 화면 사이의 이동은",
+          "text": "물론 실제 서버와 잘 연결되는지,",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "검증 범위를 구분하는 도식 전체를 보존한다."
         },
         {
-          "text": "개발 환경의 앱에서 따로 확인합니다.",
+          "text": "여러 화면을 오가도 괜찮은지는 앱에서 따로 확인합니다.",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "검증 범위를 구분하는 도식 전체를 보존한다."
         },
         {
-          "text": "보안과 데이터 정합성은 테스트와 CI가 맡습니다.",
+          "text": "보안이나 데이터의 정확성도 별도로 검사합니다.",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "검증 범위를 구분하는 도식 전체를 보존한다."
         },
         {
-          "text": "스토리북에서는 작은 범위의 결정을 먼저 내립니다.",
+          "text": "스토리북에서는 눈앞의 화면과 동작부터 함께 봅니다.",
           "emphasis": "mid",
           "pauseAfterMs": 180,
           "delivery": "normal",
           "visualPriority": "mid",
           "keyword": null,
-          "visualCue": "도식 전체의 라벨을 보존하며 앞선 설명을 정리한다."
+          "visualCue": "검증 범위를 구분하는 도식 전체를 보존한다."
         }
       ],
       "headline": "",
       "subline": null,
-      "narration": "물론 실제 API 연결과 화면 사이의 이동은 개발 환경의 앱에서 따로 확인합니다. 보안과 데이터 정합성은 테스트와 CI가 맡습니다. 스토리북에서는 작은 범위의 결정을 먼저 내립니다.",
+      "narration": "물론 실제 서버와 잘 연결되는지, 여러 화면을 오가도 괜찮은지는 앱에서 따로 확인합니다. 보안이나 데이터의 정확성도 별도로 검사합니다. 스토리북에서는 눈앞의 화면과 동작부터 함께 봅니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": "authored Storybook validation-scopes",
