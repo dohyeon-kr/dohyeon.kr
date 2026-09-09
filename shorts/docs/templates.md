@@ -37,7 +37,8 @@ Use diagrams and comparisons only when they materially help understanding.
 
 - 1080×1920, full-bleed pale ivory graph paper. Fixed paper background, black
   Pretendard, muted orange rules and emphasis, 2px separators and small endpoint dots.
-- Content uses x=80..900, y=180..1554. Four conceptual columns merge into full-width
+- Content is authored at x=80..900, y=180..1554 and translated down 100px
+  by the notebook renderer (effective y=280..1654). Four conceptual columns merge into full-width
   title/visual rows or two comparison columns. Maximum three meaningful regions.
 - The first frame uses the candidate's overall title, then short scene messages.
   Titles with visuals 80–100px; text-only scenes use a vertically centered
@@ -52,6 +53,20 @@ Use diagrams and comparisons only when they materially help understanding.
 - Common CTA retains the established shared black design and duration.
   Explicit scene presenters and persistent presenter tracks remain supported.
   Lower-right presenter space is reserved beside the caption.
+
+### Reels vertical offset
+
+The supplied phone screenshot showed the upper label beneath the Reels header
+and excess space between subtitles and the account profile. Apply one 100px
+vertical offset to all body content and the persistent presenter at 1080×1920.
+Paper and the common CTA remain in their existing positions. Effective label
+y=280, upper rule y=338, lower rule y=1470, caption y=1510..1654,
+and presenter y=1420..1610. Photos, diagrams, text and their motion move together.
+Do not add the offset to candidate JSON or diagram coordinates a second time.
+Other templates keep their existing presenter placement. These are calibration
+values for the supplied screenshot, not a universal platform safe-area guarantee.
+Check the rendered preview against Reels header, action buttons and account UI;
+existing exported videos need a new render before the change appears.
 
 ### Printed photographs and tape stickers
 
