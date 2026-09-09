@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'shorts/src/templates/**'
+      - 'shorts/src/visuals/**'
       - 'shorts/public/templates/**'
       - 'shorts/scripts/verify-notebook-render.mjs'
       - 'shorts/scripts/verify-collaboration-layout.mjs'

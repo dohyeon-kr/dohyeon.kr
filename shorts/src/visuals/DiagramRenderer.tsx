@@ -9,7 +9,7 @@ import {effectState, type LightEffect} from '../motion/schema';
 import {organicBlobPath} from './blob-shape';
 import {useVideoConfig} from 'remotion';
 type Engine = 'remotion' | 'motion-canvas';
-type Props = {effects?: LightEffect[] | null; layer?: 'geometry' | 'labels' | 'all'; spec: DiagramSpec; durationInFrames: number; framesPath?: string | null; strict?: boolean; failEngine?: Engine};
+type Props = {scribble?: boolean; effects?: LightEffect[] | null; layer?: 'geometry' | 'labels' | 'all'; spec: DiagramSpec; durationInFrames: number; framesPath?: string | null; strict?: boolean; failEngine?: Engine};
 class EngineBoundary extends React.Component<{engine: Engine; strict: boolean; children: (engine: Engine) => React.ReactNode}, {error: Error | null}> {
   state: {error: Error | null} = {error: null};
   static getDerivedStateFromError(error: Error) {return {error};}
@@ -31,13 +31,24 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
   const {fps} = useVideoConfig();
   const states = evaluatedDiagramState(spec, frame / Math.max(1, rest.durationInFrames - 1));
   const layer = rest.layer ?? 'all';
+  const scribbleId = `scribble-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
+  // Discrete 100ms redraws are reproducible even when frames render out of order.
+  const scribbleSeed = 1 + Math.floor(frame * 10 / fps); 
   const geometrySpec = useMemo(() => ({...spec, nodes: spec.nodes.map(node => ({...node, label: ''}))}), [spec]);
   return <div style={{position: 'relative', width: '100%', height: '100%'}}>
     <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;}`}</style>
     {layer !== 'labels' && <>
+      {rest.scribble && <svg width={0} height={0} style={{position: 'absolute'}} aria-hidden="true"><defs>
+        <filter id={scribbleId} x="-5%" y="-5%" width="110%" height="110%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves={2} seed={scribbleSeed} result="roughness" />
+          <feDisplacementMap in="SourceGraphic" in2="roughness" scale={4} xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs></svg>}
+      <div style={{position: 'absolute', inset: 0, filter: rest.scribble ? `url(#${scribbleId})` : undefined}}>
       <EngineBoundary key={JSON.stringify(spec)} engine={engine} strict={strict}>
         {(selected) => <EngineSurface {...rest} spec={geometrySpec} engine={selected} failEngine={failEngine} />}
       </EngineBoundary>
+      </div>
       {(rest.effects ?? []).filter(e => e.type !== 'flow-glow' && effectState(e, frame, fps).opacity > 0).map((effect, i) => {
         const node = states.find(n => n.id === effect.target);
         if (!node) return null;

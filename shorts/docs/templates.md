@@ -102,3 +102,15 @@ including photos and diagrams. Reserve 580px for captions and the lower rule;
 the existing 190px bottom-right presenter remains separate. Split long beats by
 meaning to preserve two-line captions. The common CTA remains hidden according
 to `hideOnCommonCta`. Never replace this overlay with per-scene presenters.
+
+### Notebook scribble diagrams
+
+Notebook diagrams use a wider 900px visual area and a 1.08 drawing scale.
+Without a heading, the area begins at y=320 and is 850px tall; with a heading it
+begins at y=550 and is 600px tall. Photos and comparisons retain their layout.
+Geometry receives a subtle SVG displacement (maximum 2px per axis before
+scaling), redrawn every 100ms from the scene frame and FPS. Text is a separate,
+unfiltered SVG layer; node positions and authored motion retain their timing.
+The effect is reproducible when rendering frames out of order and works on both
+geometry backends. Keep subtitles and the bottom-right presenter unobstructed.
+Reference: [SVG displacement](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feDisplacementMap).
