@@ -9,7 +9,7 @@ export const NotebookUiScene: React.FC<{spec: NotebookUiMotionSpec; durationInFr
   const frame=useCurrentFrame();
   const evaluate=useMemo(()=>compileNotebookUiMotion(spec),[spec]);
   if(!Number.isInteger(durationInFrames)||durationInFrames<2)throw new Error('UI scene requires at least 2 frames');
-  return <div data-layout-overlap="assets" style={{position:'relative',width:spec.width,height:spec.height}}>
+  return <div data-layout-overlap="assets" data-headline-overlap-limit={spec.headlineOverlapLimit??0.05} style={{position:'relative',width:spec.width,height:spec.height}}>
     {evaluate(frame/(durationInFrames-1)).map(n=>{
       const area=notebookUiAssets[n.asset].labelArea;
       const scale=n.width/notebookUiAssets[n.asset].viewBox[2];
