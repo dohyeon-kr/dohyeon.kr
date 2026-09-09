@@ -1,0 +1,39 @@
+{
+  "scope": "json-only",
+  "status": "ready-for-preview",
+  "findings": [
+    {
+      "type": "structure",
+      "location": "candidate-01",
+      "problem": "목적·방법론·실행 사례를 독립 주제로 나눴음",
+      "reason": "세 부분은 완성 전에 함께 확인한다는 동일한 목적에 연결됨",
+      "change": "본문 12장면과 CTA 한 장의 단일 영상으로 통합. 후보 02·03의 배포 파일 제거.",
+      "resolved": true
+    },
+    {
+      "type": "fidelity",
+      "location": "candidate-01 / 1–12",
+      "problem": "전문용어와 맥락 없는 사례, 반복 결론",
+      "reason": "출석·응모 배경과 테스트 응답의 의미가 먼저 필요함",
+      "change": "배경을 먼저 설명하고 마지막에 승인된 제목을 회수. 속도 향상률을 주장하지 않음.",
+      "resolved": true
+    },
+    {
+      "type": "visual",
+      "location": "candidate-01 / 3, 9, 11",
+      "problem": "동일 도식 반복과 패널 설명에 맞지 않는 이미지",
+      "reason": "각 도식의 실제 관계와 설명이 맞아야 함",
+      "change": "피드백 시점·세 입력·검증 범위 도식을 각각 한 번만 대응 장면에 배치. 패널의 실제 시연 영상이라고 주장하지 않음.",
+      "resolved": true
+    }
+  ],
+  "limitations": [
+    "viralScore 75는 예측 데이터가 아닌 편집용 임시값이며 순위 추천 근거가 아니다.",
+    "실제 TTS 길이·음성·립싱크는 미검증.",
+    "전체 영상 렌더 검수는 미완료.",
+    "사진 영역·헤딩 스크리블·100px 오프셋은 PR #147 적용 필요.",
+    "블로그 원본 이미지 교체는 사용자 승인 후 아직 미완료. 이번 변경은 대본 통합.",
+    "패널 조작 구간은 타이포 설명이며 실제 UI 시연 캡처를 새로 삽입한 상태는 아님."
+  ],
+  "selectedCandidate": "candidate-01"
+}
