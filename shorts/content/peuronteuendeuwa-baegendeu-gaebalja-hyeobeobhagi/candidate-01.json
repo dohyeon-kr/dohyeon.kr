@@ -486,7 +486,7 @@
               "target": "frontend",
               "sourceSide": "right",
               "targetSide": "left",
-              "gap": 14
+              "gap": 8
             },
             "strokeStyle": "solid"
           },
@@ -508,9 +508,9 @@
             "shape": "rect",
             "label": "SDK\n패키지",
             "blob": null,
-            "x": 400,
+            "x": 390,
             "y": 280,
-            "width": 200,
+            "width": 180,
             "height": 170,
             "fill": "none",
             "connector": null,
@@ -521,9 +521,9 @@
             "shape": "rect",
             "label": "프론트엔드",
             "blob": null,
-            "x": 650,
+            "x": 635,
             "y": 280,
-            "width": 200,
+            "width": 240,
             "height": 150,
             "fill": "none",
             "connector": null,

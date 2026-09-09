@@ -72,3 +72,7 @@
 - [GitHub Packages npm registry](https://docs.github.com/packages/working-with-a-github-packages-registry/working-with-the-npm-registry): 발행과 의존성 설치를 분리한 SDK 도식의 관계를 확인.
 - [Bruno 환경변수](https://docs.usebruno.com/variables/environment-variables), [Request chaining](https://docs.usebruno.com/v2/testing/script/request-chaining): 요청에서 받은 값을 후속 요청에 재사용하는 흐름을 확인. 모든 요청마다 자동 로그인한다거나 무한 유효 토큰이라는 의미는 넣지 않음.
 - [W3C Trace Context](https://www.w3.org/TR/trace-context/): traceparent의 추적 문맥 전달 역할을 확인. traceparent 전체가 전 구간에서 동일하다고 표시하지 않으며 고정 가짜 ID·처리 시간을 만들지 않음.
+
+### 실제 프레임 확인 결과
+
+[Actions 34325375076](https://github.com/dohyeon-kr/dohyeon.kr/actions/runs/34325375076)의 실제 사진 포함 후보 56개 프레임 및 공통 템플릿 렌더 검사가 통과했다. 내려받은 사진·도식·타이포 프레임에서 상시 발표자와 자막 분리, 2·12장의 큰 한글 타이포, 사진 인화지 합성을 육안 확인했다. 4장 프론트엔드 라벨의 어색한 줄바꿈은 박스를 240으로 넓히고 인접 박스를 이동해 보완했으며 nodeLabel의 한 줄 출력과 도식 중간 상태 검증을 확인했다. 이 마지막 라벨 조정 후 실제 렌더는 재실행하지 않았다. TTS·입 모양·노딩 음성 동기화는 아직 검수 전이다.
