@@ -9,7 +9,6 @@ const labels = {
   hero: '도입', photo: '사진', compare: '비교', statement: '핵심 메시지', outro: '마무리',
   'photo-top-right': '오른쪽 위 사진과 텍스트', 'photo-full-bleed': '사진을 화면 전체에 배치',
   'photo-split-left': '왼쪽 사진과 오른쪽 텍스트', 'photo-strip': '띠 형태의 사진',
-  'notebook-title': '실제 사진을 찢은 종이로 마스킹한 제목 오프닝',
   'diagram-centered': '도식을 중앙에 배치', 'symbol-right': '오른쪽에 상징 배치',
   'statement-giant': '큰 문장을 중심에 배치', 'statement-offset': '문장을 비대칭으로 배치',
   'compare-columns': '두 열로 비교', 'compare-versus': '두 대상을 대비', 'outro-minimal': '간결한 마무리',
@@ -69,7 +68,7 @@ export function describeCandidate(manifest, filename) {
       `- 주 문구: ${md(scene.headline)}`);
     if (scene.subline) out.push(`- 보조 문구: ${md(scene.subline)}`);
     out.push(`- 배치: ${label(scene.layout)}`);
-    if (overlayVisible(manifest.presenterOverlay, scene)) out.push(`- 발표자: 우측 하단 ${manifest.presenterOverlay.frame === 'torn-paper-blue' ? '찢어진 파란 종이 프레임' : '원형 바스트'} 상시 표시 (본문 전환 유지). ${manifest.presenterOverlay.lipSync === 'word-timestamps' ? '최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.' : '기본 표정, 실제 TTS 립싱크 미연결.'}`);
+    if (overlayVisible(manifest.presenterOverlay, scene)) out.push(`- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). ${manifest.presenterOverlay.lipSync === 'word-timestamps' ? '최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.' : '기본 표정, 실제 TTS 립싱크 미연결.'}`);
     else if (manifest.presenterOverlay) out.push('- 발표자: 공통 CTA에서는 숨김.');
     if (scene.presenter != null) {
       out.push('- 발표자: 흰 페이지 / 원형 바스트 / 장면 기준 초');

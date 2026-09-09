@@ -1,4 +1,3 @@
-import {prepareNotebookAssets} from './prepare-notebook-assets.mjs';
 import {alignPresenter} from './align-presenter.mjs';
 import {withBlogCta} from './blog-cta.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
@@ -336,7 +335,6 @@ const main = async () => {
     fs.mkdir(tempRoot, {recursive: true}),
   ]);
   await copyFonts();
-  if(manifest.scenes.some(scene=>scene.diagramSpec?.notebook || scene.layout==='notebook-title')) await prepareNotebookAssets();
 
   // Acquire and inspect every requested visual before spending on narration.
   const videoCatalog = manifest.scenes.some(s => s.backgroundVideo) ? await loadVideoCatalog() : [];

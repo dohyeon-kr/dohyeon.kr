@@ -5,8 +5,6 @@ import type {DiagramSpec} from './diagram-spec';
 import {evaluatedDiagramState} from './physics';
 import {linePoints, nodeLabel, LABEL_LINE_HEIGHT} from './node-layout';
 import {organicBlobPoints} from './blob-shape';
-import {sprites, assetUrl, NOTEBOOK_FONT} from './notebook-assets';
-import {sketchPoints, NOTEBOOK_INK, notebookFill} from './notebook-style';
 
 // Render one isolated Motion Canvas scene for each requested frame. This avoids
 // seek races and makes parallel/out-of-order Remotion renders deterministic.
@@ -21,18 +19,13 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
       const core = await import('@motion-canvas/core');
       if (failAsync) throw new Error('Injected async Motion Canvas failure for CI');
       const {ReadOnlyTimeEvents} = await import('@motion-canvas/core/lib/scenes/timeEvents/ReadOnlyTimeEvents');
-      const {makeScene2D, Scene2D, Rect, Circle, Line, Txt, Node, Pattern, Img} = await import('@motion-canvas/2d');
+      const {makeScene2D, Scene2D, Rect, Circle, Line, Txt, Node, Pattern} = await import('@motion-canvas/2d');
       const tile = document.createElement('canvas');
       tile.width = tile.height = 16;
       const ink = tile.getContext('2d')!;
       ink.strokeStyle = '#858585'; ink.lineWidth = 2;
       for (const offset of [-16, 0, 16]) {ink.beginPath(); ink.moveTo(offset, 16); ink.lineTo(offset + 16, 0); ink.stroke();}
       const hatch = new Pattern({image: tile, repetition: 'repeat'});
-      const sheets: Record<string,HTMLImageElement>={};
-      if(spec.notebook) for(const file of ['marks.webp','papers.webp']) {const im=new Image();im.src=assetUrl(file);await im.decode();sheets[file]=im;}
-      const inkTile=document.createElement('canvas'); inkTile.width=inkTile.height=24;
-      if(spec.notebook) inkTile.getContext('2d')!.drawImage(sheets['marks.webp'],160,145,52,52,0,0,24,24);
-      const texturedInk=new Pattern({image:inkTile,repetition:'repeat'});
       const states = evaluatedDiagramState(spec, progress);
       const description = makeScene2D(function* (view) {
         for (const node of states) {
@@ -40,14 +33,12 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           view.add(group);
           const fill = node.fill === 'white' ? '#fff' : node.fill === 'gray' ? '#303030' : node.fill === 'hatch' ? hatch : null;
           const props = {width: node.width, height: node.height, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []};
-          if (spec.notebook && node.role==='sticker') {const s=sprites[node.stickerAsset??'paper'];const tile=document.createElement('canvas');tile.width=node.width;tile.height=node.height;tile.getContext('2d')!.drawImage(sheets[s.file],s.crop[0],s.crop[1],s.crop[2],s.crop[3],0,0,node.width,node.height);const ctx=tile.getContext('2d')!, pixels=ctx.getImageData(0,0,tile.width,tile.height);for(let i=0;i<pixels.data.length;i+=4)pixels.data[i+3]=Math.max(0,Math.min(255,pixels.data[i+2]*6-178.5));ctx.putImageData(pixels,0,0);group.add(new Img({src:tile.toDataURL(),width:node.width,height:node.height}));}
-          if (spec.notebook && node.role!=='sticker' && ['rect','circle','line'].includes(node.shape)) group.add(new Line({points: sketchPoints(node), closed:node.shape!=='line', fill:node.shape==='line'||node.fill==='none'?null:node.fill==='hatch'?hatch:notebookFill(node), stroke:texturedInk,lineWidth:5,lineDash:props.lineDash}));
-          if (!spec.notebook && node.shape === 'rect') group.add(new Rect(props));
-          if (!spec.notebook && node.shape === 'circle') group.add(new Circle(props));
+          if (node.shape === 'rect') group.add(new Rect(props));
+          if (node.shape === 'circle') group.add(new Circle(props));
           if (node.shape === 'blob') group.add(new Line({points: organicBlobPoints(node), closed: true, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : [], radius: 18}));
-          if (!spec.notebook && node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
+          if (node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
           const label = nodeLabel(node);
-          if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: spec.notebook?NOTEBOOK_FONT:'Pretendard', fontSize: spec.notebook?label.fontSize*4/3:label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: spec.notebook?400:800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
+          if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: 'Pretendard', fontSize: label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: 800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
         }
         yield;
       });
@@ -62,7 +53,7 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
         onReplaced: new core.ValueDispatcher(null!),
       });
       dispose = () => {scene.getView().dispose(); sharedWebGLContext.dispose();};
-      await document.fonts.load(spec.notebook ? '400 36px "Nanum Pen Script"' : '800 28px Pretendard');
+      await document.fonts.load('800 28px Pretendard');
       await scene.reset();
       const stage = new core.Stage();
       stage.configure({size: new core.Vector2(800, 560), resolutionScale: 1, background: null});

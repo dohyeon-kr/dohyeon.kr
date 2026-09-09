@@ -7,7 +7,6 @@ import type {CandidateScene} from '../types';
 
 export function validateSceneMotion(scene: CandidateScene, previous?: CandidateScene) {
   validateScenePresenter(scene);
-  if(scene.layout==='notebook-title' && (previous || scene.kind!=='hero' || scene.visual?.type!=='photo' || scene.diagramSpec || !scene.headline.trim())) throw new Error('notebook-title requires the first hero scene, a photograph and a title');
   validateBackgroundVideo(scene);
   if (scene.transition !== undefined) z.enum(TRANSITIONS).parse(scene.transition);
   if (scene.transitionOptions != null) TransitionOptionsSchema.parse(scene.transitionOptions);
