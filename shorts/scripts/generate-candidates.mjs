@@ -1,3 +1,4 @@
+import {getTemplate} from '../src/templates/registry.ts';
 import {withBlogCta} from './blog-cta.mjs';
 import {GeneratedPresenterSchema} from '../src/presenter/schema.ts';
 import {BackgroundVideoSchema} from '../src/video/schema.ts';
@@ -360,6 +361,7 @@ const slugFromUrl = (rawUrl, fallback) => {
 };
 
 const main = async () => {
+  const template = getTemplate(process.env.SHORTS_TEMPLATE || undefined);
   const postUrl = process.argv[2];
   const count = Number(process.argv[3] ?? 5);
   if (!Number.isInteger(count) || count < 3 || count > 8) throw new Error('Candidate count must be an integer from 3 to 8.');
@@ -371,12 +373,12 @@ const main = async () => {
   const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY, timeout: 240_000, maxRetries: 2});
   const diagnosticsDir = process.env.SHORTS_DIAGNOSTICS_DIR || path.join(shortsRoot, 'output', 'generation-diagnostics');
   await fs.mkdir(diagnosticsDir, {recursive: true});
-  await fs.writeFile(path.join(diagnosticsDir, 'source.json'), JSON.stringify({post, count, additionalRequest}, null, 2));
+  await fs.writeFile(path.join(diagnosticsDir, 'source.json'), JSON.stringify({post, count, additionalRequest, template: template.id}, null, 2));
   let rawCandidates;
   try {
     rawCandidates = await generateInStages({
       client, post, count, additionalRequest, candidateSchema: CandidateSchema,
-      visualInstructions: VISUAL_SYSTEM_PROMPT, videoCatalog: await loadVideoCatalog(),
+      visualInstructions: VISUAL_SYSTEM_PROMPT, templateInstructions: template.instructions, videoCatalog: await loadVideoCatalog(),
       checkpoint: (stage, result) => fs.writeFile(path.join(diagnosticsDir, `${stage}.json`), JSON.stringify(result, null, 2)),
     });
   } catch (error) {
@@ -428,7 +430,8 @@ const main = async () => {
         hashtags: candidate.hashtags,
       },
       style: {
-        theme: 'monochrome-editorial-dark',
+        theme: template.id,
+        template: template.id,
         subtitles: 'burned-in',
         safeArea: 'shorts-reels',
         artDirection: 'monochrome-editorial-motion',

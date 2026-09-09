@@ -159,7 +159,8 @@ export type CandidateManifest = {
     hashtags: string[];
   };
   style: {
-    theme: 'monochrome-editorial' | 'monochrome-editorial-dark';
+    template?: import('./templates/registry').TemplateId;
+    theme: 'monochrome-editorial' | 'monochrome-editorial-dark' | 'notebook-grid';
     imagePlacement?: 'upper-right';
     textPlacement?: 'lower-left';
     visualDensity?: 'high';

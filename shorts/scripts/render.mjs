@@ -1,3 +1,4 @@
+import {resolveTemplate} from '../src/templates/registry.ts';
 import {alignPresenter} from './align-presenter.mjs';
 import {withBlogCta} from './blog-cta.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
@@ -319,6 +320,7 @@ const main = async () => {
   }
 
   const manifest = withBlogCta(JSON.parse(await fs.readFile(manifestPath, 'utf8')));
+  resolveTemplate(manifest);
   validatePresenterOverlay(manifest);
   for (const [index, scene] of manifest.scenes.entries()) {
     validateSceneMotion(scene, manifest.scenes[index - 1]);

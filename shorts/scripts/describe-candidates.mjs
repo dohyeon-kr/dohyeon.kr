@@ -1,3 +1,4 @@
+import {resolveTemplate} from '../src/templates/registry.ts';
 import {overlayVisible} from '../src/presenter/overlay.ts';
 import videoCatalog from '../media/videos.json' with {type: 'json'};
 import fs from 'node:fs/promises';
@@ -56,8 +57,10 @@ function movement(event, nodes) {
 
 export function describeCandidate(manifest, filename) {
   if (!Array.isArray(manifest.scenes) || !manifest.scenes.length) throw new Error(`${filename}: scenes must be a non-empty array`);
+  const template = resolveTemplate(manifest);
   const c = manifest.candidate ?? {};
   const out = [`# ${md(c.title || manifest.id || filename)}`, '',
+    `**템플릿:** ${md(template.name)} (${md(template.id)})`, '',
     `원본: [${md(filename)}](${encodeURIComponent(filename)})`, '',
     'JSON에서 자동 생성한 검토용 스토리보드입니다. 수정은 원본 JSON에 반영한 뒤 다시 생성하세요. 연출 설명은 기획 의도이며, 실제 배치·동작은 렌더된 스냅샷과 영상으로 확인합니다. 음성 생성 전이므로 재생 시간은 확정하지 않습니다.', '',
     `**첫 문장:** ${md(c.hook)}`, '', `**기획 의도:** ${md(c.rationale)}`, '',
@@ -67,7 +70,7 @@ export function describeCandidate(manifest, filename) {
       '**내레이션**', '', md(scene.narration), '', '**화면 구성**', '',
       `- 주 문구: ${md(scene.headline)}`);
     if (scene.subline) out.push(`- 보조 문구: ${md(scene.subline)}`);
-    out.push(`- 배치: ${label(scene.layout)}`);
+    out.push(`- 배치: ${template.id === 'notebook-grid' ? '노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역' : label(scene.layout)}`);
     if (overlayVisible(manifest.presenterOverlay, scene)) out.push(`- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). ${manifest.presenterOverlay.lipSync === 'word-timestamps' ? '최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.' : '기본 표정, 실제 TTS 립싱크 미연결.'}`);
     else if (manifest.presenterOverlay) out.push('- 발표자: 공통 CTA에서는 숨김.');
     if (scene.presenter != null) {
