@@ -87,6 +87,7 @@ API는 자동 배치 명령이 아니다. 작성자가 좌표와 events를 정�
 `python shorts/scripts/extract-notebook-stickers.py`로 원본 crop과 같은 alpha 수식을 적용해 재생성한다(Pillow, Node 24 필요).
 기존 엔진은 단일 catalog의 시트 crop을 계속 사용하므로 기존 후보의 텍스처 해석이 달라지지 않는다.
 Figma에는 편집 성능을 위한 PNG 사본을 넣었으며 원본 해상도 애셋은 저장소 파일을 사용한다.
-Figma에서 Pretendard가 제공되지 않아 자막·오프닝 제목은 Noto Sans KR로 대체 표시한다. 런타임은 Pretendard를 유지한다.
+제목·도식·메모·자막 모두 Pretendard 800으로 통일한다. 손글씨 확대 보정은 제거하여 측정한 글자 영역과 실제 출력 크기를 맞춘다. 오프닝 메모는 46px이다.
+Figma 파일은 손글씨 철회 전 시안이다. Starter MCP 호출 한도로 이번 폰트 교정은 아직 반영하지 못했다. 런타임과 이 문서가 최신 기준이다.
 
 [Figma 레이아웃·컴포넌트](https://www.figma.com/design/3I8agGzTSC0OZUl04YfRud)

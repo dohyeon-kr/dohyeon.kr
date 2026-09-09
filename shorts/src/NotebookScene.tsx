@@ -30,7 +30,7 @@ export const NotebookScene: React.FC<{scene:RenderScene; topicTitle:string; laye
     </div>
     {layer==='text' && <>
       {title && <div style={{position:'absolute',left:90,top:240,width:800,opacity:Math.min(1,frame/6)}}>
-        <div data-layout-text="headline" style={{fontFamily:NOTEBOOK_FONT,fontSize:title.fontSize,lineHeight:1.25,fontWeight:400,whiteSpace:'pre-wrap',color:'#eef5ff'}}>{title.text}</div>
+        <div data-layout-text="headline" style={{fontFamily:NOTEBOOK_FONT,fontSize:title.fontSize,lineHeight:1.25,fontWeight:800,whiteSpace:'pre-wrap',color:'#eef5ff'}}>{title.text}</div>
         <svg width={Math.min(540,titleWidth)} height="14" style={{marginTop:18}} aria-hidden="true"><Sprite name="underline" x={0} y={0} width={Math.min(540,titleWidth)} height={14}/></svg>
       </div>}
       {copy && <div data-layout="caption" style={{position:'absolute',left:90,top:1340,width,height:168}}><div data-layout-text="caption" style={{fontSize:46,lineHeight:'82px',fontWeight:800,whiteSpace:'pre-wrap'}}>{copy.text.split('\n').map((line,i)=><div key={i} style={{position:'relative',height:82}}><NotebookCaptionLine text={line} keyword={keyword} progress={highlightProgress}/><svg aria-hidden="true" width={width} height={6} viewBox={`0 0 ${width} 6`} style={{position:'absolute',left:0,top:77,opacity:.5}}><Sprite name="underline" x={0} y={0} width={width} height={6}/></svg></div>)}</div></div>}

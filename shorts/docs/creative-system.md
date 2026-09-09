@@ -467,19 +467,19 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 공통 CTA는 기존 검정/흰색 화면을 유지한다. 스케치에 전체 문장을 반복하지 않는다.
 
 프레젠터는 기존 원형으로 표시한다. 과거 torn-paper-blue 값도 원형으로 렌더한다.
-도식 라벨은 눈누에서 확인한 나눔손글씨펜(Nanum Pen Script), 자막은 Pretendard다.
+제목·도식 라벨·메모·자막 모두 Pretendard 굵은 글씨로 통일한다. 손글씨는 가독성을 위해 철회했다.
 실제 papers.webp/marks.webp 시트를 잘라 보여주는 sprite 방식으로 종이와 강조 요소를 합성한다.
 스티커는 role=sticker와 stickerAsset=paper/blue/tape/check/star/underline으로 선택한다.
 노트 테마에서 장면 의미와 연결되는 이미지 스티커 2~3개를 적극적으로 활용하되 개수를 채우려고 장식하지 않는다.
 라벨이 있는 스티커는 paper/blue를 사용하고 다른 마커 스티커는 빈 라벨을 사용한다.
 선은 고정 시드 경로의 흔들림과 5px 잉크 이미지 패턴을 함께 적용한다. 프레임마다 랜덤 노이즈를 재생성하지 않는다.
 선 검사는 경로 흔들림을 포함한 10px envelope로 강화한다. 텍스트 보호 영역은 유지한다.
-짧은 라벨과 메모에 필기체를 쓰고, 긴 정보는 기존 자막으로 분리한다.
+짧은 라벨과 메모에도 Pretendard를 쓰고, 긴 정보는 기존 자막으로 분리한다.
 
 검수 composition: NotebookPreview, NotebookCanvasPreview, NotebookPresenterPreview.
 NotebookPreview는 무음 레이아웃/동작 예제다. 실제 렌더에서 폰트 로딩, 스티커, 질감과 중간 프레임을 확인한다.
 
-노트 장면은 좌측 상단에 전체 주제 제목(source.title)을 필기체로 동일하게 표시한다. 페이지별 소제목이 아니다. headline도 전체 주제로 맞춘다. 작은 도식 종이 패널은 없애고 1080×1920 전체를 종이 지면으로 쓴다. 상세 애셋·겹침·문체 계약은 [notebook-stickers.md](notebook-stickers.md)를 따른다.
+노트 장면은 좌측 상단에 전체 주제 제목(source.title)을 Pretendard로 동일하게 표시한다. 페이지별 소제목이 아니다. headline도 전체 주제로 맞춘다. 작은 도식 종이 패널은 없애고 1080×1920 전체를 종이 지면으로 쓴다. 상세 애셋·겹침·문체 계약은 [notebook-stickers.md](notebook-stickers.md)를 따른다.
 자막 각 줄 아래에는 받침과 간격을 둔 얇은 파란 공책 선을 둔다. 46px 글씨와 최대 두 줄을 유지하며 줄 높이는 82px다.
 ambientCG Paper001(CC0)을 전체 화면 위에 고정된 soft-light 20%로 합성한다. 발표자에도 같은 종이 질감이 적용된다. 공통 CTA와 다른 테마는 제외한다.
 

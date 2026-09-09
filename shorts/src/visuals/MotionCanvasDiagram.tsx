@@ -47,7 +47,7 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
           if (node.shape === 'blob') group.add(new Line({points: organicBlobPoints(node), closed: true, fill, stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : [], radius: 18}));
           if (!spec.notebook && node.shape === 'line') group.add(new Line({points: linePoints(node), stroke: '#fff', lineWidth: 3, lineDash: node.strokeStyle === 'dashed' ? [12, 10] : []}));
           const label = nodeLabel(node);
-          if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: spec.notebook?NOTEBOOK_FONT:'Pretendard', fontSize: spec.notebook?label.fontSize*4/3:label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: spec.notebook?400:800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
+          if (node.label) group.add(new Txt({text: label.text, y: label.y, fontFamily: spec.notebook?NOTEBOOK_FONT:'Pretendard', fontSize: label.fontSize, lineHeight: label.fontSize * LABEL_LINE_HEIGHT, textAlign: 'center', fontWeight: 800, fill: node.shape !== 'text' && node.fill === 'white' ? '#050505' : '#fff'}));
         }
         yield;
       });
@@ -62,7 +62,7 @@ export const MotionCanvasDiagram: React.FC<{spec: DiagramSpec; progress: number;
         onReplaced: new core.ValueDispatcher(null!),
       });
       dispose = () => {scene.getView().dispose(); sharedWebGLContext.dispose();};
-      await document.fonts.load(spec.notebook ? '400 36px "Nanum Pen Script"' : '800 28px Pretendard');
+      await document.fonts.load('800 36px Pretendard');
       await scene.reset();
       const stage = new core.Stage();
       stage.configure({size: new core.Vector2(800, 560), resolutionScale: 1, background: null});

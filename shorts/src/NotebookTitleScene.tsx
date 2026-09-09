@@ -23,7 +23,7 @@ export const NotebookTitleScene: React.FC<{scene:RenderScene;layer:SceneLayer}> 
   const photoProgress=show(5), underlineProgress=show(18,12);
   const lastWidth=Math.min(760,textUnits(lines.at(-1)!)*84);
   return <AbsoluteFill ref={root} style={{background:layer==='visual'?'#101114':undefined,color:'#fff',fontFamily:'Pretendard, sans-serif'}}>
-    <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}');font-weight:700 900;}@font-face{font-family:'${NOTEBOOK_FONT}';src:url('${staticFile('notebook/NanumPenScript-Regular.ttf')}');font-weight:400;}`}</style>
+    <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}');font-weight:700 900;}`}</style>
     {layer==='visual' && <>
       <NotebookPaper />
       <div data-layout="visual" data-overlay-reserve="opening-photo" style={{position:'absolute',left:90,top:685,width:840,height:560,opacity:photoProgress,transform:`translateY(${(1-photoProgress)*16}px) rotate(-2deg)`}}>
@@ -38,7 +38,7 @@ export const NotebookTitleScene: React.FC<{scene:RenderScene;layer:SceneLayer}> 
     {layer==='text' && <>
       <div data-layout-text="opening-title" style={{position:'absolute',left:90,top:260,width:800,fontSize:84,lineHeight:1.25,fontWeight:800,letterSpacing:'-.035em',opacity:show(0,8)}}>{lines.map((line,i)=><div key={i} style={{color:i===lines.length-1?'#68a4fb':'#fff'}}>{line}</div>)}</div>
       <svg aria-hidden="true" width={lastWidth} height="18" style={{position:'absolute',left:90,top:260+lines.length*105+22,clipPath:`inset(0 ${(1-underlineProgress)*100}% 0 0)`}}><Sprite name="underline" x={0} y={0} width={lastWidth} height={18}/></svg>
-      {scene.subline && <div data-layout-text="opening-note" style={{position:'absolute',left:90,top:1410,width:570,fontFamily:NOTEBOOK_FONT,fontSize:52,lineHeight:1.3,opacity:show(20)}}>{scene.subline}</div>}
+      {scene.subline && <div data-layout-text="opening-note" style={{position:'absolute',left:90,top:1410,width:570,fontFamily:NOTEBOOK_FONT,fontWeight:800,fontSize:46,lineHeight:1.3,opacity:show(20)}}>{scene.subline}</div>}
     </>}
   </AbsoluteFill>;
 };
