@@ -31,3 +31,14 @@ test('candidate preview selects a validated manual manifest, not PR checkboxes',
   assert.ok(candidate.includes('await validateSelection([manifest])'));
   assert.doesNotMatch(source, /select-preview-candidates\.mjs|github\.event\.pull_request/);
 });
+
+test('automatic validation installs both media tools before integration tests without rendering previews', () => {
+  const body = jobs(workflow('shorts-check.yml')).find(([, id]) => id === 'validate')[2];
+  assert.ok(body.includes('command -v ffmpeg'));
+  assert.ok(body.includes('command -v ffprobe'));
+  assert.ok(body.includes('sudo apt-get install -y ffmpeg'));
+  for (const check of ['ffmpeg -version', 'ffprobe -version']) {
+    assert.ok(body.indexOf(check) >= 0 && body.indexOf(check) < body.indexOf('npm test'));
+  }
+  assert.doesNotMatch(body, /generate_previews|remotion|render\.mjs|upload-artifact/);
+});
