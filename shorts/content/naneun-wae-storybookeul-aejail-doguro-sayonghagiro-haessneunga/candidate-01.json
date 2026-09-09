@@ -1,0 +1,825 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+    "title": "나는 왜 Storybook을 애자일 도구로 사용하기로 했는가"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "티켓을 하루 단위로 나눠도, 동료가 2주 뒤에야 화면을 본다면, 빠른 피드백이라고 할 수 있을까요?",
+    "title": "애자일은\n언제 보여주느냐",
+    "rationale": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조에 집중한 원문 기반 후보. 다른 후보와 독립적인 질문과 답으로 구성했다. 정적 도식 재사용은 동일한 관계를 이어 설명하기 위한 의도적인 선택이다.",
+    "viralScore": 75,
+    "suggestedCaption": "아직 고치기 쉬울 때 조작할 수 있는 결과물을 함께 보고 다음 결정을 내린다.\n원문: https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+    "hashtags": [
+      "#프론트엔드",
+      "#Storybook",
+      "#개발자협업",
+      "#애자일"
+    ]
+  },
+  "style": {
+    "theme": "notebook-grid",
+    "template": "notebook-grid",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "presenterOverlay": {
+    "position": "bottom-right",
+    "hideOnCommonCta": true,
+    "lipSync": "word-timestamps",
+    "nod": "speech"
+  },
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p3의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "티켓을 하루 단위로 나눠도,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "동료가 2주 뒤에야 화면을 본다면,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "빠른 피드백이라고 할 수 있을까요?",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "매일 끝나는 티켓\n2주 뒤 보는 화면",
+      "subline": null,
+      "narration": "티켓을 하루 단위로 나눠도, 동료가 2주 뒤에야 화면을 본다면, 빠른 피드백이라고 할 수 있을까요?",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "authored Storybook feedback-timing",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "flow",
+          "description": "원문 문단 p1의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "사용자가 요청한 새 도식 PNG를 블로그와 동일한 파일로 삽입한다. 정보 이미지이므로 전체가 보이도록 보존한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "디자인은 피그마에,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "구현은 개발자의 로컬에 있었습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "API가 준비돼야",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "화면을 보여줄 수 있었습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "디자인은 피그마에, 구현은 개발자의 로컬에 있었습니다. API가 준비돼야 화면을 보여줄 수 있었습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "authored Storybook feedback-timing",
+      "image": {
+        "query": "authored Storybook feedback-timing",
+        "title": "피드백을 시작하는 시점",
+        "creator": "주도현 · Codex 도식 제작",
+        "license": "author-owned",
+        "licenseVersion": null,
+        "licenseUrl": null,
+        "source": "authored-diagram",
+        "provider": "dohyeon.kr",
+        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/feedback-timing.png",
+        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/feedback-timing.png"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p1의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "다른 사람이 결과를 확인할 때는",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "이미 구현이 많이 진행된 뒤였습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "그때 의견이 달라지면",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "만든 코드를 다시 고쳐야 했습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "첫 확인이\n너무 늦었습니다",
+      "subline": null,
+      "narration": "다른 사람이 결과를 확인할 때는 이미 구현이 많이 진행된 뒤였습니다. 그때 의견이 달라지면 만든 코드를 다시 고쳐야 했습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "authored Storybook feedback-timing",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "flow",
+          "description": "원문 문단 p4의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "사용자가 요청한 새 도식 PNG를 블로그와 동일한 파일로 삽입한다. 정보 이미지이므로 전체가 보이도록 보존한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "그래서 스토리북에",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "미완성 화면을 꺼내놓기 시작했습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "설명을 듣는 대신",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "직접 보고 조작하도록 했습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "그래서 스토리북에 미완성 화면을 꺼내놓기 시작했습니다. 설명을 듣는 대신 직접 보고 조작하도록 했습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "authored Storybook feedback-timing",
+      "image": {
+        "query": "authored Storybook feedback-timing",
+        "title": "피드백을 시작하는 시점",
+        "creator": "주도현 · Codex 도식 제작",
+        "license": "author-owned",
+        "licenseVersion": null,
+        "licenseUrl": null,
+        "source": "authored-diagram",
+        "provider": "dohyeon.kr",
+        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/feedback-timing.png",
+        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/feedback-timing.png"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "authored Storybook feedback-timing",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "flow",
+          "description": "원문 문단 p45의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "사용자가 요청한 새 도식 PNG를 블로그와 동일한 파일로 삽입한다. 정보 이미지이므로 전체가 보이도록 보존한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "리뷰어는 조건을 바꾸고",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "버튼을 직접 눌러봅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "구현이 끝나기 전에",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "결과물을 함께 확인합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "리뷰어는 조건을 바꾸고 버튼을 직접 눌러봅니다. 구현이 끝나기 전에 결과물을 함께 확인합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "authored Storybook feedback-timing",
+      "image": {
+        "query": "authored Storybook feedback-timing",
+        "title": "피드백을 시작하는 시점",
+        "creator": "주도현 · Codex 도식 제작",
+        "license": "author-owned",
+        "licenseVersion": null,
+        "licenseUrl": null,
+        "source": "authored-diagram",
+        "provider": "dohyeon.kr",
+        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/feedback-timing.png",
+        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/feedback-timing.png"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p24의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "고칠 요소를 집으면",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "스토리와 컨트롤 값,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "요소 정보와 링크를 함께 보냅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "같은 조건에서 대화를 이어갑니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "같은 화면\n같은 조건",
+      "subline": null,
+      "narration": "고칠 요소를 집으면 스토리와 컨트롤 값, 요소 정보와 링크를 함께 보냅니다. 같은 조건에서 대화를 이어갑니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p44의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "속도가 몇 퍼센트 빨라졌는지는",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "측정하지 않았습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "달라진 건 결과를 확인하고",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "다음 결정을 내리는 시점입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "속도 수치보다\n확인하는 시점",
+      "subline": null,
+      "narration": "속도가 몇 퍼센트 빨라졌는지는 측정하지 않았습니다. 달라진 건 결과를 확인하고 다음 결정을 내리는 시점입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "피드백 시점과 같은 화면·조건을 공유하는 협업 구조",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p46의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "아직 고치기 쉬울 때",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "결과물을 보고 다음 결정을 내리는 것.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "제가 스토리북을",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "애자일 도구로 쓰는 이유입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "고치기 쉬울 때\n함께 봅니다",
+      "subline": null,
+      "narration": "아직 고치기 쉬울 때 결과물을 보고 다음 결정을 내리는 것. 제가 스토리북을 애자일 도구로 쓰는 이유입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "commonPage": "blog-cta-v1",
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "transition": "blur-dissolve",
+      "transitionOptions": {
+        "durationMs": 600,
+        "intensity": 0.5
+      },
+      "headline": "더 자세한 이야기는\n블로그에서",
+      "subline": "프로필 링크에서 읽기",
+      "narration": "더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.",
+      "beats": [
+        {
+          "text": "더 자세한 이야기는",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "블로그에 정리했습니다.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "프로필 링크에서 읽어보세요.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [],
+      "imageQuery": null,
+      "image": null,
+      "comparisonLeft": null,
+      "comparisonRight": null
+    }
+  ]
+}

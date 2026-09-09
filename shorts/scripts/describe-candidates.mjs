@@ -96,8 +96,13 @@ export function describeCandidate(manifest, filename) {
     if (visual.value) out.push(`- 표시 값: ${md(visual.value)}`);
     if (visual.xLabel || visual.yLabel) out.push(`- 그래프 축: 가로 ${md(visual.xLabel) || '미지정'}, 세로 ${md(visual.yLabel) || '미지정'}`);
     if (visual.type === 'photo' || scene.imageQuery || scene.image) {
-      out.push(`- 사진 검색어: ${md(scene.imageQuery || visual.query) || '미지정'}`);
-      out.push(scene.image ? `- 사진 출처: ${link(scene.image.title || '원본 페이지', scene.image.sourcePage)} · 라이선스 ${md(scene.image.license)}` : '- 사진 상태: 아직 확보되지 않음');
+      if (scene.image?.source === 'authored-diagram') {
+        out.push(`- 삽입 이미지: ${link(scene.image.title || '직접 제작한 도식', scene.image.originalUrl)}`);
+        out.push(`- 도식 근거: ${link('원문', scene.image.sourcePage)} · ${md(scene.image.creator)} · 전체 라벨 보존 (contain)`);
+      } else {
+        out.push(`- 사진 검색어: ${md(scene.imageQuery || visual.query) || '미지정'}`);
+        out.push(scene.image ? `- 사진 출처: ${link(scene.image.title || '원본 페이지', scene.image.sourcePage)} · 라이선스 ${md(scene.image.license)}` : '- 사진 상태: 아직 확보되지 않음');
+      }
     }
     if (scene.backgroundVideo) {
       const v = scene.backgroundVideo;

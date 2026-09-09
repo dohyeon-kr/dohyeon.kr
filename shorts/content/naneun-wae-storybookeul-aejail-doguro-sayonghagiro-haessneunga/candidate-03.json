@@ -1,0 +1,834 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-03",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+    "title": "나는 왜 Storybook을 애자일 도구로 사용하기로 했는가"
+  },
+  "candidate": {
+    "angle": "question",
+    "hook": "API 응답이 비어 있으면 화면은 어떻게 바뀔까요? 이걸 확인할 때마다 목 코드를 고쳐야 했습니다.",
+    "title": "API를 바꾸기 전\n화면부터 확인하기",
+    "rationale": "MSW 응답 오버라이드의 협업 가치와 검증 범위에 집중한 원문 기반 후보. 다른 후보와 독립적인 질문과 답으로 구성했다. 정적 도식 재사용은 동일한 관계를 이어 설명하기 위한 의도적인 선택이다.",
+    "viralScore": 75,
+    "suggestedCaption": "Storybook의 MSW 패널에서 응답을 바꿔 UI를 확인하고, 실제 연결·제품 흐름은 앱에서 별도로 검증한다.\n원문: https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+    "hashtags": [
+      "#프론트엔드",
+      "#Storybook",
+      "#개발자협업",
+      "#애자일"
+    ]
+  },
+  "style": {
+    "theme": "notebook-grid",
+    "template": "notebook-grid",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "presenterOverlay": {
+    "position": "bottom-right",
+    "hideOnCommonCta": true,
+    "lipSync": "word-timestamps",
+    "nod": "speech"
+  },
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p18의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "API 응답이 비어 있으면",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "화면은 어떻게 바뀔까요?",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "이걸 확인할 때마다",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "목 코드를 고쳐야 했습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "빈 응답이면\n화면은?",
+      "subline": null,
+      "narration": "API 응답이 비어 있으면 화면은 어떻게 바뀔까요? 이걸 확인할 때마다 목 코드를 고쳐야 했습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p18의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "프론트엔드에 익숙하지 않은 동료는",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "직접 시험하기도 어려웠습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "그래서 스토리북에",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "MSW 응답을 바꾸는 패널을 붙였습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "동료도 직접\n바꿔보도록",
+      "subline": null,
+      "narration": "프론트엔드에 익숙하지 않은 동료는 직접 시험하기도 어려웠습니다. 그래서 스토리북에 MSW 응답을 바꾸는 패널을 붙였습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "authored Storybook three-inputs",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "flow",
+          "description": "원문 문단 p19의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "사용자가 요청한 새 도식 PNG를 블로그와 동일한 파일로 삽입한다. 정보 이미지이므로 전체가 보이도록 보존한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "패널에서 상태 코드와",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "응답 본문을 수정해 적용합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "컴포넌트가 다시 마운트되고",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "같은 요청을 바뀐 응답으로 실행합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "패널에서 상태 코드와 응답 본문을 수정해 적용합니다. 컴포넌트가 다시 마운트되고 같은 요청을 바뀐 응답으로 실행합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "authored Storybook three-inputs",
+      "image": {
+        "query": "authored Storybook three-inputs",
+        "title": "화면을 만드는 세 가지 입력",
+        "creator": "주도현 · Codex 도식 제작",
+        "license": "author-owned",
+        "licenseVersion": null,
+        "licenseUrl": null,
+        "source": "authored-diagram",
+        "provider": "dohyeon.kr",
+        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/three-inputs.png",
+        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/three-inputs.png"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "authored Storybook three-inputs",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "flow",
+          "description": "원문 문단 p20의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "사용자가 요청한 새 도식 PNG를 블로그와 동일한 파일로 삽입한다. 정보 이미지이므로 전체가 보이도록 보존한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "배너 응답을 빈 배열로 바꾸면",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "배너가 없는 화면을 봅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "오류 상태 코드로 바꾸면",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "실패 화면을 바로 확인합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "배너 응답을 빈 배열로 바꾸면 배너가 없는 화면을 봅니다. 오류 상태 코드로 바꾸면 실패 화면을 바로 확인합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "authored Storybook three-inputs",
+      "image": {
+        "query": "authored Storybook three-inputs",
+        "title": "화면을 만드는 세 가지 입력",
+        "creator": "주도현 · Codex 도식 제작",
+        "license": "author-owned",
+        "licenseVersion": null,
+        "licenseUrl": null,
+        "source": "authored-diagram",
+        "provider": "dohyeon.kr",
+        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/three-inputs.png",
+        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/three-inputs.png"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p21의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "백엔드 개발자도",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "실제 API를 고치기 전에",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "예상 응답을 넣고",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "화면에 미칠 영향을 확인할 수 있습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "실제 API 수정 전\n예상 응답 확인",
+      "subline": null,
+      "narration": "백엔드 개발자도 실제 API를 고치기 전에 예상 응답을 넣고 화면에 미칠 영향을 확인할 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p21의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "빈 상태나 예외 처리를",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "결과물을 보며 함께 논의합니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "준비된 화면을 보는 데서",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "응답을 바꾸며 시험하는 쪽으로 옮겼습니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "응답 변경\nUI 영향 확인",
+      "subline": null,
+      "narration": "빈 상태나 예외 처리를 결과물을 보며 함께 논의합니다. 준비된 화면을 보는 데서 응답을 바꾸며 시험하는 쪽으로 옮겼습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "photo",
+      "layout": "photo-full-bleed",
+      "visual": {
+        "type": "photo",
+        "motif": null,
+        "query": "authored Storybook validation-scopes",
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "flow",
+          "description": "원문 문단 p37의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "photo",
+          "metaphor": null,
+          "rationale": "사용자가 요청한 새 도식 PNG를 블로그와 동일한 파일로 삽입한다. 정보 이미지이므로 전체가 보이도록 보존한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-visual",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "이걸로 실제 앱 검증까지",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "대신하는 건 아닙니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "화면 이동과 실제 데이터 흐름은 앱에서,",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        },
+        {
+          "text": "보안과 정합성은 테스트와 CI로 봅니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": "삽입한 도식 전체를 유지하며 설명한다."
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "이걸로 실제 앱 검증까지 대신하는 건 아닙니다. 화면 이동과 실제 데이터 흐름은 앱에서, 보안과 정합성은 테스트와 CI로 봅니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": "authored Storybook validation-scopes",
+      "image": {
+        "query": "authored Storybook validation-scopes",
+        "title": "어디에서 무엇을 확인할까",
+        "creator": "주도현 · Codex 도식 제작",
+        "license": "author-owned",
+        "licenseVersion": null,
+        "licenseUrl": null,
+        "source": "authored-diagram",
+        "provider": "dohyeon.kr",
+        "sourcePage": "https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/",
+        "originalUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/validation-scopes.png",
+        "thumbnailUrl": "https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/validation-scopes.png"
+      }
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "MSW 응답 오버라이드의 협업 가치와 검증 범위",
+        "relation": {
+          "type": "literal",
+          "description": "원문 문단 p21의 관계를 설명한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "원문 질문 또는 판단을 짧은 타이포로 강조하고 설명은 자막으로 전달한다."
+        }
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "emphasize-result"
+      ],
+      "beats": [
+        {
+          "text": "API를 바꾸기 전에",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "화면에 미칠 영향부터 함께 봅니다.",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "MSW 패널은 그 논의를",
+          "emphasis": "mid",
+          "pauseAfterMs": 80,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "앞당기는 도구입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "headline": "바꾸기 전에\n함께 확인",
+      "subline": null,
+      "narration": "API를 바꾸기 전에 화면에 미칠 영향부터 함께 봅니다. MSW 패널은 그 논의를 앞당기는 도구입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "commonPage": "blog-cta-v1",
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "transition": "blur-dissolve",
+      "transitionOptions": {
+        "durationMs": 600,
+        "intensity": 0.5
+      },
+      "headline": "더 자세한 이야기는\n블로그에서",
+      "subline": "프로필 링크에서 읽기",
+      "narration": "더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.",
+      "beats": [
+        {
+          "text": "더 자세한 이야기는",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "블로그에 정리했습니다.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "프로필 링크에서 읽어보세요.",
+          "emphasis": "mid",
+          "delivery": "normal",
+          "pauseAfterMs": 160,
+          "visualPriority": "high",
+          "keyword": null,
+          "visualCue": null
+        }
+      ],
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [],
+      "imageQuery": null,
+      "image": null,
+      "comparisonLeft": null,
+      "comparisonRight": null
+    }
+  ]
+}

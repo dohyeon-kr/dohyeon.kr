@@ -1,0 +1,29 @@
+{
+  "scope": "json-only",
+  "status": "ready-for-preview",
+  "findings": [
+    {
+      "type": "fidelity",
+      "location": "candidate-01 / 7",
+      "problem": "원문에 성과 측정값이 없음",
+      "reason": "추정 퍼센트로 효과를 주장하면 안 됨",
+      "change": "측정하지 않았다는 한계를 명시",
+      "resolved": true
+    },
+    {
+      "type": "visual",
+      "location": "all photo scenes",
+      "problem": "일반 사진 크롭이 한글 도식을 자를 수 있음",
+      "reason": "화살표와 라벨 보존 필요",
+      "change": "image.source=authored-diagram로 지정. PR #147의 contain 처리 사용",
+      "resolved": true
+    }
+  ],
+  "limitations": [
+    "viralScore 75는 예측 데이터가 아닌 편집용 임시값이며 순위 추천 근거가 아니다.",
+    "실제 TTS 길이·음성·립싱크는 미검증.",
+    "전체 영상 렌더 검수는 미완료.",
+    "블로그 이미지 교체는 자동 승인 검토가 기존 이미지 삭제를 차단해 대기 중.",
+    "사진 영역·헤딩 스크리블·100px 오프셋은 PR #147 적용 필요."
+  ]
+}
