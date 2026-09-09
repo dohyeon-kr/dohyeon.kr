@@ -9,7 +9,7 @@ export const PresenterOverlayContext = createContext(false);
 const idle = compilePresenter({});
 
 // Mounted outside scene sequences: transitions never fade, move or duplicate it.
-export const PersistentPresenter: React.FC<{scenes: RenderScene[]; options: PresenterOverlaySpec}> = ({scenes, options}) => {
+export const PersistentPresenter: React.FC<{scenes: RenderScene[]; options: PresenterOverlaySpec; offsetY?: number}> = ({scenes, options, offsetY = 0}) => {
   const frame = useCurrentFrame(), {fps} = useVideoConfig(), root = useRef<HTMLDivElement>(null);
   const timeline = useMemo(() => overlayTimeline(scenes, options, fps).map(entry => ({...entry, evaluate: compilePresenter(entry.tracks, entry.duration)})), [scenes, options, fps]);
   const active = timeline.find(entry => frame >= entry.start && frame < entry.end);
@@ -38,9 +38,9 @@ export const PersistentPresenter: React.FC<{scenes: RenderScene[]; options: Pres
       }
     }).catch(error => {if (!cancelled) cancelRender(error);}).finally(() => continueRender(handle));
     return () => {cancelled = true;};
-  }, [frame, visible]);
+  }, [frame, visible, offsetY]);
   if (!visible) return null;
-  return <div ref={root} data-presenter-overlay="bottom-right" style={{position:'absolute', ...PRESENTER_OVERLAY_BOX, borderRadius:'50%', overflow:'hidden', zIndex:100, pointerEvents:'none'}}>
+  return <div ref={root} data-presenter-overlay="bottom-right" style={{position:'absolute', ...PRESENTER_OVERLAY_BOX, top: PRESENTER_OVERLAY_BOX.top + offsetY, borderRadius:'50%', overflow:'hidden', zIndex:100, pointerEvents:'none'}}>
     <Presenter pose={pose} />
   </div>;
 };
