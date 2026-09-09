@@ -361,22 +361,22 @@ class VisitStore:
         hour = current.replace(minute=0, second=0, microsecond=0)
         if not isinstance(candidates, list) or len(candidates) > 1000:
             raise ValueError("invalid candidates")
-        published = {}
+        updated = {}
         for candidate in candidates:
             if not isinstance(candidate, dict):
                 raise ValueError("invalid candidate")
-            slug, stamp = candidate.get("slug"), candidate.get("publishedAt")
-            if not isinstance(slug, str) or not self.valid_slug(slug) or slug in published:
+            slug, stamp = candidate.get("slug"), candidate.get("updatedAt")
+            if not isinstance(slug, str) or not self.valid_slug(slug) or slug in updated:
                 raise ValueError("invalid candidate slug")
             try:
                 if not isinstance(stamp, str) or len(stamp) > 40:
-                    raise ValueError("invalid publication date")
-                publication = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
-                if publication.tzinfo is None or publication > current:
-                    raise ValueError("invalid publication date")
+                    raise ValueError("invalid modification date")
+                modification = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+                if modification.tzinfo is None or modification > current:
+                    raise ValueError("invalid modification date")
             except (ValueError, TypeError, OverflowError) as error:
-                raise ValueError("invalid publication date") from error
-            published[slug] = publication
+                raise ValueError("invalid modification date") from error
+            updated[slug] = modification
         end = current.date()
         start = end - timedelta(days=6)
         # Snapshot reactions on the first request of each KST hour. The cache is
@@ -402,8 +402,8 @@ class VisitStore:
                 self._featured_snapshot = (hour, views, comments, since, current.isoformat())
             _, views, comments, since, computed_at = self._featured_snapshot
         posts = []
-        for slug, publication in published.items():
-            age = max(0, (hour - publication).total_seconds() / 86400)
+        for slug, modification in updated.items():
+            age = max(0, (hour - modification).total_seconds() / 86400)
             view_count = max(0, views.get(slug, 0))
             comment_count = comments.get(slug, 0)
             reaction = 10 * math.log1p(view_count + 8 * comment_count)
@@ -411,10 +411,10 @@ class VisitStore:
             posts.append({"slug": slug, "views": view_count, "comments": comment_count,
                           "reactionScore": reaction, "freshnessScore": freshness,
                           "score": reaction + freshness})
-        posts.sort(key=lambda post: (-post["score"], -published[post["slug"]].timestamp(), post["slug"]))
+        posts.sort(key=lambda post: (-post["score"], -updated[post["slug"]].timestamp(), post["slug"]))
         return {"posts": posts[:3], "start": start.isoformat(), "end": end.isoformat(),
                 "timezone": "Asia/Seoul", "postDailySince": since,
-                "computedAt": computed_at, "algorithm": "engagement-recency-v1"}
+                "computedAt": computed_at, "algorithm": "engagement-updated-v2"}
 
     def admin_delete_comment(self, comment_id: str) -> bool:
         if not re.fullmatch(r"[0-9a-f]{32}", comment_id):

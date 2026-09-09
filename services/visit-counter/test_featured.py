@@ -10,8 +10,8 @@ from visit_counter import VisitStore, VisitServer
 
 NOW = datetime(2026, 9, 8, 3, tzinfo=timezone.utc)
 
-def candidate(slug, published='2026-08-01T00:00:00Z'):
-    return {'slug': slug, 'publishedAt': published}
+def candidate(slug, updated='2026-08-01T00:00:00Z'):
+    return {'slug': slug, 'updatedAt': updated}
 
 class FeaturedTest(unittest.TestCase):
     def setUp(self):
@@ -89,6 +89,19 @@ class FeaturedTest(unittest.TestCase):
             server.shutdown()
             server.server_close()
             worker.join()
+
+    def test_update_date_controls_bonus_not_publication_date(self):
+        old = candidate('post', '2026-08-01T00:00:00Z')
+        old['publishedAt'] = NOW.isoformat()
+        before = self.store.featured_week([old], NOW)['posts'][0]
+        refreshed = candidate('post', NOW.isoformat())
+        refreshed['publishedAt'] = '2020-01-01T00:00:00Z'
+        after = self.store.featured_week([refreshed], NOW)['posts'][0]
+        self.assertLess(before['freshnessScore'], 1)
+        self.assertEqual(after['freshnessScore'], 20)
+        self.assertEqual(before['reactionScore'], after['reactionScore'])
+        with self.assertRaises(ValueError):
+            self.store.featured_week([{'slug': 'post', 'publishedAt': NOW.isoformat()}], NOW)
 
     def test_invalid_candidates_and_empty_result(self):
         for value in [None, 'post', [1], [candidate('bad/slug')], [candidate('a')] * 1001,

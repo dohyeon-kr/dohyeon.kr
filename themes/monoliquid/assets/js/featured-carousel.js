@@ -157,7 +157,7 @@
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     credentials: 'same-origin',
-    body: JSON.stringify({candidates: candidates.map(function (slide) { return {slug: slide.dataset.featuredSlug, publishedAt: slide.dataset.featuredPublishedAt}; })})
+    body: JSON.stringify({candidates: candidates.map(function (slide) { return {slug: slide.dataset.featuredSlug, updatedAt: slide.dataset.featuredUpdatedAt}; })})
   }).then(function (response) {
     if (!response.ok) throw new Error('Ranking unavailable');
     return response.json();

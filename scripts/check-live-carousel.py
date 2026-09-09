@@ -23,7 +23,7 @@ class Page(HTMLParser):
             self.featured = True
         if 'data-featured-slug' in attrs:
             self.slugs.append(attrs['data-featured-slug'])
-            self.candidates.append({'slug': attrs['data-featured-slug'], 'publishedAt': attrs.get('data-featured-published-at')})
+            self.candidates.append({'slug': attrs['data-featured-slug'], 'updatedAt': attrs.get('data-featured-updated-at')})
         if tag == 'script':
             self.scripts.append(attrs.get('src', ''))
         if tag == 'link' and attrs.get('rel') == 'stylesheet':
@@ -51,14 +51,14 @@ def verify():
         raise RuntimeError('Ghost did not render published carousel candidates')
     script = next((s for s in page.scripts if '/assets/js/featured-carousel.js' in s), None)
     stylesheet = next((s for s in page.styles if '/assets/css/screen.css' in s), None)
-    if not script or 'featuredPublishedAt' not in read(script):
+    if not script or 'featuredUpdatedAt' not in read(script):
         raise RuntimeError('Public carousel JavaScript is missing or stale')
     if not stylesheet or '.featured-carousel__slide' not in read(stylesheet):
         raise RuntimeError('Public carousel CSS is missing or stale')
     data = json.loads(read('/api/visit/featured', json.dumps({'candidates': page.candidates}).encode()))
     posts = data['posts']
     assert data['timezone'] == 'Asia/Seoul'
-    assert data['algorithm'] == 'engagement-recency-v1'
+    assert data['algorithm'] == 'engagement-updated-v2'
     assert len(posts) == min(3, len(page.slugs))
     assert all(p['slug'] in page.slugs and p['views'] >= 0 and p['score'] >= 0 for p in posts)
     assert [p['score'] for p in posts] == sorted([p['score'] for p in posts], reverse=True)

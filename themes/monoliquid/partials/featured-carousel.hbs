@@ -14,7 +14,7 @@
     <template data-featured-candidates>
         {{#get "posts" include="tags" limit="all" as |candidates|}}
         {{#foreach candidates}}
-        <a class="featured-carousel__slide" data-featured-slug="{{slug}}" data-featured-published-at="{{date published_at format="YYYY-MM-DDTHH:mm:ssZ"}}" href="{{url}}" aria-label="{{title}}">
+        <a class="featured-carousel__slide" data-featured-slug="{{slug}}" data-featured-updated-at="{{date updated_at format="YYYY-MM-DDTHH:mm:ssZ"}}" href="{{url}}" aria-label="{{title}}">
             {{#if feature_image}}
                 <img class="featured-carousel__image" src="{{img_url feature_image size="l"}}" alt="" width="1200" height="675" loading="lazy">
             {{/if}}
