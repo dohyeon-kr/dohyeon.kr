@@ -1,3 +1,4 @@
+import {getTemplate} from '../src/templates/registry.ts';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
@@ -12,6 +13,8 @@ if (!silent && !process.env.OPENAI_API_KEY) throw new Error('Narrated preview re
 await fs.mkdir(output, {recursive: true});
 const audioDir = await fs.mkdtemp(path.join(root, 'public', 'template-audio-'));
 const props = structuredClone(templatePreviewProps);
+const template = getTemplate(process.env.SHORTS_TEMPLATE || undefined);
+props.style = {...props.style, template: template.id, theme: template.id};
 const run = (cmd, args) => execFileSync(cmd, args, {cwd: root, stdio: 'inherit'});
 const client = silent ? null : new OpenAI();
 for (const [i, scene] of props.scenes.entries()) {

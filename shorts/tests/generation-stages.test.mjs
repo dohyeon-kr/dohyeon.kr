@@ -14,11 +14,11 @@ function fixture() {
   const review = {scope: 'json-only', status: 'passed', blockingReasons: [], findings: [], candidates: structuredClone(visual.candidates)};
   return {analysis, visual, review};
 }
-function setup(f = fixture(), transformReview = value => value) {
+function setup(f = fixture(), transformReview = value => value, templateInstructions = '') {
   const calls = [], checkpoints = [];
   const replies = [f.analysis, f.visual, ...f.review.candidates.map(candidate => transformReview({...f.review, candidates: [candidate], findings: f.review.findings.filter(finding => finding.analysisId === candidate.analysisId)}))];
   const client = {responses: {parse: async request => {calls.push(request); return {output_parsed: replies.shift()};}}};
-  return {calls, checkpoints, run: () => generateInStages({client, post, count: 3, candidateSchema, visualInstructions: 'Renderer capabilities only', videoCatalog: [], checkpoint: async (stage, result) => checkpoints.push({stage, result})})};
+  return {calls, checkpoints, run: () => generateInStages({client, post, count: 3, candidateSchema, visualInstructions: 'Renderer capabilities only', templateInstructions, videoCatalog: [], checkpoint: async (stage, result) => checkpoints.push({stage, result})})};
 }
 test('candidate reviews use Astra/Sol/Astra low and preserve candidate output contract', async () => {
   const s = setup(); const result = await s.run();
@@ -107,4 +107,11 @@ test('single-candidate reviews reject extra output and findings for another cand
   await assert.rejects(setup(fixture(), review => ({...review, candidates: [...review.candidates, ...review.candidates]})).run, /Stage changed candidate count/);
   const finding = {analysisId: 'c1', location: 'scene 1', category: 'visual', problem: 'overlap', reason: 'readability', change: 'spacing', resolved: true};
   await assert.rejects(setup(fixture(), review => ({...review, findings: [finding]})).run, /Review finding references unknown candidate/);
+});
+
+test('selected template reaches visual generation and every review but not narrative analysis', async () => {
+  const s = setup(fixture(), value => value, 'NOTEBOOK_POLICY_OVERRIDE');
+  await s.run();
+  assert.doesNotMatch(s.calls[0].instructions, /NOTEBOOK_POLICY_OVERRIDE/);
+  for (const call of s.calls.slice(1)) assert.match(call.instructions, /NOTEBOOK_POLICY_OVERRIDE/);
 });

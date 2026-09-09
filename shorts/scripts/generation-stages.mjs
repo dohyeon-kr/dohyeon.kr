@@ -88,7 +88,7 @@ function validateCandidates(entries, analysis, {preserveScript = false} = {}) {
   });
 }
 
-export async function generateInStages({client, post, count, additionalRequest = '', candidateSchema, visualInstructions, videoCatalog, checkpoint = async () => {}, models = STAGE_MODELS}) {
+export async function generateInStages({client, post, count, additionalRequest = '', candidateSchema, visualInstructions, templateInstructions = '', videoCatalog, checkpoint = async () => {}, models = STAGE_MODELS}) {
   if (!Number.isInteger(count) || count < 3 || count > 8) throw new Error('Candidate count must be an integer from 3 to 8.');
   const editorialRequest = normalizeAdditionalRequest(additionalRequest);
   const entries = z.array(z.object({analysisId: text, candidate: candidateSchema}));
@@ -115,14 +115,14 @@ export async function generateInStages({client, post, count, additionalRequest =
   const {sceneGuidance, ...narrativePolicy} = SHORTS_EDITORIAL_POLICY;
   const analysis = await call('analysis', AnalysisSchema, `${ANALYSIS_PROMPT}\n편집 기준: ${JSON.stringify(narrativePolicy)}`, {sourceArticle: post, candidateCount: count, editorialRequest});
   validateAnalysis(analysis, post, count);
-  const visual = await call('visual', VisualSchema, `${TRUST}\n${visualInstructions}\n${VISUAL_POLICY}\n2단계는 analysis의 범위·질문·답·논거·조건과 대본을 보존한다. 각 후보 analysisId와 순서를 유지한다. script의 narration을 원문자 그대로 이어 사용하며 장면 분할과 공백/줄바꿈만 변경할 수 있다. 요약·추가·재작성하지 않는다. beats도 narration과 같은 텍스트를 보존한다.`, {analysis, videoCatalog});
+  const visual = await call('visual', VisualSchema, `${TRUST}\n${visualInstructions}\n${VISUAL_POLICY}\n${templateInstructions}\n2단계는 analysis의 범위·질문·답·논거·조건과 대본을 보존한다. 각 후보 analysisId와 순서를 유지한다. script의 narration을 원문자 그대로 이어 사용하며 장면 분할과 공백/줄바꿈만 변경할 수 있다. 요약·추가·재작성하지 않는다. beats도 narration과 같은 텍스트를 보존한다.`, {analysis, videoCatalog});
   validateCandidates(visual.candidates, analysis, {preserveScript: true});
   const reviewedCandidates = [];
   const findings = [];
   for (const [index, original] of visual.candidates.entries()) {
     // Keep the full source and analysis for fidelity/scope checks, but only emit
     // one candidate's large scene JSON per request to avoid batch timeouts.
-    const reviewed = await call('review', ReviewSchema, `${visualInstructions}\n${REVIEW_PROMPT}\n이번 요청에서는 generated에 있는 후보 하나만 검토하고 반환한다. analysis의 다른 후보는 범위 비교용 참고 자료다. findings도 검토 대상 후보만 기록한다.\n편집 기준: ${JSON.stringify(narrativePolicy)}`, {sourceArticle: post, analysis, generated: {candidates: [original]}, videoCatalog}, `review-${index + 1}`);
+    const reviewed = await call('review', ReviewSchema, `${visualInstructions}\n${REVIEW_PROMPT}\n${templateInstructions}\n이번 요청에서는 generated에 있는 후보 하나만 검토하고 반환한다. analysis의 다른 후보는 범위 비교용 참고 자료다. findings도 검토 대상 후보만 기록한다.\n편집 기준: ${JSON.stringify(narrativePolicy)}`, {sourceArticle: post, analysis, generated: {candidates: [original]}, videoCatalog}, `review-${index + 1}`);
     if (reviewed.status !== 'passed' || reviewed.blockingReasons.length || reviewed.findings.some(f => !f.resolved)) throw new Error(`Review blocked: ${reviewed.blockingReasons.join('; ') || 'unresolved findings'}`);
     validateCandidates(reviewed.candidates, {candidates: [analysis.candidates[index]]});
     if (reviewed.findings.some(f => f.analysisId !== original.analysisId)) throw new Error('Review finding references unknown candidate');

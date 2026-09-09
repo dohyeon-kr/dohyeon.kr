@@ -4,6 +4,7 @@ import {createBlogCta} from '../scripts/blog-cta.mjs';
 import React from 'react';
 import {templatePreviewProps, previewDuration} from './template-preview';
 import {Composition} from 'remotion';
+import {TemplateVideo} from './templates/TemplateVideo';
 import {ShortVideo} from './ShortVideo';
 import {DarkShortVideo} from './DarkShortVideo';
 import {motionPreviewProps, motionGalleryProps, flowDiagram, light} from './motion-preview';
@@ -109,7 +110,7 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="PhysicsFallbackPreview" component={DiagramRenderer} durationInFrames={120} fps={30} width={800} height={560} defaultProps={{spec: physicsExample, durationInFrames: 120, failEngine: 'motion-canvas' as const}} />
     <Composition
       id="ShortVideo"
-      component={ShortVideo}
+      component={TemplateVideo}
       durationInFrames={previewDuration(defaultProps)}
       calculateMetadata={({props}) => ({durationInFrames: previewDuration(props)})}
       fps={30}
@@ -119,7 +120,7 @@ export const RemotionRoot: React.FC = () => (
     />
     <Composition
       id="TemplatePreview"
-      component={ShortVideo}
+      component={TemplateVideo}
       durationInFrames={previewDuration(templatePreviewProps)}
       calculateMetadata={({props}) => ({durationInFrames: previewDuration(props)})}
       fps={30}

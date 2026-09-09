@@ -12,6 +12,15 @@ on:
         required: false
         default: ''
         type: string
+      template:
+        description: 'Visual template'
+        required: true
+        default: 'monochrome-editorial-dark'
+        type: choice
+        options:
+          - 'monochrome-editorial-dark'
+          - 'monochrome-editorial'
+          - 'notebook-grid'
       candidate_count:
         description: Number of independent shorts candidates
         required: true
@@ -53,6 +62,7 @@ jobs:
           SHORTS_DIAGNOSTICS_DIR: ${{ runner.temp }}/shorts-generation-diagnostics
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
+          SHORTS_TEMPLATE: ${{ inputs.template }}
           SHORTS_ADDITIONAL_REQUEST: ${{ inputs.additional_request }}
           POST_URL: ${{ inputs.post_url }}
           CANDIDATE_COUNT: ${{ inputs.candidate_count }}

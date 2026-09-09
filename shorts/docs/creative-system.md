@@ -434,3 +434,8 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 ### 명시적으로 요청된 상시 발표자
 
 우측 하단 상시 발표자를 요청받은 수동 후보는 presenter-api.md의 manifest-level presenterOverlay를 사용한다. 이 모드에서는 사진·도식 위에 발표자를 별도 레이어로 합성한다. hideOnCommonCta=true이면 공통 CTA에서 숨긴다. 장면마다 presenter-bust를 넣지 않는다. lipSync=word-timestamps와 nod=speech를 지정하면 최종 TTS 전사 시각에 맞춰 입과 고개 트랙을 생성한다. 단어 내부는 음절 기반 근사이며 실제 음성 검수가 필요하다. 무음 미리보기에서 발음 시점을 지어내지 않는다.
+
+
+## 선택형 템플릿
+
+템플릿 목록·선택 API와 노트 그리드의 레이아웃·사진 삽입 규칙은 [templates.md](templates.md)를 따른다. `style.template=notebook-grid`에서는 미색 종이·주황 구획선·흰 인화지 여백·반투명 PNG 테이프 규칙이 기본 흑백 배경과 사진 풀블리드 정책보다 우선한다. 내레이션·사진 출처·한글 간격·도식 의미 보존 규칙은 유지한다.
