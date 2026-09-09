@@ -1,0 +1,47 @@
+"""Deterministic, independently animatable notebook UI assets. No API calls."""
+from pathlib import Path
+import json, random, html
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/'public/stickers/notebook-ui-svg';OUT.mkdir(parents=True,exist_ok=True)
+INK='#222522';ACCENT='#ba652e';PAPER='#fffdf7';MUTED='#aaa297'
+assets=[]
+def sketch(x,y,w,h,seed=1,fill=PAPER):
+ r=random.Random(seed);pts=[]
+ for a,b in [((x,y),(x+w,y)),((x+w,y),(x+w,y+h)),((x+w,y+h),(x,y+h)),((x,y+h),(x,y))]:
+  for i in range(8):
+   t=i/8;pts.append((a[0]+(b[0]-a[0])*t+r.uniform(-1,1),a[1]+(b[1]-a[1])*t+r.uniform(-1,1)))
+ return '<path d="M '+' L '.join(f'{a:.1f},{b:.1f}' for a,b in pts)+' Z" fill="'+fill+'" stroke="'+INK+'" stroke-width="3" stroke-linejoin="round"/>'
+def path(d,color=INK,width=3):return f'<path d="{d}" fill="none" stroke="{color}" stroke-width="{width}" stroke-linecap="round" stroke-linejoin="round"/>'
+def asset(name,w,h,body,labelArea=None,anchors=None,role=''):
+ content=f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" fill="none"><title>{html.escape(name)}</title><g id="artwork">{body}</g></svg>\n'
+ (OUT/(name+'.svg')).write_text(content)
+ assets.append(dict(id=name,file=name+'.svg',viewBox=[0,0,w,h],labelArea=labelArea,anchors=anchors or {'center':[w/2,h/2]},role=role))
+window=sketch(10,10,620,380)+path('M 11,59 L 629,59',MUTED,2)+''.join(f'<circle cx="{x}" cy="34" r="5" fill="{ACCENT if x==34 else MUTED}"/>' for x in [34,54,74])
+asset('window',640,400,window,[34,82,572,284],{'contentOrigin':[34,82],'center':[320,200]},'배너·버튼·팝업을 담는 기본 창')
+asset('banner',560,132,sketch(8,8,544,116,2,'#f3dfc9')+'<g id="thumbnail">'+sketch(25,24,78,78,3,'#ead0b2')+path('M 35,86 L 56,57 L 73,75 L 86,60 L 96,86',ACCENT,3)+'</g><g id="copy">'+path('M 126,44 L 427,44',INK,7)+path('M 126,70 L 360,70',MUTED,5)+path('M 126,94 L 278,94',MUTED,5)+'</g>',[120,24,405,80],role='데이터가 있을 때 표시하는 배너; 전체 그룹을 이동·숨김')
+asset('banner-empty',560,132,'<rect x="10" y="10" width="540" height="112" rx="5" stroke="'+MUTED+'" stroke-width="3" stroke-dasharray="10 9"/>'+path('M 36,38 L 70,72 M 70,38 L 36,72',MUTED,3),[96,30,430,70],role='빈 데이터 자리; 배너 삭제 후 필요할 때만 표시')
+for pressed in [False,True]:
+ name='button-pressed' if pressed else 'button'
+ b=sketch(10,14 if pressed else 8,240,76,4,ACCENT if pressed else PAPER)
+ asset(name,260,104,b,[30,27 if pressed else 21,200,44],{'center':[130,52],'click':[206,65]},'클릭 결과 상태' if pressed else '글자를 따로 올리는 기본 버튼')
+asset('popup',440,292,sketch(15,19,414,262,5,'#ded8cc')+sketch(8,8,414,262,6)+path('M 384,30 L 404,50 M 404,30 L 384,50',INK,3)+path('M 28,76 L 400,76',MUTED,2),[30,93,370,148],{'center':[220,146],'close':[394,40],'button':[220,224]},'모달 등장; 창 위에 올리고 전체 opacity·scale로 연출')
+asset('data-card',360,260,sketch(8,8,344,244,8)+path('M 10,62 L 350,62',MUTED,2)+path('M 31,31 L 106,31',ACCENT,7)+'<g id="rows">'+''.join(path(f'M 36,{y} L 67,{y}',ACCENT,7)+path(f'M 91,{y} L {end},{y}',INK,6) for y,end in [(96,304),(139,277),(182,308)])+'</g>',[28,77,300,153],role='서버 데이터 설명용 카드; rows 그룹을 숨겨 비우기')
+asset('data-card-empty',360,260,sketch(8,8,344,244,8)+path('M 10,62 L 350,62',MUTED,2)+path('M 31,31 L 106,31',ACCENT,7)+path('M 140,108 L 122,108 L 122,188 L 140,188 M 218,108 L 236,108 L 236,188 L 218,188',MUTED,5),[28,77,300,153],role='빈 목록인 서버 데이터; data-card와 동일 크기·기준점')
+asset('cursor',104,138,'<path d="M 12,9 L 94,85 L 62,89 L 82,119 L 60,132 L 41,98 L 17,121 Z" fill="white" stroke="white" stroke-width="12" stroke-linejoin="round"/><path d="M 12,9 L 94,85 L 62,89 L 82,119 L 60,132 L 41,98 L 17,121 Z" fill="'+PAPER+'" stroke="'+INK+'" stroke-width="4" stroke-linejoin="round"/>'+path('M 63,95 L 76,118 L 61,126',ACCENT,4),anchors={'tip':[12,9],'center':[52,69]},role='tip 앵커를 클릭 대상 좌표에 맞춰 이동')
+asset('click-rays',100,100,path('M 30,53 L 9,44 M 43,31 L 30,10 M 67,25 L 68,3',ACCENT,5),anchors={'target':[65,65]},role='커서 tip 옆에 2~4프레임 등장하는 클릭 표시')
+asset('arrow',180,76,path('M 12,40 C 63,34 117,44 164,36 M 143,18 L 165,36 L 145,58',ACCENT,5),anchors={'from':[12,40],'to':[165,36]},role='원인과 결과를 연결; 필요한 경우 회전')
+asset('text-lines-short',420,138,path('M 12,22 L 245,22',INK,9)+path('M 12,64 L 360,64',MUTED,7),role='짧은 문구 상태; 긴 문구 애셋과 교체')
+asset('text-lines-long',420,138,path('M 12,22 L 399,22',INK,9)+path('M 12,64 L 399,64',INK,9)+path('M 12,106 L 294,106',MUTED,7),role='세 줄로 길어진 문구; UI 안에 배치')
+(OUT/'catalog.json').write_text(json.dumps({'version':1,'coordinateSystem':'SVG viewBox units; anchors include transparent padding','layerOrder':['window','banner or data','text','popup','cursor','click-rays'],'assets':assets},ensure_ascii=False,indent=2)+'\n')
+def inline(name,x,y,w,h):
+ s=(OUT/(name+'.svg')).read_text();inner=s[s.index('<g id="artwork">'):s.rindex('</svg>')]
+ a=next(a for a in assets if a['id']==name);return f'<g fill="none" transform="translate({x} {y}) scale({w/a["viewBox"][2]} {h/a["viewBox"][3]})">{inner}</g>'
+# Contact sheet plus an actual reusable layout example, all native SVG.
+sheet=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1500"><rect width="1440" height="1500" fill="#f5f0e6"/><g font-family="sans-serif" fill="#222522"><text x="55" y="65" font-size="35" font-weight="bold">NOTEBOOK / UI ASSETS</text><text x="55" y="105" font-size="20">Editable SVG · transparent · separate states and anchors</text></g>']
+for i,a in enumerate(assets):
+ col=i%4;row=i//4;x=55+col*350;y=160+row*220;w,h=a['viewBox'][2:];sc=min(300/w,155/h)
+ sheet.append(inline(a['id'],x+(300-w*sc)/2,y,w*sc,h*sc));sheet.append(f'<text x="{x}" y="{y+185}" font-family="sans-serif" font-size="19" fill="{INK}">{a["id"]}</text>')
+sheet.append('<text x="55" y="1100" font-family="sans-serif" font-size="26" fill="'+INK+'">COMPOSITION / click → popup</text>')
+sheet+=[inline('window',75,1140,440,275),inline('banner',100,1200,385,91),inline('button',227,1320,160,64),inline('cursor',352,1357,57,76),inline('arrow',570,1240,160,68),inline('window',795,1140,440,275),inline('popup',855,1190,321,213)]
+sheet.append('</svg>');(OUT/'preview.svg').write_text(''.join(sheet))
+print(f'{len(assets)} SVG assets written to {OUT}')

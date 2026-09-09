@@ -1,0 +1,316 @@
+{
+  "version": 1,
+  "coordinateSystem": "SVG viewBox units; anchors include transparent padding",
+  "layerOrder": [
+    "window",
+    "banner or data",
+    "text",
+    "popup",
+    "cursor",
+    "click-rays"
+  ],
+  "assets": [
+    {
+      "id": "window",
+      "file": "window.svg",
+      "viewBox": [
+        0,
+        0,
+        640,
+        400
+      ],
+      "labelArea": [
+        34,
+        82,
+        572,
+        284
+      ],
+      "anchors": {
+        "contentOrigin": [
+          34,
+          82
+        ],
+        "center": [
+          320,
+          200
+        ]
+      },
+      "role": "배너·버튼·팝업을 담는 기본 창"
+    },
+    {
+      "id": "banner",
+      "file": "banner.svg",
+      "viewBox": [
+        0,
+        0,
+        560,
+        132
+      ],
+      "labelArea": [
+        120,
+        24,
+        405,
+        80
+      ],
+      "anchors": {
+        "center": [
+          280.0,
+          66.0
+        ]
+      },
+      "role": "데이터가 있을 때 표시하는 배너; 전체 그룹을 이동·숨김"
+    },
+    {
+      "id": "banner-empty",
+      "file": "banner-empty.svg",
+      "viewBox": [
+        0,
+        0,
+        560,
+        132
+      ],
+      "labelArea": [
+        96,
+        30,
+        430,
+        70
+      ],
+      "anchors": {
+        "center": [
+          280.0,
+          66.0
+        ]
+      },
+      "role": "빈 데이터 자리; 배너 삭제 후 필요할 때만 표시"
+    },
+    {
+      "id": "button",
+      "file": "button.svg",
+      "viewBox": [
+        0,
+        0,
+        260,
+        104
+      ],
+      "labelArea": [
+        30,
+        21,
+        200,
+        44
+      ],
+      "anchors": {
+        "center": [
+          130,
+          52
+        ],
+        "click": [
+          206,
+          65
+        ]
+      },
+      "role": "글자를 따로 올리는 기본 버튼"
+    },
+    {
+      "id": "button-pressed",
+      "file": "button-pressed.svg",
+      "viewBox": [
+        0,
+        0,
+        260,
+        104
+      ],
+      "labelArea": [
+        30,
+        27,
+        200,
+        44
+      ],
+      "anchors": {
+        "center": [
+          130,
+          52
+        ],
+        "click": [
+          206,
+          65
+        ]
+      },
+      "role": "클릭 결과 상태"
+    },
+    {
+      "id": "popup",
+      "file": "popup.svg",
+      "viewBox": [
+        0,
+        0,
+        440,
+        292
+      ],
+      "labelArea": [
+        30,
+        93,
+        370,
+        148
+      ],
+      "anchors": {
+        "center": [
+          220,
+          146
+        ],
+        "close": [
+          394,
+          40
+        ],
+        "button": [
+          220,
+          224
+        ]
+      },
+      "role": "모달 등장; 창 위에 올리고 전체 opacity·scale로 연출"
+    },
+    {
+      "id": "data-card",
+      "file": "data-card.svg",
+      "viewBox": [
+        0,
+        0,
+        360,
+        260
+      ],
+      "labelArea": [
+        28,
+        77,
+        300,
+        153
+      ],
+      "anchors": {
+        "center": [
+          180.0,
+          130.0
+        ]
+      },
+      "role": "서버 데이터 설명용 카드; rows 그룹을 숨겨 비우기"
+    },
+    {
+      "id": "data-card-empty",
+      "file": "data-card-empty.svg",
+      "viewBox": [
+        0,
+        0,
+        360,
+        260
+      ],
+      "labelArea": [
+        28,
+        77,
+        300,
+        153
+      ],
+      "anchors": {
+        "center": [
+          180.0,
+          130.0
+        ]
+      },
+      "role": "빈 목록인 서버 데이터; data-card와 동일 크기·기준점"
+    },
+    {
+      "id": "cursor",
+      "file": "cursor.svg",
+      "viewBox": [
+        0,
+        0,
+        104,
+        138
+      ],
+      "labelArea": null,
+      "anchors": {
+        "tip": [
+          12,
+          9
+        ],
+        "center": [
+          52,
+          69
+        ]
+      },
+      "role": "tip 앵커를 클릭 대상 좌표에 맞춰 이동"
+    },
+    {
+      "id": "click-rays",
+      "file": "click-rays.svg",
+      "viewBox": [
+        0,
+        0,
+        100,
+        100
+      ],
+      "labelArea": null,
+      "anchors": {
+        "target": [
+          65,
+          65
+        ]
+      },
+      "role": "커서 tip 옆에 2~4프레임 등장하는 클릭 표시"
+    },
+    {
+      "id": "arrow",
+      "file": "arrow.svg",
+      "viewBox": [
+        0,
+        0,
+        180,
+        76
+      ],
+      "labelArea": null,
+      "anchors": {
+        "from": [
+          12,
+          40
+        ],
+        "to": [
+          165,
+          36
+        ]
+      },
+      "role": "원인과 결과를 연결; 필요한 경우 회전"
+    },
+    {
+      "id": "text-lines-short",
+      "file": "text-lines-short.svg",
+      "viewBox": [
+        0,
+        0,
+        420,
+        138
+      ],
+      "labelArea": null,
+      "anchors": {
+        "center": [
+          210.0,
+          69.0
+        ]
+      },
+      "role": "짧은 문구 상태; 긴 문구 애셋과 교체"
+    },
+    {
+      "id": "text-lines-long",
+      "file": "text-lines-long.svg",
+      "viewBox": [
+        0,
+        0,
+        420,
+        138
+      ],
+      "labelArea": null,
+      "anchors": {
+        "center": [
+          210.0,
+          69.0
+        ]
+      },
+      "role": "세 줄로 길어진 문구; UI 안에 배치"
+    }
+  ]
+}
