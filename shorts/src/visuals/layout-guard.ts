@@ -1,6 +1,7 @@
 import {textUnits} from '../text-layout.ts';
 import {nodeLabel, LABEL_LINE_HEIGHT} from './node-layout.ts';
 import type {DiagramSpec} from './diagram-spec.ts';
+import {STICKER_ATTACHMENTS} from './notebook-catalog.ts';
 import {coveredFraction} from './overlap-area.ts';
 
 type State = DiagramSpec['nodes'][number] & {rotation: number; scale: number; opacity: number; noiseAmount: number};
@@ -57,8 +58,16 @@ export function assertDiagramLayout(states: State[], progress: number, notebook?
     }
   }
   if (notebook) for (const sticker of visible.filter(n => n.role === 'sticker')) {
-    const others = visible.filter(n => n !== sticker && n.shape !== 'text');
+    const attachment=sticker.stickerAttachment;
+    const target=attachment ? visible.find(n=>n.id===attachment.target) : null;
+    if (attachment && !target) fail('sticker-target', [sticker.id,attachment.target], 'visible sticker requires a visible target');
+    const others = visible.filter(n => n !== sticker && n !== target && n.shape !== 'text');
     const footprint = box(sticker, sticker.width + 3, sticker.height + 3);
+    if (attachment && target) {
+      const policy=STICKER_ATTACHMENTS[attachment.preset];
+      const coverage=coveredFraction(footprint,[box(target,target.width+outlinePad(target),target.height+outlinePad(target))]);
+      if (coverage < policy.min-EPS || coverage > policy.max+EPS) fail('sticker-attachment', [sticker.id,target.id], `${(coverage*100).toFixed(2)}% must be ${policy.min*100}–${policy.max*100}% of sticker footprint`);
+    }
     const covers = others.map(n => n.shape === 'line' ? lineBox(n) : box(n, n.width + outlinePad(n), n.height + outlinePad(n)));
     const ratio = coveredFraction(footprint, covers);
     if (ratio > notebook.maxStickerOverlap + EPS) fail('sticker-overlap', [sticker.id, ...others.filter((_,i) => polygonsOverlap(footprint,covers[i])).map(n=>n.id)], `${(ratio*100).toFixed(2)}% exceeds ${(notebook.maxStickerOverlap*100).toFixed(2)}% of sticker footprint (union area)`);

@@ -287,7 +287,7 @@ const SceneFrame: React.FC<{
   const visual = fallbackVisual(scene);
   if (scene.commonPage === 'blog-cta-v1') return <BlogCta layer={layer} scene={scene} />;
   if (scene.layout==='notebook-title') return <NotebookTitleScene scene={scene} layer={layer}/>;
-  if (scene.diagramSpec?.notebook) return <NotebookScene scene={scene} layer={layer} durationInFrames={durationInFrames}/>;
+  if (scene.diagramSpec?.notebook) return <NotebookScene scene={scene} topicTitle={sourceTitle} layer={layer} durationInFrames={durationInFrames}/>;
   if (scene.presenter != null) return <PresenterScene scene={scene} layer={layer} durationInFrames={durationInFrames} />;
 
   const fullBleed = layout === 'photo-full-bleed' && Boolean(scene.imagePath);

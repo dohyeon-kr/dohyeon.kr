@@ -10,7 +10,6 @@ import {organicBlobPath} from './blob-shape';
 import {useVideoConfig} from 'remotion';
 import {sketchPath, NOTEBOOK_INK, notebookFill} from './notebook-style';
 import {Sprite, assetUrl, NOTEBOOK_FONT, useNotebookAssets} from './notebook-assets';
-import {NotebookPaper} from './NotebookPaper';
 type Engine = 'remotion' | 'motion-canvas';
 type Props = {effects?: LightEffect[] | null; layer?: 'geometry' | 'labels' | 'all'; spec: DiagramSpec; durationInFrames: number; framesPath?: string | null; strict?: boolean; failEngine?: Engine};
 class EngineBoundary extends React.Component<{engine: Engine; strict: boolean; children: (engine: Engine) => React.ReactNode}, {error: Error | null}> {
@@ -39,7 +38,6 @@ export const DiagramRenderer: React.FC<Props> = ({spec: input, strict = false, f
   return <div style={{position: 'relative', width: '100%', height: '100%'}}>
     <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;}@font-face{font-family:"Nanum Pen Script";src:url('${assetUrl("NanumPenScript-Regular.ttf")}') format("truetype");font-weight:400;font-style:normal;}`}</style>
     {layer !== 'labels' && <>
-      {spec.notebook && <NotebookPaper />}
       <div style={{position: 'relative', width: '100%', height: '100%'}}><EngineBoundary key={JSON.stringify(spec)} engine={engine} strict={strict}>
         {(selected) => <EngineSurface {...rest} spec={geometrySpec} engine={selected} failEngine={failEngine} />}
       </EngineBoundary></div>

@@ -470,7 +470,7 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 도식 라벨은 눈누에서 확인한 나눔손글씨펜(Nanum Pen Script), 자막은 Pretendard다.
 실제 papers.webp/marks.webp 시트를 잘라 보여주는 sprite 방식으로 종이와 강조 요소를 합성한다.
 스티커는 role=sticker와 stickerAsset=paper/blue/tape/check/star/underline으로 선택한다.
-노트 테마에서 장면 의미와 연결되는 이미지 스티커 1~2개를 적극적으로 활용한다.
+노트 테마에서 장면 의미와 연결되는 이미지 스티커 2~3개를 적극적으로 활용하되 개수를 채우려고 장식하지 않는다.
 라벨이 있는 스티커는 paper/blue를 사용하고 다른 마커 스티커는 빈 라벨을 사용한다.
 선은 고정 시드 경로의 흔들림과 5px 잉크 이미지 패턴을 함께 적용한다. 프레임마다 랜덤 노이즈를 재생성하지 않는다.
 선 검사는 경로 흔들림을 포함한 10px envelope로 강화한다. 텍스트 보호 영역은 유지한다.
@@ -479,7 +479,7 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 검수 composition: NotebookPreview, NotebookCanvasPreview, NotebookPresenterPreview.
 NotebookPreview는 무음 레이아웃/동작 예제다. 실제 렌더에서 폰트 로딩, 스티커, 질감과 중간 프레임을 확인한다.
 
-노트 장면은 좌측 상단에 짧은 주제 제목을 필기체와 파란 테이프로 표시한다. headline에는 주제만 간결하게 쓴다.
+노트 장면은 좌측 상단에 전체 주제 제목(source.title)을 필기체로 동일하게 표시한다. 페이지별 소제목이 아니다. headline도 전체 주제로 맞춘다. 작은 도식 종이 패널은 없애고 1080×1920 전체를 종이 지면으로 쓴다. 상세 애셋·겹침·문체 계약은 [notebook-stickers.md](notebook-stickers.md)를 따른다.
 자막 각 줄 아래에는 받침과 간격을 둔 얇은 파란 공책 선을 둔다. 46px 글씨와 최대 두 줄을 유지하며 줄 높이는 82px다.
 ambientCG Paper001(CC0)을 전체 화면 위에 고정된 soft-light 20%로 합성한다. 발표자에도 같은 종이 질감이 적용된다. 공통 CTA와 다른 테마는 제외한다.
 
@@ -487,7 +487,7 @@ ambientCG Paper001(CC0)을 전체 화면 위에 고정된 soft-light 20%로 합�
 
 `layout: notebook-title`은 릴스 시작의 1080×1920 제목 장면이다. 정적 썸네일이나 블로그 커버를 생성하는 옵션이 아니다.
 제목을 좌측 상단에 84px 최대 세 줄, 사진을 우측 하단에 배치한다. 마지막 제목 줄은 파랑이다.
-실제 사진은 기존 image/imagePath 경로로 받고 blue 종이 sprite의 알파 마스크로 합성한다. 사진 자체를 생성 일러스트로 대체하지 않는다.
+실제 사진은 기존 image/imagePath 경로로 받고 넓은 직사각 인화 사진으로 배치한다. 테이프 sprite 두 개를 모서리에 걸쳐 붙인다. 사진 자체를 생성 일러스트로 대체하지 않는다.
 제목 밑줄과 본문 자막 밑줄 모두 기존 생성 marks.webp의 underline 이미지 crop을 재사용한다. 너비와 두께, reveal 시점을 독립 제어한다.
 제목 → 사진 → 이미지 밑줄/짧은 메모가 등장하고 본문으로 전환한다. 3~4초 안팎의 제목 장면을 본문 첫 장면으로 구성하며 같은 문구의 자막을 이중 표시하지 않는다.
 `NotebookOpeningPreview`는 제목부터 본문, CTA까지 연결된 무음 예제다. 사진 출처와 라이선스는 preview manifest와 public/notebook/README.md에 기록한다.
@@ -495,3 +495,5 @@ ambientCG Paper001(CC0)을 전체 화면 위에 고정된 soft-light 20%로 합�
 노트 자막은 beats.keyword 뒤에 papers.webp의 실제 highlighter 이미지를 50%로 합성한다. 글자 크기·위치는 고정하고 마커만 짧게 reveal한다. 핵심어는 한 줄에 들어가는 짧은 구절로 고르며 본문 전체를 칠하지 않는다. keyword가 없는 자막에는 임의의 강조어를 만들지 않는다.
 
 제목 오프닝에서 본문으로 넘어갈 때는 글자가 동시에 겹치지 않도록 dip-to-black을 사용한다. 명시적인 none 전환은 유지한다.
+
+지정 대상에 걸치는 스티커는 stickerAttachment 계약의 preset 범위를 적용한다. 그 밖의 객체에 대한 전역 겹침 상한과 글자 보호영역은 유지한다. 지면 종이는 전체 화면에만 표시한다.

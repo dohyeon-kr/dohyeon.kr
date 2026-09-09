@@ -1,4 +1,5 @@
 import {z} from 'zod';
+import {STICKER_ATTACHMENTS} from './notebook-catalog.ts';
 export const DiagramSpecSchema = z.object({
   version: z.literal(1),
   renderer: z.enum(['auto', 'remotion', 'motion-canvas']),
@@ -21,6 +22,7 @@ export const DiagramSpecSchema = z.object({
   nodes: z.array(z.object({
     id: z.string().regex(/^[a-z][a-z0-9-]*$/),
     role: z.enum(['sticker']).nullable().optional(),
+    stickerAttachment: z.object({target:z.string(), preset:z.enum(['edge-note','tape','badge'])}).strict().nullable().optional(),
     stickerAsset: z.enum(['paper','blue','tape','check','star','underline']).nullable().optional(),
     shape: z.enum(['rect', 'circle', 'blob', 'line', 'text']),
     label: z.string().max(60),
@@ -56,7 +58,13 @@ export function validateDiagram(value: unknown): DiagramSpec {
     }
   }
   for (const node of spec.nodes) {
+    if (node.stickerAttachment) {
+      const target=spec.nodes.find(n=>n.id===node.stickerAttachment.target);
+      if (node.role!=='sticker' || !node.stickerAsset || !target || target.id===node.id || target.role==='sticker' || !['rect','circle','blob'].includes(target.shape)) throw new Error('Sticker attachment requires a distinct ordinary shape target');
+      if (!STICKER_ATTACHMENTS[node.stickerAttachment.preset].assets.includes(node.stickerAsset)) throw new Error('Sticker asset does not match attachment preset');
+    }
     if (node.stickerAsset && node.role !== 'sticker') throw new Error('Sticker asset requires sticker role');
+    if (node.role==='sticker' && node.label && node.stickerAsset && !['paper','blue'].includes(node.stickerAsset)) throw new Error('Only paper and blue stickers accept labels');
     if (node.role === 'sticker' && (!spec.notebook || node.shape !== 'rect')) throw new Error('Sticker role requires error-notebook and a rect node');
     if (node.shape === 'blob' && !node.blob) throw new Error('Blob nodes require blob settings');
     if (node.shape !== 'blob' && node.blob) throw new Error('Blob settings are only valid for blob nodes');

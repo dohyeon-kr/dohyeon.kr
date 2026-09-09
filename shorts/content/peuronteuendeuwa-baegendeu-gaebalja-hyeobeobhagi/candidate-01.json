@@ -8,11 +8,11 @@
   },
   "candidate": {
     "angle": "experience",
-    "hook": "나는 옆자리 동료에게 자주 묻는다.",
+    "hook": "저는 옆자리 동료에게 자주 묻습니다.",
     "title": "옆자리 동료와 협업하며 바꾼 것들",
-    "rationale": "오답노트 형식에 맞춰 저자의 1인칭 경험을 ~다 / ~했다 / ~해야겠다의 에세이 말투로 풀었다. 옆자리에서 쉽게 묻던 습관에서 출발해 SDK 버전 선택, Bruno의 반복 작업 감소와 동료의 반응, 공동 추적, 변경 기록으로 이어지고 자기 다짐으로 닫는다. 원문에 없는 경험이나 감정은 만들지 않고 SDK 고정의 한계와 아직 확인하지 못한 운영 성과를 남겼다. 사진은 협업 맥락용이며 저자나 동료의 실제 모습으로 주장하지 않는다. 본문의 도식은 바꾼 작업 방식과 연결 관계를 설명하므로 유지한다. 공통 CTA는 별도 안내 말투를 유지한다. viralScore는 성과 예측이 아닌 편집 우선순위 참고값이다.",
+    "rationale": "존댓말의 1인칭 회고. 원문에 있는 경험과 동료의 반응, 아직 확인하지 못한 운영 성과를 보존한다. 자기비하 표현은 쉽게 물어보던 습관에 대한 돌아봄으로 순화한다. 제목은 페이지별 소제목 대신 전체 주제를 유지한다. 전체 종이 지면에 넓은 도식을 배치하고 실제 사진은 테이프로 고정한 인화 사진처럼 표현한다. 스티커는 변경·조건·확인한 내용을 표시한다. 공통 CTA는 유지한다. viralScore는 편집 우선순위 참고값이다.",
     "viralScore": 80,
-    "suggestedCaption": "백엔드 동료와 나란히 앉아 일한다. 바로 물어볼 수 있으니 편한데, 문서에 있는 것도 묻게 됐다. 그렇게 일하며 SDK 버전을 고르는 방식부터 인증, 요청 추적, 변경 기록까지 조금씩 바꿨다. 동료가 토큰을 복사하지 않아도 돼 좋다고 했을 때는 소개한 보람도 있었다. 앞으로도 편하게 묻겠지만, 문서는 먼저 읽고 함께 정한 건 잘 남겨야겠다. 자세한 이야기는 프로필의 블로그 링크에 정리했다.",
+    "suggestedCaption": "백엔드 동료와 나란히 앉아 일합니다. 바로 물어볼 수 있으니 편한데, 문서에 있는 것도 묻게 됐습니다. 그렇게 일하며 SDK 버전을 고르는 방식부터 인증, 요청 추적, 변경 기록까지 조금씩 바꿨습니다. 동료가 토큰을 복사하지 않아도 돼 좋다고 했을 때는 소개한 보람도 있었습니다. 앞으로도 편하게 묻겠지만, 문서는 먼저 읽고 함께 정한 건 잘 남기려고 합니다. 자세한 이야기는 프로필의 블로그 링크에 정리했습니다.",
     "hashtags": [
       "#프론트엔드",
       "#백엔드",
@@ -61,7 +61,7 @@
         "strategy": {
           "type": "photo",
           "metaphor": null,
-          "rationale": "저장소의 NotebookOpeningPreview가 사용하는 실제 사진을 찢은 종이 마스크로 합성한다. 저자와 동료의 실제 사진이라는 의미는 아니다."
+          "rationale": "저장소의 실제 협업 사진을 넓게 배치하고 가장자리 두 곳을 테이프로 붙인다. 저자와 동료의 실제 사진이라는 의미는 아니다."
         }
       },
       "transition": "none",
@@ -75,11 +75,11 @@
         "endProgress": 1
       },
       "choreography": [
-        "제목 → 실제 사진 → 이미지 밑줄 → 짧은 메모. 제목과 같은 자막은 중복 표시하지 않는다."
+        "전체 종이 지면 위 제목 → 넓은 인화 사진과 모서리 테이프 → 이미지 밑줄 → 짧은 메모."
       ],
       "beats": [
         {
-          "text": "나는 옆자리 동료에게 자주 묻는다.",
+          "text": "저는 옆자리 동료에게 자주 묻습니다.",
           "keyword": "옆자리",
           "emphasis": "high",
           "delivery": "normal",
@@ -90,7 +90,7 @@
       ],
       "headline": "프론트엔드와\n백엔드 개발자\n협업하기",
       "subline": "옆자리에서 조금씩 바꿔본 것들",
-      "narration": "나는 옆자리 동료에게 자주 묻는다.",
+      "narration": "저는 옆자리 동료에게 자주 묻습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": "developers working together laptop",
@@ -164,6 +164,20 @@
             "stickerAsset": "paper",
             "connector": null,
             "strokeStyle": "solid"
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "먼저 읽기",
+            "x": 150,
+            "y": 460,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
           }
         ],
         "events": [
@@ -182,13 +196,21 @@
             "to": 1,
             "start": 0.62,
             "end": 0.78
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "옆자리 대화만 보인다.",
-        "trigger": "백엔드 동료와 나란히 앉아 일한다.",
-        "change": "동료의 기억이 나타난 뒤 기록 메모가 붙는다.",
+        "trigger": "백엔드 동료와 나란히 앉아 일합니다.",
+        "change": "동료의 기억이 나타난 뒤 기록 메모가 붙는다. 먼저 읽기 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "문서로 확인할 것도 옆자리 동료에게 묻던 내 습관을 돌아본다."
       },
@@ -225,12 +247,12 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "동료의 기억이 나타난 뒤 기록 메모가 붙는다.",
+        "동료의 기억이 나타난 뒤 기록 메모가 붙는다. 먼저 읽기 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
         {
-          "text": "백엔드 동료와 나란히 앉아 일한다.",
+          "text": "백엔드 동료와 나란히 앉아 일합니다.",
           "keyword": "나란히",
           "emphasis": "high",
           "delivery": "normal",
@@ -239,8 +261,8 @@
           "visualCue": "옆자리 대화만 보인다."
         },
         {
-          "text": "바로 물어볼 수 있으니 편하다.",
-          "keyword": "편하다",
+          "text": "바로 물어볼 수 있으니 편합니다.",
+          "keyword": null,
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 150,
@@ -248,7 +270,7 @@
           "visualCue": "동료의 기억이 나타난 뒤 기록 메모가 붙는다."
         },
         {
-          "text": "그러다 보니 문서에 있는 것도 물었다.",
+          "text": "그러다 보니 문서에 있는 것도 물었습니다.",
           "keyword": "문서",
           "emphasis": "high",
           "delivery": "normal",
@@ -257,18 +279,18 @@
           "visualCue": "동료의 기억이 나타난 뒤 기록 메모가 붙는다."
         },
         {
-          "text": "조금 핑프 같다는 생각도 든다.",
-          "keyword": "핑프",
+          "text": "제가 너무 쉽게 물어봤나 싶습니다.",
+          "keyword": "쉽게",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "동료의 기억이 나타난 뒤 기록 메모가 붙는다."
+          "visualCue": "동료의 기억이 나타난 뒤 기록 메모가 붙는다. 먼저 읽기 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "옆자리의 편리함",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "백엔드 동료와 나란히 앉아 일한다. 바로 물어볼 수 있으니 편하다. 그러다 보니 문서에 있는 것도 물었다. 조금 핑프 같다는 생각도 든다.",
+      "narration": "백엔드 동료와 나란히 앉아 일합니다. 바로 물어볼 수 있으니 편합니다. 그러다 보니 문서에 있는 것도 물었습니다. 제가 너무 쉽게 물어봤나 싶습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -350,6 +372,20 @@
             "stickerAsset": "paper",
             "connector": null,
             "strokeStyle": "solid"
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "시점",
+            "x": 620,
+            "y": 460,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
           }
         ],
         "events": [
@@ -368,13 +404,21 @@
             "to": 1,
             "start": 0.1,
             "end": 0.22
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "백엔드 커밋과 프론트 코드가 떨어져 있다.",
-        "trigger": "SDK도 자동으로 들어오니 편했다.",
-        "change": "자동 동기화 연결선이 전체 길이로 등장한다.",
+        "trigger": "SDK도 자동으로 들어오니 편했습니다.",
+        "change": "자동 동기화 연결선이 전체 길이로 등장한다. 시점 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "생성 자동화와 업데이트 시점 선택은 서로 다른 문제다."
       },
@@ -411,12 +455,12 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "자동 동기화 연결선이 전체 길이로 등장한다.",
+        "자동 동기화 연결선이 전체 길이로 등장한다. 시점 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
         {
-          "text": "SDK도 자동으로 들어오니 편했다.",
+          "text": "SDK도 자동으로 들어오니 편했습니다.",
           "keyword": "자동으로",
           "emphasis": "high",
           "delivery": "normal",
@@ -434,7 +478,7 @@
           "visualCue": "자동 동기화 연결선이 전체 길이로 등장한다."
         },
         {
-          "text": "내가 업데이트 시점을 고르기 어려웠다.",
+          "text": "업데이트 시점을 고르기 어려웠습니다.",
           "keyword": "업데이트 시점",
           "emphasis": "high",
           "delivery": "normal",
@@ -443,18 +487,18 @@
           "visualCue": "자동 동기화 연결선이 전체 길이로 등장한다."
         },
         {
-          "text": "새 타입 때문에 빌드가 깨지기도 했다.",
+          "text": "새 타입 때문에 빌드가 깨지기도 했습니다.",
           "keyword": "빌드",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "자동 동기화 연결선이 전체 길이로 등장한다."
+          "visualCue": "자동 동기화 연결선이 전체 길이로 등장한다. 시점 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "SDK 자동 동기화",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "SDK도 자동으로 들어오니 편했다. 그런데 백엔드 커밋마다 코드가 바뀌니, 내가 업데이트 시점을 고르기 어려웠다. 새 타입 때문에 빌드가 깨지기도 했다.",
+      "narration": "SDK도 자동으로 들어오니 편했습니다. 그런데 백엔드 커밋마다 코드가 바뀌니, 업데이트 시점을 고르기 어려웠습니다. 새 타입 때문에 빌드가 깨지기도 했습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -540,7 +584,7 @@
           {
             "id": "selected",
             "label": "",
-            "x": 660,
+            "x": 345,
             "y": 115,
             "width": 90,
             "height": 80,
@@ -548,6 +592,24 @@
             "fill": "none",
             "role": "sticker",
             "stickerAsset": "check",
+            "connector": null,
+            "strokeStyle": "solid",
+            "stickerAttachment": {
+              "target": "v1",
+              "preset": "badge"
+            }
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "직접 선택",
+            "x": 620,
+            "y": 460,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
             "connector": null,
             "strokeStyle": "solid"
           }
@@ -568,13 +630,21 @@
             "to": 1,
             "start": 0.35,
             "end": 0.5
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "두 SDK 버전과 앱이 보인다.",
         "trigger": "앱은 이미 배포한 버전도 있어서,",
-        "change": "선택한 버전과 앱 사이의 연결만 나타난다.",
+        "change": "선택한 버전과 앱 사이의 연결만 나타난다. 직접 선택 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "백엔드는 발행하고 프론트엔드는 변경을 확인해 업데이트한다."
       },
@@ -611,7 +681,7 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "선택한 버전과 앱 사이의 연결만 나타난다.",
+        "선택한 버전과 앱 사이의 연결만 나타난다. 직접 선택 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
@@ -625,7 +695,7 @@
           "visualCue": "두 SDK 버전과 앱이 보인다."
         },
         {
-          "text": "어떤 SDK를 쓸지 직접 정해야 했다.",
+          "text": "어떤 SDK를 쓸지 직접 정해야 했습니다.",
           "keyword": "직접",
           "emphasis": "high",
           "delivery": "normal",
@@ -634,7 +704,7 @@
           "visualCue": "선택한 버전과 앱 사이의 연결만 나타난다."
         },
         {
-          "text": "그래서 SDK를 패키지로 발행하게 바꿨다.",
+          "text": "그래서 SDK를 패키지로 발행하게 바꿨습니다.",
           "keyword": "패키지",
           "emphasis": "high",
           "delivery": "normal",
@@ -643,18 +713,18 @@
           "visualCue": "선택한 버전과 앱 사이의 연결만 나타난다."
         },
         {
-          "text": "이제 필요한 버전을 골라 설치한다.",
+          "text": "이제 필요한 버전을 골라 설치합니다.",
           "keyword": "골라",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "선택한 버전과 앱 사이의 연결만 나타난다."
+          "visualCue": "선택한 버전과 앱 사이의 연결만 나타난다. 직접 선택 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "SDK 버전 선택",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "앱은 이미 배포한 버전도 있어서, 어떤 SDK를 쓸지 직접 정해야 했다. 그래서 SDK를 패키지로 발행하게 바꿨다. 이제 필요한 버전을 골라 설치한다.",
+      "narration": "앱은 이미 배포한 버전도 있어서, 어떤 SDK를 쓸지 직접 정해야 했습니다. 그래서 SDK를 패키지로 발행하게 바꿨습니다. 이제 필요한 버전을 골라 설치합니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -750,6 +820,20 @@
             "stickerAsset": "paper",
             "connector": null,
             "strokeStyle": "solid"
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "아직 확인 중",
+            "x": 620,
+            "y": 230,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
           }
         ],
         "events": [
@@ -776,13 +860,21 @@
             "to": 1,
             "start": 0.65,
             "end": 0.8
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "SDK가 고정된 앱과 최신 서버가 보인다.",
-        "trigger": "물론 SDK를 고정해도 서버는 최신이다.",
-        "change": "요청 연결 뒤 호환성 별도 확인 메모가 나타난다.",
+        "trigger": "물론 SDK를 고정해도 서버는 최신입니다.",
+        "change": "요청 연결 뒤 호환성 별도 확인 메모가 나타난다. 아직 확인 중 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "SDK 버전 선택만으로 운영 문제가 해결되는 것은 아니다."
       },
@@ -819,12 +911,12 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "요청 연결 뒤 호환성 별도 확인 메모가 나타난다.",
+        "요청 연결 뒤 호환성 별도 확인 메모가 나타난다. 아직 확인 중 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
         {
-          "text": "물론 SDK를 고정해도 서버는 최신이다.",
+          "text": "물론 SDK를 고정해도 서버는 최신입니다.",
           "keyword": "서버는 최신",
           "emphasis": "high",
           "delivery": "normal",
@@ -833,7 +925,7 @@
           "visualCue": "SDK가 고정된 앱과 최신 서버가 보인다."
         },
         {
-          "text": "구버전 앱의 호환성은 함께 챙겨야 한다.",
+          "text": "구버전 앱의 호환성은 함께 챙겨야 합니다.",
           "keyword": "호환성",
           "emphasis": "high",
           "delivery": "normal",
@@ -851,18 +943,18 @@
           "visualCue": "요청 연결 뒤 호환성 별도 확인 메모가 나타난다."
         },
         {
-          "text": "말할 만한 결과는 아직 없다.",
-          "keyword": "아직 없다",
+          "text": "말할 만한 결과는 아직 없습니다.",
+          "keyword": null,
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "요청 연결 뒤 호환성 별도 확인 메모가 나타난다."
+          "visualCue": "요청 연결 뒤 호환성 별도 확인 메모가 나타난다. 아직 확인 중 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "버전 고정의 한계",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "물론 SDK를 고정해도 서버는 최신이다. 구버전 앱의 호환성은 함께 챙겨야 한다. 이걸로 운영 문제가 해결됐다고 말할 만한 결과는 아직 없다.",
+      "narration": "물론 SDK를 고정해도 서버는 최신입니다. 구버전 앱의 호환성은 함께 챙겨야 합니다. 이걸로 운영 문제가 해결됐다고 말할 만한 결과는 아직 없습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -978,6 +1070,20 @@
             "stickerAsset": "paper",
             "connector": null,
             "strokeStyle": "solid"
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "보람",
+            "x": 620,
+            "y": 460,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
           }
         ],
         "events": [
@@ -1004,13 +1110,21 @@
             "to": 1,
             "start": 0.65,
             "end": 0.8
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "인증·저장·후속 요청의 세 단계가 보인다.",
-        "trigger": "API를 확인하려면 토큰부터 복사했다.",
-        "change": "토큰 저장과 재사용 연결이 차례로 나타난다.",
+        "trigger": "API를 확인하려면 토큰부터 복사했습니다.",
+        "change": "토큰 저장과 재사용 연결이 차례로 나타난다. 보람 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "인증 반복 작업을 줄이고 동일한 요청을 함께 확인한다."
       },
@@ -1047,12 +1161,12 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "토큰 저장과 재사용 연결이 차례로 나타난다.",
+        "토큰 저장과 재사용 연결이 차례로 나타난다. 보람 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
         {
-          "text": "API를 확인하려면 토큰부터 복사했다.",
+          "text": "API를 확인하려면 토큰부터 복사했습니다.",
           "keyword": "토큰",
           "emphasis": "high",
           "delivery": "normal",
@@ -1061,7 +1175,7 @@
           "visualCue": "인증·저장·후속 요청의 세 단계가 보인다."
         },
         {
-          "text": "만료되면 또 같은 일을 했다.",
+          "text": "만료되면 또 같은 일을 했습니다.",
           "keyword": "같은 일",
           "emphasis": "high",
           "delivery": "normal",
@@ -1079,7 +1193,7 @@
           "visualCue": "토큰 저장과 재사용 연결이 차례로 나타난다."
         },
         {
-          "text": "요청 모음도 Git으로 공유하게 했다.",
+          "text": "요청 모음도 Git으로 공유하게 했습니다.",
           "keyword": "Git",
           "emphasis": "high",
           "delivery": "normal",
@@ -1088,7 +1202,7 @@
           "visualCue": "토큰 저장과 재사용 연결이 차례로 나타난다."
         },
         {
-          "text": "동료도 복사할 일이 없어 좋다고 했다.",
+          "text": "동료도 복사할 일이 없어 좋다고 했습니다.",
           "keyword": "동료",
           "emphasis": "high",
           "delivery": "normal",
@@ -1097,18 +1211,18 @@
           "visualCue": "토큰 저장과 재사용 연결이 차례로 나타난다."
         },
         {
-          "text": "소개한 보람이 있었다.",
+          "text": "소개한 보람이 있었습니다.",
           "keyword": "보람",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "토큰 저장과 재사용 연결이 차례로 나타난다."
+          "visualCue": "토큰 저장과 재사용 연결이 차례로 나타난다. 보람 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "Bruno로 반복 줄이기",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "API를 확인하려면 토큰부터 복사했다. 만료되면 또 같은 일을 했다. Bruno에서는 토큰을 저장해 다시 쓰고, 요청 모음도 Git으로 공유하게 했다. 동료도 복사할 일이 없어 좋다고 했다. 소개한 보람이 있었다.",
+      "narration": "API를 확인하려면 토큰부터 복사했습니다. 만료되면 또 같은 일을 했습니다. Bruno에서는 토큰을 저장해 다시 쓰고, 요청 모음도 Git으로 공유하게 했습니다. 동료도 복사할 일이 없어 좋다고 했습니다. 소개한 보람이 있었습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -1204,6 +1318,20 @@
             "stickerAsset": "check",
             "connector": null,
             "strokeStyle": "solid"
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "함께 보기",
+            "x": 620,
+            "y": 460,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
           }
         ],
         "events": [
@@ -1222,13 +1350,21 @@
             "to": 1,
             "start": 0.55,
             "end": 0.7
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "클라이언트와 백엔드가 분리되어 있다.",
-        "trigger": "나는 클라이언트에서 시작한 요청을",
-        "change": "추적 연결선과 확인 스티커가 나타난다.",
+        "trigger": "저는 클라이언트에서 시작한 요청을",
+        "change": "추적 연결선과 확인 스티커가 나타난다. 함께 보기 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "같은 요청의 맥락을 공유하며 문제 구간을 함께 살핀다."
       },
@@ -1265,12 +1401,12 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "추적 연결선과 확인 스티커가 나타난다.",
+        "추적 연결선과 확인 스티커가 나타난다. 함께 보기 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
         {
-          "text": "나는 클라이언트에서 시작한 요청을",
+          "text": "저는 클라이언트에서 시작한 요청을",
           "keyword": "클라이언트",
           "emphasis": "high",
           "delivery": "normal",
@@ -1279,7 +1415,7 @@
           "visualCue": "클라이언트와 백엔드가 분리되어 있다."
         },
         {
-          "text": "서버까지 이어서 보고 싶었다.",
+          "text": "서버까지 이어서 보고 싶었습니다.",
           "keyword": "서버까지",
           "emphasis": "high",
           "delivery": "normal",
@@ -1288,7 +1424,7 @@
           "visualCue": "추적 연결선과 확인 스티커가 나타난다."
         },
         {
-          "text": "그래서 traceparent로 추적을 연결했다.",
+          "text": "그래서 traceparent로 추적을 연결했습니다.",
           "keyword": "traceparent",
           "emphasis": "high",
           "delivery": "normal",
@@ -1306,7 +1442,7 @@
           "visualCue": "추적 연결선과 확인 스티커가 나타난다."
         },
         {
-          "text": "문제가 생긴 구간을 함께 보게 됐다.",
+          "text": "문제가 생긴 구간을 함께 보게 됐습니다.",
           "keyword": "함께",
           "emphasis": "high",
           "delivery": "normal",
@@ -1315,18 +1451,18 @@
           "visualCue": "추적 연결선과 확인 스티커가 나타난다."
         },
         {
-          "text": "동료에게 전할 내용도 구체적이 됐다.",
+          "text": "동료에게 전할 내용도 구체적이 됐습니다.",
           "keyword": "구체적",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "추적 연결선과 확인 스티커가 나타난다."
+          "visualCue": "추적 연결선과 확인 스티커가 나타난다. 함께 보기 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "같은 요청 따라가기",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "나는 클라이언트에서 시작한 요청을 서버까지 이어서 보고 싶었다. 그래서 traceparent로 추적을 연결했다. 로그의 시간대를 따로 맞추던 수고가 줄고, 문제가 생긴 구간을 함께 보게 됐다. 동료에게 전할 내용도 구체적이 됐다.",
+      "narration": "저는 클라이언트에서 시작한 요청을 서버까지 이어서 보고 싶었습니다. 그래서 traceparent로 추적을 연결했습니다. 로그의 시간대를 따로 맞추던 수고가 줄고, 문제가 생긴 구간을 함께 보게 됐습니다. 동료에게 전할 내용도 구체적이 됐습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -1422,6 +1558,20 @@
             "stickerAsset": "check",
             "connector": null,
             "strokeStyle": "solid"
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "이유도",
+            "x": 150,
+            "y": 230,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
           }
         ],
         "events": [
@@ -1448,13 +1598,21 @@
             "to": 1,
             "start": 0.68,
             "end": 0.82
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "대화와 티켓·PR이 따로 놓여 있다.",
-        "trigger": "옆자리에서 말로 요청하기는 쉽다.",
-        "change": "대화가 기록에 연결되고 내용·이유·상태가 등장한다.",
+        "trigger": "옆자리에서 말로 요청하기는 쉽습니다.",
+        "change": "대화가 기록에 연결되고 내용·이유·상태가 등장한다. 이유도 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "합의한 내용을 기록해 동료의 기억에만 의존하지 않는다."
       },
@@ -1491,12 +1649,12 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "대화가 기록에 연결되고 내용·이유·상태가 등장한다.",
+        "대화가 기록에 연결되고 내용·이유·상태가 등장한다. 이유도 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
         {
-          "text": "옆자리에서 말로 요청하기는 쉽다.",
+          "text": "옆자리에서 말로 요청하기는 쉽습니다.",
           "keyword": "말로",
           "emphasis": "high",
           "delivery": "normal",
@@ -1505,8 +1663,8 @@
           "visualCue": "대화와 티켓·PR이 따로 놓여 있다."
         },
         {
-          "text": "그런데 다른 일을 하다 보면 잊기 쉽다.",
-          "keyword": "잊기 쉽다",
+          "text": "그런데 다른 일을 하다 보면 잊기 쉽습니다.",
+          "keyword": null,
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 150,
@@ -1523,7 +1681,7 @@
           "visualCue": "대화가 기록에 연결되고 내용·이유·상태가 등장한다."
         },
         {
-          "text": "티켓과 PR에 남기며 일하고 있다.",
+          "text": "티켓과 PR에 남기며 일하고 있습니다.",
           "keyword": "티켓과 PR",
           "emphasis": "high",
           "delivery": "normal",
@@ -1532,18 +1690,18 @@
           "visualCue": "대화가 기록에 연결되고 내용·이유·상태가 등장한다."
         },
         {
-          "text": "내용과 이유, 진행 상태를 같이 보려고.",
+          "text": "내용과 이유, 진행 상태를 같이 보려고요.",
           "keyword": "진행 상태",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "대화가 기록에 연결되고 내용·이유·상태가 등장한다."
+          "visualCue": "대화가 기록에 연결되고 내용·이유·상태가 등장한다. 이유도 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "대화 다음에는 기록",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "옆자리에서 말로 요청하기는 쉽다. 그런데 다른 일을 하다 보면 잊기 쉽다. 그래서 이야기해서 정한 건 티켓과 PR에 남기며 일하고 있다. 내용과 이유, 진행 상태를 같이 보려고.",
+      "narration": "옆자리에서 말로 요청하기는 쉽습니다. 그런데 다른 일을 하다 보면 잊기 쉽습니다. 그래서 이야기해서 정한 건 티켓과 PR에 남기며 일하고 있습니다. 내용과 이유, 진행 상태를 같이 보려고요.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -1625,6 +1783,20 @@
             "stickerAsset": "check",
             "connector": null,
             "strokeStyle": "solid"
+          },
+          {
+            "id": "reflection-note",
+            "role": "sticker",
+            "stickerAsset": "blue",
+            "shape": "rect",
+            "label": "잘 남기기",
+            "x": 620,
+            "y": 460,
+            "width": 180,
+            "height": 100,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
           }
         ],
         "events": [
@@ -1643,13 +1815,21 @@
             "to": 1,
             "start": 0.6,
             "end": 0.78
+          },
+          {
+            "target": "reflection-note",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.72
           }
         ]
       },
       "visualStory": {
         "initial": "편하게 대화와 함께 볼 기록을 함께 보여준다.",
-        "trigger": "앞으로도 옆자리 동료에게 물어볼 것 같다.",
-        "change": "대화와 기록의 연결을 완성하고 확인 표시를 붙인다.",
+        "trigger": "앞으로도 옆자리 동료에게 물어볼 것 같습니다.",
+        "change": "대화와 기록의 연결을 완성하고 확인 표시를 붙인다. 잘 남기기 메모 스티커가 후반에 나타납니다.",
         "invariant": "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.",
         "result": "앞으로도 동료에게 묻겠다는 마음과 문서를 먼저 읽고 결정은 남기겠다는 다짐으로 도입의 경험을 회수한다."
       },
@@ -1686,12 +1866,12 @@
       "choreography": [
         "show-headline",
         "show-visual",
-        "대화와 기록의 연결을 완성하고 확인 표시를 붙인다.",
+        "대화와 기록의 연결을 완성하고 확인 표시를 붙인다. 잘 남기기 메모 스티커가 후반에 나타납니다.",
         "종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다."
       ],
       "beats": [
         {
-          "text": "앞으로도 옆자리 동료에게 물어볼 것 같다.",
+          "text": "앞으로도 옆자리 동료에게 물어볼 것 같습니다.",
           "keyword": "동료",
           "emphasis": "high",
           "delivery": "normal",
@@ -1700,8 +1880,8 @@
           "visualCue": "편하게 대화와 함께 볼 기록을 함께 보여준다."
         },
         {
-          "text": "같이 이야기하며 만드는 건 즐겁다.",
-          "keyword": "즐겁다",
+          "text": "같이 이야기하며 만드는 건 즐겁습니다.",
+          "keyword": null,
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 150,
@@ -1718,8 +1898,8 @@
           "visualCue": "대화와 기록의 연결을 완성하고 확인 표시를 붙인다."
         },
         {
-          "text": "함께 정한 건 잘 남겨야겠다.",
-          "keyword": "잘 남겨야겠다",
+          "text": "함께 정한 건 잘 남기려고 합니다.",
+          "keyword": "잘 남기려고",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 150,
@@ -1736,18 +1916,18 @@
           "visualCue": "대화와 기록의 연결을 완성하고 확인 표시를 붙인다."
         },
         {
-          "text": "그 사람의 기억에 너무 기대지는 않도록.",
+          "text": "그 사람의 기억에 너무 기대지는 않으려고요.",
           "keyword": "기억",
           "emphasis": "high",
           "delivery": "normal",
           "pauseAfterMs": 240,
           "visualPriority": "high",
-          "visualCue": "대화와 기록의 연결을 완성하고 확인 표시를 붙인다."
+          "visualCue": "대화와 기록의 연결을 완성하고 확인 표시를 붙인다. 잘 남기기 메모 스티커가 후반에 나타납니다."
         }
       ],
-      "headline": "편하게 묻고, 잘 남기기",
+      "headline": "프론트엔드와 백엔드 개발자 협업하기",
       "subline": null,
-      "narration": "앞으로도 옆자리 동료에게 물어볼 것 같다. 같이 이야기하며 만드는 건 즐겁다. 다만 문서에 있는 건 먼저 읽고, 함께 정한 건 잘 남겨야겠다. 편하게 물을 수 있다는 이유로 그 사람의 기억에 너무 기대지는 않도록.",
+      "narration": "앞으로도 옆자리 동료에게 물어볼 것 같습니다. 같이 이야기하며 만드는 건 즐겁습니다. 다만 문서에 있는 건 먼저 읽고, 함께 정한 건 잘 남기려고 합니다. 편하게 물을 수 있다는 이유로 그 사람의 기억에 너무 기대지는 않으려고요.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,

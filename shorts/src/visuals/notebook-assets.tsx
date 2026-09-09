@@ -1,16 +1,9 @@
 import React, {useState, useEffect, useId} from 'react';
 import {staticFile, delayRender, continueRender, cancelRender} from 'remotion';
 export const NOTEBOOK_FONT='Nanum Pen Script';
-export const sprites={
-  highlighter:{file:'papers.webp',sheet:[1536,1024],crop:[1020,684,511,130]},
-  paper:{file:'papers.webp',sheet:[1536,1024],crop:[24,576,496,339]},
-  blue:{file:'papers.webp',sheet:[1536,1024],crop:[526,155,491,354]},
-  tape:{file:'papers.webp',sheet:[1536,1024],crop:[537,565,438,190]},
-  check:{file:'marks.webp',sheet:[1254,1254],crop:[476,20,310,320]},
-  star:{file:'marks.webp',sheet:[1254,1254],crop:[468,623,344,289]},
-  underline:{file:'marks.webp',sheet:[1254,1254],crop:[15,412,464,158]},
-} as const;
-export type StickerAsset=keyof typeof sprites;
+import {NOTEBOOK_ASSETS, type StickerAsset} from './notebook-catalog';
+export {type StickerAsset} from './notebook-catalog';
+export const sprites=NOTEBOOK_ASSETS;
 export const assetUrl=(name:string)=>staticFile(`notebook/${name}`);
 export function Sprite({name,x,y,width,height}:{name:StickerAsset;x:number;y:number;width:number;height:number}) {
   const s=sprites[name], id=`cutout-${useId().replace(/[^a-zA-Z0-9]/g,'')}`;

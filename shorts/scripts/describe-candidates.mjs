@@ -9,7 +9,7 @@ const labels = {
   hero: '도입', photo: '사진', compare: '비교', statement: '핵심 메시지', outro: '마무리',
   'photo-top-right': '오른쪽 위 사진과 텍스트', 'photo-full-bleed': '사진을 화면 전체에 배치',
   'photo-split-left': '왼쪽 사진과 오른쪽 텍스트', 'photo-strip': '띠 형태의 사진',
-  'notebook-title': '실제 사진을 찢은 종이로 마스킹한 제목 오프닝',
+  'notebook-title': '넓은 실제 사진을 테이프로 붙인 제목 오프닝',
   'diagram-centered': '도식을 중앙에 배치', 'symbol-right': '오른쪽에 상징 배치',
   'statement-giant': '큰 문장을 중심에 배치', 'statement-offset': '문장을 비대칭으로 배치',
   'compare-columns': '두 열로 비교', 'compare-versus': '두 대상을 대비', 'outro-minimal': '간결한 마무리',
@@ -108,6 +108,7 @@ export function describeCandidate(manifest, filename) {
     }
     const spec = scene.diagramSpec;
     if (spec?.nodes?.length) out.push(`- 도식 구성: ${spec.nodes.map(n => `${label(n.shape)}${n.label ? ` ‘${md(n.label)}’` : ''}`).join(', ')}`);
+    for (const node of spec?.nodes ?? []) if (node.role==='sticker') out.push(`- 스티커: ${md(node.stickerAsset ?? 'paper')} / ${md(node.label || '라벨 없음')}${node.stickerAttachment ? ` / ${md(node.stickerAttachment.target)}에 ${md(node.stickerAttachment.preset)}로 부착` : ' / 독립 배치'}`);
     out.push('', '**연출 흐름**', '');
     if (scene.visualStory) {
       for (const [key, title] of Object.entries({initial: '시작', trigger: '사건', change: '변화', invariant: '유지', result: '결과'})) out.push(`- ${title}: ${md(scene.visualStory[key])}`);
