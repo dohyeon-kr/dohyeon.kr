@@ -16,10 +16,24 @@ In **Generate blog shorts** (`generate-shorts.yml`), select `template: notebook-
 CLI: `SHORTS_TEMPLATE=notebook-grid node shorts/scripts/generate-candidates.mjs URL 5`.
 Existing manifests can opt in with `"style": {"template": "notebook-grid", ...}`.
 Preview CLI also accepts `SHORTS_TEMPLATE=notebook-grid`.
-Generation and storyboard AI review receive the selected visual policy after the
-default visual rules; narrative accuracy and language policies continue to apply.
+Generation and storyboard AI review receive the selected template policy after the
+default rules. Notebook Grid’s essay pacing overrides informational density and
+argument-format defaults; source accuracy, respectful Korean and readability still apply.
 
 ## Notebook Grid
+
+A light essay template for everyday experiences, observations and thoughts.
+Start from a small moment in the source, follow the author's reaction or change
+of perspective, and close with a brief reflection that returns to the opening.
+An open question is welcome; do not force a five-step argument, universal lesson,
+comparison chart or action list. Preserve first-person experience and uncertainty
+without inventing memories, emotions or insights. Keep natural respectful Korean.
+The common CTA remains separate from the essay's ending.
+
+Use one short sentence or one photograph as the visual center, with generous
+empty space. The visible grid supports alignment and gentle divisions; it is not
+a requirement to fill every region. Photos convey the source's scene or mood.
+Use diagrams and comparisons only when they materially help understanding.
 
 - 1080×1920, full-bleed pale ivory graph paper. Fixed paper background, black
   Pretendard, muted orange rules and emphasis, 2px separators and small endpoint dots.
