@@ -10,7 +10,7 @@
     "angle": "experience",
     "hook": "회사에서 백엔드 개발자와 나란히 앉아 일하고 있습니다.",
     "title": "프론트엔드와 백엔드\n개발자 협업하기",
-    "rationale": "옆자리 백엔드 동료와 함께 정한 워크플로우 사례를 소개하는 에세이다. 본문 1~2장 소개 → 3~5장 SDK 변경·버전 선택 → 6~7장 Bruno 인증·요청 공유 → 8~10장 traceparent와 공동 문제 추적 → 11장 세 과정에서 나온 결정을 티켓·PR로 기록 → 12~13장 개인적 다짐으로 구성했다. 세 축은 변경을 확인하고 실제 요청을 보내며 문제가 생기면 앞뒤를 추적하는 협업 과정으로 연결된다. SDK 고정과 서버 호환성을 구분하고 원문 밖 성과를 만들지 않는다. 2장은 사용자가 최종 지정한 워크플로우를 정한 사례 소개로 전체 교체했으며 중복 소개는 제거했다. 본문 13장+공통 CTA 1장은 세 사례의 배경·변화·조건을 보존하기 위한 분량이다. 사진 3장은 맥락용 스톡 이미지다. viralScore는 실측이 아닌 편집 추정값이다.",
+    "rationale": "옆자리 백엔드 동료와 함께 정한 워크플로우 사례를 소개하는 에세이다. 본문 1~2장 소개 → 3~5장 SDK 변경·버전 선택 → 6~7장 Bruno 인증·요청 공유 → 8~10장 traceparent와 공동 문제 추적 → 11장 세 과정에서 나온 결정을 티켓·PR로 기록 → 12~13장 개인적 다짐으로 구성했다. 세 축은 변경을 확인하고 실제 요청을 보내며 문제가 생기면 앞뒤를 추적하는 협업 과정으로 연결된다. SDK 고정과 서버 호환성을 구분하고 원문 밖 성과를 만들지 않는다. 2장은 사용자가 최종 지정한 워크플로우를 정한 사례 소개로 전체 교체했으며 중복 소개는 제거했다. 본문 13장은 세 사례의 배경·변화·조건을 보존하기 위한 분량이다. 사진 3장은 맥락용 스톡 이미지다. viralScore는 실측이 아닌 편집 추정값이다. 시각 수정: 본문 우측 하단 상시 발표자를 복원했다. 도식 8장(3~6, 8~11), 사진 3장(1, 7, 13), 큰 타이포 2장(2, 12)으로 각 역할을 구분했다. 조사한 공식 문서는 도식 관계 검증에만 사용했고 저자의 경험이나 내레이션 사실을 추가하지 않았다.",
     "viralScore": 70,
     "suggestedCaption": "옆자리 백엔드 동료와 함께 정한 워크플로우 사례입니다.\nSDK 버전을 선택하고, Bruno로 요청을 공유하고, 연결된 트레이스로 문제를 살펴봅니다.\n함께 이야기해서 정한 내용은 기록으로 남깁니다.\n\n원문: https://blog.dohyeon.kr/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi/",
     "hashtags": [
@@ -179,7 +179,16 @@
       ],
       "beats": [
         {
-          "text": "이번에는 옆자리 백엔드 개발자와",
+          "text": "이번에는 옆자리",
+          "emphasis": "mid",
+          "pauseAfterMs": 0,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "백엔드 개발자와",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -197,7 +206,16 @@
           "visualCue": null
         },
         {
-          "text": "워크플로우를 정한 몇 가지 사례에 대해",
+          "text": "워크플로우를 정한",
+          "emphasis": "mid",
+          "pauseAfterMs": 0,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "몇 가지 사례에 대해",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -226,12 +244,93 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
+      "visualStory": {
+        "initial": "백엔드와 프론트엔드 저장소를 표시한다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "SDK 자동 동기화 연결이 나타난다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "업데이트를 받는 시점을 직접 선택하기 어려운 구조를 보여준다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "이전: 백엔드 변경이 SDK 동기화 커밋으로 프론트엔드 저장소에 들어온다.",
+        "nodes": [
+          {
+            "id": "sync",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "backend",
+              "target": "frontend",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "backend",
+            "shape": "rect",
+            "label": "백엔드",
+            "blob": null,
+            "x": 190,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "frontend",
+            "shape": "rect",
+            "label": "프론트엔드\n저장소",
+            "blob": null,
+            "x": 610,
+            "y": 280,
+            "width": 250,
+            "height": 170,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "label",
+            "shape": "text",
+            "label": "SDK 자동 동기화",
+            "blob": null,
+            "x": 400,
+            "y": 120,
+            "width": 500,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "sync",
+            "property": "opacity",
+            "start": 0.2,
+            "end": 0.4,
+            "from": 0,
+            "to": 1
+          }
+        ]
+      },
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
+        "type": "diagram",
         "motif": null,
         "query": null,
         "value": null,
@@ -241,13 +340,13 @@
       "visualIntent": {
         "concept": "첫째: SDK 업데이트 시점",
         "relation": {
-          "type": "literal",
-          "description": "함께 바꿔본 사례의 첫 축을 연다. API 호출 코드인 SDK가 자동 동기화되던 상황을 설명한다."
+          "type": "flow",
+          "description": "이전: 백엔드 변경이 SDK 동기화 커밋으로 프론트엔드 저장소에 들어온다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "도구의 역할이나 개인의 경험을 짧은 문구와 자막으로 전달하고 도식·장식을 추가하지 않는다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -261,7 +360,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline"
+        "show-visual",
+        "advance-visual"
       ],
       "beats": [
         {
@@ -328,7 +428,7 @@
           "visualCue": null
         }
       ],
-      "headline": "SDK 버전 선택",
+      "headline": "",
       "subline": null,
       "narration": "먼저 API를 코드에서 호출하는 SDK 이야기입니다. 예전에는 백엔드가 바뀌면 SDK도 프론트엔드 저장소에 바로 들어왔습니다. 편했지만, 업데이트 시점을 직접 고르기는 어려웠습니다.",
       "comparisonLeft": null,
@@ -339,12 +439,141 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "compare",
-      "layout": "compare-columns",
+      "visualStory": {
+        "initial": "백엔드·패키지·프론트엔드가 분리되어 있다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "발행 연결 뒤 설치 연결과 버전 선택 문구가 나타난다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "프론트엔드가 변경을 확인한 뒤 필요한 버전을 선택한다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "이후: SDK 패키지 발행과 필요한 버전 설치 시점을 분리한다.",
+        "nodes": [
+          {
+            "id": "publish",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "backend",
+              "target": "registry",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "install",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "registry",
+              "target": "frontend",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "backend",
+            "shape": "rect",
+            "label": "백엔드",
+            "blob": null,
+            "x": 150,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "registry",
+            "shape": "rect",
+            "label": "SDK\n패키지",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 200,
+            "height": 170,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "frontend",
+            "shape": "rect",
+            "label": "프론트엔드",
+            "blob": null,
+            "x": 650,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "choice",
+            "shape": "text",
+            "label": "확인 후 버전 선택",
+            "blob": null,
+            "x": 520,
+            "y": 450,
+            "width": 460,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "publish",
+            "property": "opacity",
+            "start": 0.12,
+            "end": 0.26,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "install",
+            "property": "opacity",
+            "start": 0.4,
+            "end": 0.55,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "choice",
+            "property": "opacity",
+            "start": 0.4,
+            "end": 0.55,
+            "from": 0,
+            "to": 1
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
+        "type": "diagram",
         "motif": null,
         "query": null,
         "value": null,
@@ -354,13 +583,13 @@
       "visualIntent": {
         "concept": "SDK 발행과 설치 시점 분리",
         "relation": {
-          "type": "comparison",
-          "description": "자동으로 들어오는 변경에서 앱을 위한 버전 선택으로 넘어간다. 백엔드의 발행과 프론트엔드의 설치를 분리한다."
+          "type": "flow",
+          "description": "이후: SDK 패키지 발행과 필요한 버전 설치 시점을 분리한다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "원문에 있는 두 작업 방식의 차이만 짧게 병렬 배치한다. 인과와 조건은 내레이션에 보존한다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -374,7 +603,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline"
+        "show-visual",
+        "advance-visual"
       ],
       "beats": [
         {
@@ -414,7 +644,16 @@
           "visualCue": null
         },
         {
-          "text": "프론트엔드가 변경 내용을 확인한 뒤",
+          "text": "프론트엔드가",
+          "emphasis": "mid",
+          "pauseAfterMs": 0,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "변경 내용을 확인한 뒤",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -435,20 +674,109 @@
       "headline": "",
       "subline": null,
       "narration": "앱을 관리하면서는 어떤 버전을 쓸지 직접 정할 필요가 생겼습니다. 그래서 SDK를 패키지로 배포하고, 프론트엔드가 변경 내용을 확인한 뒤 필요한 버전을 설치하게 했습니다.",
-      "comparisonLeft": "백엔드\nSDK 발행",
-      "comparisonRight": "프론트엔드\n버전 선택",
+      "comparisonLeft": null,
+      "comparisonRight": null,
       "imageQuery": null,
       "image": null
     },
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
+      "visualStory": {
+        "initial": "구버전 앱과 변경된 서버를 표시한다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "요청 연결과 호환성 조건을 나타낸다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "SDK 버전 선택과 서버 호환성을 구분한다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "SDK를 고정해도 구버전 앱이 변경된 서버에 보내는 요청의 호환성은 함께 확인한다.",
+        "nodes": [
+          {
+            "id": "compat",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "app",
+              "target": "server",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "app",
+            "shape": "rect",
+            "label": "구버전 앱",
+            "blob": null,
+            "x": 190,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "server",
+            "shape": "rect",
+            "label": "변경된 서버",
+            "blob": null,
+            "x": 610,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "condition",
+            "shape": "text",
+            "label": "호환성은 별도 확인",
+            "blob": null,
+            "x": 400,
+            "y": 450,
+            "width": 500,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "compat",
+            "property": "opacity",
+            "start": 0.16,
+            "end": 0.32,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "condition",
+            "property": "opacity",
+            "start": 0.36,
+            "end": 0.52,
+            "from": 0,
+            "to": 1
+          }
+        ]
+      },
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
+        "type": "diagram",
         "motif": null,
         "query": null,
         "value": null,
@@ -458,13 +786,13 @@
       "visualIntent": {
         "concept": "버전 고정의 범위와 남은 협업",
         "relation": {
-          "type": "literal",
-          "description": "SDK 선택이 서버 호환성을 보장한다는 오해를 막고 원문에서 확인된 변화까지만 말한다."
+          "type": "flow",
+          "description": "SDK를 고정해도 구버전 앱이 변경된 서버에 보내는 요청의 호환성은 함께 확인한다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "도구의 역할이나 개인의 경험을 짧은 문구와 자막으로 전달하고 도식·장식을 추가하지 않는다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -478,7 +806,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline"
+        "show-visual",
+        "advance-visual"
       ],
       "beats": [
         {
@@ -536,7 +865,7 @@
           "visualCue": null
         }
       ],
-      "headline": "서버 호환성은\n함께 챙깁니다",
+      "headline": "",
       "subline": null,
       "narration": "다만 SDK 버전을 고정해도 서버는 계속 바뀝니다. 구버전 앱과의 호환성은 여전히 함께 챙겨야 합니다. 지금은 어떤 변경이 들어왔는지 알아보기 쉬워진 점이 좋습니다.",
       "comparisonLeft": null,
@@ -547,12 +876,141 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "compare",
-      "layout": "compare-columns",
+      "visualStory": {
+        "initial": "인증·저장·후속 요청 세 단계를 표시한다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "인증에서 저장, 저장에서 후속 요청으로 순차 연결한다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "토큰을 매번 수동 복사하던 반복을 줄인 방법을 보여준다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "Bruno 인증 요청에서 받은 토큰을 저장하고 후속 API 요청에서 사용한다.",
+        "nodes": [
+          {
+            "id": "save",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "auth",
+              "target": "token",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "reuse",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "token",
+              "target": "api",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "auth",
+            "shape": "rect",
+            "label": "인증 요청",
+            "blob": null,
+            "x": 150,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "token",
+            "shape": "rect",
+            "label": "토큰 저장",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "api",
+            "shape": "rect",
+            "label": "후속 요청",
+            "blob": null,
+            "x": 650,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "reused",
+            "shape": "text",
+            "label": "복사 대신 재사용",
+            "blob": null,
+            "x": 400,
+            "y": 450,
+            "width": 450,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "save",
+            "property": "opacity",
+            "start": 0.12,
+            "end": 0.27,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "reuse",
+            "property": "opacity",
+            "start": 0.32,
+            "end": 0.47,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "reused",
+            "property": "opacity",
+            "start": 0.48,
+            "end": 0.6,
+            "from": 0,
+            "to": 1
+          }
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
+        "type": "diagram",
         "motif": null,
         "query": null,
         "value": null,
@@ -562,13 +1020,13 @@
       "visualIntent": {
         "concept": "둘째: Bruno로 요청 확인",
         "relation": {
-          "type": "comparison",
-          "description": "SDK 변경 확인에서 API 요청의 실제 동작 확인으로 연결한다. 도구 이름보다 줄어든 반복 작업을 설명한다."
+          "type": "flow",
+          "description": "Bruno 인증 요청에서 받은 토큰을 저장하고 후속 API 요청에서 사용한다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "원문에 있는 두 작업 방식의 차이만 짧게 병렬 배치한다. 인과와 조건은 내레이션에 보존한다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -582,7 +1040,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline"
+        "show-visual",
+        "advance-visual"
       ],
       "beats": [
         {
@@ -622,7 +1081,16 @@
           "visualCue": null
         },
         {
-          "text": "매번 로그인해서 토큰을 복사하던 일을,",
+          "text": "매번 로그인해서",
+          "emphasis": "mid",
+          "pauseAfterMs": 0,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "토큰을 복사하던 일을,",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -649,11 +1117,11 @@
           "visualCue": null
         }
       ],
-      "headline": "Bruno로 요청 확인",
+      "headline": "",
       "subline": null,
       "narration": "변경 내용을 확인했다면, 실제 요청도 보내봐야 합니다. 이때 쓰기 시작한 도구가 Bruno입니다. 매번 로그인해서 토큰을 복사하던 일을, 인증 요청으로 받아 저장하고 다음 요청에 쓰도록 바꿨습니다.",
-      "comparisonLeft": "매번\n토큰 복사",
-      "comparisonRight": "인증 요청\n저장·재사용",
+      "comparisonLeft": null,
+      "comparisonRight": null,
       "imageQuery": null,
       "image": null
     },
@@ -776,12 +1244,95 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
+      "visualStory": {
+        "initial": "두 영역은 있지만 연결은 비어 있다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "클라이언트 맥락과 서버 기록을 각각 표시한다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "다음 장면에서 이어야 할 두 영역을 남긴다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "서버 기록만 볼 때 클라이언트에서 요청 전 무슨 일이 있었는지 연결해 보기 어려웠다.",
+        "nodes": [
+          {
+            "id": "client",
+            "shape": "rect",
+            "label": "클라이언트",
+            "blob": null,
+            "x": 190,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "server",
+            "shape": "rect",
+            "label": "백엔드",
+            "blob": null,
+            "x": 610,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "left-note",
+            "shape": "text",
+            "label": "요청 전 맥락",
+            "blob": null,
+            "x": 190,
+            "y": 450,
+            "width": 290,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "right-note",
+            "shape": "text",
+            "label": "서버 기록",
+            "blob": null,
+            "x": 610,
+            "y": 450,
+            "width": 290,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "left-note",
+            "property": "opacity",
+            "start": 0.12,
+            "end": 0.26,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "right-note",
+            "property": "opacity",
+            "start": 0.32,
+            "end": 0.46,
+            "from": 0,
+            "to": 1
+          }
+        ]
+      },
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
+        "type": "diagram",
         "motif": null,
         "query": null,
         "value": null,
@@ -791,13 +1342,13 @@
       "visualIntent": {
         "concept": "셋째: 요청 앞뒤의 맥락",
         "relation": {
-          "type": "literal",
-          "description": "Bruno의 요청 공유에서 서버 기록만으로는 보이지 않는 클라이언트 맥락으로 질문을 확장한다."
+          "type": "flow",
+          "description": "서버 기록만 볼 때 클라이언트에서 요청 전 무슨 일이 있었는지 연결해 보기 어려웠다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "도구의 역할이나 개인의 경험을 짧은 문구와 자막으로 전달하고 도식·장식을 추가하지 않는다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -811,7 +1362,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline"
+        "show-visual",
+        "advance-visual"
       ],
       "beats": [
         {
@@ -860,7 +1412,7 @@
           "visualCue": null
         }
       ],
-      "headline": "요청의 앞뒤를\n함께 보기",
+      "headline": "",
       "subline": null,
       "narration": "같은 요청을 확인하는 건 문제를 찾을 때도 도움이 됩니다. 다만 서버의 기록만으로는 프론트엔드에서 어떤 과정을 거쳐 요청을 보냈는지 알기 어려웠습니다.",
       "comparisonLeft": null,
@@ -872,34 +1424,34 @@
       "presenter": null,
       "backgroundVideo": null,
       "visualStory": {
-        "initial": "클라이언트와 백엔드 두 영역이 보인다.",
-        "trigger": "프론트엔드가 요청에 추적 정보를 담는다.",
-        "change": "두 영역 사이 연결선이 전체 길이를 유지하며 나타나고 traceparent 라벨이 보인다.",
-        "invariant": "배경→연결선→객체→라벨 순서를 유지한다. 연결선은 두 박스 외곽에서 멈추고 라벨 보호영역을 침범하지 않는다. 자막은 도식 밖 하단에 둔다.",
-        "result": "요청의 앞뒤를 하나의 추적 흐름으로 함께 볼 수 있다."
+        "initial": "앞 장면의 두 영역을 같은 위치에 유지한다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "두 영역 사이 전체 연결선과 traceparent 이름이 나타난다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "요청의 앞뒤를 연결해 본다. 헤더 전체가 모든 구간에서 불변이라는 뜻은 아니다."
       },
       "diagramSpec": {
         "version": 1,
         "renderer": "remotion",
         "physics": null,
-        "description": "클라이언트 요청의 traceparent로 백엔드 추적을 연결한다.",
+        "description": "같은 배치에서 traceparent가 전달하는 추적 정보로 클라이언트와 백엔드 기록을 연결한다.",
         "nodes": [
           {
-            "id": "request",
+            "id": "trace",
             "shape": "line",
             "label": "",
+            "blob": null,
             "x": 400,
             "y": 280,
-            "width": 140,
+            "width": 80,
             "height": 2,
             "fill": "none",
-            "blob": null,
             "connector": {
               "source": "client",
               "target": "server",
               "sourceSide": "right",
               "targetSide": "left",
-              "gap": 16
+              "gap": 14
             },
             "strokeStyle": "solid"
           },
@@ -907,12 +1459,12 @@
             "id": "client",
             "shape": "rect",
             "label": "클라이언트",
-            "x": 195,
+            "blob": null,
+            "x": 190,
             "y": 280,
             "width": 250,
-            "height": 160,
+            "height": 150,
             "fill": "none",
-            "blob": null,
             "connector": null,
             "strokeStyle": "solid"
           },
@@ -920,12 +1472,12 @@
             "id": "server",
             "shape": "rect",
             "label": "백엔드",
-            "x": 605,
+            "blob": null,
+            "x": 610,
             "y": 280,
             "width": 250,
-            "height": 160,
+            "height": 150,
             "fill": "none",
-            "blob": null,
             "connector": null,
             "strokeStyle": "solid"
           },
@@ -933,19 +1485,19 @@
             "id": "header",
             "shape": "text",
             "label": "traceparent",
+            "blob": null,
             "x": 400,
             "y": 120,
-            "width": 340,
+            "width": 500,
             "height": 65,
             "fill": "none",
-            "blob": null,
             "connector": null,
             "strokeStyle": "solid"
           }
         ],
         "events": [
           {
-            "target": "request",
+            "target": "trace",
             "property": "opacity",
             "start": 0.2,
             "end": 0.38,
@@ -976,12 +1528,12 @@
         "concept": "traceparent로 추적 연결",
         "relation": {
           "type": "flow",
-          "description": "앞 장면의 맥락 단절을 요청의 추적 정보 전달로 연결한다. 헤더 이름은 기능 설명 뒤에 소개한다."
+          "description": "같은 배치에서 traceparent가 전달하는 추적 정보로 클라이언트와 백엔드 기록을 연결한다."
         },
         "strategy": {
           "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "클라이언트와 백엔드가 같은 요청의 추적 정보로 연결되는 관계만 보여준다. 실제 처리 시간이나 트래픽 수치는 만들지 않는다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -1056,12 +1608,138 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
+      "visualStory": {
+        "initial": "사용자 문의와 이전 장면의 추적 구조가 있다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "클라이언트→연결→백엔드 순서로 확인 대상을 나타낸다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "어느 구간인지 살펴보는 순서이며 백엔드가 실제 원인이라는 단정이나 가짜 오류 표시는 하지 않는다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "사용자 문의에 해당하는 같은 요청의 클라이언트와 백엔드 구간을 순서대로 살펴본다.",
+        "nodes": [
+          {
+            "id": "trace",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "client",
+              "target": "server",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "client",
+            "shape": "rect",
+            "label": "클라이언트",
+            "blob": null,
+            "x": 190,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "server",
+            "shape": "rect",
+            "label": "백엔드",
+            "blob": null,
+            "x": 610,
+            "y": 280,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "start",
+            "shape": "text",
+            "label": "사용자 문의",
+            "blob": null,
+            "x": 400,
+            "y": 100,
+            "width": 500,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "inspect",
+            "shape": "text",
+            "label": "같은 요청을 따라 확인",
+            "blob": null,
+            "x": 400,
+            "y": 450,
+            "width": 600,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "start",
+            "property": "opacity",
+            "start": 0,
+            "end": 0.15,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "client",
+            "property": "opacity",
+            "start": 0.12,
+            "end": 0.24,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "trace",
+            "property": "opacity",
+            "start": 0.24,
+            "end": 0.36,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "server",
+            "property": "opacity",
+            "start": 0.36,
+            "end": 0.48,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "inspect",
+            "property": "opacity",
+            "start": 0.5,
+            "end": 0.62,
+            "from": 0,
+            "to": 1
+          }
+        ]
+      },
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
+        "type": "diagram",
         "motif": null,
         "query": null,
         "value": null,
@@ -1071,13 +1749,13 @@
       "visualIntent": {
         "concept": "같은 요청을 따라 원인 확인",
         "relation": {
-          "type": "literal",
-          "description": "연결된 추적이 사용자 문의 대응에서 어떻게 도움이 됐는지 원문 경험으로 마무리한다."
+          "type": "flow",
+          "description": "사용자 문의에 해당하는 같은 요청의 클라이언트와 백엔드 구간을 순서대로 살펴본다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "도구의 역할이나 개인의 경험을 짧은 문구와 자막으로 전달하고 도식·장식을 추가하지 않는다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -1091,7 +1769,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline"
+        "show-visual",
+        "advance-visual"
       ],
       "beats": [
         {
@@ -1158,7 +1837,7 @@
           "visualCue": null
         }
       ],
-      "headline": "같은 요청을\n따라갑니다",
+      "headline": "",
       "subline": null,
       "narration": "이렇게 하니 사용자 문의를 볼 때도 같은 요청을 따라가며 문제가 생긴 구간을 함께 살펴볼 수 있었습니다. 로그를 따로 열고 비슷한 시간대를 맞춰보던 수고도 줄었습니다.",
       "comparisonLeft": null,
@@ -1169,12 +1848,141 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
+      "visualStory": {
+        "initial": "대화·티켓·PR을 표시한다.",
+        "trigger": "내레이션이 전달 또는 확인할 관계를 설명한다.",
+        "change": "기록과 변경으로 이어지는 연결 뒤 확인할 맥락을 보여준다.",
+        "invariant": "연결선→객체→라벨 순서. 선은 노드 외곽에서 멈추며 전체 길이의 opacity로만 등장한다. 고정 라벨은 겹치지 않고 마지막 상태를 유지한다. 도식과 하단 자막·우측 하단 발표자를 분리한다.",
+        "result": "사람의 기억에만 의존하지 않고 함께 볼 수 있는 기록을 남긴다. 강제 업무 순서나 자동 연동을 주장하지 않는다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "remotion",
+        "physics": null,
+        "description": "대화에서 정한 변경을 티켓과 PR에 남겨 요청 맥락과 변경 상태를 확인한다.",
+        "nodes": [
+          {
+            "id": "ticket",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "talk",
+              "target": "record",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "pr",
+            "shape": "line",
+            "label": "",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "record",
+              "target": "change",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "talk",
+            "shape": "rect",
+            "label": "대화",
+            "blob": null,
+            "x": 150,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "record",
+            "shape": "rect",
+            "label": "티켓",
+            "blob": null,
+            "x": 400,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "change",
+            "shape": "rect",
+            "label": "PR",
+            "blob": null,
+            "x": 650,
+            "y": 280,
+            "width": 200,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "context",
+            "shape": "text",
+            "label": "이유·진행 상태·변경",
+            "blob": null,
+            "x": 400,
+            "y": 450,
+            "width": 600,
+            "height": 65,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          }
+        ],
+        "events": [
+          {
+            "target": "ticket",
+            "property": "opacity",
+            "start": 0.12,
+            "end": 0.28,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "pr",
+            "property": "opacity",
+            "start": 0.32,
+            "end": 0.48,
+            "from": 0,
+            "to": 1
+          },
+          {
+            "target": "context",
+            "property": "opacity",
+            "start": 0.48,
+            "end": 0.62,
+            "from": 0,
+            "to": 1
+          }
+        ]
+      },
       "kind": "statement",
-      "layout": "statement-offset",
+      "layout": "diagram-centered",
       "visual": {
-        "type": "none",
+        "type": "diagram",
         "motif": null,
         "query": null,
         "value": null,
@@ -1184,13 +1992,13 @@
       "visualIntent": {
         "concept": "세 사례 뒤에 결정을 남기는 습관",
         "relation": {
-          "type": "literal",
-          "description": "변경 확인·실행·추적 중 나온 수정 사항을 티켓·PR에 기록한다. 별개의 기억력 문제로 전환하지 않는다."
+          "type": "flow",
+          "description": "대화에서 정한 변경을 티켓과 PR에 남겨 요청 맥락과 변경 상태를 확인한다."
         },
         "strategy": {
-          "type": "minimal",
+          "type": "spatial-diagram",
           "metaphor": null,
-          "rationale": "도구의 역할이나 개인의 경험을 짧은 문구와 자막으로 전달하고 도식·장식을 추가하지 않는다."
+          "rationale": "대상과 전달·확인 관계를 직접 그려 대본의 워크플로우를 설명한다. 장식용 아이콘이나 가짜 UI·수치 없이 원문에 있는 관계만 표시한다."
         }
       },
       "transition": "fade",
@@ -1204,7 +2012,8 @@
         "endProgress": 1
       },
       "choreography": [
-        "show-headline"
+        "show-visual",
+        "advance-visual"
       ],
       "beats": [
         {
@@ -1280,7 +2089,7 @@
           "visualCue": null
         }
       ],
-      "headline": "함께 정한 것은\n기록으로",
+      "headline": "",
       "subline": null,
       "narration": "이렇게 변경 내용을 확인하고, 요청을 보내보고, 문제를 함께 찾다 보면 바꿔야 할 부분이 나옵니다. 그때 이야기해서 정한 내용은 티켓이나 PR에 남기고 있습니다. 요청한 이유와 진행 상태를 서로 확인할 수 있도록 말입니다.",
       "comparisonLeft": null,
@@ -1357,7 +2166,16 @@
           "visualCue": null
         },
         {
-          "text": "다만 문서에 있는 건 먼저 읽고,",
+          "text": "다만 문서에 있는 건",
+          "emphasis": "mid",
+          "pauseAfterMs": 0,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "먼저 읽고,",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -1366,7 +2184,16 @@
           "visualCue": null
         },
         {
-          "text": "함께 정한 건 잘 남겨야겠습니다.",
+          "text": "함께 정한 건",
+          "emphasis": "mid",
+          "pauseAfterMs": 0,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "잘 남겨야겠습니다.",
           "emphasis": "mid",
           "pauseAfterMs": 180,
           "delivery": "normal",
@@ -1375,7 +2202,7 @@
           "visualCue": null
         }
       ],
-      "headline": "계속 물어보겠지만",
+      "headline": "계속\n물어보겠지만",
       "subline": null,
       "narration": "앞으로도 궁금한 게 생기면 옆자리 동료에게 물어볼 것 같습니다. 다만 문서에 있는 건 먼저 읽고, 함께 정한 건 잘 남겨야겠습니다.",
       "comparisonLeft": null,
@@ -1425,7 +2252,16 @@
       ],
       "beats": [
         {
-          "text": "편하게 물어볼 수 있다는 이유로,",
+          "text": "편하게 물어볼 수",
+          "emphasis": "mid",
+          "pauseAfterMs": 0,
+          "delivery": "normal",
+          "visualPriority": "mid",
+          "keyword": null,
+          "visualCue": null
+        },
+        {
+          "text": "있다는 이유로,",
           "emphasis": "mid",
           "pauseAfterMs": 80,
           "delivery": "normal",
@@ -1471,68 +2307,12 @@
         "originalUrl": "https://images.pexels.com/photos/7260632/pexels-photo-7260632.jpeg?auto=compress&dpr=1&h=750&w=1260",
         "thumbnailUrl": "https://images.pexels.com/photos/7260632/pexels-photo-7260632.jpeg?auto=compress&dpr=1&h=750&w=1260"
       }
-    },
-    {
-      "commonPage": "blog-cta-v1",
-      "kind": "outro",
-      "layout": "outro-minimal",
-      "transition": "blur-dissolve",
-      "transitionOptions": {
-        "durationMs": 600,
-        "intensity": 0.5
-      },
-      "headline": "더 자세한 이야기는\n블로그에서",
-      "subline": "프로필 링크에서 읽기",
-      "narration": "더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.",
-      "beats": [
-        {
-          "text": "더 자세한 이야기는",
-          "emphasis": "mid",
-          "delivery": "normal",
-          "pauseAfterMs": 160,
-          "visualPriority": "high",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "블로그에 정리했습니다.",
-          "emphasis": "mid",
-          "delivery": "normal",
-          "pauseAfterMs": 160,
-          "visualPriority": "high",
-          "keyword": null,
-          "visualCue": null
-        },
-        {
-          "text": "프로필 링크에서 읽어보세요.",
-          "emphasis": "mid",
-          "delivery": "normal",
-          "pauseAfterMs": 160,
-          "visualPriority": "high",
-          "keyword": null,
-          "visualCue": null
-        }
-      ],
-      "visual": {
-        "type": "none",
-        "motif": null,
-        "query": null,
-        "value": null,
-        "xLabel": null,
-        "yLabel": null
-      },
-      "camera": {
-        "motion": "static",
-        "target": "center",
-        "intensity": "subtle",
-        "startProgress": 0,
-        "endProgress": 1
-      },
-      "choreography": [],
-      "imageQuery": null,
-      "image": null,
-      "comparisonLeft": null,
-      "comparisonRight": null
     }
-  ]
+  ],
+  "presenterOverlay": {
+    "position": "bottom-right",
+    "hideOnCommonCta": true,
+    "lipSync": "word-timestamps",
+    "nod": "speech"
+  }
 }
