@@ -77,8 +77,13 @@ Do not bake frames, tape, captions or generated lettering into the source image.
 `PrintedPhoto.tsx` composes three independent layers:
 
 1. White print backing: 18px at top/left/right and 40px at bottom, very faint contact shadow.
-2. Original image: `object-fit: contain`, preserving faces, writing and the entire
-   image. Extra white space is allowed when the original aspect ratio differs.
+2. Original photograph: `object-fit: cover`, filling a portrait 3:4 frame.
+   Choose the source so the important subject survives the center crop. Use a
+   750×1000px region without a heading, 540×720px with a heading, and
+   427.5×570px when a subline needs space. Region top is y=320 without a
+   heading or y=600 with one, before the shared 100px offset. For diagrams
+   supplied as images, set `visual.type=diagram`; those use `contain` so labels
+   and relationships remain intact. Do not apply photographic cropping to text.
 3. One matte ivory PNG tape sticker at the top center: 220px asset width, -4°,
    opacity .62. About half the visible tape overlaps the print edge, the rest
    touches the notebook. Keep it within the white border, away from the subject.
@@ -130,7 +135,7 @@ The effect is reproducible when rendering frames out of order and works on both
 geometry backends. Keep subtitles and the bottom-right presenter unobstructed.
 Reference: [SVG displacement](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feDisplacementMap).
 
-Large notebook headings (fitted size at least 100px) share the diagram's 100ms
-scribble filter. Only the glyph edges shift slightly; font metrics, line breaks
-and placement stay unchanged. Captions, small headings, diagram labels and the
+All non-empty notebook headlines, regardless of fitted size, share the diagram's
+100ms scribble filter. Only the glyph edges shift slightly; font metrics, line breaks
+and placement stay unchanged. Captions, sublines, diagram labels and the
 common CTA remain unfiltered. The existing bottom-right presenter stays visible.
