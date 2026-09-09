@@ -8,6 +8,9 @@ on:
         type: boolean
         default: false
 
+env:
+  SHORTS_IMAGE_GENERATION: disabled
+
 permissions:
   contents: write
 

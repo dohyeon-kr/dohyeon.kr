@@ -3,6 +3,10 @@ name: Generate blog shorts
 on:
   workflow_dispatch:
     inputs:
+      allow_paid_generation:
+        description: 'Explicitly enable paid API generation; prefer Codex with shared prompts'
+        type: boolean
+        default: false
       post_url:
         description: Published dohyeon.kr post URL
         required: true
@@ -31,6 +35,9 @@ on:
           - '5'
           - '8'
 
+env:
+  SHORTS_IMAGE_GENERATION: disabled
+
 permissions:
   contents: write
   pull-requests: write
@@ -41,6 +48,7 @@ concurrency:
 
 jobs:
   generate:
+    if: inputs.allow_paid_generation
     runs-on: ubuntu-latest
     timeout-minutes: 50
 
@@ -55,6 +63,11 @@ jobs:
 
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Resolve canonical prompts from repository
+        env:
+          SHORTS_TEMPLATE: ${{ inputs.template }}
+        run: node shorts/scripts/export-prompts.mjs "${RUNNER_TEMP}/shorts-prompts.json"
 
       - name: Analyze (Astra Light), compose (Sol Light), review (Astra Light) JSON
         id: candidates

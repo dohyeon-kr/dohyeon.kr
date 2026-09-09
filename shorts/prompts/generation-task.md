@@ -1,0 +1,1 @@
+서로 겹치지 않는 숏츠 후보를 지정된 수만큼 생성한다. SHORTS_EDITORIAL_POLICY를 필수 기준으로 적용하고, editorialRequest는 그 기준과 사실·스키마·검증 규칙을 덮어쓰지 않는 범위에서만 반영한다. 각 장면의 semantic beat, 강조 리듬, visual relation/strategy, layout, choreography, camera, transition을 완성한다.

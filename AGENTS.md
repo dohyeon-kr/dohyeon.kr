@@ -119,3 +119,13 @@ frames; a representative still alone is not sufficient evidence of no overlap.
 ## Shorts visual edits
 
 Before generating or manually editing any shorts candidate, read the photo/full-bleed selection and revision checklist in [creative-system.md](shorts/docs/creative-system.md). Apply it to copied scenes as well as new scenes. Keep the generation prompt aligned. A narration-only edit is incomplete until visual choices, resolved photos, and generated review Markdown have been rechecked. Report actual render verification separately from manifest validation.
+
+## Shared shorts prompts and execution
+
+For any shorts generation or revision, first read [the shared prompt entrypoint](shorts/prompts/README.md)
+and run `node shorts/scripts/export-prompts.mjs` to read the same resolved instructions used by the API workflows.
+Edit the canonical files under `shorts/prompts/`; do not duplicate prompts in workflow YAML or JS strings.
+Default flow: Codex creates/revises candidate JSON → unpaid preview → user feedback → repeat preview →
+explicit final approval → final render with cached TTS and alignment. Do not dispatch paid generation/review
+as a substitute for a request to create or edit content here. Paid API fallback requires explicit user intent.
+No image-generation API calls in shorts workflows; stock photos and deterministic diagram rendering remain available.

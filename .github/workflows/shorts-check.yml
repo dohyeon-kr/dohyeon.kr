@@ -17,6 +17,9 @@ on:
         type: string
         required: false
 
+env:
+  SHORTS_IMAGE_GENERATION: disabled
+
 permissions:
   contents: read
 

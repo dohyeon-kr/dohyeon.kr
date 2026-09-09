@@ -13,6 +13,9 @@ on:
         default: false
         type: boolean
 
+env:
+  SHORTS_IMAGE_GENERATION: disabled
+
 permissions:
   contents: write
 
@@ -75,8 +78,44 @@ jobs:
           cat "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
 
+      - name: Restore completed speech and alignment
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: shorts/.cache/audio
+          key: shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-
+
+      - name: Prepare missing TTS and alignment before video render
+        id: audio
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
+          SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
+          SHORTS_TTS_RATE: 1.5
+          MANIFEST: ${{ inputs.manifest }}
+        run: node shorts/scripts/render.mjs "$MANIFEST" --prepare-audio
+
+      - name: Save completed audio even if preparation failed
+        if: ${{ always() && steps.audio.outcome != 'skipped' && steps.audio.outcome != '' }}
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: shorts/.cache/audio
+          key: shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Preserve audio recovery artifact
+        if: ${{ always() && steps.audio.outcome != 'skipped' && steps.audio.outcome != '' }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+        with:
+          name: shorts-audio-${{ github.run_id }}-${{ github.run_attempt }}
+          path: shorts/.cache/audio/*
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Render changed candidates
         env:
+          SHORTS_AUDIO_CACHE_ONLY: 'true'
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}

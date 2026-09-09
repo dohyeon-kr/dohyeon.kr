@@ -1,8 +1,10 @@
 import {getTemplate} from '../src/templates/registry.ts';
+import {cachedSpeech} from './audio-cache.mjs';
+import {renderPrompt} from './shorts-prompts.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import OpenAI from 'openai';
+import OpenAI from './shorts-openai.mjs';
 import {mixBgm} from './bgm.mjs';
 import {templatePreviewProps, previewSceneFrames} from '../src/template-preview.ts';
 
@@ -24,12 +26,12 @@ for (const [i, scene] of props.scenes.entries()) {
   let cursor = 0;
   for (const [j, beat] of scene.beats.entries()) {
     const file = path.join(audioDir, `${i}-${j}.mp3`);
-    const response = await client.audio.speech.create({
+    const response = await cachedSpeech({client, request: {
       model: process.env.SHORTS_TTS_MODEL || 'gpt-4o-mini-tts', voice: process.env.SHORTS_TTS_VOICE || 'alloy',
       input: beat.text, response_format: 'mp3',
-      instructions: '한국어로 차분하고 또렷하게 읽는다. 한 편의 짧은 설명 영상처럼 일정한 목소리와 자연스러운 속도를 유지한다.',
-    });
-    await fs.writeFile(file, Buffer.from(await response.arrayBuffer()));
+      instructions: renderPrompt('template-tts'),
+    }});
+    await fs.writeFile(file, response);
     const wav = path.join(audioDir, `${i}-${j}.wav`);
     run('ffmpeg', ['-y', '-v', 'error', '-i', file, '-af', `apad=pad_dur=${beat.pauseAfterMs / 1000}`, '-ar', '48000', '-ac', '1', wav]);
     // Measure decoded PCM, not MP3 container duration (encoder padding differs).

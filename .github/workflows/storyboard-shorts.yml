@@ -7,10 +7,19 @@ on:
         description: Generate storyboard preview and draft release
         type: boolean
         default: false
+      preview_scale:
+        description: 'Preview scale: 0.5 = 540x960, 0.25 = 270x480, 1 = 1080x1920'
+        type: choice
+        default: '0.5'
+        options: ['0.5', '0.25', '1']
       manifest:
         description: Candidate JSON path under shorts/content/
         required: true
         type: string
+
+env:
+  SHORTS_IMAGE_GENERATION: disabled
+  SHORTS_PREVIEW_SCALE: ${{ inputs.preview_scale }}
 
 permissions:
   contents: write

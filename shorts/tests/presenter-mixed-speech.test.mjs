@@ -30,7 +30,7 @@ test('SDK가 succeeds once; unsupported script fails once; diagnostics retain pr
    let calls=0;
    const raw=[{word:token,start:0,end:1}];
    const client={audio:{transcriptions:{create:async request=>{request.file.destroy();calls++;assert.equal(request.prompt,token);return {text:token,words:raw};}}}};
-   const run=()=>alignPresenter({client,audioFile,reportFile,duration:1,narration:token,options,scene:{}});
+   const run=()=>alignPresenter({client,audioFile,reportFile,cacheDir:path.join(dir,'cache'),duration:1,narration:token,options,scene:{}});
    if(token==='SDK가') await run(); else await assert.rejects(run,/Unsupported speech text/);
    const report=JSON.parse(await fs.readFile(reportFile));
    assert.equal(calls,1);assert.equal(report.version,3);assert.equal(report.attempts.length,1);
