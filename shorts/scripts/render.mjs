@@ -326,6 +326,7 @@ const main = async () => {
   }
 
   const manifest = withBlogCta(JSON.parse(await fs.readFile(manifestPath, 'utf8')));
+  if (manifest.scenes.some(s => s.uiMotion) && resolveTemplate(manifest).id !== 'notebook-grid') throw new Error('uiMotion requires notebook-grid');
   resolveTemplate(manifest);
   validatePresenterOverlay(manifest);
   for (const [index, scene] of manifest.scenes.entries()) {
@@ -459,7 +460,7 @@ const main = async () => {
         const stem = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}`;
         const filename = `${stem}.png`;
         // Keep the familiar contact-sheet result, plus ordered state frames for motion review.
-        const samples = (scene.diagramSpec || scene.backgroundVideo || scene.presenter != null) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
+        const samples = (scene.uiMotion || scene.diagramSpec || scene.backgroundVideo || scene.presenter != null) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
         const images = [];
         for (const [phase, progress] of samples) {
           const target = phase === 'result' ? filename : `${stem}-${phase}.png`;
@@ -538,3 +539,4 @@ const main = async () => {
 };
 
 await main();
+

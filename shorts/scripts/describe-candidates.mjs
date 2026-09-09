@@ -115,6 +115,12 @@ export function describeCandidate(manifest, filename) {
         `- 풀블리드 크롭: ${v.cropX}, ${v.cropY} · 오버레이 ${v.overlayOpacity} · 원음 제거`,
         '- 영상 상태: 등록 소스 선택됨. 파일 검증·실제 렌더 결과는 별도 확인.');
     }
+    if (scene.uiMotion) {
+      const u = scene.uiMotion;
+      out.push(`- SVG 애셋: ${u.nodes.map(n => md(n.asset)).join(', ')} · 스크리블 ${u.scribble === false ? '끔' : '기본 적용'}`);
+      out.push(...u.events.map(e => `- UI 동작 ${e.start}~${e.end}: ${md(e.target)} / ${md(e.property)} ${e.from} → ${e.to}`));
+      out.push(...(u.states ?? []).map(s => `- UI 상태 ${s.at}: ${md(s.target)} → ${md(s.asset)}`));
+    }
     const spec = scene.diagramSpec;
     if (spec?.nodes?.length) out.push(`- 도식 구성: ${spec.nodes.map(n => `${label(n.shape)}${n.label ? ` ‘${md(n.label)}’` : ''}`).join(', ')}`);
     out.push('', '**연출 흐름**', '');
@@ -190,3 +196,4 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, `## 후보 스토리보드\n\n${count}개 후보의 대본·화면 구성·도식·자막 리듬을 문서로 생성했습니다. 리뷰 PR이 생성된 뒤 [후보 목록](${base}/${relative}/README.md)을 열어 확인하세요.\n`);
   }
 }
+
