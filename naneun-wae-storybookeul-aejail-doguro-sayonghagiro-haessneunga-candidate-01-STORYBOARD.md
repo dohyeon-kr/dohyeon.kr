@@ -1,0 +1,506 @@
+# 완성하고 보여주니까, 완성하고 고치게 됐다
+
+**템플릿:** Notebook Grid · 가벼운 에세이 (notebook-grid)
+
+원본: [candidate-01.json](https://github.com/dohyeon-kr/dohyeon.kr/blob/16b0255d7379d91f930950c3e05ff7d114abf6ac/shorts/content/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/candidate-01.json)
+
+JSON에서 자동 생성한 검토용 스토리보드입니다. 수정은 원본 JSON에 반영한 뒤 다시 생성하세요. 연출 설명은 기획 의도이며, 실제 배치·동작은 렌더된 스냅샷과 영상으로 확인합니다. 음성 생성 전이므로 재생 시간은 확정하지 않습니다.
+
+**첫 문장:** 화면을 다 만들고 보여주면 수정 의견이 나왔습니다. 그런데 동료가 실제로 눌러볼 수 있는 화면을 본 것도 그때가 처음이었습니다.
+
+**기획 의도:** 사용자 승인 제목으로 한 편에 통합했다. 완성 후 공유로 수정이 늦어진 경험에서 출발해, 시작 조건·사용자 행동·API 응답을 함께 확인하는 방법을 사례로 쌓고 구현 중간의 공유로 회수한다. 본문 12장면과 공통 CTA 1장면이며 시리즈로 분할하지 않는다.
+
+**원문:** [나는 왜 Storybook을 애자일 도구로 사용하기로 했는가](<https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/>)
+
+## 1. 도입 — 완성하고 보여주니까, 완성하고 고치게 됐다
+
+![장면 1](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-01.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-01.png)
+
+**내레이션**
+
+화면을 다 만들고 보여주면 수정 의견이 나왔습니다. 그런데 동료가 실제로 눌러볼 수 있는 화면을 본 것도 그때가 처음이었습니다.
+
+**화면 구성**
+
+- 주 문구: 완성하고 보여주니까, 완성하고 고치게 됐다
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 완성 후 수정 의견이 나오는 경험으로 공유 시점의 문제를 연다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 화면을 다 만들고 보여주면
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 수정 의견이 나왔습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 그런데 동료가 실제로 눌러볼 수 있는 화면을 본 것도
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 그때가 처음이었습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 2. 핵심 메시지 — 같이 보는 화면은 아직 없었습니다
+
+![장면 2](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-02.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-02.png)
+
+**내레이션**
+
+디자인은 피그마에, 구현한 화면은 개발자의 로컬에 있었습니다. API가 준비되지 않으면 화면을 제대로 보여주기도 어려웠습니다.
+
+**화면 구성**
+
+- 주 문구: 같이 보는 화면은 아직 없었습니다
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 왜 동료가 구현 중간에 결과물을 보기 어려웠는지 설명한다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 디자인은 피그마에,
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 구현한 화면은 개발자의 로컬에 있었습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. API가 준비되지 않으면
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 화면을 제대로 보여주기도 어려웠습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 3. 사진 — 
+
+![장면 3](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-03.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-03.png)
+
+**내레이션**
+
+의견이 달라졌을 때는 이미 만든 코드를 다시 고쳐야 했습니다. 그래서 스토리북에 미완성 화면을 공유하고, 직접 눌러보도록 했습니다.
+
+**화면 구성**
+
+- 주 문구: 
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 뒤늦은 재작업에서 구현 중간의 공유로 확인 시점을 옮긴다.
+- 표현 방식: 사진
+- 표현 이유: 설명한 관계를 새 도식 전체로 정리한다. 같은 이미지를 다른 장면에 반복하지 않는다. 라벨과 자막은 분리한다.
+- 삽입 이미지: [피드백을 시작하는 시점](<https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/feedback-timing.png>)
+- 도식 근거: [원문](<https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/>) · 주도현 · Codex 도식 제작 · 전체 라벨 보존 (contain)
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 의견이 달라졌을 때는
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+2. 이미 만든 코드를 다시 고쳐야 했습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+3. 그래서 스토리북에 미완성 화면을 공유하고,
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+4. 직접 눌러보도록 했습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+
+## 4. 핵심 메시지 — 스토리 22개, 이어지지 않는 화면
+
+![장면 4](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-04.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-04.png)
+
+**내레이션**
+
+처음에는 출석과 응모가 있는 메인 화면을 스토리 22개로 나눠두었습니다. 하지만 버튼을 눌러도 다음 상태로 이어지지 않아 사용 흐름을 머릿속으로 붙여야 했습니다.
+
+**화면 구성**
+
+- 주 문구: 스토리 22개, 이어지지 않는 화면
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 공유만 해서는 부족했던 이유를 정적 스토리 사례로 구체화한다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 처음에는 출석과 응모가 있는 메인 화면을
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 스토리 22개로 나눠두었습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 하지만 버튼을 눌러도 다음 상태로 이어지지 않아
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 사용 흐름을 머릿속으로 붙여야 했습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 5. 핵심 메시지 — 보상일에 공지가 길어진다면?
+
+![장면 5](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-05.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-05.png)
+
+**내레이션**
+
+그래서 화면의 시작 조건을 컨트롤에서 고르게 했습니다. 보상일에 긴 공지가 있는 경우도 조건을 조합하면 바로 볼 수 있습니다.
+
+**화면 구성**
+
+- 주 문구: 보상일에 공지가 길어진다면?
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 정적 화면을 나열하던 문제를 조건 조합으로 해결한다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 그래서 화면의 시작 조건을
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 컨트롤에서 고르게 했습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 보상일에 긴 공지가 있는 경우도
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 조건을 조합하면 바로 볼 수 있습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 6. 핵심 메시지 — 조건은 고르고 행동은 직접
+
+![장면 6](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-06.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-06.png)
+
+**내레이션**
+
+출석이나 팝업 열기는 실제 버튼을 눌러 도달하게 했습니다. 22개 스토리는 시나리오 중심의 3개로 정리됐고, 이제 상태가 바뀌는 과정도 확인합니다.
+
+**화면 구성**
+
+- 주 문구: 조건은 고르고 행동은 직접
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 시작 조건을 선택한 다음 실제 동작과 상태 전이를 확인한다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 출석이나 팝업 열기는
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 실제 버튼을 눌러 도달하게 했습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 22개 스토리는 시나리오 중심의 3개로 정리됐고,
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 이제 상태가 바뀌는 과정도 확인합니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 7. 핵심 메시지 — 응답이 비면 화면은 어떻게 될까?
+
+![장면 7](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-07.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-07.png)
+
+**내레이션**
+
+그런데 API 응답이 비거나 오류가 나는 경우는 매번 테스트용 응답 코드를 고쳐야 했습니다. 프론트엔드에 익숙하지 않은 동료는 직접 시험하기도 어려웠습니다.
+
+**화면 구성**
+
+- 주 문구: 응답이 비면 화면은 어떻게 될까?
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 사용자 행동 외에 서버 응답도 함께 바꿔볼 필요가 생긴다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 그런데 API 응답이 비거나 오류가 나는 경우는
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 매번 테스트용 응답 코드를 고쳐야 했습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 프론트엔드에 익숙하지 않은 동료는
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 직접 시험하기도 어려웠습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 8. 핵심 메시지 — 빈 배열을 넣고 빈 화면을 확인
+
+![장면 8](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-08.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-08.png)
+
+**내레이션**
+
+스토리북에 테스트용 API 응답을 바꾸는 MSW 패널을 붙였습니다. 배너 응답을 빈 배열로 바꾸면 배너가 사라지고, 오류 상태 코드로 바꾸면 실패 화면을 확인합니다.
+
+**화면 구성**
+
+- 주 문구: 빈 배열을 넣고 빈 화면을 확인
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 동료가 코드를 수정하지 않고 응답 조건을 시험하는 방법을 제시한다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 스토리북에 테스트용 API 응답을 바꾸는
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. MSW 패널을 붙였습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 배너 응답을 빈 배열로 바꾸면 배너가 사라지고,
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 오류 상태 코드로 바꾸면 실패 화면을 확인합니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 9. 사진 — 
+
+![장면 9](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-09.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-09.png)
+
+**내레이션**
+
+시작 조건은 컨트롤에서 고르고, 사용자 행동은 화면에서 직접 해봅니다. 서버 응답은 패널에서 바꿉니다. 같은 화면을 여러 조건에서 확인하는 겁니다.
+
+**화면 구성**
+
+- 주 문구: 
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 앞서 설명한 조건·행동·응답의 역할을 세 가지 입력 도식으로 정리한다.
+- 표현 방식: 사진
+- 표현 이유: 설명한 관계를 새 도식 전체로 정리한다. 같은 이미지를 다른 장면에 반복하지 않는다. 라벨과 자막은 분리한다.
+- 삽입 이미지: [화면을 만드는 세 가지 입력](<https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/three-inputs.png>)
+- 도식 근거: [원문](<https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/>) · 주도현 · Codex 도식 제작 · 전체 라벨 보존 (contain)
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 시작 조건은 컨트롤에서 고르고,
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+2. 사용자 행동은 화면에서 직접 해봅니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+3. 서버 응답은 패널에서 바꿉니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+4. 같은 화면을 여러 조건에서 확인하는 겁니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+
+## 10. 핵심 메시지 — API 수정 전에 화면부터 함께
+
+![장면 10](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-10.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-10.png)
+
+**내레이션**
+
+백엔드 개발자도 실제 API를 수정하기 전에 예상 응답을 넣어볼 수 있습니다. 빈 상태나 예외 처리를 어떻게 할지 결과물을 보면서 함께 논의합니다.
+
+**화면 구성**
+
+- 주 문구: API 수정 전에 화면부터 함께
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 조작 가능한 화면이 실제 협업의 판단 시점을 앞당기는 사례로 이어진다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 백엔드 개발자도 실제 API를 수정하기 전에
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 예상 응답을 넣어볼 수 있습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 빈 상태나 예외 처리를 어떻게 할지
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. 결과물을 보면서 함께 논의합니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+
+## 11. 사진 — 
+
+![장면 11](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-11.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-11.png)
+
+**내레이션**
+
+물론 실제 API 연결과 화면 사이의 이동은 개발 환경의 앱에서 따로 확인합니다. 보안과 데이터 정합성은 테스트와 CI가 맡습니다. 스토리북에서는 작은 범위의 결정을 먼저 내립니다.
+
+**화면 구성**
+
+- 주 문구: 
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 검토 환경의 범위를 밝혀 실제 앱 전체를 대체한다는 오해를 막는다.
+- 표현 방식: 사진
+- 표현 이유: 설명한 관계를 새 도식 전체로 정리한다. 같은 이미지를 다른 장면에 반복하지 않는다. 라벨과 자막은 분리한다.
+- 삽입 이미지: [어디에서 무엇을 확인할까](<https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/b4449010a06f3d34d33f5c179afad473a31dc3e3/shorts/public/articles/storybook-agile/validation-scopes.png>)
+- 도식 근거: [원문](<https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/>) · 주도현 · Codex 도식 제작 · 전체 라벨 보존 (contain)
+
+**연출 흐름**
+
+1. 시각 요소 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 물론 실제 API 연결과 화면 사이의 이동은
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+2. 개발 환경의 앱에서 따로 확인합니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+3. 보안과 데이터 정합성은 테스트와 CI가 맡습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+4. 스토리북에서는 작은 범위의 결정을 먼저 내립니다.
+   - 강조 중 · 자연스럽게 · 뒤에 180ms 쉼
+   - 연출 의도: 도식 전체의 라벨을 보존하며 앞선 설명을 정리한다.
+
+## 12. 마무리 — 아직 고치기 쉬울 때 함께 눌러봅니다
+
+![장면 12](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-12.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/bedda3aeb5c7dcce61770f29014dd866b284aa49/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga-candidate-01-scene-12.png)
+
+**내레이션**
+
+완성하고 보여주니까, 완성하고 고치게 됐습니다. 그래서 이제는 완성될 때까지 기다리지 않고, 아직 고치기 쉬울 때 함께 눌러봅니다.
+
+**화면 구성**
+
+- 주 문구: 아직 고치기 쉬울 때 함께 눌러봅니다
+- 배치: 노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 도입의 완성 후 수정이라는 경험을 구현 중간의 공유라는 변화로 회수한다.
+- 표현 방식: 문장 중심
+- 표현 이유: 짧은 타이포로 현재 사례의 조건 또는 판단을 강조하고 구체적인 설명은 자막으로 전달한다.
+
+**연출 흐름**
+
+1. 주 문구 등장
+2. 결과 강조
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. 완성하고 보여주니까,
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+2. 완성하고 고치게 됐습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+3. 그래서 이제는 완성될 때까지 기다리지 않고,
+   - 강조 중 · 자연스럽게 · 뒤에 80ms 쉼
+4. **아직 고치기 쉬울 때 함께 눌러봅니다.**
+   - 강조 강 · 여운을 두어 · 뒤에 180ms 쉼
+
+## 게시 문구
+
+완성하고 보여주니까, 완성하고 고치게 됐다. 아직 고치기 쉬울 때 함께 눌러보기 위해 Storybook을 바꿨습니다. 원문: https://blog.dohyeon.kr/naneun-wae-storybookeul-aejail-doguro-sayonghagiro-haessneunga/
+
+#프론트엔드 #Storybook #개발자협업 #애자일
+
