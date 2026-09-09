@@ -1,0 +1,624 @@
+# 옆자리 동료와 협업하며 바꾼 것들
+
+원본: [candidate-01.json](https://github.com/dohyeon-kr/dohyeon.kr/blob/eb1955eb8c7341f3cabb78ae04b29fcd0e8b3fc5/shorts/content/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi/candidate-01.json)
+
+JSON에서 자동 생성한 검토용 스토리보드입니다. 수정은 원본 JSON에 반영한 뒤 다시 생성하세요. 연출 설명은 기획 의도이며, 실제 배치·동작은 렌더된 스냅샷과 영상으로 확인합니다. 음성 생성 전이므로 재생 시간은 확정하지 않습니다.
+
+**첫 문장:** 나는 옆자리 동료에게 자주 묻는다.
+
+**기획 의도:** 오답노트 형식에 맞춰 저자의 1인칭 경험을 ~다 / ~했다 / ~해야겠다의 에세이 말투로 풀었다. 옆자리에서 쉽게 묻던 습관에서 출발해 SDK 버전 선택, Bruno의 반복 작업 감소와 동료의 반응, 공동 추적, 변경 기록으로 이어지고 자기 다짐으로 닫는다. 원문에 없는 경험이나 감정은 만들지 않고 SDK 고정의 한계와 아직 확인하지 못한 운영 성과를 남겼다. 사진은 협업 맥락용이며 저자나 동료의 실제 모습으로 주장하지 않는다. 본문의 도식은 바꾼 작업 방식과 연결 관계를 설명하므로 유지한다. 공통 CTA는 별도 안내 말투를 유지한다. viralScore는 성과 예측이 아닌 편집 우선순위 참고값이다.
+
+**원문:** [프론트엔드와 백엔드 개발자 협업하기](<https://blog.dohyeon.kr/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi/>)
+
+## 1. 도입 — 프론트엔드와 백엔드 개발자 협업하기
+
+![장면 1](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-01.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-01.png)
+
+**내레이션**
+
+나는 옆자리 동료에게 자주 묻는다.
+
+**화면 구성**
+
+- 주 문구: 프론트엔드와 백엔드 개발자 협업하기
+- 보조 문구: 옆자리에서 조금씩 바꿔본 것들
+- 배치: 실제 사진을 찢은 종이로 마스킹한 제목 오프닝
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 함께 화면을 보는 실제 사진으로 협업의 맥락을 연다.
+- 표현 방식: 사진
+- 표현 이유: 저장소의 NotebookOpeningPreview가 사용하는 실제 사진을 찢은 종이 마스크로 합성한다. 저자와 동료의 실제 사진이라는 의미는 아니다.
+- 사진 검색어: developers working together laptop
+- 사진 출처: [Two Men Looking at a Laptop](<https://www.pexels.com/photo/two-men-looking-at-a-laptop-4974920/>) · 라이선스 Pexels
+
+**연출 흐름**
+
+1. 추가 연출 지시: 제목 → 실제 사진 → 이미지 밑줄 → 짧은 메모. 제목과 같은 자막은 중복 표시하지 않는다.
+
+카메라: 고정
+
+장면 전환: 없음
+
+**자막과 낭독 리듬**
+
+1. **나는 옆자리 동료에게 자주 묻는다.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **옆자리**
+   - 연출 의도: 작성자의 일상에서 시작하는 제목과 협업 맥락 사진을 보여준다.
+
+## 2. 핵심 메시지 — 옆자리의 편리함
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-02-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-02-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-02.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-02.png)
+
+**내레이션**
+
+백엔드 동료와 나란히 앉아 일한다. 바로 물어볼 수 있으니 편하다. 그러다 보니 문서에 있는 것도 물었다. 조금 핑프 같다는 생각도 든다.
+
+**화면 구성**
+
+- 주 문구: 옆자리의 편리함
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 문서로 확인할 것도 옆자리 동료에게 묻던 내 습관을 돌아본다.
+- 표현 방식: 공간 도식
+- 표현 이유: 편리한 대화 옆에 기록의 빈자리를 보여준다.
+- 도식 구성: 사각형 ‘옆자리 대화’, 사각형 ‘동료의 기억’, 사각형 ‘기록?’
+
+**연출 흐름**
+
+- 시작: 옆자리 대화만 보인다.
+- 사건: 백엔드 동료와 나란히 앉아 일한다.
+- 변화: 동료의 기억이 나타난 뒤 기록 메모가 붙는다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: 문서로 확인할 것도 옆자리 동료에게 묻던 내 습관을 돌아본다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 동료의 기억이 나타난 뒤 기록 메모가 붙는다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 동료의 기억: 점차 드러남
+- 기록?: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 검게 닫았다 열기
+
+**자막과 낭독 리듬**
+
+1. **백엔드 동료와 나란히 앉아 일한다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **나란히**
+   - 연출 의도: 옆자리 대화만 보인다.
+2. **바로 물어볼 수 있으니 편하다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **편하다**
+   - 연출 의도: 동료의 기억이 나타난 뒤 기록 메모가 붙는다.
+3. **그러다 보니 문서에 있는 것도 물었다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **문서**
+   - 연출 의도: 동료의 기억이 나타난 뒤 기록 메모가 붙는다.
+4. **조금 핑프 같다는 생각도 든다.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **핑프**
+   - 연출 의도: 동료의 기억이 나타난 뒤 기록 메모가 붙는다.
+
+## 3. 핵심 메시지 — SDK 자동 동기화
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-03-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-03-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-03.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-03.png)
+
+**내레이션**
+
+SDK도 자동으로 들어오니 편했다. 그런데 백엔드 커밋마다 코드가 바뀌니, 내가 업데이트 시점을 고르기 어려웠다. 새 타입 때문에 빌드가 깨지기도 했다.
+
+**화면 구성**
+
+- 주 문구: SDK 자동 동기화
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 생성 자동화와 업데이트 시점 선택은 서로 다른 문제다.
+- 표현 방식: 공간 도식
+- 표현 이유: 백엔드 커밋이 프론트엔드 코드로 곧바로 들어오는 기존 방식을 표현한다.
+- 도식 구성: 선, 사각형 ‘백엔드 커밋’, 사각형 ‘프론트 코드’, 사각형 ‘자동’
+
+**연출 흐름**
+
+- 시작: 백엔드 커밋과 프론트 코드가 떨어져 있다.
+- 사건: SDK도 자동으로 들어오니 편했다.
+- 변화: 자동 동기화 연결선이 전체 길이로 등장한다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: 생성 자동화와 업데이트 시점 선택은 서로 다른 문제다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 자동 동기화 연결선이 전체 길이로 등장한다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 자동: 점차 드러남
+- 선: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. **SDK도 자동으로 들어오니 편했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **자동으로**
+   - 연출 의도: 백엔드 커밋과 프론트 코드가 떨어져 있다.
+2. **그런데 백엔드 커밋마다 코드가 바뀌니,**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **커밋마다**
+   - 연출 의도: 자동 동기화 연결선이 전체 길이로 등장한다.
+3. **내가 업데이트 시점을 고르기 어려웠다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **업데이트 시점**
+   - 연출 의도: 자동 동기화 연결선이 전체 길이로 등장한다.
+4. **새 타입 때문에 빌드가 깨지기도 했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **빌드**
+   - 연출 의도: 자동 동기화 연결선이 전체 길이로 등장한다.
+
+## 4. 핵심 메시지 — SDK 버전 선택
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-04-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-04-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-04.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-04.png)
+
+**내레이션**
+
+앱은 이미 배포한 버전도 있어서, 어떤 SDK를 쓸지 직접 정해야 했다. 그래서 SDK를 패키지로 발행하게 바꿨다. 이제 필요한 버전을 골라 설치한다.
+
+**화면 구성**
+
+- 주 문구: SDK 버전 선택
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 백엔드는 발행하고 프론트엔드는 변경을 확인해 업데이트한다.
+- 표현 방식: 공간 도식
+- 표현 이유: 여러 SDK 버전 중 프론트엔드가 사용할 버전 하나를 선택한다.
+- 도식 구성: 선, 사각형 ‘v1’, 사각형 ‘v2’, 사각형 ‘앱’, 사각형
+
+**연출 흐름**
+
+- 시작: 두 SDK 버전과 앱이 보인다.
+- 사건: 앱은 이미 배포한 버전도 있어서,
+- 변화: 선택한 버전과 앱 사이의 연결만 나타난다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: 백엔드는 발행하고 프론트엔드는 변경을 확인해 업데이트한다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 선택한 버전과 앱 사이의 연결만 나타난다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 사각형: 점차 드러남
+- 선: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. **앱은 이미 배포한 버전도 있어서,**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **배포한 버전**
+   - 연출 의도: 두 SDK 버전과 앱이 보인다.
+2. **어떤 SDK를 쓸지 직접 정해야 했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **직접**
+   - 연출 의도: 선택한 버전과 앱 사이의 연결만 나타난다.
+3. **그래서 SDK를 패키지로 발행하게 바꿨다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **패키지**
+   - 연출 의도: 선택한 버전과 앱 사이의 연결만 나타난다.
+4. **이제 필요한 버전을 골라 설치한다.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **골라**
+   - 연출 의도: 선택한 버전과 앱 사이의 연결만 나타난다.
+
+## 5. 핵심 메시지 — 버전 고정의 한계
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-05-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-05-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-05.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-05.png)
+
+**내레이션**
+
+물론 SDK를 고정해도 서버는 최신이다. 구버전 앱의 호환성은 함께 챙겨야 한다. 이걸로 운영 문제가 해결됐다고 말할 만한 결과는 아직 없다.
+
+**화면 구성**
+
+- 주 문구: 버전 고정의 한계
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: SDK 버전 선택만으로 운영 문제가 해결되는 것은 아니다.
+- 표현 방식: 공간 도식
+- 표현 이유: 앱 SDK 고정과 서버 호환성 확인을 서로 구분한다.
+- 도식 구성: 선, 사각형 ‘SDK 고정’, 사각형 ‘최신 서버’, 사각형 ‘호환성 별도 확인’, 사각형 ‘조건’
+
+**연출 흐름**
+
+- 시작: SDK가 고정된 앱과 최신 서버가 보인다.
+- 사건: 물론 SDK를 고정해도 서버는 최신이다.
+- 변화: 요청 연결 뒤 호환성 별도 확인 메모가 나타난다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: SDK 버전 선택만으로 운영 문제가 해결되는 것은 아니다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 요청 연결 뒤 호환성 별도 확인 메모가 나타난다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 선: 점차 드러남
+- 호환성 별도 확인: 점차 드러남
+- 조건: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. **물론 SDK를 고정해도 서버는 최신이다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **서버는 최신**
+   - 연출 의도: SDK가 고정된 앱과 최신 서버가 보인다.
+2. **구버전 앱의 호환성은 함께 챙겨야 한다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **호환성**
+   - 연출 의도: 요청 연결 뒤 호환성 별도 확인 메모가 나타난다.
+3. **이걸로 운영 문제가 해결됐다고**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **운영 문제**
+   - 연출 의도: 요청 연결 뒤 호환성 별도 확인 메모가 나타난다.
+4. **말할 만한 결과는 아직 없다.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **아직 없다**
+   - 연출 의도: 요청 연결 뒤 호환성 별도 확인 메모가 나타난다.
+
+## 6. 핵심 메시지 — Bruno로 반복 줄이기
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-06-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-06-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-06.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-06.png)
+
+**내레이션**
+
+API를 확인하려면 토큰부터 복사했다. 만료되면 또 같은 일을 했다. Bruno에서는 토큰을 저장해 다시 쓰고, 요청 모음도 Git으로 공유하게 했다. 동료도 복사할 일이 없어 좋다고 했다. 소개한 보람이 있었다.
+
+**화면 구성**
+
+- 주 문구: Bruno로 반복 줄이기
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 인증 반복 작업을 줄이고 동일한 요청을 함께 확인한다.
+- 표현 방식: 공간 도식
+- 표현 이유: 인증 요청으로 저장한 토큰을 후속 요청에서 다시 사용한다.
+- 도식 구성: 선, 선, 사각형 ‘인증 요청’, 사각형 ‘토큰 저장’, 사각형 ‘후속 요청’, 사각형 ‘자동’
+
+**연출 흐름**
+
+- 시작: 인증·저장·후속 요청의 세 단계가 보인다.
+- 사건: API를 확인하려면 토큰부터 복사했다.
+- 변화: 토큰 저장과 재사용 연결이 차례로 나타난다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: 인증 반복 작업을 줄이고 동일한 요청을 함께 확인한다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 토큰 저장과 재사용 연결이 차례로 나타난다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 선: 점차 드러남
+- 선: 점차 드러남
+- 자동: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. **API를 확인하려면 토큰부터 복사했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **토큰**
+   - 연출 의도: 인증·저장·후속 요청의 세 단계가 보인다.
+2. **만료되면 또 같은 일을 했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **같은 일**
+   - 연출 의도: 토큰 저장과 재사용 연결이 차례로 나타난다.
+3. **Bruno에서는 토큰을 저장해 다시 쓰고,**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **다시 쓰고**
+   - 연출 의도: 토큰 저장과 재사용 연결이 차례로 나타난다.
+4. **요청 모음도 Git으로 공유하게 했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **Git**
+   - 연출 의도: 토큰 저장과 재사용 연결이 차례로 나타난다.
+5. **동료도 복사할 일이 없어 좋다고 했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **동료**
+   - 연출 의도: 토큰 저장과 재사용 연결이 차례로 나타난다.
+6. **소개한 보람이 있었다.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **보람**
+   - 연출 의도: 토큰 저장과 재사용 연결이 차례로 나타난다.
+
+## 7. 핵심 메시지 — 같은 요청 따라가기
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-07-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-07-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-07.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-07.png)
+
+**내레이션**
+
+나는 클라이언트에서 시작한 요청을 서버까지 이어서 보고 싶었다. 그래서 traceparent로 추적을 연결했다. 로그의 시간대를 따로 맞추던 수고가 줄고, 문제가 생긴 구간을 함께 보게 됐다. 동료에게 전할 내용도 구체적이 됐다.
+
+**화면 구성**
+
+- 주 문구: 같은 요청 따라가기
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 같은 요청의 맥락을 공유하며 문제 구간을 함께 살핀다.
+- 표현 방식: 공간 도식
+- 표현 이유: traceparent로 클라이언트와 백엔드의 요청 추적을 연결한다.
+- 도식 구성: 선, 사각형 ‘클라이언트’, 사각형 ‘백엔드’, 글자 ‘traceparent’, 사각형
+
+**연출 흐름**
+
+- 시작: 클라이언트와 백엔드가 분리되어 있다.
+- 사건: 나는 클라이언트에서 시작한 요청을
+- 변화: 추적 연결선과 확인 스티커가 나타난다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: 같은 요청의 맥락을 공유하며 문제 구간을 함께 살핀다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 추적 연결선과 확인 스티커가 나타난다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 선: 점차 드러남
+- 사각형: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. **나는 클라이언트에서 시작한 요청을**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **클라이언트**
+   - 연출 의도: 클라이언트와 백엔드가 분리되어 있다.
+2. **서버까지 이어서 보고 싶었다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **서버까지**
+   - 연출 의도: 추적 연결선과 확인 스티커가 나타난다.
+3. **그래서 traceparent로 추적을 연결했다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **traceparent**
+   - 연출 의도: 추적 연결선과 확인 스티커가 나타난다.
+4. **로그의 시간대를 따로 맞추던 수고가 줄고,**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **시간대**
+   - 연출 의도: 추적 연결선과 확인 스티커가 나타난다.
+5. **문제가 생긴 구간을 함께 보게 됐다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **함께**
+   - 연출 의도: 추적 연결선과 확인 스티커가 나타난다.
+6. **동료에게 전할 내용도 구체적이 됐다.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **구체적**
+   - 연출 의도: 추적 연결선과 확인 스티커가 나타난다.
+
+## 8. 핵심 메시지 — 대화 다음에는 기록
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-08-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-08-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-08.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-08.png)
+
+**내레이션**
+
+옆자리에서 말로 요청하기는 쉽다. 그런데 다른 일을 하다 보면 잊기 쉽다. 그래서 이야기해서 정한 건 티켓과 PR에 남기며 일하고 있다. 내용과 이유, 진행 상태를 같이 보려고.
+
+**화면 구성**
+
+- 주 문구: 대화 다음에는 기록
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 합의한 내용을 기록해 동료의 기억에만 의존하지 않는다.
+- 표현 방식: 공간 도식
+- 표현 이유: 옆자리에서 합의한 내용을 티켓·PR로 옮겨 상태와 맥락을 남긴다.
+- 도식 구성: 선, 사각형 ‘대화’, 사각형 ‘티켓 · PR’, 글자 ‘내용 이유 상태’, 사각형
+
+**연출 흐름**
+
+- 시작: 대화와 티켓·PR이 따로 놓여 있다.
+- 사건: 옆자리에서 말로 요청하기는 쉽다.
+- 변화: 대화가 기록에 연결되고 내용·이유·상태가 등장한다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: 합의한 내용을 기록해 동료의 기억에만 의존하지 않는다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 대화가 기록에 연결되고 내용·이유·상태가 등장한다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 선: 점차 드러남
+- 내용 이유 상태: 점차 드러남
+- 사각형: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. **옆자리에서 말로 요청하기는 쉽다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **말로**
+   - 연출 의도: 대화와 티켓·PR이 따로 놓여 있다.
+2. **그런데 다른 일을 하다 보면 잊기 쉽다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **잊기 쉽다**
+   - 연출 의도: 대화가 기록에 연결되고 내용·이유·상태가 등장한다.
+3. **그래서 이야기해서 정한 건**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **정한 건**
+   - 연출 의도: 대화가 기록에 연결되고 내용·이유·상태가 등장한다.
+4. **티켓과 PR에 남기며 일하고 있다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **티켓과 PR**
+   - 연출 의도: 대화가 기록에 연결되고 내용·이유·상태가 등장한다.
+5. **내용과 이유, 진행 상태를 같이 보려고.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **진행 상태**
+   - 연출 의도: 대화가 기록에 연결되고 내용·이유·상태가 등장한다.
+
+## 9. 핵심 메시지 — 편하게 묻고, 잘 남기기
+
+| 시작 | 변화 | 결과 |
+| --- | --- | --- |
+| ![시작](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-09-initial.png) | ![변화](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-09-change.png) | ![결과](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-09.png) |
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-09.png)
+
+**내레이션**
+
+앞으로도 옆자리 동료에게 물어볼 것 같다. 같이 이야기하며 만드는 건 즐겁다. 다만 문서에 있는 건 먼저 읽고, 함께 정한 건 잘 남겨야겠다. 편하게 물을 수 있다는 이유로 그 사람의 기억에 너무 기대지는 않도록.
+
+**화면 구성**
+
+- 주 문구: 편하게 묻고, 잘 남기기
+- 배치: 도식을 중앙에 배치
+- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). 최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.
+- 전달할 관계: 앞으로도 동료에게 묻겠다는 마음과 문서를 먼저 읽고 결정은 남기겠다는 다짐으로 도입의 경험을 회수한다.
+- 표현 방식: 공간 도식
+- 표현 이유: 대화의 장점을 유지하면서 합의한 내용을 함께 볼 수 있는 기록으로 남긴다.
+- 도식 구성: 선, 사각형 ‘편하게 대화’, 사각형 ‘함께 볼 기록’, 사각형
+
+**연출 흐름**
+
+- 시작: 편하게 대화와 함께 볼 기록을 함께 보여준다.
+- 사건: 앞으로도 옆자리 동료에게 물어볼 것 같다.
+- 변화: 대화와 기록의 연결을 완성하고 확인 표시를 붙인다.
+- 유지: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+- 결과: 앞으로도 동료에게 묻겠다는 마음과 문서를 먼저 읽고 결정은 남기겠다는 다짐으로 도입의 경험을 회수한다.
+
+1. 주 문구 등장
+2. 시각 요소 등장
+3. 추가 연출 지시: 대화와 기록의 연결을 완성하고 확인 표시를 붙인다.
+4. 추가 연출 지시: 종이 질감 → 연결선 → 객체와 스티커 → 라벨 순서. 자막은 별도 하단 영역에 고정하며 마커는 글자 뒤, 밑줄은 받침 아래에 둔다.
+
+도식에서 설정된 변화(시작 순서):
+
+- 선: 점차 드러남
+- 사각형: 점차 드러남
+
+카메라: 고정
+
+장면 전환: 서서히 전환
+
+**자막과 낭독 리듬**
+
+1. **앞으로도 옆자리 동료에게 물어볼 것 같다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **동료**
+   - 연출 의도: 편하게 대화와 함께 볼 기록을 함께 보여준다.
+2. **같이 이야기하며 만드는 건 즐겁다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **즐겁다**
+   - 연출 의도: 대화와 기록의 연결을 완성하고 확인 표시를 붙인다.
+3. **다만 문서에 있는 건 먼저 읽고,**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **먼저 읽고**
+   - 연출 의도: 대화와 기록의 연결을 완성하고 확인 표시를 붙인다.
+4. **함께 정한 건 잘 남겨야겠다.**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **잘 남겨야겠다**
+   - 연출 의도: 대화와 기록의 연결을 완성하고 확인 표시를 붙인다.
+5. **편하게 물을 수 있다는 이유로**
+   - 강조 강 · 자연스럽게 · 뒤에 150ms 쉼
+   - 강조 단어: **편하게**
+   - 연출 의도: 대화와 기록의 연결을 완성하고 확인 표시를 붙인다.
+6. **그 사람의 기억에 너무 기대지는 않도록.**
+   - 강조 강 · 자연스럽게 · 뒤에 240ms 쉼
+   - 강조 단어: **기억**
+   - 연출 의도: 대화와 기록의 연결을 완성하고 확인 표시를 붙인다.
+
+## 10. 마무리 — 더 자세한 이야기는 블로그에서
+
+![장면 10](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-10.png)
+
+[장면 이미지 열기](https://raw.githubusercontent.com/dohyeon-kr/dohyeon.kr/f5b267b3c76b9cd0a2a0d35afb2f1aae35126ed1/peuronteuendeuwa-baegendeu-gaebalja-hyeobeobhagi-candidate-01-scene-10.png)
+
+**내레이션**
+
+더 자세한 이야기는 블로그에 정리했습니다. 프로필 링크에서 읽어보세요.
+
+**화면 구성**
+
+- 주 문구: 더 자세한 이야기는 블로그에서
+- 보조 문구: 프로필 링크에서 읽기
+- 배치: 간결한 마무리
+- 발표자: 공통 CTA에서는 숨김.
+
+**연출 흐름**
+
+별도 연출 지시 없음
+
+카메라: 고정
+
+장면 전환: 블러 디졸브 · 600ms · 강도 0.5
+
+**자막과 낭독 리듬**
+
+1. 더 자세한 이야기는
+   - 강조 중 · 자연스럽게 · 뒤에 160ms 쉼
+2. 블로그에 정리했습니다.
+   - 강조 중 · 자연스럽게 · 뒤에 160ms 쉼
+3. 프로필 링크에서 읽어보세요.
+   - 강조 중 · 자연스럽게 · 뒤에 160ms 쉼
+
+## 게시 문구
+
+백엔드 동료와 나란히 앉아 일한다. 바로 물어볼 수 있으니 편한데, 문서에 있는 것도 묻게 됐다. 그렇게 일하며 SDK 버전을 고르는 방식부터 인증, 요청 추적, 변경 기록까지 조금씩 바꿨다. 동료가 토큰을 복사하지 않아도 돼 좋다고 했을 때는 소개한 보람도 있었다. 앞으로도 편하게 묻겠지만, 문서는 먼저 읽고 함께 정한 건 잘 남겨야겠다. 자세한 이야기는 프로필의 블로그 링크에 정리했다.
+
+#프론트엔드 #백엔드 #개발자협업 #API #개발기록
+
