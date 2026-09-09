@@ -6,7 +6,7 @@
     "generate": "node scripts/generate-candidates.mjs",
     "render": "node scripts/render-reels.mjs",
     "storyboard": "node scripts/render.mjs --storyboard",
-    "studio": "node scripts/prepare-notebook-assets.mjs && remotion studio src/index.tsx --public-dir=public",
+    "studio": "remotion studio src/index.tsx --public-dir=public",
     "test": "node --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit --allowImportingTsExtensions --skipLibCheck --esModuleInterop --jsx react-jsx --moduleResolution bundler --module esnext --target es2022 src/Root.tsx"
   },

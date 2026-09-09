@@ -174,11 +174,3 @@ validatePresenter(presenter, finalSceneDuration);
 - 기계 판독 계약은 `src/presenter/overlay.ts`의 PresenterOverlaySchema. 기존 presenter-bust와 동시에 사용할 수 없다. 생성 모델의 장면별 presenter 계약과 별개인 수동 manifest 옵션이다.
 
 참고: [OpenAI 단어 타임스탬프 문서](https://developers.openai.com/api/docs/guides/speech-to-text#timestamp-granularities). 로컬 단위 테스트와 합성 타이밍을 쓴 렌더 검수는 실제 TTS의 청취 검수를 대체하지 않는다.
-
-
-### 찢어진 종이 프레임
-
-상시 발표자에서 `presenterOverlay.frame`은 `circle`(생략 시 기존 모습) 또는
-`torn-paper-blue`를 선택한다. 위치·예약 영역·표정·입/노딩 트랙·CTA 숨김 규칙은 같다.
-새 프레임은 투명 캐릭터와 구멍 뒤 그림자, 앞쪽 종이 접힘을 별도 벡터 레이어로 합성한다.
-테두리 밖으로 나온 머리까지 기존 발표자 예약 박스 안에 들어가도록 한다.

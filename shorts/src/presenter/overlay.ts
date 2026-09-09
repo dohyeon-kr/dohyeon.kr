@@ -2,7 +2,7 @@ import {z} from 'zod/v4';
 import {validatePresenter, type PresenterSpec} from './schema.ts';
 
 // Manifest-level and continuous across transitions; CTA visibility is configurable.
-export const PresenterOverlaySchema = z.strictObject({position: z.literal('bottom-right'), frame: z.enum(['circle', 'torn-paper-blue']).optional(), hideOnCommonCta: z.boolean().optional(), lipSync: z.enum(['none', 'word-timestamps']).optional(), nod: z.enum(['none', 'speech']).optional()});
+export const PresenterOverlaySchema = z.strictObject({position: z.literal('bottom-right'), hideOnCommonCta: z.boolean().optional(), lipSync: z.enum(['none', 'word-timestamps']).optional(), nod: z.enum(['none', 'speech']).optional()});
 export type PresenterOverlaySpec = z.infer<typeof PresenterOverlaySchema>;
 export const PRESENTER_OVERLAY_BOX = {left: 700, top: 1320, width: 190, height: 190} as const;
 export function validatePresenterOverlay(manifest: {presenterOverlay?: unknown; scenes: readonly {presenter?: unknown; layout?: string}[]}) {
