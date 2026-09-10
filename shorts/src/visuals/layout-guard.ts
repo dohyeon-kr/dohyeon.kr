@@ -5,6 +5,7 @@ import type {DiagramSpec} from './diagram-spec.ts';
 type State = DiagramSpec['nodes'][number] & {rotation: number; scale: number; opacity: number; noiseAmount: number};
 type Point = [number, number];
 type Polygon = Point[];
+export type LayoutIssue = {rule: string; ids: string[]; detail: string; progress: number};
 const INSET = 40;
 const EPS = 1e-6;
 const transform = (n: State, [x, y]: Point): Point => {
@@ -25,24 +26,34 @@ export function polygonsOverlap(a: Polygon, b: Polygon) {
   return true;
 }
 const strokeBox = (n: State) => n.height > n.width ? box(n, 3, n.height) : box(n, n.width, 3);
-const labelBox = (n: State, protection = 0) => {
+const labelMetrics = (n: State, protection = 0) => {
   const label = nodeLabel(n), lines = label.text.split('\n');
-  return box(n, Math.max(...lines.map(textUnits)) * label.fontSize + protection * label.fontSize * 2,
-    lines.length * label.fontSize * LABEL_LINE_HEIGHT + protection * label.fontSize * 2, label.y);
+  return {
+    width: Math.max(...lines.map(textUnits)) * label.fontSize + protection * label.fontSize * 2,
+    height: lines.length * label.fontSize * LABEL_LINE_HEIGHT + protection * label.fontSize * 2,
+    y: label.y,
+  };
+};
+const labelBox = (n: State, protection = 0) => {
+  const label = labelMetrics(n, protection);
+  return box(n, label.width, label.height, label.y);
 };
 const checkInset = (polygon: Polygon) => polygon.every(([x, y]) => x >= INSET - EPS && x <= 800 - INSET + EPS && y >= INSET - EPS && y <= 560 - INSET + EPS);
+const formatIssue = (issue: LayoutIssue) => `[layout:${issue.rule}] t=${issue.progress.toFixed(6)} nodes=${issue.ids.join(',')}: ${issue.detail}`;
 
 /** Deterministic conservative geometry, not a claim of measured font ink bounds.
  * Shape/shape overlaps are legal for territories and physical metaphors.
  * Text protection and line/text intersections are never silently exempted.
  */
-export function assertDiagramLayout(states: State[], progress: number) {
-  const fail = (rule: string, ids: string[], detail: string): never => {
-    throw new Error(`[layout:${rule}] t=${progress.toFixed(6)} nodes=${ids.join(',')}: ${detail}`);
-  };
+export function collectDiagramLayoutIssues(states: State[], progress: number): LayoutIssue[] {
+  const issues: LayoutIssue[] = [];
+  const fail = (rule: string, ids: string[], detail: string) => issues.push({rule, ids, detail, progress});
   const visible = states.filter(n => n.opacity > 0);
   for (const n of visible) {
-    if (![n.x, n.y, n.width, n.height, n.rotation, n.scale, n.opacity].every(Number.isFinite)) fail('finite', [n.id], 'non-finite geometry');
+    if (![n.x, n.y, n.width, n.height, n.rotation, n.scale, n.opacity].every(Number.isFinite)) {
+      fail('finite', [n.id], 'non-finite geometry');
+      continue;
+    }
     const region = n.shape === 'line' ? strokeBox(n) : box(n, n.width + (n.shape === 'text' ? 0 : 3), n.height + (n.shape === 'text' ? 0 : 3));
     if (!checkInset(region)) fail('safe-area', [n.id], 'visible geometry must stay inside the 40-unit inset');
     if (n.shape === 'line' && Math.max(n.width, n.height) * n.scale < 6) fail('line-dot', [n.id], 'visible line is shorter than two stroke widths; reveal with opacity at full length');
@@ -55,11 +66,11 @@ export function assertDiagramLayout(states: State[], progress: number) {
   for (let i = 0; i < visible.length; i++) for (let j = i + 1; j < visible.length; j++) {
     const a = visible[i], b = visible[j];
     if (a.label && b.label && polygonsOverlap(labelBox(a, .25), labelBox(b, .25))) fail('text-overlap', [a.id, b.id], 'label protection regions overlap');
-    for (const [line, object] of [[a, b], [b, a]]) {
+    for (const [line, object] of [[a, b], [b, a]] as const) {
       if (line.shape === 'line' && ['rect', 'circle', 'blob'].includes(object.shape) && ['white', 'gray'].includes(object.fill)
         && polygonsOverlap(strokeBox(line), box(object, object.width, object.height))) fail('line-object', [line.id, object.id], 'line crosses a filled object; change anchors or layout');
     }
-    for (const [label, other] of [[a, b], [b, a]]) {
+    for (const [label, other] of [[a, b], [b, a]] as const) {
       if (!label.label || other.shape === 'text') continue;
       if (other.shape === 'line') {
         if (polygonsOverlap(labelBox(label, .25), strokeBox(other))) fail('line-text', [other.id, label.id], 'line enters label protection region');
@@ -68,6 +79,12 @@ export function assertDiagramLayout(states: State[], progress: number) {
       }
     }
   }
+  return issues;
+}
+
+export function assertDiagramLayout(states: State[], progress: number) {
+  const issues = collectDiagramLayoutIssues(states, progress);
+  if (issues.length) throw new Error(issues.map(formatIssue).join('\n'));
 }
 
 export function layoutSampleTimes(spec: DiagramSpec) {
@@ -83,8 +100,21 @@ export function resolveConnectors(states: State[]): State[] {
     const source = states.find(v => v.id === c.source)!;
     const target = states.find(v => v.id === c.target)!;
     const anchor = (v: State, side: string): Point => {
-      const offset = c.gap / v.scale + 1.5;
-      return transform(v, side === 'left' ? [-v.width / 2 - offset, 0] : side === 'right' ? [v.width / 2 + offset, 0] : side === 'top' ? [0, -v.height / 2 - offset] : [0, v.height / 2 + offset]);
+      const gap = c.gap / v.scale + 1.5;
+      let horizontalExtent = v.width / 2;
+      let topExtent = v.height / 2;
+      let bottomExtent = v.height / 2;
+      if (v.label) {
+        const label = labelMetrics(v, .25);
+        horizontalExtent = Math.max(horizontalExtent, label.width / 2);
+        topExtent = Math.max(topExtent, label.height / 2 - label.y);
+        bottomExtent = Math.max(bottomExtent, label.height / 2 + label.y);
+      }
+      return transform(v,
+        side === 'left' ? [-horizontalExtent - gap, 0]
+          : side === 'right' ? [horizontalExtent + gap, 0]
+            : side === 'top' ? [0, -topExtent - gap]
+              : [0, bottomExtent + gap]);
     };
     const a = anchor(source, c.sourceSide), b = anchor(target, c.targetSide);
     return {...n, x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2,
