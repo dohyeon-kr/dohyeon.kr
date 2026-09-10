@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "id": "workspace-pastel-angular-v1",
+  "scribble": false,
+  "palette": {"ink":"#222522","paper":"#fffdf7","blue":"#9fb6bb","teal":"#9fc4c0","green":"#6f8f70","beige":"#f3dfc9","orange":"#e3a466","yellow":"#f2c95e","pink":"#efb3a8","gray":"#aaa297"},
+  "assets": {
+    "desktop":{"file":"desktop.svg","viewBox":[0,0,240,200],"category":"hardware","anchors":{"screen":[120,78],"center":[120,100]}},
+    "laptop":{"file":"laptop.svg","viewBox":[0,0,240,180],"category":"hardware","anchors":{"screen":[120,74],"center":[120,90]}},
+    "monitor":{"file":"monitor.svg","viewBox":[0,0,260,180],"category":"hardware","anchors":{"screen":[130,74],"center":[130,90]}},
+    "keyboard":{"file":"keyboard.svg","viewBox":[0,0,280,140],"category":"hardware","anchors":{"center":[140,70]}},
+    "mouse":{"file":"mouse.svg","viewBox":[0,0,160,200],"category":"hardware","anchors":{"left-click":[62,58],"right-click":[98,58],"wheel":[80,56],"center":[80,100]}},
+    "desk-lamp":{"file":"desk-lamp.svg","viewBox":[0,0,220,220],"category":"decor","anchors":{"light":[142,102],"center":[110,110]}},
+    "plant":{"file":"plant.svg","viewBox":[0,0,220,220],"category":"decor","anchors":{"center":[110,110]}},
+    "coffee":{"file":"coffee.svg","viewBox":[0,0,220,180],"category":"decor","anchors":{"center":[110,90]}},
+    "chair":{"file":"chair.svg","viewBox":[0,0,220,240],"category":"furniture","anchors":{"center":[110,120]}},
+    "desk":{"file":"desk.svg","viewBox":[0,0,300,200],"category":"furniture","anchors":{"surface":[150,58],"center":[150,100]}},
+    "books":{"file":"books.svg","viewBox":[0,0,240,180],"category":"stationery","anchors":{"center":[120,90]}},
+    "pen-holder":{"file":"pen-holder.svg","viewBox":[0,0,180,220],"category":"stationery","anchors":{"center":[90,110]}},
+    "notebook":{"file":"notebook.svg","viewBox":[0,0,220,220],"category":"stationery","labelArea":[70,58,96,116],"anchors":{"center":[110,110]}},
+    "sticky-note":{"file":"sticky-note.svg","viewBox":[0,0,240,180],"category":"stationery","labelArea":[42,46,148,70],"anchors":{"center":[120,90]}},
+    "headphones":{"file":"headphones.svg","viewBox":[0,0,220,220],"category":"hardware","anchors":{"center":[110,110]}},
+    "speaker":{"file":"speaker.svg","viewBox":[0,0,180,220],"category":"hardware","anchors":{"center":[90,110]}},
+    "speech-bubble":{"file":"speech-bubble.svg","viewBox":[0,0,240,200],"category":"interaction","labelArea":[36,40,168,80],"anchors":{"tip":[56,178],"content":[120,80]}},
+    "thought-bubble":{"file":"thought-bubble.svg","viewBox":[0,0,240,200],"category":"interaction","labelArea":[52,52,132,72],"anchors":{"tip":[28,180],"content":[120,88]}},
+    "pointing-hand":{"file":"pointing-hand.svg","viewBox":[0,0,120,160],"category":"interaction","anchors":{"tip":[62,12],"center":[60,80]}},
+    "mouse-pointer":{"file":"mouse-pointer.svg","viewBox":[0,0,96,128],"category":"interaction","anchors":{"tip":[12,10]}},
+    "calendar":{"file":"calendar.svg","viewBox":[0,0,220,190],"category":"stationery","labelArea":[46,60,128,86],"anchors":{"center":[110,95]}},
+    "cat":{"file":"cat.svg","viewBox":[0,0,260,160],"category":"decor","anchors":{"center":[130,80]}},
+    "arrow":{"file":"arrow.svg","viewBox":[0,0,220,100],"category":"interaction","anchors":{"from":[12,70],"to":[198,30]}}
+  }
+}
