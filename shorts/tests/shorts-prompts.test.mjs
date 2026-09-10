@@ -13,6 +13,17 @@ test('shared prompt bundle resolves every stage without unresolved slots',()=>{
   assert.throws(()=>renderPrompt('../outside'),/Invalid prompt name/);
   assert.match(renderPrompt('analysis',{trust:'{{untrusted}}'}),/\{\{untrusted\}\}/);
 });
+
+test('instruction-to-ui leakage policy reaches UI-generating and reviewing prompts',()=>{
+  const prompts=buildPromptBundle();
+  for(const stage of ['visual','review','storyboardReview','storyboardImprove']) {
+    assert.match(prompts[stage],/Instruction-to-UI Leakage/,stage);
+    assert.match(prompts[stage],/Instruction을 Copy로 번역하지 말고, Instruction을 UI로 구현한다/,stage);
+    assert.match(prompts[stage],/DEBUG_METADATA_LEAK/,stage);
+  }
+  assert.doesNotMatch(prompts.analysis,/Instruction-to-UI Leakage/);
+});
+
 test('image generation is blocked before network; text, image inputs and speech pass',async()=>{
   const calls=[];const guarded=imageGenerationGuard(async(...args)=>{calls.push(args);return new Response('{}');});
   for(const operation of ['generations','edits','variations']) await assert.rejects(guarded(`https://api.openai.com/v1/images/${operation}`,{method:'POST'}),/disabled/);
