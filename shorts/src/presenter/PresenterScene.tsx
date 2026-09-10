@@ -3,6 +3,7 @@ import {AbsoluteFill, staticFile, useCurrentFrame, useVideoConfig} from 'remotio
 import {Presenter} from './Presenter';
 import {compilePresenter, validateScenePresenter} from './api';
 import {fitCopy} from '../text-layout';
+import {subtitleAt} from '../subtitles';
 import {useLayoutCheck} from '../use-layout-check';
 import type {RenderScene} from '../types';
 import type {SceneLayer} from '../motion/SceneTransition';
@@ -17,7 +18,7 @@ export const PresenterScene:React.FC<{scene:RenderScene;layer:SceneLayer;duratio
   },[scene,durationInFrames,fps]);
   const title=fitCopy(scene.headline,880,300,74,1.18);
   const subline=fitCopy(scene.subline ?? '',880,130,32,1.5);
-  const caption=scene.captions?.find(c=>frame/fps>=c.startSeconds && frame/fps<c.endSeconds);
+  const caption=subtitleAt(scene,frame/fps);
   const copy=fitCopy(caption?.text ?? '',850,180,42,1.5);
   return <AbsoluteFill ref={root} style={{background:layer==='visual'?'white':undefined,color:'#111',fontFamily:'Pretendard, Arial, sans-serif'}}>
     <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-display:swap;}`}</style>
