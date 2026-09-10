@@ -14,10 +14,11 @@ export function renderPrompt(name, values = {}) {
 }
 export const TRUST = renderPrompt('trust');
 export const VISUAL_POLICY = renderPrompt('visual-policy');
-export const SYSTEM_PROMPT = renderPrompt('renderer') + renderPrompt('content') + renderPrompt('art-direction');
-export const VISUAL_SYSTEM_PROMPT = renderPrompt('renderer') + renderPrompt('art-direction') + VISUAL_POLICY;
+export const UI_LEAKAGE_POLICY = renderPrompt('ui-leakage');
+export const SYSTEM_PROMPT = renderPrompt('renderer') + renderPrompt('content') + renderPrompt('art-direction') + UI_LEAKAGE_POLICY;
+export const VISUAL_SYSTEM_PROMPT = renderPrompt('renderer') + renderPrompt('art-direction') + VISUAL_POLICY + UI_LEAKAGE_POLICY;
 export const ANALYSIS_PROMPT = renderPrompt('analysis', {trust: TRUST});
-export const REVIEW_PROMPT = renderPrompt('review', {trust: TRUST, visualPolicy: VISUAL_POLICY});
+export const REVIEW_PROMPT = renderPrompt('review', {trust: TRUST, visualPolicy: VISUAL_POLICY}) + UI_LEAKAGE_POLICY;
 export function buildStagePrompts(visualInstructions = VISUAL_SYSTEM_PROMPT, templateInstructions = '') {
   const {sceneGuidance, ...narrativePolicy} = SHORTS_EDITORIAL_POLICY;
   const values = {trust: TRUST, visualPolicy: VISUAL_POLICY, analysisPrompt: ANALYSIS_PROMPT,
