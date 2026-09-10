@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" fill="none" stroke="#171717" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3">
+  <title>speech-bubble</title>
+  <g id="body">
+    <path d="M18 22 H222 V140 H94 L56 178 V140 H18 Z" fill="#ffffff"/>
+  </g>
+</svg>

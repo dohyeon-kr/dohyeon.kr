@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 128" fill="none" stroke="#171717" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3">
+  <title>pointing-hand</title>
+  <g id="hand">
+    <path d="M30 99 L11 71 L8 61 L13 53 H20 L33 65 V16 L38 10 H46 L51 16 V48 L57 43 H64 L69 49 V55 L75 50 H81 L86 56 V64 L90 62 L93 68 V91 L79 111 H40 Z" fill="#ffffff"/>
+    <path d="M51 48 V72 M69 55 V77 M86 64 V81 M30 78 L40 88" stroke="#777777" stroke-width="2"/>
+  </g>
+  <g id="cuff">
+    <path d="M37 109 H80 V121 H37 Z" fill="#d6d6d6"/>
+    <path d="M46 115 H51" stroke-width="2"/>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" fill="none" stroke="#171717" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3">
+  <title>mouse</title>
+  <g id="body">
+    <path d="M99 20 H141 L157 36 V158 L143 180 H97 L83 158 V36 Z" fill="#ffffff"/>
+    <path d="M145 41 V153 L134 171 H145 L157 158 V36 Z" fill="#d6d6d6" stroke="none"/>
+    <path d="M99 20 H141 L157 36 V158 L143 180 H97 L83 158 V36 Z"/>
+  </g>
+  <g id="buttons">
+    <path d="M120 22 V102 M85 102 H155" stroke-width="3"/>
+    <path d="M116 45 H124 V72 H116 Z" fill="#171717" stroke-width="2"/>
+  </g>
+</svg>

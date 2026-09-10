@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "workspace-interactions-mono-angular-v1",
+  "scribble": false,
+  "palette": {"ink":"#171717","paper":"#ffffff","gray":"#777777","soft":"#d6d6d6"},
+  "assets": {
+    "speech-bubble":{"file":"speech-bubble.svg","viewBox":[0,0,240,200],"category":"interaction","labelArea":[36,40,168,80],"anchors":{"tip":[56,178],"content":[120,80],"left":[18,80],"right":[222,80]},"stateFamily":"speech-bubble","groups":["body"],"strokePaths":null},
+    "pointing-hand":{"file":"pointing-hand.svg","viewBox":[0,0,96,128],"category":"interaction","labelArea":null,"anchors":{"tip":[42,10],"palm":[59,88]},"stateFamily":"pointing-hand","groups":["hand","cuff"],"strokePaths":null},
+    "mouse":{"file":"mouse.svg","viewBox":[0,0,240,200],"category":"hardware","labelArea":null,"anchors":{"left-click":[104,62],"right-click":[138,62],"wheel":[120,58],"center":[120,104]},"stateFamily":"mouse","groups":["body","buttons"],"strokePaths":null},
+    "mouse-pointer":{"file":"mouse-pointer.svg","viewBox":[0,0,96,128],"category":"interaction","labelArea":null,"anchors":{"tip":[12,10]},"stateFamily":"mouse-pointer","groups":["body"],"strokePaths":null}
+  }
+}
