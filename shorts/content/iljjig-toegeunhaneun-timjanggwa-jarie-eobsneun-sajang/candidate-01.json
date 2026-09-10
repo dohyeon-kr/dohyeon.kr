@@ -188,7 +188,7 @@
         "description": "위임한 실무와 관리 업무가 한 팀장에게 동시에 모이는 구조를 보여준다.",
         "nodes": [
           {"id": "work-line", "shape": "line", "label": "", "x": 400, "y": 210, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "delegated", "target": "lead", "sourceSide": "right", "targetSide": "left", "gap": 18}, "strokeStyle": "solid"},
-          {"id": "manage-line", "shape": "line", "label": "", "x": 400, "y": 410, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "management", "target": "lead", "sourceSide": "right", "targetSide": "left", "gap": 18}, "strokeStyle": "solid"},
+          {"id": "manage-line", "shape": "line", "label": "", "x": 400, "y": 410, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "management", "target": "lead", "sourceSide": "right", "targetSide": "left", "gap": 18},"strokeStyle":"solid"},
           {"id": "delegated", "shape": "rect", "label": "위임한 실무", "x": 180, "y": 210, "width": 250, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
           {"id": "management", "shape": "rect", "label": "관리 업무", "x": 180, "y": 410, "width": 250, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
           {"id": "lead", "shape": "rect", "label": "팀장", "x": 620, "y": 310, "width": 240, "height": 180, "fill": "white", "connector": null, "strokeStyle": "solid"}
@@ -200,7 +200,7 @@
       },
       "kind": "statement",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "delegation-return", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {"type": "diagram", "motif": "delegation-return", "query": null, "value": null, "xLabel": null,"yLabel":null},
       "visualIntent": {
         "concept": "위임한 일을 다시 가져오면 관리자는 실무와 관리 두 역할을 모두 떠안는다.",
         "relation": {"type": "convergence", "description": "두 종류의 업무가 한 사람에게 수렴한다."},
@@ -242,9 +242,9 @@
         "nodes": [
           {"id": "line-a", "shape": "line", "label": "", "x": 270, "y": 290, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "experience", "target": "context", "sourceSide": "right", "targetSide": "left", "gap": 16}, "strokeStyle": "solid"},
           {"id": "line-b", "shape": "line", "label": "", "x": 530, "y": 290, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "context", "target": "performance", "sourceSide": "right", "targetSide": "left", "gap": 16}, "strokeStyle": "solid"},
-          {"id": "experience", "shape": "rect", "label": "경험", "x": 140, "y": 290, "width": 180, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "context", "shape": "rect", "label": "기준 · 맥락", "x": 400, "y": 290, "width": 240, "height": 130, "fill": "hatch", "connector": null, "strokeStyle": "solid"},
-          {"id": "performance", "shape": "rect", "label": "팀의 퍼포먼스", "x": 633, "y": 290, "width": 250, "height": 130, "fill": "white", "connector": null, "strokeStyle": "solid"}
+          {"id": "experience", "shape": "rect", "label": "경험", "x": 125, "y": 290, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "context", "shape": "rect", "label": "기준 · 맥락", "x": 390, "y": 290, "width": 190, "height": 130, "fill": "hatch", "connector": null, "strokeStyle": "solid"},
+          {"id": "performance", "shape": "rect", "label": "팀의 퍼포먼스", "x": 650, "y": 290, "width": 180, "height": 130, "fill": "white", "connector": null, "strokeStyle": "solid"}
         ],
         "events": [
           {"target": "line-a", "property": "opacity", "from": 0, "to": 1, "start": 0.18, "end": 0.36},
@@ -294,50 +294,13 @@
       "transition": "dip-to-black",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-headline", "hold-principle"],
-      "beats": [
-        {"text": "내가 모든 걸 직접 한다면", "emphasis": "mid", "pauseAfterMs": 100, "delivery": "normal", "visualPriority": "mid", "keyword": "직접", "visualCue": "첫 줄이 등장한다"},
-        {"text": "내가 관리 일을 할 이유도 없습니다.", "emphasis": "high", "pauseAfterMs": 260, "delivery": "hold", "visualPriority": "high", "keyword": "관리", "visualCue": "둘째 줄을 고정한다"}
-      ],
-      "headline": "내가 모든 걸 한다면,\n관리할 이유도 없다",
-      "subline": null,
-      "narration": "내가 모든 일을 직접 처리할 거라면, 내가 관리 일을 할 이유도 없습니다. 그냥 실무를 하면 됩니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
+      "camera": {"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},
+      "choreography":["show-headline","hold-principle"],
+      "beats":[{"text":"내가 모든 걸 직접 한다면","emphasis":"mid","pauseAfterMs":100,"delivery":"normal","visualPriority":"mid","keyword":"직접","visualCue":"첫 줄이 등장한다"},{"text":"내가 관리 일을 할 이유도 없습니다.","emphasis":"high","pauseAfterMs":260,"delivery":"hold","visualPriority":"high","keyword":"관리","visualCue":"둘째 줄을 고정한다"}],
+      "headline":"내가 모든 걸 한다면,\n관리할 이유도 없다","subline":null,"narration":"내가 모든 일을 직접 처리할 거라면, 내가 관리 일을 할 이유도 없습니다. 그냥 실무를 하면 됩니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
     },
     {
-      "presenter": null,
-      "backgroundVideo": null,
-      "visualStory": null,
-      "diagramSpec": null,
-      "kind": "outro",
-      "layout": "outro-minimal",
-      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
-      "visualIntent": {
-        "concept": "좋은 관리자는 자신이 자리를 비워도 팀이 움직이게 만든다는 결론으로 도입을 회수한다.",
-        "relation": {"type": "divergence", "description": "관리자의 판단이 한 사람에게 머물지 않고 팀의 각 자리로 분산된다."},
-        "strategy": {"type": "minimal", "metaphor": null, "rationale": "도입의 ‘일찍 퇴근하는 팀장’을 그대로 회수하며 글의 기준을 남긴다."}
-      },
-      "transition": "fade",
-      "transitionOptions": null,
-      "effects": [],
-      "camera": {"motion": "pull-out", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-headline", "hold-conclusion"],
-      "beats": [
-        {"text": "좋은 관리자는 자신이 제일 잘하는 사람이 되는 게 아니라,", "emphasis": "mid", "pauseAfterMs": 90, "delivery": "normal", "visualPriority": "mid", "keyword": "좋은 관리자", "visualCue": "결론 문장이 등장한다"},
-        {"text": "자기가 없어도 팀이 움직이게 만드는 사람입니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "hold", "visualPriority": "high", "keyword": "없어도", "visualCue": "핵심 문장을 고정한다"},
-        {"text": "그래서 나는 일찍 퇴근하는 팀장을 좋아합니다.", "emphasis": "high", "pauseAfterMs": 300, "delivery": "hold", "visualPriority": "high", "keyword": "일찍 퇴근하는 팀장", "visualCue": "도입을 회수한다"}
-      ],
-      "headline": "내가 없어도\n팀은 움직여야 한다",
-      "subline": null,
-      "narration": "좋은 관리자는 자신이 제일 잘하는 사람이 되는 게 아니라, 자기가 없어도 팀이 움직이게 만드는 사람이라고 생각합니다. 그래서 나는 일찍 퇴근하는 팀장을 좋아합니다.",
-      "comparisonLeft": null,
-      "comparisonRight": null,
-      "imageQuery": null,
-      "image": null
+      "presenter":null,"backgroundVideo":null,"visualStory":null,"diagramSpec":null,"kind":"outro","layout":"outro-minimal","visual":{"type":"none","motif":null,"query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"좋은 관리자는 자신이 자리를 비워도 팀이 움직이게 만든다는 결론으로 도입을 회수한다.","relation":{"type":"divergence","description":"관리자의 판단이 한 사람에게 머물지 않고 팀의 각 자리로 분산된다."},"strategy":{"type":"minimal","metaphor":null,"rationale":"도입의 ‘일찍 퇴근하는 팀장’을 그대로 회수하며 글의 기준을 남긴다."}},"transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"pull-out","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","hold-conclusion"],"beats":[{"text":"좋은 관리자는 자신이 제일 잘하는 사람이 되는 게 아니라,","emphasis":"mid","pauseAfterMs":90,"delivery":"normal","visualPriority":"mid","keyword":"좋은 관리자","visualCue":"결론 문장이 등장한다"},{"text":"자기가 없어도 팀이 움직이게 만드는 사람입니다.","emphasis":"high","pauseAfterMs":180,"delivery":"hold","visualPriority":"high","keyword":"없어도","visualCue":"핵심 문장을 고정한다"},{"text":"그래서 나는 일찍 퇴근하는 팀장을 좋아합니다.","emphasis":"high","pauseAfterMs":300,"delivery":"hold","visualPriority":"high","keyword":"일찍 퇴근하는 팀장","visualCue":"도입을 회수한다"}],"headline":"내가 없어도\n팀은 움직여야 한다","subline":null,"narration":"좋은 관리자는 자신이 제일 잘하는 사람이 되는 게 아니라, 자기가 없어도 팀이 움직이게 만드는 사람이라고 생각합니다. 그래서 나는 일찍 퇴근하는 팀장을 좋아합니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
     }
   ]
 }
