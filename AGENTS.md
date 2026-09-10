@@ -137,7 +137,17 @@ Omit common pages marked with `commonPage` (including the shared blog CTA); do n
 ask the user to review the same common ending for every candidate. Preserve the
 body conclusion. Keep the shared CTA assembly in the final render pipeline.
 
-
 ## Notebook SVG assets and animation
 
 For notebook UI visuals, follow [the SVG style and motion protocol](shorts/docs/notebook-ui-motion.md). Use animated scribble outlines by default, keep labels sharp, and draw arrows tail-first followed by each head stroke. Update actual scene.uiMotion tracks and generated review Markdown together. Preserve static explanatory diagrams where useful.
+
+## Instruction-to-UI Leakage
+
+Before generating, reviewing, or editing any user-facing interface or rendered visual that contains copy, read [the Instruction-to-UI Leakage prevention guide](docs/ui/instruction-to-ui-leakage.md).
+
+- Treat requirements, design criteria, implementation notes, developer notes, and AI instructions as internal input, not as candidate UI copy.
+- Convert instructions through `instruction -> user need -> UI element -> copy`; do not copy requirement prose into the rendered interface.
+- Prefer the user's mental model over implementation terminology. Translate errors and system states into user-relevant state and next actions.
+- Before final render, perform an Instruction Leakage Review over headings, labels, buttons, captions, tooltips, empty states, errors, placeholders, and other visible text.
+- Classify visible copy as `USER`, `INTERNAL`, or `AMBIGUOUS`. Only `USER` copy may remain unchanged; rewrite `AMBIGUOUS` from the user's perspective and remove or relocate `INTERNAL` copy.
+- Specifically guard against Spec-to-Copy Leakage, Implementation Narration, Developer-Note Leakage, Criteria-to-Copy Leakage, and Debug/Metadata Leakage.
