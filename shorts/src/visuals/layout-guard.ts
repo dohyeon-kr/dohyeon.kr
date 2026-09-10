@@ -8,6 +8,7 @@ type Polygon = Point[];
 export type LayoutIssue = {rule: string; ids: string[]; detail: string; progress: number};
 const INSET = 40;
 const EPS = 1e-6;
+const STROKE_HALF = 1.5;
 const transform = (n: State, [x, y]: Point): Point => {
   const a = n.rotation * Math.PI / 180;
   return [n.x + n.scale * (x * Math.cos(a) - y * Math.sin(a)), n.y + n.scale * (x * Math.sin(a) + y * Math.cos(a))];
@@ -100,21 +101,23 @@ export function resolveConnectors(states: State[]): State[] {
     const source = states.find(v => v.id === c.source)!;
     const target = states.find(v => v.id === c.target)!;
     const anchor = (v: State, side: string): Point => {
-      const gap = c.gap / v.scale + 1.5;
-      let horizontalExtent = v.width / 2;
-      let topExtent = v.height / 2;
-      let bottomExtent = v.height / 2;
+      const gap = c.gap / v.scale;
+      let left = -v.width / 2;
+      let right = v.width / 2;
+      let top = -v.height / 2;
+      let bottom = v.height / 2;
       if (v.label) {
         const label = labelMetrics(v, .25);
-        horizontalExtent = Math.max(horizontalExtent, label.width / 2);
-        topExtent = Math.max(topExtent, label.height / 2 - label.y);
-        bottomExtent = Math.max(bottomExtent, label.height / 2 + label.y);
+        left = Math.min(left, -label.width / 2);
+        right = Math.max(right, label.width / 2);
+        top = Math.min(top, label.y - label.height / 2);
+        bottom = Math.max(bottom, label.y + label.height / 2);
       }
-      return transform(v,
-        side === 'left' ? [-horizontalExtent - gap, 0]
-          : side === 'right' ? [horizontalExtent + gap, 0]
-            : side === 'top' ? [0, -topExtent - gap]
-              : [0, bottomExtent + gap]);
+      // Connector stroke itself must also remain outside the protected region.
+      if (side === 'left') return transform(v, [left - gap - STROKE_HALF / v.scale, 0]);
+      if (side === 'right') return transform(v, [right + gap + STROKE_HALF / v.scale, 0]);
+      if (side === 'top') return transform(v, [0, top - gap - STROKE_HALF / v.scale]);
+      return transform(v, [0, bottom + gap + STROKE_HALF / v.scale]);
     };
     const a = anchor(source, c.sourceSide), b = anchor(target, c.targetSide);
     return {...n, x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2,
