@@ -120,9 +120,15 @@ export function resolveConnectors(states: State[]): State[] {
       return transform(v, [0, bottom + gap + STROKE_HALF / v.scale]);
     };
     const a = anchor(source, c.sourceSide), b = anchor(target, c.targetSide);
+    const room =
+      c.sourceSide === 'right' && c.targetSide === 'left' ? b[0] > a[0] + EPS :
+      c.sourceSide === 'left' && c.targetSide === 'right' ? b[0] < a[0] - EPS :
+      c.sourceSide === 'bottom' && c.targetSide === 'top' ? b[1] > a[1] + EPS :
+      c.sourceSide === 'top' && c.targetSide === 'bottom' ? b[1] < a[1] - EPS : true;
+    const opacity = room ? Math.min(n.opacity, source.opacity, target.opacity) : 0;
     return {...n, x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2,
-      width: Math.hypot(b[0] - a[0], b[1] - a[1]), height: 1, scale: 1,
+      width: room ? Math.hypot(b[0] - a[0], b[1] - a[1]) : 1, height: 1, scale: 1,
       rotation: Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI,
-      opacity: Math.min(n.opacity, source.opacity, target.opacity)};
+      opacity};
   });
 }
