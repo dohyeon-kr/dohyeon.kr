@@ -1,1 +1,343 @@
-{"schemaVersion":3,"id":"candidate-01","status":"candidate","source":{"url":"https://blog.dohyeon.kr/iljjig-toegeunhaneun-timjanggwa-jarie-eobsneun-sajang/","title":"일찍 퇴근하는 팀장과 자리에 없는 사장"},"candidate":{"angle":"experience","hook":"왜 나는 일찍 퇴근하는 팀장을 좋아할까?","title":"관리자는 답을 가져가는 사람이 아니다","rationale":"권한이 많은 개발자가 되고 싶었던 개인 경험에서 시작해 실무 능력과 관리 능력의 차이, 위임 회수의 위험, 경험과 맥락을 구조로 바꾸는 관리자의 역할로 좁혀간다. 마지막에는 ‘내가 없어도 같은 방향으로 움직이는 조직’으로 도입을 회수한다.","viralScore":88,"suggestedCaption":"실무를 잘하는 것과 관리를 잘하는 것은 다른 일입니다. 좋은 관리자는 자신의 답을 대신 실행하는 사람이 아니라, 팀이 스스로 판단할 수 있도록 맥락과 권한을 나눠주는 사람이라고 생각합니다.","hashtags":["#리더십","#팀장","#위임","#조직문화","#개발팀"]},"style":{"theme":"monochrome-editorial-dark","template":"monochrome-editorial-dark","visualDensity":"high","subtitles":"burned-in","safeArea":"shorts-reels","artDirection":"monochrome-editorial-motion","motionLanguage":"sharp-subtle","decorativeLabels":"forbidden"},"scenes":[{"presenter":null,"backgroundVideo":null,"visualStory":null,"diagramSpec":null,"transitionOptions":null,"effects":[],"comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null,"kind":"hero","layout":"statement-giant","visual":{"type":"none","motif":null,"query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"일찍 퇴근하는 팀장을 좋아한다는 말이 무책임함을 뜻하는지 질문을 연다.","relation":{"type":"comparison","description":"오래 자리를 지키는 것과 좋은 관리가 같은 것인지 대비한다."},"strategy":{"type":"minimal","metaphor":null,"rationale":"글의 제목 자체가 가진 역설을 질문으로 열어 결론을 미리 설명하지 않는다."}},"transition":"fade","camera":{"motion":"push-in","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","camera-focus"],"beats":[{"text":"나는 일찍 퇴근하는 팀장과","emphasis":"mid","pauseAfterMs":80,"delivery":"normal","visualPriority":"mid","keyword":"일찍 퇴근하는 팀장","visualCue":"질문형 제목이 먼저 등장한다"},{"text":"자리에 없는 사장을 좋아합니다.","emphasis":"mid","pauseAfterMs":120,"delivery":"normal","visualPriority":"mid","keyword":null,"visualCue":null},{"text":"일을 대충해서가 아닙니다. 오히려 반대입니다.","emphasis":"high","pauseAfterMs":260,"delivery":"hold","visualPriority":"high","keyword":"오히려 반대","visualCue":"마지막 반전 문장을 고정한다"}],"headline":"왜 나는\n일찍 퇴근하는 팀장을\n좋아할까?","subline":null,"narration":"나는 일찍 퇴근하는 팀장과 자리에 없는 사장을 좋아합니다. 그렇다고 일을 대충하거나 책임감이 없는 사람이 좋다는 뜻은 아닙니다. 오히려 반대입니다."},{"presenter":null,"backgroundVideo":null,"visualStory":{"initial":"개발자와 팀장 사이의 연결은 보이지 않는다.","trigger":"팀장으로 향하는 연결이 나타난다.","change":"‘더 많은 권한’이라는 동기가 함께 드러난다.","invariant":"개발자에서 팀장으로 역할이 이동한다는 개인 경험의 방향은 유지한다.","result":"팀장이 되고 싶었던 초기 동기가 관리보다 권한에 가까웠음을 보여준다."},"diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"개발자에서 팀장으로 이동하려던 개인 경험과 그 동기였던 더 많은 권한을 보여주는 도식.","nodes":[{"id":"path","shape":"line","label":"","x":400,"y":280,"width":1,"height":1,"fill":"gray","connector":{"source":"developer","target":"lead","sourceSide":"right","targetSide":"left","gap":16},"strokeStyle":"solid"},{"id":"developer","shape":"rect","label":"개발자","x":190,"y":280,"width":190,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},{"id":"lead","shape":"rect","label":"팀장","x":610,"y":280,"width":190,"height":100,"fill":"white","connector":null,"strokeStyle":"solid"},{"id":"authority","shape":"text","label":"더 많은 권한","x":610,"y":420,"width":220,"height":50,"fill":"none","connector":null,"strokeStyle":null}],"events":[{"target":"path","property":"opacity","from":0,"to":1,"start":0.18,"end":0.38},{"target":"authority","property":"opacity","from":0,"to":1,"start":0.56,"end":0.72}]},"transitionOptions":null,"effects":[],"comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null,"kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"role-to-authority","query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"팀장이 되고 싶었던 초기 이유는 관리보다 더 많은 권한을 가진 개발자가 되고 싶어서였다.","relation":{"type":"flow","description":"개발자 역할에서 팀장 역할로 이동하려는 동기와 권한을 연결한다."},"strategy":{"type":"spatial-diagram","metaphor":"역할 이동","rationale":"개인 경험의 출발점을 직책과 동기의 관계로 간단히 보여준다."}},"transition":"slide-up","camera":{"motion":"push-in","target":"endpoint","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-visual","reveal-path","show-motive"],"beats":[{"text":"저도 예전에는 팀장이 되고 싶었습니다.","emphasis":"mid","pauseAfterMs":100,"delivery":"normal","visualPriority":"mid","keyword":"팀장","visualCue":"개발자에서 팀장으로 연결된다"},{"text":"더 많은 권한을 가진 개발자가 되고 싶었습니다.","emphasis":"high","pauseAfterMs":160,"delivery":"hold","visualPriority":"high","keyword":"더 많은 권한","visualCue":"팀장 아래 ‘더 많은 권한’이 나타난다"},{"text":"계속 설득하는 시간이 소모적으로 느껴졌습니다.","emphasis":"mid","pauseAfterMs":220,"delivery":"normal","visualPriority":"mid","keyword":"설득","visualCue":null}],"headline":"","subline":null,"narration":"저도 예전에는 팀장이 되고 싶었습니다. 이유는 단순했습니다. 더 많은 권한을 가진 개발자가 되고 싶었습니다. 내 판단을 관철하기 위해 계속 설득하는 시간이 소모적으로 느껴졌습니다."},{"presenter":null,"backgroundVideo":null,"visualStory":null,"diagramSpec":null,"transitionOptions":null,"effects":[],"comparisonLeft":"실무 능력","comparisonRight":"관리 능력","imageQuery":null,"image":null,"kind":"compare","layout":"compare-versus","visual":{"type":"diagram","motif":"compare","query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"실무 능력과 관리 능력은 서로 다른 능력이다.","relation":{"type":"comparison","description":"실무에서 잘하는 것과 사람·맥락·책임을 다루는 관리 역할을 분리한다."},"strategy":{"type":"spatial-diagram","metaphor":"역할 대비","rationale":"두 능력을 같은 축의 상하 관계가 아니라 다른 역할로 즉시 대비한다."}},"transition":"push","camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-visual","hold-contrast"],"beats":[{"text":"그런데 실무를 잘하는 것과","emphasis":"mid","pauseAfterMs":60,"delivery":"normal","visualPriority":"mid","keyword":"실무","visualCue":"왼쪽에 실무 능력이 먼저 잡힌다"},{"text":"관리를 잘하는 것은 같은 능력이 아닙니다.","emphasis":"high","pauseAfterMs":180,"delivery":"hold","visualPriority":"high","keyword":"같은 능력이 아닙니다","visualCue":"오른쪽 관리 능력과 대비된다"},{"text":"피터의 법칙이 불편한 이유도 여기에 있습니다.","emphasis":"mid","pauseAfterMs":220,"delivery":"normal","visualPriority":"mid","keyword":"피터의 법칙","visualCue":null}],"headline":"","subline":null,"narration":"그런데 실무를 잘하는 것과 관리를 잘하는 것은 같은 능력이 아닙니다. 피터의 법칙이 불편한 이유도 여기에 있습니다. 실무에서 인정받아 올라갔다고, 관리까지 자동으로 잘하게 되는 건 아닙니다."},{"presenter":null,"backgroundVideo":null,"visualStory":null,"diagramSpec":null,"transitionOptions":null,"effects":[],"comparisonLeft":"내 취향","comparisonRight":"리스크 · 맥락","imageQuery":null,"image":null,"kind":"compare","layout":"compare-columns","visual":{"type":"diagram","motif":"compare","query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"관리자의 피드백은 개인 취향이 아니라 리스크와 맥락을 전달해야 한다.","relation":{"type":"comparison","description":"‘내 취향’과 ‘팀원이 보지 못하는 리스크·맥락’을 대비한다."},"strategy":{"type":"spatial-diagram","metaphor":"피드백의 기준","rationale":"권한을 어디에 쓰는지가 관리의 질을 가른다는 차이를 두 칸으로 명확하게 보여준다."}},"transition":"slide-left","camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-visual","emphasize-right"],"beats":[{"text":"권한을 내 취향을 관철하는 데 쓰면","emphasis":"mid","pauseAfterMs":80,"delivery":"normal","visualPriority":"mid","keyword":"내 취향","visualCue":"왼쪽 ‘내 취향’을 먼저 보여준다"},{"text":"피드백은 쉽게 정답 강요가 됩니다.","emphasis":"high","pauseAfterMs":140,"delivery":"drop","visualPriority":"high","keyword":"정답 강요","visualCue":null},{"text":"관리자가 줘야 하는 건 리스크와 맥락입니다.","emphasis":"high","pauseAfterMs":220,"delivery":"hold","visualPriority":"high","keyword":"리스크와 맥락","visualCue":"오른쪽 기준을 강조한다"}],"headline":"","subline":null,"narration":"관리자가 권한을 자신의 취향을 관철하는 데 쓰기 시작하면 문제가 생깁니다. 예를 들어 디자인에 대한 피드백도 ‘내가 이게 더 좋아’가 아니라 리스크와 맥락, 팀원이 아직 보지 못하는 시야를 전달해야 합니다."},{"presenter":null,"backgroundVideo":null,"visualStory":{"initial":"위임한 일과 관리 업무가 서로 떨어져 있다.","trigger":"위임한 일이 다시 팀장에게 돌아온다.","change":"관리 업무와 회수한 실무가 동시에 팀장에게 모인다.","invariant":"팀장 한 사람이 두 종류의 일을 떠안는 구조는 유지한다.","result":"일을 회수할수록 팀장은 실무와 관리를 동시에 맡게 된다."},"diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"위임한 실무와 관리 업무가 한 팀장에게 동시에 모이는 구조를 보여주는 도식.","nodes":[{"id":"return-line","shape":"line","label":"","x":400,"y":210,"width":1,"height":1,"fill":"gray","connector":{"source":"delegated","target":"lead","sourceSide":"right","targetSide":"left","gap":16},"strokeStyle":"solid"},{"id":"manage-line","shape":"line","label":"","x":400,"y":410,"width":1,"height":1,"fill":"gray","connector":{"source":"management","target":"lead","sourceSide":"right","targetSide":"left","gap":16},"strokeStyle":"solid"},{"id":"delegated","shape":"rect","label":"위임한 일","x":180,"y":210,"width":210,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},{"id":"management","shape":"rect","label":"관리","x":180,"y":410,"width":210,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},{"id":"lead","shape":"rect","label":"팀장","x":620,"y":310,"width":210,"height":160,"fill":"white","connector":null,"strokeStyle":"solid"}],"events":[{"target":"return-line","property":"opacity","from":0,"to":1,"start":0.18,"end":0.38},{"target":"manage-line","property":"opacity","from":0,"to":1,"start":0.42,"end":0.62}]},"transitionOptions":null,"effects":[],"comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null,"kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"delegation-return","query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"위임한 일을 다시 가져오면 팀장은 실무와 관리 두 역할을 모두 떠안는다.","relation":{"type":"convergence","description":"두 종류의 업무가 한 사람에게 수렴한다."},"strategy":{"type":"spatial-diagram","metaphor":"업무 회수","rationale":"‘내가 해야겠다’가 개인의 성실함이 아니라 역할 집중 구조를 만든다는 점을 보여준다."}},"transition":"wipe","camera":{"motion":"push-in","target":"endpoint","intensity":"medium","startProgress":0,"endProgress":1},"choreography":["show-visual","return-work","add-management","hold-result"],"beats":[{"text":"가장 위험한 순간은 이겁니다.","emphasis":"mid","pauseAfterMs":90,"delivery":"normal","visualPriority":"mid","keyword":null,"visualCue":"두 업무가 분리된 상태로 시작한다"},{"text":"“맡겨봤더니 못하네. 내가 해야겠다.”","emphasis":"high","pauseAfterMs":180,"delivery":"drop","visualPriority":"high","keyword":"내가 해야겠다","visualCue":"위임한 일이 팀장에게 돌아온다"},{"text":"그러면 팀장은 실무도 하고 관리도 해야 합니다.","emphasis":"high","pauseAfterMs":240,"delivery":"hold","visualPriority":"high","keyword":"실무도 하고 관리도","visualCue":"관리 업무까지 팀장에게 연결된다"}],"headline":"","subline":null,"narration":"가장 위험한 순간은 ‘맡겨봤더니 못하네. 내가 해야겠다’고 일을 다시 가져오는 때입니다. 그렇게 일을 회수하면 결국 팀장은 실무도 하고 관리도 해야 합니다. 내가 모든 걸 직접 한다면, 관리라는 역할을 맡을 이유도 흐려집니다."},{"presenter":null,"backgroundVideo":null,"visualStory":{"initial":"경험, 구조, 팀의 판단이 떨어져 있다.","trigger":"경험이 구조로 연결된다.","change":"구조가 다시 팀의 판단으로 연결된다.","invariant":"관리자의 경험 자체는 출발점으로 남는다.","result":"경험이 개인의 정답이 아니라 팀이 사용할 수 있는 판단 기반으로 전환된다."},"diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"관리자의 경험이 구조를 거쳐 팀의 판단 기반으로 전환되는 흐름 도식.","nodes":[{"id":"line-a","shape":"line","label":"","x":300,"y":290,"width":1,"height":1,"fill":"gray","connector":{"source":"experience","target":"structure","sourceSide":"right","targetSide":"left","gap":14},"strokeStyle":"solid"},{"id":"line-b","shape":"line","label":"","x":510,"y":290,"width":1,"height":1,"fill":"gray","connector":{"source":"structure","target":"judgment","sourceSide":"right","targetSide":"left","gap":14},"strokeStyle":"solid"},{"id":"experience","shape":"rect","label":"경험","x":130,"y":290,"width":160,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},{"id":"structure","shape":"rect","label":"구조","x":400,"y":290,"width":180,"height":110,"fill":"hatch","connector":null,"strokeStyle":"solid"},{"id":"judgment","shape":"rect","label":"팀의 판단","x":670,"y":290,"width":180,"height":110,"fill":"white","connector":null,"strokeStyle":"solid"}],"events":[{"target":"line-a","property":"opacity","from":0,"to":1,"start":0.18,"end":0.36},{"target":"structure","property":"scale","from":0.86,"to":1,"start":0.34,"end":0.5},{"target":"line-b","property":"opacity","from":0,"to":1,"start":0.52,"end":0.7}]},"transitionOptions":null,"effects":[],"comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null,"kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"experience-to-structure","query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"관리자의 경험은 직접 해결하는 능력이 아니라 다른 사람이 판단할 수 있는 구조로 전환되어야 한다.","relation":{"type":"flow","description":"개인 경험이 구조를 거쳐 팀의 판단으로 이동한다."},"strategy":{"type":"spatial-diagram","metaphor":"경험의 변환","rationale":"관리자의 숙련을 ‘대신하기’가 아니라 ‘재사용 가능한 판단 기반’으로 바꾸는 흐름을 설명한다."}},"transition":"slide-up","camera":{"motion":"pan-right","target":"endpoint","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-experience","convert-to-structure","connect-team-judgment","hold-result"],"beats":[{"text":"관리자의 경험은","emphasis":"mid","pauseAfterMs":60,"delivery":"normal","visualPriority":"mid","keyword":"경험","visualCue":"경험 노드가 먼저 보인다"},{"text":"대신 해결하는 데 쓰는 게 아닙니다.","emphasis":"high","pauseAfterMs":130,"delivery":"drop","visualPriority":"mid","keyword":"대신 해결","visualCue":null},{"text":"다른 사람이 판단할 수 있는 구조로 바뀌어야 합니다.","emphasis":"high","pauseAfterMs":240,"delivery":"hold","visualPriority":"high","keyword":"구조","visualCue":"경험→구조→팀의 판단 순으로 연결된다"}],"headline":"","subline":null,"narration":"관리자의 경험은 대신 해결하는 데 쓰는 게 아니라, 구조로 바뀌어야 합니다. 반복해서 본 위험을 기준으로 만들고 필요한 맥락을 공유해서, 팀원이 스스로 판단할 수 있게 해야 합니다."},{"presenter":null,"backgroundVideo":null,"visualStory":{"initial":"팀원 시야와 관리자 시야가 비슷한 크기로 놓여 있다.","trigger":"관리자 시야의 범위가 더 넓어진다.","change":"같은 방향을 보더라도 관찰 가능한 범위가 다름이 드러난다.","invariant":"두 사람 모두 같은 조직과 방향을 본다는 전제는 유지한다.","result":"넓은 시야는 정답 강요가 아니라 보이지 않는 리스크와 맥락을 전달하는 데 써야 한다."},"diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"산을 더 올라간 사람이 더 멀리 보듯 관리자와 팀원이 볼 수 있는 범위가 다를 수 있음을 두 영역의 크기로 비교하는 도식.","nodes":[{"id":"team-view","shape":"rect","label":"팀원 시야","x":210,"y":300,"width":240,"height":160,"fill":"none","connector":null,"strokeStyle":"solid"},{"id":"manager-view","shape":"rect","label":"관리자 시야","x":590,"y":300,"width":240,"height":160,"fill":"hatch","connector":null,"strokeStyle":"solid"}],"events":[{"target":"manager-view","property":"width","from":240,"to":360,"start":0.24,"end":0.52},{"target":"manager-view","property":"height","from":160,"to":260,"start":0.24,"end":0.52}]},"transitionOptions":null,"effects":[],"comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null,"kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"mountain-view","query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"관리자는 조직 중심과 경험 때문에 팀원보다 넓은 시야를 볼 수 있다.","relation":{"type":"zoom-depth","description":"같은 중심을 두고 보이는 범위가 넓어진다."},"strategy":{"type":"spatial-diagram","metaphor":"산에서 높이에 따라 달라지는 시야","rationale":"원문의 산 비유를 그대로 공간의 범위 차이로 표현하고, 우월성 대신 관찰 범위 차이에 초점을 둔다."}},"transition":"zoom","camera":{"motion":"pull-out","target":"center","intensity":"medium","startProgress":0,"endProgress":1},"choreography":["show-team-view","expand-manager-view","hold-context"],"beats":[{"text":"관리자는 더 넓은 시야를 볼 수 있습니다.","emphasis":"mid","pauseAfterMs":80,"delivery":"normal","visualPriority":"mid","keyword":"넓은 시야","visualCue":"작은 영역 바깥으로 시야가 확장된다"},{"text":"산을 더 올라간 사람이 더 멀리 보는 것과 비슷합니다.","emphasis":"mid","pauseAfterMs":120,"delivery":"normal","visualPriority":"high","keyword":"더 멀리","visualCue":"관리자 시야 영역이 완전히 펼쳐진다"},{"text":"그 시야는 리스크와 맥락을 알려주는 데 써야 합니다.","emphasis":"high","pauseAfterMs":230,"delivery":"hold","visualPriority":"high","keyword":"리스크와 맥락","visualCue":"확장된 영역을 유지한다"}],"headline":"","subline":null,"narration":"관리자는 팀원보다 더 오래 일했거나 조직의 중심에 가까이 있어, 더 넓은 시야를 볼 수 있습니다. 산을 더 올라간 사람이 더 멀리 보는 것과 비슷합니다. 그 시야는 정답을 강요하는 근거가 아니라, 팀원이 아직 보지 못하는 리스크와 맥락을 알려주는 데 써야 합니다."},{"presenter":null,"backgroundVideo":null,"visualStory":null,"diagramSpec":null,"transitionOptions":null,"effects":[],"comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null,"kind":"statement","layout":"statement-giant","visual":{"type":"none","motif":null,"query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"관리의 실천 원칙을 한 문장으로 압축한다.","relation":{"type":"balance","description":"공유해야 할 방향과 맡겨야 할 실무의 경계를 나눈다."},"strategy":{"type":"minimal","metaphor":null,"rationale":"앞선 논증 뒤에 도출된 원칙이라 중앙 타이포로 짧게 고정한다."}},"transition":"dip-to-black","camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","hold-principle"],"beats":[{"text":"방향은 공유하되,","emphasis":"mid","pauseAfterMs":120,"delivery":"normal","visualPriority":"mid","keyword":"방향","visualCue":"첫 줄이 먼저 등장한다"},{"text":"실무는 위임해야 합니다.","emphasis":"high","pauseAfterMs":180,"delivery":"hold","visualPriority":"high","keyword":"위임","visualCue":"둘째 줄을 고정한다"},{"text":"내가 없어도 같은 기준으로 판단할 수 있어야 합니다.","emphasis":"high","pauseAfterMs":240,"delivery":"normal","visualPriority":"mid","keyword":"같은 기준","visualCue":null}],"headline":"방향은 공유하되,\n실무는 위임한다","subline":null,"narration":"그래서 관리자는 방향은 공유하되, 실무는 위임해야 합니다. 내가 없을 때도 팀원이 같은 기준으로 판단할 수 있다면, 그때 위임은 제대로 된 겁니다."},{"presenter":null,"backgroundVideo":null,"visualStory":null,"diagramSpec":null,"transitionOptions":null,"effects":[],"comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null,"kind":"outro","layout":"outro-minimal","visual":{"type":"none","motif":null,"query":null,"value":null,"xLabel":null,"yLabel":null},"visualIntent":{"concept":"관리자의 권한은 답을 관철하는 힘이 아니라 판단할 수 있도록 나누는 힘이라는 결론을 회수한다.","relation":{"type":"divergence","description":"한 사람에게 모인 권한을 각자의 판단으로 나누는 관점이다."},"strategy":{"type":"minimal","metaphor":null,"rationale":"도입의 ‘일찍 퇴근하는 팀장’을 다시 불러오며 글의 결론을 문장 자체로 남긴다."}},"transition":"fade","camera":{"motion":"pull-out","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","hold-conclusion"],"beats":[{"text":"팀장의 권한은 자신의 답을 관철하기 위한 게 아니라,","emphasis":"mid","pauseAfterMs":90,"delivery":"normal","visualPriority":"mid","keyword":"권한","visualCue":"결론 문장이 천천히 등장한다"},{"text":"다른 사람이 각자의 자리에서 판단하도록 나눠주기 위한 겁니다.","emphasis":"high","pauseAfterMs":180,"delivery":"hold","visualPriority":"high","keyword":"판단","visualCue":"핵심 문장을 고정한다"},{"text":"그래서 나는 일찍 퇴근하는 팀장과 자리에 없는 사장을 좋아합니다.","emphasis":"high","pauseAfterMs":300,"delivery":"hold","visualPriority":"high","keyword":"일찍 퇴근하는 팀장","visualCue":"도입의 제목 문장을 회수한다"}],"headline":"내가 없어도\n같은 방향으로 움직이는 팀","subline":null,"narration":"팀장의 권한은 자신의 답을 관철하기 위해 있는 것이 아니라, 다른 사람들이 각자의 자리에서 판단할 수 있도록 나눠주기 위해 있는 것이라고 생각합니다. 그래서 나는 일찍 퇴근하는 팀장과 자리에 없는 사장을 좋아합니다."}]}
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/iljjig-toegeunhaneun-timjanggwa-jarie-eobsneun-sajang/",
+    "title": "일찍 퇴근하는 팀장과 자리에 없는 사장"
+  },
+  "candidate": {
+    "angle": "experience",
+    "hook": "왜 나는 일찍 퇴근하는 팀장을 좋아할까?",
+    "title": "관리자는 일을 가져가는 사람이 아니다",
+    "rationale": "더 많은 권한을 가진 개발자가 되고 싶었던 경험에서 시작해 실무 능력과 관리 능력의 차이, 위임한 일을 다시 가져가는 관리자의 위험, 경험 차이를 구조로 메우는 관리의 역할로 이어간다. 마지막에는 리더가 없어도 움직이는 팀이라는 기준으로 도입을 회수한다.",
+    "viralScore": 88,
+    "suggestedCaption": "실무를 잘하는 것과 관리를 잘하는 것은 다른 일입니다. 관리자가 모든 일을 직접 해결하기 시작하면 팀은 성장할 이유를 잃고, 관리라는 역할도 흐려집니다.",
+    "hashtags": ["#리더십", "#팀장", "#위임", "#조직문화", "#개발팀"]
+  },
+  "style": {
+    "theme": "monochrome-editorial-dark",
+    "template": "monochrome-editorial-dark",
+    "visualDensity": "high",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "monochrome-editorial-motion",
+    "motionLanguage": "sharp-subtle",
+    "decorativeLabels": "forbidden"
+  },
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "statement-giant",
+      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "일찍 퇴근하는 팀장을 좋아한다는 말이 무책임함을 뜻하는지 질문을 연다.",
+        "relation": {"type": "comparison", "description": "오래 자리를 지키는 것과 좋은 관리가 같은 것인지 대비한다."},
+        "strategy": {"type": "minimal", "metaphor": null, "rationale": "제목의 역설을 질문으로 열어 결론을 미리 말하지 않는다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "push-in", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-headline", "camera-focus"],
+      "beats": [
+        {"text": "나는 일찍 퇴근하는 팀장과", "emphasis": "mid", "pauseAfterMs": 80, "delivery": "normal", "visualPriority": "mid", "keyword": "일찍 퇴근하는 팀장", "visualCue": "질문형 제목이 먼저 등장한다"},
+        {"text": "자리에 없는 사장을 좋아합니다.", "emphasis": "mid", "pauseAfterMs": 120, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
+        {"text": "일을 안 하는 사람이 좋다는 뜻은 아닙니다.", "emphasis": "high", "pauseAfterMs": 240, "delivery": "hold", "visualPriority": "high", "keyword": "아닙니다", "visualCue": "질문의 전제를 뒤집는다"}
+      ],
+      "headline": "왜 나는\n일찍 퇴근하는 팀장을\n좋아할까?",
+      "subline": null,
+      "narration": "나는 일찍 퇴근하는 팀장과 자리에 없는 사장을 좋아합니다. 그렇다고 일을 안 하거나 책임감이 없는 사람이 좋다는 뜻은 아닙니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "개발자와 팀장이 떨어져 있다.",
+        "trigger": "개발자에서 팀장으로 연결선이 나타난다.",
+        "change": "팀장 아래에 더 많은 권한이라는 동기가 나타난다.",
+        "invariant": "역할 이동의 방향은 유지한다.",
+        "result": "처음 팀장이 되고 싶었던 이유가 관리보다 권한에 가까웠음을 보여준다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "개발자에서 팀장으로 이동하고 싶었던 개인 경험과 더 많은 권한이라는 동기를 보여준다.",
+        "nodes": [
+          {"id": "path", "shape": "line", "label": "", "x": 400, "y": 280, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "developer", "target": "lead", "sourceSide": "right", "targetSide": "left", "gap": 18}, "strokeStyle": "solid"},
+          {"id": "developer", "shape": "rect", "label": "개발자", "x": 190, "y": 280, "width": 220, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "lead", "shape": "rect", "label": "팀장", "x": 610, "y": 280, "width": 220, "height": 120, "fill": "white", "connector": null, "strokeStyle": "solid"},
+          {"id": "authority", "shape": "rect", "label": "더 많은 권한", "x": 610, "y": 450, "width": 300, "height": 110, "fill": "hatch", "connector": null, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "path", "property": "opacity", "from": 0, "to": 1, "start": 0.18, "end": 0.38},
+          {"target": "authority", "property": "opacity", "from": 0, "to": 1, "start": 0.55, "end": 0.72}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "role-to-authority", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "팀장이 되고 싶었던 초기 이유는 더 많은 권한을 가진 개발자가 되고 싶어서였다.",
+        "relation": {"type": "flow", "description": "개발자 역할에서 팀장 역할로 이동하려는 동기와 권한을 연결한다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": "역할 이동", "rationale": "개인 경험의 출발점을 직책과 동기의 관계로 단순하게 보여준다."}
+      },
+      "transition": "slide-up",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "push-in", "target": "endpoint", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-visual", "reveal-path", "show-motive"],
+      "beats": [
+        {"text": "저도 예전에는 팀장이 되고 싶었습니다.", "emphasis": "mid", "pauseAfterMs": 100, "delivery": "normal", "visualPriority": "mid", "keyword": "팀장", "visualCue": "개발자에서 팀장으로 연결된다"},
+        {"text": "더 많은 권한을 가진 개발자가 되고 싶었습니다.", "emphasis": "high", "pauseAfterMs": 160, "delivery": "hold", "visualPriority": "high", "keyword": "더 많은 권한", "visualCue": "권한 노드가 나타난다"},
+        {"text": "내 판단을 관철하려고 계속 설득하는 시간이 소모적으로 느껴졌습니다.", "emphasis": "mid", "pauseAfterMs": 220, "delivery": "normal", "visualPriority": "mid", "keyword": "설득", "visualCue": null}
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "저도 예전에는 팀장이 되고 싶었습니다. 더 많은 권한을 가진 개발자가 되고 싶었고, 내 판단을 관철하려고 계속 설득하는 시간이 소모적으로 느껴졌습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "compare",
+      "layout": "compare-versus",
+      "visual": {"type": "diagram", "motif": "compare", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "실무 능력과 관리 능력은 같은 능력이 아니다.",
+        "relation": {"type": "comparison", "description": "직접 잘하는 능력과 다른 사람이 성과를 내게 하는 역할을 분리한다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": "역할 대비", "rationale": "두 능력을 같은 축의 상하가 아니라 서로 다른 역할로 보여준다."}
+      },
+      "transition": "push",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-visual", "hold-contrast"],
+      "beats": [
+        {"text": "그런데 실무를 잘하는 것과", "emphasis": "mid", "pauseAfterMs": 60, "delivery": "normal", "visualPriority": "mid", "keyword": "실무", "visualCue": "왼쪽 실무 능력이 먼저 잡힌다"},
+        {"text": "관리를 잘하는 것은 같은 능력이 아닙니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "hold", "visualPriority": "high", "keyword": "같은 능력이 아닙니다", "visualCue": "오른쪽 관리 능력과 대비된다"},
+        {"text": "실무를 잘해서 올라갔다고 관리까지 자동으로 잘해지는 건 아닙니다.", "emphasis": "mid", "pauseAfterMs": 220, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null}
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "그런데 실무를 잘하는 것과 관리를 잘하는 것은 같은 능력이 아닙니다. 실무를 잘해서 더 높은 자리에 올라갔다고 관리까지 자동으로 잘하게 되는 것은 아닙니다.",
+      "comparisonLeft": "실무 능력",
+      "comparisonRight": "관리 능력",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "위임한 일을 다시 가져가는 관리자의 전형적인 판단을 그대로 보여준다.",
+        "relation": {"type": "literal", "description": "관리자가 팀원의 일을 회수하는 순간을 인용으로 제시한다."},
+        "strategy": {"type": "minimal", "metaphor": null, "rationale": "원문의 강한 문장을 그대로 세워 문제를 선명하게 만든다."}
+      },
+      "transition": "dip-to-black",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-headline", "hold-quote"],
+      "beats": [
+        {"text": "가장 위험한 관리자는 이렇게 생각합니다.", "emphasis": "mid", "pauseAfterMs": 100, "delivery": "normal", "visualPriority": "mid", "keyword": "위험한 관리자", "visualCue": "인용 전 짧은 전제가 나온다"},
+        {"text": "“맡겨놨더니 못하네?”", "emphasis": "high", "pauseAfterMs": 140, "delivery": "drop", "visualPriority": "high", "keyword": "못하네", "visualCue": "첫 문장이 크게 등장한다"},
+        {"text": "“내가 해야겠다.”", "emphasis": "high", "pauseAfterMs": 260, "delivery": "hold", "visualPriority": "high", "keyword": "내가 해야겠다", "visualCue": "둘째 문장을 고정한다"}
+      ],
+      "headline": "“맡겨놨더니 못하네?\n내가 해야겠다.”",
+      "subline": null,
+      "narration": "제가 위험하다고 보는 관리자는 이런 사람입니다. 맡겨놨더니 못하네? 내가 해야겠다. 이렇게 생각하는 관리자입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "팀원에게 위임한 일과 관리 업무가 분리돼 있다.",
+        "trigger": "위임한 일이 다시 팀장에게 돌아온다.",
+        "change": "실무와 관리가 모두 팀장에게 모인다.",
+        "invariant": "팀장 한 명이 두 종류의 역할을 동시에 맡는 구조를 유지한다.",
+        "result": "일을 회수할수록 팀장은 실무와 관리를 동시에 떠안는다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "위임한 실무와 관리 업무가 한 팀장에게 동시에 모이는 구조를 보여준다.",
+        "nodes": [
+          {"id": "work-line", "shape": "line", "label": "", "x": 400, "y": 210, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "delegated", "target": "lead", "sourceSide": "right", "targetSide": "left", "gap": 18}, "strokeStyle": "solid"},
+          {"id": "manage-line", "shape": "line", "label": "", "x": 400, "y": 410, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "management", "target": "lead", "sourceSide": "right", "targetSide": "left", "gap": 18}, "strokeStyle": "solid"},
+          {"id": "delegated", "shape": "rect", "label": "위임한 실무", "x": 180, "y": 210, "width": 250, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "management", "shape": "rect", "label": "관리 업무", "x": 180, "y": 410, "width": 250, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "lead", "shape": "rect", "label": "팀장", "x": 620, "y": 310, "width": 240, "height": 180, "fill": "white", "connector": null, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "work-line", "property": "opacity", "from": 0, "to": 1, "start": 0.18, "end": 0.38},
+          {"target": "manage-line", "property": "opacity", "from": 0, "to": 1, "start": 0.44, "end": 0.64}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "delegation-return", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "위임한 일을 다시 가져오면 관리자는 실무와 관리 두 역할을 모두 떠안는다.",
+        "relation": {"type": "convergence", "description": "두 종류의 업무가 한 사람에게 수렴한다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": "업무 회수", "rationale": "직접 해결하려는 선택이 역할 집중으로 이어지는 구조를 보여준다."}
+      },
+      "transition": "wipe",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "push-in", "target": "endpoint", "intensity": "medium", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-visual", "return-work", "add-management", "hold-result"],
+      "beats": [
+        {"text": "팀원이 나보다 못할 수도 있습니다.", "emphasis": "mid", "pauseAfterMs": 80, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": "위임한 실무가 따로 놓여 있다"},
+        {"text": "경력이 더 짧다면 오히려 자연스러운 일입니다.", "emphasis": "mid", "pauseAfterMs": 120, "delivery": "normal", "visualPriority": "mid", "keyword": "경력", "visualCue": null},
+        {"text": "그렇다고 일을 다시 가져오면 관리자는 실무와 관리를 둘 다 해야 합니다.", "emphasis": "high", "pauseAfterMs": 240, "delivery": "hold", "visualPriority": "high", "keyword": "둘 다", "visualCue": "두 업무가 팀장에게 모인다"}
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "팀원이 관리자보다 못할 수도 있습니다. 경력이 더 짧은 사람이라면 오히려 자연스러운 일입니다. 하지만 그렇다고 일을 다시 가져오면 관리자는 실무와 관리를 둘 다 해야 합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "관리자의 경험과 팀원의 현재 퍼포먼스가 떨어져 있다.",
+        "trigger": "관리자의 경험이 기준과 맥락으로 정리된다.",
+        "change": "그 구조가 팀원의 퍼포먼스로 연결된다.",
+        "invariant": "관리자가 직접 일을 대신하지 않는다.",
+        "result": "경험 차이를 구조와 맥락으로 메운다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "관리자의 경험이 기준과 맥락을 거쳐 팀원의 퍼포먼스를 끌어올리는 흐름을 보여준다.",
+        "nodes": [
+          {"id": "line-a", "shape": "line", "label": "", "x": 270, "y": 290, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "experience", "target": "context", "sourceSide": "right", "targetSide": "left", "gap": 16}, "strokeStyle": "solid"},
+          {"id": "line-b", "shape": "line", "label": "", "x": 530, "y": 290, "width": 1, "height": 1, "fill": "gray", "connector": {"source": "context", "target": "performance", "sourceSide": "right", "targetSide": "left", "gap": 16}, "strokeStyle": "solid"},
+          {"id": "experience", "shape": "rect", "label": "경험", "x": 140, "y": 290, "width": 180, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "context", "shape": "rect", "label": "기준 · 맥락", "x": 400, "y": 290, "width": 240, "height": 130, "fill": "hatch", "connector": null, "strokeStyle": "solid"},
+          {"id": "performance", "shape": "rect", "label": "팀의 퍼포먼스", "x": 660, "y": 290, "width": 250, "height": 130, "fill": "white", "connector": null, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "line-a", "property": "opacity", "from": 0, "to": 1, "start": 0.18, "end": 0.36},
+          {"target": "context", "property": "scale", "from": 0.88, "to": 1, "start": 0.34, "end": 0.5},
+          {"target": "line-b", "property": "opacity", "from": 0, "to": 1, "start": 0.52, "end": 0.7}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "experience-to-performance", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "관리자가 해야 할 일은 자기 연차에서 얻은 경험을 팀원이 쓸 수 있는 기준과 맥락으로 바꾸는 것이다.",
+        "relation": {"type": "flow", "description": "경험이 구조를 거쳐 팀의 퍼포먼스로 이동한다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": "경험의 전달", "rationale": "관리자의 숙련을 직접 해결 능력이 아니라 팀이 재사용할 수 있는 판단 기반으로 표현한다."}
+      },
+      "transition": "slide-up",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "pan-right", "target": "endpoint", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-experience", "show-context", "connect-performance", "hold-result"],
+      "beats": [
+        {"text": "관리자가 해야 하는 일은", "emphasis": "mid", "pauseAfterMs": 60, "delivery": "normal", "visualPriority": "mid", "keyword": "관리자", "visualCue": "경험 노드가 먼저 보인다"},
+        {"text": "자기 일을 대신 해주는 것이 아닙니다.", "emphasis": "high", "pauseAfterMs": 120, "delivery": "drop", "visualPriority": "mid", "keyword": "대신", "visualCue": null},
+        {"text": "경험이 적은 사람도 더 높은 퍼포먼스를 낼 수 있게 만드는 것입니다.", "emphasis": "high", "pauseAfterMs": 240, "delivery": "hold", "visualPriority": "high", "keyword": "퍼포먼스", "visualCue": "경험에서 기준·맥락을 거쳐 팀의 퍼포먼스로 연결된다"}
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "관리자가 해야 하는 일은 자기 일을 대신 해주는 것이 아닙니다. 자기 연차에서 얻은 경험과 맥락을 나눠서, 경험이 적은 사람도 더 높은 퍼포먼스를 낼 수 있게 만드는 것입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "statement",
+      "layout": "statement-giant",
+      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "관리자가 모든 일을 직접 하면 관리라는 역할 자체가 사라진다는 판단을 압축한다.",
+        "relation": {"type": "balance", "description": "직접 실무와 관리 역할의 경계를 나눈다."},
+        "strategy": {"type": "minimal", "metaphor": null, "rationale": "앞의 구조적 설명 뒤에 도출되는 판단을 짧은 타이포로 고정한다."}
+      },
+      "transition": "dip-to-black",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-headline", "hold-principle"],
+      "beats": [
+        {"text": "내가 모든 걸 직접 한다면", "emphasis": "mid", "pauseAfterMs": 100, "delivery": "normal", "visualPriority": "mid", "keyword": "직접", "visualCue": "첫 줄이 등장한다"},
+        {"text": "내가 관리 일을 할 이유도 없습니다.", "emphasis": "high", "pauseAfterMs": 260, "delivery": "hold", "visualPriority": "high", "keyword": "관리", "visualCue": "둘째 줄을 고정한다"}
+      ],
+      "headline": "내가 모든 걸 한다면,\n관리할 이유도 없다",
+      "subline": null,
+      "narration": "내가 모든 일을 직접 처리할 거라면, 내가 관리 일을 할 이유도 없습니다. 그냥 실무를 하면 됩니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "좋은 관리자는 자신이 자리를 비워도 팀이 움직이게 만든다는 결론으로 도입을 회수한다.",
+        "relation": {"type": "divergence", "description": "관리자의 판단이 한 사람에게 머물지 않고 팀의 각 자리로 분산된다."},
+        "strategy": {"type": "minimal", "metaphor": null, "rationale": "도입의 ‘일찍 퇴근하는 팀장’을 그대로 회수하며 글의 기준을 남긴다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "pull-out", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-headline", "hold-conclusion"],
+      "beats": [
+        {"text": "좋은 관리자는 자신이 제일 잘하는 사람이 되는 게 아니라,", "emphasis": "mid", "pauseAfterMs": 90, "delivery": "normal", "visualPriority": "mid", "keyword": "좋은 관리자", "visualCue": "결론 문장이 등장한다"},
+        {"text": "자기가 없어도 팀이 움직이게 만드는 사람입니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "hold", "visualPriority": "high", "keyword": "없어도", "visualCue": "핵심 문장을 고정한다"},
+        {"text": "그래서 나는 일찍 퇴근하는 팀장을 좋아합니다.", "emphasis": "high", "pauseAfterMs": 300, "delivery": "hold", "visualPriority": "high", "keyword": "일찍 퇴근하는 팀장", "visualCue": "도입을 회수한다"}
+      ],
+      "headline": "내가 없어도\n팀은 움직여야 한다",
+      "subline": null,
+      "narration": "좋은 관리자는 자신이 제일 잘하는 사람이 되는 게 아니라, 자기가 없어도 팀이 움직이게 만드는 사람이라고 생각합니다. 그래서 나는 일찍 퇴근하는 팀장을 좋아합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
