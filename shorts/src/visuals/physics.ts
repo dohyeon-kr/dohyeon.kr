@@ -1,5 +1,5 @@
 import Matter from 'matter-js';
-import {assertDiagramLayout, resolveConnectors, layoutSampleTimes} from './layout-guard.ts';
+import {assertDiagramLayout, collectDiagramLayoutIssues, resolveConnectors, layoutSampleTimes, type LayoutIssue} from './layout-guard.ts';
 import {diagramState, type DiagramSpec} from './diagram-spec.ts';
 
 // A fresh, fixed-step world per evaluation: no Runner, clock, random numbers or
@@ -53,13 +53,42 @@ export function selectDiagramEngine(spec: DiagramSpec): 'remotion' | 'motion-can
   return spec.renderer === 'auto' ? (spec.physics ? 'motion-canvas' : 'remotion') : spec.renderer;
 }
 
-
 // Both backends receive the same checked geometry, including every rendered frame.
 export function evaluatedDiagramState(spec: DiagramSpec, progress: number) {
   const states = resolveConnectors(rawDiagramState(spec, progress));
   assertDiagramLayout(states, progress);
   return states;
 }
+
+function summarizeLayoutIssues(issues: LayoutIssue[]) {
+  const grouped = new Map<string, {issue: LayoutIssue; first: number; last: number; count: number}>();
+  for (const issue of issues) {
+    const key = `${issue.rule}\u0000${issue.ids.join(',')}\u0000${issue.detail}`;
+    const current = grouped.get(key);
+    if (current) {
+      current.first = Math.min(current.first, issue.progress);
+      current.last = Math.max(current.last, issue.progress);
+      current.count += 1;
+    } else {
+      grouped.set(key, {issue, first: issue.progress, last: issue.progress, count: 1});
+    }
+  }
+  return [...grouped.values()].map(({issue, first, last, count}) => {
+    const range = Math.abs(last - first) <= 1e-6
+      ? `t=${first.toFixed(6)}`
+      : `t=${first.toFixed(6)}..${last.toFixed(6)}`;
+    return `[layout:${issue.rule}] ${range} samples=${count} nodes=${issue.ids.join(',')}: ${issue.detail}`;
+  });
+}
+
 export function validateDiagramLayout(spec: DiagramSpec) {
-  for (const progress of layoutSampleTimes(spec)) evaluatedDiagramState(spec, progress);
+  const issues: LayoutIssue[] = [];
+  for (const progress of layoutSampleTimes(spec)) {
+    const states = resolveConnectors(rawDiagramState(spec, progress));
+    issues.push(...collectDiagramLayoutIssues(states, progress));
+  }
+  if (issues.length) {
+    const summaries = summarizeLayoutIssues(issues);
+    throw new Error(`[layout] ${issues.length} sampled violations across ${summaries.length} rule/node groups\n${summaries.join('\n')}`);
+  }
 }
