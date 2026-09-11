@@ -53,7 +53,7 @@ jobs:
       - name: Load current working storyboard and original JSON
         env:
           GH_TOKEN: ${{ github.token }}
-          STORYBOARD_SOURCE: ${{ inputs.storyboard_source }}
+          STORYBOARD_SOURCE: ${{ inputs.storyboard_source || 'shorts-storyboard-preview' }}
         run: node shorts/scripts/load-storyboard.mjs "$MANIFEST"
 
       - name: Install video and storyboard tools
