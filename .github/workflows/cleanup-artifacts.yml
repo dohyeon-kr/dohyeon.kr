@@ -1,0 +1,72 @@
+name: Cleanup old Actions artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      older_than_days:
+        description: Delete artifacts older than this many days
+        required: true
+        default: '3'
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup:
+    name: Delete old artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete artifacts older than threshold
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          DAYS: ${{ inputs.older_than_days }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if ! [[ "$DAYS" =~ ^[0-9]+$ ]] || [ "$DAYS" -lt 1 ]; then
+            echo "older_than_days must be a positive integer"
+            exit 1
+          fi
+
+          cutoff_epoch=$(date -u -d "$DAYS days ago" +%s)
+          deleted=0
+          kept=0
+
+          echo "Deleting artifacts created more than $DAYS day(s) ago..."
+
+          while IFS=$'\t' read -r id name created_at; do
+            created_epoch=$(date -u -d "$created_at" +%s)
+
+            if [ "$created_epoch" -lt "$cutoff_epoch" ]; then
+              echo "DELETE  $name (id=$id, created=$created_at)"
+              gh api \
+                --method DELETE \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "repos/$REPO/actions/artifacts/$id"
+              deleted=$((deleted + 1))
+            else
+              echo "KEEP    $name (created=$created_at)"
+              kept=$((kept + 1))
+            fi
+          done < <(
+            gh api \
+              --paginate \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "repos/$REPO/actions/artifacts?per_page=100" \
+              --jq '.artifacts[] | [.id, .name, .created_at] | @tsv'
+          )
+
+          {
+            echo "## Actions artifact cleanup"
+            echo
+            echo "- Threshold: older than $DAYS day(s)"
+            echo "- Deleted: $deleted"
+            echo "- Kept: $kept"
+          } >> "$GITHUB_STEP_SUMMARY"
