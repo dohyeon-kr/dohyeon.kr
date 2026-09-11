@@ -73,7 +73,7 @@ async function uploadAsset(repository, releaseId, filename, token) {
   const bytes = await fs.readFile(filename);
   const response = await fetch(`${uploadBase}/repos/${repository}/releases/${releaseId}/assets?name=${encodeURIComponent(name)}`, {
     method: 'POST',
-    headers: headers(token, {'Content-Type': contentType(name), 'Content-Length': String(bytes.length)}),
+    headers: headers(token, {'Content-Type': contentType(name)}),
     body: bytes,
     signal: AbortSignal.timeout(120000),
   });
