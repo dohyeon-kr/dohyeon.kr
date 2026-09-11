@@ -51,8 +51,19 @@ async function findRelease(repository, tag, token) {
   throw new Error('Too many releases to scan');
 }
 
-async function deleteAssets(repository, release, token) {
-  for (const asset of release.assets || []) {
+async function listAssets(repository, releaseId, token) {
+  const assets = [];
+  for (let page = 1; page <= 100; page++) {
+    const batch = await requestJson(`${apiBase}/repos/${repository}/releases/${releaseId}/assets?per_page=100&page=${page}`, {token});
+    assets.push(...batch);
+    if (batch.length < 100) return assets;
+  }
+  throw new Error('Too many release assets to scan');
+}
+
+async function deleteAssets(repository, releaseId, token) {
+  const assets = await listAssets(repository, releaseId, token);
+  for (const asset of assets) {
     await requestJson(`${apiBase}/repos/${repository}/releases/assets/${asset.id}`, {token, method: 'DELETE'});
   }
 }
@@ -71,9 +82,14 @@ async function uploadAsset(repository, releaseId, filename, token) {
   return JSON.parse(text);
 }
 
+function validTag(tag) {
+  return typeof tag === 'string' && tag.length > 0 && tag.length <= 240
+    && !tag.includes('/') && !/[\u0000-\u0020~^:?*\[\\]/u.test(tag);
+}
+
 export async function upsertDraftRelease({repository, token, tag, target, title, body, assets}) {
   if (!/^[\w.-]+\/[\w.-]+$/.test(repository || '')) throw new Error('Invalid GitHub repository');
-  if (!/^[\w.-]+$/.test(tag || '')) throw new Error('Invalid release tag');
+  if (!validTag(tag)) throw new Error('Invalid release tag');
   if (!/^[a-f0-9]{40}$/.test(target || '')) throw new Error('Invalid target commit SHA');
   const uniqueAssets = [...new Set(assets || [])];
   if (!uniqueAssets.length) throw new Error('At least one release asset is required');
@@ -89,8 +105,8 @@ export async function upsertDraftRelease({repository, token, tag, target, title,
     prerelease: false,
   };
   if (release) {
-    await deleteAssets(repository, release, token);
     release = await requestJson(`${apiBase}/repos/${repository}/releases/${release.id}`, {token, method: 'PATCH', body: payload});
+    await deleteAssets(repository, release.id, token);
   } else {
     release = await requestJson(`${apiBase}/repos/${repository}/releases`, {token, method: 'POST', body: payload});
   }
