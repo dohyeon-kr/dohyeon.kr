@@ -20,15 +20,28 @@ const assetUrl = name => {
 };
 const manifests = [...new Set((await fs.readFile(listFile, 'utf8')).split(/\r?\n/).filter(Boolean))];
 if (!manifests.length) throw new Error('No manifests to describe');
-const notes = ['# 숏츠 스토리보드 검토', '',
-  `**[AI 리뷰·개선 PR 만들기](${reviewUrl})**`, '',
-  '수정이 필요하면 위 페이지에서 JSON 경로를 manifest에 넣으세요. storyboard_source를 비우면 현재 JSON과 일치하는 최근 스토리보드를 자동으로 찾습니다. 이 발행본을 지정하려면 아래 태그를 넣으세요. 이 스토리보드의 기존 이미지와 원본 JSON을 가져와 리뷰하고 수정본만 렌더합니다. comment는 선택입니다. 현재 JSON이 당시 버전과 다르면 중단하므로 일치하는 브랜치를 선택하세요.', '',
-  '특정 발행본을 지정할 때 복사할 태그 (선택):', '', '```text', tag, '```', '',
-  `**[최종 렌더 실행 페이지 열기](${renderUrl})**`, '',
-  '스토리보드를 확인한 뒤 위 페이지에서 **Run workflow**를 누르세요. 아래 후보의 JSON 경로를 `manifest`에 붙여넣고, `storyboard_approved`를 체크한 뒤 실행합니다. 이 링크는 실행 페이지를 열며 입력값을 자동으로 채우거나 렌더를 시작하지 않습니다.', '',
-  `검토한 원본: [${sha.slice(0, 7)}](${base}/commit/${sha})`, '',
-  '렌더할 브랜치에 아래 JSON이 있는지 확인하세요. 검토 후 JSON이 바뀌었다면 스토리보드도 다시 확인해야 합니다.', '',
-  '아래에는 장면별 스토리보드가 표시되며, 전체 Markdown·장면 PNG·모아보기 JPG·PDF도 Assets에 첨부됩니다. 본문 이미지는 생성 시 검증한 고정 주소로 표시됩니다.', ''];
+const notes = [
+  '# 작업 중인 숏츠 스토리보드',
+  '',
+  '> 이 Draft Release는 현재 작업 중인 릴스의 프리뷰 1개만 유지합니다. 새 스토리보드나 리뷰 결과가 나오면 본문과 Assets를 현재 작업분으로 교체합니다.',
+  '',
+  `**[AI 리뷰·개선 PR 만들기](${reviewUrl})**`,
+  '',
+  '수정이 필요하면 위 페이지에서 아래 JSON 경로를 manifest에 넣으세요. storyboard_source를 비우면 이 작업용 프리뷰를 사용합니다. 과거 릴리즈를 명시적으로 검토해야 할 때만 URL 또는 태그를 입력하세요.',
+  '',
+  `**[최종 렌더 실행 페이지 열기](${renderUrl})**`,
+  '',
+  '스토리보드를 확인한 뒤 위 페이지에서 **Run workflow**를 누르세요. 아래 후보의 JSON 경로를 `manifest`에 붙여넣고, `storyboard_approved`를 체크한 뒤 실행합니다. 최종 렌더는 이 프리뷰 릴리즈와 분리되어 각 릴스별 고정 Release를 갱신합니다.',
+  '',
+  `검토한 원본: [${sha.slice(0, 7)}](${base}/commit/${sha})`,
+  '',
+  `작업용 프리뷰 태그: \`${tag}\``,
+  '',
+  '렌더할 브랜치에 아래 JSON이 있는지 확인하세요. 검토 후 JSON이 바뀌었다면 스토리보드도 다시 확인해야 합니다.',
+  '',
+  '아래에는 장면별 스토리보드가 표시되며, 전체 Markdown·장면 PNG·모아보기 JPG·PDF도 Assets에 첨부됩니다. 본문 이미지는 생성 시 검증한 고정 주소로 표시됩니다.',
+  '',
+];
 const details = [];
 for (const manifestPath of manifests) {
   if (!/^shorts\/content\/[^/]+\/[^/]+\.json$/.test(manifestPath) || manifestPath.includes('..')) throw new Error(`Invalid manifest path: ${manifestPath}`);
@@ -40,7 +53,6 @@ for (const manifestPath of manifests) {
   const sourceUrl = `${base}/blob/${sha}/${manifestPath.split('/').map(segment).join('/')}`;
   let description = describeCandidate(manifest, path.basename(manifestPath));
   description = description.replace(`(${encodeURIComponent(path.basename(manifestPath))})`, `(${sourceUrl})`);
-  // Use the same file names as render.mjs; require every snapshot before publishing.
   for (let i = 0; i < manifest.scenes.length; i++) {
     const name = `${prefix}-scene-${String(i + 1).padStart(2, '0')}.png`;
     await fs.access(path.join(directory, name));
@@ -55,16 +67,28 @@ for (const manifestPath of manifests) {
   }
   const markdownName = `${prefix}-STORYBOARD.md`;
   await fs.writeFile(path.join(directory, markdownName), description);
-  notes.push(`## ${prefix}`, '', '복사할 JSON 경로:', '', '```text', manifestPath, '```', '',
-    `[렌더 실행 페이지](${renderUrl}) · [검토한 JSON](${sourceUrl}) · [전체 스토리보드 Markdown](${assetUrl(markdownName)})`, '',
-    `[모아보기 JPG](${assetUrl(`${prefix}-contact-sheet.jpg`)}) · [장면별 PDF](${assetUrl(`${prefix}-storyboard.pdf`)})`, '');
-  if (manifest.scenes.some(scene => scene.diagramSpec || scene.backgroundVideo || scene.presenter != null)) notes.push(`[시작 → 변화 → 결과 모아보기](${assetUrl(`${prefix}-motion-contact-sheet.jpg`)})`, '');
+  notes.push(
+    `## ${prefix}`,
+    '',
+    '복사할 JSON 경로:',
+    '',
+    '```text',
+    manifestPath,
+    '```',
+    '',
+    `[렌더 실행 페이지](${renderUrl}) · [검토한 JSON](${sourceUrl}) · [전체 스토리보드 Markdown](${assetUrl(markdownName)})`,
+    '',
+    `[모아보기 JPG](${assetUrl(`${prefix}-contact-sheet.jpg`)}) · [장면별 PDF](${assetUrl(`${prefix}-storyboard.pdf`)})`,
+    '',
+  );
+  if (manifest.scenes.some(scene => scene.diagramSpec || scene.backgroundVideo || scene.presenter != null)) {
+    notes.push(`[시작 → 변화 → 결과 모아보기](${assetUrl(`${prefix}-motion-contact-sheet.jpg`)})`, '');
+  }
   details.push(description);
 }
-// Keep every render path even when several long candidates exceed a release body budget.
 for (const description of details) {
   const block = `\n---\n\n${description}`;
   if (Buffer.byteLength(notes.join('\n') + block, 'utf8') <= 60000) notes.push(block);
-  else notes.push('', '추가 후보의 상세 스토리보드는 위의 전체 스토리보드 Markdown 첨부파일에서 확인하세요.', '');
+  else notes.push('', '상세 스토리보드는 위의 전체 스토리보드 Markdown 첨부파일에서 확인하세요.', '');
 }
 await fs.writeFile(notesFile, `${notes.join('\n')}\n`);
