@@ -20,7 +20,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: shorts-render-${{ github.ref }}
+  group: shorts-render-${{ inputs.manifest }}
   cancel-in-progress: false
 
 jobs:
@@ -50,7 +50,7 @@ jobs:
           ffmpeg -version
           ffprobe -version
 
-      - name: Resolve manifests
+      - name: Resolve manifest
         id: manifests
         env:
           MANIFEST_INPUT: ${{ inputs.manifest }}
@@ -72,10 +72,7 @@ jobs:
             echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
             exit 1
           fi
-          printf '%s\n' "${MANIFEST_INPUT}" >> "${list_file}"
-
-          sort -u "${list_file}" -o "${list_file}"
-          cat "${list_file}"
+          printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
 
       - name: Restore completed speech and alignment
@@ -103,17 +100,19 @@ jobs:
           path: shorts/.cache/audio
           key: shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-${{ github.run_id }}-${{ github.run_attempt }}
 
-      - name: Preserve audio recovery artifact
-        if: ${{ always() && steps.audio.outcome != 'skipped' && steps.audio.outcome != '' }}
+      # Artifacts are not a normal delivery path. Keep only this short-lived
+      # emergency bundle when paid TTS preparation itself fails.
+      - name: Preserve failed audio recovery bundle
+        if: ${{ failure() && steps.audio.outcome == 'failure' }}
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
-          name: shorts-audio-${{ github.run_id }}-${{ github.run_attempt }}
+          name: shorts-audio-recovery-${{ github.run_id }}-${{ github.run_attempt }}
           path: shorts/.cache/audio/*
           include-hidden-files: true
           if-no-files-found: ignore
-          retention-days: 30
+          retention-days: 3
 
-      - name: Render changed candidates
+      - name: Render selected reel
         env:
           SHORTS_AUDIO_CACHE_ONLY: 'true'
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -121,42 +120,12 @@ jobs:
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
           SHORTS_TTS_RATE: 1.5
           SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
-          LIST_FILE: ${{ steps.manifests.outputs.list_file }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r manifest; do
-            [[ -n "${manifest}" ]] || continue
-            [[ -f "${manifest}" ]] || continue
-            node shorts/scripts/render-reels.mjs "${manifest}"
-          done < "${LIST_FILE}"
+          MANIFEST: ${{ inputs.manifest }}
+        run: node shorts/scripts/render-reels.mjs "$MANIFEST"
 
-      - name: Upload presenter alignment diagnostics
-        if: ${{ always() }}
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
-        with:
-          name: presenter-alignment-${{ github.run_id }}
-          path: shorts/public/generated/**/scene-*-presenter-alignment.json
-          if-no-files-found: ignore
-          retention-days: 14
-
-      - name: Upload rendered shorts
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
-        with:
-          name: blog-shorts-${{ github.run_id }}
-          path: |
-            shorts/out/*.mp4
-            shorts/out/*.srt
-            shorts/out/*-MEDIA.md
-            shorts/out/*-BGM.md
-            shorts/out/*-REELS.txt
-            shorts/out/*-SCRIPT.txt
-          if-no-files-found: warn
-          retention-days: 14
-
-      - name: Publish video release for mobile download
+      - name: Update this reel's final release
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ github.run_id }}
           SOURCE_SHA: ${{ github.sha }}
-        run: bash shorts/scripts/publish-video-release.sh shorts/out
+        run: node shorts/scripts/publish-video-release.mjs shorts/out "${{ inputs.manifest }}"
