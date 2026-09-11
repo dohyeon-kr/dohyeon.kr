@@ -12,7 +12,7 @@ on:
         required: true
         type: string
       storyboard_source:
-        description: Optional release URL or tag (blank = newest matching storyboard)
+        description: Optional historical release URL/tag (blank = current working preview)
         required: false
         default: ''
         type: string
@@ -29,8 +29,9 @@ permissions:
   contents: write
   pull-requests: write
 
+# Review replaces the same working preview used by storyboard-shorts.yml.
 concurrency:
-  group: shorts-review-${{ github.ref }}-${{ inputs.manifest }}
+  group: shorts-storyboard-preview
   cancel-in-progress: false
 
 jobs:
@@ -41,25 +42,32 @@ jobs:
     env:
       MANIFEST: ${{ inputs.manifest }}
       REVIEW_OUTPUT_DIR: ${{ github.workspace }}/shorts/out/review
+
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
-      - name: Load published storyboard and original JSON
+
+      - name: Load current working storyboard and original JSON
         env:
           GH_TOKEN: ${{ github.token }}
           STORYBOARD_SOURCE: ${{ inputs.storyboard_source }}
         run: node shorts/scripts/load-storyboard.mjs "$MANIFEST"
-      - name: Install video tools
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install video and storyboard tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg imagemagick img2pdf
+
       - name: Install dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
       - name: Resolve canonical prompts from repository
         run: node shorts/scripts/export-prompts.mjs "${RUNNER_TEMP}/shorts-prompts.json" "$MANIFEST"
 
       - name: Validate selected candidate
         run: node shorts/scripts/review-storyboard.mjs validate "$MANIFEST"
+
       - name: Review images and improve candidate with OpenAI
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -67,20 +75,16 @@ jobs:
           SHORTS_REVIEW_MODEL: ${{ vars.SHORTS_REVIEW_MODEL }}
           REVIEW_COMMENT: ${{ inputs.comment }}
         run: node shorts/scripts/review-storyboard.mjs improve "$MANIFEST"
-      - name: Render improved storyboard
+
+      - name: Render and package improved storyboard
         run: |
+          set -euo pipefail
           node shorts/scripts/render.mjs "$MANIFEST" --storyboard
-          mv shorts/out/storyboards "$REVIEW_OUTPUT_DIR/after"
-          cp shorts/out/*-VIDEO.md "$REVIEW_OUTPUT_DIR/after/"
-      - name: Upload before and after review bundle
-        id: bundle
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: storyboard-review-${{ github.run_id }}-${{ github.run_attempt }}
-          path: shorts/out/review/
-          if-no-files-found: ignore
-          retention-days: 30
+          bash shorts/scripts/package-storyboard.sh shorts/out/storyboards
+          mkdir -p "$REVIEW_OUTPUT_DIR/after"
+          cp -R shorts/out/storyboards/. "$REVIEW_OUTPUT_DIR/after/"
+          find shorts/out -maxdepth 1 -type f -name '*-VIDEO.md' -exec cp {} "$REVIEW_OUTPUT_DIR/after/" \;
+
       - name: Open improvement PR
         id: pr
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
@@ -93,15 +97,25 @@ jobs:
           body-path: shorts/out/review/review.md
           add-paths: |
             shorts/content/**
+
+      - name: Replace working storyboard preview release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ steps.pr.outputs.pull-request-head-sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          list_file="${RUNNER_TEMP}/shorts-manifests.txt"
+          printf '%s\n' "$MANIFEST" > "$list_file"
+          node shorts/scripts/publish-storyboard.mjs "$list_file" "${RUNNER_TEMP}/storyboard-release.md"
+
       - name: Write result summary
         env:
           PR_URL: ${{ steps.pr.outputs.pull-request-url }}
-          ARTIFACT_URL: ${{ steps.bundle.outputs.artifact-url }}
         run: |
           printf '## 스토리보드 리뷰 결과\n\n' >> "$GITHUB_STEP_SUMMARY"
           if [[ -n "$PR_URL" ]]; then
-            printf '[개선 PR](%s)\n\n' "$PR_URL" >> "$GITHUB_STEP_SUMMARY"
+            printf '[개선 PR](%s)\n' "$PR_URL" >> "$GITHUB_STEP_SUMMARY"
           else
-            printf '후보 변경이 없어 새 PR을 만들지 않았습니다.\n\n' >> "$GITHUB_STEP_SUMMARY"
+            printf '후보 변경이 없어 새 PR을 만들지 않았습니다.\n' >> "$GITHUB_STEP_SUMMARY"
           fi
-          printf '[리뷰 및 수정 전후 이미지](%s)\n' "$ARTIFACT_URL" >> "$GITHUB_STEP_SUMMARY"
