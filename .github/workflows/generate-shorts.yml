@@ -104,11 +104,13 @@ jobs:
           add-paths: |
             shorts/content/**
 
-      - name: Preserve generation checkpoints and repair history
-        if: always()
+      # Candidate files live in the PR. Artifacts are only an emergency debugging
+      # path when generation fails, not a normal handoff mechanism.
+      - name: Preserve failed generation diagnostics
+        if: failure()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
           name: shorts-generation-diagnostics-${{ github.run_id }}
           path: ${{ runner.temp }}/shorts-generation-diagnostics
           if-no-files-found: ignore
-          retention-days: 14
+          retention-days: 3
