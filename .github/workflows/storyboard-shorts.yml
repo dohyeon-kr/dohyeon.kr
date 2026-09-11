@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       generate_previews:
-        description: Generate storyboard preview and draft release
+        description: Update the single working storyboard preview release
         type: boolean
         default: false
       preview_scale:
@@ -24,8 +24,9 @@ env:
 permissions:
   contents: write
 
+# Storyboard and review workflows both replace the same working preview release.
 concurrency:
-  group: shorts-storyboard-${{ github.ref }}
+  group: shorts-storyboard-preview
   cancel-in-progress: false
 
 jobs:
@@ -34,8 +35,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install video tools
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install video and storyboard tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg imagemagick img2pdf
+
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -47,7 +49,7 @@ jobs:
         with:
           node-version: 24.18.0
 
-      - name: Resolve manifests
+      - name: Resolve manifest
         id: manifests
         env:
           MANIFEST_INPUT: ${{ inputs.manifest }}
@@ -65,25 +67,13 @@ jobs:
             echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
             exit 1
           fi
-          printf '%s\n' "${MANIFEST_INPUT}" >> "${list_file}"
-
-          sort -u "${list_file}" -o "${list_file}"
-          cat "${list_file}"
-          printf 'count=1\n' >> "${GITHUB_OUTPUT}"
+          printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
 
       - name: Install shorts dependencies
-        if: steps.manifests.outputs.count != '0'
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
-      - name: Install storyboard packaging tools
-        if: steps.manifests.outputs.count != '0'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y imagemagick img2pdf
-
       - name: Render scene snapshots
-        if: steps.manifests.outputs.count != '0'
         env:
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
         shell: bash
@@ -91,46 +81,17 @@ jobs:
           set -euo pipefail
           while IFS= read -r manifest; do
             [[ -n "${manifest}" ]] || continue
-            [[ -f "${manifest}" ]] || continue
             node shorts/scripts/render.mjs "${manifest}" --storyboard
           done < "${LIST_FILE}"
 
-      - name: Build mobile review sheets
-        if: steps.manifests.outputs.count != '0'
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r -d '' storyboard_dir; do
-            mapfile -d '' scenes < <(find "${storyboard_dir}" -maxdepth 1 -type f -name '*-scene-[0-9][0-9].png' -print0 | sort -z)
-            [[ "${#scenes[@]}" -gt 0 ]] || continue
-            base="$(basename "${storyboard_dir}")"
-            montage "${scenes[@]}" \
-              -thumbnail '540x960' \
-              -tile 2x \
-              -geometry +0+0 \
-              -background '#050505' \
-              -quality 90 \
-              "${storyboard_dir}/${base}-contact-sheet.jpg"
-            # One row per diagram: initial → change → result. Non-diagram scenes appear once.
-            motion_frames=()
-            for scene in "${scenes[@]}"; do
-              stem="${scene%.png}"
-              if [[ -f "${stem}-initial.png" ]]; then
-                motion_frames+=("${stem}-initial.png" "${stem}-change.png" "${scene}")
-              fi
-            done
-            if [[ "${#motion_frames[@]}" -gt 0 ]]; then
-              montage "${motion_frames[@]}" -thumbnail '360x640' -tile 3x -geometry +8+8 -background '#050505' -quality 90 "${storyboard_dir}/${base}-motion-contact-sheet.jpg"
-            fi
-            img2pdf "${scenes[@]}" -o "${storyboard_dir}/${base}-storyboard.pdf"
-          done < <(find shorts/out/storyboards -mindepth 1 -maxdepth 1 -type d -print0)
+      - name: Package mobile review sheets
+        run: bash shorts/scripts/package-storyboard.sh shorts/out/storyboards
 
-      - name: Publish draft release for mobile approval
-        if: steps.manifests.outputs.count != '0'
+      - name: Replace working storyboard preview release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG_NAME: shorts-storyboard-${{ github.run_id }}
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
+          SOURCE_SHA: ${{ github.sha }}
         shell: bash
         run: |
           set -euo pipefail
