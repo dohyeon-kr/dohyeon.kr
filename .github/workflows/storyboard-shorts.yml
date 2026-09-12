@@ -73,21 +73,61 @@ jobs:
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
-      - name: Render scene snapshots
+      - name: Validate all storyboard scenes
+        id: validate
+        continue-on-error: true
         env:
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
+          status=0
           while IFS= read -r manifest; do
             [[ -n "${manifest}" ]] || continue
-            node shorts/scripts/render.mjs "${manifest}" --storyboard
+            echo "::group::Validate ${manifest}"
+            node shorts/scripts/validate-storyboard.mjs "${manifest}" || status=1
+            echo "::endgroup::"
           done < "${LIST_FILE}"
+          exit "${status}"
+
+      - name: Render scene snapshots
+        id: render
+        continue-on-error: true
+        env:
+          LIST_FILE: ${{ steps.manifests.outputs.list_file }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          status=0
+          while IFS= read -r manifest; do
+            [[ -n "${manifest}" ]] || continue
+            echo "::group::Render ${manifest}"
+            node shorts/scripts/render.mjs "${manifest}" --storyboard || status=1
+            echo "::endgroup::"
+          done < "${LIST_FILE}"
+          exit "${status}"
 
       - name: Package mobile review sheets
-        run: bash shorts/scripts/package-storyboard.sh shorts/out/storyboards
+        id: package
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -d shorts/out/storyboards ]] && find shorts/out/storyboards -type f -name '*-scene-[0-9][0-9].png' -print -quit | grep -q .; then
+            bash shorts/scripts/package-storyboard.sh shorts/out/storyboards
+          else
+            echo "No storyboard snapshots were produced; skipping packaging."
+            {
+              echo '### Storyboard packaging'
+              echo
+              echo 'No storyboard snapshots were produced, so packaging was skipped.'
+              echo
+            } >> "${GITHUB_STEP_SUMMARY}"
+          fi
 
       - name: Replace working storyboard preview release
+        if: steps.validate.outcome == 'success' && steps.render.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
@@ -96,3 +136,24 @@ jobs:
         run: |
           set -euo pipefail
           node shorts/scripts/publish-storyboard.mjs "${LIST_FILE}" "${RUNNER_TEMP}/storyboard-release.md"
+
+      - name: Fail after collecting storyboard issues
+        if: always() && (steps.validate.outcome == 'failure' || steps.render.outcome == 'failure' || steps.package.outcome == 'failure')
+        env:
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+          PACKAGE_OUTCOME: ${{ steps.package.outcome }}
+        shell: bash
+        run: |
+          {
+            echo '### Storyboard result'
+            echo
+            echo "- validation: ${VALIDATE_OUTCOME}"
+            echo "- render: ${RENDER_OUTCOME}"
+            echo "- package: ${PACKAGE_OUTCOME}"
+            echo
+            echo 'The job intentionally continued after intermediate failures so all available diagnostics could be collected. Fix the validation table above first, then re-run the workflow.'
+            echo
+          } >> "${GITHUB_STEP_SUMMARY}"
+          echo "::error title=Storyboard failed after diagnostics::validation=${VALIDATE_OUTCOME}, render=${RENDER_OUTCOME}, package=${PACKAGE_OUTCOME}"
+          exit 1
