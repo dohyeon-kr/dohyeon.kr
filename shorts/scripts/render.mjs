@@ -7,6 +7,7 @@ import {withBlogCta} from './blog-cta.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
 import {videoFrameCount} from '../src/video/schema.ts';
 import {normalizeWordTiming} from '../src/presenter/word-timing.ts';
+import {alignBeatTimings, captionsFromBeatTimings} from './caption-alignment.mjs';
 import fs from 'node:fs/promises';
 import {createReadStream} from 'node:fs';
 import path from 'node:path';
@@ -16,7 +17,7 @@ import OpenAI from './shorts-openai.mjs';
 import {mixBgm} from './bgm.mjs';
 import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {validateSceneMotion} from '../src/motion/validate.ts';
-import {validatePresenterOverlay, overlayNeedsAlignment} from '../src/presenter/overlay.ts';
+import {validatePresenterOverlay} from '../src/presenter/overlay.ts';
 import {validateScenePresenter} from '../src/presenter/schema.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 
@@ -343,6 +344,12 @@ const srtTimestamp = (seconds) => {
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')},${String(millis).padStart(3, '0')}`;
 };
 
+const sceneDurationSeconds = (scene) =>
+  Math.max(
+    Math.round(2.2 * FPS),
+    Math.ceil(((scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS) * FPS),
+  ) / FPS;
+
 const buildSrt = (scenes) => {
   const entries = [];
   let sceneCursor = 0;
@@ -354,7 +361,7 @@ const buildSrt = (scenes) => {
       );
       index += 1;
     }
-    sceneCursor += Math.max(2.2, (scene.audioDurationSeconds ?? 3.6) + SCENE_TAIL_SECONDS);
+    sceneCursor += sceneDurationSeconds(scene);
   }
   return `${entries.join('\n')}\n`;
 };
@@ -400,7 +407,6 @@ const main = async () => {
   ]);
   await copyFonts();
 
-  // Acquire and inspect every requested visual before spending on narration.
   const videoCatalog = manifest.scenes.some(s => s.backgroundVideo) ? await loadVideoCatalog() : [];
   const videos = [];
   const images = [];
@@ -425,6 +431,7 @@ const main = async () => {
     let audioPath = null;
     let audioDurationSeconds = null;
     let captionWords = null;
+    let beatTimings = null;
     if (client && scene.narration?.trim()) {
       const rawAudioFile = path.join(assetDir, `${prefix}-raw.mp3`);
       const audioFile = path.join(assetDir, `${prefix}.mp3`);
@@ -462,6 +469,14 @@ const main = async () => {
       }
       if (timingError) throw new Error(`Scene ${index + 1}: caption alignment failed: ${timingError.message}`, {cause: timingError});
 
+      const beatAlignment = alignBeatTimings(scene.beats, captionWords);
+      if (beatAlignment) {
+        beatTimings = beatAlignment.timings;
+        if (beatAlignment.method !== 'exact') {
+          console.warn(`Scene ${index + 1}: exact beat/word text match failed; using measured proportional word boundaries`);
+        }
+      }
+
       const reportFile = path.join(assetDir, `${prefix}-presenter-alignment.json`);
       overlayPresenter = await alignPresenter({client, audioFile, duration: measuredDuration, narration: scene.narration,
         options: manifest.presenterOverlay, scene, reportFile});
@@ -477,14 +492,16 @@ const main = async () => {
         videoPath = relativeStaticPath(await prepareVideo(scene, videos[index], path.join(assetDir, `${prefix}-background.mp4`), videoFrameCount(previewDuration ?? 3.6)));
       } catch (error) {throw new Error(`Scene ${index + 1}: ${error.message}`, {cause: error});}
     }
+    const measuredBeatCaptions = captionsFromBeatTimings(scene.beats, beatTimings);
     renderScenes.push({
       ...scene,
       videoPath,
       overlayPresenter,
+      beatTimings,
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
       audioDurationSeconds: previewDuration,
-      captions: buildCaptionCues(scene.narration, speechDuration ?? 3.6, captionWords),
+      captions: measuredBeatCaptions ?? buildCaptionCues(scene.narration, speechDuration ?? 3.6, captionWords),
     });
   }
 
@@ -537,7 +554,6 @@ const main = async () => {
         );
         const stem = `${slug}-${candidateId}-scene-${String(index + 1).padStart(2, '0')}`;
         const filename = `${stem}.png`;
-        // Keep the familiar contact-sheet result, plus ordered state frames for motion review.
         const samples = (scene.uiMotion || scene.diagramSpec || scene.backgroundVideo || scene.presenter != null) ? [['initial', .2], ['change', .5], ['result', .8]] : [['result', .8]];
         const images = [];
         for (const [phase, progress] of samples) {
@@ -613,7 +629,7 @@ const main = async () => {
     'utf8',
   );
 
-  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with ${TTS_RATE}x narration, word-aligned burned-in captions, and SRT.`);
+  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with ${TTS_RATE}x narration, beat-aligned burned-in captions, and SRT.`);
 };
 
 await main();
