@@ -127,12 +127,19 @@ const beatAt = (beats: TimedBeat[], seconds: number) =>
   [...beats].reverse().find((beat) => seconds + CAPTION_BOUNDARY_EPSILON_SECONDS >= beat.startSeconds) ?? null;
 
 export function subtitleAt(scene: RenderScene, seconds: number) {
-  if (scene.audioPath && scene.captions?.length) {
-    // Final speech owns timing. Reconstruct the authored semantic beat boundaries on top of
-    // that measured timeline so keyword/emphasis/delivery metadata is not lost.
-    const measuredBeats = measuredBeatsFromCaptions(scene);
-    if (measuredBeats?.length) return beatAt(measuredBeats, seconds);
-    return captionAt(scene, seconds);
+  if (scene.audioPath) {
+    const authoredBeats = scene.beats?.filter((beat) => beat.text.trim()) ?? [];
+    if (authoredBeats.length && scene.beatTimings?.length === authoredBeats.length) {
+      return beatAt(timedBeats(scene), seconds);
+    }
+
+    if (scene.captions?.length) {
+      // Backward-compatible fallback for previously rendered props that have measured captions
+      // but no explicit beatTimings yet.
+      const measuredBeats = measuredBeatsFromCaptions(scene);
+      if (measuredBeats?.length) return beatAt(measuredBeats, seconds);
+      return captionAt(scene, seconds);
+    }
   }
 
   const beats = timedBeats(scene);
