@@ -1,6 +1,7 @@
 import type {RenderScene, SubtitleBeat} from './types.ts';
 
 const compactLength = (text: string) => text.replace(/\s/g, '').length;
+const compactText = (text: string) => text.replace(/\s+/g, '');
 const CAPTION_BOUNDARY_EPSILON_SECONDS = 1 / 60;
 const MAX_CAPTION_GAP_FILL_SECONDS = 0.16;
 
@@ -42,6 +43,53 @@ export const timedBeats = (scene: RenderScene): TimedBeat[] => {
 
 const normalizedCaptionText = (value: string) => value.replace(/\s+/g, ' ').trim();
 
+const measuredBeatsFromCaptions = (scene: RenderScene): TimedBeat[] | null => {
+  const beats = scene.beats?.filter((beat) => beat.text.trim()) ?? [];
+  const captions = [...(scene.captions ?? [])]
+    .filter((cue) => cue.text.trim())
+    .sort((a, b) => a.startSeconds - b.startSeconds);
+  if (!beats.length || !captions.length) return null;
+
+  const beatText = beats.map((beat) => compactText(beat.text)).join('');
+  const captionText = captions.map((cue) => compactText(cue.text)).join('');
+  if (!beatText || beatText !== captionText) return null;
+
+  let textCursor = 0;
+  const ranges = captions.map((cue) => {
+    const length = compactText(cue.text).length;
+    const range = {
+      start: textCursor,
+      end: textCursor + length,
+      startSeconds: cue.startSeconds,
+      endSeconds: cue.endSeconds,
+    };
+    textCursor += length;
+    return range;
+  });
+
+  const timeAtOffset = (offset: number) => {
+    const clamped = Math.max(0, Math.min(textCursor, offset));
+    const range = ranges.find((item, index) =>
+      clamped >= item.start && (clamped < item.end || (index === ranges.length - 1 && clamped === item.end)),
+    ) ?? ranges.at(-1)!;
+    if (clamped <= range.start) return range.startSeconds;
+    if (clamped >= range.end) return range.endSeconds;
+    const progress = (clamped - range.start) / Math.max(1, range.end - range.start);
+    return range.startSeconds + (range.endSeconds - range.startSeconds) * progress;
+  };
+
+  let beatCursor = 0;
+  return beats.map((beat) => {
+    const startOffset = beatCursor;
+    beatCursor += compactText(beat.text).length;
+    return {
+      ...beat,
+      startSeconds: Number(timeAtOffset(startOffset).toFixed(3)),
+      endSeconds: Number(timeAtOffset(beatCursor).toFixed(3)),
+    };
+  });
+};
+
 const decorateCaption = (scene: RenderScene, cue: NonNullable<RenderScene['captions']>[number]) => {
   const text = normalizedCaptionText(cue.text);
   const beat = scene.beats?.find((candidate) => normalizedCaptionText(candidate.text) === text);
@@ -75,15 +123,22 @@ const captionAt = (scene: RenderScene, seconds: number) => {
   return nearby ? decorateCaption(scene, nearby) : null;
 };
 
+const beatAt = (beats: TimedBeat[], seconds: number) =>
+  [...beats].reverse().find((beat) => seconds + CAPTION_BOUNDARY_EPSILON_SECONDS >= beat.startSeconds) ?? null;
+
 export function subtitleAt(scene: RenderScene, seconds: number) {
-  // Final speech captions own timing, but matching editorial beats are merged back in so
-  // keyword/emphasis/delivery metadata survives TTS alignment.
-  if (scene.audioPath && scene.captions?.length) return captionAt(scene, seconds);
+  if (scene.audioPath && scene.captions?.length) {
+    // Final speech owns timing. Reconstruct the authored semantic beat boundaries on top of
+    // that measured timeline so keyword/emphasis/delivery metadata is not lost.
+    const measuredBeats = measuredBeatsFromCaptions(scene);
+    if (measuredBeats?.length) return beatAt(measuredBeats, seconds);
+    return captionAt(scene, seconds);
+  }
 
   const beats = timedBeats(scene);
   if (beats.length) {
     // Beat subtitles intentionally stay visible through pauses until the next beat starts.
-    return [...beats].reverse().find((beat) => seconds + CAPTION_BOUNDARY_EPSILON_SECONDS >= beat.startSeconds) ?? null;
+    return beatAt(beats, seconds);
   }
 
   return captionAt(scene, seconds);
