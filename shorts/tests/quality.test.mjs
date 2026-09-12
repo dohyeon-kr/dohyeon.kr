@@ -10,6 +10,20 @@ test('semantic pauses hold their caption instead of flashing a legacy cue', () =
   assert.equal(subtitleAt(scene, 1.3).text, '두 번째 의미');
   assert.equal(subtitleAt(scene, 2.1).text, '두 번째 의미');
 });
+test('final audio captions override editorial beat timing and wording', () => {
+  const scene = {
+    audioPath: 'generated/scene-01.mp3',
+    beats: [{text: '편집용 문구', pauseAfterMs: 0, delivery: 'normal'}],
+    beatTimings: [{startSeconds: 0, endSeconds: 3}],
+    captions: [
+      {text: '실제 낭독 첫 구간', startSeconds: .35, endSeconds: 1.2},
+      {text: '실제 낭독 다음 구간', startSeconds: 1.2, endSeconds: 2.4},
+    ],
+  };
+  assert.equal(subtitleAt(scene, .2), null);
+  assert.equal(subtitleAt(scene, .4).text, '실제 낭독 첫 구간');
+  assert.equal(subtitleAt(scene, 1.5).text, '실제 낭독 다음 구간');
+});
 test('long headings fit the copy region and vertical lines keep their height', () => {
   const fitted = fitCopy('반복되는 마찰은\n방식을 돌아보라는 신호다', 808, 210, 98);
   assert.ok(fitted.text.split('\n').length * fitted.fontSize * 1.12 <= 210);
