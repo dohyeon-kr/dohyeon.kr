@@ -1,7 +1,7 @@
 import type {RenderScene, SubtitleBeat} from './types.ts';
 
 const compactLength = (text: string) => text.replace(/\s/g, '').length;
-const CAPTION_BOUNDARY_EPSILON_SECONDS = 1 / 30;
+const CAPTION_BOUNDARY_EPSILON_SECONDS = 1 / 60;
 const MAX_CAPTION_GAP_FILL_SECONDS = 0.16;
 
 type TimedBeat = SubtitleBeat & {startSeconds: number; endSeconds: number};
@@ -40,6 +40,14 @@ export const timedBeats = (scene: RenderScene): TimedBeat[] => {
   });
 };
 
+const normalizedCaptionText = (value: string) => value.replace(/\s+/g, ' ').trim();
+
+const decorateCaption = (scene: RenderScene, cue: NonNullable<RenderScene['captions']>[number]) => {
+  const text = normalizedCaptionText(cue.text);
+  const beat = scene.beats?.find((candidate) => normalizedCaptionText(candidate.text) === text);
+  return beat ? {...beat, ...cue} : cue;
+};
+
 const captionAt = (scene: RenderScene, seconds: number) => {
   const captions = [...(scene.captions ?? [])]
     .filter((cue) => cue.text.trim())
@@ -52,10 +60,10 @@ const captionAt = (scene: RenderScene, seconds: number) => {
       seconds + CAPTION_BOUNDARY_EPSILON_SECONDS >= cue.startSeconds &&
       seconds < cue.endSeconds + CAPTION_BOUNDARY_EPSILON_SECONDS,
   );
-  if (exact) return exact;
+  if (exact) return decorateCaption(scene, exact);
 
   // Final TTS/STT timestamps are floats while Remotion renders discrete frames. Tiny gaps at
-  // cue boundaries otherwise become 1-4 blank frames and look like dropped subtitles.
+  // cue boundaries otherwise become blank frames and look like dropped subtitles.
   const previous = [...captions]
     .reverse()
     .find((cue) => seconds >= cue.endSeconds && seconds - cue.endSeconds <= MAX_CAPTION_GAP_FILL_SECONDS);
@@ -63,12 +71,13 @@ const captionAt = (scene: RenderScene, seconds: number) => {
     (cue) => cue.startSeconds > seconds && cue.startSeconds - seconds <= MAX_CAPTION_GAP_FILL_SECONDS,
   );
 
-  return previous ?? next ?? null;
+  const nearby = previous ?? next;
+  return nearby ? decorateCaption(scene, nearby) : null;
 };
 
 export function subtitleAt(scene: RenderScene, seconds: number) {
-  // Once final speech exists, captions are built from the same measured word timestamps as
-  // the TTS presenter alignment. They are the source of truth over editorial beat estimates.
+  // Final speech captions own timing, but matching editorial beats are merged back in so
+  // keyword/emphasis/delivery metadata survives TTS alignment.
   if (scene.audioPath && scene.captions?.length) return captionAt(scene, seconds);
 
   const beats = timedBeats(scene);
