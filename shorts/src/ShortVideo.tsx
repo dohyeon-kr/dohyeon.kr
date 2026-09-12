@@ -138,14 +138,14 @@ const BlogChrome: React.FC<{index: number; total: number; sourceTitle: string}> 
   </div>
 );
 
-const highlightedText = (text: string, keyword: string | null | undefined, inverted = false) => {
+const highlightedText = (text: string, keyword: string | null | undefined) => {
   if (!keyword?.trim()) return text;
   const index = text.indexOf(keyword);
   if (index < 0) return text;
   return (
     <>
       {text.slice(0, index)}
-      <span style={{display: 'inline-block', margin: '0 3px', padding: '1px 6px 3px', background: inverted ? BLACK : WHITE, color: inverted ? WHITE : BLACK, lineHeight: 1}}>{keyword}</span>
+      <span style={{display: 'inline-block', margin: '0 3px', padding: '1px 6px 3px', background: BLACK, color: WHITE, lineHeight: 1}}>{keyword}</span>
       {text.slice(index + keyword.length)}
     </>
   );
@@ -166,25 +166,22 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
   // Timing already comes from final TTS word boundaries. Keep the caption fully visible on
   // the first matching frame; only the small positional/scale motion eases in.
   const entry = interpolate(seconds, [start, start + 0.06], [0, 1], clampInterpolation);
-  const baseFontSize = length > 22 ? 32 : length > 17 ? 34 : length > 12 ? 36 : 38;
-  const fontSize = baseFontSize + (emphasis === 'high' ? 4 : emphasis === 'low' ? -2 : 0);
+  const baseFontSize = length > 19 ? 30 : length > 15 ? 34 : length > 11 ? 38 : 42;
+  const fontSize = baseFontSize + (emphasis === 'high' ? 5 : emphasis === 'low' ? -2 : 0);
   const scale = emphasis === 'high'
-    ? interpolate(entry, [0, 1], [0.965, 1.025], clampInterpolation)
-    : interpolate(entry, [0, 1], [0.985, 1], clampInterpolation);
+    ? interpolate(entry, [0, 1], [0.94, 1.035], clampInterpolation)
+    : interpolate(entry, [0, 1], [0.98, 1], clampInterpolation);
   const y = delivery === 'push'
-    ? interpolate(entry, [0, 1], [12, -2], clampInterpolation)
+    ? interpolate(entry, [0, 1], [12, -3], clampInterpolation)
     : delivery === 'drop'
       ? interpolate(entry, [0, 1], [-8, 0], clampInterpolation)
-      : interpolate(entry, [0, 1], [6, 0], clampInterpolation);
+      : interpolate(entry, [0, 1], [7, 0], clampInterpolation);
   const high = emphasis === 'high';
-  const background = high ? WHITE : photo ? 'rgba(5,5,5,.88)' : '#151515';
-  const color = high ? BLACK : WHITE;
-  const border = high ? `3px solid ${WHITE}` : '2px solid #484848';
 
   return (
     <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? 600 : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: 1, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left top'}}>
-      <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: high ? '13px 19px 14px' : '12px 17px 13px', border, background, color, fontSize, fontWeight: high ? 900 : 800, lineHeight: high ? 1.14 : 1.25, letterSpacing: high ? '-0.045em' : '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
-        {highlightedText(text, keyword, high)}
+      <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: high ? '13px 19px 14px' : '12px 17px 13px', border: `${high ? 3 : 2}px solid ${photo ? BLACK : WHITE}`, background: WHITE, color: BLACK, fontSize, fontWeight: 900, lineHeight: 1.08, letterSpacing: high ? '-0.055em' : '-0.045em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
+        {highlightedText(text, keyword)}
       </div>
     </div>
   );
