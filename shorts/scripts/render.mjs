@@ -1,12 +1,14 @@
 import {resolveTemplate} from '../src/templates/registry.ts';
 import {createStoryboardRenderer, previewScale} from './storyboard-renderer.mjs';
-import {cachedSpeech} from './audio-cache.mjs';
+import {cachedSpeech, cachedTranscription} from './audio-cache.mjs';
 import {renderPrompt} from './shorts-prompts.mjs';
 import {alignPresenter} from './align-presenter.mjs';
 import {withBlogCta} from './blog-cta.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
 import {videoFrameCount} from '../src/video/schema.ts';
+import {normalizeWordTiming} from '../src/presenter/word-timing.ts';
 import fs from 'node:fs/promises';
+import {createReadStream} from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import {spawn} from 'node:child_process';
@@ -33,6 +35,12 @@ const MAX_CAPTION_CHARS = 16;
 const HARD_MAX_CAPTION_CHARS = 22;
 const TTS_RATE = Number(process.env.SHORTS_TTS_RATE || '1.5');
 const STORYBOARD_FLAG = '--storyboard';
+const DEFAULT_PRESENTER_OVERLAY = Object.freeze({
+  position: 'bottom-right',
+  hideOnCommonCta: true,
+  lipSync: 'word-timestamps',
+  nod: 'speech',
+});
 const imageExtensions = new Map([
   ['image/jpeg', '.jpg'],
   ['image/jpg', '.jpg'],
@@ -258,11 +266,7 @@ const splitCaptionText = (narration) => {
   return rebalanceCaptionChunks(chunks.filter(Boolean));
 };
 
-const buildCaptionCues = (narration, durationSeconds) => {
-  if (!narration?.trim() || !durationSeconds) return [];
-  const chunks = splitCaptionText(narration);
-  if (!chunks.length) return [];
-
+const buildEstimatedCaptionCues = (chunks, durationSeconds) => {
   const weights = chunks.map((chunk) => Math.max(1, compactLength(chunk)));
   const totalWeight = weights.reduce((sum, value) => sum + value, 0);
   const usableDuration = Math.max(0.6, durationSeconds - 0.08);
@@ -279,6 +283,55 @@ const buildCaptionCues = (narration, durationSeconds) => {
     cursor = end;
     return cue;
   });
+};
+
+const buildAlignedCaptionCues = (chunks, words) => {
+  const alignedWords = (words ?? []).filter(
+    (word) => typeof word?.word === 'string' && Number.isFinite(word.start) && Number.isFinite(word.end) && word.end > word.start,
+  );
+  if (!chunks.length || alignedWords.length < chunks.length) return null;
+
+  const chunkWeights = chunks.map((chunk) => Math.max(1, compactLength(chunk)));
+  const wordWeights = alignedWords.map((word) => Math.max(1, compactLength(word.word)));
+  const totalChunkWeight = chunkWeights.reduce((sum, value) => sum + value, 0);
+  const totalWordWeight = wordWeights.reduce((sum, value) => sum + value, 0);
+  const wordPrefix = [];
+  let wordSum = 0;
+  for (const weight of wordWeights) {
+    wordSum += weight;
+    wordPrefix.push(wordSum);
+  }
+
+  let chunkSum = 0;
+  let nextWordIndex = 0;
+  const cues = chunks.map((text, index) => {
+    const startIndex = nextWordIndex;
+    chunkSum += chunkWeights[index];
+    const remainingChunks = chunks.length - index - 1;
+    const maxEndIndex = alignedWords.length - remainingChunks - 1;
+    const targetWeight = totalWordWeight * (chunkSum / totalChunkWeight);
+    let endIndex = startIndex;
+    while (endIndex < maxEndIndex && wordPrefix[endIndex] < targetWeight) endIndex += 1;
+    if (index === chunks.length - 1) endIndex = alignedWords.length - 1;
+    nextWordIndex = endIndex + 1;
+    return {
+      text,
+      startSeconds: Number(alignedWords[startIndex].start.toFixed(3)),
+      endSeconds: Number(alignedWords[endIndex].end.toFixed(3)),
+    };
+  });
+
+  for (let index = 0; index < cues.length - 1; index += 1) {
+    cues[index].endSeconds = Math.max(cues[index].endSeconds, cues[index + 1].startSeconds);
+  }
+  return cues;
+};
+
+const buildCaptionCues = (narration, durationSeconds, words = null) => {
+  if (!narration?.trim() || !durationSeconds) return [];
+  const chunks = splitCaptionText(narration);
+  if (!chunks.length) return [];
+  return buildAlignedCaptionCues(chunks, words) ?? buildEstimatedCaptionCues(chunks, durationSeconds);
 };
 
 const srtTimestamp = (seconds) => {
@@ -326,6 +379,8 @@ const main = async () => {
   }
 
   const manifest = withBlogCta(JSON.parse(await fs.readFile(manifestPath, 'utf8')));
+  const hasScenePresenter = manifest.scenes.some((scene) => scene.presenter != null || scene.layout === 'presenter-bust');
+  if (manifest.presenterOverlay == null && !hasScenePresenter) manifest.presenterOverlay = {...DEFAULT_PRESENTER_OVERLAY};
   if (manifest.scenes.some(s => s.uiMotion) && resolveTemplate(manifest).id !== 'notebook-grid') throw new Error('uiMotion requires notebook-grid');
   resolveTemplate(manifest);
   validatePresenterOverlay(manifest);
@@ -369,6 +424,7 @@ const main = async () => {
     let overlayPresenter = null;
     let audioPath = null;
     let audioDurationSeconds = null;
+    let captionWords = null;
     if (client && scene.narration?.trim()) {
       const rawAudioFile = path.join(assetDir, `${prefix}-raw.mp3`);
       const audioFile = path.join(assetDir, `${prefix}.mp3`);
@@ -383,10 +439,32 @@ const main = async () => {
       await applySpeechRate(rawAudioFile, audioFile, TTS_RATE);
       audioPath = relativeStaticPath(audioFile);
       const measuredDuration = await audioDuration(audioFile);
-      if (overlayNeedsAlignment(manifest.presenterOverlay, scene) && measuredDuration == null) throw new Error(`Scene ${index + 1}: cannot measure final TTS duration for lip sync`);
-      audioDurationSeconds = measuredDuration ?? Math.max(2.2, scene.narration.replace(/\s/g, '').length / (6.5 * TTS_RATE));
+      if (measuredDuration == null) throw new Error(`Scene ${index + 1}: cannot measure final TTS duration for caption/presenter alignment`);
+      audioDurationSeconds = measuredDuration;
+
+      let timingError = null;
+      for (let attempt = 1; attempt <= 2; attempt += 1) {
+        try {
+          const transcription = await cachedTranscription({
+            client,
+            audioFile,
+            narration: scene.narration,
+            attempt,
+            createFile: createReadStream,
+          });
+          captionWords = normalizeWordTiming(transcription.words, measuredDuration).words;
+          timingError = null;
+          break;
+        } catch (error) {
+          timingError = error;
+          if (attempt === 1) console.warn(`Caption alignment retry for ${audioFile}: ${error.message}`);
+        }
+      }
+      if (timingError) throw new Error(`Scene ${index + 1}: caption alignment failed: ${timingError.message}`, {cause: timingError});
+
+      const reportFile = path.join(assetDir, `${prefix}-presenter-alignment.json`);
       overlayPresenter = await alignPresenter({client, audioFile, duration: measuredDuration, narration: scene.narration,
-        options: manifest.presenterOverlay, scene, reportFile: path.join(assetDir, `${prefix}-presenter-alignment.json`)});
+        options: manifest.presenterOverlay, scene, reportFile});
     }
 
     const speechDuration = storyboardOnly || silentPreview ? 3.6 : audioDurationSeconds;
@@ -406,7 +484,7 @@ const main = async () => {
       imagePath: imageFile ? relativeStaticPath(imageFile) : null,
       audioPath,
       audioDurationSeconds: previewDuration,
-      captions: buildCaptionCues(scene.narration, speechDuration ?? 3.6),
+      captions: buildCaptionCues(scene.narration, speechDuration ?? 3.6, captionWords),
     });
   }
 
@@ -535,8 +613,7 @@ const main = async () => {
     'utf8',
   );
 
-  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with ${TTS_RATE}x narration, burned-in captions, and SRT.`);
+  console.log(`Rendered ${path.relative(repoRoot, outputFile)} with ${TTS_RATE}x narration, word-aligned burned-in captions, and SRT.`);
 };
 
 await main();
-
