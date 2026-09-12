@@ -40,13 +40,7 @@ export const timedBeats = (scene: RenderScene): TimedBeat[] => {
   });
 };
 
-export function subtitleAt(scene: RenderScene, seconds: number) {
-  const beats = timedBeats(scene);
-  if (beats.length) {
-    // Beat subtitles intentionally stay visible through pauses until the next beat starts.
-    return [...beats].reverse().find((beat) => seconds + CAPTION_BOUNDARY_EPSILON_SECONDS >= beat.startSeconds) ?? null;
-  }
-
+const captionAt = (scene: RenderScene, seconds: number) => {
   const captions = [...(scene.captions ?? [])]
     .filter((cue) => cue.text.trim())
     .sort((a, b) => a.startSeconds - b.startSeconds);
@@ -60,7 +54,7 @@ export function subtitleAt(scene: RenderScene, seconds: number) {
   );
   if (exact) return exact;
 
-  // TTS/STT timestamps are floats while Remotion renders discrete frames. Tiny gaps at
+  // Final TTS/STT timestamps are floats while Remotion renders discrete frames. Tiny gaps at
   // cue boundaries otherwise become 1-4 blank frames and look like dropped subtitles.
   const previous = [...captions]
     .reverse()
@@ -70,4 +64,18 @@ export function subtitleAt(scene: RenderScene, seconds: number) {
   );
 
   return previous ?? next ?? null;
+};
+
+export function subtitleAt(scene: RenderScene, seconds: number) {
+  // Once final speech exists, captions are built from the same measured word timestamps as
+  // the TTS presenter alignment. They are the source of truth over editorial beat estimates.
+  if (scene.audioPath && scene.captions?.length) return captionAt(scene, seconds);
+
+  const beats = timedBeats(scene);
+  if (beats.length) {
+    // Beat subtitles intentionally stay visible through pauses until the next beat starts.
+    return [...beats].reverse().find((beat) => seconds + CAPTION_BOUNDARY_EPSILON_SECONDS >= beat.startSeconds) ?? null;
+  }
+
+  return captionAt(scene, seconds);
 }
