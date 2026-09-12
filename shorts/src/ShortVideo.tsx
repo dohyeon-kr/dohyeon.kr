@@ -163,7 +163,9 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
   const delivery = 'delivery' in cue ? cue.delivery ?? 'normal' : 'normal';
   const keyword = 'keyword' in cue ? cue.keyword as string | null : null;
   const start = 'startSeconds' in cue && Number.isFinite(cue.startSeconds) ? cue.startSeconds : seconds;
-  const entry = interpolate(seconds, [start, start + 0.11], [0, 1], clampInterpolation);
+  // Timing already comes from final TTS word boundaries. Keep the caption fully visible on
+  // the first matching frame; only the small positional/scale motion eases in.
+  const entry = interpolate(seconds, [start, start + 0.06], [0, 1], clampInterpolation);
   const baseFontSize = length > 22 ? 32 : length > 17 ? 34 : length > 12 ? 36 : 38;
   const fontSize = baseFontSize + (emphasis === 'high' ? 4 : emphasis === 'low' ? -2 : 0);
   const scale = emphasis === 'high'
@@ -180,7 +182,7 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
   const border = high ? `3px solid ${WHITE}` : '2px solid #484848';
 
   return (
-    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? 600 : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: entry, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left top'}}>
+    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? 600 : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: 1, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left top'}}>
       <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: high ? '13px 19px 14px' : '12px 17px 13px', border, background, color, fontSize, fontWeight: high ? 900 : 800, lineHeight: high ? 1.14 : 1.25, letterSpacing: high ? '-0.045em' : '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
         {highlightedText(text, keyword, high)}
       </div>
