@@ -10,11 +10,30 @@ test('semantic pauses hold their caption instead of flashing a legacy cue', () =
   assert.equal(subtitleAt(scene, 1.3).text, '두 번째 의미');
   assert.equal(subtitleAt(scene, 2.1).text, '두 번째 의미');
 });
-test('final audio captions override editorial beat timing and wording', () => {
+test('final audio timeline preserves semantic beat emphasis and keyword metadata', () => {
+  const scene = {
+    audioPath: 'generated/scene-01.mp3',
+    beats: [
+      {text: '첫 번째 의미', keyword: '의미', emphasis: 'high', pauseAfterMs: 120, delivery: 'hold'},
+      {text: '두 번째 의미', keyword: null, emphasis: 'mid', pauseAfterMs: 0, delivery: 'normal'},
+    ],
+    captions: [
+      {text: '첫 번째', startSeconds: .2, endSeconds: .8},
+      {text: '의미 두 번째', startSeconds: .8, endSeconds: 1.8},
+      {text: '의미', startSeconds: 1.8, endSeconds: 2.2},
+    ],
+  };
+  const first = subtitleAt(scene, .6);
+  assert.equal(first.text, '첫 번째 의미');
+  assert.equal(first.keyword, '의미');
+  assert.equal(first.emphasis, 'high');
+  assert.equal(subtitleAt(scene, 1.1).text, '첫 번째 의미');
+  assert.equal(subtitleAt(scene, 1.3).text, '두 번째 의미');
+});
+test('final audio captions still fall back to measured cue text when editorial text cannot be reconciled', () => {
   const scene = {
     audioPath: 'generated/scene-01.mp3',
     beats: [{text: '편집용 문구', pauseAfterMs: 0, delivery: 'normal'}],
-    beatTimings: [{startSeconds: 0, endSeconds: 3}],
     captions: [
       {text: '실제 낭독 첫 구간', startSeconds: .35, endSeconds: 1.2},
       {text: '실제 낭독 다음 구간', startSeconds: 1.2, endSeconds: 2.4},
