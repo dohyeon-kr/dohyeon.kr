@@ -37,6 +37,7 @@ const BLACK = '#050505';
 const WHITE = '#ffffff';
 const GRAY = '#8a8a8a';
 const DARK_GRAY = '#242424';
+const FONT_FAMILY = 'Pretendard, Arial, sans-serif';
 
 const SAFE_TOP = 220;
 const SAFE_LEFT = 64;
@@ -150,7 +151,7 @@ const highlightedText = (text: string, keyword: string | null | undefined) => {
   return (
     <>
       {text.slice(0, index)}
-      <span style={{display: 'inline-block', margin: '0 3px', padding: '1px 6px 3px', background: WHITE, color: BLACK, lineHeight: 1}}>{keyword}</span>
+      <span style={{display: 'inline-block', margin: '0 3px', padding: '1px 6px 3px', background: WHITE, color: BLACK, fontFamily: FONT_FAMILY, lineHeight: 1}}>{keyword}</span>
       {text.slice(index + keyword.length)}
     </>
   );
@@ -184,8 +185,8 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
   const high = emphasis === 'high';
 
   return (
-    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? CAPTION_WIDTH_WITH_PRESENTER : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: 1, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left top'}}>
-      <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: high ? '13px 19px 14px' : '12px 17px 13px', border: `${high ? 3 : 2}px solid #484848`, background: photo ? 'rgba(5,5,5,.88)' : '#151515', color: WHITE, fontSize, fontWeight: high ? 900 : 800, lineHeight: high ? 1.14 : 1.25, letterSpacing: high ? '-0.045em' : '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
+    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? CAPTION_WIDTH_WITH_PRESENTER : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: 1, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left top', fontFamily: FONT_FAMILY}}>
+      <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: high ? '13px 19px 14px' : '12px 17px 13px', border: `${high ? 3 : 2}px solid #484848`, background: photo ? 'rgba(5,5,5,.88)' : '#151515', color: WHITE, fontFamily: FONT_FAMILY, fontSize, fontWeight: high ? 900 : 800, lineHeight: high ? 1.14 : 1.25, letterSpacing: high ? '-0.045em' : '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
         {highlightedText(text, keyword)}
       </div>
     </div>
@@ -234,7 +235,7 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
 
   return (
     <AbsoluteFill ref={layoutRoot} style={{background: layer === 'visual' ? BLACK : undefined, color: WHITE, overflow: 'hidden'}}>
-      <AbsoluteFill style={{color: WHITE, fontFamily: 'Pretendard, Arial, sans-serif', overflow: 'hidden', transformOrigin: 'center center'}}>
+      <AbsoluteFill style={{color: WHITE, fontFamily: FONT_FAMILY, overflow: 'hidden', transformOrigin: 'center center'}}>
         {layer === 'visual' && <VideoBackground scene={scene} />}
         {layer === 'visual' && <LightEffects effects={scene.effects?.filter(e => e.target === 'background')} />}
         <style>{`@font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Bold.woff')}') format('woff');font-weight:700 900;font-style:normal;font-display:swap;} @font-face{font-family:Pretendard;src:url('${staticFile('fonts/Pretendard-Regular.woff')}') format('woff');font-weight:300 600;font-style:normal;font-display:swap;}`}</style>
@@ -283,7 +284,7 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes, presenterO
   let cursor = 0;
   return (
     <PresenterOverlayContext.Provider value={presenterOverlay != null}>
-    <AbsoluteFill style={{background: BLACK}}>
+    <AbsoluteFill style={{background: BLACK, fontFamily: FONT_FAMILY}}>
       {scenes.map((scene, index) => {
         validateSceneMotion(scene, scenes[index - 1]);
         const durationInFrames = sceneFrames(scene);
