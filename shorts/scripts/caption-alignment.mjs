@@ -8,6 +8,41 @@ const validWords = (words) => (words ?? [])
   .map((word) => ({...word, normalized: normalized(word.word)}))
   .filter((word) => word.normalized.length > 0);
 
+const editDistance = (left, right) => {
+  const previous = Array.from({length: right.length + 1}, (_, index) => index);
+  for (let i = 1; i <= left.length; i += 1) {
+    let diagonal = previous[0];
+    previous[0] = i;
+    for (let j = 1; j <= right.length; j += 1) {
+      const old = previous[j];
+      previous[j] = Math.min(
+        previous[j] + 1,
+        previous[j - 1] + 1,
+        diagonal + (left[i - 1] === right[j - 1] ? 0 : 1),
+      );
+      diagonal = old;
+    }
+  }
+  return previous[right.length];
+};
+
+const similarity = (left, right) => {
+  if (!left && !right) return 1;
+  const length = Math.max(left.length, right.length);
+  return length ? 1 - editDistance(left, right) / length : 0;
+};
+
+const coverageIsPlausible = (words, durationSeconds) => {
+  if (!Number.isFinite(durationSeconds) || durationSeconds <= 0 || !words.length) return true;
+  const first = words[0].start;
+  const last = words.at(-1).end;
+  const span = last - first;
+  const maxLeadingSilence = Math.max(.75, durationSeconds * .12);
+  const maxTrailingSilence = Math.max(.9, durationSeconds * .15);
+  const minSpeechSpan = durationSeconds * .55;
+  return first <= maxLeadingSilence && durationSeconds - last <= maxTrailingSilence && span >= minSpeechSpan;
+};
+
 const exactBeatTimings = (beats, words) => {
   const normalizedBeats = beats.map((beat) => normalized(beat.text));
   if (normalizedBeats.some((text) => !text)) return null;
@@ -65,16 +100,39 @@ const proportionalBeatTimings = (beats, words) => {
   return timings;
 };
 
-export function alignBeatTimings(beatsInput, wordsInput) {
+export function alignBeatTimings(beatsInput, wordsInput, durationSeconds = null) {
   const beats = (beatsInput ?? []).filter((beat) => beat?.text?.trim());
   const words = validWords(wordsInput);
-  if (!beats.length || !words.length) return null;
+  if (!beats.length || !words.length || !coverageIsPlausible(words, durationSeconds)) return null;
 
   const exact = exactBeatTimings(beats, words);
   if (exact) return {method: 'exact', timings: exact};
 
+  const beatText = beats.map((beat) => normalized(beat.text)).join('');
+  const wordText = words.map((word) => word.normalized).join('');
+  if (similarity(beatText, wordText) < .82) return null;
+
   const proportional = proportionalBeatTimings(beats, words);
   return proportional ? {method: 'proportional', timings: proportional} : null;
+}
+
+export function estimatedBeatTimings(beatsInput, durationSeconds) {
+  const beats = (beatsInput ?? []).filter((beat) => beat?.text?.trim());
+  if (!beats.length || !Number.isFinite(durationSeconds) || durationSeconds <= 0) return null;
+  const usableDuration = Math.max(.6, durationSeconds - .08);
+  const weights = beats.map((beat) => Math.max(1, normalized(beat.text).length) * (beat.delivery === 'hold' ? 1.12 : 1));
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+  let cursor = 0;
+  return beats.map((beat, index) => {
+    const span = usableDuration * weights[index] / totalWeight;
+    const end = index === beats.length - 1 ? usableDuration : Math.min(usableDuration, cursor + span);
+    const timing = {
+      startSeconds: Number(cursor.toFixed(3)),
+      endSeconds: Number(Math.max(cursor + .12, end).toFixed(3)),
+    };
+    cursor = end;
+    return timing;
+  });
 }
 
 export function captionsFromBeatTimings(beatsInput, timings) {
