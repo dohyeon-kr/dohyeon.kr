@@ -17,6 +17,14 @@ test('burned-in captions stay outside scene transition transforms', () => {
   assert.ok(transition >= 0 && caption > transition, 'caption must render as a Sequence sibling after the transition stage');
 });
 
+test('caption keeps Pretendard after leaving SceneFrame inheritance', () => {
+  assert.match(source, /const FONT_FAMILY = 'Pretendard, Arial, sans-serif'/);
+  assert.match(source, /data-layout="caption"[^\n]+fontFamily: FONT_FAMILY/);
+  assert.match(source, /data-layout-text="caption"[^\n]+fontFamily: FONT_FAMILY/);
+  assert.match(source, /background: WHITE, color: BLACK, fontFamily: FONT_FAMILY/);
+  assert.match(source, /<AbsoluteFill style=\{\{background: BLACK, fontFamily: FONT_FAMILY\}\}>/);
+});
+
 test('persistent presenter caption width reserves scaled clearance', () => {
   assert.match(source, /PRESENTER_OVERLAY_BOX\.left/);
   assert.match(source, /CAPTION_PRESENTER_GAP = 24/);
