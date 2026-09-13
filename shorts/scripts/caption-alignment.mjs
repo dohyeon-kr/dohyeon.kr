@@ -100,22 +100,6 @@ const proportionalBeatTimings = (beats, words) => {
   return timings;
 };
 
-export function alignBeatTimings(beatsInput, wordsInput, durationSeconds = null) {
-  const beats = (beatsInput ?? []).filter((beat) => beat?.text?.trim());
-  const words = validWords(wordsInput);
-  if (!beats.length || !words.length || !coverageIsPlausible(words, durationSeconds)) return null;
-
-  const exact = exactBeatTimings(beats, words);
-  if (exact) return {method: 'exact', timings: exact};
-
-  const beatText = beats.map((beat) => normalized(beat.text)).join('');
-  const wordText = words.map((word) => word.normalized).join('');
-  if (similarity(beatText, wordText) < .82) return null;
-
-  const proportional = proportionalBeatTimings(beats, words);
-  return proportional ? {method: 'proportional', timings: proportional} : null;
-}
-
 export function estimatedBeatTimings(beatsInput, durationSeconds) {
   const beats = (beatsInput ?? []).filter((beat) => beat?.text?.trim());
   if (!beats.length || !Number.isFinite(durationSeconds) || durationSeconds <= 0) return null;
@@ -133,6 +117,40 @@ export function estimatedBeatTimings(beatsInput, durationSeconds) {
     cursor = end;
     return timing;
   });
+}
+
+export function alignBeatTimings(beatsInput, wordsInput, durationSeconds = null) {
+  const beats = (beatsInput ?? []).filter((beat) => beat?.text?.trim());
+  const words = validWords(wordsInput);
+  if (!beats.length || !words.length) return null;
+
+  // The renderer historically accepted any monotonic Whisper timestamps. Korean word
+  // timestamps can occasionally cover only the latter half of a scene while still being
+  // syntactically valid, producing several seconds of no captions followed by a burst.
+  // When the measured speech coverage is implausible, preserve the authored semantic beats
+  // and spread them across the observed audio span instead of trusting the clustered words.
+  const inferredDuration = Number.isFinite(durationSeconds) && durationSeconds > 0
+    ? durationSeconds
+    : words.at(-1).end;
+  if (!coverageIsPlausible(words, inferredDuration)) {
+    const timings = estimatedBeatTimings(beats, inferredDuration);
+    return timings ? {method: 'estimated', timings} : null;
+  }
+
+  const exact = exactBeatTimings(beats, words);
+  if (exact) return {method: 'exact', timings: exact};
+
+  const beatText = beats.map((beat) => normalized(beat.text)).join('');
+  const wordText = words.map((word) => word.normalized).join('');
+  if (similarity(beatText, wordText) < .82) {
+    const timings = estimatedBeatTimings(beats, inferredDuration);
+    return timings ? {method: 'estimated', timings} : null;
+  }
+
+  const proportional = proportionalBeatTimings(beats, words);
+  if (proportional) return {method: 'proportional', timings: proportional};
+  const timings = estimatedBeatTimings(beats, inferredDuration);
+  return timings ? {method: 'estimated', timings} : null;
 }
 
 export function captionsFromBeatTimings(beatsInput, timings) {
