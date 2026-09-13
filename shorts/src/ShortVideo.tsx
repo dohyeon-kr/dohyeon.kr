@@ -1,5 +1,5 @@
 import {PersistentPresenter, PresenterOverlayContext} from './presenter/PersistentPresenter';
-import {validatePresenterOverlay} from './presenter/overlay';
+import {PRESENTER_OVERLAY_BOX, validatePresenterOverlay} from './presenter/overlay';
 import {useContext} from 'react';
 import {BlogCta} from './BlogCta';
 import {PresenterScene} from './presenter/PresenterScene';
@@ -46,6 +46,11 @@ const CHROME_TOP = SAFE_TOP + 22;
 const CONTENT_TOP = SAFE_TOP + 220;
 const SAFE_CONTENT_RIGHT = 1080 - SAFE_RIGHT;
 const SAFE_CONTENT_WIDTH = SAFE_CONTENT_RIGHT - SAFE_LEFT;
+const CAPTION_PRESENTER_GAP = 24;
+const MAX_CAPTION_SCALE = 1.035;
+const CAPTION_WIDTH_WITH_PRESENTER = Math.floor(
+  (PRESENTER_OVERLAY_BOX.left - CAPTION_PRESENTER_GAP - SAFE_LEFT) / MAX_CAPTION_SCALE,
+);
 
 const clampInterpolation = {
   extrapolateLeft: 'clamp' as const,
@@ -179,7 +184,7 @@ const CaptionOverlay: React.FC<{scene: RenderScene; photo: boolean}> = ({scene, 
   const high = emphasis === 'high';
 
   return (
-    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? 600 : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: 1, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left top'}}>
+    <div data-layout="caption" style={{position: 'absolute', left: SAFE_LEFT, width: overlay ? CAPTION_WIDTH_WITH_PRESENTER : SAFE_CONTENT_WIDTH - 20, top: 1340, height: 180, display: 'flex', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none', opacity: 1, transform: `translateY(${y}px) scale(${scale})`, transformOrigin: 'left top'}}>
       <div data-layout-text="caption" style={{boxSizing: 'border-box', maxWidth: '100%', padding: high ? '13px 19px 14px' : '12px 17px 13px', border: `${high ? 3 : 2}px solid #484848`, background: photo ? 'rgba(5,5,5,.88)' : '#151515', color: WHITE, fontSize, fontWeight: high ? 900 : 800, lineHeight: high ? 1.14 : 1.25, letterSpacing: high ? '-0.045em' : '-0.025em', textAlign: 'left', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere'}}>
         {highlightedText(text, keyword)}
       </div>
@@ -265,8 +270,6 @@ const SceneFrame: React.FC<{layer: SceneLayer; scene: RenderScene; index: number
           ) : null}
         </div>
 
-        <CaptionOverlay scene={scene} photo={photo} />
-
         <div style={{position: 'absolute', bottom: SAFE_BOTTOM + 16, left: SAFE_LEFT, width: SAFE_CONTENT_WIDTH - 28, height: 3, background: DARK_GRAY, zIndex: 30}}>
           <div style={{width: `${((index + 1) / total) * 100}%`, height: '100%', background: WHITE}} />
         </div></>}
@@ -292,6 +295,9 @@ export const ShortVideo: React.FC<RenderManifest> = ({source, scenes, presenterO
               previousFrames={index > 0 ? sceneFrames(scenes[index - 1]) : undefined}
               previous={index > 0 ? layer => <SceneFrame layer={layer} scene={scenes[index - 1]} index={index - 1} total={scenes.length} sourceTitle={source.title} durationInFrames={sceneFrames(scenes[index - 1])} /> : undefined}
               current={layer => <SceneFrame layer={layer} scene={scene} index={index} total={scenes.length} sourceTitle={source.title} durationInFrames={durationInFrames} />} />
+            {scene.presenter == null && scene.commonPage !== 'blog-cta-v1' ? (
+              <CaptionOverlay scene={scene} photo={fallbackVisual(scene).type === 'photo'} />
+            ) : null}
             {scene.audioPath ? <Html5Audio src={staticFile(scene.audioPath)} /> : null}
           </Sequence>
         );
