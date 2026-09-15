@@ -21,6 +21,19 @@ test('storyboard workflow selects Remotion or HyperFrames from one manual workfl
   assert.match(source, /publish-storyboard\.mjs/);
 });
 
+test('storyboard workflow batches recoverable HyperFrames failures before failing once at the end', () => {
+  const source = workflow('storyboard-shorts.yml');
+  for (const id of ['hyperframes_build', 'hyperframes_lint', 'hyperframes_check', 'hyperframes_render', 'hyperframes_compact', 'hyperframes_extract', 'package']) {
+    assert.match(source, new RegExp(`id: ${id}\\n(?:[\\s\\S]*?\\n){0,4}        continue-on-error: true`), `${id} should continue after failure`);
+  }
+  assert.match(source, /name: HyperFrames visual check[\s\S]*?if: always\(\) && inputs\.engine == 'hyperframes'/);
+  assert.match(source, /name: Render draft HyperFrames motion preview[\s\S]*?if: always\(\) && inputs\.engine == 'hyperframes' && steps\.hyperframes_build\.outcome == 'success'/);
+  assert.doesNotMatch(source, /render --quality draft --fps 30 --output preview\.mp4 --strict/);
+  assert.match(source, /HYPERFRAMES_CHECK_OUTCOME: \$\{\{ steps\.hyperframes_check\.outcome \}\}/);
+  assert.match(source, /HYPERFRAMES_RENDER_OUTCOME: \$\{\{ steps\.hyperframes_render\.outcome \}\}/);
+  assert.match(source, /Storyboard failed after batch diagnostics/);
+});
+
 test('final render workflow selects Remotion or HyperFrames from one manual workflow', () => {
   const source = workflow('render-shorts.yml');
   assertEngineChoice(source);

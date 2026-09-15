@@ -127,7 +127,7 @@ jobs:
 
       - name: Render scene snapshots with Remotion
         id: render_remotion
-        if: steps.validate.outcome == 'success' && inputs.engine == 'remotion'
+        if: always() && inputs.engine == 'remotion'
         continue-on-error: true
         env:
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
@@ -145,13 +145,16 @@ jobs:
 
       - name: Compile candidate to HyperFrames HTML
         id: hyperframes_build
-        if: steps.validate.outcome == 'success' && inputs.engine == 'hyperframes'
+        if: always() && inputs.engine == 'hyperframes'
+        continue-on-error: true
         env:
           MANIFEST_INPUT: ${{ inputs.manifest }}
         run: node shorts/scripts/build-hyperframes.mjs "$MANIFEST_INPUT"
 
       - name: HyperFrames lint
-        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        id: hyperframes_lint
+        if: always() && inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
+        continue-on-error: true
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
@@ -161,7 +164,9 @@ jobs:
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
 
       - name: HyperFrames visual check
-        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        id: hyperframes_check
+        if: always() && inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
+        continue-on-error: true
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
@@ -170,18 +175,26 @@ jobs:
           cd "${PROJECT_DIR}"
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
 
+      # Strict validation is diagnostic here, not a gate for producing a reviewable
+      # preview. Rendering without --strict lets us collect visual output plus all
+      # validation findings in one run. Fatal renderer/runtime failures still fail
+      # this step and are included in the final batch report.
       - name: Render draft HyperFrames motion preview
-        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        id: hyperframes_render
+        if: always() && inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
+        continue-on-error: true
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
         run: |
           set -euo pipefail
           cd "${PROJECT_DIR}"
-          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality draft --fps 30 --output preview.mp4 --strict
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality draft --fps 30 --output preview.mp4
 
       - name: Compact HyperFrames motion preview
-        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        id: hyperframes_compact
+        if: always() && inputs.engine == 'hyperframes' && steps.hyperframes_render.outcome == 'success'
+        continue-on-error: true
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
           PREVIEW_SCALE: ${{ inputs.preview_scale }}
@@ -205,7 +218,9 @@ jobs:
           fi
 
       - name: Extract HyperFrames storyboard hero frames
-        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        id: hyperframes_extract
+        if: always() && inputs.engine == 'hyperframes' && steps.hyperframes_render.outcome == 'success'
+        continue-on-error: true
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
           PREVIEW_SCALE: ${{ inputs.preview_scale }}
@@ -231,7 +246,9 @@ jobs:
           fi
 
       - name: Replace working storyboard preview release
-        if: steps.validate.outcome == 'success' && steps.package.outcome == 'success' && (inputs.engine == 'hyperframes' || steps.render_remotion.outcome == 'success')
+        id: publish
+        if: always() && steps.validate.outcome == 'success' && steps.package.outcome == 'success' && ((inputs.engine == 'remotion' && steps.render_remotion.outcome == 'success') || (inputs.engine == 'hyperframes' && steps.hyperframes_extract.outcome == 'success'))
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
@@ -242,7 +259,9 @@ jobs:
           node shorts/scripts/publish-storyboard.mjs "${LIST_FILE}" "${RUNNER_TEMP}/storyboard-release.md"
 
       - name: Attach HyperFrames motion preview to working release
-        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        id: hyperframes_attach
+        if: always() && inputs.engine == 'hyperframes' && steps.hyperframes_compact.outcome == 'success' && steps.publish.outcome == 'success'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
@@ -253,25 +272,79 @@ jobs:
           cp "${PROJECT_DIR}/preview-release.mp4" "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4"
           gh release upload shorts-storyboard-preview "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4" --clobber
 
-      - name: Fail after collecting storyboard issues
-        if: always() && (steps.validate.outcome == 'failure' || steps.render_remotion.outcome == 'failure' || steps.package.outcome == 'failure')
+      - name: Batch storyboard diagnostics
+        if: always()
         env:
-          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
-          RENDER_OUTCOME: ${{ steps.render_remotion.outcome }}
-          PACKAGE_OUTCOME: ${{ steps.package.outcome }}
           ENGINE: ${{ inputs.engine }}
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+          REMOTION_RENDER_OUTCOME: ${{ steps.render_remotion.outcome }}
+          HYPERFRAMES_BUILD_OUTCOME: ${{ steps.hyperframes_build.outcome }}
+          HYPERFRAMES_LINT_OUTCOME: ${{ steps.hyperframes_lint.outcome }}
+          HYPERFRAMES_CHECK_OUTCOME: ${{ steps.hyperframes_check.outcome }}
+          HYPERFRAMES_RENDER_OUTCOME: ${{ steps.hyperframes_render.outcome }}
+          HYPERFRAMES_COMPACT_OUTCOME: ${{ steps.hyperframes_compact.outcome }}
+          HYPERFRAMES_EXTRACT_OUTCOME: ${{ steps.hyperframes_extract.outcome }}
+          PACKAGE_OUTCOME: ${{ steps.package.outcome }}
+          PUBLISH_OUTCOME: ${{ steps.publish.outcome }}
+          HYPERFRAMES_ATTACH_OUTCOME: ${{ steps.hyperframes_attach.outcome }}
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
         run: |
+          set -uo pipefail
+          failed=0
+
+          report() {
+            local label="$1"
+            local outcome="$2"
+            printf -- '- %s: `%s`\n' "$label" "${outcome:-skipped}" >> "$GITHUB_STEP_SUMMARY"
+            if [[ "$outcome" == 'failure' ]]; then
+              failed=1
+            fi
+          }
+
           {
-            echo '### Storyboard result'
+            echo '### Storyboard batch diagnostics'
             echo
-            echo "- engine: ${ENGINE}"
-            echo "- validation: ${VALIDATE_OUTCOME}"
-            echo "- remotion render: ${RENDER_OUTCOME}"
-            echo "- package: ${PACKAGE_OUTCOME}"
+            echo "- engine: \`${ENGINE}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          report 'validation' "$VALIDATE_OUTCOME"
+          if [[ "$ENGINE" == 'remotion' ]]; then
+            report 'Remotion storyboard render' "$REMOTION_RENDER_OUTCOME"
+          else
+            report 'HyperFrames compile' "$HYPERFRAMES_BUILD_OUTCOME"
+            report 'HyperFrames lint' "$HYPERFRAMES_LINT_OUTCOME"
+            report 'HyperFrames strict check' "$HYPERFRAMES_CHECK_OUTCOME"
+            report 'HyperFrames draft render' "$HYPERFRAMES_RENDER_OUTCOME"
+            report 'HyperFrames compact preview' "$HYPERFRAMES_COMPACT_OUTCOME"
+            report 'HyperFrames frame extraction' "$HYPERFRAMES_EXTRACT_OUTCOME"
+          fi
+          report 'storyboard package' "$PACKAGE_OUTCOME"
+          report 'working release publish' "$PUBLISH_OUTCOME"
+          if [[ "$ENGINE" == 'hyperframes' ]]; then
+            report 'motion preview attach' "$HYPERFRAMES_ATTACH_OUTCOME"
+          fi
+
+          if [[ "$ENGINE" == 'hyperframes' && -n "$PROJECT_DIR" && -f "$PROJECT_DIR/check.json" ]]; then
+            {
+              echo
+              echo '#### HyperFrames findings'
+              echo
+            } >> "$GITHUB_STEP_SUMMARY"
+            jq -r '
+              [.lint.findings[], .runtime.findings[], .layout.findings[], .motion.findings[], .contrast.findings[]]
+              | flatten
+              | if length == 0 then ["- none"] else map("- [\(.severity // \"unknown\")] `\(.code // \"unknown\")`: \(.message // \"\")") end
+              | .[]
+            ' "$PROJECT_DIR/check.json" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          fi
+
+          if (( failed )); then
             echo
-            echo 'The job intentionally continued after recoverable intermediate failures so available diagnostics could be collected.'
-            echo
-          } >> "${GITHUB_STEP_SUMMARY}"
-          echo "::error title=Storyboard failed after diagnostics::engine=${ENGINE}, validation=${VALIDATE_OUTCOME}, remotion=${RENDER_OUTCOME}, package=${PACKAGE_OUTCOME}"
-          exit 1
+            echo 'One or more storyboard stages failed. All runnable diagnostic stages were attempted before this final failure.' >> "$GITHUB_STEP_SUMMARY"
+            echo "::error title=Storyboard failed after batch diagnostics::See the job summary for every stage outcome and collected findings."
+            exit 1
+          fi
+
+          echo >> "$GITHUB_STEP_SUMMARY"
+          echo 'All runnable storyboard stages completed without failures.' >> "$GITHUB_STEP_SUMMARY"
