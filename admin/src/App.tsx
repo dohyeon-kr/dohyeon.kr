@@ -851,7 +851,7 @@ export default function App() {
               )}
               {section === "seo" && (
                 <>
-                  <SearchPanel state={searchReport} />
+                  <SearchPanel state={searchReport} posts={posts} />
                   <Card>
                     <div className="panel-heading">
                       <div>

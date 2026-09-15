@@ -314,7 +314,7 @@ function SearchLandingCell({
   if (!page) return <span className="muted">페이지 집계 없음</span>;
   const href = safeSearchPageHref(page);
   const post = matchPostForSearchPage(page, posts);
-  if (status === "loading") return <span className="muted">게시물 연결 확인 중…</span>;
+  if (status === "loading" || status === "idle") return <span className="muted">게시물 연결 확인 중…</span>;
   if (post)
     return (
       <div className="post-title">
@@ -446,7 +446,7 @@ export function SearchPanel({
                 </thead>
                 <tbody>
                   {opportunities.map((row) => (
-                    <tr key={row.query} title={row.reason}>
+                    <tr key={`${row.query}|${row.page || ""}`} title={row.reason}>
                       <td><span className="tag">{row.priority}</span></td>
                       <td><strong>{row.query}</strong><br /><span className="muted small">{row.reason}</span></td>
                       <td>
