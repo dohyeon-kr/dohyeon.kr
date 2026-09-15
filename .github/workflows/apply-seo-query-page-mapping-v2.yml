@@ -1,0 +1,78 @@
+name: Apply SEO query-page mapping v2
+
+on:
+  push:
+    branches:
+      - feat/seo-query-page-mapping
+    paths:
+      - 'scripts/finish-seo-query-page-mapping.py'
+      - '.github/workflows/apply-seo-query-page-mapping-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: feat/seo-query-page-mapping
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Enable corepack & pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.34.0 --activate
+
+      - name: Apply source patch through known final mismatch
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          output="$(python3 scripts/apply-seo-query-page-mapping.py 2>&1)"
+          status=$?
+          set -e
+          printf '%s\n' "$output"
+          if [ "$status" -ne 1 ] || ! grep -Fq 'expected source block not found: admin/src/components/GoogleReports.test.tsx' <<<"$output"; then
+            exit "$status"
+          fi
+          python3 scripts/finish-seo-query-page-mapping.py
+
+      - name: Test backend report mapping
+        run: python3 -m unittest discover -s services/visit-counter -p 'test_*.py' -v
+
+      - name: Test and build dashboard
+        run: |
+          pnpm --dir admin install --frozen-lockfile --ignore-scripts
+          pnpm --dir admin test
+          pnpm --dir admin build
+
+      - name: Remove temporary patch machinery
+        run: |
+          git rm scripts/apply-seo-query-page-mapping.py \
+                 scripts/finish-seo-query-page-mapping.py \
+                 .github/workflows/apply-seo-query-page-mapping.yml \
+                 .github/workflows/apply-seo-query-page-mapping-v2.yml
+
+      - name: Commit source and generated assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add services/visit-counter/visit_counter.py \
+                  services/visit-counter/test_google_reports.py \
+                  admin/src/components/GoogleReports.tsx \
+                  admin/src/components/GoogleReports.test.tsx \
+                  admin/src/lib/seo-opportunities.ts \
+                  admin/src/lib/seo-opportunities.test.ts \
+                  themes/monoliquid/assets/dashboard
+          git commit -m 'feat: map search queries to landing pages'
+          git push origin HEAD:feat/seo-query-page-mapping
