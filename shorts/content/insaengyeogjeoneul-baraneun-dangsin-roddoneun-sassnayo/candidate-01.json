@@ -2,6 +2,12 @@
   "schemaVersion": 3,
   "id": "candidate-01",
   "status": "candidate",
+  "presenterOverlay": {
+    "position": "bottom-right",
+    "hideOnCommonCta": true,
+    "lipSync": "none",
+    "nod": "none"
+  },
   "source": {
     "url": "https://blog.dohyeon.kr/insaengyeogjeoneul-baraneun-dangsin-roddoneun-sassnayo/",
     "title": "인생역전을 바라는 당신, 로또는 샀나요?"
@@ -18,6 +24,7 @@
   "style": {
     "theme": "monoliquid-v2",
     "template": "monoliquid-v2",
+    "colorScheme": "dark",
     "subtitles": "burned-in",
     "safeArea": "shorts-reels",
     "artDirection": "monochrome-editorial-motion",
@@ -31,28 +38,28 @@
       "visualStory": null,
       "diagramSpec": null,
       "kind": "hero",
-      "layout": "statement-giant",
-      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "layout": "photo-full-bleed",
+      "visual": {"type": "photo", "motif": "lottery-ticket", "query": "lottery ticket", "value": null, "xLabel": null, "yLabel": null},
       "visualIntent": {
         "concept": "인생역전을 바란다는 말과 정작 가능성을 늘리는 행동은 하지 않는 모순을 한 문장으로 연다.",
         "relation": {"type": "comparison", "description": "큰 변화를 원한다는 욕망과 아무것도 시도하지 않는 행동을 대비한다."},
-        "strategy": {"type": "minimal", "metaphor": "로또", "rationale": "원문의 가장 강한 제목을 그대로 훅으로 사용하고, 설명보다 질문 자체의 여운을 먼저 남긴다."}
+        "strategy": {"type": "photo", "metaphor": "로또", "rationale": "실제 로또 티켓 이미지를 화면 전체에 깔고 원문의 가장 강한 질문을 겹쳐, 도입부터 현실의 사물과 인생역전이라는 욕망을 직접 연결한다."}
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
       "camera": {"motion": "push-in", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-headline", "hold-question"],
+      "choreography": ["show-photo", "show-headline", "hold-question"],
       "beats": [
-        {"text": "인생역전을 바라는 사람이 있습니다.", "emphasis": "mid", "pauseAfterMs": 80, "delivery": "normal", "visualPriority": "mid", "keyword": "인생역전", "visualCue": "큰 제목이 먼저 등장한다"},
-        {"text": "그런데 정작 로또는 사지 않습니다.", "emphasis": "high", "pauseAfterMs": 220, "delivery": "hold", "visualPriority": "high", "keyword": "로또", "visualCue": "질문의 핵심 단어가 반전처럼 남는다"}
+        {"text": "인생역전을 바라는 사람이 있습니다.", "emphasis": "mid", "pauseAfterMs": 80, "delivery": "normal", "visualPriority": "mid", "keyword": "인생역전", "visualCue": "풀블리드 로또 사진 위로 큰 제목이 등장한다"},
+        {"text": "그런데 정작 로또는 사지 않습니다.", "emphasis": "high", "pauseAfterMs": 220, "delivery": "hold", "visualPriority": "high", "keyword": "로또", "visualCue": "질문의 핵심 단어가 사진 위에 반전처럼 남는다"}
       ],
       "headline": "인생역전을 바라면서,\n로또는 샀나요?",
       "subline": null,
       "narration": "누구나 한 번쯤 인생을 바꿀 우연을 상상합니다. 그런데 재미있는 건, 그런 우연을 바라면서도 정작 우연이 생길 만한 행동은 별로 하지 않는다는 겁니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
+      "imageQuery": "lottery ticket",
       "image": null
     },
     {
@@ -185,37 +192,31 @@
     {
       "presenter": null,
       "backgroundVideo": null,
-      "visualStory": {
-        "initial": "한 사람만 고립된 하나의 노드로 보인다.",
-        "trigger": "그 사람 뒤로 정보, 경험, 다른 사람, 장소를 나타내는 노드가 연결된다.",
-        "change": "한 사람을 만난다는 일이 하나의 점이 아니라 여러 세계로 이어지는 접점으로 확장된다.",
-        "invariant": "중심 인물은 여전히 한 사람이다.",
-        "result": "관계를 기회 착취가 아니라 세계와의 연결로 재해석한다."
-      },
+      "visualStory": null,
       "diagramSpec": null,
       "kind": "statement",
-      "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "person-as-network-node", "query": null, "value": "한 사람 → 정보 · 경험 · 사람 · 장소", "xLabel": null, "yLabel": null},
+      "layout": "photo-full-bleed",
+      "visual": {"type": "photo", "motif": "human-connection", "query": "people conversation", "value": null, "xLabel": null, "yLabel": null},
       "visualIntent": {
         "concept": "한 사람은 내가 알지 못하는 여러 세계와 연결된 접점이다.",
         "relation": {"type": "network-growth", "description": "한 사람에서 정보, 경험, 관계, 장소로 연결이 확장된다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": "네트워크 노드", "rationale": "사람을 '기회'로 소비하는 뉘앙스를 피하고 연결 가능성 자체를 보여준다."}
+        "strategy": {"type": "photo", "metaphor": "만남", "rationale": "추상적인 네트워크 도식 대신 실제 사람들이 대화하는 장면을 풀블리드로 보여줘, 관계라는 접점이 삶의 새로운 사건으로 이어질 수 있다는 감각을 살린다."}
       },
       "transition": "push",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "pull-out", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-person", "reveal-links", "show-network"],
+      "camera": {"motion": "pull-out", "target": "subject", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-photo", "show-headline", "hold-connection"],
       "beats": [
-        {"text": "한 사람을 만난다는 건 한 사람만 만나는 일이 아닙니다.", "emphasis": "high", "pauseAfterMs": 140, "delivery": "hold", "visualPriority": "high", "keyword": "한 사람", "visualCue": "중심 노드가 먼저 나타난다"},
-        {"text": "그 사람이 알고 있는 정보와 경험, 다른 사람과 장소까지 이어질 수 있습니다.", "emphasis": "mid", "pauseAfterMs": 220, "delivery": "normal", "visualPriority": "mid", "keyword": "연결", "visualCue": "주변 노드와 연결선이 순서대로 나타난다"}
+        {"text": "한 사람을 만난다는 건 한 사람만 만나는 일이 아닙니다.", "emphasis": "high", "pauseAfterMs": 140, "delivery": "hold", "visualPriority": "high", "keyword": "한 사람", "visualCue": "대화하는 사람들의 사진 위에 문장이 등장한다"},
+        {"text": "그 사람이 알고 있는 정보와 경험, 다른 사람과 장소까지 이어질 수 있습니다.", "emphasis": "mid", "pauseAfterMs": 220, "delivery": "normal", "visualPriority": "mid", "keyword": "연결", "visualCue": "사진을 천천히 당기며 관계의 범위가 넓어지는 느낌을 만든다"}
       ],
       "headline": "한 사람은\n하나의 세계와 연결되어 있다",
       "subline": "정보 · 경험 · 다른 사람 · 새로운 장소",
       "narration": "사람을 기회로 본다는 건 무언가를 얻어내겠다는 뜻이 아닙니다. 한 사람은 그 자체로 내가 알지 못하는 정보와 경험, 다른 사람과 장소에 연결되어 있습니다. 그리고 나 역시 누군가에게 그런 새로운 사건이 될 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
+      "imageQuery": "people conversation",
       "image": null
     },
     {
@@ -284,28 +285,28 @@
       "visualStory": null,
       "diagramSpec": null,
       "kind": "outro",
-      "layout": "outro-minimal",
-      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "layout": "photo-full-bleed",
+      "visual": {"type": "photo", "motif": "open-door", "query": "open door light", "value": null, "xLabel": null, "yLabel": null},
       "visualIntent": {
         "concept": "도입의 로또 질문을 '문을 만드는 행동'으로 회수한다.",
         "relation": {"type": "flow", "description": "운을 기다림에서 운이 들어올 구조를 만드는 행동으로 끝맺는다."},
-        "strategy": {"type": "minimal", "metaphor": "문", "rationale": "마지막 장면은 핵심 문장만 남겨 저장·공유하기 좋은 엔딩 카드로 만든다."}
+        "strategy": {"type": "photo", "metaphor": "문", "rationale": "빛이 들어오는 열린 문을 화면 전체에 사용해, 추상적인 운을 기다리는 대신 실제로 통로를 만든다는 결론을 가장 직관적인 이미지로 회수한다."}
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-question", "reveal-answer", "hold-outro"],
+      "camera": {"motion": "push-in", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-photo", "show-question", "reveal-answer", "hold-outro"],
       "beats": [
-        {"text": "운이 없다고 생각하나요?", "emphasis": "mid", "pauseAfterMs": 120, "delivery": "normal", "visualPriority": "mid", "keyword": "운이 없다", "visualCue": "질문이 먼저 나온다"},
-        {"text": "운을 기다리기 전에, 운이 들어올 문부터 만들어보세요.", "emphasis": "high", "pauseAfterMs": 280, "delivery": "hold", "visualPriority": "high", "keyword": "문", "visualCue": "마지막 문장만 큰 흑백 반전으로 남는다"}
+        {"text": "운이 없다고 생각하나요?", "emphasis": "mid", "pauseAfterMs": 120, "delivery": "normal", "visualPriority": "mid", "keyword": "운이 없다", "visualCue": "어두운 공간의 열린 문 사진 위로 질문이 먼저 나온다"},
+        {"text": "운을 기다리기 전에, 운이 들어올 문부터 만들어보세요.", "emphasis": "high", "pauseAfterMs": 280, "delivery": "hold", "visualPriority": "high", "keyword": "문", "visualCue": "열린 문 쪽으로 카메라가 천천히 밀리며 마지막 문장을 남긴다"}
       ],
       "headline": "운이 없다고 생각하나요?\n그럼 문부터 만드세요.",
       "subline": "무엇이 들어올지는 나중에 알게 됩니다.",
       "narration": "운이 좋은 사람이 되는 방법은 모릅니다. 다만 운이 찾아올 수 있는 자리를 조금씩 늘리는 방법은 알 것 같습니다. 운을 기다리기 전에, 운이 들어올 문부터 만들어보세요.",
       "comparisonLeft": null,
       "comparisonRight": null,
-      "imageQuery": null,
+      "imageQuery": "open door light",
       "image": null
     },
     {
