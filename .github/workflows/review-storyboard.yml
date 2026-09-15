@@ -105,7 +105,7 @@ jobs:
         id: hyperframes
         run: node shorts/scripts/build-hyperframes.mjs "$MANIFEST"
 
-      - name: Inspect and render improved HyperFrames storyboard
+      - name: Check and render improved HyperFrames storyboard
         if: steps.renderer.outputs.engine == 'hyperframes'
         env:
           PROJECT_DIR: ${{ steps.hyperframes.outputs.project_dir }}
@@ -114,7 +114,7 @@ jobs:
           set -euo pipefail
           cd "$PROJECT_DIR"
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
-          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" inspect --strict --json | tee inspect.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality draft --fps 30 --output preview.mp4 --strict
           cd "$GITHUB_WORKSPACE"
           node shorts/scripts/extract-hyperframes-storyboard.mjs "$PROJECT_DIR" "$PROJECT_DIR/preview.mp4" --scale=0.4
