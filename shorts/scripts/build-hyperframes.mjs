@@ -25,9 +25,13 @@ const escapeHtml = value => String(value ?? '')
   .replaceAll("'", '&#39;');
 const compact = value => String(value ?? '').replace(/\s+/g, ' ').trim();
 const sceneDuration = scene => {
-  const speech = Number(scene.audioDurationSeconds);
-  if (scene.commonPage === 'blog-cta-v1') return Math.max(6, Number.isFinite(speech) ? speech + 1.2 : 6) + 0.28;
-  return Math.max(2.2, Number.isFinite(speech) && speech > 0 ? speech + 0.28 : 3.88);
+  // render.mjs stores the already-calculated visual duration in
+  // audioDurationSeconds for prepared manifests. Keep the same .28s scene tail
+  // as the existing Remotion renderer instead of applying CTA padding twice.
+  const preparedDuration = Number(scene.audioDurationSeconds);
+  if (Number.isFinite(preparedDuration) && preparedDuration > 0) return Math.max(2.2, preparedDuration + 0.28);
+  if (scene.commonPage === 'blog-cta-v1') return 6.28;
+  return 3.88;
 };
 const under = (file, root) => {
   const resolved = path.resolve(file);
@@ -170,8 +174,10 @@ for (const [index, scene] of manifest.scenes.entries()) {
     </section>`);
 
   if (audio) {
-    const audioDuration = Math.min(duration, Math.max(0.05, Number(scene.audioDurationSeconds) || duration - 0.28));
-    audioTracks.push(`<audio id="audio-${id}" data-start="${start.toFixed(3)}" data-duration="${audioDuration.toFixed(3)}" data-track-index="10" src="${escapeHtml(audio)}" data-volume="1"></audio>`);
+    // HyperFrames reads the real media duration for audio/video when
+    // data-duration is omitted. render.mjs' visual duration can include CTA or
+    // presenter padding, so using it as the media duration would extend silence.
+    audioTracks.push(`<audio id="audio-${id}" data-start="${start.toFixed(3)}" data-track-index="10" src="${escapeHtml(audio)}" data-volume="1"></audio>`);
   }
 
   const enter = start + 0.04;
