@@ -9,8 +9,13 @@ import {
   CartesianGrid,
 } from "recharts";
 import { Card } from "@/components/ui/card";
-import { number, request } from "@/lib/data";
-import { rankSeoOpportunities } from "@/lib/seo-opportunities";
+import { Button } from "@/components/ui/button";
+import { getPosts, number, request, type Post } from "@/lib/data";
+import {
+  matchPostForSearchPage,
+  rankSeoOpportunities,
+  safeSearchPageHref,
+} from "@/lib/seo-opportunities";
 
 type State<T> =
   | { status: "loading" }
@@ -75,6 +80,7 @@ export type SearchReport = State<{
   summary: SearchMetrics | null;
   daily: ({ day: string } & SearchMetrics)[];
   queries: ({ query: string } & SearchMetrics)[];
+  queryPages?: ({ query: string; page: string } & SearchMetrics)[];
 }>;
 export function useGoogleReport<T extends GA4 | SearchReport>(
   provider: string,
@@ -296,9 +302,90 @@ export function GA4Panel({ state }: { state: GA4 }) {
     </Card>
   );
 }
-export function SearchPanel({ state }: { state: SearchReport }) {
+function SearchLandingCell({
+  page,
+  posts,
+  status,
+}: {
+  page?: string;
+  posts: Post[];
+  status: "idle" | "loading" | "done" | "error";
+}) {
+  if (!page) return <span className="muted">페이지 집계 없음</span>;
+  const href = safeSearchPageHref(page);
+  const post = matchPostForSearchPage(page, posts);
+  if (status === "loading" || status === "idle") return <span className="muted">게시물 연결 확인 중…</span>;
+  if (post)
+    return (
+      <div className="post-title">
+        <strong>{post.title}</strong>
+        <small>{href || page}</small>
+        <div className="row-actions">
+          <Button asChild variant="outline" size="sm">
+            <a href={`/ghost/#/editor/post/${post.id}`} target="_blank" rel="noreferrer">편집 ↗</a>
+          </Button>
+          {href && (
+            <Button asChild variant="ghost" size="sm">
+              <a href={href} target="_blank" rel="noreferrer">보기 ↗</a>
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  return (
+    <div className="post-title">
+      <span>{href || page}</span>
+      <small>{status === "error" ? "게시물 연결을 확인하지 못했습니다." : "Ghost 게시물과 자동 연결되지 않음"}</small>
+      {href && (
+        <a href={href} target="_blank" rel="noreferrer">페이지 보기 ↗</a>
+      )}
+    </div>
+  );
+}
+
+export function SearchPanel({
+  state,
+  posts: suppliedPosts,
+}: {
+  state: SearchReport;
+  posts?: Post[];
+}) {
+  const queryPages = state.status === "connected" ? state.queryPages || [] : [];
   const opportunities =
-    state.status === "connected" ? rankSeoOpportunities(state.queries) : [];
+    state.status === "connected"
+      ? rankSeoOpportunities(queryPages.length ? queryPages : state.queries)
+      : [];
+  const [loadedPosts, setLoadedPosts] = useState<Post[]>([]);
+  const [postStatus, setPostStatus] = useState<"idle" | "loading" | "done" | "error">(
+    suppliedPosts ? "done" : "idle",
+  );
+  const revision = state.status === "connected" ? state.updatedAt : "";
+  useEffect(() => {
+    if (suppliedPosts) {
+      setPostStatus("done");
+      return;
+    }
+    if (!revision || !queryPages.length) {
+      setLoadedPosts([]);
+      setPostStatus("idle");
+      return;
+    }
+    let active = true;
+    setPostStatus("loading");
+    getPosts()
+      .then((value) => {
+        if (!active) return;
+        setLoadedPosts(value);
+        setPostStatus("done");
+      })
+      .catch(() => {
+        if (active) setPostStatus("error");
+      });
+    return () => {
+      active = false;
+    };
+  }, [revision, queryPages.length, suppliedPosts]);
+  const posts = suppliedPosts || loadedPosts;
   return (
     <Card className="google-report">
       <div className="panel-heading">
@@ -340,8 +427,8 @@ export function SearchPanel({ state }: { state: SearchReport }) {
           <h3>SEO 기회 후보</h3>
           <p className="muted small">
             노출·평균 순위·클릭률을 내부 기준으로 조합해 먼저 손볼 검색어를
-            고릅니다. 현재 API는 검색어 집계만 제공하므로 수정할 게시물은 Search
-            Console의 연결 페이지를 확인해 결정하세요.
+            고릅니다. 검색어와 실제 노출 페이지를 함께 조회해 Ghost 게시물까지
+            연결하며, 순위 개선을 보장하는 점수는 아닙니다.
           </p>
           {opportunities.length ? (
             <div className="table-scroll">
@@ -350,6 +437,7 @@ export function SearchPanel({ state }: { state: SearchReport }) {
                   <tr>
                     <th>우선순위</th>
                     <th>검색어</th>
+                    <th>연결 페이지</th>
                     <th>추천 작업</th>
                     <th>노출</th>
                     <th>클릭률</th>
@@ -358,9 +446,12 @@ export function SearchPanel({ state }: { state: SearchReport }) {
                 </thead>
                 <tbody>
                   {opportunities.map((row) => (
-                    <tr key={row.query} title={row.reason}>
+                    <tr key={`${row.query}|${row.page || ""}`} title={row.reason}>
                       <td><span className="tag">{row.priority}</span></td>
                       <td><strong>{row.query}</strong><br /><span className="muted small">{row.reason}</span></td>
+                      <td>
+                        <SearchLandingCell page={row.page} posts={posts} status={postStatus} />
+                      </td>
                       <td>{row.action}</td>
                       <td>{number(row.impressions)}</td>
                       <td>{percent(row.ctr)}</td>

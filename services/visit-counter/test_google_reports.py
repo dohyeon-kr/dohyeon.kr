@@ -48,12 +48,16 @@ class GoogleReportsTest(unittest.TestCase):
     def test_search_totals_include_anonymized_queries(self):
         total = {'clicks': 20, 'impressions': 100, 'ctr': .2, 'position': 4}
         query = {'keys': ['hello'], 'clicks': 2, 'impressions': 10, 'ctr': .2, 'position': 4}
-        with patch.object(self.reports, '_post', side_effect=[{'rows': [total]}, {'rows': []}, {'rows': [query]}]) as post:
+        query_page = {'keys': ['hello', 'https://blog.dohyeon.kr/hello/'], 'clicks': 2, 'impressions': 10, 'ctr': .2, 'position': 4}
+        with patch.object(self.reports, '_post', side_effect=[{'rows': [total]}, {'rows': []}, {'rows': [query]}, {'rows': [query_page]}]) as post:
             data = self.reports.report('searchConsole', '2026-01-01', '2026-01-02')
             self.assertEqual(data['summary']['clicks'], 20)
             self.assertEqual(data['queries'][0]['clicks'], 2)
+            self.assertEqual(data['queryPages'][0]['page'], 'https://blog.dohyeon.kr/hello/')
             self.assertIn('sc-domain%3Aexample.com', post.call_args.args[0])
             self.assertEqual(post.call_args.args[1]['dataState'], 'final')
+            self.assertEqual(post.call_args.args[1]['dimensions'], ['query', 'page'])
+            self.assertEqual(post.call_args.args[1]['rowLimit'], 1000)
 
     def test_empty_search_is_connected_without_fabricating_zero_metrics(self):
         with patch.object(self.reports, '_post', return_value={}):

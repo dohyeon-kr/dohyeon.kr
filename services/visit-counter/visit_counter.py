@@ -613,12 +613,15 @@ class GoogleReports:
         summary = query([], 1)
         daily = query(["date"], 366)
         queries = query(["query"], 50)
+        query_pages = query(["query", "page"], 1000)
         def values(row):
             return {key: row[key] for key in ("clicks", "impressions", "ctr", "position")}
         return {"site": site, "timezone": "America/Los_Angeles",
                 "summary": values(summary["rows"][0]) if summary.get("rows") else None,
                 "daily": sorted([{"day": row["keys"][0], **values(row)} for row in daily.get("rows", [])], key=lambda x: x["day"]),
-                "queries": [{"query": row["keys"][0], **values(row)} for row in queries.get("rows", [])]}
+                "queries": [{"query": row["keys"][0], **values(row)} for row in queries.get("rows", [])],
+                "queryPages": [{"query": row["keys"][0], "page": row["keys"][1], **values(row)}
+                               for row in query_pages.get("rows", []) if len(row.get("keys", [])) >= 2]}
 
 
 class VisitServer(ThreadingHTTPServer):

@@ -1,9 +1,17 @@
 export type SearchQueryMetrics = {
   query: string;
+  page?: string;
   clicks: number;
   impressions: number;
   ctr: number;
   position: number;
+};
+
+export type SearchPost = {
+  id: string;
+  title: string;
+  slug: string;
+  url: string;
 };
 
 export type SeoOpportunity = SearchQueryMetrics & {
@@ -12,6 +20,35 @@ export type SeoOpportunity = SearchQueryMetrics & {
   reason: string;
   score: number;
 };
+
+function normalizedPath(value: string) {
+  try {
+    const url = new URL(value, "https://blog.dohyeon.kr");
+    return url.pathname.replace(/\/+$/, "") || "/";
+  } catch {
+    return null;
+  }
+}
+
+export function safeSearchPageHref(page: string) {
+  try {
+    const url = new URL(page);
+    if (
+      url.protocol !== "https:" ||
+      !["blog.dohyeon.kr", "dohyeon.kr"].includes(url.hostname)
+    )
+      return null;
+    return `${url.pathname}${url.search}`;
+  } catch {
+    return null;
+  }
+}
+
+export function matchPostForSearchPage(page: string, posts: SearchPost[]) {
+  const target = normalizedPath(page);
+  if (!target) return undefined;
+  return posts.find((post) => normalizedPath(post.url) === target);
+}
 
 function ctrTarget(position: number) {
   if (position <= 3) return 0.08;

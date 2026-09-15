@@ -52,13 +52,27 @@ describe("Search Console opportunities", () => {
           queries: [
             { query: "storybook 협업", clicks: 10, impressions: 300, ctr: 0.033, position: 8 },
           ],
+          queryPages: [
+            { query: "storybook 협업", page: "https://blog.dohyeon.kr/storybook/", clicks: 10, impressions: 300, ctr: 0.033, position: 8 },
+          ],
         }}
+        posts={[{
+          id: "post-1",
+          title: "Storybook으로 협업하기",
+          slug: "storybook",
+          status: "published",
+          url: "https://blog.dohyeon.kr/storybook/",
+          published_at: "2026-09-01T00:00:00Z",
+          updated_at: "2026-09-01T00:00:00Z",
+        }]}
       />,
     );
 
     expect(html).toContain("SEO 기회 후보");
     expect(html).toContain("storybook 협업");
     expect(html).toContain("본문·내부링크 보강");
-    expect(html).toContain("내부 기준");
+    expect(html).toContain("Storybook으로 협업하기");
+    expect(html).toContain("/ghost/#/editor/post/post-1");
+    expect(html).toContain("실제 노출 페이지");
   });
 });
