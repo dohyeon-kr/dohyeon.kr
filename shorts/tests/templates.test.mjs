@@ -8,6 +8,7 @@ test('legacy manifests retain their renderer and explicit template takes precede
   assert.equal(resolveTemplate({}).id, DEFAULT_TEMPLATE);
   for (const theme of ['monochrome-editorial', 'monochrome-editorial-dark']) assert.equal(resolveTemplate({style: {theme}}).renderer, 'editorial');
   assert.equal(resolveTemplate({style: {theme: DEFAULT_TEMPLATE, template: 'notebook-grid'}}).renderer, 'notebook');
+  assert.equal(resolveTemplate({style: {template: 'monoliquid-v2'}}).engine, 'hyperframes');
   assert.throws(() => getTemplate('../../unknown'), /Unknown shorts template/);
   assert.throws(() => resolveTemplate({style: {template: 'unknown'}}), /Unknown/);
 });
