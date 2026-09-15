@@ -72,6 +72,7 @@ test('monoliquid-v2 compiles candidate JSON to deterministic HyperFrames HTML', 
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const html = await fs.readFile(path.join(outputDir, 'index.html'), 'utf8');
+  const themeCss = await fs.readFile(path.join(outputDir, 'theme.css'), 'utf8');
   const timings = JSON.parse(await fs.readFile(path.join(outputDir, 'timings.json'), 'utf8'));
   await fs.access(path.join(outputDir, 'presenter.svg'));
   assert.match(html, /data-composition-id="monoliquid-v2"/);
@@ -79,7 +80,10 @@ test('monoliquid-v2 compiles candidate JSON to deterministic HyperFrames HTML', 
   assert.match(html, /ml-scene--fullbleed/);
   assert.match(html, /ml-fullbleed-image/);
   assert.match(html, /ml-presenter-overlay/);
-  assert.match(html, /presenter\.svg/);
+  assert.match(html, /class="ml-content" data-layout-allow-overflow/);
+  assert.doesNotMatch(html, /<img[^>]+src="presenter\.svg"/);
+  assert.match(themeCss, /\.ml-presenter-overlay\s*\{[^}]*url\("\.\/presenter\.svg"\)/s);
+  assert.match(themeCss, /\.ml-caption-zone\s*\{[^}]*min-height:\s*210px/s);
   assert.match(html, /window\.__timelines\["monoliquid-v2"\] = tl/);
   assert.match(html, /자동화보다 구조/);
   assert.doesNotMatch(html, /Math\.random|Date\.now|repeat:\s*-1/);
