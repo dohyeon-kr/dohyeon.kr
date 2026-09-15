@@ -64,6 +64,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
+      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
       - name: Build deterministic Monoliquid v2 fixture
         id: build
         shell: bash
@@ -257,63 +258,3 @@ jobs:
             ${{ runner.temp }}/shorts-integrated-preview/*-BGM.md
           retention-days: 7
           if-no-files-found: ignore
-
-  candidate-review:
-    if: github.event_name == 'workflow_dispatch' && inputs.generate_previews && inputs.manifest != ''
-    concurrency:
-      group: shorts-candidate-review-${{ github.ref }}
-      cancel-in-progress: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
-        with:
-          node-version: 24.18.0
-      - name: Validate explicitly selected candidate
-        id: candidates
-        env:
-          MANIFEST_INPUT: ${{ inputs.manifest }}
-        run: |
-          node --input-type=module <<'JS'
-          import fs from 'node:fs/promises';
-          import path from 'node:path';
-          import {candidatePath, validateSelection} from './shorts/scripts/candidate-selection.mjs';
-          const manifest = process.env.MANIFEST_INPUT;
-          if (!candidatePath.test(manifest || '')) throw new Error('Invalid candidate manifest path');
-          await validateSelection([manifest]);
-          const list = path.join(process.env.RUNNER_TEMP, 'preview-manifests.txt');
-          await fs.writeFile(list, manifest + '\n');
-          await fs.appendFile(process.env.GITHUB_OUTPUT, `count=1\nlist_file=${list}\n`);
-          JS
-      - name: Install review tools
-        if: steps.candidates.outputs.count != '0'
-        run: |
-          npm --prefix shorts install --ignore-scripts --no-audit --no-fund
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-      - name: Render changed candidates without paid TTS
-        if: steps.candidates.outputs.count != '0'
-        env:
-          LIST_FILE: ${{ steps.candidates.outputs.list_file }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r manifest; do
-            [[ -n "${manifest}" ]] || continue
-            node shorts/scripts/render.mjs "${manifest}" --storyboard
-            node shorts/scripts/render.mjs "${manifest}" --silent
-          done < "${LIST_FILE}"
-      - name: Upload candidate review
-        if: ${{ always() && steps.candidates.outputs.count != '' && steps.candidates.outputs.count != '0' }}
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
-        with:
-          name: shorts-candidate-review-${{ github.run_id }}
-          path: |
-            shorts/out/storyboards/**/*.png
-            shorts/out/*.mp4
-            shorts/out/*-BGM.md
-            shorts/out/*-MEDIA.md
-          if-no-files-found: warn
-          retention-days: 7
