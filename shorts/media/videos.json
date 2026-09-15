@@ -12,5 +12,47 @@
     "durationSeconds": 10.989,
     "width": 1080,
     "height": 1920
+  },
+  {
+    "id": "lottery-purchase",
+    "title": "Man Buying Ticket On A Yellow Lottery Outlet",
+    "description": "남성이 복권 판매 부스에서 실제로 티켓을 구매하는 장면. 인생역전을 바라면서도 행동하지 않는다는 도입의 역설을 정적인 복권 사진보다 직접적으로 보여줄 때 사용.",
+    "creator": "Anvar Tushakov",
+    "sourcePage": "https://www.pexels.com/video/man-buying-ticket-on-a-yellow-lottery-outlet-4750080/",
+    "downloadUrl": "https://videos.pexels.com/video-files/4750080/4750080-hd_1920_1080_25fps.mp4",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "sha256": "166afa4d967eb571f96d502f5e939f3422a6e8c727f57b3f99fdc8bca3699030",
+    "durationSeconds": 9,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "id": "office-conversation",
+    "title": "People Talking in the Office",
+    "description": "여러 사람이 사무실에서 대화하고 반응하는 세로 구도 장면. 한 사람과의 만남이 정보·경험·다른 관계로 이어지는 접점이라는 내용을 실제 상호작용으로 보여줄 때 사용.",
+    "creator": "MART PRODUCTION",
+    "sourcePage": "https://www.pexels.com/video/people-talking-in-the-office-8870063/",
+    "downloadUrl": "https://videos.pexels.com/video-files/8870063/8870063-uhd_1440_2732_25fps.mp4",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "sha256": "dac818b6babc8293dfac51bffc9bce925f652cd9abd18600f20e8df30dd163cc",
+    "durationSeconds": 28.8,
+    "width": 1440,
+    "height": 2732
+  },
+  {
+    "id": "open-door-sunlight",
+    "title": "A Door Is Open in a Dark Room with Sunlight Coming In",
+    "description": "어두운 실내의 열린 문 너머로 빛이 들어오는 세로 구도 장면. 운을 기다리는 대신 운이 들어올 문을 만든다는 결론과 마지막 여운을 직접적인 공간 변화로 표현할 때 사용.",
+    "creator": "cottonbro studio",
+    "sourcePage": "https://www.pexels.com/video/a-door-is-open-in-a-dark-room-with-sunlight-coming-in-4547598/",
+    "downloadUrl": "https://videos.pexels.com/video-files/4547598/4547598-hd_1080_1920_25fps.mp4",
+    "license": "Pexels License",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "sha256": "510288d529a13e63aab7576b46086ba13fa33bb31a246df180028f1d1a08458e",
+    "durationSeconds": 19.96,
+    "width": 1080,
+    "height": 1920
   }
 ]
