@@ -126,6 +126,8 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const duration = sceneDuration(scene);
   const start = cursor;
   cursor += duration;
+  const visualTrack = number;
+  const audioTrack = 100 + number;
 
   const preparedImage = scene.imagePath ? await copyPreparedMedia(scene.imagePath, `${id}-image`) : null;
   const image = preparedImage ?? (!preparedArg ? await downloadPreviewImage(scene, `${id}-image`) : null);
@@ -158,7 +160,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
     : previewCaption ? `<p class="ml-caption ml-caption--preview">${escapeHtml(previewCaption)}</p>` : '';
 
   renderedScenes.push(`
-    <section id="${id}" class="clip ml-scene ml-scene--${escapeHtml(kind)}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="1">
+    <section id="${id}" class="clip ml-scene ml-scene--${escapeHtml(kind)}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${visualTrack}">
       <div class="ml-grid"></div><span class="ml-tick ml-tick--tl"></span><span class="ml-tick ml-tick--br"></span>
       <div class="ml-content">
         <div class="ml-topline"><span class="ml-kicker">${escapeHtml(sourceLabel)}</span><span class="ml-index">${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div>
@@ -177,7 +179,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
     // HyperFrames reads the real media duration for audio/video when
     // data-duration is omitted. render.mjs' visual duration can include CTA or
     // presenter padding, so using it as the media duration would extend silence.
-    audioTracks.push(`<audio id="audio-${id}" data-start="${start.toFixed(3)}" data-track-index="10" src="${escapeHtml(audio)}" data-volume="1"></audio>`);
+    audioTracks.push(`<audio id="audio-${id}" data-start="${start.toFixed(3)}" data-track-index="${audioTrack}" src="${escapeHtml(audio)}" data-volume="1"></audio>`);
   }
 
   const enter = start + 0.04;
