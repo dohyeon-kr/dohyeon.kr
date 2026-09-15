@@ -194,7 +194,7 @@ body { font-family: var(--ml-font-sans); color: var(--ml-ink); overflow: hidden;
   right: 320px;
   bottom: 118px;
   z-index: 8;
-  min-height: 126px;
+  min-height: 150px;
   border-top: 2px solid var(--ml-frame);
   padding-top: 20px;
 }
