@@ -258,7 +258,7 @@
       "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
       "visualIntent": {
         "concept": "미래의 귀인을 선별하려 하지 말고 모든 관계에서 기본적인 문을 열어두라는 원칙을 제시한다.",
-        "relation": {"type": "reframe", "description": "사람을 선별하는 능력에서 관계의 기본값을 바꾸는 행동으로 관점을 전환한다."},
+        "relation": {"type": "flow", "description": "사람을 선별하는 능력에서 관계의 기본값을 바꾸는 행동으로 관점을 전환한다."},
         "strategy": {"type": "minimal", "metaphor": "열린 문", "rationale": "행동 원칙은 군더더기 없이 큰 문장과 짧은 보조 문장으로 읽히게 한다."}
       },
       "transition": "dip-to-black",
