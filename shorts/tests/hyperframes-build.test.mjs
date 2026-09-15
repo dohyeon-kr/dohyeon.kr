@@ -8,6 +8,20 @@ import {fileURLToPath} from 'node:url';
 const shortsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = path.resolve(shortsRoot, '..');
 
+const fixtureScene = index => ({
+  kind: 'statement',
+  layout: 'statement-giant',
+  headline: `자동화보다 구조 ${index + 1}`,
+  subline: '누락을 줄이는 흐름',
+  narration: '자동화는 시간을 아끼기 전에 누락을 줄이는 구조를 만듭니다.',
+  imageQuery: null,
+  comparisonLeft: null,
+  comparisonRight: null,
+  image: null,
+  visual: {type: 'none', motif: null, query: null, value: null, xLabel: null, yLabel: null},
+  beats: [{text: '누락을 줄이는 구조', emphasis: 'high', pauseAfterMs: 0, delivery: 'hold', visualPriority: 'high', keyword: '구조', visualCue: null}],
+});
+
 test('monoliquid-v2 compiles candidate JSON to deterministic HyperFrames HTML', async t => {
   const fixtureDir = path.join(shortsRoot, 'content', `.hyperframes-test-${process.pid}-${Date.now()}`);
   const outputDir = path.join(shortsRoot, '.tmp', `hyperframes-test-${process.pid}-${Date.now()}`);
@@ -31,13 +45,7 @@ test('monoliquid-v2 compiles candidate JSON to deterministic HyperFrames HTML', 
     style: {
       theme: 'monoliquid-v2', template: 'monoliquid-v2', subtitles: 'burned-in', safeArea: 'shorts-reels',
     },
-    scenes: [{
-      kind: 'statement', layout: 'statement-giant', headline: '자동화보다 구조', subline: '누락을 줄이는 흐름',
-      narration: '자동화는 시간을 아끼기 전에 누락을 줄이는 구조를 만듭니다.', imageQuery: null,
-      comparisonLeft: null, comparisonRight: null, image: null,
-      visual: {type: 'none', motif: null, query: null, value: null, xLabel: null, yLabel: null},
-      beats: [{text: '누락을 줄이는 구조', emphasis: 'high', pauseAfterMs: 0, delivery: 'hold', visualPriority: 'high', keyword: '구조', visualCue: null}],
-    }],
+    scenes: Array.from({length: 10}, (_, index) => fixtureScene(index)),
   };
   const manifestPath = path.join(fixtureDir, 'candidate-01.json');
   await fs.writeFile(manifestPath, JSON.stringify(manifest));
@@ -54,6 +62,10 @@ test('monoliquid-v2 compiles candidate JSON to deterministic HyperFrames HTML', 
   assert.match(html, /window\.__timelines\["monoliquid-v2"\] = tl/);
   assert.match(html, /자동화보다 구조/);
   assert.doesNotMatch(html, /Math\.random|Date\.now|repeat:\s*-1/);
-  assert.ok(timings.scenes.length >= 2, 'shared blog CTA should be part of compiled preview');
+  assert.ok(timings.scenes.length >= 11, 'ten fixture scenes plus shared blog CTA should be compiled');
   assert.ok(timings.totalDurationSeconds > 0);
+
+  const visualTracks = [...html.matchAll(/<section[^>]+class="clip ml-scene[^>]+data-track-index="(\d+)"/g)].map(match => Number(match[1]));
+  assert.equal(visualTracks.length, timings.scenes.length, 'every visual scene should declare a track');
+  assert.equal(new Set(visualTracks).size, visualTracks.length, 'dense storyboards should distribute visual scenes across tracks');
 });
