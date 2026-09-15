@@ -158,7 +158,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
     : previewCaption ? `<p class="ml-caption ml-caption--preview">${escapeHtml(previewCaption)}</p>` : '';
 
   renderedScenes.push(`
-    <section id="${id}" class="ml-scene ml-scene--${escapeHtml(kind)}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="1">
+    <section id="${id}" class="clip ml-scene ml-scene--${escapeHtml(kind)}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="1">
       <div class="ml-grid"></div><span class="ml-tick ml-tick--tl"></span><span class="ml-tick ml-tick--br"></span>
       <div class="ml-content">
         <div class="ml-topline"><span class="ml-kicker">${escapeHtml(sourceLabel)}</span><span class="ml-index">${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div>
