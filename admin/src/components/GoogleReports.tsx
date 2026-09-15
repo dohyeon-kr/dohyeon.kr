@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { Card } from "@/components/ui/card";
 import { number, request } from "@/lib/data";
+import { rankSeoOpportunities } from "@/lib/seo-opportunities";
 
 type State<T> =
   | { status: "loading" }
@@ -296,6 +297,8 @@ export function GA4Panel({ state }: { state: GA4 }) {
   );
 }
 export function SearchPanel({ state }: { state: SearchReport }) {
+  const opportunities =
+    state.status === "connected" ? rankSeoOpportunities(state.queries) : [];
   return (
     <Card className="google-report">
       <div className="panel-heading">
@@ -334,6 +337,42 @@ export function SearchPanel({ state }: { state: SearchReport }) {
             label="검색 클릭"
             id="search-clicks"
           />
+          <h3>SEO 기회 후보</h3>
+          <p className="muted small">
+            노출·평균 순위·클릭률을 내부 기준으로 조합해 먼저 손볼 검색어를
+            고릅니다. 현재 API는 검색어 집계만 제공하므로 수정할 게시물은 Search
+            Console의 연결 페이지를 확인해 결정하세요.
+          </p>
+          {opportunities.length ? (
+            <div className="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>우선순위</th>
+                    <th>검색어</th>
+                    <th>추천 작업</th>
+                    <th>노출</th>
+                    <th>클릭률</th>
+                    <th>평균 순위</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {opportunities.map((row) => (
+                    <tr key={row.query} title={row.reason}>
+                      <td><span className="tag">{row.priority}</span></td>
+                      <td><strong>{row.query}</strong><br /><span className="muted small">{row.reason}</span></td>
+                      <td>{row.action}</td>
+                      <td>{number(row.impressions)}</td>
+                      <td>{percent(row.ctr)}</td>
+                      <td>{row.position.toFixed(1)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="muted">이 기간에는 우선 처리할 검색 기회 후보가 없습니다.</p>
+          )}
           <h3>검색어 상위 50개</h3>
           {state.queries.length ? (
             <div className="table-scroll">
