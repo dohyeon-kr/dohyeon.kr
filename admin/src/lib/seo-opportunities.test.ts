@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { rankSeoOpportunities } from "./seo-opportunities";
+import {
+  matchPostForSearchPage,
+  rankSeoOpportunities,
+  safeSearchPageHref,
+} from "./seo-opportunities";
 
 describe("rankSeoOpportunities", () => {
   it("prioritizes impressions with realistic ranking upside", () => {
@@ -23,5 +27,29 @@ describe("rankSeoOpportunities", () => {
 
     expect(row.action).toBe("제목·검색 설명 개선");
     expect(row.reason).toContain("클릭률");
+  });
+
+  it("keeps the landing page attached to a ranked opportunity", () => {
+    const [row] = rankSeoOpportunities([
+      { query: "expo ota", page: "https://blog.dohyeon.kr/expo-ota/", clicks: 1, impressions: 140, ctr: 0.007, position: 12 },
+    ]);
+
+    expect(row.page).toBe("https://blog.dohyeon.kr/expo-ota/");
+  });
+});
+
+describe("search landing mapping", () => {
+  const posts = [
+    { id: "p1", title: "Expo OTA", slug: "expo-ota", url: "https://blog.dohyeon.kr/expo-ota/" },
+  ];
+
+  it("matches canonical search pages to Ghost posts by pathname", () => {
+    expect(matchPostForSearchPage("https://dohyeon.kr/expo-ota/", posts)?.id).toBe("p1");
+  });
+
+  it("only produces same-site HTTPS links", () => {
+    expect(safeSearchPageHref("https://blog.dohyeon.kr/expo-ota/?ref=search")).toBe("/expo-ota/?ref=search");
+    expect(safeSearchPageHref("https://evil.example/expo-ota/")).toBeNull();
+    expect(safeSearchPageHref("javascript:alert(1)")).toBeNull();
   });
 });
