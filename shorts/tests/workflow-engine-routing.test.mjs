@@ -27,6 +27,10 @@ test('storyboard workflow batches recoverable HyperFrames failures before failin
     assert.match(source, new RegExp(`id: ${id}\\n(?:[\\s\\S]*?\\n){0,4}        continue-on-error: true`), `${id} should continue after failure`);
   }
   assert.match(source, /name: HyperFrames visual check[\s\S]*?if: always\(\) && inputs\.engine == 'hyperframes'/);
+  assert.match(source, /check --strict --json \| tee check\.json/);
+  assert.match(source, /check_status=\$\{PIPESTATUS\[0\]\}/);
+  assert.match(source, /error_count=.*errorCount \/\/ 0/s);
+  assert.match(source, /Strict check found \$\{warning_count\} warning\(s\) and no errors; keeping the storyboard preview reviewable\./);
   assert.match(source, /name: Render draft HyperFrames motion preview[\s\S]*?if: always\(\) && inputs\.engine == 'hyperframes' && steps\.hyperframes_build\.outcome == 'success'/);
   assert.doesNotMatch(source, /render --quality draft --fps 30 --output preview\.mp4 --strict/);
   assert.match(source, /HYPERFRAMES_CHECK_OUTCOME: \$\{\{ steps\.hyperframes_check\.outcome \}\}/);
