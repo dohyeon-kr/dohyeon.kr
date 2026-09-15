@@ -24,6 +24,7 @@ on:
 
 env:
   SHORTS_IMAGE_GENERATION: disabled
+  HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
   contents: write
@@ -112,9 +113,9 @@ jobs:
         run: |
           set -euo pipefail
           cd "$PROJECT_DIR"
-          npx --yes hyperframes lint --verbose
-          npx --yes hyperframes inspect --strict --json | tee inspect.json
-          npx --yes hyperframes render --quality draft --fps 30 --output preview.mp4 --strict
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" inspect --strict --json | tee inspect.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality draft --fps 30 --output preview.mp4 --strict
           cd "$GITHUB_WORKSPACE"
           node shorts/scripts/extract-hyperframes-storyboard.mjs "$PROJECT_DIR" "$PROJECT_DIR/preview.mp4" --scale=0.4
           ffmpeg -y -v error -i "$PROJECT_DIR/preview.mp4" \
@@ -177,7 +178,8 @@ jobs:
           ENGINE: ${{ steps.renderer.outputs.engine }}
         run: |
           printf '## 스토리보드 리뷰 결과\n\n' >> "$GITHUB_STEP_SUMMARY"
-          printf -- '- renderer: %s\n\n' "$ENGINE" >> "$GITHUB_STEP_SUMMARY"
+          printf -- '- renderer: %s\n' "$ENGINE" >> "$GITHUB_STEP_SUMMARY"
+          printf -- '- HyperFrames: %s\n\n' "$HYPERFRAMES_VERSION" >> "$GITHUB_STEP_SUMMARY"
           if [[ -n "$PR_URL" ]]; then
             printf '[개선 PR](%s)\n' "$PR_URL" >> "$GITHUB_STEP_SUMMARY"
           else
