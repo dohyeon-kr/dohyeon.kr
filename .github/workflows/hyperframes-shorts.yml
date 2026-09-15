@@ -150,14 +150,14 @@ jobs:
           cd "${PROJECT_DIR}"
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
 
-      - name: HyperFrames visual inspect
+      - name: HyperFrames visual check
         env:
           PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
         shell: bash
         run: |
           set -euo pipefail
           cd "${PROJECT_DIR}"
-          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" inspect --strict --json | tee inspect.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
 
       - name: Render draft motion preview
         if: inputs.mode == 'storyboard'
@@ -273,7 +273,7 @@ jobs:
             echo "- mode: ${MODE}"
             echo "- reel: ${PREFIX:-not-built}"
             echo "- project: ${PROJECT_DIR:-not-built}"
-            echo '- validation: candidate rules → HyperFrames lint → HyperFrames inspect → render'
+            echo '- validation: candidate rules → HyperFrames lint → HyperFrames check → render'
             echo
             if [[ "${MODE}" == "storyboard" ]]; then
               echo 'The single working storyboard release is replaced and a compressed motion-preview MP4 is attached to it.'
