@@ -56,13 +56,17 @@ The workflow performs, in order:
 6. representative scene snapshots;
 7. the existing storyboard contact-sheet/PDF packaging;
 8. replacement of the single working `shorts-storyboard-preview` Draft Release;
-9. upload of the full motion-preview MP4 to that same working Release.
+9. upload of a downscaled, silent motion-preview MP4 to that same working Release.
 
-This preserves the repository rule that storyboard iteration updates one working Release rather than accumulating normal artifacts.
+The release motion preview is encoded at the selected preview scale and must stay below 10 MiB. This preserves the repository rule that storyboard iteration updates one working Release rather than accumulating normal artifacts.
+
+## AI storyboard review
+
+The existing **Review and improve shorts storyboard** workflow detects `monoliquid-v2` before rendering the improved candidate. Editorial review and PR creation remain shared, but the improved preview is routed through the HyperFrames compiler, `lint`, strict `inspect`, draft render and the same 0.4× working motion-preview Release rather than falling back to Remotion.
 
 ## Final render
 
-After reviewing the working storyboard, run the same workflow with:
+After reviewing the working storyboard, run the same HyperFrames workflow with:
 
 - `mode`: `final`
 - `storyboard_approved`: `true`
@@ -76,7 +80,8 @@ Final mode intentionally reuses the existing paid-audio recovery path instead of
 5. lint and inspect again;
 6. render high-quality 30fps MP4;
 7. reuse `shorts/scripts/bgm.mjs` for BGM/SFX and speech ducking;
-8. reuse `publish-video-release.mjs` so each reel still has exactly one stable final Release.
+8. write SRT, Reels publishing copy, narration script and media provenance sidecars;
+9. reuse `publish-video-release.mjs` so each reel still has exactly one stable final Release.
 
 A render failure after TTS preparation therefore does not intentionally trigger a second paid speech call on the next run while the cache is available.
 
@@ -118,4 +123,6 @@ The full HyperFrames CLI pass requires the CLI/Chrome environment and is run by 
 - `shorts/scripts/build-hyperframes.mjs` — JSON → HTML compiler
 - `shorts/scripts/extract-hyperframes-storyboard.mjs` — motion preview → storyboard snapshots
 - `shorts/scripts/mix-hyperframes-bgm.mjs` — existing BGM/SFX reuse
+- `shorts/scripts/write-hyperframes-release-assets.mjs` — SRT/copy/script/media release sidecars
 - `.github/workflows/hyperframes-shorts.yml` — storyboard and final workflow
+- `.github/workflows/review-storyboard.yml` — shared AI review with renderer-specific preview rerender
