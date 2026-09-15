@@ -29,6 +29,7 @@ body { font-family: var(--ml-font-sans); color: var(--ml-ink); overflow: hidden;
 .ml-scene {
   position: absolute;
   inset: var(--ml-frame-width);
+  z-index: 1;
   overflow: hidden;
   background: var(--ml-canvas);
   color: var(--ml-ink);
@@ -54,6 +55,20 @@ body { font-family: var(--ml-font-sans); color: var(--ml-ink); overflow: hidden;
   background-image:
     linear-gradient(to right, transparent calc(50% - 1px), var(--ml-metal) 50%, transparent calc(50% + 1px)),
     linear-gradient(to bottom, transparent calc(50% - 1px), var(--ml-metal) 50%, transparent calc(50% + 1px));
+}
+
+.ml-background-video {
+  position: absolute;
+  top: var(--ml-frame-width);
+  right: var(--ml-frame-width);
+  bottom: var(--ml-frame-width);
+  left: var(--ml-frame-width);
+  z-index: 0;
+  width: calc(100% - var(--ml-frame-width) - var(--ml-frame-width));
+  height: calc(100% - var(--ml-frame-width) - var(--ml-frame-width));
+  object-fit: cover;
+  background: #000;
+  filter: grayscale(1) contrast(1.08) brightness(.78);
 }
 
 .ml-fullbleed-media {
@@ -96,6 +111,21 @@ body { font-family: var(--ml-font-sans); color: var(--ml-ink); overflow: hidden;
 .ml-scene--fullbleed .ml-headline { text-shadow: 0 4px 28px rgba(0,0,0,.72); }
 .ml-scene--fullbleed .ml-tick::before,
 .ml-scene--fullbleed .ml-tick::after { background: #fff; }
+
+.ml-scene--video {
+  background: transparent;
+}
+
+.ml-scene--video::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,.08) 34%, rgba(0,0,0,.18) 58%, rgba(0,0,0,.62) 100%),
+    rgba(0,0,0,var(--ml-video-overlay-opacity, .45));
+}
 
 .ml-content {
   position: relative;

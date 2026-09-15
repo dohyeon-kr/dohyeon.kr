@@ -59,6 +59,14 @@ A single sentence or contrast. Use scale and black/white inversion rather than e
 
 Use a large documentary/editorial image. Desaturate visually through CSS. `photo-full-bleed` must fill the scene edge-to-edge, add a dark readability veil, and keep headlines/captions inside safe areas. Do not add decorative frames beyond the Monoliquid rule system. Preserve attribution in release metadata outside the composition.
 
+### Video Background
+
+Before choosing a static photo, explicitly ask whether a short moving shot would communicate action, space, elapsed time or mood more clearly. Human actions, walking/transit, empty or changing spaces, recurring physical motion, and opening/chapter transitions are video-first candidates. Comparisons and causal structure remain diagram-first; a precise frozen moment may remain photo-first.
+
+For a normal 6–9 scene reel, explicitly review at least one and preferably 2–3 scenes as video-background candidates. This is a review quota, not a usage quota. Use `backgroundVideo` only when the registered `videoCatalog` contains a semantically relevant, licensed source. Never insert an unrelated clip merely to satisfy a count. When the desired clip is unavailable, fall back to photo/diagram/type and record `영상 배경 후보 검토 · 소스 미확보: <원하는 샷>` in `visualIntent.strategy.rationale` so the catalog can be expanded deliberately.
+
+Video backgrounds are full-bleed. Keep `visual.type=none`, `image=null`, `imageQuery=null`, and `camera.motion=static`. Prefer B-roll whose meaning lands within roughly 2–5 seconds. Use `loop` only when the source has a natural repeat boundary; do not repeat a one-off human action unnaturally. `overlayOpacity` stays in the schema range 0.35–0.85 and must preserve headline/caption contrast throughout the moving shot. The video is a root-level HyperFrames media clip; the scene section, rules, captions and presenter remain separate foreground layers.
+
 ### Compare
 
 Two rigid columns separated by a rule. Left/right labels are short. Avoid card stacks.
@@ -73,7 +81,7 @@ Minimal. Return to the core sentence or CTA. A final literal metaphor such as an
 
 ### Presenter
 
-When `presenterOverlay` is present, render the presenter persistently in the bottom-right circular frame on non-CTA scenes. It is a supporting anchor, not the primary visual. It must not cover the headline, captions or critical photo subjects. The shared CTA may hide it with `hideOnCommonCta`.
+When `presenterOverlay` is present, render the presenter persistently in the bottom-right circular frame on non-CTA scenes. It is a supporting anchor, not the primary visual. It must not cover the headline, captions or critical photo/video subjects. The shared CTA may hide it with `hideOnCommonCta`.
 
 ## Motion
 
@@ -82,6 +90,7 @@ When `presenterOverlay` is present, render the presenter persistently in the bot
 - Headline and primary visual may overlap entrance timing by 0.1–0.2 s.
 - Rules reveal with `scaleX`/`scaleY` from 0.
 - Photo settles from `scale: 1.025` to `1`.
+- Background video itself does not receive an additional GSAP pan/zoom; its recorded motion is the motion.
 - Exit is shorter than entrance: 0.2–0.35 s.
 - Prefer hard cuts between scenes. Fade only when the narrative calls for continuity.
 - No bounce, elastic easing, random motion or infinite loops.
@@ -92,19 +101,20 @@ When `presenterOverlay` is present, render the presenter persistently in the bot
 - Every scene must have a valid static hero frame before motion is applied.
 - The headline must not enter the bottom caption zone.
 - Captions must stay left of the presenter zone where possible.
-- Full-bleed photos require enough darkening behind text to preserve contrast throughout the frame.
+- Full-bleed photos and videos require enough darkening behind text to preserve contrast throughout the frame.
 - Intentional decorative overlap is allowed; semantic text overlap is not.
 - HyperFrames `lint` and `inspect` are mandatory before preview/final render.
 
 ## What NOT to Do
 
-- No gradients as decoration, neon or arbitrary brand colors. A functional dark photo-readability veil is allowed on full-bleed media.
+- No gradients as decoration, neon or arbitrary brand colors. A functional dark photo/video readability veil is allowed on full-bleed media.
 - No rounded SaaS cards or pill-heavy UI.
 - No floating decorative icons without narrative meaning.
 - No small dense paragraphs.
 - No random scribble/jitter on text.
 - No 3D extrusion, glassmorphism or soft drop-shadow UI.
 - No motion that changes the final layout geometry while the viewer is reading.
+- No unrelated stock-like video inserted only to make the reel feel more dynamic.
 
 ## Source of Truth
 
