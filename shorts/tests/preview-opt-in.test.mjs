@@ -15,8 +15,11 @@ for (const name of ['shorts-check.yml', 'storyboard-shorts.yml', 'shorts-templat
     for (const [, id, body] of all) {
       if (id === 'validate') {
         assert.match(body, /npm run typecheck/);
-        assert.match(body, /npm test/);
+        assert.match(body, /node --test/);
         assert.doesNotMatch(body, /remotion|render\.mjs|upload-artifact/);
+      } else if (id === 'hyperframes-contract') {
+        assert.match(body, /hyperframes@\$\{HYPERFRAMES_VERSION\}/);
+        assert.doesNotMatch(body, /render --quality/);
       } else assert.ok(body.includes(guard), `${id} must be guarded`);
     }
     if (name !== 'shorts-check.yml') assert.doesNotMatch(source.split('\npermissions:')[0], /  (push|pull_request|workflow_run):/);
@@ -32,13 +35,15 @@ test('candidate preview selects a validated manual manifest, not PR checkboxes',
   assert.doesNotMatch(source, /select-preview-candidates\.mjs|github\.event\.pull_request/);
 });
 
-test('automatic validation installs both media tools before integration tests without rendering previews', () => {
+test('automatic validation runs fast checks before installing media tools and isolates FFmpeg integration', () => {
   const body = jobs(workflow('shorts-check.yml')).find(([, id]) => id === 'validate')[2];
   assert.ok(body.includes('command -v ffmpeg'));
   assert.ok(body.includes('command -v ffprobe'));
   assert.ok(body.includes('sudo apt-get install -y ffmpeg'));
-  for (const check of ['ffmpeg -version', 'ffprobe -version']) {
-    assert.ok(body.indexOf(check) >= 0 && body.indexOf(check) < body.indexOf('npm test'));
-  }
+  const fast = body.indexOf("! -name 'video-background.test.mjs'");
+  const install = body.indexOf('sudo apt-get install -y ffmpeg');
+  const media = body.indexOf('node --test tests/video-background.test.mjs');
+  assert.ok(fast >= 0 && install > fast && media > install);
+  for (const check of ['ffmpeg -version', 'ffprobe -version']) assert.ok(body.indexOf(check) > install && body.indexOf(check) < media);
   assert.doesNotMatch(body, /generate_previews|remotion|render\.mjs|upload-artifact/);
 });
