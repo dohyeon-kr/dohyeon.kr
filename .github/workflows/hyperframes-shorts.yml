@@ -37,7 +37,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: hyperframes-shorts-${{ inputs.mode }}-${{ inputs.manifest }}
+  group: ${{ inputs.mode == 'storyboard' && 'shorts-storyboard-preview' || format('hyperframes-shorts-final-{0}', inputs.manifest) }}
   cancel-in-progress: false
 
 jobs:
