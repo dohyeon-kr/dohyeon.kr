@@ -23,29 +23,44 @@ const fixtureScene = index => ({
 });
 
 test('monoliquid-v2 compiles candidate JSON to deterministic HyperFrames HTML', async t => {
-  const fixtureDir = path.join(shortsRoot, 'content', `.hyperframes-test-${process.pid}-${Date.now()}`);
-  const outputDir = path.join(shortsRoot, '.tmp', `hyperframes-test-${process.pid}-${Date.now()}`);
+  const suffix = `${process.pid}-${Date.now()}`;
+  const fixtureDir = path.join(shortsRoot, 'content', `.hyperframes-test-${suffix}`);
+  const outputDir = path.join(shortsRoot, '.tmp', `hyperframes-test-${suffix}`);
+  const publicImageName = `.hyperframes-test-${suffix}.svg`;
+  const publicImagePath = path.join(shortsRoot, 'public', publicImageName);
   await fs.mkdir(fixtureDir, {recursive: true});
+  await fs.writeFile(publicImagePath, '<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920"><rect width="1080" height="1920" fill="black"/></svg>');
   t.after(async () => {
     await Promise.all([
       fs.rm(fixtureDir, {recursive: true, force: true}),
       fs.rm(outputDir, {recursive: true, force: true}),
+      fs.rm(publicImagePath, {force: true}),
     ]);
   });
+
+  const scenes = Array.from({length: 10}, (_, index) => fixtureScene(index));
+  scenes[0] = {
+    ...scenes[0],
+    kind: 'photo',
+    layout: 'photo-full-bleed',
+    imagePath: publicImageName,
+    visual: {type: 'photo', motif: 'test-photo', query: null, value: null, xLabel: null, yLabel: null},
+  };
 
   const manifest = {
     schemaVersion: 3,
     id: 'candidate-01',
     status: 'candidate',
+    presenterOverlay: {position: 'bottom-right', hideOnCommonCta: true, lipSync: 'none', nod: 'none'},
     source: {url: 'https://blog.dohyeon.kr/example', title: 'Example'},
     candidate: {
       angle: 'reframe', hook: '구조가 먼저다', title: '자동화보다 구조', rationale: 'compiler fixture',
       viralScore: 0, suggestedCaption: '', hashtags: [],
     },
     style: {
-      theme: 'monoliquid-v2', template: 'monoliquid-v2', subtitles: 'burned-in', safeArea: 'shorts-reels',
+      theme: 'monoliquid-v2', template: 'monoliquid-v2', colorScheme: 'dark', subtitles: 'burned-in', safeArea: 'shorts-reels',
     },
-    scenes: Array.from({length: 10}, (_, index) => fixtureScene(index)),
+    scenes,
   };
   const manifestPath = path.join(fixtureDir, 'candidate-01.json');
   await fs.writeFile(manifestPath, JSON.stringify(manifest));
@@ -58,7 +73,13 @@ test('monoliquid-v2 compiles candidate JSON to deterministic HyperFrames HTML', 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const html = await fs.readFile(path.join(outputDir, 'index.html'), 'utf8');
   const timings = JSON.parse(await fs.readFile(path.join(outputDir, 'timings.json'), 'utf8'));
+  await fs.access(path.join(outputDir, 'presenter.svg'));
   assert.match(html, /data-composition-id="monoliquid-v2"/);
+  assert.match(html, /class="ml-theme--dark"/);
+  assert.match(html, /ml-scene--fullbleed/);
+  assert.match(html, /ml-fullbleed-image/);
+  assert.match(html, /ml-presenter-overlay/);
+  assert.match(html, /presenter\.svg/);
   assert.match(html, /window\.__timelines\["monoliquid-v2"\] = tl/);
   assert.match(html, /자동화보다 구조/);
   assert.doesNotMatch(html, /Math\.random|Date\.now|repeat:\s*-1/);

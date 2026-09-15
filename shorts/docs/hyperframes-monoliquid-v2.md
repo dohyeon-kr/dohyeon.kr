@@ -37,6 +37,16 @@ The generated manifest stores both:
 }
 ```
 
+A reel that should use the inverted black canvas may additionally set:
+
+```json
+{
+  "style": {
+    "colorScheme": "dark"
+  }
+}
+```
+
 Existing templates and existing manifests are unchanged.
 
 ## Engine selection contract
@@ -101,33 +111,37 @@ For `engine: remotion`, the same workflow keeps the existing `render-reels.mjs` 
 
 A render failure after TTS preparation therefore does not intentionally trigger a second paid speech call on the next run while the cache is available.
 
-## Scene support in v2 initial implementation
+## Scene support in v2
 
-The initial compiler handles the current bounded scene contract rather than arbitrary DOM:
+The compiler handles the current bounded scene contract rather than arbitrary DOM:
 
 - `hero`: large editorial title frame;
 - `statement`: one dominant sentence/subline;
 - `photo`: resolved photo in the Monoliquid image plate;
+- `photo-full-bleed`: resolved documentary photo fills the complete scene behind a dark readability veil and safe-area typography;
 - `compare`: rigid two-column contrast;
 - `outro`: minimal closing frame;
-- `diagramSpec` / diagram visual: an initial relationship/node representation.
+- `diagramSpec` / diagram visual: a bounded relationship/node representation;
+- `presenterOverlay`: persistent bottom-right presenter on non-CTA scenes.
 
-The compiler uses the existing common blog CTA as a scene and keeps captions left of the reserved lower-right presenter area.
+Storyboard compilation can resolve photo queries for preview frames through the existing CC0/Public Domain Openverse resolver. Final rendering continues to use the prepared render manifest and the existing media provenance path.
+
+The compiler uses the existing common blog CTA as a scene and keeps captions left of the lower-right presenter area. `hideOnCommonCta: true` removes the presenter from the shared CTA page.
 
 ## Current parity boundaries
 
 These are deliberate v2 boundaries, not silent fallbacks:
 
-- The programmable persistent presenter is **not yet ported into HyperFrames**. v2 reserves its lower-right safe area so later presenter parity does not require redesigning every composition.
+- HyperFrames now renders the persistent presenter as the existing monochrome circular bust. The fully programmable per-scene presenter rig and speech-driven mouth/nod animation are still Remotion-side capabilities.
 - Existing `backgroundVideo` preparation is not yet emitted into the HyperFrames composition.
 - Complex Remotion/Motion Canvas `diagramSpec` geometry is not reproduced one-for-one yet; v2 currently renders a bounded relation diagram from scene meaning.
 - Candidate semantics, image provenance, TTS cache, caption timing, BGM/SFX and final Release behavior are reused from the current pipeline.
 
-Until presenter/background-video/diagram parity lands, use v2 for validating the HyperFrames template/render architecture and for reels whose approved storyboard does not depend on those features.
+Use v2 for reels that fit those bounded scene primitives. Do not silently depend on background video or complex programmable presenter/diagram behavior until those parity items land.
 
 ## Local compiler smoke test
 
-The unit suite includes `tests/hyperframes-build.test.mjs`, which creates a temporary v2 manifest and verifies that the compiler produces a registered deterministic HyperFrames composition without random/infinite timeline behavior.
+The unit suite includes `tests/hyperframes-build.test.mjs`, which creates a temporary v2 manifest and verifies that the compiler produces a registered deterministic HyperFrames composition without random/infinite timeline behavior. It also locks dark mode, full-bleed photo markup and the persistent presenter asset so those features cannot regress silently.
 
 `tests/workflow-engine-routing.test.mjs` also locks the Actions contract: storyboard and final render must expose the shared engine selector and the old dedicated HyperFrames workflow must not return.
 
@@ -138,6 +152,7 @@ The full HyperFrames CLI pass requires the CLI/Chrome environment and is run by 
 - `shorts/hyperframes/monoliquid-v2/DESIGN.md` — visual identity and motion constraints
 - `shorts/hyperframes/monoliquid-v2/tokens.css` — shared design tokens/fonts
 - `shorts/hyperframes/monoliquid-v2/theme.css` — bounded 9:16 scene styles
+- `shorts/hyperframes/monoliquid-v2/presenter.svg` — persistent monochrome presenter asset for HyperFrames
 - `shorts/scripts/build-hyperframes.mjs` — JSON → HTML compiler
 - `shorts/scripts/extract-hyperframes-storyboard.mjs` — motion preview → storyboard snapshots
 - `shorts/scripts/mix-hyperframes-bgm.mjs` — existing BGM/SFX reuse

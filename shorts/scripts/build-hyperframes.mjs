@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import {withBlogCta} from './blog-cta.mjs';
+import {createPhotoSearch} from './resolve-visuals.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.join(repoRoot, 'shorts');
@@ -75,6 +76,7 @@ await Promise.all([
   fs.copyFile(path.join(themeRoot, 'DESIGN.md'), path.join(outputDir, 'DESIGN.md')),
   fs.copyFile(path.join(themeRoot, 'tokens.css'), path.join(outputDir, 'tokens.css')),
   fs.copyFile(path.join(themeRoot, 'theme.css'), path.join(outputDir, 'theme.css')),
+  fs.copyFile(path.join(themeRoot, 'presenter.svg'), path.join(outputDir, 'presenter.svg')),
   fs.copyFile(path.join(repoRoot, 'themes', 'monoliquid', 'assets', 'fonts', 'pretendard-variable.woff2'), path.join(outputDir, 'fonts', 'pretendard-variable.woff2')),
   fs.copyFile(path.join(repoRoot, 'themes', 'monoliquid', 'assets', 'fonts', 'archivo-expanded-black-latin.woff2'), path.join(outputDir, 'fonts', 'archivo-expanded-black-latin.woff2')),
 ]);
@@ -114,6 +116,7 @@ async function downloadPreviewImage(scene, targetName) {
   return null;
 }
 
+const previewPhotoSearch = preparedArg ? null : createPhotoSearch();
 const timings = [];
 const renderedScenes = [];
 const audioTracks = [];
@@ -130,7 +133,13 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const audioTrack = 100 + number;
 
   const preparedImage = scene.imagePath ? await copyPreparedMedia(scene.imagePath, `${id}-image`) : null;
-  const image = preparedImage ?? (!preparedArg ? await downloadPreviewImage(scene, `${id}-image`) : null);
+  let previewImage = scene.image ?? null;
+  if (!preparedArg && !previewImage && scene.visual?.type === 'photo') {
+    const query = compact(scene.visual?.query || scene.imageQuery);
+    if (query) previewImage = await previewPhotoSearch(query);
+  }
+  const previewScene = previewImage === scene.image ? scene : {...scene, image: previewImage};
+  const image = preparedImage ?? (!preparedArg ? await downloadPreviewImage(previewScene, `${id}-image`) : null);
   const audio = scene.audioPath ? await copyPreparedMedia(scene.audioPath, `${id}-audio`) : null;
   const kind = scene.kind || 'statement';
   const headline = compact(scene.headline) || compact(candidate.candidate?.title) || 'Untitled';
@@ -139,6 +148,8 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const comparisonRight = compact(scene.comparisonRight);
   const visualLabel = compact(scene.visual?.value || scene.visual?.motif || scene.visualIntent?.concept);
   const sourceLabel = scene.commonPage === 'blog-cta-v1' ? 'DLOG / CTA' : `DLOG / ${kind.toUpperCase()}`;
+  const fullBleed = scene.layout === 'photo-full-bleed' && Boolean(image);
+  const presenterVisible = Boolean(manifest.presenterOverlay) && scene.commonPage !== 'blog-cta-v1';
 
   const body = [];
   if (kind === 'compare' && (comparisonLeft || comparisonRight)) {
@@ -147,7 +158,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
     const labels = [headline, subline || visualLabel || '관계', comparisonRight || '결과'].filter(Boolean).slice(0, 3);
     while (labels.length < 3) labels.push(['입력', '변화', '결과'][labels.length]);
     body.push(`<div class="ml-diagram ml-primary-visual">${labels.map(label => `<div class="ml-node">${escapeHtml(label)}</div>`).join('')}</div>`);
-  } else if (image) {
+  } else if (image && !fullBleed) {
     body.push(`<div class="ml-image-wrap ml-primary-visual"><img class="ml-image" src="${escapeHtml(image)}" alt="" /></div>`);
   }
 
@@ -158,9 +169,17 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const captionMarkup = captions.length
     ? captions.map((cue, cueIndex) => `<p id="caption-${index}-${cueIndex}" class="ml-caption">${escapeHtml(cue.text)}</p>`).join('')
     : previewCaption ? `<p class="ml-caption ml-caption--preview">${escapeHtml(previewCaption)}</p>` : '';
+  const sceneClasses = ['clip', 'ml-scene', `ml-scene--${kind}`, fullBleed ? 'ml-scene--fullbleed' : ''].filter(Boolean).join(' ');
+  const fullBleedMarkup = fullBleed
+    ? `<div class="ml-fullbleed-media ml-primary-visual" data-layout-ignore><img class="ml-image ml-fullbleed-image" src="${escapeHtml(image)}" alt="" /></div>`
+    : '';
+  const presenterMarkup = presenterVisible
+    ? '<div class="ml-presenter-overlay" data-layout-ignore><img src="presenter.svg" alt="" aria-hidden="true" /></div>'
+    : '';
 
   renderedScenes.push(`
-    <section id="${id}" class="clip ml-scene ml-scene--${escapeHtml(kind)}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${visualTrack}">
+    <section id="${id}" class="${sceneClasses}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${visualTrack}">
+      ${fullBleedMarkup}
       <div class="ml-grid"></div><span class="ml-tick ml-tick--tl"></span><span class="ml-tick ml-tick--br"></span>
       <div class="ml-content">
         <div class="ml-topline"><span class="ml-kicker">${escapeHtml(sourceLabel)}</span><span class="ml-index">${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div>
@@ -172,7 +191,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
         </div>
       </div>
       ${captionMarkup ? `<div class="ml-caption-zone">${captionMarkup}</div>` : ''}
-      ${manifest.presenterOverlay && scene.commonPage !== 'blog-cta-v1' ? '<div class="ml-presenter-reserve" data-layout-ignore aria-hidden="true"></div>' : ''}
+      ${presenterMarkup}
     </section>`);
 
   if (audio) {
@@ -187,8 +206,9 @@ for (const [index, scene] of manifest.scenes.entries()) {
   timelineStatements.push(`tl.from("#${id} .ml-headline", {y:42, opacity:0, duration:.52, ease:"power3.out"}, ${(enter + 0.06).toFixed(3)});`);
   if (subline) timelineStatements.push(`tl.from("#${id} .ml-subline", {y:28, opacity:0, duration:.42, ease:"power2.out"}, ${(enter + 0.16).toFixed(3)});`);
   timelineStatements.push(`tl.from("#${id} .ml-rule", {scaleX:0, duration:.42, ease:"power2.out"}, ${(enter + 0.22).toFixed(3)});`);
-  if (body.length) timelineStatements.push(`tl.from("#${id} .ml-primary-visual", {y:26, opacity:0, scale:.985, duration:.5, ease:"power2.out"}, ${(enter + 0.26).toFixed(3)});`);
+  if (body.length || fullBleed) timelineStatements.push(`tl.from("#${id} .ml-primary-visual", {y:26, opacity:0, scale:.985, duration:.5, ease:"power2.out"}, ${(enter + 0.26).toFixed(3)});`);
   if (image) timelineStatements.push(`tl.from("#${id} .ml-image", {scale:1.025, duration:.8, ease:"power2.out"}, ${(enter + 0.28).toFixed(3)});`);
+  if (presenterVisible) timelineStatements.push(`tl.from("#${id} .ml-presenter-overlay", {y:18, opacity:0, duration:.34, ease:"power2.out"}, ${(enter + 0.22).toFixed(3)});`);
   for (const [cueIndex, cue] of captions.entries()) {
     const cueStart = start + Math.max(0, cue.startSeconds);
     const cueEnd = start + Math.min(duration - 0.04, cue.endSeconds);
@@ -202,6 +222,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
 }
 
 const totalDuration = cursor;
+const compositionClassAttr = candidate.style?.colorScheme === 'dark' ? ' class="ml-theme--dark"' : '';
 const html = `<!doctype html>
 <html lang="ko">
 <head>
@@ -212,7 +233,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="theme.css" />
 </head>
 <body>
-  <div id="monoliquid-v2" data-composition-id="monoliquid-v2" data-start="0" data-duration="${totalDuration.toFixed(3)}" data-track-index="0" data-width="1080" data-height="1920">
+  <div id="monoliquid-v2"${compositionClassAttr} data-composition-id="monoliquid-v2" data-start="0" data-duration="${totalDuration.toFixed(3)}" data-track-index="0" data-width="1080" data-height="1920">
     ${renderedScenes.join('\n')}
     ${audioTracks.join('\n')}
   </div>
