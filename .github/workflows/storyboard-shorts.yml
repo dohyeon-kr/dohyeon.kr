@@ -7,11 +7,23 @@ on:
         description: Update the single working storyboard preview release
         type: boolean
         default: false
+      engine:
+        description: Storyboard render engine
+        required: true
+        default: remotion
+        type: choice
+        options:
+          - remotion
+          - hyperframes
       preview_scale:
-        description: 'Preview scale: 0.5 = 540x960, 0.25 = 270x480, 1 = 1080x1920'
+        description: 'Preview scale: 0.5 = 540x960, 0.4 = 432x768, 0.25 = 270x480, 1 = 1080x1920'
         type: choice
         default: '0.5'
-        options: ['0.5', '0.25', '1']
+        options:
+          - '0.5'
+          - '0.4'
+          - '0.25'
+          - '1'
       manifest:
         description: Candidate JSON path under shorts/content/
         required: true
@@ -20,6 +32,7 @@ on:
 env:
   SHORTS_IMAGE_GENERATION: disabled
   SHORTS_PREVIEW_SCALE: ${{ inputs.preview_scale }}
+  HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
   contents: write
@@ -49,10 +62,11 @@ jobs:
         with:
           node-version: 24.18.0
 
-      - name: Resolve manifest
+      - name: Resolve manifest and engine
         id: manifests
         env:
           MANIFEST_INPUT: ${{ inputs.manifest }}
+          ENGINE: ${{ inputs.engine }}
         shell: bash
         run: |
           set -euo pipefail
@@ -67,11 +81,27 @@ jobs:
             echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
             exit 1
           fi
+
           template="$(jq -r '.style.template // .style.theme // ""' "${MANIFEST_INPUT}")"
-          if [[ "${template}" == "monoliquid-v2" ]]; then
-            echo "::error title=HyperFrames template::monoliquid-v2 must use the 'Render Monoliquid v2 with HyperFrames' workflow in storyboard mode."
-            exit 1
-          fi
+          case "${ENGINE}" in
+            remotion)
+              if [[ "${template}" == "monoliquid-v2" ]]; then
+                echo "::error title=Engine/template mismatch::monoliquid-v2 requires engine=hyperframes."
+                exit 1
+              fi
+              ;;
+            hyperframes)
+              if [[ "${template}" != "monoliquid-v2" ]]; then
+                echo "::error title=Engine/template mismatch::engine=hyperframes currently requires style.template=monoliquid-v2; received ${template:-<none>}."
+                exit 1
+              fi
+              ;;
+            *)
+              echo "unsupported engine: ${ENGINE}" >&2
+              exit 1
+              ;;
+          esac
+
           printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
 
@@ -95,8 +125,9 @@ jobs:
           done < "${LIST_FILE}"
           exit "${status}"
 
-      - name: Render scene snapshots
-        id: render
+      - name: Render scene snapshots with Remotion
+        id: render_remotion
+        if: steps.validate.outcome == 'success' && inputs.engine == 'remotion'
         continue-on-error: true
         env:
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
@@ -111,6 +142,74 @@ jobs:
             echo "::endgroup::"
           done < "${LIST_FILE}"
           exit "${status}"
+
+      - name: Compile candidate to HyperFrames HTML
+        id: hyperframes_build
+        if: steps.validate.outcome == 'success' && inputs.engine == 'hyperframes'
+        env:
+          MANIFEST_INPUT: ${{ inputs.manifest }}
+        run: node shorts/scripts/build-hyperframes.mjs "$MANIFEST_INPUT"
+
+      - name: HyperFrames lint
+        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+
+      - name: HyperFrames visual check
+        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
+
+      - name: Render draft HyperFrames motion preview
+        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality draft --fps 30 --output preview.mp4 --strict
+
+      - name: Compact HyperFrames motion preview
+        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+          PREVIEW_SCALE: ${{ inputs.preview_scale }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${PREVIEW_SCALE}" in
+            1) size='1080:1920' ;;
+            0.5) size='540:960' ;;
+            0.25) size='270:480' ;;
+            *) size='432:768' ;;
+          esac
+          ffmpeg -y -v error -i "${PROJECT_DIR}/preview.mp4" \
+            -vf "scale=${size}:flags=lanczos" -an -c:v libx264 -preset medium \
+            -b:v 850k -maxrate 950k -bufsize 1900k -movflags +faststart \
+            "${PROJECT_DIR}/preview-release.mp4"
+          bytes="$(stat -c%s "${PROJECT_DIR}/preview-release.mp4")"
+          if (( bytes > 10485760 )); then
+            echo "::error title=Motion preview too large::compressed preview is ${bytes} bytes; keep working previews under 10 MiB"
+            exit 1
+          fi
+
+      - name: Extract HyperFrames storyboard hero frames
+        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+          PREVIEW_SCALE: ${{ inputs.preview_scale }}
+        run: node shorts/scripts/extract-hyperframes-storyboard.mjs "$PROJECT_DIR" "$PROJECT_DIR/preview.mp4" "--scale=$PREVIEW_SCALE"
 
       - name: Package mobile review sheets
         id: package
@@ -132,7 +231,7 @@ jobs:
           fi
 
       - name: Replace working storyboard preview release
-        if: steps.validate.outcome == 'success' && steps.render.outcome == 'success'
+        if: steps.validate.outcome == 'success' && steps.package.outcome == 'success' && (inputs.engine == 'hyperframes' || steps.render_remotion.outcome == 'success')
         env:
           GH_TOKEN: ${{ github.token }}
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
@@ -142,23 +241,37 @@ jobs:
           set -euo pipefail
           node shorts/scripts/publish-storyboard.mjs "${LIST_FILE}" "${RUNNER_TEMP}/storyboard-release.md"
 
+      - name: Attach HyperFrames motion preview to working release
+        if: steps.hyperframes_build.outcome == 'success' && inputs.engine == 'hyperframes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+          PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "${PROJECT_DIR}/preview-release.mp4" "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4"
+          gh release upload shorts-storyboard-preview "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4" --clobber
+
       - name: Fail after collecting storyboard issues
-        if: always() && (steps.validate.outcome == 'failure' || steps.render.outcome == 'failure' || steps.package.outcome == 'failure')
+        if: always() && (steps.validate.outcome == 'failure' || steps.render_remotion.outcome == 'failure' || steps.package.outcome == 'failure')
         env:
           VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
-          RENDER_OUTCOME: ${{ steps.render.outcome }}
+          RENDER_OUTCOME: ${{ steps.render_remotion.outcome }}
           PACKAGE_OUTCOME: ${{ steps.package.outcome }}
+          ENGINE: ${{ inputs.engine }}
         shell: bash
         run: |
           {
             echo '### Storyboard result'
             echo
+            echo "- engine: ${ENGINE}"
             echo "- validation: ${VALIDATE_OUTCOME}"
-            echo "- render: ${RENDER_OUTCOME}"
+            echo "- remotion render: ${RENDER_OUTCOME}"
             echo "- package: ${PACKAGE_OUTCOME}"
             echo
-            echo 'The job intentionally continued after intermediate failures so all available diagnostics could be collected. Fix the validation table above first, then re-run the workflow.'
+            echo 'The job intentionally continued after recoverable intermediate failures so available diagnostics could be collected.'
             echo
           } >> "${GITHUB_STEP_SUMMARY}"
-          echo "::error title=Storyboard failed after diagnostics::validation=${VALIDATE_OUTCOME}, render=${RENDER_OUTCOME}, package=${PACKAGE_OUTCOME}"
+          echo "::error title=Storyboard failed after diagnostics::engine=${ENGINE}, validation=${VALIDATE_OUTCOME}, remotion=${RENDER_OUTCOME}, package=${PACKAGE_OUTCOME}"
           exit 1

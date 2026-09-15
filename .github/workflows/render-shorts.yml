@@ -3,6 +3,14 @@ name: Render blog shorts
 on:
   workflow_dispatch:
     inputs:
+      engine:
+        description: Final render engine
+        required: true
+        default: remotion
+        type: choice
+        options:
+          - remotion
+          - hyperframes
       manifest:
         description: Candidate JSON path under shorts/content/
         required: true
@@ -15,6 +23,7 @@ on:
 
 env:
   SHORTS_IMAGE_GENERATION: disabled
+  HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
   contents: write
@@ -41,7 +50,7 @@ jobs:
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
 
-      - name: Ensure audio tools are available
+      - name: Ensure audio and video tools are available
         run: |
           if ! command -v ffprobe >/dev/null 2>&1 || ! command -v ffmpeg >/dev/null 2>&1; then
             sudo apt-get update
@@ -50,17 +59,19 @@ jobs:
           ffmpeg -version
           ffprobe -version
 
-      - name: Resolve manifest
+      - name: Resolve manifest and engine
         id: manifests
         env:
           MANIFEST_INPUT: ${{ inputs.manifest }}
+          ENGINE: ${{ inputs.engine }}
+          STORYBOARD_APPROVED: ${{ inputs.storyboard_approved }}
         shell: bash
         run: |
           set -euo pipefail
           list_file="${RUNNER_TEMP}/shorts-manifests.txt"
           : > "${list_file}"
 
-          if [[ "${{ inputs.storyboard_approved }}" != "true" ]]; then
+          if [[ "${STORYBOARD_APPROVED}" != "true" ]]; then
             echo "Final rendering requires explicit storyboard approval." >&2
             exit 1
           fi
@@ -72,11 +83,27 @@ jobs:
             echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
             exit 1
           fi
+
           template="$(jq -r '.style.template // .style.theme // ""' "${MANIFEST_INPUT}")"
-          if [[ "${template}" == "monoliquid-v2" ]]; then
-            echo "::error title=HyperFrames template::monoliquid-v2 must use the 'Render Monoliquid v2 with HyperFrames' workflow in final mode."
-            exit 1
-          fi
+          case "${ENGINE}" in
+            remotion)
+              if [[ "${template}" == "monoliquid-v2" ]]; then
+                echo "::error title=Engine/template mismatch::monoliquid-v2 requires engine=hyperframes."
+                exit 1
+              fi
+              ;;
+            hyperframes)
+              if [[ "${template}" != "monoliquid-v2" ]]; then
+                echo "::error title=Engine/template mismatch::engine=hyperframes currently requires style.template=monoliquid-v2; received ${template:-<none>}."
+                exit 1
+              fi
+              ;;
+            *)
+              echo "unsupported engine: ${ENGINE}" >&2
+              exit 1
+              ;;
+          esac
+
           printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
 
@@ -117,7 +144,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 3
 
-      - name: Render selected reel
+      - name: Render selected reel with Remotion
+        if: inputs.engine == 'remotion'
         env:
           SHORTS_AUDIO_CACHE_ONLY: 'true'
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -128,9 +156,90 @@ jobs:
           MANIFEST: ${{ inputs.manifest }}
         run: node shorts/scripts/render-reels.mjs "$MANIFEST"
 
+      - name: Compile prepared candidate to HyperFrames HTML
+        id: hyperframes_build
+        if: inputs.engine == 'hyperframes'
+        env:
+          MANIFEST: ${{ inputs.manifest }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          slug="$(basename "$(dirname "${MANIFEST}")")"
+          candidate="$(jq -r '.id // empty' "${MANIFEST}")"
+          if [[ -z "${candidate}" ]]; then candidate="$(basename "${MANIFEST}" .json)"; fi
+          prepared="shorts/.tmp/${slug}-${candidate}.json"
+          test -f "${prepared}" || { echo "prepared render manifest missing: ${prepared}" >&2; exit 1; }
+          node shorts/scripts/build-hyperframes.mjs "${MANIFEST}" "--prepared=${prepared}"
+
+      - name: HyperFrames lint
+        if: inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+
+      - name: HyperFrames visual check
+        if: inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
+
+      - name: Render selected reel with HyperFrames
+        if: inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+          PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${GITHUB_WORKSPACE}/shorts/out"
+          cd "${PROJECT_DIR}"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality high --fps 30 --output "${GITHUB_WORKSPACE}/shorts/out/${PREFIX}.mp4" --strict
+
+      - name: Mix repository BGM and sound cues for HyperFrames
+        if: inputs.engine == 'hyperframes'
+        env:
+          SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
+          SHORTS_SFX: ${{ vars.SHORTS_SFX }}
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+          PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
+        run: node shorts/scripts/mix-hyperframes-bgm.mjs "shorts/out/${PREFIX}.mp4" "$PROJECT_DIR"
+
+      - name: Write HyperFrames release sidecars
+        if: inputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        run: node shorts/scripts/write-hyperframes-release-assets.mjs "${{ inputs.manifest }}" "$PROJECT_DIR" shorts/out
+
       - name: Update this reel's final release
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ github.run_id }}
           SOURCE_SHA: ${{ github.sha }}
         run: node shorts/scripts/publish-video-release.mjs shorts/out "${{ inputs.manifest }}"
+
+      - name: Render summary
+        if: always()
+        env:
+          ENGINE: ${{ inputs.engine }}
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+          PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
+        shell: bash
+        run: |
+          {
+            echo '## Shorts final render'
+            echo
+            echo "- engine: ${ENGINE}"
+            if [[ "${ENGINE}" == "hyperframes" ]]; then
+              echo "- HyperFrames: ${HYPERFRAMES_VERSION}"
+              echo "- reel: ${PREFIX:-not-built}"
+              echo "- project: ${PROJECT_DIR:-not-built}"
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"
