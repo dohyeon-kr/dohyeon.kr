@@ -53,6 +53,24 @@
                 {{content}}
             </section>
 
+            {{#if primary_tag}}
+                {{#get "posts" filter="primary_tag:{{primary_tag.slug}}+id:-{{id}}" limit="3" include="tags"}}
+                    {{#if posts}}
+                        <section class="article-footer wrapper--ticks" aria-labelledby="related-posts-title">
+                            <div class="archive-header">
+                                <p class="eyebrow">READ NEXT</p>
+                                <h2 id="related-posts-title">{{../primary_tag.name}} 글 더 보기</h2>
+                            </div>
+                            <div class="post-grid">
+                                {{#foreach posts}}
+                                    {{> "post-card"}}
+                                {{/foreach}}
+                            </div>
+                        </section>
+                    {{/if}}
+                {{/get}}
+            {{/if}}
+
             <section class="article-comments" data-anonymous-comments data-post-slug="{{slug}}">
                 <div class="article-comments__inner">
                     <header class="article-comments__header">
