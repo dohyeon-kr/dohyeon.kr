@@ -67,6 +67,11 @@ jobs:
             echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
             exit 1
           fi
+          template="$(jq -r '.style.template // .style.theme // ""' "${MANIFEST_INPUT}")"
+          if [[ "${template}" == "monoliquid-v2" ]]; then
+            echo "::error title=HyperFrames template::monoliquid-v2 must use the 'Render Monoliquid v2 with HyperFrames' workflow in storyboard mode."
+            exit 1
+          fi
           printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
 
