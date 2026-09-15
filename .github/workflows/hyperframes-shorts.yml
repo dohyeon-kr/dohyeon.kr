@@ -1,0 +1,252 @@
+name: Render Monoliquid v2 with HyperFrames
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Candidate JSON path under shorts/content/
+        required: true
+        type: string
+      mode:
+        description: Build the working storyboard preview or the approved final reel
+        required: true
+        default: storyboard
+        type: choice
+        options:
+          - storyboard
+          - final
+      storyboard_approved:
+        description: Required for final mode; I reviewed the working storyboard
+        required: true
+        default: false
+        type: boolean
+      preview_scale:
+        description: Storyboard snapshot scale (0.4 = 432x768)
+        required: true
+        default: '0.4'
+        type: choice
+        options:
+          - '0.4'
+          - '0.5'
+          - '0.25'
+
+env:
+  SHORTS_IMAGE_GENERATION: disabled
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hyperframes-shorts-${{ inputs.mode }}-${{ inputs.manifest }}
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Install render tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg imagemagick img2pdf
+          ffmpeg -version | head -n 1
+
+      - name: Install shorts dependencies
+        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+
+      - name: Resolve Monoliquid v2 manifest
+        id: input
+        env:
+          MANIFEST: ${{ inputs.manifest }}
+          MODE: ${{ inputs.mode }}
+          APPROVED: ${{ inputs.storyboard_approved }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! "${MANIFEST}" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]] || [[ ! -f "${MANIFEST}" ]]; then
+            echo "manifest must be an existing JSON path directly under shorts/content/<post>/" >&2
+            exit 1
+          fi
+          template="$(jq -r '.style.template // .style.theme // ""' "${MANIFEST}")"
+          if [[ "${template}" != "monoliquid-v2" ]]; then
+            echo "HyperFrames workflow requires style.template=monoliquid-v2; received ${template:-<none>}" >&2
+            exit 1
+          fi
+          if [[ "${MODE}" == "final" && "${APPROVED}" != "true" ]]; then
+            echo "Final HyperFrames rendering requires explicit storyboard approval." >&2
+            exit 1
+          fi
+          printf '%s\n' "${MANIFEST}" > "${RUNNER_TEMP}/shorts-manifests.txt"
+          echo "list_file=${RUNNER_TEMP}/shorts-manifests.txt" >> "${GITHUB_OUTPUT}"
+
+      - name: Validate candidate semantics
+        run: node shorts/scripts/validate-storyboard.mjs "${{ inputs.manifest }}"
+
+      - name: Restore completed speech and alignment
+        if: inputs.mode == 'final'
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: shorts/.cache/audio
+          key: shorts-audio-v2-hyperframes-${{ runner.os }}-${{ inputs.manifest }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            shorts-audio-v2-hyperframes-${{ runner.os }}-${{ inputs.manifest }}-
+            shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-
+
+      - name: Prepare final narration and caption alignment
+        if: inputs.mode == 'final'
+        id: audio
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
+          SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
+          SHORTS_TTS_RATE: 1.5
+          MANIFEST: ${{ inputs.manifest }}
+        run: node shorts/scripts/render.mjs "$MANIFEST" --prepare-audio
+
+      - name: Save completed narration cache
+        if: ${{ always() && inputs.mode == 'final' && steps.audio.outcome != 'skipped' && steps.audio.outcome != '' }}
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: shorts/.cache/audio
+          key: shorts-audio-v2-hyperframes-${{ runner.os }}-${{ inputs.manifest }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Compile candidate to HyperFrames HTML
+        id: build
+        env:
+          MANIFEST: ${{ inputs.manifest }}
+          MODE: ${{ inputs.mode }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${MODE}" == "final" ]]; then
+            slug="$(basename "$(dirname "${MANIFEST}")")"
+            candidate="$(jq -r '.id // empty' "${MANIFEST}")"
+            if [[ -z "${candidate}" ]]; then candidate="$(basename "${MANIFEST}" .json)"; fi
+            prepared="shorts/.tmp/${slug}-${candidate}.json"
+            test -f "${prepared}" || { echo "prepared render manifest missing: ${prepared}" >&2; exit 1; }
+            node shorts/scripts/build-hyperframes.mjs "${MANIFEST}" "--prepared=${prepared}"
+          else
+            node shorts/scripts/build-hyperframes.mjs "${MANIFEST}"
+          fi
+
+      - name: HyperFrames lint
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes hyperframes lint --verbose
+
+      - name: HyperFrames visual inspect
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes hyperframes inspect --strict --json | tee inspect.json
+
+      - name: Render draft motion preview
+        if: inputs.mode == 'storyboard'
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${PROJECT_DIR}"
+          npx --yes hyperframes render --quality draft --fps 30 --output preview.mp4 --strict
+
+      - name: Extract storyboard hero frames
+        if: inputs.mode == 'storyboard'
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+          PREVIEW_SCALE: ${{ inputs.preview_scale }}
+        run: node shorts/scripts/extract-hyperframes-storyboard.mjs "$PROJECT_DIR" "$PROJECT_DIR/preview.mp4" "--scale=$PREVIEW_SCALE"
+
+      - name: Package mobile review sheets
+        if: inputs.mode == 'storyboard'
+        run: bash shorts/scripts/package-storyboard.sh shorts/out/storyboards
+
+      - name: Replace working storyboard preview release
+        if: inputs.mode == 'storyboard'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LIST_FILE: ${{ steps.input.outputs.list_file }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: node shorts/scripts/publish-storyboard.mjs "$LIST_FILE" "${RUNNER_TEMP}/storyboard-release.md"
+
+      - name: Attach HyperFrames motion preview to working release
+        if: inputs.mode == 'storyboard'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+          PREFIX: ${{ steps.build.outputs.prefix }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "${PROJECT_DIR}/preview.mp4" "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4"
+          gh release upload shorts-storyboard-preview "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4" --clobber
+
+      - name: Render approved final reel
+        if: inputs.mode == 'final'
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+          PREFIX: ${{ steps.build.outputs.prefix }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${GITHUB_WORKSPACE}/shorts/out"
+          cd "${PROJECT_DIR}"
+          npx --yes hyperframes render --quality high --fps 30 --output "${GITHUB_WORKSPACE}/shorts/out/${PREFIX}.mp4" --strict
+
+      - name: Mix repository BGM and sound cues
+        if: inputs.mode == 'final'
+        env:
+          SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
+          SHORTS_SFX: ${{ vars.SHORTS_SFX }}
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+          PREFIX: ${{ steps.build.outputs.prefix }}
+        run: node shorts/scripts/mix-hyperframes-bgm.mjs "shorts/out/${PREFIX}.mp4" "$PROJECT_DIR"
+
+      - name: Update this reel's final release
+        if: inputs.mode == 'final'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ github.run_id }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: node shorts/scripts/publish-video-release.mjs shorts/out "${{ inputs.manifest }}"
+
+      - name: HyperFrames summary
+        if: always()
+        env:
+          MODE: ${{ inputs.mode }}
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+          PREFIX: ${{ steps.build.outputs.prefix }}
+        shell: bash
+        run: |
+          {
+            echo '## Monoliquid v2 / HyperFrames'
+            echo
+            echo "- mode: ${MODE}"
+            echo "- reel: ${PREFIX:-not-built}"
+            echo "- project: ${PROJECT_DIR:-not-built}"
+            echo '- validation: candidate rules → HyperFrames lint → HyperFrames inspect → render'
+            echo
+            if [[ "${MODE}" == "storyboard" ]]; then
+              echo 'The single working storyboard release is replaced and the motion-preview MP4 is attached to it.'
+            else
+              echo 'The per-reel final release is updated in place.'
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"
