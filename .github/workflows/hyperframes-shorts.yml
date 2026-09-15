@@ -32,6 +32,7 @@ on:
 
 env:
   SHORTS_IMAGE_GENERATION: disabled
+  HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
   contents: write
@@ -147,7 +148,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "${PROJECT_DIR}"
-          npx --yes hyperframes lint --verbose
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
 
       - name: HyperFrames visual inspect
         env:
@@ -156,7 +157,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "${PROJECT_DIR}"
-          npx --yes hyperframes inspect --strict --json | tee inspect.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" inspect --strict --json | tee inspect.json
 
       - name: Render draft motion preview
         if: inputs.mode == 'storyboard'
@@ -166,7 +167,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "${PROJECT_DIR}"
-          npx --yes hyperframes render --quality draft --fps 30 --output preview.mp4 --strict
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality draft --fps 30 --output preview.mp4 --strict
 
       - name: Compact motion preview for the working release
         if: inputs.mode == 'storyboard'
@@ -232,7 +233,7 @@ jobs:
           set -euo pipefail
           mkdir -p "${GITHUB_WORKSPACE}/shorts/out"
           cd "${PROJECT_DIR}"
-          npx --yes hyperframes render --quality high --fps 30 --output "${GITHUB_WORKSPACE}/shorts/out/${PREFIX}.mp4" --strict
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality high --fps 30 --output "${GITHUB_WORKSPACE}/shorts/out/${PREFIX}.mp4" --strict
 
       - name: Mix repository BGM and sound cues
         if: inputs.mode == 'final'
@@ -268,6 +269,7 @@ jobs:
           {
             echo '## Monoliquid v2 / HyperFrames'
             echo
+            echo "- HyperFrames: ${HYPERFRAMES_VERSION}"
             echo "- mode: ${MODE}"
             echo "- reel: ${PREFIX:-not-built}"
             echo "- project: ${PROJECT_DIR:-not-built}"
