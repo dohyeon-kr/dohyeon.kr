@@ -1,0 +1,54 @@
+name: Refine SEO query-page mapping
+
+on:
+  push:
+    branches:
+      - feat/seo-query-page-mapping
+    paths:
+      - 'scripts/refine-seo-query-page-mapping.py'
+      - '.github/workflows/refine-seo-query-page-mapping.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: feat/seo-query-page-mapping
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Enable corepack & pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.34.0 --activate
+
+      - name: Apply refinements
+        run: python3 scripts/refine-seo-query-page-mapping.py
+
+      - name: Test and build dashboard
+        run: |
+          pnpm --dir admin install --frozen-lockfile --ignore-scripts
+          pnpm --dir admin test
+          pnpm --dir admin build
+
+      - name: Remove temporary refinement machinery
+        run: git rm scripts/refine-seo-query-page-mapping.py .github/workflows/refine-seo-query-page-mapping.yml
+
+      - name: Commit refinements and generated assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin/src/App.tsx admin/src/components/GoogleReports.tsx themes/monoliquid/assets/dashboard
+          git commit -m 'refactor: reuse loaded posts for SEO mapping'
+          git push origin HEAD:feat/seo-query-page-mapping
