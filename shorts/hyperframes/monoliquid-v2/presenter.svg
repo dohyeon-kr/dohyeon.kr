@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" role="img" aria-label="도현 발표자 캐릭터 — 흑백 선화 바스트">
+  <defs>
+    <clipPath id="presenter-frame"><circle cx="627" cy="614" r="573" /></clipPath>
+  </defs>
+  <rect width="1254" height="1254" fill="#fff" />
+  <circle cx="627" cy="614" r="573" fill="#fff" />
+  <g clip-path="url(#presenter-frame)" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(627 135) scale(1.5) translate(-627 -135)">
+      <path d="M466 714 Q511 678 551 680 L732 680 Q785 691 818 722 L862 1240 L413 1240Z" fill="#101010" />
+      <path d="M517 697 C490 695 471 709 448 720 C398 740 301 770 231 811 Q181 840 159 909 L94 1127 L194 1233 L486 1233 Q520 1118 511 978 Q503 900 484 825 L393 852 Q387 855 391 844 L453 717 Q482 696 517 697Z" fill="#fff" />
+      <path d="M762 696 Q800 699 834 724 Q978 768 1035 819 C1081 852 1097 912 1124 1009 L1104 1233 L779 1233 Q782 1106 775 999 Q772 916 794 829 L874 860 Q884 864 879 852 L836 744 Q801 704 762 696Z" fill="#fff" />
+      <path d="M395 853 L475 831 L484 825 L481 838Z M794 829 Q794 847 812 851 L862 866 L874 860Z" fill="#e2e2e2" stroke="none" />
+      <path d="M517 697 Q502 713 504 750 Q505 790 484 825 L396 854 Q388 857 392 846 L453 717 Q482 696 517 697Z" fill="#fff" stroke-width="4" />
+      <path d="M762 696 Q777 720 773 754 Q773 794 794 829 L873 860 Q883 864 879 853 L836 744 Q801 704 762 696Z" fill="#fff" stroke-width="4" />
+      <path d="M522 557 Q531 617 527 678 Q518 697 516 723 C512 773 616 807 674 797 Q755 793 773 746 Q749 620 745 562Z" fill="#fff" />
+      <path d="M515 754 Q621 837 775 767" fill="none" stroke="#252525" stroke-width="3" />
+      <path d="M529 613 Q621 669 692 620 Q659 675 627 680 Q588 675 529 613Z" fill="#ddd" stroke="none" />
+      <path d="M454 475 C415 450 416 504 434 545 Q457 585 482 558 L477 496Z M754 432 C784 398 807 431 795 473 Q791 512 763 518 L752 496Z" fill="#fff" />
+      <path d="M475 348 Q478 276 522 254 Q592 232 675 257 Q750 285 757 365 L765 447 Q765 512 744 566 C722 612 669 650 628 656 Q597 659 565 640 C512 612 477 568 463 509 L450 438Z" fill="#fff" />
+      <path d="M448 478 C417 453 406 421 395 387 Q362 361 380 312 C366 274 396 218 426 198 Q476 132 545 159 C564 115 652 138 686 153 C743 167 794 214 808 263 Q817 281 809 311 C826 335 807 387 784 409 L770 448 L758 415 Q750 372 724 357 C666 346 620 319 598 288 Q576 253 569 241 Q545 260 511 260 C501 302 493 355 510 391 Q485 382 480 347 Q461 423 440 435Z" fill="#0c0c0c" />
+      <g fill="none" stroke="#252525" stroke-width="2">
+        <path d="M551 185 C481 140 407 235 409 309 Q420 368 397 381 M540 189 C477 175 439 252 446 308 Q450 355 420 398 M536 198 C492 212 471 278 474 325 Q477 363 461 395 M529 219 Q494 272 493 326 Q492 365 505 386" />
+        <path d="M564 183 C582 205 575 251 611 287 C651 330 705 343 753 345 M581 168 C617 175 612 232 644 258 Q704 316 789 317 M592 156 C650 160 663 231 716 252 Q762 272 803 301" />
+      </g>
+      <g fill="none" stroke="#111" stroke-width="8">
+        <path d="M492 389 Q522 373 550 376" />
+        <path d="M617 359 Q649 348 681 354" />
+      </g>
+      <g transform="translate(532 426) rotate(-9)">
+        <path d="M-35 5 Q0 -22 35 3 Q0 13 -35 5Z" fill="#fff" stroke-width="1.3" />
+        <ellipse cx="0" cy="0" rx="12" ry="14" fill="#111" stroke="none" />
+        <path d="M-35 5 Q0 -22 35 3" fill="none" stroke-width="4" />
+      </g>
+      <g transform="translate(669 403) rotate(-9)">
+        <path d="M-35 5 Q0 -22 35 3 Q0 13 -35 5Z" fill="#fff" stroke-width="1.3" />
+        <ellipse cx="0" cy="0" rx="12" ry="14" fill="#111" stroke="none" />
+        <path d="M-35 5 Q0 -22 35 3" fill="none" stroke-width="4" />
+      </g>
+      <path d="M575 482 Q568 495 582 498 M639 462 Q650 474 641 482" fill="none" stroke-width="2.3" />
+      <path d="M585 494 Q591 483 600 491 Q598 496 585 494Z M619 485 Q625 475 634 480 Q636 485 619 485Z" fill="#111" stroke="none" />
+      <g transform="translate(620 540) rotate(-9) scale(1.65) translate(-401 -331)">
+        <path d="M368 331 Q383 333 395 330 Q402 328 409 329 Q423 331 435 327" fill="none" stroke-width="2.2" />
+        <path d="M393 343 Q402 347 412 342" fill="none" stroke-width="0.9" />
+      </g>
+      <g fill="none" stroke-width="3" transform="translate(600 430) rotate(-9)">
+        <rect x="-130" y="-39" width="112" height="76" rx="20" ry="18" />
+        <rect x="18" y="-39" width="112" height="76" rx="20" ry="18" />
+        <path d="M-18 -17 Q0 -27 18 -17" />
+        <path d="M-130 -19 L-145 -19 L-154 -10 M130 -19 L143 -19 L151 -12" />
+        <path d="M-19 -9 Q-27 -8 -24 3 M19 -9 Q27 -8 24 3" stroke-width="1.6" />
+      </g>
+    </g>
+  </g>
+  <circle cx="627" cy="614" r="573" fill="none" stroke="#111" stroke-width="5" />
+</svg>
