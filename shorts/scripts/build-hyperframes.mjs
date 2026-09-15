@@ -174,14 +174,14 @@ for (const [index, scene] of manifest.scenes.entries()) {
     ? `<div class="ml-fullbleed-media ml-primary-visual" data-layout-ignore><img class="ml-image ml-fullbleed-image" src="${escapeHtml(image)}" alt="" /></div>`
     : '';
   const presenterMarkup = presenterVisible
-    ? '<div class="ml-presenter-overlay" data-layout-ignore><img src="presenter.svg" alt="" aria-hidden="true" /></div>'
+    ? '<div class="ml-presenter-overlay" data-layout-ignore aria-hidden="true"></div>'
     : '';
 
   renderedScenes.push(`
     <section id="${id}" class="${sceneClasses}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${visualTrack}">
       ${fullBleedMarkup}
       <div class="ml-grid"></div><span class="ml-tick ml-tick--tl"></span><span class="ml-tick ml-tick--br"></span>
-      <div class="ml-content">
+      <div class="ml-content" data-layout-allow-overflow>
         <div class="ml-topline"><span class="ml-kicker">${escapeHtml(sourceLabel)}</span><span class="ml-index">${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div>
         <div class="ml-hero">
           <h1 class="ml-headline">${escapeHtml(headline)}</h1>
