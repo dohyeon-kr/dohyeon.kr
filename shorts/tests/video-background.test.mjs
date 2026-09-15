@@ -71,23 +71,3 @@ test('real decode, trim, speed, looping, silence, cache integrity and missing fi
     await assert.rejects(probeVideo(path.join(dir, 'missing.mp4')));
   } finally {await fs.rm(dir, {recursive: true, force: true});}
 });
-
-test('temporary probe for current candidate Pexels videos', async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'candidate-video-probe-'));
-  const assets = [
-    ['lottery-purchase', 'https://videos.pexels.com/video-files/4750080/4750080-hd_1920_1080_25fps.mp4'],
-    ['office-conversation', 'https://videos.pexels.com/video-files/8870063/8870063-uhd_1440_2732_25fps.mp4'],
-    ['open-door-sunlight', 'https://videos.pexels.com/video-files/4547598/4547598-hd_1080_1920_25fps.mp4'],
-  ];
-  try {
-    for (const [id, url] of assets) {
-      const file = path.join(dir, `${id}.mp4`);
-      await downloadVideo(url, file);
-      const metadata = await probeVideo(file);
-      const sha256 = await videoHash(file);
-      console.log(`CANDIDATE_VIDEO_METADATA ${JSON.stringify({id, url, ...metadata, sha256})}`);
-    }
-  } finally {
-    await fs.rm(dir, {recursive: true, force: true});
-  }
-});
