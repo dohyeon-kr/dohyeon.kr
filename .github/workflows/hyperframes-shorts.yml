@@ -168,6 +168,29 @@ jobs:
           cd "${PROJECT_DIR}"
           npx --yes hyperframes render --quality draft --fps 30 --output preview.mp4 --strict
 
+      - name: Compact motion preview for the working release
+        if: inputs.mode == 'storyboard'
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+          PREVIEW_SCALE: ${{ inputs.preview_scale }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${PREVIEW_SCALE}" in
+            0.5) size='540:960' ;;
+            0.25) size='270:480' ;;
+            *) size='432:768' ;;
+          esac
+          ffmpeg -y -v error -i "${PROJECT_DIR}/preview.mp4" \
+            -vf "scale=${size}:flags=lanczos" -an -c:v libx264 -preset medium \
+            -b:v 850k -maxrate 950k -bufsize 1900k -movflags +faststart \
+            "${PROJECT_DIR}/preview-release.mp4"
+          bytes="$(stat -c%s "${PROJECT_DIR}/preview-release.mp4")"
+          if (( bytes > 10485760 )); then
+            echo "::error title=Motion preview too large::compressed preview is ${bytes} bytes; keep working previews under 10 MiB"
+            exit 1
+          fi
+
       - name: Extract storyboard hero frames
         if: inputs.mode == 'storyboard'
         env:
@@ -196,7 +219,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cp "${PROJECT_DIR}/preview.mp4" "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4"
+          cp "${PROJECT_DIR}/preview-release.mp4" "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4"
           gh release upload shorts-storyboard-preview "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4" --clobber
 
       - name: Render approved final reel
@@ -219,6 +242,12 @@ jobs:
           PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
           PREFIX: ${{ steps.build.outputs.prefix }}
         run: node shorts/scripts/mix-hyperframes-bgm.mjs "shorts/out/${PREFIX}.mp4" "$PROJECT_DIR"
+
+      - name: Write SRT, publishing copy, script and media provenance
+        if: inputs.mode == 'final'
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+        run: node shorts/scripts/write-hyperframes-release-assets.mjs "${{ inputs.manifest }}" "$PROJECT_DIR" shorts/out
 
       - name: Update this reel's final release
         if: inputs.mode == 'final'
@@ -245,8 +274,8 @@ jobs:
             echo '- validation: candidate rules → HyperFrames lint → HyperFrames inspect → render'
             echo
             if [[ "${MODE}" == "storyboard" ]]; then
-              echo 'The single working storyboard release is replaced and the motion-preview MP4 is attached to it.'
+              echo 'The single working storyboard release is replaced and a compressed motion-preview MP4 is attached to it.'
             else
-              echo 'The per-reel final release is updated in place.'
+              echo 'The per-reel final release is updated in place with MP4, SRT, copy, script, media provenance and BGM notes.'
             fi
           } >> "${GITHUB_STEP_SUMMARY}"
