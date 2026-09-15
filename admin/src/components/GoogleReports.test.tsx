@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
-import { duration, GA4Panel } from "./GoogleReports";
+import { duration, GA4Panel, SearchPanel } from "./GoogleReports";
 
 describe("GA4 engagement", () => {
   it("distinguishes unavailable time from zero and rounds across minutes", () => {
@@ -35,5 +35,30 @@ describe("GA4 engagement", () => {
     expect(html).toContain("Facebook");
     expect(html).toContain("1분 0초");
     expect(html).toContain("신규 방문과 재방문을 모두 포함");
+  });
+});
+
+describe("Search Console opportunities", () => {
+  it("renders ranked SEO work without presenting it as a ranking guarantee", () => {
+    const html = renderToStaticMarkup(
+      <SearchPanel
+        state={{
+          status: "connected",
+          site: "sc-domain:blog.dohyeon.kr",
+          timezone: "America/Los_Angeles",
+          updatedAt: "2026-09-15T00:00:00Z",
+          summary: { clicks: 10, impressions: 300, ctr: 0.033, position: 8 },
+          daily: [],
+          queries: [
+            { query: "storybook 협업", clicks: 10, impressions: 300, ctr: 0.033, position: 8 },
+          ],
+        }}
+      />,
+    );
+
+    expect(html).toContain("SEO 기회 후보");
+    expect(html).toContain("storybook 협업");
+    expect(html).toContain("본문·내부링크 보강");
+    expect(html).toContain("내부 기준");
   });
 });
