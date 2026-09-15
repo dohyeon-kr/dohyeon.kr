@@ -118,7 +118,7 @@ test('repairs only the failing diagram and revalidates intermediate motion', asy
 test('exhausted repairs fail closed with scene and latest error', async () => {
   let calls = 0;
   await assert.rejects(enrichVisuals({title: '후보', scenes: [overlappingScene()]}, {warn: quiet,
-    repairDiagram: async ({scene}) => {calls++; return scene.diagramSpec;}}), /scene 1 after 8 repair attempts:.*layout:text-overlap/);
+    repairDiagram: async ({scene}) => {calls++; return scene.diagramSpec;}}), /scene 1 after 8 repair attempts:[\s\S]*layout:text-overlap/);
   assert.equal(calls, 8);
 });
 

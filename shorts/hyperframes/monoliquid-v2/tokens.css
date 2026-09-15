@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 45 920;
+  font-display: swap;
+  src: url("./fonts/pretendard-variable.woff2") format("woff2-variations");
+}
+
+@font-face {
+  font-family: "Archivo Expanded";
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: 125%;
+  font-display: swap;
+  src: url("./fonts/archivo-expanded-black-latin.woff2") format("woff2");
+}
+
+:root {
+  --ml-frame: #000000;
+  --ml-canvas: #ffffff;
+  --ml-paper: #f3f3f3;
+  --ml-paper-2: #e5e5e5;
+  --ml-ink: #000000;
+  --ml-muted: #4c4c4c;
+  --ml-muted-2: #737373;
+  --ml-metal: #c9c9c9;
+  --ml-metal-2: #a8a8a8;
+  --ml-metal-3: #6f6f6f;
+  --ml-metal-4: #292929;
+  --ml-nickel: #9f9f9f;
+  --ml-font-sans: "Pretendard", "Apple SD Gothic Neo", Arial, sans-serif;
+  --ml-font-extended: "Archivo Expanded", "Pretendard", Arial, sans-serif;
+  --ml-safe-x: 72px;
+  --ml-safe-top: 140px;
+  --ml-safe-bottom: 280px;
+  --ml-frame-width: 18px;
+  --ml-paper-inset: 32px;
+  --ml-rule: 2px;
+  --ml-title: 104px;
+  --ml-body: 50px;
+  --ml-caption: 48px;
+  --ml-label: 24px;
+}

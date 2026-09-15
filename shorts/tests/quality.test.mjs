@@ -30,7 +30,7 @@ test('final audio timeline preserves semantic beat emphasis and keyword metadata
   assert.equal(subtitleAt(scene, 1.1).text, '첫 번째 의미');
   assert.equal(subtitleAt(scene, 1.3).text, '두 번째 의미');
 });
-test('final audio captions still fall back to measured cue text when editorial text cannot be reconciled', () => {
+test('final audio captions fall back to measured cue text and fill only a tiny pre-roll gap', () => {
   const scene = {
     audioPath: 'generated/scene-01.mp3',
     beats: [{text: '편집용 문구', pauseAfterMs: 0, delivery: 'normal'}],
@@ -39,7 +39,8 @@ test('final audio captions still fall back to measured cue text when editorial t
       {text: '실제 낭독 다음 구간', startSeconds: 1.2, endSeconds: 2.4},
     ],
   };
-  assert.equal(subtitleAt(scene, .2), null);
+  assert.equal(subtitleAt(scene, .1), null);
+  assert.equal(subtitleAt(scene, .2).text, '실제 낭독 첫 구간');
   assert.equal(subtitleAt(scene, .4).text, '실제 낭독 첫 구간');
   assert.equal(subtitleAt(scene, 1.5).text, '실제 낭독 다음 구간');
 });
@@ -50,4 +51,3 @@ test('long headings fit the copy region and vertical lines keep their height', (
   assert.throws(() => nodeLabel({id: 'long', shape: 'rect', label: '애플리케이션 상태', width: 190, height: 70}), /label-padding/);
   assert.ok(nodeLabel({id: 'long', shape: 'rect', label: '애플리케이션 상태', width: 240, height: 140}).fontSize >= 24);
 });
-

@@ -83,7 +83,7 @@ test('rejects ambiguous JSON versions and candidate edits after loading', async 
 test('review workflow only renders the improved storyboard', async () => {
   const workflow = await fs.readFile(new URL('../../.github/workflows/review-storyboard.yml', import.meta.url), 'utf8');
   assert.match(workflow, /storyboard_source:[\s\S]*?required: false/);
-  assert.match(workflow, /Load published storyboard and original JSON/);
+  assert.match(workflow, /Load (?:current working|published) storyboard and original JSON/);
   assert.equal((workflow.match(/node shorts\/scripts\/render\.mjs/g) || []).length, 1);
   assert.ok(workflow.indexOf('load-storyboard.mjs') < workflow.indexOf('review-storyboard.mjs improve'));
   assert.ok(workflow.indexOf('review-storyboard.mjs improve') < workflow.indexOf('render.mjs'));

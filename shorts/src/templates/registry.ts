@@ -1,8 +1,17 @@
 export const templates = [
-  {id: 'monochrome-editorial', name: 'Monochrome Editorial', renderer: 'editorial', background: null, instructions: ''},
-  {id: 'monochrome-editorial-dark', name: 'Monochrome Editorial (default)', renderer: 'editorial', background: null, instructions: ''},
+  {id: 'monochrome-editorial', name: 'Monochrome Editorial', renderer: 'editorial', engine: 'remotion', background: null, instructions: ''},
+  {id: 'monochrome-editorial-dark', name: 'Monochrome Editorial (default)', renderer: 'editorial', engine: 'remotion', background: null, instructions: ''},
   {
-    id: 'notebook-grid', name: 'Notebook Grid · 가벼운 에세이', renderer: 'notebook',
+    id: 'monoliquid-v2', name: 'Monoliquid v2 · HyperFrames', renderer: 'editorial', engine: 'hyperframes', background: null,
+    instructions: `선택된 템플릿은 monoliquid-v2이다. 기존 themes/monoliquid의 시각 정체성을 HyperFrames 9:16 모션 시스템으로 옮긴 템플릿이다. 최종 렌더와 스토리보드는 HyperFrames 전용 워크플로우를 사용한다.
+검정 프레임, 흰색/회색 지면, 니켈 계열 회색, 각진 사각형, 1~3px 구획선, 등록 마크 같은 편집 그래픽을 사용한다. 색으로 꾸미지 말고 크기·여백·흑백 반전·선 굵기로 위계를 만든다. 한글은 Pretendard, 짧은 영문 라벨은 Archivo Expanded를 사용한다. 둥근 SaaS 카드, 그라데이션, 네온, 글래스모피즘, 의미 없는 장식 아이콘은 금지한다.
+첫 장면은 전체 주제를 큰 headline 하나로 즉시 이해할 수 있어야 한다. statement는 핵심 문장 하나를 크게, compare는 두 열 비교, photo는 큰 다큐멘터리/편집 사진, diagram은 관계·흐름을 설명하는 선/노드 구조, outro는 핵심 문장 또는 CTA 하나로 최소화한다. 사진과 도식은 의미가 있을 때만 사용한다.
+headline은 짧고 강하게 쓰고 subline은 보조 설명 한 덩어리만 둔다. 자막은 두 줄 이내의 의미 단위 beats로 나눈다. 발표자 오버레이가 있는 경우 우하단 x=780..1010, y=1430..1700 영역을 비워 두고 자막과 핵심 정보는 가능한 한 그 왼쪽에 둔다.
+애니메이션은 정적 hero frame의 정확한 레이아웃을 먼저 만든 뒤 짧은 y+opacity 진입, rule reveal, 사진의 1.025→1 settle 정도만 사용한다. bounce/elastic/random/infinite motion은 금지한다. 장면 전환은 hard cut을 기본으로 하고 연속성이 필요한 경우에만 짧은 fade를 쓴다.
+현재 v2의 HyperFrames 컴파일러는 hero/photo/statement/compare/outro와 기본 diagram 표현을 우선 지원한다. 복잡한 자유 좌표 연출보다 기존 scene kind/layout 계약을 사용하고, 원문에 없는 수치·경험·도식을 만들어내지 않는다.`,
+  },
+  {
+    id: 'notebook-grid', name: 'Notebook Grid · 가벼운 에세이', renderer: 'notebook', engine: 'remotion',
     background: 'templates/notebook-grid/paper.png',
     instructions: `선택된 템플릿은 notebook-grid이다. 가벼운 에세이용 템플릿이다. 아래 에세이 서사 지침은 정보성 콘텐츠의 밀도·논증 형식보다 우선하며, 시각 연출은 기본 검정 배경·중앙 타이포 제한보다 우선한다. 사실 정확성·원문 충실성·존댓말·가독성 규칙은 유지한다.
 일상이나 일에서 겪은 작은 장면·관찰에서 시작해 그때 든 생각과 관점의 변화, 짧은 여운으로 이어간다. 원문에 있는 1인칭 경험과 망설임을 자연스럽게 살린다. 개인적인 감상을 보편적 정답으로 단정하지 않고, 원문에 없는 경험·감정·깨달음을 만들어내지 않는다. 정보성 5단계 논증, 비교표, 실천 목록, 교훈을 억지로 채우지 않는다. 마지막 본문은 도입의 경험이나 질문으로 돌아오는 짧은 생각으로 맺으며 열린 질문도 허용한다. 공통 CTA는 본문과 별도다.

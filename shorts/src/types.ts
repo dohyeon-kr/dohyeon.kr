@@ -161,7 +161,7 @@ export type CandidateManifest = {
   };
   style: {
     template?: import('./templates/registry').TemplateId;
-    theme: 'monochrome-editorial' | 'monochrome-editorial-dark' | 'notebook-grid';
+    theme: 'monochrome-editorial' | 'monochrome-editorial-dark' | 'monoliquid-v2' | 'notebook-grid';
     imagePlacement?: 'upper-right';
     textPlacement?: 'lower-left';
     visualDensity?: 'high';
@@ -188,4 +188,3 @@ export type RenderScene = CandidateScene & {
 export type RenderManifest = Omit<CandidateManifest, 'scenes'> & {
   scenes: RenderScene[];
 };
-

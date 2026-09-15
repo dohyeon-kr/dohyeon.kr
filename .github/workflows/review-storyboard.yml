@@ -24,12 +24,14 @@ on:
 
 env:
   SHORTS_IMAGE_GENERATION: disabled
+  HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
   contents: write
   pull-requests: write
 
-# Review replaces the same working preview used by storyboard-shorts.yml.
+# Review replaces the same working preview used by storyboard-shorts.yml and
+# hyperframes-shorts.yml.
 concurrency:
   group: shorts-storyboard-preview
   cancel-in-progress: false
@@ -49,6 +51,22 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
+
+      - name: Detect storyboard renderer
+        id: renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! "$MANIFEST" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]] || [[ ! -f "$MANIFEST" ]]; then
+            echo "manifest must be an existing JSON path directly under shorts/content/<post>/" >&2
+            exit 1
+          fi
+          template="$(jq -r '.style.template // .style.theme // ""' "$MANIFEST")"
+          if [[ "$template" == "monoliquid-v2" ]]; then
+            echo 'engine=hyperframes' >> "$GITHUB_OUTPUT"
+          else
+            echo 'engine=remotion' >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Load current working storyboard and original JSON
         env:
@@ -76,10 +94,43 @@ jobs:
           REVIEW_COMMENT: ${{ inputs.comment }}
         run: node shorts/scripts/review-storyboard.mjs improve "$MANIFEST"
 
-      - name: Render and package improved storyboard
+      - name: Render improved storyboard with Remotion
+        if: steps.renderer.outputs.engine == 'remotion'
         run: |
           set -euo pipefail
           node shorts/scripts/render.mjs "$MANIFEST" --storyboard
+
+      - name: Compile improved storyboard with HyperFrames
+        if: steps.renderer.outputs.engine == 'hyperframes'
+        id: hyperframes
+        run: node shorts/scripts/build-hyperframes.mjs "$MANIFEST"
+
+      - name: Check and render improved HyperFrames storyboard
+        if: steps.renderer.outputs.engine == 'hyperframes'
+        env:
+          PROJECT_DIR: ${{ steps.hyperframes.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$PROJECT_DIR"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality draft --fps 30 --output preview.mp4 --strict
+          cd "$GITHUB_WORKSPACE"
+          node shorts/scripts/extract-hyperframes-storyboard.mjs "$PROJECT_DIR" "$PROJECT_DIR/preview.mp4" --scale=0.4
+          ffmpeg -y -v error -i "$PROJECT_DIR/preview.mp4" \
+            -vf 'scale=432:768:flags=lanczos' -an -c:v libx264 -preset medium \
+            -b:v 850k -maxrate 950k -bufsize 1900k -movflags +faststart \
+            "$PROJECT_DIR/preview-release.mp4"
+          bytes="$(stat -c%s "$PROJECT_DIR/preview-release.mp4")"
+          if (( bytes > 10485760 )); then
+            echo "::error title=Motion preview too large::compressed preview is ${bytes} bytes; keep working previews under 10 MiB"
+            exit 1
+          fi
+
+      - name: Package improved storyboard
+        run: |
+          set -euo pipefail
           bash shorts/scripts/package-storyboard.sh shorts/out/storyboards
           mkdir -p "$REVIEW_OUTPUT_DIR/after"
           cp -R shorts/out/storyboards/. "$REVIEW_OUTPUT_DIR/after/"
@@ -109,11 +160,26 @@ jobs:
           printf '%s\n' "$MANIFEST" > "$list_file"
           node shorts/scripts/publish-storyboard.mjs "$list_file" "${RUNNER_TEMP}/storyboard-release.md"
 
+      - name: Attach reviewed HyperFrames motion preview
+        if: steps.renderer.outputs.engine == 'hyperframes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROJECT_DIR: ${{ steps.hyperframes.outputs.project_dir }}
+          PREFIX: ${{ steps.hyperframes.outputs.prefix }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$PROJECT_DIR/preview-release.mp4" "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4"
+          gh release upload shorts-storyboard-preview "${RUNNER_TEMP}/${PREFIX}-motion-preview.mp4" --clobber
+
       - name: Write result summary
         env:
           PR_URL: ${{ steps.pr.outputs.pull-request-url }}
+          ENGINE: ${{ steps.renderer.outputs.engine }}
         run: |
           printf '## 스토리보드 리뷰 결과\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf -- '- renderer: %s\n' "$ENGINE" >> "$GITHUB_STEP_SUMMARY"
+          printf -- '- HyperFrames: %s\n\n' "$HYPERFRAMES_VERSION" >> "$GITHUB_STEP_SUMMARY"
           if [[ -n "$PR_URL" ]]; then
             printf '[개선 PR](%s)\n' "$PR_URL" >> "$GITHUB_STEP_SUMMARY"
           else

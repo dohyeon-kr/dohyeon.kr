@@ -19,6 +19,7 @@ on:
 
 env:
   SHORTS_IMAGE_GENERATION: disabled
+  HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
   contents: read
@@ -32,6 +33,17 @@ jobs:
         with:
           node-version: 24.18.0
       - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Typecheck
+        working-directory: shorts
+        run: npm run typecheck
+      - name: Fast unit tests
+        working-directory: shorts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t tests < <(find tests -maxdepth 1 -type f -name '*.test.mjs' ! -name 'video-background.test.mjs' -print | sort)
+          test "${#tests[@]}" -gt 0
+          node --test "${tests[@]}"
       - name: Prepare media tools for integration tests
         run: |
           if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
@@ -40,11 +52,72 @@ jobs:
           fi
           ffmpeg -version
           ffprobe -version
-      - name: Typecheck and unit tests (no preview generation)
+      - name: Video media integration test
         working-directory: shorts
+        run: node --test tests/video-background.test.mjs
+
+  hyperframes-contract:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - name: Build deterministic Monoliquid v2 fixture
+        id: build
+        shell: bash
         run: |
-          npm run typecheck
-          npm test
+          set -euo pipefail
+          mkdir -p shorts/content/__hyperframes-ci__
+          cat > shorts/content/__hyperframes-ci__/candidate.json <<'JSON'
+          {
+            "schemaVersion": 3,
+            "id": "hyperframes-ci",
+            "status": "candidate",
+            "source": {"url": "https://blog.dohyeon.kr/", "title": "DLOG"},
+            "candidate": {
+              "angle": "question",
+              "hook": "검증 가능한 템플릿인가?",
+              "title": "Monoliquid v2 CI",
+              "rationale": "HyperFrames contract fixture",
+              "viralScore": 0,
+              "suggestedCaption": "",
+              "hashtags": []
+            },
+            "style": {
+              "theme": "monoliquid-v2",
+              "template": "monoliquid-v2",
+              "subtitles": "burned-in",
+              "safeArea": "shorts-reels"
+            },
+            "scenes": [
+              {
+                "kind": "statement",
+                "layout": "statement-offset",
+                "headline": "HTML이 영상의 원본이다",
+                "subline": "candidate JSON은 그대로 유지한다",
+                "narration": "후보 데이터는 유지하고 렌더링만 HyperFrames로 바꿉니다.",
+                "imageQuery": null,
+                "comparisonLeft": null,
+                "comparisonRight": null,
+                "image": null,
+                "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null}
+              }
+            ]
+          }
+          JSON
+          node shorts/scripts/build-hyperframes.mjs shorts/content/__hyperframes-ci__/candidate.json
+      - name: HyperFrames lint and visual check
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$PROJECT_DIR"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
+
   presenter-rig-preview:
     if: github.event_name == 'workflow_dispatch' && inputs.generate_previews
     runs-on: ubuntu-latest
