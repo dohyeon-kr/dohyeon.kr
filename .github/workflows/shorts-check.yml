@@ -64,7 +64,6 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
-      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
       - name: Build deterministic Monoliquid v2 fixture
         id: build
         shell: bash
@@ -109,7 +108,7 @@ jobs:
           }
           JSON
           node shorts/scripts/build-hyperframes.mjs shorts/content/__hyperframes-ci__/candidate.json
-      - name: HyperFrames lint and visual inspect
+      - name: HyperFrames lint and visual check
         env:
           PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
         shell: bash
@@ -117,7 +116,7 @@ jobs:
           set -euo pipefail
           cd "$PROJECT_DIR"
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
-          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" inspect --strict --json | tee inspect.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
 
   presenter-rig-preview:
     if: github.event_name == 'workflow_dispatch' && inputs.generate_previews
