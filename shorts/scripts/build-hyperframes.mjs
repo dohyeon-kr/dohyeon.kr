@@ -1,7 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
-import {withBlogCta} from './blog-cta.mjs';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {withBlogCta, BLOG_CTA_ID} from './blog-cta.mjs';
+import {BlogCtaContent, BlogCtaFontFaces, BLOG_CTA_BACKGROUND} from '../src/BlogCtaContent.mjs';
 import {createPhotoSearch} from './resolve-visuals.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
 import {videoFrameCount} from '../src/video/schema.ts';
@@ -33,7 +36,7 @@ const sceneDuration = scene => {
   // as the existing Remotion renderer instead of applying CTA padding twice.
   const preparedDuration = Number(scene.audioDurationSeconds);
   if (Number.isFinite(preparedDuration) && preparedDuration > 0) return Math.max(2.2, preparedDuration + 0.28);
-  if (scene.commonPage === 'blog-cta-v1') return 6.28;
+  if (scene.commonPage === BLOG_CTA_ID) return 6.28;
   return 3.88;
 };
 const under = (file, root) => {
@@ -81,6 +84,8 @@ await Promise.all([
   fs.copyFile(path.join(themeRoot, 'presenter.svg'), path.join(outputDir, 'presenter.svg')),
   fs.copyFile(path.join(repoRoot, 'themes', 'monoliquid', 'assets', 'fonts', 'pretendard-variable.woff2'), path.join(outputDir, 'fonts', 'pretendard-variable.woff2')),
   fs.copyFile(path.join(repoRoot, 'themes', 'monoliquid', 'assets', 'fonts', 'archivo-expanded-black-latin.woff2'), path.join(outputDir, 'fonts', 'archivo-expanded-black-latin.woff2')),
+  ...['Pretendard-Bold.woff', 'Pretendard-Regular.woff'].map(name =>
+    fs.copyFile(path.join(repoRoot, 'scripts', 'thumbnail-fonts', name), path.join(outputDir, 'fonts', name))),
 ]);
 
 async function copyPreparedMedia(relativePath, targetName) {
@@ -155,6 +160,19 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const audioTrack = 100 + number;
   const videoTrack = 200 + number;
 
+  // Common pages use the actual shared component, not a theme-specific title card.
+  // Do not collapse its intentional line break or animate its copy independently.
+  if (scene.commonPage === BLOG_CTA_ID) {
+    const content = renderToStaticMarkup(createElement(BlogCtaContent, {scene}));
+    renderedScenes.push(`<section id="${id}" class="clip ml-scene ml-scene--common-cta" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${visualTrack}">${content}</section>`);
+    const audio = scene.audioPath ? await copyPreparedMedia(scene.audioPath, `${id}-audio`) : null;
+    if (audio) audioTracks.push(`<audio id="audio-${id}" data-start="${start.toFixed(3)}" data-track-index="${audioTrack}" src="${escapeHtml(audio)}" data-volume="1"></audio>`);
+    const dissolve = Math.min(duration / 2, Math.max(0, Number(scene.transitionOptions?.durationMs ?? 600) / 1000));
+    if (dissolve > 0) timelineStatements.push(`tl.fromTo("#${id}", {opacity:0, filter:"blur(12px)"}, {opacity:1, filter:"blur(0px)", duration:${dissolve.toFixed(3)}, ease:"power2.out"}, ${start.toFixed(3)});`);
+    timings.push({index: number, id, startSeconds: start, durationSeconds: duration, snapshotSeconds: start + duration * 0.72});
+    continue;
+  }
+
   const preparedImage = scene.imagePath ? await copyPreparedMedia(scene.imagePath, `${id}-image`) : null;
   let previewImage = scene.image ?? null;
   if (!preparedArg && !previewImage && scene.visual?.type === 'photo') {
@@ -172,10 +190,10 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const comparisonLeft = compact(scene.comparisonLeft);
   const comparisonRight = compact(scene.comparisonRight);
   const visualLabel = compact(scene.visual?.value || scene.visual?.motif || scene.visualIntent?.concept);
-  const sourceLabel = scene.commonPage === 'blog-cta-v1' ? 'DLOG / CTA' : `DLOG / ${kind.toUpperCase()}`;
+  const sourceLabel = `DLOG / ${kind.toUpperCase()}`;
   const fullBleedImage = scene.layout === 'photo-full-bleed' && Boolean(image);
   const fullBleed = fullBleedImage || Boolean(backgroundVideo);
-  const presenterVisible = Boolean(manifest.presenterOverlay) && scene.commonPage !== 'blog-cta-v1';
+  const presenterVisible = Boolean(manifest.presenterOverlay);
   const requestedOverlay = Number(scene.backgroundVideo?.overlayOpacity);
   const overlayOpacity = Number.isFinite(requestedOverlay) ? Math.min(.85, Math.max(.35, requestedOverlay)) : .45;
   const cropX = Math.round((scene.backgroundVideo?.cropX ?? .5) * 10000) / 100;
@@ -258,6 +276,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
 
 const totalDuration = cursor;
 const compositionClassAttr = candidate.style?.colorScheme === 'dark' ? ' class="ml-theme--dark"' : '';
+const ctaFonts = renderToStaticMarkup(createElement(BlogCtaFontFaces, {fontUrl: value => value}));
 const html = `<!doctype html>
 <html lang="ko">
 <head>
@@ -266,6 +285,11 @@ const html = `<!doctype html>
   <title>${escapeHtml(candidate.candidate?.title || prefix)}</title>
   <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="theme.css" />
+  ${ctaFonts}
+  <style>
+    .ml-scene--common-cta {inset:0; border:0; background:${BLOG_CTA_BACKGROUND}; color:#fff;}
+    .ml-scene--common-cta::before {display:none;}
+  </style>
 </head>
 <body>
   <div id="monoliquid-v2"${compositionClassAttr} data-composition-id="monoliquid-v2" data-start="0" data-duration="${totalDuration.toFixed(3)}" data-track-index="0" data-width="1080" data-height="1920">
