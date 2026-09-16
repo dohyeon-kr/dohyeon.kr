@@ -73,7 +73,7 @@ export function describeCandidate(manifest, filename) {
       `- 주 문구: ${md(scene.headline)}`);
     if (scene.subline) out.push(`- 보조 문구: ${md(scene.subline)}`);
     out.push(`- 배치: ${template.id === 'notebook-grid' ? '노트 그리드 · 사진은 흰 인화지 여백과 반투명 테이프, 비교는 2단, 도식은 넓은 중앙 영역' : label(scene.layout)}`);
-    if (overlayVisible(manifest.presenterOverlay, scene)) out.push(`- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). ${manifest.presenterOverlay.lipSync === 'word-timestamps' ? '최종 TTS 단어 타임스탬프에 맞춘 입 모양과 발화 구간 노딩. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.' : '기본 표정, 실제 TTS 립싱크 미연결.'}`);
+    if (overlayVisible(manifest.presenterOverlay, scene)) out.push(`- 발표자: 우측 하단 원형 바스트 상시 표시 (본문 전환 유지). ${manifest.presenterOverlay.lipSync === 'word-timestamps' ? `최종 TTS 단어 타임스탬프에 맞춘 입 모양${manifest.presenterOverlay.nod === 'speech' ? '과 발화 구간 노딩' : ''}. 단어 내부 음절 타이밍은 근사이며 실제 음성 검수 필요. 무음 미리보기에서는 입·노딩 트랙을 만들지 않음.` : '기본 표정, 실제 TTS 립싱크 미연결.'}`);
     else if (manifest.presenterOverlay) out.push('- 발표자: 공통 CTA에서는 숨김.');
     if (scene.presenter != null) {
       out.push('- 발표자: 흰 페이지 / 원형 바스트 / 장면 기준 초');

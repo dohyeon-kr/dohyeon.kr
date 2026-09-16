@@ -2,7 +2,7 @@
   "schemaVersion": 3,
   "id": "candidate-01",
   "status": "candidate",
-  "presenterOverlay": {"position": "bottom-right", "hideOnCommonCta": true, "lipSync": "none", "nod": "none"},
+  "presenterOverlay": {"position": "bottom-right", "hideOnCommonCta": true, "lipSync": "word-timestamps", "nod": "none"},
   "source": {
     "url": "https://blog.dohyeon.kr/insaengyeogjeoneul-baraneun-dangsin-roddoneun-sassnayo/",
     "title": "인생역전을 바라는 당신, 로또는 샀나요?"
@@ -119,7 +119,7 @@
       "visualIntent": {
         "concept": "운 자체와 운을 만날 표면적을 분리한다.",
         "relation": {"type": "comparison", "description": "통제할 수 없는 것과 통제할 수 있는 것을 나눈다."},
-        "strategy": {"type": "number", "metaphor": "표면적", "rationale": "추상적인 운을 하나의 조작 가능한 변수처럼 보이게 만드는 장면이다."}
+        "strategy": {"type": "number", "metaphor": "표면적", "rationale": "통제할 수 없는 운과 선택할 수 있는 행동을 구분하고, 세상과 닿는 접점을 표면적으로 설명한다."}
       },
       "transition": "dip-to-black",
       "transitionOptions": null,
@@ -134,7 +134,7 @@
         {"text": "표면적은 넓힐 수 있습니다.", "emphasis": "high", "pauseAfterMs": 240, "delivery": "hold", "visualPriority": "high", "keyword": "표면적", "visualCue": "표면적이라는 핵심 단어를 강조한다"}
       ],
       "headline": "운은 통제할 수 없다.\n표면적은 넓힐 수 있다.",
-      "subline": "통제 불가능한 결과를, 통제 가능한 행동으로 바꾸기",
+      "subline": "결과는 알 수 없어도, 시도는 늘릴 수 있다",
       "narration": "운 자체는 통제할 수 없습니다. 언제 어디에서 어떤 형태로 찾아올지도 모릅니다. 다만 운과 마주칠 수 있는 표면적은 넓힐 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
@@ -193,9 +193,9 @@
       "layout": "statement-giant",
       "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
       "visualIntent": {
-        "concept": "운이라는 추상적인 영역도 행동 가능한 문제로 번역할 수 있음을 선언한다.",
-        "relation": {"type": "small-input-large-output", "description": "작은 행동은 결과를 보장하지 않지만 가능성이 들어올 구조를 만든다."},
-        "strategy": {"type": "minimal", "metaphor": "번역", "rationale": "중반 전환점이므로 도식을 비우고 핵심 문장을 크게 남긴다."}
+        "concept": "앞 장면의 행동들이 결과를 보장하지는 않음을 밝히고, 그중 사람과의 만남을 다음 장면의 사례로 연결한다.",
+        "relation": {"type": "comparison", "description": "좋은 결과의 보장과 뜻밖의 기회를 만날 가능성을 구분한다."},
+        "strategy": {"type": "minimal", "metaphor": "시도", "rationale": "행동의 효과를 과장하지 않는 전환점이다. 큰 문장으로 결과와 시도를 구분한 뒤, 다음 장면의 대화 영상으로 사람과의 만남을 구체화한다."}
       },
       "transition": "fade",
       "transitionOptions": null,
@@ -203,18 +203,17 @@
       "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
       "choreography": ["show-headline", "hold-statement"],
       "beats": [
-        {"text": "좋은 일이 생기기를 바라며", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
-        {"text": "가만히 있는 대신,", "emphasis": "mid", "pauseAfterMs": 60, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
-        {"text": "운이라는 영역까지도", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": "운", "visualCue": null},
-        {"text": "내가 행동할 수 있는 문제로", "emphasis": "high", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "high", "keyword": "행동", "visualCue": "행동이라는 단어를 강조한다"},
-        {"text": "바꿔볼 수 있습니다.", "emphasis": "mid", "pauseAfterMs": 100, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
-        {"text": "결과는 만들 수 없어도,", "emphasis": "mid", "pauseAfterMs": 60, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
-        {"text": "결과가 들어올 삶의 모양은", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
-        {"text": "만들 수 있습니다.", "emphasis": "high", "pauseAfterMs": 240, "delivery": "hold", "visualPriority": "high", "keyword": "만들 수 있습니다", "visualCue": "핵심 문장을 유지한다"}
+        {"text": "이런 행동이", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": "앞 장면의 작은 행동들을 받아 설명한다"},
+        {"text": "좋은 결과를 보장하지는 않습니다.", "emphasis": "high", "pauseAfterMs": 100, "delivery": "hold", "visualPriority": "high", "keyword": "보장하지는 않습니다", "visualCue": null},
+        {"text": "다만 가만히 있을 때보다", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
+        {"text": "뜻밖의 기회를 만날", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": "기회", "visualCue": null},
+        {"text": "가능성이 생깁니다.", "emphasis": "high", "pauseAfterMs": 100, "delivery": "hold", "visualPriority": "high", "keyword": "가능성", "visualCue": "결과의 보장과 가능성을 구분한다"},
+        {"text": "새로운 사람을 만나는 일도", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": "사람", "visualCue": "다음 장면의 대화 영상으로 이어간다"},
+        {"text": "그중 하나입니다.", "emphasis": "mid", "pauseAfterMs": 160, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null}
       ],
-      "headline": "운을 기다리지 말고\n행동 가능한 문제로 바꾼다",
+      "headline": "결과는 정할 수 없어도\n시도는 늘릴 수 있다",
       "subline": null,
-      "narration": "좋은 일이 생기기를 바라며 가만히 있는 대신, 운이라는 영역까지도 내가 행동할 수 있는 문제로 바꿔볼 수 있습니다. 결과는 만들 수 없어도, 결과가 들어올 삶의 모양은 만들 수 있습니다.",
+      "narration": "이런 행동이 좋은 결과를 보장하지는 않습니다. 다만 가만히 있을 때보다 뜻밖의 기회를 만날 가능성이 생깁니다. 새로운 사람을 만나는 일도 그중 하나입니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
@@ -229,9 +228,9 @@
       "layout": "photo-full-bleed",
       "visual": {"type": "none", "motif": "human-connection", "query": null, "value": null, "xLabel": null, "yLabel": null},
       "visualIntent": {
-        "concept": "한 사람은 내가 알지 못하는 여러 세계와 연결된 접점이다.",
-        "relation": {"type": "network-growth", "description": "한 사람에서 정보, 경험, 관계, 장소로 연결이 확장된다."},
-        "strategy": {"type": "photo", "metaphor": "만남", "rationale": "정적인 단체 사진 대신 사람들이 실제로 대화하고 반응하는 세로 B-roll을 사용한다. 한 사람과의 만남이 새로운 접점을 만든다는 내용을 관계의 움직임과 시선 교환으로 보여주기 위해 영상 배경을 선택한다."}
+        "concept": "서로 경험과 생각을 나누는 만남이 양쪽 모두에게 새로운 계기가 될 수 있음을 설명한다.",
+        "relation": {"type": "network-growth", "description": "경험과 생각을 나누는 대화가 서로의 관점을 넓히고 새로운 일로 이어질 수 있다."},
+        "strategy": {"type": "photo", "metaphor": "만남", "rationale": "사람들이 서로 말하고 듣는 기존 세로 B-roll을 유지한다. 일방적으로 무언가를 얻는 관계가 아니라 경험을 주고받는 만남이라는 내용을 시선 교환과 반응으로 보여준다."}
       },
       "transition": "push",
       "transitionOptions": null,
@@ -239,17 +238,17 @@
       "camera": {"motion": "static", "target": "subject", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
       "choreography": ["show-video", "show-headline", "hold-connection"],
       "beats": [
-        {"text": "사람을 기회로 본다는 건", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": "사람들의 대화 영상을 유지한다"},
-        {"text": "무언가를 얻어내겠다는 뜻이 아닙니다.", "emphasis": "high", "pauseAfterMs": 100, "delivery": "hold", "visualPriority": "high", "keyword": "아닙니다", "visualCue": null},
-        {"text": "한 사람은 그 자체로", "emphasis": "high", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "high", "keyword": "한 사람", "visualCue": null},
-        {"text": "내가 알지 못하는 정보와 경험,", "emphasis": "mid", "pauseAfterMs": 40, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
-        {"text": "다른 사람과 장소에 연결되어 있습니다.", "emphasis": "high", "pauseAfterMs": 100, "delivery": "hold", "visualPriority": "high", "keyword": "연결", "visualCue": "대화의 시선과 제스처로 관계를 보여준다"},
-        {"text": "그리고 나 역시 누군가에게", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
-        {"text": "그런 새로운 사건이 될 수 있습니다.", "emphasis": "high", "pauseAfterMs": 220, "delivery": "hold", "visualPriority": "high", "keyword": "새로운 사건", "visualCue": null}
+        {"text": "새로운 사람과 이야기를 나누면", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": "서로 말하고 듣는 대화 영상을 유지한다"},
+        {"text": "내가 몰랐던 경험과 생각을", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": "경험과 생각", "visualCue": null},
+        {"text": "접하게 됩니다.", "emphasis": "mid", "pauseAfterMs": 80, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
+        {"text": "그 만남이 새로운 일로", "emphasis": "mid", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "mid", "keyword": "만남", "visualCue": null},
+        {"text": "이어지기도 합니다.", "emphasis": "mid", "pauseAfterMs": 100, "delivery": "normal", "visualPriority": "mid", "keyword": null, "visualCue": null},
+        {"text": "나 역시 알고 있는 것을 나누며", "emphasis": "high", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "high", "keyword": "나 역시", "visualCue": "상대의 반응과 시선 교환으로 주고받는 관계를 보여준다"},
+        {"text": "상대에게 그런 계기가 될 수 있습니다.", "emphasis": "high", "pauseAfterMs": 220, "delivery": "hold", "visualPriority": "high", "keyword": "계기", "visualCue": null}
       ],
-      "headline": "한 사람은\n하나의 세계와 연결되어 있다",
-      "subline": "정보 · 경험 · 다른 사람 · 새로운 장소",
-      "narration": "사람을 기회로 본다는 건 무언가를 얻어내겠다는 뜻이 아닙니다. 한 사람은 그 자체로 내가 알지 못하는 정보와 경험, 다른 사람과 장소에 연결되어 있습니다. 그리고 나 역시 누군가에게 그런 새로운 사건이 될 수 있습니다.",
+      "headline": "만남은 서로의\n세계를 넓힌다",
+      "subline": "서로의 경험을 나누는 일",
+      "narration": "새로운 사람과 이야기를 나누면 내가 몰랐던 경험과 생각을 접하게 됩니다. 그 만남이 새로운 일로 이어지기도 합니다. 나 역시 알고 있는 것을 나누며 상대에게 그런 계기가 될 수 있습니다.",
       "comparisonLeft": null,
       "comparisonRight": null,
       "imageQuery": null,
