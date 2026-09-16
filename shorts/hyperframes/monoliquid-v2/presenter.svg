@@ -39,8 +39,20 @@
       <path d="M575 482 Q568 495 582 498 M639 462 Q650 474 641 482" fill="none" stroke-width="2.3" />
       <path d="M585 494 Q591 483 600 491 Q598 496 585 494Z M619 485 Q625 475 634 480 Q636 485 619 485Z" fill="#111" stroke="none" />
       <g transform="translate(620 540) rotate(-9) scale(1.65) translate(-401 -331)">
-        <path d="M368 331 Q383 333 395 330 Q402 328 409 329 Q423 331 435 327" fill="none" stroke-width="2.2" />
-        <path d="M393 343 Q402 347 412 342" fill="none" stroke-width="0.9" />
+        <g style="opacity:var(--ml-mouth-rest,1)">
+          <path d="M368 331 Q383 333 395 330 Q402 328 409 329 Q423 331 435 327" fill="none" stroke-width="2.2" />
+          <path d="M393 343 Q402 347 412 342" fill="none" stroke-width="0.9" />
+        </g>
+        <g style="opacity:var(--ml-mouth-m,0)">
+          <path d="M373 331 Q401 335 429 330" fill="none" stroke-width="3.2" />
+        </g>
+        <g transform="translate(401 331)">
+          <g style="transform:scaleY(var(--ml-mouth-open,.7))" fill="#111" stroke-width="1.5">
+            <ellipse rx="25" ry="22" style="opacity:var(--ml-mouth-a,0)" />
+            <ellipse rx="31" ry="9" style="opacity:var(--ml-mouth-i,0)" />
+            <ellipse rx="14" ry="22" style="opacity:var(--ml-mouth-o,0)" />
+          </g>
+        </g>
       </g>
       <g fill="none" stroke-width="3" transform="translate(600 430) rotate(-9)">
         <rect x="-130" y="-39" width="112" height="76" rx="20" ry="18" />

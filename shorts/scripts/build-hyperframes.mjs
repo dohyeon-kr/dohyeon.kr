@@ -8,6 +8,7 @@ import {BlogCtaContent, BlogCtaFontFaces, BLOG_CTA_BACKGROUND} from '../src/Blog
 import {createPhotoSearch} from './resolve-visuals.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
 import {videoFrameCount} from '../src/video/schema.ts';
+import {presenterDefinitions, presenterMarkup as renderPresenterMarkup, presenterTimeline} from './hyperframes-presenter.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.join(repoRoot, 'shorts');
@@ -143,6 +144,9 @@ async function prepareBackgroundVideo(scene, targetName) {
   return `media/${path.basename(target)}`;
 }
 
+const presenterArt = manifest.presenterOverlay
+  ? presenterDefinitions(await fs.readFile(path.join(themeRoot, 'presenter.svg'), 'utf8')) : '';
+
 const timings = [];
 const renderedScenes = [];
 const videoTracks = [];
@@ -223,7 +227,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
     ? `<div class="ml-fullbleed-media ml-primary-visual" data-layout-ignore><img class="ml-image ml-fullbleed-image" src="${escapeHtml(image)}" alt="" /></div>`
     : '';
   const presenterMarkup = presenterVisible
-    ? '<div class="ml-presenter-overlay" data-layout-ignore aria-hidden="true"></div>'
+    ? renderPresenterMarkup()
     : '';
 
   if (backgroundVideo) {
@@ -253,6 +257,8 @@ for (const [index, scene] of manifest.scenes.entries()) {
     // so using it as the media duration would extend silence.
     audioTracks.push(`<audio id="audio-${id}" data-start="${start.toFixed(3)}" data-track-index="${audioTrack}" src="${escapeHtml(audio)}" data-volume="1"></audio>`);
   }
+
+  timelineStatements.push(...presenterTimeline({scene, options: manifest.presenterOverlay, id, start, duration}));
 
   const enter = start + 0.04;
   timelineStatements.push(`tl.from("#${id} .ml-topline", {y:-18, opacity:0, duration:.34, ease:"power2.out"}, ${enter.toFixed(3)});`);
@@ -298,6 +304,7 @@ const html = `<!doctype html>
   </style>
 </head>
 <body>
+  ${presenterArt}
   <div id="monoliquid-v2"${compositionClassAttr} data-composition-id="monoliquid-v2" data-start="0" data-duration="${totalDuration.toFixed(3)}" data-track-index="0" data-width="1080" data-height="1920">
     ${videoTracks.join('\n')}
     ${renderedScenes.join('\n')}
