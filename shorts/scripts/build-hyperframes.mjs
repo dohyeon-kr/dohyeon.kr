@@ -277,6 +277,12 @@ for (const [index, scene] of manifest.scenes.entries()) {
 const totalDuration = cursor;
 const compositionClassAttr = candidate.style?.colorScheme === 'dark' ? ' class="ml-theme--dark"' : '';
 const ctaFonts = renderToStaticMarkup(createElement(BlogCtaFontFaces, {fontUrl: value => value}));
+// Caption alignment adds two timeline commands per cue. Keep generated motion
+// separate from composition markup so check --strict does not reject otherwise
+// valid reels as composition_file_too_large. Do not change DOM or scene timing.
+const timelineSource = `window.populateMonoliquidTimeline = function populateMonoliquidTimeline(tl) {
+  ${timelineStatements.join('\n  ')}
+};\n`;
 const html = `<!doctype html>
 <html lang="ko">
 <head>
@@ -298,10 +304,11 @@ const html = `<!doctype html>
     ${audioTracks.join('\n')}
   </div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="timeline.js"></script>
   <script>
     window.__timelines = window.__timelines || {};
     const tl = gsap.timeline({paused:true});
-    ${timelineStatements.join('\n    ')}
+    window.populateMonoliquidTimeline(tl);
     window.__timelines["monoliquid-v2"] = tl;
   </script>
 </body>
@@ -309,6 +316,7 @@ const html = `<!doctype html>
 
 await Promise.all([
   fs.writeFile(path.join(outputDir, 'index.html'), html, 'utf8'),
+  fs.writeFile(path.join(outputDir, 'timeline.js'), timelineSource, 'utf8'),
   fs.writeFile(path.join(outputDir, 'timings.json'), `${JSON.stringify({prefix, manifest: manifestArg, totalDurationSeconds: totalDuration, scenes: timings}, null, 2)}\n`, 'utf8'),
   fs.writeFile(path.join(outputDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8'),
 ]);
