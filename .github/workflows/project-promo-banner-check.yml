@@ -25,3 +25,5 @@ jobs:
           python-version: '3.12'
       - name: Check project promo banner contract
         run: python scripts/test-project-promo-banner.py
+      - name: Check project promo banner JavaScript
+        run: node --check themes/monoliquid/assets/js/project-promo-banner.js
