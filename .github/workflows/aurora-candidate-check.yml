@@ -1,0 +1,41 @@
+name: Aurora candidate check
+
+on:
+  push:
+    branches:
+      - feat/aurora-explain-runtime
+    paths:
+      - 'shorts/content/usecase-domain-repository-seolgyebuteo-dongsiseongggaji/candidate-01.json'
+      - '.github/workflows/aurora-candidate-check.yml'
+
+permissions:
+  contents: read
+
+env:
+  HYPERFRAMES_VERSION: '0.8.40'
+  MANIFEST: shorts/content/usecase-domain-repository-seolgyebuteo-dongsiseongggaji/candidate-01.json
+
+jobs:
+  validate-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Storyboard preflight
+        run: node shorts/scripts/validate-storyboard.mjs "$MANIFEST"
+      - name: Compile Aurora candidate
+        id: build
+        run: node shorts/scripts/build-hyperframes.mjs "$MANIFEST"
+      - name: HyperFrames candidate lint and strict check
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$PROJECT_DIR"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
