@@ -1,0 +1,439 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/usecase-domain-repository-seolgyebuteo-dongsiseongggaji/",
+    "title": "UseCase·Domain·Repository 설계와 동시성 처리"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "계층을 나누다 보니, 동시성이 보였습니다.",
+    "title": "UseCase·Domain·Repository\n설계부터 동시성까지",
+    "rationale": "Spring/Kotlin 백엔드 구조를 다시 설계하며 시작한 책임 분리 고민이 상태의 생명주기와 동시성 문제로 이어지는 원문의 흐름을 8장으로 압축한다. 1장은 구조를 나누다가 동시성까지 도달한 문제의식, 2장은 UseCase와 Domain의 서로 다른 테스트 관점, 3장은 상태 복원·계산·기록의 생명주기, 4장은 Engine을 필수 계층이 아니라 UseCase가 선택하는 도구로 보는 관점, 5장은 복원과 기록 사이에 두 요청이 끼어드는 경쟁 조건, 6장은 Repository의 atomic operation으로 경쟁을 줄이는 방법, 7장은 모든 규칙을 SQL 원자화로 밀었을 때 Persistence Layer가 비즈니스 로직을 흡수하는 반대 비용, 8장은 계층의 수보다 상태와 책임의 경계를 명확히 하는 것이 핵심이라는 결론으로 구성했다. 원문에 없는 성능 수치나 운영 경험은 추가하지 않았다. Aurora Explain의 브라우저·모듈·DB 의미 오브젝트와 기존 diagramSpec 흐름을 중심으로 설명한다.",
+    "viralScore": 78,
+    "suggestedCaption": "UseCase, Domain, Repository를 나누는 일은 폴더를 예쁘게 정리하는 문제가 아니었습니다.\n상태를 누가 읽고, 누가 계산하고, 누가 기록하는지 정하기 시작하면 트랜잭션과 동시성 경계까지 함께 보이기 시작합니다.\n\n원문: https://blog.dohyeon.kr/usecase-domain-repository-seolgyebuteo-dongsiseongggaji/",
+    "hashtags": [
+      "#백엔드",
+      "#소프트웨어설계",
+      "#동시성",
+      "#Spring",
+      "#Kotlin"
+    ]
+  },
+  "style": {
+    "theme": "aurora-explain",
+    "template": "aurora-explain",
+    "colorScheme": "dark",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "aurora-explain",
+    "motionLanguage": "finite-semantic",
+    "decorativeLabels": "forbidden"
+  },
+  "presenterOverlay": null,
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "Request부터 Repository까지의 계층을 어두운 글래스 오브젝트로 보여준다.",
+        "trigger": "상태를 누가 복원하고 계산하고 기록하는지 묻는다.",
+        "change": "요청 흐름의 연결선이 순서대로 켜지고 마지막에 DB가 등장한다.",
+        "invariant": "계층 순서와 하단 자막 영역은 고정한다.",
+        "result": "폴더 구조 고민이 상태의 생명주기와 동시성 문제로 확장되는 출발점을 만든다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "Request가 UseCase, Engine, Repository를 지나 DB까지 흐르는 기존 구조를 보여준다.",
+        "nodes": [
+          {"id": "browser", "shape": "rect", "label": "Request", "x": 95, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 285, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "engine", "shape": "rect", "label": "Engine", "x": 475, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "repository", "shape": "rect", "label": "Repository", "x": 665, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "request-flow", "shape": "line", "label": "", "x": 190, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "browser", "target": "usecase", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
+          {"id": "domain-flow", "shape": "line", "label": "", "x": 380, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "engine", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
+          {"id": "persist-flow", "shape": "line", "label": "", "x": 570, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "engine", "target": "repository", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "request-flow", "property": "opacity", "from": 0, "to": 1, "start": 0.12, "end": 0.28},
+          {"target": "domain-flow", "property": "opacity", "from": 0, "to": 1, "start": 0.3, "end": 0.46},
+          {"target": "persist-flow", "property": "opacity", "from": 0, "to": 1, "start": 0.48, "end": 0.64},
+          {"target": "repository", "property": "scale", "from": 0.96, "to": 1, "start": 0.62, "end": 0.8}
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "architecture-flow", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "계층 분리가 상태와 동시성 문제로 이어지는 출발점",
+        "relation": {"type": "flow", "description": "기존 Request → UseCase → Engine → Repository 흐름을 먼저 보여준다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문의 아키텍처 흐름을 Aurora의 의미 오브젝트와 연결선으로 직접 설명한다."}
+      },
+      "transition": "none",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-headline", "reveal-request-flow"],
+      "beats": [
+        {"text": "처음에는 백엔드 계층의 역할을 어떻게 나눌지 고민했습니다. 그런데 상태를 누가 복원하고, 계산하고, 기록하는지 구분하기 시작하면서 동시성 문제까지 이어졌습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "동시성", "visualCue": "request-flow"}
+      ],
+      "headline": "계층을 나누다 보니,\n동시성이 보였습니다.",
+      "subline": "Request → UseCase → Engine → Repository",
+      "narration": "처음에는 백엔드 계층의 역할을 어떻게 나눌지 고민했습니다. 그런데 상태를 누가 복원하고, 계산하고, 기록하는지 구분하기 시작하면서 동시성 문제까지 이어졌습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "UseCase와 Domain 두 개의 패널이 나란히 놓인다.",
+        "trigger": "각 계층을 테스트할 때 보는 질문을 비교한다.",
+        "change": "UseCase에서 Domain으로 연결되는 선이 켜진다.",
+        "invariant": "UseCase와 Domain을 하나의 책임으로 합치지 않는다.",
+        "result": "UseCase는 흐름, Domain은 규칙이라는 차이를 남긴다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UseCase의 orchestration과 Domain의 rule computation을 분리해서 비교한다.",
+        "nodes": [
+          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 230, "y": 280, "width": 240, "height": 190, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "domain", "shape": "rect", "label": "Domain", "x": 570, "y": 280, "width": 240, "height": 190, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "orchestrate", "shape": "line", "label": "", "x": 400, "y": 280, "width": 70, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "domain", "sourceSide": "right", "targetSide": "left", "gap": 14}, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "usecase", "property": "opacity", "from": 0.45, "to": 1, "start": 0.08, "end": 0.28},
+          {"target": "orchestrate", "property": "opacity", "from": 0, "to": 1, "start": 0.34, "end": 0.54},
+          {"target": "domain", "property": "opacity", "from": 0.45, "to": 1, "start": 0.56, "end": 0.76}
+        ]
+      },
+      "kind": "compare",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "responsibility-split", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "UseCase와 Domain의 책임 차이",
+        "relation": {"type": "comparison", "description": "UseCase Test와 Domain Test가 보는 대상을 나눈다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문의 Domain Test와 UseCase Test 구분을 두 개의 의미 오브젝트로 압축한다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-usecase", "connect-domain"],
+      "beats": [
+        {"text": "Domain Test는 State에서 Rule을 거쳐 Result가 맞는지를 봅니다. UseCase Test는 Read, Orchestrate, Write, Side Effect의 흐름을 봅니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "책임", "visualCue": "orchestrate"}
+      ],
+      "headline": "UseCase는 흐름을,\nDomain은 규칙을 봅니다.",
+      "subline": "Domain: State → Rule → Result · UseCase: Read → Orchestrate → Write → Side Effect",
+      "narration": "Domain Test는 State에서 Rule을 거쳐 Result가 맞는지를 봅니다. UseCase Test는 Read, Orchestrate, Write, Side Effect의 흐름을 봅니다.",
+      "comparisonLeft": "Domain · State → Rule → Result",
+      "comparisonRight": "UseCase · Read → Orchestrate → Write → Side Effect",
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "Repository Read, UseCase, Domain, Repository Write가 한 줄에 놓인다.",
+        "trigger": "상태의 생명주기를 순서대로 설명한다.",
+        "change": "복원, 계산, 기록 연결이 차례로 켜진다.",
+        "invariant": "각 단계의 책임 주체는 고정한다.",
+        "result": "Domain에서 저장 책임을 제거했을 때 얻는 순수성을 보여준다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "Repository가 상태를 복원하고 UseCase가 흐름을 조율하며 Domain이 계산한 뒤 Repository가 다시 기록한다.",
+        "nodes": [
+          {"id": "repository-read", "shape": "rect", "label": "Repository · Read", "x": 100, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 300, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "domain", "shape": "rect", "label": "Domain", "x": 500, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "repository-write", "shape": "rect", "label": "Repository · Write", "x": 700, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "restore", "shape": "line", "label": "", "x": 200, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "repository-read", "target": "usecase", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
+          {"id": "compute", "shape": "line", "label": "", "x": 400, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "domain", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
+          {"id": "record", "shape": "line", "label": "", "x": 600, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "domain", "target": "repository-write", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "restore", "property": "opacity", "from": 0, "to": 1, "start": 0.1, "end": 0.28},
+          {"target": "compute", "property": "opacity", "from": 0, "to": 1, "start": 0.34, "end": 0.52},
+          {"target": "record", "property": "opacity", "from": 0, "to": 1, "start": 0.58, "end": 0.76}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "state-lifecycle", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "상태의 생명주기",
+        "relation": {"type": "flow", "description": "상태를 복원하고 계산하고 기록하는 책임을 분리한다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "상태가 계층 사이를 이동하는 순서를 직접 보여주는 것이 핵심이다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["restore", "compute", "record"],
+      "beats": [
+        {"text": "Repository가 상태를 복원하고, UseCase가 흐름을 조율하고, Domain이 계산하고, 다시 Repository가 기록하도록 책임을 나눴습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "상태", "visualCue": "state-lifecycle"}
+      ],
+      "headline": "상태를 누가 읽고,\n계산하고, 기록할까요?",
+      "subline": "Repository → UseCase → Domain → Repository",
+      "narration": "Repository가 상태를 복원하고, UseCase가 흐름을 조율하고, Domain이 계산하고, 다시 Repository가 기록하도록 책임을 나눴습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "UseCase에서 Repository로 가는 직접 경로와 Engine을 거치는 경로를 동시에 둔다.",
+        "trigger": "Domain computation이 필요한 경우만 Engine을 선택한다고 설명한다.",
+        "change": "Engine 경로가 켜진 뒤 직접 Repository 경로도 함께 남는다.",
+        "invariant": "Engine을 항상 통과하는 필수 계층처럼 표현하지 않는다.",
+        "result": "Engine을 UseCase가 상황에 따라 선택하는 도구로 재정의한다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UseCase가 필요하면 Engine을 사용하고, 단순한 원자적 변경에서는 Repository operation을 직접 선택할 수 있다.",
+        "nodes": [
+          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 150, "y": 280, "width": 190, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "engine", "shape": "rect", "label": "Engine · Domain computation", "x": 430, "y": 150, "width": 250, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "repository", "shape": "rect", "label": "Repository · Atomic operation", "x": 650, "y": 360, "width": 250, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "choose-engine", "shape": "line", "label": "", "x": 290, "y": 215, "width": 70, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "engine", "sourceSide": "right", "targetSide": "left", "gap": 14}, "strokeStyle": "solid"},
+          {"id": "direct-operation", "shape": "line", "label": "", "x": 400, "y": 330, "width": 130, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "repository", "sourceSide": "right", "targetSide": "left", "gap": 14}, "strokeStyle": "dashed"}
+        ],
+        "events": [
+          {"target": "choose-engine", "property": "opacity", "from": 0, "to": 1, "start": 0.18, "end": 0.38},
+          {"target": "engine", "property": "scale", "from": 0.96, "to": 1, "start": 0.32, "end": 0.5},
+          {"target": "direct-operation", "property": "opacity", "from": 0, "to": 1, "start": 0.56, "end": 0.76}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "optional-engine", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "Engine은 필수 통과 계층이 아니라 선택 도구",
+        "relation": {"type": "divergence", "description": "UseCase가 계산 필요 여부에 따라 Engine 또는 Repository operation을 선택한다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문의 Engine에 대한 결론을 분기 구조로 보여준다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-usecase", "choose-engine", "show-direct-operation"],
+      "beats": [
+        {"text": "Engine은 반드시 통과해야 하는 계층이 아니었습니다. Domain computation이 필요할 때 UseCase가 선택하는 도구로 보는 편이 자연스러웠습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "Engine", "visualCue": "optional-engine"}
+      ],
+      "headline": "Engine은 필수 계층이 아니라,\nUseCase가 선택하는 도구입니다.",
+      "subline": "Domain computation이 필요할 때만",
+      "narration": "Engine은 반드시 통과해야 하는 계층이 아니었습니다. Domain computation이 필요할 때 UseCase가 선택하는 도구로 보는 편이 자연스러웠습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "두 요청이 같은 상태를 동시에 읽는 두 갈래 흐름을 보여준다.",
+        "trigger": "상태 복원과 기록 사이의 시간 창을 강조한다.",
+        "change": "Request A와 Request B의 연결이 같은 DB로 수렴한다.",
+        "invariant": "두 요청 모두 같은 초기 상태를 읽었다는 관계를 유지한다.",
+        "result": "Domain을 순수하게 만들수록 외부 상태의 동시성 경계가 중요해진다는 문제를 보여준다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "두 요청이 같은 상태를 읽고 각각 계산한 뒤 같은 DB에 기록하려는 경쟁 조건을 보여준다.",
+        "nodes": [
+          {"id": "browser-a", "shape": "rect", "label": "Request A", "x": 110, "y": 150, "width": 170, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "browser-b", "shape": "rect", "label": "Request B", "x": 110, "y": 410, "width": 170, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "usecase-a", "shape": "rect", "label": "Read → Compute", "x": 390, "y": 150, "width": 210, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "usecase-b", "shape": "rect", "label": "Read → Compute", "x": 390, "y": 410, "width": 210, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "database", "shape": "rect", "label": "Same State", "x": 690, "y": 280, "width": 180, "height": 170, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "read-a", "shape": "line", "label": "", "x": 250, "y": 150, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-a", "target": "usecase-a", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
+          {"id": "read-b", "shape": "line", "label": "", "x": 250, "y": 410, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-b", "target": "usecase-b", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
+          {"id": "write-a", "shape": "line", "label": "", "x": 540, "y": 205, "width": 80, "height": 2, "fill": "none", "connector": {"source": "usecase-a", "target": "database", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
+          {"id": "write-b", "shape": "line", "label": "", "x": 540, "y": 355, "width": 80, "height": 2, "fill": "none", "connector": {"source": "usecase-b", "target": "database", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "read-a", "property": "opacity", "from": 0, "to": 1, "start": 0.08, "end": 0.24},
+          {"target": "read-b", "property": "opacity", "from": 0, "to": 1, "start": 0.16, "end": 0.32},
+          {"target": "write-a", "property": "opacity", "from": 0, "to": 1, "start": 0.46, "end": 0.64},
+          {"target": "write-b", "property": "opacity", "from": 0, "to": 1, "start": 0.54, "end": 0.72},
+          {"target": "database", "property": "scale", "from": 0.95, "to": 1.05, "start": 0.7, "end": 0.88}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "concurrency-race", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "복원과 기록 사이의 경쟁 조건",
+        "relation": {"type": "convergence", "description": "두 요청이 같은 상태를 읽고 같은 저장 지점으로 수렴한다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "동시성 문제를 추상 문장보다 두 요청의 병렬 흐름으로 보여준다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["read-a", "read-b", "write-a", "write-b"],
+      "beats": [
+        {"text": "Domain을 순수하게 만들면 테스트는 쉬워집니다. 하지만 상태를 읽고 다시 기록하는 사이에 다른 요청이 끼어들 수 있습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "동시성", "visualCue": "concurrency-race"}
+      ],
+      "headline": "순수한 Domain 바깥에는\n동시성의 창이 생깁니다.",
+      "subline": "Read → Compute → Write 사이에 다른 요청이 들어온다면?",
+      "narration": "Domain을 순수하게 만들면 테스트는 쉬워집니다. 하지만 상태를 읽고 다시 기록하는 사이에 다른 요청이 끼어들 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "두 요청이 하나의 Repository atomic operation으로 모인다.",
+        "trigger": "tryDecrease 같은 원자적 변경을 Repository가 제공하는 경우를 설명한다.",
+        "change": "Repository에서 DB로 향하는 단일 연결만 활성화된다.",
+        "invariant": "비즈니스 규칙 전체를 SQL에 넣는 것으로 과장하지 않는다.",
+        "result": "단순한 경쟁 조건은 저장소의 원자적 연산으로 줄일 수 있음을 보여준다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "여러 요청이 Repository의 tryDecrease atomic operation을 통해 DB의 단일 변경 연산으로 들어간다.",
+        "nodes": [
+          {"id": "browser-a", "shape": "rect", "label": "Request A", "x": 120, "y": 180, "width": 170, "height": 110, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "browser-b", "shape": "rect", "label": "Request B", "x": 120, "y": 380, "width": 170, "height": 110, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "repository-atomic", "shape": "rect", "label": "Repository · tryDecrease()", "x": 420, "y": 280, "width": 250, "height": 170, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "database", "shape": "rect", "label": "Atomic Update", "x": 690, "y": 280, "width": 180, "height": 170, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "atomic-a", "shape": "line", "label": "", "x": 270, "y": 220, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-a", "target": "repository-atomic", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
+          {"id": "atomic-b", "shape": "line", "label": "", "x": 270, "y": 340, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-b", "target": "repository-atomic", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
+          {"id": "atomic-write", "shape": "line", "label": "", "x": 565, "y": 280, "width": 70, "height": 2, "fill": "none", "connector": {"source": "repository-atomic", "target": "database", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "atomic-a", "property": "opacity", "from": 0, "to": 1, "start": 0.12, "end": 0.28},
+          {"target": "atomic-b", "property": "opacity", "from": 0, "to": 1, "start": 0.2, "end": 0.36},
+          {"target": "repository-atomic", "property": "scale", "from": 0.96, "to": 1, "start": 0.36, "end": 0.56},
+          {"target": "atomic-write", "property": "opacity", "from": 0, "to": 1, "start": 0.58, "end": 0.76}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "atomic-operation", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "Repository atomic operation",
+        "relation": {"type": "convergence", "description": "동시에 들어온 요청을 DB의 원자적 변경 연산으로 모은다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문에 등장하는 tryDecrease 형태를 실제 흐름으로 표현한다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["merge-requests", "atomic-write"],
+      "beats": [
+        {"text": "경쟁 조건이 핵심인 단순 변경이라면 Repository의 atomic operation을 직접 호출하는 편이 더 자연스러울 수 있습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "atomic operation", "visualCue": "atomic-operation"}
+      ],
+      "headline": "단순한 경쟁은\n원자적 연산으로 줄일 수 있습니다.",
+      "subline": "Repository · tryDecrease(productId, amount): Boolean",
+      "narration": "경쟁 조건이 핵심인 단순 변경이라면 Repository의 atomic operation을 직접 호출하는 편이 더 자연스러울 수 있습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "UseCase와 Repository를 나란히 두고 Repository 쪽을 더 큰 오브젝트로 보여준다.",
+        "trigger": "모든 변경을 atomic SQL로 밀어 넣었을 때의 반대 비용을 설명한다.",
+        "change": "Repository 오브젝트가 강조되며 책임이 한쪽으로 쏠리는 모습을 만든다.",
+        "invariant": "atomic SQL 자체를 나쁜 선택으로 단정하지 않는다.",
+        "result": "동시성 단순화와 책임 집중 사이의 트레이드오프를 남긴다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "UseCase보다 Repository가 커지며 Persistence Layer가 비즈니스 로직을 흡수하는 위험을 보여준다.",
+        "nodes": [
+          {"id": "usecase", "shape": "rect", "label": "UseCase · Orchestration", "x": 220, "y": 280, "width": 220, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "repository", "shape": "rect", "label": "Repository · SQL + Rules?", "x": 570, "y": 280, "width": 320, "height": 220, "fill": "none", "connector": null, "strokeStyle": "solid"},
+          {"id": "absorb", "shape": "line", "label": "", "x": 390, "y": 280, "width": 80, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "repository", "sourceSide": "right", "targetSide": "left", "gap": 16}, "strokeStyle": "solid"}
+        ],
+        "events": [
+          {"target": "absorb", "property": "opacity", "from": 0, "to": 1, "start": 0.16, "end": 0.34},
+          {"target": "repository", "property": "scale", "from": 0.94, "to": 1.06, "start": 0.4, "end": 0.66}
+        ]
+      },
+      "kind": "statement",
+      "layout": "diagram-centered",
+      "visual": {"type": "diagram", "motif": "responsibility-absorption", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "SQL 원자화의 반대 비용",
+        "relation": {"type": "balance", "description": "동시성 단순화와 Persistence Layer의 책임 증가를 함께 본다."},
+        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "Repository가 커지는 관계만 보여주고 원자화를 선악으로 단정하지 않는다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["connect", "emphasize-repository"],
+      "beats": [
+        {"text": "반대로 모든 변경을 Repository의 atomic SQL로 밀어 넣으면 동시성은 단순해질 수 있지만, Persistence Layer가 Application의 비즈니스 로직을 흡수하기 시작합니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "트레이드오프", "visualCue": "responsibility-absorption"}
+      ],
+      "headline": "원자화를 너무 밀면,\n책임이 다시 흐려질 수 있습니다.",
+      "subline": "Concurrency는 단순해져도 Persistence가 Application을 흡수할 수 있습니다.",
+      "narration": "반대로 모든 변경을 Repository의 atomic SQL로 밀어 넣으면 동시성은 단순해질 수 있지만, Persistence Layer가 Application의 비즈니스 로직을 흡수하기 시작합니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": null,
+      "kind": "outro",
+      "layout": "outro-minimal",
+      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visualIntent": {
+        "concept": "설계의 기준을 계층 수에서 상태와 책임의 경계로 되돌린다.",
+        "relation": {"type": "reframe", "description": "구조를 많이 만드는 것이 아니라 상태의 생명주기와 책임 주체를 분명히 하는 문제로 마무리한다."},
+        "strategy": {"type": "minimal", "metaphor": null, "rationale": "마지막 본문은 오브젝트를 걷어내고 원문의 결론 하나만 남긴다."}
+      },
+      "transition": "fade",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
+      "choreography": ["show-headline"],
+      "beats": [
+        {"text": "결국 중요한 건 계층을 얼마나 많이 만드는지가 아니라, 상태가 어디서 복원되고 계산되고 기록되는지, 그리고 그 책임을 누가 가지는지를 명확하게 만드는 일이었습니다.", "emphasis": "high", "pauseAfterMs": 260, "delivery": "hold", "visualPriority": "high", "keyword": "경계", "visualCue": null}
+      ],
+      "headline": "정답은 계층의 수가 아니라,\n상태와 책임의 경계입니다.",
+      "subline": "Restore · Compute · Record · Ownership",
+      "narration": "결국 중요한 건 계층을 얼마나 많이 만드는지가 아니라, 상태가 어디서 복원되고 계산되고 기록되는지, 그리고 그 책임을 누가 가지는지를 명확하게 만드는 일이었습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
