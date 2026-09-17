@@ -1,6 +1,6 @@
 name: Aurora candidate check
 
-# Validates the real UseCase/Domain/Repository Aurora candidate.
+# Validates and high-renders the real UseCase/Domain/Repository Aurora candidate.
 on:
   push:
     branches:
@@ -20,19 +20,27 @@ env:
 jobs:
   validate-candidate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
         with:
           node-version: 24.18.0
       - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Ensure media tools are available
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
       - name: Storyboard preflight
         run: node shorts/scripts/validate-storyboard.mjs "$MANIFEST"
       - name: Compile Aurora candidate
         id: build
         run: node shorts/scripts/build-hyperframes.mjs "$MANIFEST"
-      - name: HyperFrames candidate lint and strict check
+      - name: HyperFrames candidate lint, strict check and high render
         env:
           PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
         shell: bash
@@ -41,3 +49,8 @@ jobs:
           cd "$PROJECT_DIR"
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality high --fps 30 --output candidate-smoke.mp4 --strict
+          test -s candidate-smoke.mp4
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 candidate-smoke.mp4 | grep -qx '1080x1920'
+          duration="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 candidate-smoke.mp4)"
+          awk -v duration="$duration" 'BEGIN { exit !(duration > 30) }'
