@@ -1,4 +1,4 @@
-import {templates as baseTemplates, DEFAULT_TEMPLATE as BASE_DEFAULT_TEMPLATE} from './registry-base';
+import {templates as baseTemplates, DEFAULT_TEMPLATE as BASE_DEFAULT_TEMPLATE} from './registry-base.ts';
 
 const auroraExplain = {
   id: 'aurora-explain',
