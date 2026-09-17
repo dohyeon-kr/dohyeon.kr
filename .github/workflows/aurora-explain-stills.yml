@@ -1,0 +1,50 @@
+name: Aurora Explain reference stills
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render-stills:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Render 1080x1920 reference stills
+        run: node shorts/scripts/render-aurora-stills.mjs "${RUNNER_TEMP}/aurora-explain-stills"
+
+      - name: Verify screenshots
+        run: |
+          test -s "${RUNNER_TEMP}/aurora-explain-stills/aurora-browser-terminal.png"
+          test -s "${RUNNER_TEMP}/aurora-explain-stills/aurora-glass-pipeline.png"
+          test -s "${RUNNER_TEMP}/aurora-explain-stills/aurora-cta.png"
+
+      - name: Publish draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="aurora-explain-stills-${GITHUB_RUN_ID}"
+          gh release create "$tag" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Aurora Explain Stills #${GITHUB_RUN_NUMBER}" \
+            --draft \
+            --notes "1080x1920 Playwright design-check stills for Browser + Terminal, Glass Pipeline, and the theme CTA. Source: ${GITHUB_SHA}."
+          gh release upload "$tag" \
+            "${RUNNER_TEMP}/aurora-explain-stills/aurora-browser-terminal.png" \
+            "${RUNNER_TEMP}/aurora-explain-stills/aurora-glass-pipeline.png" \
+            "${RUNNER_TEMP}/aurora-explain-stills/aurora-cta.png" \
+            --repo "$GITHUB_REPOSITORY"
