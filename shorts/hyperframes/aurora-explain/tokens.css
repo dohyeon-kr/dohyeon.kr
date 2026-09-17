@@ -1,0 +1,19 @@
+:root{
+  --ax-bg:#020205;
+  --ax-bg-raised:#080914;
+  --ax-text:#f7f8ff;
+  --ax-muted:#8f94aa;
+  --ax-glass-top:rgba(31,32,50,.78);
+  --ax-glass-bottom:rgba(7,8,17,.66);
+  --ax-glass-border:rgba(225,230,255,.18);
+  --ax-indigo:#6250ff;
+  --ax-violet:#8d5cff;
+  --ax-cyan:#54dcff;
+  --ax-magenta:#c951ff;
+  --ax-green:#5de8c8;
+  --ax-safe-x:84px;
+  --ax-caption-bottom:118px;
+  --ax-caption-height:236px;
+  --ax-stage-top:248px;
+  --ax-stage-bottom:420px;
+}

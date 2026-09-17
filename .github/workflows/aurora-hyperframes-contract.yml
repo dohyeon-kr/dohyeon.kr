@@ -1,0 +1,148 @@
+name: Aurora HyperFrames contract
+
+on:
+  push:
+    branches:
+      - feat/aurora-explain-runtime
+    paths:
+      - 'shorts/scripts/build-hyperframes*.mjs'
+      - 'shorts/scripts/hyperframes-themes.mjs'
+      - 'shorts/hyperframes/aurora-explain/**'
+      - 'shorts/src/templates/**'
+      - 'shorts/tests/aurora-runtime.test.mjs'
+      - '.github/workflows/aurora-hyperframes-contract.yml'
+  pull_request:
+    paths:
+      - 'shorts/scripts/build-hyperframes*.mjs'
+      - 'shorts/scripts/hyperframes-themes.mjs'
+      - 'shorts/hyperframes/aurora-explain/**'
+      - 'shorts/src/templates/**'
+      - 'shorts/tests/aurora-runtime.test.mjs'
+      - '.github/workflows/aurora-hyperframes-contract.yml'
+
+env:
+  HYPERFRAMES_VERSION: '0.8.40'
+
+permissions:
+  contents: read
+
+jobs:
+  render-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Ensure media tools are available
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
+      - name: Build deterministic Aurora fixture
+        id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p shorts/content/__aurora-ci__
+          cat > shorts/content/__aurora-ci__/candidate.json <<'JSON'
+          {
+            "schemaVersion": 3,
+            "id": "aurora-ci",
+            "status": "candidate",
+            "source": {"url": "https://blog.dohyeon.kr/", "title": "DLOG"},
+            "candidate": {
+              "angle": "explain",
+              "hook": "요청은 어디로 흐를까요?",
+              "title": "Aurora runtime contract",
+              "rationale": "CI fixture",
+              "viralScore": 0,
+              "suggestedCaption": "",
+              "hashtags": []
+            },
+            "style": {
+              "theme": "aurora-explain",
+              "template": "aurora-explain",
+              "colorScheme": "dark",
+              "subtitles": "burned-in",
+              "safeArea": "shorts-reels"
+            },
+            "presenterOverlay": null,
+            "scenes": [
+              {
+                "presenter": null,
+                "backgroundVideo": null,
+                "visualStory": null,
+                "kind": "statement",
+                "layout": "diagram-centered",
+                "headline": "요청은 어디로 흐를까요?",
+                "subline": "Browser → UseCase → DB",
+                "narration": "브라우저의 요청은 유스케이스를 거쳐 데이터베이스에 도착합니다.",
+                "imageQuery": null,
+                "comparisonLeft": null,
+                "comparisonRight": null,
+                "image": null,
+                "visual": {"type": "diagram", "motif": "request-flow", "query": null, "value": null, "xLabel": null, "yLabel": null},
+                "beats": [{"text": "브라우저의 요청은 유스케이스를 거칩니다.", "emphasis": "high", "pauseAfterMs": 0, "delivery": "normal", "visualPriority": "high", "keyword": "요청", "visualCue": null}],
+                "diagramSpec": {
+                  "version": 1,
+                  "renderer": "auto",
+                  "physics": null,
+                  "description": "브라우저 요청이 UseCase를 거쳐 DB에 도착한다.",
+                  "nodes": [
+                    {"id": "browser", "shape": "rect", "label": "Browser", "x": 140, "y": 280, "width": 190, "height": 140, "fill": "none", "connector": null, "strokeStyle": "solid"},
+                    {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 400, "y": 280, "width": 190, "height": 140, "fill": "none", "connector": null, "strokeStyle": "solid"},
+                    {"id": "database", "shape": "rect", "label": "DB", "x": 660, "y": 280, "width": 190, "height": 140, "fill": "none", "connector": null, "strokeStyle": "solid"},
+                    {"id": "request", "shape": "line", "label": "request", "x": 270, "y": 280, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser", "target": "usecase", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
+                    {"id": "persist", "shape": "line", "label": "persist", "x": 530, "y": 280, "width": 70, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "database", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"}
+                  ],
+                  "events": [
+                    {"target": "request", "property": "opacity", "from": 0, "to": 1, "start": 0.15, "end": 0.35},
+                    {"target": "usecase", "property": "scale", "from": 0.96, "to": 1, "start": 0.3, "end": 0.5},
+                    {"target": "persist", "property": "opacity", "from": 0, "to": 1, "start": 0.48, "end": 0.68},
+                    {"target": "database", "property": "opacity", "from": 0.5, "to": 1, "start": 0.62, "end": 0.82}
+                  ]
+                }
+              },
+              {
+                "presenter": null,
+                "backgroundVideo": null,
+                "visualStory": null,
+                "diagramSpec": null,
+                "kind": "statement",
+                "layout": "statement-offset",
+                "headline": "상태와 책임의 경계를 정합니다.",
+                "subline": null,
+                "narration": "계층의 수보다 상태와 책임의 경계가 중요합니다.",
+                "imageQuery": null,
+                "comparisonLeft": null,
+                "comparisonRight": null,
+                "image": null,
+                "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+                "beats": [{"text": "상태와 책임의 경계를 정합니다.", "emphasis": "high", "pauseAfterMs": 0, "delivery": "hold", "visualPriority": "high", "keyword": "경계", "visualCue": null}]
+              }
+            ]
+          }
+          JSON
+          node shorts/scripts/build-hyperframes.mjs shorts/content/__aurora-ci__/candidate.json
+      - name: Lint, strict-check and high-quality render
+        env:
+          PROJECT_DIR: ${{ steps.build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$PROJECT_DIR"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality high --fps 30 --output smoke.mp4 --strict
+          test -s smoke.mp4
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 smoke.mp4 | grep -qx '1080x1920'
+          duration="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 smoke.mp4)"
+          awk -v duration="$duration" 'BEGIN { exit !(duration > 1) }'

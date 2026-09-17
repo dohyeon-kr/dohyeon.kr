@@ -386,10 +386,15 @@ const main = async () => {
   }
 
   const manifest = withBlogCta(JSON.parse(await fs.readFile(manifestPath, 'utf8')));
+  const template = resolveTemplate(manifest);
   const hasScenePresenter = manifest.scenes.some((scene) => scene.presenter != null || scene.layout === 'presenter-bust');
-  if (manifest.presenterOverlay == null && !hasScenePresenter) manifest.presenterOverlay = {...DEFAULT_PRESENTER_OVERLAY};
-  if (manifest.scenes.some(s => s.uiMotion) && resolveTemplate(manifest).id !== 'notebook-grid') throw new Error('uiMotion requires notebook-grid');
-  resolveTemplate(manifest);
+  if (template.id === 'aurora-explain') {
+    manifest.presenterOverlay = null;
+    for (const scene of manifest.scenes) scene.presenter = null;
+  } else if (manifest.presenterOverlay == null && !hasScenePresenter) {
+    manifest.presenterOverlay = {...DEFAULT_PRESENTER_OVERLAY};
+  }
+  if (manifest.scenes.some(s => s.uiMotion) && template.id !== 'notebook-grid') throw new Error('uiMotion requires notebook-grid');
   validatePresenterOverlay(manifest);
   for (const [index, scene] of manifest.scenes.entries()) {
     validateSceneMotion(scene, manifest.scenes[index - 1]);

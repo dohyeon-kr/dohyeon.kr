@@ -87,14 +87,14 @@ jobs:
           template="$(jq -r '.style.template // .style.theme // ""' "${MANIFEST_INPUT}")"
           case "${ENGINE}" in
             remotion)
-              if [[ "${template}" == "monoliquid-v2" ]]; then
-                echo "::error title=Engine/template mismatch::monoliquid-v2 requires engine=hyperframes."
+              if [[ "${template}" == "monoliquid-v2" || "${template}" == "aurora-explain" ]]; then
+                echo "::error title=Engine/template mismatch::monoliquid-v2 and aurora-explain require engine=hyperframes."
                 exit 1
               fi
               ;;
             hyperframes)
-              if [[ "${template}" != "monoliquid-v2" ]]; then
-                echo "::error title=Engine/template mismatch::engine=hyperframes currently requires style.template=monoliquid-v2; received ${template:-<none>}."
+              if [[ "${template}" != "monoliquid-v2" && "${template}" != "aurora-explain" ]]; then
+                echo "::error title=Engine/template mismatch::engine=hyperframes requires style.template=monoliquid-v2 or aurora-explain; received ${template:-<none>}."
                 exit 1
               fi
               ;;

@@ -25,6 +25,7 @@ on:
           - 'monochrome-editorial-dark'
           - 'monochrome-editorial'
           - 'monoliquid-v2'
+          - 'aurora-explain'
           - 'notebook-grid'
       candidate_count:
         description: Number of independent shorts candidates
