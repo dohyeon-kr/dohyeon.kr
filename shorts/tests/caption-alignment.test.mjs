@@ -30,6 +30,19 @@ test('semantic beats use exact measured word boundaries when transcript text mat
   ]);
 });
 
+test('phrase-level captions split a long semantic beat while preserving its measured interval', () => {
+  const beats = [{text: '자동화는 시간을 줄이는 일이 아니라 누락 지점을 줄이는 일입니다.'}];
+  const timings = [{startSeconds: .2, endSeconds: 3.2}];
+  const captions = captionsFromBeatTimings(beats, timings, {phraseLevel: true});
+
+  assert.ok(captions.length >= 2, 'a long beat should become multiple phrase cues');
+  assert.equal(captions[0].startSeconds, .2);
+  assert.equal(captions.at(-1).endSeconds, 3.2);
+  assert.equal(captions.map((cue) => cue.text).join(' '), beats[0].text);
+  assert.ok(captions.every((cue) => cue.text.replace(/\s/g, '').length <= 16));
+  assert.ok(captions.every((cue, index) => index === 0 || cue.startSeconds >= captions[index - 1].endSeconds));
+});
+
 test('minor transcription spelling differences may use measured proportional word boundaries', () => {
   const beats = [{text: '5분이면 끝납니다.'}, {text: '그래도 자동화합니다.'}];
   const words = [
