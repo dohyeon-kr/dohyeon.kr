@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-02",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/usecase-domain-repository-seolgyebuteo-dongsiseongggaji/",
+    "title": "UseCase·Domain·Repository 설계와 동시성 처리"
+  },
+  "candidate": {
+    "angle": "reframe",
+    "hook": "계층을 나누다 보니, 동시성의 경계까지 보였습니다.",
+    "title": "UseCase·Domain·Repository\n설계부터 동시성까지",
+    "rationale": "기존 8장 후보보다 동시성과 원자화 파트를 더 자세히 다루는 10장 버전이다. UseCase/Domain 책임 분리와 상태 생명주기를 먼저 잡고, Engine을 선택 도구로 보는 관점과 트랜잭션 경계를 분리해 설명한다. 후반부는 같은 상태를 읽은 두 요청의 Read → Compute → Write 경쟁 구간을 별도 장면으로 보여주고, Repository atomic operation으로 경쟁 구간을 줄이는 방법과 SQL 원자화를 과도하게 밀었을 때 Persistence Layer가 비즈니스 규칙을 흡수하는 비용을 나눠 설명한다. 마지막에는 Domain computation과 atomic state change를 구분해 경계를 선택하는 기준으로 마무리한다. 원문에 없는 성능 수치나 운영 경험은 추가하지 않는다.",
+    "viralScore": 80,
+    "suggestedCaption": "UseCase, Domain, Repository를 나누다 보면 결국 상태를 어디서 읽고, 계산하고, 기록할지 정하게 됩니다.\n그 경계를 따라가면 트랜잭션과 동시성 문제도 같이 보입니다.\n이번 후보는 Read → Compute → Write 경쟁 구간과 Repository atomic operation까지 더 자세히 풀었습니다.\n\n원문: https://blog.dohyeon.kr/usecase-domain-repository-seolgyebuteo-dongsiseongggaji/",
+    "hashtags": [
+      "#백엔드",
+      "#소프트웨어설계",
+      "#동시성",
+      "#Spring",
+      "#Kotlin"
+    ]
+  },
+  "style": {
+    "theme": "aurora-explain",
+    "template": "aurora-explain",
+    "colorScheme": "dark",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "aurora-explain",
+    "motionLanguage": "finite-semantic",
+    "decorativeLabels": "forbidden"
+  },
+  "presenterOverlay": null,
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "요청이 UseCase를 지나 계산 경로와 저장 경로로 갈라지고 DB까지 이어진다.",
+        "nodes": [
+          {"id":"request","shape":"rect","label":"Request","x":100,"y":280,"width":130,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+          {"id":"usecase","shape":"rect","label":"UseCase","x":280,"y":280,"width":140,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
+          {"id":"domain","shape":"rect","label":"Domain","x":480,"y":190,"width":150,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+          {"id":"repository","shape":"rect","label":"Repository","x":480,"y":370,"width":160,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+          {"id":"database","shape":"rect","label":"DB","x":690,"y":370,"width":120,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
+          {"id":"to-usecase","shape":"line","label":"","x":190,"y":280,"width":50,"height":2,"fill":"none","connector":{"source":"request","target":"usecase","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+          {"id":"to-domain","shape":"line","label":"","x":370,"y":230,"width":55,"height":2,"fill":"none","connector":{"source":"usecase","target":"domain","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+          {"id":"to-repository","shape":"line","label":"","x":370,"y":330,"width":55,"height":2,"fill":"none","connector":{"source":"usecase","target":"repository","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+          {"id":"to-db","shape":"line","label":"","x":585,"y":370,"width":50,"height":2,"fill":"none","connector":{"source":"repository","target":"database","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+        ],
+        "events": [
+          {"target":"to-usecase","property":"opacity","from":0,"to":1,"start":0.08,"end":0.2},
+          {"target":"to-domain","property":"opacity","from":0,"to":1,"start":0.28,"end":0.4},
+          {"target":"to-repository","property":"opacity","from":0,"to":1,"start":0.44,"end":0.56},
+          {"target":"to-db","property":"opacity","from":0,"to":1,"start":0.62,"end":0.74}
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {"type":"diagram","motif":"architecture-flow","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent": {
+        "concept": "책임 분리에서 상태와 동시성으로 이어지는 출발점",
+        "relation": {"type":"flow","description":"요청이 UseCase를 지나 계산 경로와 저장 경로로 갈라지고 DB까지 이어진다."},
+        "strategy": {"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}
+      },
+      "transition": "none",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},
+      "choreography": ["show-headline","show-visual"],
+      "beats": [{"text":"처음에는 백엔드 계층의 역할을 어떻게 나눌지 고민했습니다. 그런데 상태를 누가 복원하고, 계산하고, 기록하는지 구분하기 시작하면서 트랜잭션과 동시성 문제까지 함께 보이기 시작했습니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"architecture-flow"}],
+      "headline": "계층을 나누다 보니,\n동시성의 경계까지 보였습니다.",
+      "subline": "Request → UseCase → Domain / Repository → DB",
+      "narration": "처음에는 백엔드 계층의 역할을 어떻게 나눌지 고민했습니다. 그런데 상태를 누가 복원하고, 계산하고, 기록하는지 구분하기 시작하면서 트랜잭션과 동시성 문제까지 함께 보이기 시작했습니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    },
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": null,
+      "diagramSpec": {
+        "version":1,"renderer":"auto","physics":null,"description":"UseCase는 흐름을, Domain은 규칙 계산을 검증한다.",
+        "nodes":[
+          {"id":"usecase","shape":"rect","label":"UseCase","x":230,"y":280,"width":240,"height":180,"fill":"none","connector":null,"strokeStyle":"solid"},
+          {"id":"domain","shape":"rect","label":"Domain","x":570,"y":280,"width":240,"height":180,"fill":"none","connector":null,"strokeStyle":"solid"},
+          {"id":"flow","shape":"line","label":"","x":400,"y":280,"width":70,"height":2,"fill":"none","connector":{"source":"usecase","target":"domain","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+        ],
+        "events":[
+          {"target":"usecase","property":"opacity","from":0.45,"to":1,"start":0.08,"end":0.26},
+          {"target":"flow","property":"opacity","from":0,"to":1,"start":0.34,"end":0.5},
+          {"target":"domain","property":"opacity","from":0.45,"to":1,"start":0.56,"end":0.74}
+        ]
+      },
+      "kind":"compare","layout":"diagram-centered",
+      "visual":{"type":"diagram","motif":"responsibility-split","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"UseCase와 Domain의 테스트 관점 차이","relation":{"type":"comparison","description":"UseCase는 흐름을, Domain은 규칙 계산을 검증한다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],
+      "camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},
+      "choreography":["show-headline","show-visual"],
+      "beats":[{"text":"Domain Test는 State에서 Rule을 거쳐 Result가 맞는지를 봅니다. UseCase Test는 Read, Orchestrate, Write, Side Effect가 올바른 흐름으로 이어지는지를 봅니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"responsibility-split"}],
+      "headline":"UseCase는 흐름을,\nDomain은 규칙을 봅니다.",
+      "subline":"Domain: State → Rule → Result · UseCase: Read → Orchestrate → Write → Side Effect",
+      "narration":"Domain Test는 State에서 Rule을 거쳐 Result가 맞는지를 봅니다. UseCase Test는 Read, Orchestrate, Write, Side Effect가 올바른 흐름으로 이어지는지를 봅니다.",
+      "comparisonLeft":"Domain · State → Rule → Result","comparisonRight":"UseCase · Read → Orchestrate → Write → Side Effect","imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"상태가 복원되고 계산된 뒤 다시 기록된다.","nodes":[
+        {"id":"read","shape":"rect","label":"Repository · Read","x":110,"y":280,"width":160,"height":120,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"usecase","shape":"rect","label":"UseCase","x":300,"y":280,"width":150,"height":120,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"domain","shape":"rect","label":"Domain","x":490,"y":280,"width":150,"height":120,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"write","shape":"rect","label":"Repository · Write","x":690,"y":280,"width":170,"height":120,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"restore","shape":"line","label":"","x":205,"y":280,"width":45,"height":2,"fill":"none","connector":{"source":"read","target":"usecase","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"compute","shape":"line","label":"","x":395,"y":280,"width":45,"height":2,"fill":"none","connector":{"source":"usecase","target":"domain","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"record","shape":"line","label":"","x":590,"y":280,"width":45,"height":2,"fill":"none","connector":{"source":"domain","target":"write","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+      ],"events":[{"target":"restore","property":"opacity","from":0,"to":1,"start":0.08,"end":0.22},{"target":"compute","property":"opacity","from":0,"to":1,"start":0.34,"end":0.48},{"target":"record","property":"opacity","from":0,"to":1,"start":0.58,"end":0.72}]},
+      "kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"state-lifecycle","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"상태의 생명주기","relation":{"type":"flow","description":"상태가 복원되고 계산된 뒤 다시 기록된다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"Repository가 상태를 복원하고, UseCase가 흐름을 조율하고, Domain이 계산한 결과를 다시 Repository가 기록합니다. 이 생명주기를 나누면 각 계층이 어떤 상태를 알고 있어야 하는지도 선명해집니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"state-lifecycle"}],
+      "headline":"상태는 복원되고,\n계산되고, 다시 기록됩니다.","subline":"Repository → UseCase → Domain → Repository","narration":"Repository가 상태를 복원하고, UseCase가 흐름을 조율하고, Domain이 계산한 결과를 다시 Repository가 기록합니다. 이 생명주기를 나누면 각 계층이 어떤 상태를 알고 있어야 하는지도 선명해집니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"UseCase가 계산 필요 여부에 따라 Engine 또는 Repository operation을 선택한다.","nodes":[
+        {"id":"usecase","shape":"rect","label":"UseCase","x":150,"y":280,"width":180,"height":140,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"engine","shape":"rect","label":"Engine · Compute","x":460,"y":170,"width":220,"height":130,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"repository","shape":"rect","label":"Repository · Atomic op","x":620,"y":390,"width":230,"height":130,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"engine-path","shape":"line","label":"","x":300,"y":220,"width":70,"height":2,"fill":"none","connector":{"source":"usecase","target":"engine","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"repo-path","shape":"line","label":"","x":380,"y":340,"width":120,"height":2,"fill":"none","connector":{"source":"usecase","target":"repository","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"dashed"}
+      ],"events":[{"target":"engine-path","property":"opacity","from":0,"to":1,"start":0.16,"end":0.32},{"target":"engine","property":"scale","from":0.96,"to":1,"start":0.3,"end":0.46},{"target":"repo-path","property":"opacity","from":0,"to":1,"start":0.56,"end":0.74}]},
+      "kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"optional-engine","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"Engine은 선택 가능한 계산 도구","relation":{"type":"divergence","description":"UseCase가 계산 필요 여부에 따라 Engine 또는 Repository operation을 선택한다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"Engine은 반드시 통과해야 하는 계층이 아니었습니다. Domain computation이 필요한 경우 UseCase가 Engine을 선택하고, 단순한 원자 변경이라면 Repository operation을 직접 선택하는 편이 더 자연스러울 수 있습니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"optional-engine"}],
+      "headline":"Engine은 필수 계층이 아니라,\nUseCase가 선택하는 도구입니다.","subline":"Domain computation이 필요할 때만","narration":"Engine은 반드시 통과해야 하는 계층이 아니었습니다. Domain computation이 필요한 경우 UseCase가 Engine을 선택하고, 단순한 원자 변경이라면 Repository operation을 직접 선택하는 편이 더 자연스러울 수 있습니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"하나의 UseCase 안에서 여러 읽기와 쓰기의 작업 단위를 묶는다.","nodes":[
+        {"id":"usecase","shape":"rect","label":"UseCase · Transaction","x":330,"y":280,"width":260,"height":190,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"read","shape":"rect","label":"Read","x":650,"y":190,"width":120,"height":90,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"write","shape":"rect","label":"Write","x":650,"y":370,"width":120,"height":90,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"to-read","shape":"line","label":"","x":490,"y":225,"width":70,"height":2,"fill":"none","connector":{"source":"usecase","target":"read","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"to-write","shape":"line","label":"","x":490,"y":335,"width":70,"height":2,"fill":"none","connector":{"source":"usecase","target":"write","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+      ],"events":[{"target":"usecase","property":"scale","from":0.96,"to":1,"start":0.12,"end":0.28},{"target":"to-read","property":"opacity","from":0,"to":1,"start":0.36,"end":0.5},{"target":"to-write","property":"opacity","from":0,"to":1,"start":0.56,"end":0.7}]},
+      "kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"transaction-boundary","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"UseCase와 트랜잭션 경계","relation":{"type":"flow","description":"하나의 UseCase 안에서 여러 읽기와 쓰기의 작업 단위를 묶는다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"트랜잭션 경계도 결국 하나의 UseCase가 어디까지를 같은 작업 단위로 책임질지와 연결됩니다. 읽기와 쓰기가 여러 번 이어진다면 그 묶음의 시작과 끝을 먼저 분명히 해야 합니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"transaction-boundary"}],
+      "headline":"트랜잭션 경계는\nUseCase의 작업 단위와 연결됩니다.","subline":"여러 Read / Write를 어디까지 같은 작업으로 볼 것인가","narration":"트랜잭션 경계도 결국 하나의 UseCase가 어디까지를 같은 작업 단위로 책임질지와 연결됩니다. 읽기와 쓰기가 여러 번 이어진다면 그 묶음의 시작과 끝을 먼저 분명히 해야 합니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"두 요청이 같은 DB 상태를 기준으로 각자 계산을 시작한다.","nodes":[
+        {"id":"req-a","shape":"rect","label":"Request A","x":100,"y":170,"width":150,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"req-b","shape":"rect","label":"Request B","x":100,"y":390,"width":150,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"snapshot-a","shape":"rect","label":"Same snapshot","x":390,"y":170,"width":190,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"snapshot-b","shape":"rect","label":"Same snapshot","x":390,"y":390,"width":190,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"database","shape":"rect","label":"Shared DB state","x":690,"y":280,"width":180,"height":160,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"a-read","shape":"line","label":"","x":245,"y":170,"width":70,"height":2,"fill":"none","connector":{"source":"req-a","target":"snapshot-a","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"b-read","shape":"line","label":"","x":245,"y":390,"width":70,"height":2,"fill":"none","connector":{"source":"req-b","target":"snapshot-b","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"a-db","shape":"line","label":"","x":535,"y":215,"width":70,"height":2,"fill":"none","connector":{"source":"snapshot-a","target":"database","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"b-db","shape":"line","label":"","x":535,"y":345,"width":70,"height":2,"fill":"none","connector":{"source":"snapshot-b","target":"database","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+      ],"events":[{"target":"a-read","property":"opacity","from":0,"to":1,"start":0.08,"end":0.2},{"target":"b-read","property":"opacity","from":0,"to":1,"start":0.16,"end":0.28},{"target":"a-db","property":"opacity","from":0,"to":1,"start":0.34,"end":0.48},{"target":"b-db","property":"opacity","from":0,"to":1,"start":0.42,"end":0.56}]},
+      "kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"concurrency-read-race","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"같은 상태를 읽는 두 요청","relation":{"type":"convergence","description":"두 요청이 같은 DB 상태를 기준으로 각자 계산을 시작한다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"두 요청이 같은 저장 상태를 거의 동시에 읽으면, 둘 다 아직 다른 요청의 변경을 보지 못한 상태에서 각자의 계산을 시작할 수 있습니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"concurrency-read-race"}],
+      "headline":"두 요청이 같은 상태를 읽으면\n경쟁이 시작됩니다.","subline":"동시성 문제는 Read 순간부터 시작됩니다.","narration":"두 요청이 같은 저장 상태를 거의 동시에 읽으면, 둘 다 아직 다른 요청의 변경을 보지 못한 상태에서 각자의 계산을 시작할 수 있습니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"같은 스냅샷을 기준으로 두 요청이 독립적으로 계산하고 쓰기를 시도한다.","nodes":[
+        {"id":"a","shape":"rect","label":"A · Read → Compute","x":200,"y":170,"width":240,"height":120,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"a-write","shape":"rect","label":"A · Write","x":600,"y":170,"width":170,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"b","shape":"rect","label":"B · Read → Compute","x":200,"y":390,"width":240,"height":120,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"b-write","shape":"rect","label":"B · Write","x":600,"y":390,"width":170,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"a-flow","shape":"line","label":"","x":400,"y":170,"width":90,"height":2,"fill":"none","connector":{"source":"a","target":"a-write","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"b-flow","shape":"line","label":"","x":400,"y":390,"width":90,"height":2,"fill":"none","connector":{"source":"b","target":"b-write","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+      ],"events":[{"target":"a-flow","property":"opacity","from":0,"to":1,"start":0.18,"end":0.34},{"target":"a-write","property":"scale","from":0.96,"to":1,"start":0.34,"end":0.48},{"target":"b-flow","property":"opacity","from":0,"to":1,"start":0.58,"end":0.72},{"target":"b-write","property":"scale","from":0.96,"to":1.04,"start":0.72,"end":0.88}]},
+      "kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"read-compute-write-race","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"Read Compute Write 경쟁 구간","relation":{"type":"comparison","description":"같은 스냅샷을 기준으로 두 요청이 독립적으로 계산하고 쓰기를 시도한다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"각 요청의 코드만 보면 Read, Compute, Write가 자연스럽게 이어집니다. 하지만 두 요청이 같은 스냅샷을 읽고 독립적으로 계산하면, 먼저 기록된 변경을 뒤의 쓰기가 덮거나 오래된 전제를 기준으로 쓰기를 시도할 수 있습니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"read-compute-write-race"}],
+      "headline":"Read → Compute → Write 사이가\n바로 경쟁 구간입니다.","subline":"같은 스냅샷으로 계산한 두 결과가 차례로 저장될 수 있습니다.","narration":"각 요청의 코드만 보면 Read, Compute, Write가 자연스럽게 이어집니다. 하지만 두 요청이 같은 스냅샷을 읽고 독립적으로 계산하면, 먼저 기록된 변경을 뒤의 쓰기가 덮거나 오래된 전제를 기준으로 쓰기를 시도할 수 있습니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"여러 요청이 Repository의 원자적 변경 연산을 통해 DB의 한 변경 지점으로 모인다.","nodes":[
+        {"id":"req-a","shape":"rect","label":"Request A","x":100,"y":170,"width":150,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"req-b","shape":"rect","label":"Request B","x":100,"y":390,"width":150,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"repository","shape":"rect","label":"Repository · tryDecrease()","x":420,"y":280,"width":250,"height":160,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"database","shape":"rect","label":"DB · Atomic update","x":700,"y":280,"width":170,"height":160,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"a","shape":"line","label":"","x":260,"y":215,"width":70,"height":2,"fill":"none","connector":{"source":"req-a","target":"repository","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"b","shape":"line","label":"","x":260,"y":345,"width":70,"height":2,"fill":"none","connector":{"source":"req-b","target":"repository","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"write","shape":"line","label":"","x":565,"y":280,"width":70,"height":2,"fill":"none","connector":{"source":"repository","target":"database","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+      ],"events":[{"target":"a","property":"opacity","from":0,"to":1,"start":0.1,"end":0.24},{"target":"b","property":"opacity","from":0,"to":1,"start":0.18,"end":0.32},{"target":"repository","property":"scale","from":0.96,"to":1,"start":0.36,"end":0.52},{"target":"write","property":"opacity","from":0,"to":1,"start":0.58,"end":0.74}]},
+      "kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"atomic-operation","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"Repository atomic operation","relation":{"type":"convergence","description":"여러 요청이 Repository의 원자적 변경 연산을 통해 DB의 한 변경 지점으로 모인다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"경쟁 조건이 핵심인 단순 변경이라면, 상태를 읽어 메모리에서 계산한 뒤 저장하는 대신 Repository가 tryDecrease 같은 atomic operation을 제공할 수 있습니다. 읽기와 쓰기 사이의 경쟁 구간을 데이터베이스의 한 원자적 변경으로 줄이는 방식입니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"atomic-operation"}],
+      "headline":"경쟁 조건이 핵심이면\nRepository에서 원자화할 수 있습니다.","subline":"tryDecrease(productId, amount): Boolean","narration":"경쟁 조건이 핵심인 단순 변경이라면, 상태를 읽어 메모리에서 계산한 뒤 저장하는 대신 Repository가 tryDecrease 같은 atomic operation을 제공할 수 있습니다. 읽기와 쓰기 사이의 경쟁 구간을 데이터베이스의 한 원자적 변경으로 줄이는 방식입니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"동시성 단순화와 Persistence Layer의 책임 증가를 함께 본다.","nodes":[
+        {"id":"usecase","shape":"rect","label":"UseCase · Orchestration","x":190,"y":280,"width":220,"height":150,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"repository","shape":"rect","label":"Repository · SQL + Rules?","x":580,"y":280,"width":330,"height":220,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"absorb","shape":"line","label":"","x":380,"y":280,"width":90,"height":2,"fill":"none","connector":{"source":"usecase","target":"repository","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+      ],"events":[{"target":"absorb","property":"opacity","from":0,"to":1,"start":0.16,"end":0.32},{"target":"repository","property":"scale","from":0.94,"to":1.06,"start":0.4,"end":0.66},{"target":"usecase","property":"opacity","from":1,"to":0.55,"start":0.56,"end":0.76}]},
+      "kind":"statement","layout":"diagram-centered","visual":{"type":"diagram","motif":"responsibility-absorption","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"SQL 원자화의 반대 비용","relation":{"type":"balance","description":"동시성 단순화와 Persistence Layer의 책임 증가를 함께 본다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"반대로 모든 변경을 Repository의 atomic SQL로 밀어 넣으면 동시성 처리는 단순해질 수 있습니다. 하지만 계산 규칙과 조건 판단까지 Persistence Layer가 가져가기 시작하면 Application과 Domain의 책임이 다시 흐려집니다.","emphasis":"high","pauseAfterMs":180,"delivery":"normal","visualPriority":"high","keyword":null,"visualCue":"responsibility-absorption"}],
+      "headline":"원자화를 너무 밀면,\n책임이 다시 흐려질 수 있습니다.","subline":"Concurrency는 단순해져도 Persistence가 Application을 흡수할 수 있습니다.","narration":"반대로 모든 변경을 Repository의 atomic SQL로 밀어 넣으면 동시성 처리는 단순해질 수 있습니다. 하지만 계산 규칙과 조건 판단까지 Persistence Layer가 가져가기 시작하면 Application과 Domain의 책임이 다시 흐려집니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    },
+    {
+      "presenter":null,"backgroundVideo":null,"visualStory":null,
+      "diagramSpec":{"version":1,"renderer":"auto","physics":null,"description":"UseCase가 계산 규칙과 단순 원자 변경을 구분해 Domain 또는 Repository 경로를 선택한다.","nodes":[
+        {"id":"usecase","shape":"rect","label":"UseCase","x":120,"y":280,"width":160,"height":130,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"domain","shape":"rect","label":"Domain / Engine","x":420,"y":180,"width":220,"height":130,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"repository","shape":"rect","label":"Repository · Atomic op","x":420,"y":390,"width":230,"height":130,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"goal","shape":"rect","label":"Clear state & ownership","x":700,"y":280,"width":170,"height":150,"fill":"none","connector":null,"strokeStyle":"solid"},
+        {"id":"domain-path","shape":"line","label":"","x":275,"y":220,"width":75,"height":2,"fill":"none","connector":{"source":"usecase","target":"domain","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"repo-path","shape":"line","label":"","x":275,"y":340,"width":75,"height":2,"fill":"none","connector":{"source":"usecase","target":"repository","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"dashed"},
+        {"id":"domain-goal","shape":"line","label":"","x":570,"y":225,"width":65,"height":2,"fill":"none","connector":{"source":"domain","target":"goal","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
+        {"id":"repo-goal","shape":"line","label":"","x":575,"y":345,"width":65,"height":2,"fill":"none","connector":{"source":"repository","target":"goal","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+      ],"events":[{"target":"domain-path","property":"opacity","from":0,"to":1,"start":0.1,"end":0.24},{"target":"repo-path","property":"opacity","from":0,"to":1,"start":0.28,"end":0.42},{"target":"domain-goal","property":"opacity","from":0,"to":1,"start":0.48,"end":0.6},{"target":"repo-goal","property":"opacity","from":0,"to":1,"start":0.58,"end":0.7},{"target":"goal","property":"scale","from":0.96,"to":1,"start":0.7,"end":0.84}]},
+      "kind":"outro","layout":"diagram-centered","visual":{"type":"diagram","motif":"decision-boundary","query":null,"value":null,"xLabel":null,"yLabel":null},
+      "visualIntent":{"concept":"상태와 책임의 경계를 기준으로 선택","relation":{"type":"divergence","description":"UseCase가 계산 규칙과 단순 원자 변경을 구분해 Domain 또는 Repository 경로를 선택한다."},"strategy":{"type":"spatial-diagram","metaphor":null,"rationale":"원문의 책임·상태·동시성 관계를 Aurora의 지속 오브젝트와 유한한 상태 변화로 설명한다."}},
+      "transition":"fade","transitionOptions":null,"effects":[],"camera":{"motion":"static","target":"center","intensity":"subtle","startProgress":0,"endProgress":1},"choreography":["show-headline","show-visual"],
+      "beats":[{"text":"결국 계산 규칙이 핵심이면 Domain이나 Engine에 두고, 경쟁이 핵심인 단순 상태 변경이면 Repository의 원자적 연산을 선택할 수 있습니다. 상태가 어디서 복원되고 계산되고 기록되는지, 그리고 그 책임을 누가 가지는지를 명확하게 만드는 것이 기준입니다.","emphasis":"high","pauseAfterMs":260,"delivery":"hold","visualPriority":"high","keyword":null,"visualCue":"decision-boundary"}],
+      "headline":"정답은 계층의 수가 아니라,\n상태와 책임의 경계입니다.","subline":"Domain computation인가 · Atomic state change인가","narration":"결국 계산 규칙이 핵심이면 Domain이나 Engine에 두고, 경쟁이 핵심인 단순 상태 변경이면 Repository의 원자적 연산을 선택할 수 있습니다. 상태가 어디서 복원되고 계산되고 기록되는지, 그리고 그 책임을 누가 가지는지를 명확하게 만드는 것이 기준입니다.","comparisonLeft":null,"comparisonRight":null,"imageQuery":null,"image":null
+    }
+  ]
+}
