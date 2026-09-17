@@ -8,6 +8,7 @@ import {validatePresenterOverlay} from '../src/presenter/overlay.ts';
 import {validateScenePresenter} from '../src/presenter/schema.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {withBlogCta} from './blog-cta.mjs';
+import {collectAuroraStrictIssues, formatAuroraStrictIssue} from './aurora-strict-layout.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.resolve(import.meta.dirname, '..');
@@ -25,8 +26,10 @@ const markdownEscape = (value) => String(value)
 const messageOf = (error) => error instanceof Error ? error.message : String(error);
 
 const main = async () => {
-  const manifestArg = process.argv.slice(2).find((arg) => !arg.startsWith('--'));
-  if (!manifestArg) throw new Error('Usage: node validate-storyboard.mjs <shorts/content/.../candidate-XX.json>');
+  const args = process.argv.slice(2);
+  const manifestArg = args.find((arg) => !arg.startsWith('--'));
+  const reportArg = args.find((arg) => arg.startsWith('--report='))?.slice('--report='.length) ?? null;
+  if (!manifestArg) throw new Error('Usage: node validate-storyboard.mjs <shorts/content/.../candidate-XX.json> [--report=<json-path>]');
 
   const manifestPath = path.resolve(repoRoot, manifestArg);
   const contentRoot = path.join(shortsRoot, 'content') + path.sep;
@@ -44,6 +47,7 @@ const main = async () => {
   }
 
   const failures = [];
+  const auroraIssues = [];
   const check = (scope, fn) => {
     try {
       fn();
@@ -96,6 +100,16 @@ const main = async () => {
     );
   }
 
+  if (template?.id === 'aurora-explain') {
+    for (const issue of collectAuroraStrictIssues(manifest)) {
+      auroraIssues.push(issue);
+      const scope = issue.scene ? `Scene ${issue.scene} / Aurora ${issue.rule}` : `Manifest / Aurora ${issue.rule}`;
+      const message = formatAuroraStrictIssue(issue);
+      failures.push({scope, message});
+      console.error(`::error title=${annotationEscape(scope)}::${annotationEscape(message)}`);
+    }
+  }
+
   const summary = [
     '### Storyboard validation',
     '',
@@ -122,6 +136,11 @@ const main = async () => {
 
   if (process.env.GITHUB_STEP_SUMMARY) {
     await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, `${summary.join('\n')}\n`, 'utf8');
+  }
+  if (reportArg) {
+    const reportPath = path.resolve(reportArg);
+    await fs.mkdir(path.dirname(reportPath), {recursive: true});
+    await fs.writeFile(reportPath, `${JSON.stringify({manifest: manifestArg, template: template?.id ?? null, failures, auroraIssues}, null, 2)}\n`, 'utf8');
   }
 
   if (failures.length) process.exitCode = 1;
