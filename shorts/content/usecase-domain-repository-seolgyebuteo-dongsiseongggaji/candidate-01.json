@@ -49,36 +49,190 @@
         "physics": null,
         "description": "Request가 UseCase, Engine, Repository를 지나 DB까지 흐르는 기존 구조를 보여준다.",
         "nodes": [
-          {"id": "browser", "shape": "rect", "label": "Request", "x": 95, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 285, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "engine", "shape": "rect", "label": "Engine", "x": 475, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "repository", "shape": "rect", "label": "Repository", "x": 665, "y": 280, "width": 150, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "request-flow", "shape": "line", "label": "", "x": 190, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "browser", "target": "usecase", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
-          {"id": "domain-flow", "shape": "line", "label": "", "x": 380, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "engine", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
-          {"id": "persist-flow", "shape": "line", "label": "", "x": 570, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "engine", "target": "repository", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"}
+          {
+            "id": "browser",
+            "shape": "rect",
+            "label": "Request",
+            "x": 120,
+            "y": 280,
+            "width": 150,
+            "height": 120,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "usecase",
+            "shape": "rect",
+            "label": "UseCase",
+            "x": 285,
+            "y": 280,
+            "width": 150,
+            "height": 120,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "engine",
+            "shape": "rect",
+            "label": "Engine",
+            "x": 475,
+            "y": 280,
+            "width": 150,
+            "height": 120,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "repository",
+            "shape": "rect",
+            "label": "Repository",
+            "x": 665,
+            "y": 280,
+            "width": 150,
+            "height": 120,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "request-flow",
+            "shape": "line",
+            "label": "",
+            "x": 190,
+            "y": 280,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "browser",
+              "target": "usecase",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "domain-flow",
+            "shape": "line",
+            "label": "",
+            "x": 380,
+            "y": 280,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase",
+              "target": "engine",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "persist-flow",
+            "shape": "line",
+            "label": "",
+            "x": 570,
+            "y": 280,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "engine",
+              "target": "repository",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          }
         ],
         "events": [
-          {"target": "request-flow", "property": "opacity", "from": 0, "to": 1, "start": 0.12, "end": 0.28},
-          {"target": "domain-flow", "property": "opacity", "from": 0, "to": 1, "start": 0.3, "end": 0.46},
-          {"target": "persist-flow", "property": "opacity", "from": 0, "to": 1, "start": 0.48, "end": 0.64},
-          {"target": "repository", "property": "scale", "from": 0.96, "to": 1, "start": 0.62, "end": 0.8}
+          {
+            "target": "request-flow",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.12,
+            "end": 0.28
+          },
+          {
+            "target": "domain-flow",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.46
+          },
+          {
+            "target": "persist-flow",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.48,
+            "end": 0.64
+          },
+          {
+            "target": "repository",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1,
+            "start": 0.62,
+            "end": 0.8
+          }
         ]
       },
       "kind": "hero",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "architecture-flow", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "diagram",
+        "motif": "architecture-flow",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "계층 분리가 상태와 동시성 문제로 이어지는 출발점",
-        "relation": {"type": "flow", "description": "기존 Request → UseCase → Engine → Repository 흐름을 먼저 보여준다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문의 아키텍처 흐름을 Aurora의 의미 오브젝트와 연결선으로 직접 설명한다."}
+        "relation": {
+          "type": "flow",
+          "description": "기존 Request → UseCase → Engine → Repository 흐름을 먼저 보여준다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "원문의 아키텍처 흐름을 Aurora의 의미 오브젝트와 연결선으로 직접 설명한다."
+        }
       },
       "transition": "none",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-headline", "reveal-request-flow"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline",
+        "reveal-request-flow"
+      ],
       "beats": [
-        {"text": "처음에는 백엔드 계층의 역할을 어떻게 나눌지 고민했습니다. 그런데 상태를 누가 복원하고, 계산하고, 기록하는지 구분하기 시작하면서 동시성 문제까지 이어졌습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "동시성", "visualCue": "request-flow"}
+        {
+          "text": "처음에는 백엔드 계층의 역할을 어떻게 나눌지 고민했습니다. 그런데 상태를 누가 복원하고, 계산하고, 기록하는지 구분하기 시작하면서 동시성 문제까지 이어졌습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "동시성",
+          "visualCue": "request-flow"
+        }
       ],
       "headline": "계층을 나누다 보니,\n동시성이 보였습니다.",
       "subline": "Request → UseCase → Engine → Repository",
@@ -104,31 +258,122 @@
         "physics": null,
         "description": "UseCase의 orchestration과 Domain의 rule computation을 분리해서 비교한다.",
         "nodes": [
-          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 230, "y": 280, "width": 240, "height": 190, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "domain", "shape": "rect", "label": "Domain", "x": 570, "y": 280, "width": 240, "height": 190, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "orchestrate", "shape": "line", "label": "", "x": 400, "y": 280, "width": 70, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "domain", "sourceSide": "right", "targetSide": "left", "gap": 14}, "strokeStyle": "solid"}
+          {
+            "id": "usecase",
+            "shape": "rect",
+            "label": "UseCase",
+            "x": 230,
+            "y": 280,
+            "width": 240,
+            "height": 190,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "domain",
+            "shape": "rect",
+            "label": "Domain",
+            "x": 570,
+            "y": 280,
+            "width": 240,
+            "height": 190,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "orchestrate",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 280,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase",
+              "target": "domain",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          }
         ],
         "events": [
-          {"target": "usecase", "property": "opacity", "from": 0.45, "to": 1, "start": 0.08, "end": 0.28},
-          {"target": "orchestrate", "property": "opacity", "from": 0, "to": 1, "start": 0.34, "end": 0.54},
-          {"target": "domain", "property": "opacity", "from": 0.45, "to": 1, "start": 0.56, "end": 0.76}
+          {
+            "target": "usecase",
+            "property": "opacity",
+            "from": 0.45,
+            "to": 1,
+            "start": 0.08,
+            "end": 0.28
+          },
+          {
+            "target": "orchestrate",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.34,
+            "end": 0.54
+          },
+          {
+            "target": "domain",
+            "property": "opacity",
+            "from": 0.45,
+            "to": 1,
+            "start": 0.56,
+            "end": 0.76
+          }
         ]
       },
       "kind": "compare",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "responsibility-split", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "diagram",
+        "motif": "responsibility-split",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "UseCase와 Domain의 책임 차이",
-        "relation": {"type": "comparison", "description": "UseCase Test와 Domain Test가 보는 대상을 나눈다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문의 Domain Test와 UseCase Test 구분을 두 개의 의미 오브젝트로 압축한다."}
+        "relation": {
+          "type": "comparison",
+          "description": "UseCase Test와 Domain Test가 보는 대상을 나눈다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "원문의 Domain Test와 UseCase Test 구분을 두 개의 의미 오브젝트로 압축한다."
+        }
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-usecase", "connect-domain"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-usecase",
+        "connect-domain"
+      ],
       "beats": [
-        {"text": "Domain Test는 State에서 Rule을 거쳐 Result가 맞는지를 봅니다. UseCase Test는 Read, Orchestrate, Write, Side Effect의 흐름을 봅니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "책임", "visualCue": "orchestrate"}
+        {
+          "text": "Domain Test는 State에서 Rule을 거쳐 Result가 맞는지를 봅니다. UseCase Test는 Read, Orchestrate, Write, Side Effect의 흐름을 봅니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "책임",
+          "visualCue": "orchestrate"
+        }
       ],
       "headline": "UseCase는 흐름을,\nDomain은 규칙을 봅니다.",
       "subline": "Domain: State → Rule → Result · UseCase: Read → Orchestrate → Write → Side Effect",
@@ -154,35 +399,183 @@
         "physics": null,
         "description": "Repository가 상태를 복원하고 UseCase가 흐름을 조율하며 Domain이 계산한 뒤 Repository가 다시 기록한다.",
         "nodes": [
-          {"id": "repository-read", "shape": "rect", "label": "Repository · Read", "x": 100, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 300, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "domain", "shape": "rect", "label": "Domain", "x": 500, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "repository-write", "shape": "rect", "label": "Repository · Write", "x": 700, "y": 280, "width": 160, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "restore", "shape": "line", "label": "", "x": 200, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "repository-read", "target": "usecase", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
-          {"id": "compute", "shape": "line", "label": "", "x": 400, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "domain", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"},
-          {"id": "record", "shape": "line", "label": "", "x": 600, "y": 280, "width": 40, "height": 2, "fill": "none", "connector": {"source": "domain", "target": "repository-write", "sourceSide": "right", "targetSide": "left", "gap": 10}, "strokeStyle": "solid"}
+          {
+            "id": "repository-read",
+            "shape": "rect",
+            "label": "Repository · Read",
+            "x": 130,
+            "y": 280,
+            "width": 160,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "usecase",
+            "shape": "rect",
+            "label": "UseCase",
+            "x": 310,
+            "y": 280,
+            "width": 160,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "domain",
+            "shape": "rect",
+            "label": "Domain",
+            "x": 490,
+            "y": 280,
+            "width": 160,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "repository-write",
+            "shape": "rect",
+            "label": "Repository · Write",
+            "x": 670,
+            "y": 280,
+            "width": 160,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "restore",
+            "shape": "line",
+            "label": "",
+            "x": 200,
+            "y": 280,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "repository-read",
+              "target": "usecase",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "compute",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 280,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase",
+              "target": "domain",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "record",
+            "shape": "line",
+            "label": "",
+            "x": 600,
+            "y": 280,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "domain",
+              "target": "repository-write",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
+            },
+            "strokeStyle": "solid"
+          }
         ],
         "events": [
-          {"target": "restore", "property": "opacity", "from": 0, "to": 1, "start": 0.1, "end": 0.28},
-          {"target": "compute", "property": "opacity", "from": 0, "to": 1, "start": 0.34, "end": 0.52},
-          {"target": "record", "property": "opacity", "from": 0, "to": 1, "start": 0.58, "end": 0.76}
+          {
+            "target": "restore",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.28
+          },
+          {
+            "target": "compute",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.34,
+            "end": 0.52
+          },
+          {
+            "target": "record",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.76
+          }
         ]
       },
       "kind": "statement",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "state-lifecycle", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "diagram",
+        "motif": "state-lifecycle",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "상태의 생명주기",
-        "relation": {"type": "flow", "description": "상태를 복원하고 계산하고 기록하는 책임을 분리한다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "상태가 계층 사이를 이동하는 순서를 직접 보여주는 것이 핵심이다."}
+        "relation": {
+          "type": "flow",
+          "description": "상태를 복원하고 계산하고 기록하는 책임을 분리한다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "상태가 계층 사이를 이동하는 순서를 직접 보여주는 것이 핵심이다."
+        }
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["restore", "compute", "record"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "restore",
+        "compute",
+        "record"
+      ],
       "beats": [
-        {"text": "Repository가 상태를 복원하고, UseCase가 흐름을 조율하고, Domain이 계산하고, 다시 Repository가 기록하도록 책임을 나눴습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "상태", "visualCue": "state-lifecycle"}
+        {
+          "text": "Repository가 상태를 복원하고, UseCase가 흐름을 조율하고, Domain이 계산하고, 다시 Repository가 기록하도록 책임을 나눴습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "상태",
+          "visualCue": "state-lifecycle"
+        }
       ],
       "headline": "상태를 누가 읽고,\n계산하고, 기록할까요?",
       "subline": "Repository → UseCase → Domain → Repository",
@@ -208,33 +601,153 @@
         "physics": null,
         "description": "UseCase가 필요하면 Engine을 사용하고, 단순한 원자적 변경에서는 Repository operation을 직접 선택할 수 있다.",
         "nodes": [
-          {"id": "usecase", "shape": "rect", "label": "UseCase", "x": 150, "y": 280, "width": 190, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "engine", "shape": "rect", "label": "Engine · Domain computation", "x": 430, "y": 150, "width": 250, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "repository", "shape": "rect", "label": "Repository · Atomic operation", "x": 650, "y": 360, "width": 250, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "choose-engine", "shape": "line", "label": "", "x": 290, "y": 215, "width": 70, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "engine", "sourceSide": "right", "targetSide": "left", "gap": 14}, "strokeStyle": "solid"},
-          {"id": "direct-operation", "shape": "line", "label": "", "x": 400, "y": 330, "width": 130, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "repository", "sourceSide": "right", "targetSide": "left", "gap": 14}, "strokeStyle": "dashed"}
+          {
+            "id": "usecase",
+            "shape": "rect",
+            "label": "UseCase",
+            "x": 150,
+            "y": 280,
+            "width": 190,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "engine",
+            "shape": "rect",
+            "label": "Engine · Domain computation",
+            "x": 430,
+            "y": 150,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "repository",
+            "shape": "rect",
+            "label": "Repository · Atomic operation",
+            "x": 620,
+            "y": 360,
+            "width": 250,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "choose-engine",
+            "shape": "line",
+            "label": "",
+            "x": 290,
+            "y": 215,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase",
+              "target": "engine",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "direct-operation",
+            "shape": "line",
+            "label": "",
+            "x": 400,
+            "y": 330,
+            "width": 130,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase",
+              "target": "repository",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
+            },
+            "strokeStyle": "dashed"
+          }
         ],
         "events": [
-          {"target": "choose-engine", "property": "opacity", "from": 0, "to": 1, "start": 0.18, "end": 0.38},
-          {"target": "engine", "property": "scale", "from": 0.96, "to": 1, "start": 0.32, "end": 0.5},
-          {"target": "direct-operation", "property": "opacity", "from": 0, "to": 1, "start": 0.56, "end": 0.76}
+          {
+            "target": "choose-engine",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.18,
+            "end": 0.38
+          },
+          {
+            "target": "engine",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1,
+            "start": 0.32,
+            "end": 0.5
+          },
+          {
+            "target": "direct-operation",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.56,
+            "end": 0.76
+          }
         ]
       },
       "kind": "statement",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "optional-engine", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "diagram",
+        "motif": "optional-engine",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "Engine은 필수 통과 계층이 아니라 선택 도구",
-        "relation": {"type": "divergence", "description": "UseCase가 계산 필요 여부에 따라 Engine 또는 Repository operation을 선택한다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문의 Engine에 대한 결론을 분기 구조로 보여준다."}
+        "relation": {
+          "type": "divergence",
+          "description": "UseCase가 계산 필요 여부에 따라 Engine 또는 Repository operation을 선택한다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "원문의 Engine에 대한 결론을 분기 구조로 보여준다."
+        }
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-usecase", "choose-engine", "show-direct-operation"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-usecase",
+        "choose-engine",
+        "show-direct-operation"
+      ],
       "beats": [
-        {"text": "Engine은 반드시 통과해야 하는 계층이 아니었습니다. Domain computation이 필요할 때 UseCase가 선택하는 도구로 보는 편이 자연스러웠습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "Engine", "visualCue": "optional-engine"}
+        {
+          "text": "Engine은 반드시 통과해야 하는 계층이 아니었습니다. Domain computation이 필요할 때 UseCase가 선택하는 도구로 보는 편이 자연스러웠습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "Engine",
+          "visualCue": "optional-engine"
+        }
       ],
       "headline": "Engine은 필수 계층이 아니라,\nUseCase가 선택하는 도구입니다.",
       "subline": "Domain computation이 필요할 때만",
@@ -260,39 +773,230 @@
         "physics": null,
         "description": "두 요청이 같은 상태를 읽고 각각 계산한 뒤 같은 DB에 기록하려는 경쟁 조건을 보여준다.",
         "nodes": [
-          {"id": "browser-a", "shape": "rect", "label": "Request A", "x": 110, "y": 150, "width": 170, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "browser-b", "shape": "rect", "label": "Request B", "x": 110, "y": 410, "width": 170, "height": 120, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "usecase-a", "shape": "rect", "label": "Read → Compute", "x": 390, "y": 150, "width": 210, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "usecase-b", "shape": "rect", "label": "Read → Compute", "x": 390, "y": 410, "width": 210, "height": 130, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "database", "shape": "rect", "label": "Same State", "x": 690, "y": 280, "width": 180, "height": 170, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "read-a", "shape": "line", "label": "", "x": 250, "y": 150, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-a", "target": "usecase-a", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
-          {"id": "read-b", "shape": "line", "label": "", "x": 250, "y": 410, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-b", "target": "usecase-b", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
-          {"id": "write-a", "shape": "line", "label": "", "x": 540, "y": 205, "width": 80, "height": 2, "fill": "none", "connector": {"source": "usecase-a", "target": "database", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
-          {"id": "write-b", "shape": "line", "label": "", "x": 540, "y": 355, "width": 80, "height": 2, "fill": "none", "connector": {"source": "usecase-b", "target": "database", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"}
+          {
+            "id": "browser-a",
+            "shape": "rect",
+            "label": "Request A",
+            "x": 135,
+            "y": 150,
+            "width": 170,
+            "height": 120,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "browser-b",
+            "shape": "rect",
+            "label": "Request B",
+            "x": 135,
+            "y": 410,
+            "width": 170,
+            "height": 120,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "usecase-a",
+            "shape": "rect",
+            "label": "Read → Compute",
+            "x": 390,
+            "y": 150,
+            "width": 210,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "usecase-b",
+            "shape": "rect",
+            "label": "Read → Compute",
+            "x": 390,
+            "y": 410,
+            "width": 210,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "database",
+            "shape": "rect",
+            "label": "Same State",
+            "x": 660,
+            "y": 280,
+            "width": 180,
+            "height": 170,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "read-a",
+            "shape": "line",
+            "label": "",
+            "x": 250,
+            "y": 150,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "browser-a",
+              "target": "usecase-a",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "read-b",
+            "shape": "line",
+            "label": "",
+            "x": 250,
+            "y": 410,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "browser-b",
+              "target": "usecase-b",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "write-a",
+            "shape": "line",
+            "label": "",
+            "x": 540,
+            "y": 205,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase-a",
+              "target": "database",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "write-b",
+            "shape": "line",
+            "label": "",
+            "x": 540,
+            "y": 355,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase-b",
+              "target": "database",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          }
         ],
         "events": [
-          {"target": "read-a", "property": "opacity", "from": 0, "to": 1, "start": 0.08, "end": 0.24},
-          {"target": "read-b", "property": "opacity", "from": 0, "to": 1, "start": 0.16, "end": 0.32},
-          {"target": "write-a", "property": "opacity", "from": 0, "to": 1, "start": 0.46, "end": 0.64},
-          {"target": "write-b", "property": "opacity", "from": 0, "to": 1, "start": 0.54, "end": 0.72},
-          {"target": "database", "property": "scale", "from": 0.95, "to": 1.05, "start": 0.7, "end": 0.88}
+          {
+            "target": "read-a",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.08,
+            "end": 0.24
+          },
+          {
+            "target": "read-b",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.16,
+            "end": 0.32
+          },
+          {
+            "target": "write-a",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.46,
+            "end": 0.64
+          },
+          {
+            "target": "write-b",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.54,
+            "end": 0.72
+          },
+          {
+            "target": "database",
+            "property": "scale",
+            "from": 0.95,
+            "to": 1.05,
+            "start": 0.7,
+            "end": 0.88
+          }
         ]
       },
       "kind": "statement",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "concurrency-race", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "diagram",
+        "motif": "concurrency-race",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "복원과 기록 사이의 경쟁 조건",
-        "relation": {"type": "convergence", "description": "두 요청이 같은 상태를 읽고 같은 저장 지점으로 수렴한다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "동시성 문제를 추상 문장보다 두 요청의 병렬 흐름으로 보여준다."}
+        "relation": {
+          "type": "convergence",
+          "description": "두 요청이 같은 상태를 읽고 같은 저장 지점으로 수렴한다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "동시성 문제를 추상 문장보다 두 요청의 병렬 흐름으로 보여준다."
+        }
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["read-a", "read-b", "write-a", "write-b"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "read-a",
+        "read-b",
+        "write-a",
+        "write-b"
+      ],
       "beats": [
-        {"text": "Domain을 순수하게 만들면 테스트는 쉬워집니다. 하지만 상태를 읽고 다시 기록하는 사이에 다른 요청이 끼어들 수 있습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "동시성", "visualCue": "concurrency-race"}
+        {
+          "text": "Domain을 순수하게 만들면 테스트는 쉬워집니다. 하지만 상태를 읽고 다시 기록하는 사이에 다른 요청이 끼어들 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "동시성",
+          "visualCue": "concurrency-race"
+        }
       ],
       "headline": "순수한 Domain 바깥에는\n동시성의 창이 생깁니다.",
       "subline": "Read → Compute → Write 사이에 다른 요청이 들어온다면?",
@@ -318,36 +1022,190 @@
         "physics": null,
         "description": "여러 요청이 Repository의 tryDecrease atomic operation을 통해 DB의 단일 변경 연산으로 들어간다.",
         "nodes": [
-          {"id": "browser-a", "shape": "rect", "label": "Request A", "x": 120, "y": 180, "width": 170, "height": 110, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "browser-b", "shape": "rect", "label": "Request B", "x": 120, "y": 380, "width": 170, "height": 110, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "repository-atomic", "shape": "rect", "label": "Repository · tryDecrease()", "x": 420, "y": 280, "width": 250, "height": 170, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "database", "shape": "rect", "label": "Atomic Update", "x": 690, "y": 280, "width": 180, "height": 170, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "atomic-a", "shape": "line", "label": "", "x": 270, "y": 220, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-a", "target": "repository-atomic", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
-          {"id": "atomic-b", "shape": "line", "label": "", "x": 270, "y": 340, "width": 70, "height": 2, "fill": "none", "connector": {"source": "browser-b", "target": "repository-atomic", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"},
-          {"id": "atomic-write", "shape": "line", "label": "", "x": 565, "y": 280, "width": 70, "height": 2, "fill": "none", "connector": {"source": "repository-atomic", "target": "database", "sourceSide": "right", "targetSide": "left", "gap": 12}, "strokeStyle": "solid"}
+          {
+            "id": "browser-a",
+            "shape": "rect",
+            "label": "Request A",
+            "x": 135,
+            "y": 180,
+            "width": 170,
+            "height": 110,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "browser-b",
+            "shape": "rect",
+            "label": "Request B",
+            "x": 135,
+            "y": 380,
+            "width": 170,
+            "height": 110,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "repository-atomic",
+            "shape": "rect",
+            "label": "Repository · tryDecrease()",
+            "x": 420,
+            "y": 280,
+            "width": 250,
+            "height": 170,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "database",
+            "shape": "rect",
+            "label": "Atomic Update",
+            "x": 660,
+            "y": 280,
+            "width": 180,
+            "height": 170,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "atomic-a",
+            "shape": "line",
+            "label": "",
+            "x": 270,
+            "y": 220,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "browser-a",
+              "target": "repository-atomic",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "atomic-b",
+            "shape": "line",
+            "label": "",
+            "x": 270,
+            "y": 340,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "browser-b",
+              "target": "repository-atomic",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "atomic-write",
+            "shape": "line",
+            "label": "",
+            "x": 565,
+            "y": 280,
+            "width": 70,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "repository-atomic",
+              "target": "database",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          }
         ],
         "events": [
-          {"target": "atomic-a", "property": "opacity", "from": 0, "to": 1, "start": 0.12, "end": 0.28},
-          {"target": "atomic-b", "property": "opacity", "from": 0, "to": 1, "start": 0.2, "end": 0.36},
-          {"target": "repository-atomic", "property": "scale", "from": 0.96, "to": 1, "start": 0.36, "end": 0.56},
-          {"target": "atomic-write", "property": "opacity", "from": 0, "to": 1, "start": 0.58, "end": 0.76}
+          {
+            "target": "atomic-a",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.12,
+            "end": 0.28
+          },
+          {
+            "target": "atomic-b",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.36
+          },
+          {
+            "target": "repository-atomic",
+            "property": "scale",
+            "from": 0.96,
+            "to": 1,
+            "start": 0.36,
+            "end": 0.56
+          },
+          {
+            "target": "atomic-write",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.58,
+            "end": 0.76
+          }
         ]
       },
       "kind": "statement",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "atomic-operation", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "diagram",
+        "motif": "atomic-operation",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "Repository atomic operation",
-        "relation": {"type": "convergence", "description": "동시에 들어온 요청을 DB의 원자적 변경 연산으로 모은다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "원문에 등장하는 tryDecrease 형태를 실제 흐름으로 표현한다."}
+        "relation": {
+          "type": "convergence",
+          "description": "동시에 들어온 요청을 DB의 원자적 변경 연산으로 모은다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "원문에 등장하는 tryDecrease 형태를 실제 흐름으로 표현한다."
+        }
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["merge-requests", "atomic-write"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "merge-requests",
+        "atomic-write"
+      ],
       "beats": [
-        {"text": "경쟁 조건이 핵심인 단순 변경이라면 Repository의 atomic operation을 직접 호출하는 편이 더 자연스러울 수 있습니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "atomic operation", "visualCue": "atomic-operation"}
+        {
+          "text": "경쟁 조건이 핵심인 단순 변경이라면 Repository의 atomic operation을 직접 호출하는 편이 더 자연스러울 수 있습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "atomic operation",
+          "visualCue": "atomic-operation"
+        }
       ],
       "headline": "단순한 경쟁은\n원자적 연산으로 줄일 수 있습니다.",
       "subline": "Repository · tryDecrease(productId, amount): Boolean",
@@ -373,30 +1231,114 @@
         "physics": null,
         "description": "UseCase보다 Repository가 커지며 Persistence Layer가 비즈니스 로직을 흡수하는 위험을 보여준다.",
         "nodes": [
-          {"id": "usecase", "shape": "rect", "label": "UseCase · Orchestration", "x": 220, "y": 280, "width": 220, "height": 150, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "repository", "shape": "rect", "label": "Repository · SQL + Rules?", "x": 570, "y": 280, "width": 320, "height": 220, "fill": "none", "connector": null, "strokeStyle": "solid"},
-          {"id": "absorb", "shape": "line", "label": "", "x": 390, "y": 280, "width": 80, "height": 2, "fill": "none", "connector": {"source": "usecase", "target": "repository", "sourceSide": "right", "targetSide": "left", "gap": 16}, "strokeStyle": "solid"}
+          {
+            "id": "usecase",
+            "shape": "rect",
+            "label": "UseCase · Orchestration",
+            "x": 220,
+            "y": 280,
+            "width": 220,
+            "height": 150,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "repository",
+            "shape": "rect",
+            "label": "Repository · SQL + Rules?",
+            "x": 570,
+            "y": 280,
+            "width": 320,
+            "height": 220,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "absorb",
+            "shape": "line",
+            "label": "",
+            "x": 390,
+            "y": 280,
+            "width": 80,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "usecase",
+              "target": "repository",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
+            },
+            "strokeStyle": "solid"
+          }
         ],
         "events": [
-          {"target": "absorb", "property": "opacity", "from": 0, "to": 1, "start": 0.16, "end": 0.34},
-          {"target": "repository", "property": "scale", "from": 0.94, "to": 1.06, "start": 0.4, "end": 0.66}
+          {
+            "target": "absorb",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.16,
+            "end": 0.34
+          },
+          {
+            "target": "repository",
+            "property": "scale",
+            "from": 0.94,
+            "to": 1.06,
+            "start": 0.4,
+            "end": 0.66
+          }
         ]
       },
       "kind": "statement",
       "layout": "diagram-centered",
-      "visual": {"type": "diagram", "motif": "responsibility-absorption", "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "diagram",
+        "motif": "responsibility-absorption",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "SQL 원자화의 반대 비용",
-        "relation": {"type": "balance", "description": "동시성 단순화와 Persistence Layer의 책임 증가를 함께 본다."},
-        "strategy": {"type": "spatial-diagram", "metaphor": null, "rationale": "Repository가 커지는 관계만 보여주고 원자화를 선악으로 단정하지 않는다."}
+        "relation": {
+          "type": "balance",
+          "description": "동시성 단순화와 Persistence Layer의 책임 증가를 함께 본다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": null,
+          "rationale": "Repository가 커지는 관계만 보여주고 원자화를 선악으로 단정하지 않는다."
+        }
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["connect", "emphasize-repository"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "connect",
+        "emphasize-repository"
+      ],
       "beats": [
-        {"text": "반대로 모든 변경을 Repository의 atomic SQL로 밀어 넣으면 동시성은 단순해질 수 있지만, Persistence Layer가 Application의 비즈니스 로직을 흡수하기 시작합니다.", "emphasis": "high", "pauseAfterMs": 180, "delivery": "normal", "visualPriority": "high", "keyword": "트레이드오프", "visualCue": "responsibility-absorption"}
+        {
+          "text": "반대로 모든 변경을 Repository의 atomic SQL로 밀어 넣으면 동시성은 단순해질 수 있지만, Persistence Layer가 Application의 비즈니스 로직을 흡수하기 시작합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "트레이드오프",
+          "visualCue": "responsibility-absorption"
+        }
       ],
       "headline": "원자화를 너무 밀면,\n책임이 다시 흐려질 수 있습니다.",
       "subline": "Concurrency는 단순해져도 Persistence가 Application을 흡수할 수 있습니다.",
@@ -413,19 +1355,49 @@
       "diagramSpec": null,
       "kind": "outro",
       "layout": "outro-minimal",
-      "visual": {"type": "none", "motif": null, "query": null, "value": null, "xLabel": null, "yLabel": null},
+      "visual": {
+        "type": "none",
+        "motif": null,
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
       "visualIntent": {
         "concept": "설계의 기준을 계층 수에서 상태와 책임의 경계로 되돌린다.",
-        "relation": {"type": "reframe", "description": "구조를 많이 만드는 것이 아니라 상태의 생명주기와 책임 주체를 분명히 하는 문제로 마무리한다."},
-        "strategy": {"type": "minimal", "metaphor": null, "rationale": "마지막 본문은 오브젝트를 걷어내고 원문의 결론 하나만 남긴다."}
+        "relation": {
+          "type": "flow",
+          "description": "구조를 많이 만드는 것이 아니라 상태의 생명주기와 책임 주체를 분명히 하는 문제로 마무리한다."
+        },
+        "strategy": {
+          "type": "minimal",
+          "metaphor": null,
+          "rationale": "마지막 본문은 오브젝트를 걷어내고 원문의 결론 하나만 남긴다."
+        }
       },
       "transition": "fade",
       "transitionOptions": null,
       "effects": [],
-      "camera": {"motion": "static", "target": "center", "intensity": "subtle", "startProgress": 0, "endProgress": 1},
-      "choreography": ["show-headline"],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "subtle",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "show-headline"
+      ],
       "beats": [
-        {"text": "결국 중요한 건 계층을 얼마나 많이 만드는지가 아니라, 상태가 어디서 복원되고 계산되고 기록되는지, 그리고 그 책임을 누가 가지는지를 명확하게 만드는 일이었습니다.", "emphasis": "high", "pauseAfterMs": 260, "delivery": "hold", "visualPriority": "high", "keyword": "경계", "visualCue": null}
+        {
+          "text": "결국 중요한 건 계층을 얼마나 많이 만드는지가 아니라, 상태가 어디서 복원되고 계산되고 기록되는지, 그리고 그 책임을 누가 가지는지를 명확하게 만드는 일이었습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 260,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "경계",
+          "visualCue": null
+        }
       ],
       "headline": "정답은 계층의 수가 아니라,\n상태와 책임의 경계입니다.",
       "subline": "Restore · Compute · Record · Ownership",
