@@ -27,6 +27,7 @@ env:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: shorts-render-${{ inputs.manifest }}
@@ -106,8 +107,26 @@ jobs:
 
           printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
+          printf 'template=%s\n' "${template}" >> "${GITHUB_OUTPUT}"
+
+      - name: Validate selected storyboard before paid rendering
+        id: validate
+        continue-on-error: true
+        env:
+          MANIFEST: ${{ inputs.manifest }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          report_file="${RUNNER_TEMP}/storyboard-validation.json"
+          set +e
+          node shorts/scripts/validate-storyboard.mjs "${MANIFEST}" "--report=${report_file}"
+          status=$?
+          set -e
+          printf 'validation_report=%s\n' "${report_file}" >> "${GITHUB_OUTPUT}"
+          exit "${status}"
 
       - name: Restore completed speech and alignment
+        if: steps.validate.outcome == 'success'
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: shorts/.cache/audio
@@ -117,6 +136,7 @@ jobs:
 
       - name: Prepare missing TTS and alignment before video render
         id: audio
+        if: steps.validate.outcome == 'success'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
@@ -145,7 +165,7 @@ jobs:
           retention-days: 3
 
       - name: Render selected reel with Remotion
-        if: inputs.engine == 'remotion'
+        if: inputs.engine == 'remotion' && steps.validate.outcome == 'success'
         env:
           SHORTS_AUDIO_CACHE_ONLY: 'true'
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -158,7 +178,7 @@ jobs:
 
       - name: Compile prepared candidate to HyperFrames HTML
         id: hyperframes_build
-        if: inputs.engine == 'hyperframes'
+        if: inputs.engine == 'hyperframes' && steps.validate.outcome == 'success'
         env:
           MANIFEST: ${{ inputs.manifest }}
         shell: bash
@@ -172,7 +192,7 @@ jobs:
           node shorts/scripts/build-hyperframes.mjs "${MANIFEST}" "--prepared=${prepared}"
 
       - name: HyperFrames lint
-        if: inputs.engine == 'hyperframes'
+        if: inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
@@ -182,7 +202,9 @@ jobs:
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
 
       - name: HyperFrames visual check
-        if: inputs.engine == 'hyperframes'
+        id: hyperframes_check
+        if: inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
+        continue-on-error: true
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
@@ -191,8 +213,54 @@ jobs:
           cd "${PROJECT_DIR}"
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
 
+      - name: Batch-repair rejected Aurora strict findings
+        id: strict_repair
+        if: always() && steps.manifests.outputs.template == 'aurora-explain' && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
+        continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_STRICT_REPAIR_MODEL: ${{ vars.SHORTS_STRICT_REPAIR_MODEL || 'gpt-4.1-mini' }}
+          MANIFEST_INPUT: ${{ inputs.manifest }}
+          VALIDATION_REPORT: ${{ steps.validate.outputs.validation_report }}
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=("${MANIFEST_INPUT}" "--validation=${VALIDATION_REPORT}" "--report=shorts/out/aurora-strict-repair.md")
+          if [[ -n "${PROJECT_DIR:-}" && -f "${PROJECT_DIR}/check.json" ]]; then
+            args+=("--hyperframes=${PROJECT_DIR}/check.json")
+          fi
+          node shorts/scripts/repair-strict-storyboard.mjs "${args[@]}"
+
+      - name: Open Aurora strict improvement PR
+        id: strict_repair_pr
+        if: always() && steps.strict_repair.outcome == 'success' && steps.strict_repair.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ github.token }}
+          commit-message: 'fix(shorts): batch-repair Aurora strict findings'
+          branch: automation/aurora-strict-repair-${{ github.run_id }}
+          delete-branch: true
+          title: 'fix: batch-repair rejected Aurora final render'
+          body-path: shorts/out/aurora-strict-repair.md
+          add-paths: |
+            shorts/content/**
+
+      - name: Reject failed strict evaluation after repair proposal
+        if: always() && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
+        env:
+          REPAIR_PR_URL: ${{ steps.strict_repair_pr.outputs.pull-request-url }}
+        shell: bash
+        run: |
+          if [[ -n "${REPAIR_PR_URL}" ]]; then
+            echo "::error title=Strict render rejected::An automatic improvement PR was opened: ${REPAIR_PR_URL}"
+          else
+            echo "::error title=Strict render rejected::Strict validation failed; no final video will be published."
+          fi
+          exit 1
+
       - name: Render selected reel with HyperFrames
-        if: inputs.engine == 'hyperframes'
+        if: inputs.engine == 'hyperframes' && steps.hyperframes_check.outcome == 'success'
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
           PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
@@ -204,7 +272,7 @@ jobs:
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality high --fps 30 --output "${GITHUB_WORKSPACE}/shorts/out/${PREFIX}.mp4" --strict
 
       - name: Mix repository BGM and sound cues for HyperFrames
-        if: inputs.engine == 'hyperframes'
+        if: inputs.engine == 'hyperframes' && steps.hyperframes_check.outcome == 'success'
         env:
           SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
           SHORTS_SFX: ${{ vars.SHORTS_SFX }}
@@ -213,12 +281,13 @@ jobs:
         run: node shorts/scripts/mix-hyperframes-bgm.mjs "shorts/out/${PREFIX}.mp4" "$PROJECT_DIR"
 
       - name: Write HyperFrames release sidecars
-        if: inputs.engine == 'hyperframes'
+        if: inputs.engine == 'hyperframes' && steps.hyperframes_check.outcome == 'success'
         env:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         run: node shorts/scripts/write-hyperframes-release-assets.mjs "${{ inputs.manifest }}" "$PROJECT_DIR" shorts/out
 
       - name: Update this reel's final release
+        if: steps.validate.outcome == 'success' && (inputs.engine != 'hyperframes' || steps.hyperframes_check.outcome == 'success')
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ github.run_id }}
@@ -231,6 +300,7 @@ jobs:
           ENGINE: ${{ inputs.engine }}
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
           PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
+          STRICT_REPAIR_PR_URL: ${{ steps.strict_repair_pr.outputs.pull-request-url }}
         shell: bash
         run: |
           {
@@ -241,5 +311,8 @@ jobs:
               echo "- HyperFrames: ${HYPERFRAMES_VERSION}"
               echo "- reel: ${PREFIX:-not-built}"
               echo "- project: ${PROJECT_DIR:-not-built}"
+            fi
+            if [[ -n "${STRICT_REPAIR_PR_URL}" ]]; then
+              echo "- strict improvement PR: ${STRICT_REPAIR_PR_URL}"
             fi
           } >> "${GITHUB_STEP_SUMMARY}"
