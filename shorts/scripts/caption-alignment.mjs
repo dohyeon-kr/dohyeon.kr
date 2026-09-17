@@ -3,6 +3,57 @@ const normalized = (value) => String(value ?? '')
   .toLocaleLowerCase('ko-KR')
   .replace(/[^\p{L}\p{N}]+/gu, '');
 
+const PHRASE_TARGET_CHARS = 10;
+const PHRASE_MAX_CHARS = 16;
+const compactLength = (value) => String(value ?? '').replace(/\s/g, '').length;
+const phraseBoundary = (token) => /[,，;；:]$/.test(token) || /(?:아니라|하지만|그러나|그리고|때문에|반면|이며|해서|하고|되며)$/.test(token.replace(/[.!?。！？]+$/, ''));
+
+const splitPhraseText = (text) => {
+  const tokens = String(text ?? '').trim().split(/\s+/).filter(Boolean);
+  if (!tokens.length || compactLength(text) <= PHRASE_MAX_CHARS) return tokens.length ? [tokens.join(' ')] : [];
+  const chunks = [];
+  let current = [];
+  for (const [index, token] of tokens.entries()) {
+    const remaining = tokens.slice(index).join(' ');
+    if (current.length && compactLength(current.join(' ')) >= PHRASE_TARGET_CHARS && phraseBoundary(current.at(-1)) && compactLength(remaining) >= 4) {
+      chunks.push(current.join(' '));
+      current = [];
+    }
+    const next = [...current, token];
+    if (current.length && compactLength(next.join(' ')) > PHRASE_MAX_CHARS) {
+      chunks.push(current.join(' '));
+      current = [token];
+    } else {
+      current = next;
+    }
+  }
+  if (current.length) chunks.push(current.join(' '));
+  if (chunks.length > 1 && compactLength(chunks.at(-1)) < 4) {
+    const tail = chunks.pop();
+    const merged = `${chunks.at(-1)} ${tail}`;
+    if (compactLength(merged) <= PHRASE_MAX_CHARS) chunks[chunks.length - 1] = merged;
+    else chunks.push(tail);
+  }
+  return chunks;
+};
+
+const phraseCaptions = (text, timing) => {
+  const chunks = splitPhraseText(text);
+  if (chunks.length <= 1) return [{text, startSeconds: timing.startSeconds, endSeconds: timing.endSeconds}];
+  const weights = chunks.map((chunk) => Math.max(1, compactLength(chunk)));
+  const total = weights.reduce((sum, value) => sum + value, 0);
+  const duration = timing.endSeconds - timing.startSeconds;
+  let cursor = timing.startSeconds;
+  return chunks.map((chunk, index) => {
+    const end = index === chunks.length - 1
+      ? timing.endSeconds
+      : timing.startSeconds + duration * weights.slice(0, index + 1).reduce((sum, value) => sum + value, 0) / total;
+    const cue = {text: chunk, startSeconds: Number(cursor.toFixed(3)), endSeconds: Number(end.toFixed(3))};
+    cursor = end;
+    return cue;
+  });
+};
+
 const validWords = (words) => (words ?? [])
   .filter((word) => typeof word?.word === 'string' && Number.isFinite(word.start) && Number.isFinite(word.end) && word.end > word.start)
   .map((word) => ({...word, normalized: normalized(word.word)}))
@@ -124,11 +175,6 @@ export function alignBeatTimings(beatsInput, wordsInput, durationSeconds = null)
   const words = validWords(wordsInput);
   if (!beats.length || !words.length) return null;
 
-  // The renderer historically accepted any monotonic Whisper timestamps. Korean word
-  // timestamps can occasionally cover only the latter half of a scene while still being
-  // syntactically valid, producing several seconds of no captions followed by a burst.
-  // When the measured speech coverage is implausible, preserve the authored semantic beats
-  // and spread them across the observed audio span instead of trusting the clustered words.
   const inferredDuration = Number.isFinite(durationSeconds) && durationSeconds > 0
     ? durationSeconds
     : words.at(-1).end;
@@ -153,12 +199,13 @@ export function alignBeatTimings(beatsInput, wordsInput, durationSeconds = null)
   return timings ? {method: 'estimated', timings} : null;
 }
 
-export function captionsFromBeatTimings(beatsInput, timings) {
+export function captionsFromBeatTimings(beatsInput, timings, {phraseLevel = false} = {}) {
   const beats = (beatsInput ?? []).filter((beat) => beat?.text?.trim());
   if (!timings || timings.length !== beats.length) return null;
-  return beats.map((beat, index) => ({
+  if (!phraseLevel) return beats.map((beat, index) => ({
     text: beat.text,
     startSeconds: timings[index].startSeconds,
     endSeconds: timings[index].endSeconds,
   }));
+  return beats.flatMap((beat, index) => phraseCaptions(beat.text, timings[index]));
 }

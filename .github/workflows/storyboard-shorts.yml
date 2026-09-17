@@ -36,6 +36,7 @@ env:
 
 permissions:
   contents: write
+  pull-requests: write
 
 # Storyboard and review workflows both replace the same working preview release.
 concurrency:
@@ -104,6 +105,7 @@ jobs:
 
           printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
+          printf 'template=%s\n' "${template}" >> "${GITHUB_OUTPUT}"
 
       - name: Install shorts dependencies
         run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
@@ -117,12 +119,14 @@ jobs:
         run: |
           set -uo pipefail
           status=0
+          report_file="${RUNNER_TEMP}/storyboard-validation.json"
           while IFS= read -r manifest; do
             [[ -n "${manifest}" ]] || continue
             echo "::group::Validate ${manifest}"
-            node shorts/scripts/validate-storyboard.mjs "${manifest}" || status=1
+            node shorts/scripts/validate-storyboard.mjs "${manifest}" "--report=${report_file}" || status=1
             echo "::endgroup::"
           done < "${LIST_FILE}"
+          printf 'validation_report=%s\n' "${report_file}" >> "${GITHUB_OUTPUT}"
           exit "${status}"
 
       - name: Render scene snapshots with Remotion
@@ -198,10 +202,42 @@ jobs:
 
           echo "::warning title=HyperFrames strict warnings::Strict check found ${warning_count} warning(s) and no errors; keeping the storyboard preview reviewable."
 
-      # Strict validation is diagnostic here, not a gate for producing a reviewable
-      # preview. Rendering without --strict lets us collect visual output plus all
-      # validation findings in one run. Fatal renderer/runtime failures still fail
-      # this step and are included in the final batch report.
+      - name: Batch-repair rejected Aurora strict findings
+        id: strict_repair
+        if: always() && steps.manifests.outputs.template == 'aurora-explain' && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
+        continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHORTS_STRICT_REPAIR_MODEL: ${{ vars.SHORTS_STRICT_REPAIR_MODEL || 'gpt-4.1-mini' }}
+          MANIFEST_INPUT: ${{ inputs.manifest }}
+          VALIDATION_REPORT: ${{ steps.validate.outputs.validation_report }}
+          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=("${MANIFEST_INPUT}" "--validation=${VALIDATION_REPORT}" "--report=shorts/out/aurora-strict-repair.md")
+          if [[ -n "${PROJECT_DIR:-}" && -f "${PROJECT_DIR}/check.json" ]]; then
+            args+=("--hyperframes=${PROJECT_DIR}/check.json")
+          fi
+          node shorts/scripts/repair-strict-storyboard.mjs "${args[@]}"
+
+      - name: Open Aurora strict improvement PR
+        id: strict_repair_pr
+        if: always() && steps.strict_repair.outcome == 'success' && steps.strict_repair.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ github.token }}
+          commit-message: 'fix(shorts): batch-repair Aurora strict findings'
+          branch: automation/aurora-strict-repair-${{ github.run_id }}
+          delete-branch: true
+          title: 'fix: batch-repair rejected Aurora storyboard'
+          body-path: shorts/out/aurora-strict-repair.md
+          add-paths: |
+            shorts/content/**
+
+      # Strict validation is diagnostic here so every finding can be collected before
+      # the final hard failure. A rejected candidate is never published; Aurora repair
+      # is proposed separately as a PR from the complete diagnostic batch.
       - name: Render draft HyperFrames motion preview
         id: hyperframes_render
         if: always() && inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
@@ -270,7 +306,7 @@ jobs:
 
       - name: Replace working storyboard preview release
         id: publish
-        if: always() && steps.validate.outcome == 'success' && steps.package.outcome == 'success' && ((inputs.engine == 'remotion' && steps.render_remotion.outcome == 'success') || (inputs.engine == 'hyperframes' && steps.hyperframes_extract.outcome == 'success'))
+        if: always() && steps.validate.outcome == 'success' && steps.package.outcome == 'success' && ((inputs.engine == 'remotion' && steps.render_remotion.outcome == 'success') || (inputs.engine == 'hyperframes' && steps.hyperframes_check.outcome == 'success' && steps.hyperframes_extract.outcome == 'success'))
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
@@ -304,6 +340,8 @@ jobs:
           HYPERFRAMES_BUILD_OUTCOME: ${{ steps.hyperframes_build.outcome }}
           HYPERFRAMES_LINT_OUTCOME: ${{ steps.hyperframes_lint.outcome }}
           HYPERFRAMES_CHECK_OUTCOME: ${{ steps.hyperframes_check.outcome }}
+          STRICT_REPAIR_OUTCOME: ${{ steps.strict_repair.outcome }}
+          STRICT_REPAIR_PR_URL: ${{ steps.strict_repair_pr.outputs.pull-request-url }}
           HYPERFRAMES_RENDER_OUTCOME: ${{ steps.hyperframes_render.outcome }}
           HYPERFRAMES_COMPACT_OUTCOME: ${{ steps.hyperframes_compact.outcome }}
           HYPERFRAMES_EXTRACT_OUTCOME: ${{ steps.hyperframes_extract.outcome }}
@@ -338,6 +376,7 @@ jobs:
             report 'HyperFrames compile' "$HYPERFRAMES_BUILD_OUTCOME"
             report 'HyperFrames lint' "$HYPERFRAMES_LINT_OUTCOME"
             report 'HyperFrames strict check' "$HYPERFRAMES_CHECK_OUTCOME"
+            report 'Aurora strict batch repair' "$STRICT_REPAIR_OUTCOME"
             report 'HyperFrames draft render' "$HYPERFRAMES_RENDER_OUTCOME"
             report 'HyperFrames compact preview' "$HYPERFRAMES_COMPACT_OUTCOME"
             report 'HyperFrames frame extraction' "$HYPERFRAMES_EXTRACT_OUTCOME"
@@ -346,6 +385,10 @@ jobs:
           report 'working release publish' "$PUBLISH_OUTCOME"
           if [[ "$ENGINE" == 'hyperframes' ]]; then
             report 'motion preview attach' "$HYPERFRAMES_ATTACH_OUTCOME"
+          fi
+
+          if [[ -n "$STRICT_REPAIR_PR_URL" ]]; then
+            printf -- '- Aurora strict improvement PR: %s\n' "$STRICT_REPAIR_PR_URL" >> "$GITHUB_STEP_SUMMARY"
           fi
 
           if [[ "$ENGINE" == 'hyperframes' && -n "$PROJECT_DIR" && -f "$PROJECT_DIR/check.json" ]]; then
