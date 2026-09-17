@@ -97,9 +97,18 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-object="db"/);
   assert.match(html, /data-ax-connection="request"/);
   assert.match(html, /class="ax-cta/);
+  assert.match(html, /data-layout-allow-overflow/);
   assert.doesNotMatch(html, /ml-presenter-overlay|presenter\.svg|ml-scene--common-cta/);
   assert.doesNotMatch(html, /Math\.random|Date\.now|requestAnimationFrame|repeat:\s*-1/);
   assert.equal(timings.scenes.length, 3, 'two editorial scenes plus shared CTA should render');
+});
+
+test('Aurora final audio preparation keeps the composition presenter-less', async () => {
+  const source = await fs.readFile(path.join(shortsRoot, 'scripts', 'render.mjs'), 'utf8');
+  assert.match(source, /const template = resolveTemplate\(manifest\)/);
+  assert.match(source, /template\.id === 'aurora-explain'/);
+  assert.match(source, /manifest\.presenterOverlay = null/);
+  assert.match(source, /for \(const scene of manifest\.scenes\) scene\.presenter = null/);
 });
 
 test('shared storyboard and final workflows accept aurora-explain only on HyperFrames', async () => {
