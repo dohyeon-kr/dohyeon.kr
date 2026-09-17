@@ -17,3 +17,8 @@
   --ax-stage-top:248px;
   --ax-stage-bottom:420px;
 }
+
+/* Keep one multicolor blurred field per scene. HyperFrames counts hidden blur
+   layers in the capture tree unless they are display:none. */
+.ax-orb--a{background:linear-gradient(135deg,var(--ax-indigo),var(--ax-cyan) 58%,var(--ax-magenta))!important}
+.ax-orb--b,.ax-orb--c{display:none!important}
