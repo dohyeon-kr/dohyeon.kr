@@ -3,6 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import {withBlogCta, BLOG_CTA_ID, BLOG_URL} from './blog-cta.mjs';
 import {assertAuroraStrictLayout, auroraNodePosition, inferAuroraRole} from './aurora-strict-layout.mjs';
+import {captionsFromBeatTimings} from './caption-alignment.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.join(repoRoot, 'shorts');
@@ -147,7 +148,9 @@ function ambientMarkup() {
 }
 
 function sceneCaptionMarkup(scene, sceneIndex) {
-  const cues = Array.isArray(scene.captions) ? scene.captions.filter(cue => Number.isFinite(cue.startSeconds) && Number.isFinite(cue.endSeconds) && compact(cue.text)) : [];
+  const measuredPhrases = captionsFromBeatTimings(scene.beats, scene.beatTimings, {phraseLevel: true});
+  const sourceCues = measuredPhrases?.length ? measuredPhrases : scene.captions;
+  const cues = Array.isArray(sourceCues) ? sourceCues.filter(cue => Number.isFinite(cue.startSeconds) && Number.isFinite(cue.endSeconds) && compact(cue.text)) : [];
   if (cues.length) return {
     markup: `<div class="ax-caption-zone">${cues.map((cue, index) => `<p id="ax-caption-${sceneIndex}-${index}" class="ax-caption">${escapeHtml(cue.text)}</p>`).join('')}</div>`,
     cues,
