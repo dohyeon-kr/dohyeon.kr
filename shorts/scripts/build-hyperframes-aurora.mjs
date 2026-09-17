@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import {withBlogCta, BLOG_CTA_ID, BLOG_URL} from './blog-cta.mjs';
+import {assertAuroraStrictLayout, auroraNodePosition, inferAuroraRole} from './aurora-strict-layout.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.join(repoRoot, 'shorts');
@@ -50,6 +51,7 @@ if (preparedArg) {
 }
 manifest.presenterOverlay = null;
 for (const scene of manifest.scenes) scene.presenter = null;
+assertAuroraStrictLayout(manifest);
 
 const slug = safeName(path.basename(path.dirname(manifestPath)));
 const candidateId = safeName(candidate.id || path.basename(manifestPath, '.json'));
@@ -79,16 +81,6 @@ async function copyPreparedMedia(relativePath, targetName) {
   return `media/${path.basename(target)}`;
 }
 
-function inferRole(node) {
-  const value = `${node.id} ${node.label}`.toLowerCase();
-  if (/browser|web|client|frontend/.test(value)) return 'browser';
-  if (/terminal|cli|console/.test(value)) return 'terminal';
-  if (/cache|redis/.test(value)) return 'cache';
-  if (/queue|slot|worker/.test(value)) return 'queue';
-  if (/db|database|repository|repo|store|storage|sql/.test(value)) return 'datastore';
-  return 'module';
-}
-
 function iconMarkup(role) {
   if (role === 'browser') return `<svg class="ax-object-icon" viewBox="0 0 72 64" aria-hidden="true"><rect class="shell" x="7" y="8" width="58" height="48" rx="10"/><path class="line" d="M7 21h58"/><circle class="dot" cx="15" cy="14.5" r="2"/><circle class="dot" cx="21" cy="14.5" r="2"/><circle class="dot" cx="27" cy="14.5" r="2"/><rect class="panel" x="14" y="28" width="17" height="20" rx="4"/><rect class="panel" x="36" y="28" width="22" height="6" rx="3"/><path class="violet" d="M37 43h16m-16 5h10"/></svg>`;
   if (role === 'datastore' || role === 'cache') return `<svg class="ax-object-icon" viewBox="0 0 72 64" aria-hidden="true"><path class="shell" d="M13 17c0-5 10.3-9 23-9s23 4 23 9v30c0 5-10.3 9-23 9s-23-4-23-9V17Z"/><ellipse class="panel" cx="36" cy="17" rx="23" ry="9"/><path class="line" d="M13 31c0 5 10.3 9 23 9s23-4 23-9M13 17c0 5 10.3 9 23 9s23-4 23-9"/><path class="line" d="M20 22v20c0 3 5.7 5.8 11 6.4"/><circle class="accent" cx="53" cy="46" r="3"/></svg>`;
@@ -97,33 +89,27 @@ function iconMarkup(role) {
   return `<svg class="ax-object-icon" viewBox="0 0 72 64" aria-hidden="true"><rect class="shell" x="11" y="9" width="50" height="46" rx="12"/><rect class="panel" x="20" y="18" width="32" height="10" rx="4"/><rect class="panel" x="20" y="34" width="32" height="10" rx="4"/><circle class="accent" cx="25" cy="23" r="2"/><circle class="dot" cx="31" cy="23" r="1.7"/><path class="violet" d="M23 49h26"/></svg>`;
 }
 
-function nodePosition(node) {
-  const left = clamp((Number(node.x) / 800) * 100, 5, 95);
-  const top = clamp((Number(node.y) / 560) * 100, 7, 93);
-  const width = clamp((Number(node.width) / 800) * 900, 150, 390);
-  const height = clamp((Number(node.height) / 560) * 720, 110, 270);
-  return {left, top, width, height};
-}
-
 function diagramMarkup(scene, sceneId) {
   const spec = scene.diagramSpec;
-  if (!spec?.nodes?.length) return {markup: '', timeline: []};
+  if (!spec?.nodes?.length) return {markup: '', timeline: [], pulses: []};
   const nodeById = new Map(spec.nodes.map(node => [node.id, node]));
   const objects = spec.nodes.filter(node => node.shape !== 'line').map(node => {
-    const role = inferRole(node);
-    const p = nodePosition(node);
+    const role = inferAuroraRole(node);
+    const p = auroraNodePosition(node);
     const label = compact(node.label) || node.id;
     return `<div id="${sceneId}-object-${escapeHtml(node.id)}" class="ax-object ax-smoked-panel" data-ax-object="${escapeHtml(node.id)}" data-role="${role}" style="left:${p.left.toFixed(2)}%;top:${p.top.toFixed(2)}%;width:${p.width.toFixed(1)}px;min-height:${p.height.toFixed(1)}px">${iconMarkup(role)}<strong class="ax-object-label">${escapeHtml(label)}</strong><span class="ax-object-meta">${escapeHtml(role.toUpperCase())}</span></div>`;
   }).join('');
 
-  const connections = spec.nodes.filter(node => node.shape === 'line' && node.connector).map(node => {
+  const connectorNodes = spec.nodes.filter(node => node.shape === 'line' && node.connector);
+  const connections = connectorNodes.map(node => {
     const source = nodeById.get(node.connector.source);
     const target = nodeById.get(node.connector.target);
     if (!source || !target) return '';
-    const s = nodePosition(source);
-    const t = nodePosition(target);
+    const s = auroraNodePosition(source);
+    const t = auroraNodePosition(target);
     const accent = /hit|active|request|flow|persist|save|write/i.test(`${node.id} ${node.label}`) ? ' is-accent' : '';
-    return `<line id="${sceneId}-connection-${escapeHtml(node.id)}" class="ax-connector${accent}" data-ax-connection="${escapeHtml(node.id)}" x1="${s.left.toFixed(2)}%" y1="${s.top.toFixed(2)}%" x2="${t.left.toFixed(2)}%" y2="${t.top.toFixed(2)}%"/>`;
+    const points = `x1="${s.left.toFixed(2)}%" y1="${s.top.toFixed(2)}%" x2="${t.left.toFixed(2)}%" y2="${t.top.toFixed(2)}%"`;
+    return `<line id="${sceneId}-connection-${escapeHtml(node.id)}" class="ax-connector${accent}" data-ax-connection="${escapeHtml(node.id)}" ${points}/><line id="${sceneId}-pulse-${escapeHtml(node.id)}" class="ax-connector-pulse${accent}" data-ax-pulse="${escapeHtml(node.id)}" pathLength="1" ${points}/>`;
   }).join('');
 
   const timeline = [];
@@ -140,9 +126,19 @@ function diagramMarkup(scene, sceneId) {
     if (property === 'noiseAmount') continue;
     timeline.push({selector, property, from, to, start: event.start, end: event.end});
   }
+
+  const pulses = connectorNodes.map(node => {
+    const reveal = (spec.events ?? [])
+      .filter(event => event.target === node.id && event.property === 'opacity')
+      .sort((a, b) => a.start - b.start)[0];
+    const start = clamp((reveal?.end ?? .28) + .04, .08, .82);
+    return {selector: `#${sceneId}-pulse-${node.id}`, start, end: clamp(start + .28, start + .08, .98)};
+  });
+
   return {
     markup: `<div class="ax-diagram"><svg class="ax-connector-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="ax-flow-gradient"><stop offset="0" stop-color="#765eff"/><stop offset="1" stop-color="#55ddff"/></linearGradient></defs>${connections}</svg>${objects}</div>`,
     timeline,
+    pulses,
   };
 }
 
@@ -219,6 +215,12 @@ for (const [index, scene] of manifest.scenes.entries()) {
     const from = JSON.stringify({[event.property]: event.from});
     const to = JSON.stringify({[event.property]: event.to, duration: Number(eventDuration.toFixed(3)), ease: 'power2.inOut'});
     timelineStatements.push(`tl.fromTo("${event.selector}", ${from}, ${to}, ${eventStart.toFixed(3)});`);
+  }
+  for (const pulse of diagram.pulses) {
+    const pulseStart = start + clamp(pulse.start, 0, 1) * duration;
+    const pulseDuration = Math.max(.16, (clamp(pulse.end, 0, 1) - clamp(pulse.start, 0, 1)) * duration);
+    timelineStatements.push(`tl.fromTo("${pulse.selector}", {opacity:.95, strokeDashoffset:1}, {opacity:.95, strokeDashoffset:-1, duration:${pulseDuration.toFixed(3)}, ease:"none"}, ${pulseStart.toFixed(3)});`);
+    timelineStatements.push(`tl.set("${pulse.selector}", {opacity:0}, ${(pulseStart + pulseDuration).toFixed(3)});`);
   }
   for (const [cueIndex, cue] of caption.cues.entries()) {
     const cueStart = start + Math.max(0, cue.startSeconds);
