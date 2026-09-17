@@ -7,6 +7,7 @@ on:
       - feat/aurora-explain-runtime
     paths:
       - 'shorts/content/usecase-domain-repository-seolgyebuteo-dongsiseongggaji/candidate-01.json'
+      - 'shorts/hyperframes/aurora-explain/**'
       - '.github/workflows/aurora-candidate-check.yml'
 
 permissions:
