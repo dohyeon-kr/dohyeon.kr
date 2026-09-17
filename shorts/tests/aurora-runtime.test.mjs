@@ -24,25 +24,28 @@ const auroraManifest = () => ({
   presenterOverlay: null,
   scenes: [
     {
-      kind: 'diagram', layout: 'diagram-centered', headline: '요청은 어디로 흐를까요?',
+      kind: 'statement', layout: 'diagram-centered', headline: '요청은 어디로 흐를까요?',
       subline: '브라우저에서 저장소까지', narration: '브라우저의 요청은 서비스와 저장소를 거쳐 데이터베이스에 도착합니다.',
       imageQuery: null, comparisonLeft: null, comparisonRight: null, image: null,
       visual: {type: 'diagram', motif: 'request-flow', query: null, value: null, xLabel: null, yLabel: null},
       beats: [{text: '브라우저의 요청은 서비스와 저장소를 거칩니다.', emphasis: 'high', pauseAfterMs: 0, delivery: 'normal', visualPriority: 'high', keyword: '요청', visualCue: null}],
       diagramSpec: {
-        objects: [
-          {id: 'browser', role: 'browser', label: 'Browser'},
-          {id: 'service', role: 'module', label: 'UseCase'},
-          {id: 'db', role: 'datastore', label: 'DB'},
+        version: 1,
+        renderer: 'auto',
+        physics: null,
+        description: '브라우저 요청이 UseCase를 거쳐 DB에 저장되는 흐름',
+        nodes: [
+          {id: 'browser', shape: 'rect', label: 'Browser', x: 140, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
+          {id: 'service', shape: 'rect', label: 'UseCase', x: 400, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
+          {id: 'db', shape: 'rect', label: 'DB', x: 660, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
+          {id: 'request', shape: 'line', label: 'request', x: 270, y: 280, width: 70, height: 2, fill: 'none', connector: {source: 'browser', target: 'service', sourceSide: 'right', targetSide: 'left', gap: 12}, strokeStyle: 'solid'},
+          {id: 'persist', shape: 'line', label: 'persist', x: 530, y: 280, width: 70, height: 2, fill: 'none', connector: {source: 'service', target: 'db', sourceSide: 'right', targetSide: 'left', gap: 12}, strokeStyle: 'solid'},
         ],
-        connections: [
-          {id: 'request', from: 'browser', to: 'service'},
-          {id: 'persist', from: 'service', to: 'db'},
-        ],
-        steps: [
-          {at: 0.2, action: 'activate', target: 'browser'},
-          {at: 0.45, action: 'activate-connector', target: 'request'},
-          {at: 0.7, action: 'activate', target: 'db'},
+        events: [
+          {target: 'request', property: 'opacity', from: 0, to: 1, start: 0.15, end: 0.35},
+          {target: 'service', property: 'scale', from: 0.96, to: 1, start: 0.3, end: 0.5},
+          {target: 'persist', property: 'opacity', from: 0, to: 1, start: 0.48, end: 0.68},
+          {target: 'db', property: 'opacity', from: 0.5, to: 1, start: 0.62, end: 0.82},
         ],
       },
     },
@@ -103,6 +106,6 @@ test('shared storyboard and final workflows accept aurora-explain only on HyperF
   for (const file of ['storyboard-shorts.yml', 'render-shorts.yml']) {
     const source = await fs.readFile(path.join(repoRoot, '.github', 'workflows', file), 'utf8');
     assert.match(source, /aurora-explain/);
-    assert.match(source, /monoliquid-v2\|aurora-explain|monoliquid-v2.*aurora-explain/s);
+    assert.match(source, /monoliquid-v2.*aurora-explain|aurora-explain.*monoliquid-v2/s);
   }
 });
