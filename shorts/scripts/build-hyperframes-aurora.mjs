@@ -147,7 +147,7 @@ function diagramMarkup(scene, sceneId) {
 }
 
 function ambientMarkup() {
-  return `<div class="ax-ambient" aria-hidden="true"><i class="ax-orb ax-orb--a"></i><i class="ax-orb ax-orb--b"></i><i class="ax-orb ax-orb--c"></i></div>`;
+  return `<div class="ax-ambient" data-layout-allow-overflow aria-hidden="true"><i class="ax-orb ax-orb--a" data-layout-allow-overflow></i><i class="ax-orb ax-orb--b" data-layout-allow-overflow></i><i class="ax-orb ax-orb--c" data-layout-allow-overflow></i></div>`;
 }
 
 function sceneCaptionMarkup(scene, sceneIndex) {
@@ -161,7 +161,7 @@ function sceneCaptionMarkup(scene, sceneIndex) {
 }
 
 function renderCta(scene, id, start, duration) {
-  const markup = `<section id="${id}" class="clip ax-scene ax-cta" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="999">${ambientMarkup()}<div class="ax-cta-card ax-smoked-panel"><span class="ax-cta-kicker">DLOG / CONTINUE</span><h2>${escapeHtml(scene.headline || '더 자세한 이야기는\n블로그에서')}</h2><p>${escapeHtml(scene.subline || '프로필 링크에서 읽기')}</p><div class="ax-cta-action"><span>${BLOG_URL}</span><b>↗</b></div><div class="ax-sweep"></div></div></section>`;
+  const markup = `<section id="${id}" class="clip ax-scene ax-cta" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="999">${ambientMarkup()}<div class="ax-cta-card ax-smoked-panel"><span class="ax-cta-kicker">DLOG / CONTINUE</span><h2>${escapeHtml(scene.headline || '더 자세한 이야기는\n블로그에서')}</h2><p>${escapeHtml(scene.subline || '프로필 링크에서 읽기')}</p><div class="ax-cta-action"><span>${BLOG_URL}</span><b>↗</b></div><div class="ax-sweep" data-layout-allow-overflow></div></div></section>`;
   const timeline = [
     `tl.fromTo("#${id} .ax-cta-card", {y:46, opacity:0, scale:.97}, {y:0, opacity:1, scale:1, duration:.62, ease:"power3.out"}, ${(start + .18).toFixed(3)});`,
     `tl.fromTo("#${id} .ax-sweep", {x:"0%", opacity:0}, {x:"430%", opacity:1, duration:.7, ease:"power2.inOut"}, ${(start + .92).toFixed(3)});`,
