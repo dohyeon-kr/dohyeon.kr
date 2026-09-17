@@ -4,12 +4,21 @@ import process from 'node:process';
 import {pathToFileURL} from 'node:url';
 import OpenAI from './shorts-openai.mjs';
 import {zodTextFormat} from 'openai/helpers/zod';
+import {z} from 'zod/v4';
 import {CandidateSchema, SYSTEM_PROMPT} from './generate-candidates.mjs';
+import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {collectAuroraStrictIssues, formatAuroraStrictIssue} from './aurora-strict-layout.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const contentRoot = path.join(repoRoot, 'shorts', 'content') + path.sep;
 const DEFAULT_MODEL = 'gpt-4.1-mini';
+const GeneratedDiagramSpecSchema = CandidateSchema.shape.scenes.element.shape.diagramSpec.unwrap();
+export const StrictRepairSchema = z.object({
+  repairs: z.array(z.object({
+    sceneNumber: z.number().int().min(1).max(40),
+    diagramSpec: GeneratedDiagramSpecSchema,
+  })).max(40),
+});
 
 const readJsonIfPresent = async (filename) => {
   if (!filename) return null;
@@ -22,14 +31,19 @@ const readJsonIfPresent = async (filename) => {
 };
 
 const argValue = (args, name) => args.find((arg) => arg.startsWith(`${name}=`))?.slice(name.length + 1) ?? null;
-const bodyScenes = (manifest) => (manifest.scenes ?? []).filter((scene) => !scene.commonPage);
+const bodySceneEntries = (manifest) => (manifest.scenes ?? [])
+  .map((scene, index) => ({scene, index}))
+  .filter(({scene}) => !scene.commonPage);
 const stableString = (value) => `${JSON.stringify(value, null, 2)}\n`;
 
 const assertRepairInvariants = (before, after) => {
-  const originalScenes = bodyScenes(before);
-  if (after.scenes.length !== originalScenes.length) throw new Error('Strict repair must preserve scene count');
-  for (const [index, scene] of after.scenes.entries()) {
-    const original = originalScenes[index];
+  if (after.scenes.length !== before.scenes.length) throw new Error('Strict repair must preserve scene count');
+  const beforeBody = bodySceneEntries(before);
+  const afterBody = bodySceneEntries(after);
+  if (afterBody.length !== beforeBody.length) throw new Error('Strict repair must preserve editorial scene count');
+  for (const [index, entry] of afterBody.entries()) {
+    const original = beforeBody[index].scene;
+    const scene = entry.scene;
     if (scene.narration !== original.narration) throw new Error(`Scene ${index + 1}: strict repair changed narration`);
     if (JSON.stringify(scene.beats) !== JSON.stringify(original.beats)) throw new Error(`Scene ${index + 1}: strict repair changed semantic beats`);
     if (scene.kind !== original.kind) throw new Error(`Scene ${index + 1}: strict repair changed scene kind`);
@@ -43,54 +57,52 @@ export async function repairStrictStoryboard({filename, validationReport = null,
   const template = original.style?.template ?? original.style?.theme;
   if (template !== 'aurora-explain') throw new Error(`Strict auto-repair only supports aurora-explain; received ${template ?? '(none)'}`);
 
-  const originalScenes = bodyScenes(original);
+  const entries = bodySceneEntries(original);
+  const originalScenes = entries.map(({scene}) => scene);
   const inputCandidate = CandidateSchema.parse({...original.candidate, scenes: originalScenes});
   const deterministic = validationReport ?? {auroraIssues: collectAuroraStrictIssues(original)};
   const hyperframes = hyperframesReport ?? null;
   const chosenModel = model || process.env.SHORTS_STRICT_REPAIR_MODEL || DEFAULT_MODEL;
   const openai = client ?? new OpenAI({apiKey: process.env.OPENAI_API_KEY, timeout: 180000, maxRetries: 2});
 
-  const diagnostics = {
-    deterministic,
-    hyperframes,
-  };
+  const diagnostics = {deterministic, hyperframes};
   const instructions = `${SYSTEM_PROMPT}\n\n` +
     'You are repairing a rejected Aurora Explain storyboard after deterministic and HyperFrames strict validation. ' +
-    'Apply every supplied finding in one pass and return the complete CandidateSchema. ' +
-    'Do not add, delete, or reorder scenes. Do not change narration, semantic beat text, or scene kind. ' +
-    'Keep the editorial meaning and visual type unless a strict diagnostic makes a visual layout change necessary. ' +
-    'For diagram scenes, move or resize non-line nodes so every rendered object stays inside the Aurora Shorts stage and every visible pair has at least 24px rendered-box separation across animation. ' +
+    'Apply every supplied finding in one pass. Return only a repairs array; never return or regenerate the full candidate or scenes array. ' +
+    'Each repair must contain the existing 1-based sceneNumber and a complete replacement diagramSpec for that scene. ' +
+    'Only include scenes whose diagram geometry needs to change. Do not add, delete, reorder, or rewrite scenes, narration, beats, headlines, or scene kinds. ' +
+    'Move or resize non-line nodes so every rendered object stays inside the Aurora Shorts stage and every visible pair has at least 24px rendered-box separation across animation. ' +
     'Connectors are renderer-owned center-to-center edges; keep valid source/target node ids and do not attempt to compensate with sourceSide, targetSide, or gap. ' +
-    'Prefer minimal geometry/layout fixes over rewriting copy. Resolve all diagnostics together rather than fixing only the first error.';
+    'Prefer minimal geometry fixes. Resolve all diagnostics together rather than fixing only the first error.';
 
   const response = await openai.responses.parse({
     model: chosenModel,
     store: false,
     instructions,
     input: JSON.stringify({candidate: inputCandidate, strictDiagnostics: diagnostics}),
-    text: {format: zodTextFormat(CandidateSchema, 'aurora_strict_repair')},
+    text: {format: zodTextFormat(StrictRepairSchema, 'aurora_strict_repair')},
   });
   if (!response.output_parsed) throw new Error('Strict repair refused or returned incomplete structured output');
-  const repairedCandidate = CandidateSchema.parse(response.output_parsed);
+  const parsed = StrictRepairSchema.parse(response.output_parsed);
 
-  const repairedScenes = repairedCandidate.scenes.map((scene, index) => {
-    const originalScene = originalScenes[index];
-    return {
-      ...originalScene,
-      ...scene,
-      kind: originalScene.kind,
-      narration: originalScene.narration,
-      beats: originalScene.beats,
-      image: originalScene.image ?? null,
-      imageQuery: originalScene.imageQuery ?? null,
-      presenter: null,
-    };
-  });
+  const repairedScenes = structuredClone(original.scenes);
+  const repairedSceneNumbers = [];
+  const seen = new Set();
+  for (const repair of parsed.repairs) {
+    if (seen.has(repair.sceneNumber)) throw new Error(`Strict repair returned duplicate scene ${repair.sceneNumber}`);
+    seen.add(repair.sceneNumber);
+    const entry = entries[repair.sceneNumber - 1];
+    if (!entry) throw new Error(`Strict repair returned unknown scene ${repair.sceneNumber}`);
+    if (!entry.scene.diagramSpec) throw new Error(`Scene ${repair.sceneNumber}: strict repair cannot add a diagram to a non-diagram scene`);
+    const diagramSpec = validateDiagram(repair.diagramSpec);
+    repairedScenes[entry.index] = {...repairedScenes[entry.index], diagramSpec};
+    repairedSceneNumbers.push(repair.sceneNumber);
+  }
+
   const improved = {
     ...original,
     status: 'candidate',
     style: {...original.style, safeArea: 'shorts-reels'},
-    candidate: original.candidate,
     presenterOverlay: null,
     scenes: repairedScenes,
   };
@@ -116,7 +128,8 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     '',
     `- 대상: \`${filename}\``,
     `- 모델: \`${chosenModel}\``,
-    `- API 호출: 1회 — 모든 strict 진단을 한 요청으로 처리`,
+    '- API 호출: 1회 — 모든 strict 진단을 한 요청으로 처리',
+    `- 패치 장면: ${repairedSceneNumbers.length ? repairedSceneNumbers.join(', ') : '없음'}`,
     `- 변경 발생: ${changed ? 'yes' : 'no'}`,
     '',
     '## 수집된 deterministic 진단',
@@ -134,7 +147,7 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     '## 재검증',
     '',
     '- Aurora deterministic geometry: PASS',
-    '- narration / semantic beats / scene kind: 보존',
+    '- scene count / order / narration / semantic beats / scene kind: 원본 보존',
     '- HyperFrames strict check: PR 검증 단계에서 다시 실행',
     '',
   ];
@@ -146,7 +159,7 @@ export async function repairStrictStoryboard({filename, validationReport = null,
   if (process.env.GITHUB_OUTPUT) {
     await fs.appendFile(process.env.GITHUB_OUTPUT, `changed=${changed ? 'true' : 'false'}\nmodel=${chosenModel}\n`, 'utf8');
   }
-  return {changed, model: chosenModel, improved, diagnostics};
+  return {changed, model: chosenModel, improved, diagnostics, repairedSceneNumbers};
 }
 
 async function main() {
