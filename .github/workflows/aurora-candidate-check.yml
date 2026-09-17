@@ -1,5 +1,6 @@
 name: Aurora candidate check
 
+# Validates the real UseCase/Domain/Repository Aurora candidate.
 on:
   push:
     branches:
