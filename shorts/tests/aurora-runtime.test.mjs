@@ -87,6 +87,7 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const html = await fs.readFile(path.join(outputDir, 'index.html'), 'utf8');
+  const css = await fs.readFile(path.join(outputDir, 'theme.css'), 'utf8');
   const timings = JSON.parse(await fs.readFile(path.join(outputDir, 'timings.json'), 'utf8'));
   assert.match(html, /data-composition-id="aurora-explain"/);
   assert.match(html, /class="ax-theme"/);
@@ -95,12 +96,70 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-object="browser"/);
   assert.match(html, /data-ax-object="service"/);
   assert.match(html, /data-ax-object="db"/);
-  assert.match(html, /data-ax-connection="request"/);
+  assert.match(html, /data-ax-connection="request"[^>]*x1="17\.50%" y1="50\.00%" x2="50\.00%" y2="50\.00%"/);
+  assert.match(html, /data-ax-pulse="request"/);
+  assert.match(css, /\.ax-connector\{[^}]*stroke-width:2(?:px)?[;}]/);
+  assert.match(css, /\.ax-connector-pulse\{/);
   assert.match(html, /class="ax-cta/);
   assert.match(html, /data-layout-allow-overflow/);
   assert.doesNotMatch(html, /ml-presenter-overlay|presenter\.svg|ml-scene--common-cta/);
   assert.doesNotMatch(html, /Math\.random|Date\.now|requestAnimationFrame|repeat:\s*-1/);
   assert.equal(timings.scenes.length, 3, 'two editorial scenes plus shared CTA should render');
+});
+
+test('aurora strict layout rejects diagram nodes whose rendered boxes are too close', async t => {
+  const suffix = `gap-${process.pid}-${Date.now()}`;
+  const fixtureDir = path.join(shortsRoot, 'content', `.aurora-runtime-${suffix}`);
+  const outputDir = path.join(shortsRoot, '.tmp', `aurora-runtime-${suffix}`);
+  await fs.mkdir(fixtureDir, {recursive: true});
+  t.after(async () => {
+    await Promise.all([
+      fs.rm(fixtureDir, {recursive: true, force: true}),
+      fs.rm(outputDir, {recursive: true, force: true}),
+    ]);
+  });
+
+  const manifest = auroraManifest();
+  manifest.scenes[0].diagramSpec.nodes.find(node => node.id === 'browser').x = 330;
+  manifest.scenes[0].diagramSpec.nodes.find(node => node.id === 'service').x = 430;
+  const manifestPath = path.join(fixtureDir, 'candidate-01.json');
+  await fs.writeFile(manifestPath, JSON.stringify(manifest));
+  const result = spawnSync(process.execPath, [
+    path.join(shortsRoot, 'scripts', 'build-hyperframes.mjs'),
+    path.relative(repoRoot, manifestPath),
+    `--output=${path.relative(repoRoot, outputDir)}`,
+  ], {cwd: repoRoot, encoding: 'utf8'});
+
+  assert.notEqual(result.status, 0, 'strict Aurora geometry must reject crowded nodes');
+  assert.match(`${result.stderr}\n${result.stdout}`, /\[aurora:node-gap\]/);
+});
+
+test('aurora strict layout rejects any rendered diagram box outside the Shorts safe area', async t => {
+  const suffix = `safe-${process.pid}-${Date.now()}`;
+  const fixtureDir = path.join(shortsRoot, 'content', `.aurora-runtime-${suffix}`);
+  const outputDir = path.join(shortsRoot, '.tmp', `aurora-runtime-${suffix}`);
+  await fs.mkdir(fixtureDir, {recursive: true});
+  t.after(async () => {
+    await Promise.all([
+      fs.rm(fixtureDir, {recursive: true, force: true}),
+      fs.rm(outputDir, {recursive: true, force: true}),
+    ]);
+  });
+
+  const manifest = auroraManifest();
+  const browser = manifest.scenes[0].diagramSpec.nodes.find(node => node.id === 'browser');
+  browser.x = 5;
+  browser.width = 300;
+  const manifestPath = path.join(fixtureDir, 'candidate-01.json');
+  await fs.writeFile(manifestPath, JSON.stringify(manifest));
+  const result = spawnSync(process.execPath, [
+    path.join(shortsRoot, 'scripts', 'build-hyperframes.mjs'),
+    path.relative(repoRoot, manifestPath),
+    `--output=${path.relative(repoRoot, outputDir)}`,
+  ], {cwd: repoRoot, encoding: 'utf8'});
+
+  assert.notEqual(result.status, 0, 'strict Aurora geometry must reject safe-area escape');
+  assert.match(`${result.stderr}\n${result.stdout}`, /\[aurora:safe-area\]/);
 });
 
 test('Aurora final audio preparation keeps the composition presenter-less', async () => {
