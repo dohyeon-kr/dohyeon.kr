@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {createBlogCta, BLOG_CTA_ID, BLOG_URL} from '../scripts/blog-cta.mjs';
+import {createBlogCta, withBlogCta, BLOG_CTA_ID, BLOG_URL} from '../scripts/blog-cta.mjs';
 
 const shortsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = path.dirname(shortsRoot);
@@ -21,11 +21,13 @@ test('lottery opening uses the original full-bleed still, not B-roll', () => {
   assert.equal(scene.camera.motion, 'static');
 });
 
-test('lottery retains the two body videos and exactly one canonical common CTA', () => {
+test('lottery retains the two body videos and normalizes to exactly one canonical common CTA', () => {
   assert.deepEqual(manifest.scenes.flatMap((scene, index) => scene.backgroundVideo ? [index + 1] : []), [6, 9]);
   assert.equal(manifest.scenes.filter(scene => scene.commonPage).length, 1);
   assert.equal(manifest.scenes.at(-2).backgroundVideo.assetId, 'open-door-sunlight');
-  assert.deepEqual(manifest.scenes.at(-1), createBlogCta());
+  const normalized = withBlogCta(manifest);
+  assert.equal(normalized.scenes.filter(scene => scene.commonPage === BLOG_CTA_ID).length, 1);
+  assert.deepEqual(normalized.scenes.at(-1), createBlogCta());
 });
 
 for (const [index, scene] of manifest.scenes.entries()) {

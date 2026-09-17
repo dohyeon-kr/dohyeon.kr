@@ -2,13 +2,13 @@ export const BLOG_CTA_ID = 'blog-cta-v1';
 export const BLOG_URL = 'blog.dohyeon.kr';
 
 export function createBlogCta() {
-  const texts = ['더 자세한 이야기는', '블로그에 정리했습니다.', '프로필 링크에서 읽어보세요.'];
+  const texts = ['더 자세한 이야기는', '블로그에서 보실 수 있습니다.'];
   return {
     commonPage: BLOG_CTA_ID,
     kind: 'outro', layout: 'outro-minimal', transition: 'blur-dissolve',
     transitionOptions: {durationMs: 600, intensity: 0.5},
-    headline: '더 자세한 이야기는\n블로그에서',
-    subline: '프로필 링크에서 읽기',
+    headline: '더 자세한 이야기는\n블로그에서 보실 수 있습니다.',
+    subline: '블로그에서 읽기',
     narration: texts.join(' '),
     beats: texts.map(text => ({text, emphasis: 'mid', delivery: 'normal', pauseAfterMs: 160,
       visualPriority: 'high', keyword: null, visualCue: null})),
