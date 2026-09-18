@@ -45,6 +45,15 @@ test('render workflow stops after one automatic strict-repair rerender', async (
   assert.match(workflow, /already attempted once; refusing to open another repair PR/);
 });
 
+test('render workflow keeps warning-only HyperFrames checks out of Aurora repair routing', async () => {
+  const workflow = await fs.readFile(path.join(repoRoot, '.github', 'workflows', 'render-shorts.yml'), 'utf8');
+  assert.match(workflow, /check_status=\$\{PIPESTATUS\[0\]\}/);
+  assert.match(workflow, /error_count="\$\(jq '[^']*errorCount[^']*' check\.json\)"/);
+  assert.match(workflow, /if \(\( error_count > 0 \)\); then/);
+  assert.match(workflow, /HyperFrames strict warnings::Strict check found \$\{warning_count\} warning\(s\) and no errors; final render remains eligible\./);
+  assert.match(workflow, /steps\.hyperframes_check\.outcome == 'failure'/);
+});
+
 test('strict repair applies scene-numbered diagram patches without regenerating the scene list', async (t) => {
   const source = path.join(repoRoot, 'shorts', 'content', 'usecase-domain-repository-seolgyebuteo-dongsiseongggaji', 'candidate-01.json');
   const original = JSON.parse(await fs.readFile(source, 'utf8'));
