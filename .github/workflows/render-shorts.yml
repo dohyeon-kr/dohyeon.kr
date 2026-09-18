@@ -20,6 +20,11 @@ on:
         required: true
         default: false
         type: boolean
+      repair_pass:
+        description: Internal strict auto-repair retry guard
+        required: false
+        default: '0'
+        type: string
   pull_request:
     types: [closed]
     branches:
@@ -78,7 +83,8 @@ jobs:
             --ref main \
             --field engine=hyperframes \
             --field manifest="${MANIFEST}" \
-            --field storyboard_approved=true
+            --field storyboard_approved=true \
+            --field repair_pass=1
           {
             echo '## Automatic strict-repair rerender'
             echo
@@ -269,7 +275,7 @@ jobs:
 
       - name: Batch-repair rejected Aurora strict findings
         id: strict_repair
-        if: always() && steps.manifests.outputs.template == 'aurora-explain' && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
+        if: always() && steps.manifests.outputs.template == 'aurora-explain' && inputs.repair_pass != '1' && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
         continue-on-error: true
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -304,9 +310,12 @@ jobs:
         if: always() && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
         env:
           REPAIR_PR_URL: ${{ steps.strict_repair_pr.outputs.pull-request-url }}
+          REPAIR_PASS: ${{ inputs.repair_pass }}
         shell: bash
         run: |
-          if [[ -n "${REPAIR_PR_URL}" ]]; then
+          if [[ "${REPAIR_PASS:-0}" == "1" ]]; then
+            echo "::error title=Strict render rejected after automatic repair::Automatic strict repair was already attempted once; refusing to open another repair PR."
+          elif [[ -n "${REPAIR_PR_URL}" ]]; then
             echo "::error title=Strict render rejected::An automatic improvement PR was opened: ${REPAIR_PR_URL}"
           else
             echo "::error title=Strict render rejected::Strict validation failed; no final video will be published."
