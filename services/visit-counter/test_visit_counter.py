@@ -58,6 +58,40 @@ class VisitStoreTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 store.increment_post("../ghost.db")
 
+    def test_post_likes_are_idempotent_per_visitor(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+            slug = "about-seamless-works"
+            visitor = "browser_0123456789abcdef"
+
+            self.assertEqual(store.get_post_likes(slug), {"total": 0})
+            self.assertEqual(
+                store.set_post_like(slug, visitor, True),
+                {"total": 1, "liked": True},
+            )
+            self.assertEqual(
+                store.set_post_like(slug, visitor, True),
+                {"total": 1, "liked": True},
+            )
+            self.assertEqual(
+                store.set_post_like(slug, "browser_fedcba9876543210", True),
+                {"total": 2, "liked": True},
+            )
+            self.assertEqual(
+                store.set_post_like(slug, visitor, False),
+                {"total": 1, "liked": False},
+            )
+            self.assertEqual(store.get_post_likes(slug), {"total": 1})
+
+    def test_rejects_invalid_post_like_payload(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+
+            with self.assertRaises(ValueError):
+                store.set_post_like("post", "short", True)
+            with self.assertRaises(ValueError):
+                store.set_post_like("post", "browser_0123456789abcdef", "yes")
+
     def test_anonymous_comment_lifecycle(self) -> None:
         with TemporaryDirectory() as directory:
             store = VisitStore(Path(directory) / "visits.sqlite")
