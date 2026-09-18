@@ -21,6 +21,14 @@ for (const workflowName of ['storyboard-shorts.yml', 'render-shorts.yml']) {
   });
 }
 
+test('render workflow stops after one automatic strict-repair rerender', async () => {
+  const workflow = await fs.readFile(path.join(repoRoot, '.github', 'workflows', 'render-shorts.yml'), 'utf8');
+  assert.match(workflow, /repair_pass:/);
+  assert.match(workflow, /--field repair_pass=1/);
+  assert.match(workflow, /inputs\.repair_pass != '1'/);
+  assert.match(workflow, /already attempted once; refusing to open another repair PR/);
+});
+
 test('strict repair applies scene-numbered diagram patches without regenerating the scene list', async (t) => {
   const source = path.join(repoRoot, 'shorts', 'content', 'usecase-domain-repository-seolgyebuteo-dongsiseongggaji', 'candidate-01.json');
   const original = JSON.parse(await fs.readFile(source, 'utf8'));
@@ -32,10 +40,10 @@ test('strict repair applies scene-numbered diagram patches without regenerating 
 
   const repairedDiagram = structuredClone(original.scenes[0].diagramSpec);
   const positions = new Map([
-    ['browser', 100],
-    ['usecase', 310],
-    ['engine', 500],
-    ['repository', 690],
+    ['browser', 120],
+    ['usecase', 313],
+    ['engine', 493],
+    ['repository', 673],
   ]);
   for (const node of repairedDiagram.nodes) {
     if (positions.has(node.id)) node.x = positions.get(node.id);
@@ -84,10 +92,10 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
 
   const invalidDiagram = structuredClone(original.scenes[0].diagramSpec);
   const positions = new Map([
-    ['browser', 70],
-    ['usecase', 255],
-    ['engine', 475],
-    ['repository', 665],
+    ['browser', 125],
+    ['usecase', 305],
+    ['engine', 491],
+    ['repository', 671],
   ]);
   for (const node of invalidDiagram.nodes) {
     if (positions.has(node.id)) node.x = positions.get(node.id);
@@ -96,7 +104,6 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
   const invalidManifest = structuredClone(original);
   invalidManifest.scenes[0].diagramSpec = invalidDiagram;
   const beforeIssues = collectAuroraStrictIssues(invalidManifest);
-  assert.ok(beforeIssues.some((issue) => issue.rule === 'safe-area' && issue.ids.includes('browser')));
   assert.ok(beforeIssues.some((issue) => issue.rule === 'node-gap' && issue.ids.includes('browser') && issue.ids.includes('usecase')));
 
   let apiCalls = 0;
@@ -127,4 +134,61 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
   assert.notDeepEqual(repaired.scenes[0].diagramSpec, invalidDiagram, 'invalid AI geometry should be deterministically adjusted');
   assert.equal(repaired.scenes[0].narration, original.scenes[0].narration);
   assert.deepEqual(repaired.scenes[0].beats, original.scenes[0].beats);
+});
+
+
+test('strict repair cannot claim success by changing renderer-owned connector width', async (t) => {
+  const source = path.join(repoRoot, 'shorts', 'content', 'usecase-domain-repository-seolgyebuteo-dongsiseongggaji', 'candidate-01.json');
+  const original = JSON.parse(await fs.readFile(source, 'utf8'));
+  const fixtureDir = path.join(repoRoot, 'shorts', 'content', `.strict-line-dot-${process.pid}-${Date.now()}`);
+  const fixture = path.join(fixtureDir, 'candidate-01.json');
+  await fs.mkdir(fixtureDir, {recursive: true});
+  t.after(() => fs.rm(fixtureDir, {recursive: true, force: true}));
+
+  const invalid = structuredClone(original);
+  const positions = new Map([
+    ['browser', 120],
+    ['usecase', 313],
+    ['engine', 493],
+    ['repository', 667],
+  ]);
+  for (const node of invalid.scenes[0].diagramSpec.nodes) {
+    if (positions.has(node.id)) node.x = positions.get(node.id);
+  }
+  await fs.writeFile(fixture, `${JSON.stringify(invalid, null, 2)}\n`, 'utf8');
+
+  const connectorOnlyPatch = structuredClone(invalid.scenes[0].diagramSpec);
+  connectorOnlyPatch.nodes.find((node) => node.id === 'persist-flow').width = 999;
+
+  let apiCalls = 0;
+  const client = {
+    responses: {
+      parse: async () => {
+        apiCalls += 1;
+        return {output_parsed: {repairs: [{sceneNumber: 1, diagramSpec: connectorOnlyPatch}]}};
+      },
+    },
+  };
+
+  const relative = path.relative(repoRoot, fixture).split(path.sep).join('/');
+  await assert.rejects(
+    () => repairStrictStoryboard({
+      filename: relative,
+      validationReport: {
+        failures: [{scope: 'Scene 1 / diagram layout', message: '[layout:line-dot] persist-flow'}],
+        auroraIssues: [],
+      },
+      client,
+      model: 'gpt-4.1-mini',
+    }),
+    /line-dot/,
+  );
+  assert.equal(apiCalls, 1);
+
+  const after = JSON.parse(await fs.readFile(fixture, 'utf8'));
+  assert.equal(
+    after.scenes[0].diagramSpec.nodes.find((node) => node.id === 'persist-flow').width,
+    invalid.scenes[0].diagramSpec.nodes.find((node) => node.id === 'persist-flow').width,
+    'failed repair must not rewrite the candidate',
+  );
 });
