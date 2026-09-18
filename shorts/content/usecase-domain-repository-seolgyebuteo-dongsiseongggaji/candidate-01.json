@@ -113,10 +113,7 @@
             "fill": "none",
             "connector": {
               "source": "change",
-              "target": "usecase",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "usecase"
             },
             "strokeStyle": "solid"
           },
@@ -132,10 +129,7 @@
             "fill": "none",
             "connector": {
               "source": "change",
-              "target": "domain",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "domain"
             },
             "strokeStyle": "solid"
           },
@@ -151,10 +145,7 @@
             "fill": "none",
             "connector": {
               "source": "change",
-              "target": "repository",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "repository"
             },
             "strokeStyle": "solid"
           }
@@ -218,7 +209,44 @@
       },
       "transition": "none",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "to-usecase",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 17,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "to-domain",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 18,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "to-repository",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 19,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -338,10 +366,7 @@
             "fill": "none",
             "connector": {
               "source": "browser",
-              "target": "usecase",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "usecase"
             },
             "strokeStyle": "solid"
           },
@@ -357,10 +382,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "engine",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "engine"
             },
             "strokeStyle": "solid"
           },
@@ -376,10 +398,7 @@
             "fill": "none",
             "connector": {
               "source": "engine",
-              "target": "repository",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "repository"
             },
             "strokeStyle": "solid"
           }
@@ -443,7 +462,44 @@
       },
       "transition": "none",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "request-flow",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 28,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "domain-flow",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 29,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "persist-flow",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 30,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -525,10 +581,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "domain",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 14
+              "target": "domain"
             },
             "strokeStyle": "solid"
           }
@@ -584,7 +637,20 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "orchestrate",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 39,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -690,10 +756,7 @@
             "fill": "none",
             "connector": {
               "source": "repository-read",
-              "target": "usecase",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "usecase"
             },
             "strokeStyle": "solid"
           },
@@ -708,10 +771,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "domain",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "domain"
             },
             "strokeStyle": "solid"
           },
@@ -726,10 +786,7 @@
             "fill": "none",
             "connector": {
               "source": "domain",
-              "target": "repository-write",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "repository-write"
             },
             "strokeStyle": "solid"
           }
@@ -785,7 +842,44 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "restore",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 50,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "compute",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 51,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "record",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 52,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -880,10 +974,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "engine",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 14
+              "target": "engine"
             },
             "strokeStyle": "solid"
           },
@@ -898,10 +989,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "repository",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 14
+              "target": "repository"
             },
             "strokeStyle": "dashed"
           }
@@ -957,7 +1045,32 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "choose-engine",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 61,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "direct-operation",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 62,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1076,10 +1189,7 @@
             "fill": "none",
             "connector": {
               "source": "browser-a",
-              "target": "usecase-a",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "usecase-a"
             },
             "strokeStyle": "solid"
           },
@@ -1094,10 +1204,7 @@
             "fill": "none",
             "connector": {
               "source": "browser-b",
-              "target": "usecase-b",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "usecase-b"
             },
             "strokeStyle": "solid"
           },
@@ -1112,10 +1219,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase-a",
-              "target": "database",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "database"
             },
             "strokeStyle": "solid"
           },
@@ -1130,10 +1234,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase-b",
-              "target": "database",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "database"
             },
             "strokeStyle": "solid"
           }
@@ -1205,7 +1306,56 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "read-a",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 72,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "read-b",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 73,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "write-a",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 74,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "write-b",
+          "startMs": 1810,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 75,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1313,10 +1463,7 @@
             "fill": "none",
             "connector": {
               "source": "browser-a",
-              "target": "repository-atomic",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "repository-atomic"
             },
             "strokeStyle": "solid"
           },
@@ -1331,10 +1478,7 @@
             "fill": "none",
             "connector": {
               "source": "browser-b",
-              "target": "repository-atomic",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "repository-atomic"
             },
             "strokeStyle": "solid"
           },
@@ -1349,10 +1493,7 @@
             "fill": "none",
             "connector": {
               "source": "repository-atomic",
-              "target": "database",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 12
+              "target": "database"
             },
             "strokeStyle": "solid"
           }
@@ -1416,7 +1557,44 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "atomic-a",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 83,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "atomic-b",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 84,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "atomic-write",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 85,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1498,10 +1676,7 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "repository",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 16
+              "target": "repository"
             },
             "strokeStyle": "solid"
           }
@@ -1549,7 +1724,20 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "absorb",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 94,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1660,10 +1848,7 @@
             "fill": "none",
             "connector": {
               "source": "restore",
-              "target": "compute",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "compute"
             },
             "strokeStyle": "solid"
           },
@@ -1679,10 +1864,7 @@
             "fill": "none",
             "connector": {
               "source": "compute",
-              "target": "record",
-              "sourceSide": "right",
-              "targetSide": "left",
-              "gap": 10
+              "target": "record"
             },
             "strokeStyle": "solid"
           }
@@ -1746,7 +1928,32 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "restore-compute",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 105,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        },
+        {
+          "type": "flow-glow",
+          "target": "compute-record",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 106,
+          "radius": 36,
+          "coreRadius": 5,
+          "trailLength": 42
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
