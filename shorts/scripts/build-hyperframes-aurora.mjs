@@ -222,8 +222,12 @@ for (const [index, scene] of manifest.scenes.entries()) {
   for (const pulse of diagram.pulses) {
     const pulseStart = start + clamp(pulse.start, 0, 1) * duration;
     const pulseDuration = Math.max(.16, (clamp(pulse.end, 0, 1) - clamp(pulse.start, 0, 1)) * duration);
-    timelineStatements.push(`tl.fromTo("${pulse.selector}", {opacity:.95, strokeDashoffset:1}, {opacity:.95, strokeDashoffset:-1, duration:${pulseDuration.toFixed(3)}, ease:"none"}, ${pulseStart.toFixed(3)});`);
-    timelineStatements.push(`tl.set("${pulse.selector}", {opacity:0}, ${(pulseStart + pulseDuration).toFixed(3)});`);
+    const fadeIn = Math.min(.1, pulseDuration * .18);
+    const fadeOut = Math.min(.12, pulseDuration * .2);
+    timelineStatements.push(`tl.set("${pulse.selector}", {opacity:0, strokeDashoffset:0}, ${pulseStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${pulse.selector}", {opacity:.98, duration:${fadeIn.toFixed(3)}, ease:"power1.out"}, ${pulseStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${pulse.selector}", {strokeDashoffset:-1, duration:${pulseDuration.toFixed(3)}, ease:"none"}, ${pulseStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${pulse.selector}", {opacity:0, duration:${fadeOut.toFixed(3)}, ease:"power1.out"}, ${Math.max(pulseStart, pulseStart + pulseDuration - fadeOut).toFixed(3)});`);
   }
   for (const [cueIndex, cue] of caption.cues.entries()) {
     const cueStart = start + Math.max(0, cue.startSeconds);
