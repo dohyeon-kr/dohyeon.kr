@@ -38,6 +38,16 @@
   outline-offset: -5px;
 }
 
+.project-promo__slide--poli {
+  background: #dfe7df;
+  color: #343936;
+}
+
+.project-promo__slide--free-rider {
+  background: #0d0e11;
+  color: #d7d9df;
+}
+
 .project-promo__creative {
   position: relative;
   display: grid;
