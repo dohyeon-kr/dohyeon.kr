@@ -98,8 +98,12 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-object="db"/);
   assert.match(html, /data-ax-connection="request"[^>]*x1="17\.50%" y1="50\.00%" x2="50\.00%" y2="50\.00%"/);
   assert.match(html, /data-ax-pulse="request"/);
-  assert.match(css, /\.ax-connector\{[^}]*stroke-width:2(?:px)?[;}]/);
-  assert.match(css, /\.ax-connector-pulse\{/);
+  assert.match(css, /\.ax-connector\{[^}]*stroke-width:1\.25(?:px)?[;}]/);
+  assert.match(css, /\.ax-connector\{[^}]*vector-effect:non-scaling-stroke/);
+  assert.match(css, /\.ax-connector-pulse\{[^}]*stroke-width:2\.2(?:px)?[;}][^}]*vector-effect:non-scaling-stroke/);
+  const timelineSource = await fs.readFile(path.join(outputDir, 'timeline.js'), 'utf8');
+  assert.match(timelineSource, /strokeDashoffset:-1/);
+  assert.doesNotMatch(timelineSource, /strokeDashoffset:1[^\n]*strokeDashoffset:-1/);
   assert.match(html, /class="ax-cta/);
   assert.match(html, /data-layout-allow-overflow/);
   assert.doesNotMatch(html, /ml-presenter-overlay|presenter\.svg|ml-scene--common-cta/);
