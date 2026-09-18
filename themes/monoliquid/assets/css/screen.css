@@ -784,6 +784,39 @@ iframe[src*="announcement-bar"] {
   color: inherit;
 }
 
+.post-card__engagement {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: -2px 0 12px;
+  color: var(--color-muted);
+  font-family: var(--font-extended);
+  font-size: 11px;
+  font-stretch: 125%;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.post-card__engagement > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.post-card__engagement b {
+  font: inherit;
+}
+
+.post-card__engagement .lucide {
+  flex: 0 0 auto;
+}
+
+.featured-carousel__engagement {
+  margin: 8px 0 0;
+}
+
 .article-admin-edit {
   margin-left: auto;
   padding: 4px 8px;
@@ -920,6 +953,77 @@ iframe[src*="announcement-bar"] {
 
 .gh-content--with-footer {
   border-bottom: 0;
+}
+
+.post-engagement--article {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-frame);
+  background: var(--color-paper);
+}
+
+.post-engagement--article + .article-footer {
+  border-top: 0;
+}
+
+.post-engagement__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--color-frame);
+  border-radius: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 120ms var(--ease-out),
+    color 120ms var(--ease-out),
+    transform 120ms var(--ease-out);
+}
+
+.post-engagement__button:hover,
+.post-engagement__button.is-liked {
+  background: var(--color-frame);
+  color: var(--color-canvas);
+}
+
+.post-engagement__button:hover {
+  transform: translate(-1px, -1px);
+}
+
+.post-engagement__button:active {
+  transform: translate(0, 0);
+}
+
+.post-engagement__button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+  transform: none;
+}
+
+.post-engagement__button.is-liked .lucide-heart {
+  fill: currentColor;
+}
+
+.post-engagement__button strong {
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.post-engagement__status {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .article-comments {
