@@ -1735,7 +1735,7 @@
       "visualIntent": {
         "concept": "계층 수보다 상태와 책임의 경계",
         "relation": {
-          "type": "contrast",
+          "type": "comparison",
           "description": "Layer × N과 Restore → Compute → Record 책임 경계를 대비한다."
         },
         "strategy": {
