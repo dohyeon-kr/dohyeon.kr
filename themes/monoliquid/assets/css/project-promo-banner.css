@@ -1,28 +1,25 @@
 .project-promo {
   position: relative;
+  width: 100%;
+  aspect-ratio: 876 / 76;
   overflow: hidden;
-  min-height: 112px;
   border-bottom: 1px solid var(--color-frame);
-  background: var(--color-paper);
+  background: var(--color-frame);
+  isolation: isolate;
 }
 
 .project-promo__viewport {
-  position: relative;
-  min-height: 112px;
+  position: absolute;
+  inset: 0;
 }
 
 .project-promo__slide {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: minmax(112px, auto) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(18px, 4vw, 56px);
-  min-width: 0;
-  padding: 18px 112px 18px 18px;
+  display: block;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(8px);
+  transform: translateY(6px);
   transition:
     opacity 260ms var(--ease-out),
     transform 260ms var(--ease-out),
@@ -37,141 +34,61 @@
 }
 
 .project-promo__slide:focus-visible {
-  outline: 3px solid currentColor;
-  outline-offset: -6px;
+  outline: 3px solid #ffffff;
+  outline-offset: -4px;
 }
 
-.project-promo__slide--poli {
-  background:
-    linear-gradient(110deg, rgb(255 255 255 / 0.38), transparent 52%),
-    #dfe7df;
-  color: #343936;
-}
-
-.project-promo__slide--free-rider {
-  background:
-    var(--pattern-blackmetal) center / 220px auto repeat,
-    var(--color-frame);
-  color: var(--color-canvas);
-}
-
-.project-promo__meta,
-.project-promo__copy {
-  position: relative;
-  z-index: 2;
-  min-width: 0;
-}
-
-.project-promo__meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.project-promo__badge {
-  display: inline-flex;
-  align-items: center;
-  min-height: 22px;
-  padding: 3px 7px;
-  border: 1px solid currentColor;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.project-promo__name {
-  font-family: var(--font-extended);
-  font-size: clamp(17px, 2vw, 23px);
-  font-weight: 900;
-  letter-spacing: -0.025em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.project-promo__copy {
-  display: grid;
-  gap: 7px;
-  max-width: 680px;
-}
-
-.project-promo__copy strong {
+.project-promo__image {
   display: block;
-  font-size: clamp(18px, 2.4vw, 28px);
-  font-weight: 900;
-  letter-spacing: -0.035em;
-  line-height: 1.12;
-  text-wrap: balance;
-}
-
-.project-promo__copy > span {
-  display: block;
-  max-width: 58ch;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.45;
-  opacity: 0.76;
-}
-
-.project-promo__visual {
-  position: absolute;
-  top: 50%;
-  right: 68px;
-  z-index: 0;
-  transform: translateY(-50%);
-  font-family: var(--font-extended);
-  font-size: clamp(66px, 11vw, 122px);
-  font-weight: 900;
-  letter-spacing: -0.08em;
-  line-height: 0.75;
-  opacity: 0.075;
-  pointer-events: none;
-  user-select: none;
-}
-
-.project-promo__slide--free-rider .project-promo__visual {
-  opacity: 0.12;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .project-promo__controls {
   position: absolute;
-  right: 12px;
-  bottom: 10px;
+  right: 6px;
+  bottom: 5px;
   z-index: 4;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 4px;
+  color: #111;
 }
 
+.project-promo__ad-label,
+.project-promo__position,
+.project-promo__toggle {
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.84);
+  color: #111;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.project-promo__ad-label,
 .project-promo__position {
-  min-width: 43px;
-  padding: 4px 6px;
-  border: 1px solid currentColor;
-  background: rgb(255 255 255 / 0.78);
-  color: #000;
+  padding: 3px 6px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 9px;
+  font-size: 7px;
   font-weight: 800;
   line-height: 1;
-  text-align: center;
+}
+
+.project-promo__ad-label {
+  letter-spacing: 0.08em;
 }
 
 .project-promo__toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
+  display: inline-grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
   padding: 0;
-  border: 1px solid #000;
-  border-radius: 0;
-  background: rgb(255 255 255 / 0.88);
-  color: #000;
   font: inherit;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 900;
   line-height: 1;
   cursor: pointer;
@@ -186,96 +103,21 @@
   outline-offset: 2px;
 }
 
-@media (max-width: 720px) {
-  .project-promo,
-  .project-promo__viewport {
-    min-height: 92px;
-  }
-
-  .project-promo__slide {
-    grid-template-columns: 88px minmax(0, 1fr);
-    gap: 12px;
-    padding: 12px 70px 12px 12px;
-  }
-
-  .project-promo__meta {
-    gap: 6px;
-  }
-
-  .project-promo__badge {
-    min-height: 19px;
-    padding: 3px 5px;
-    font-size: 8px;
-  }
-
-  .project-promo__name {
-    font-size: 14px;
-  }
-
-  .project-promo__copy {
-    gap: 4px;
-  }
-
-  .project-promo__copy strong {
-    font-size: clamp(16px, 5vw, 21px);
-    line-height: 1.15;
-  }
-
-  .project-promo__copy > span {
-    display: -webkit-box;
-    overflow: hidden;
-    font-size: 11px;
-    line-height: 1.35;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
-  .project-promo__visual {
-    right: 46px;
-    font-size: 62px;
-  }
-
+@media (max-width: 640px) {
   .project-promo__controls {
-    right: 8px;
-    bottom: 7px;
-    gap: 4px;
+    right: 3px;
+    bottom: 3px;
   }
 
+  .project-promo__ad-label,
   .project-promo__position {
     display: none;
   }
 
   .project-promo__toggle {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .project-promo__slide {
-    grid-template-columns: 1fr;
-    align-content: center;
-    gap: 5px;
-    padding-right: 48px;
-  }
-
-  .project-promo__meta {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .project-promo__name {
-    font-size: 12px;
-  }
-
-  .project-promo__copy > span {
-    -webkit-line-clamp: 1;
-  }
-
-  .project-promo__visual {
-    right: 38px;
-    font-size: 54px;
+    width: 18px;
+    height: 18px;
+    font-size: 7px;
   }
 }
 

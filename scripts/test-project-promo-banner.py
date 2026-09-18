@@ -25,6 +25,14 @@ def test_project_promo_banner_contract():
     assert 'data-project-promo-slide' in partial
     assert 'data-project-promo-toggle' in partial
 
+    assert 'images/project-ads/poli.webp' in partial
+    assert 'images/project-ads/free-rider.webp' in partial
+    assert 'width="876"' in partial
+    assert 'height="76"' in partial
+    assert 'project-promo__creative' not in partial
+    assert 'project-promo__poli-wordmark' not in partial
+    assert 'project-promo__rider-window' not in partial
+
     assert "prefers-reduced-motion: reduce" in script
     assert "pointerenter" in script
     assert "focusin" in script
@@ -32,8 +40,9 @@ def test_project_promo_banner_contract():
     assert "5000" in script
 
     assert ".project-promo" in styles
-    assert ".project-promo__slide--poli" in styles
-    assert ".project-promo__slide--free-rider" in styles
+    assert "aspect-ratio: 876 / 76" in styles
+    assert ".project-promo__image" in styles
+    assert "object-fit: cover" in styles
     assert "@media (max-width:" in styles
 
 

@@ -1,42 +1,38 @@
-<section class="project-promo" data-project-promo aria-label="프로젝트 소개" aria-live="off">
+<section class="project-promo" data-project-promo aria-label="프로젝트 광고" aria-live="off">
     <div class="project-promo__viewport">
-        <a class="project-promo__slide project-promo__slide--poli is-active"
+        <a class="project-promo__slide is-active"
            data-project-promo-slide
            href="https://poli.it.kr"
            target="_blank"
            rel="noopener noreferrer"
+           aria-label="폴리 — 내 관심사로 받아보는 국회 소식, 새 탭에서 열기"
            aria-hidden="false">
-            <span class="project-promo__meta">
-                <span class="project-promo__badge">PROJECT AD</span>
-                <span class="project-promo__name">POLI</span>
-            </span>
-            <span class="project-promo__copy">
-                <strong>내 관심사로 받아보는 국회 소식 <span aria-hidden="true">↗</span></strong>
-                <span>궁금한 주제를 맡겨두면 관련 법안과 진행 소식을 모아볼 수 있어요.</span>
-            </span>
-            <span class="project-promo__visual" aria-hidden="true">POLI</span>
+            <img class="project-promo__image"
+                 src="{{asset "images/project-ads/poli.webp"}}"
+                 width="876"
+                 height="76"
+                 alt="">
         </a>
 
-        <a class="project-promo__slide project-promo__slide--free-rider"
+        <a class="project-promo__slide"
            data-project-promo-slide
            href="https://dohyeon-kr.github.io/free-rider/"
            target="_blank"
            rel="noopener noreferrer"
+           aria-label="Free Rider — API 작업에 무임승차하세요, 새 탭에서 열기"
            aria-hidden="true"
            tabindex="-1">
-            <span class="project-promo__meta">
-                <span class="project-promo__badge">PROJECT AD</span>
-                <span class="project-promo__name">FREE RIDER</span>
-            </span>
-            <span class="project-promo__copy">
-                <strong>API 작업에 무임승차하세요 <span aria-hidden="true">↗</span></strong>
-                <span>서버·계정 없이 요청 실행, 환경 변수, OpenAPI 동기화와 로컬 Git 작업까지.</span>
-            </span>
-            <span class="project-promo__visual" aria-hidden="true">FR</span>
+            <img class="project-promo__image"
+                 src="{{asset "images/project-ads/free-rider.webp"}}"
+                 width="876"
+                 height="76"
+                 alt=""
+                 loading="lazy">
         </a>
     </div>
 
     <div class="project-promo__controls">
+        <span class="project-promo__ad-label">AD</span>
         <span class="project-promo__position" data-project-promo-position aria-hidden="true">01 / 02</span>
         <button class="project-promo__toggle"
                 type="button"
