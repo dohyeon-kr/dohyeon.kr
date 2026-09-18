@@ -218,7 +218,35 @@
       },
       "transition": "none",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "to-usecase",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 17
+        },
+        {
+          "type": "flow-glow",
+          "target": "to-domain",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 18
+        },
+        {
+          "type": "flow-glow",
+          "target": "to-repository",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 19
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -443,7 +471,35 @@
       },
       "transition": "none",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "request-flow",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 28
+        },
+        {
+          "type": "flow-glow",
+          "target": "domain-flow",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 29
+        },
+        {
+          "type": "flow-glow",
+          "target": "persist-flow",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 30
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -584,7 +640,17 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "orchestrate",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 39
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -785,7 +851,35 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "restore",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 50
+        },
+        {
+          "type": "flow-glow",
+          "target": "compute",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 51
+        },
+        {
+          "type": "flow-glow",
+          "target": "record",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 52
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -957,7 +1051,26 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "choose-engine",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 61
+        },
+        {
+          "type": "flow-glow",
+          "target": "direct-operation",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 62
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1205,7 +1318,44 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "read-a",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 72
+        },
+        {
+          "type": "flow-glow",
+          "target": "read-b",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 73
+        },
+        {
+          "type": "flow-glow",
+          "target": "write-a",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 74
+        },
+        {
+          "type": "flow-glow",
+          "target": "write-b",
+          "startMs": 1810,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 75
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1416,7 +1566,35 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "atomic-a",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 83
+        },
+        {
+          "type": "flow-glow",
+          "target": "atomic-b",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 84
+        },
+        {
+          "type": "flow-glow",
+          "target": "atomic-write",
+          "startMs": 1390,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 85
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1549,7 +1727,17 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "absorb",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 94
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
@@ -1746,7 +1934,26 @@
       },
       "transition": "fade",
       "transitionOptions": null,
-      "effects": [],
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "restore-compute",
+          "startMs": 550,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 105
+        },
+        {
+          "type": "flow-glow",
+          "target": "compute-record",
+          "startMs": 970,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 106
+        }
+      ],
       "camera": {
         "motion": "static",
         "target": "center",
