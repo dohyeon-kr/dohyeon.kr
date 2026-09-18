@@ -75,6 +75,14 @@ class VisitStore:
                     day TEXT NOT NULL, slug TEXT NOT NULL, total INTEGER NOT NULL,
                     PRIMARY KEY (day, slug)
                 );
+                CREATE TABLE IF NOT EXISTS post_likes (
+                    post_slug TEXT NOT NULL,
+                    visitor_hash TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    PRIMARY KEY (post_slug, visitor_hash)
+                );
+                CREATE INDEX IF NOT EXISTS post_likes_post
+                    ON post_likes (post_slug, created_at);
                 CREATE TABLE IF NOT EXISTS dashboard_meta (
                     key TEXT PRIMARY KEY, value TEXT NOT NULL
                 );
@@ -201,6 +209,52 @@ class VisitStore:
                 "SELECT total FROM stats_post_views WHERE slug = ?", (slug,)
             ).fetchone()[0]
         return {"total": int(total)}
+
+    @staticmethod
+    def valid_visitor_id(visitor_id: object) -> bool:
+        return (
+            isinstance(visitor_id, str)
+            and re.fullmatch(r"[A-Za-z0-9_-]{16,128}", visitor_id) is not None
+        )
+
+    def get_post_likes(self, slug: str) -> dict[str, int]:
+        if not self.valid_slug(slug):
+            raise ValueError("invalid post slug")
+        with self._connect() as connection:
+            total = connection.execute(
+                "SELECT COUNT(*) FROM post_likes WHERE post_slug = ?", (slug,)
+            ).fetchone()[0]
+        return {"total": int(total)}
+
+    def set_post_like(
+        self, slug: str, visitor_id: object, liked: object
+    ) -> dict[str, int | bool]:
+        if not self.valid_slug(slug):
+            raise ValueError("invalid post slug")
+        if not self.valid_visitor_id(visitor_id) or not isinstance(liked, bool):
+            raise ValueError("invalid like")
+        visitor_hash = hashlib.sha256(visitor_id.encode()).hexdigest()
+        created_at = datetime.now().astimezone().isoformat()
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            if liked:
+                connection.execute(
+                    """
+                    INSERT OR IGNORE INTO post_likes
+                        (post_slug, visitor_hash, created_at)
+                    VALUES (?, ?, ?)
+                    """,
+                    (slug, visitor_hash, created_at),
+                )
+            else:
+                connection.execute(
+                    "DELETE FROM post_likes WHERE post_slug = ? AND visitor_hash = ?",
+                    (slug, visitor_hash),
+                )
+            total = connection.execute(
+                "SELECT COUNT(*) FROM post_likes WHERE post_slug = ?", (slug,)
+            ).fetchone()[0]
+        return {"total": int(total), "liked": liked}
 
     @staticmethod
     def normalize_comment(display_name: object, body: object) -> tuple[str, str]:
@@ -654,6 +708,18 @@ class VisitHandler(BaseHTTPRequestHandler):
     def _path(self) -> str:
         return urlsplit(self.path).path
 
+    def _post_like_slug(self) -> str | None:
+        prefix = "/api/visit/post/"
+        suffix = "/like"
+        path = self._path()
+        if not path.startswith(prefix) or not path.endswith(suffix):
+            return None
+        try:
+            slug = unquote(path[len(prefix) : -len(suffix)], errors="strict")
+        except UnicodeDecodeError:
+            return None
+        return slug if self.server.store.valid_slug(slug) else None
+
     def _post_slug(self) -> str | None:
         prefix = "/api/visit/post/"
         path = self._path()
@@ -780,6 +846,10 @@ class VisitHandler(BaseHTTPRequestHandler):
             comments = self.server.store.admin_list_comments(offset=offset)
             self._send_json(200, {"comments": comments, "count": len(comments)})
             return
+        like_slug = self._post_like_slug()
+        if like_slug is not None:
+            self._send_json(200, self.server.store.get_post_likes(like_slug))
+            return
         post_slug = self._post_slug()
         if post_slug is not None:
             self._send_json(200, self.server.store.get_post(post_slug))
@@ -801,6 +871,23 @@ class VisitHandler(BaseHTTPRequestHandler):
                 result = self.server.store.featured_week(payload.get("candidates") if payload else None)
             except ValueError:
                 self._send_json(400, {"error": "invalid_candidates"})
+                return
+            self._send_json(200, result)
+            return
+        like_slug = self._post_like_slug()
+        if like_slug is not None:
+            if not self._valid_origin():
+                self._send_json(403, {"error": "invalid_origin"})
+                return
+            payload = self._read_json()
+            try:
+                result = self.server.store.set_post_like(
+                    like_slug,
+                    payload.get("visitorId") if payload else None,
+                    payload.get("liked") if payload else None,
+                )
+            except ValueError:
+                self._send_json(400, {"error": "invalid_like"})
                 return
             self._send_json(200, result)
             return
