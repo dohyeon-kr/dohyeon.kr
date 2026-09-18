@@ -8,6 +8,22 @@ import {collectAuroraStrictIssues} from '../scripts/aurora-strict-layout.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
+const findArchitectureFlowScene = (manifest) => {
+  const entries = (manifest.scenes ?? [])
+    .map((scene, index) => ({scene, index}))
+    .filter(({scene}) => !scene.commonPage);
+  const bodyIndex = entries.findIndex(({scene}) => {
+    const ids = new Set((scene.diagramSpec?.nodes ?? []).map((node) => node.id));
+    return ['browser', 'usecase', 'engine', 'repository', 'persist-flow'].every((id) => ids.has(id));
+  });
+  assert.notEqual(bodyIndex, -1, 'architecture flow fixture scene must exist');
+  return {
+    sceneIndex: entries[bodyIndex].index,
+    sceneNumber: bodyIndex + 1,
+    scene: entries[bodyIndex].scene,
+  };
+};
+
 for (const workflowName of ['storyboard-shorts.yml', 'render-shorts.yml']) {
   test(`${workflowName} batches rejected Aurora strict findings into one cheap GPT-4.x repair PR`, async () => {
     const workflow = await fs.readFile(path.join(repoRoot, '.github', 'workflows', workflowName), 'utf8');
@@ -32,13 +48,14 @@ test('render workflow stops after one automatic strict-repair rerender', async (
 test('strict repair applies scene-numbered diagram patches without regenerating the scene list', async (t) => {
   const source = path.join(repoRoot, 'shorts', 'content', 'usecase-domain-repository-seolgyebuteo-dongsiseongggaji', 'candidate-01.json');
   const original = JSON.parse(await fs.readFile(source, 'utf8'));
+  const {sceneIndex, sceneNumber, scene: architectureScene} = findArchitectureFlowScene(original);
   const fixtureDir = path.join(repoRoot, 'shorts', 'content', `.strict-repair-${process.pid}-${Date.now()}`);
   const fixture = path.join(fixtureDir, 'candidate-01.json');
   await fs.mkdir(fixtureDir, {recursive: true});
   await fs.writeFile(fixture, `${JSON.stringify(original, null, 2)}\n`, 'utf8');
   t.after(() => fs.rm(fixtureDir, {recursive: true, force: true}));
 
-  const repairedDiagram = structuredClone(original.scenes[0].diagramSpec);
+  const repairedDiagram = structuredClone(architectureScene.diagramSpec);
   const positions = new Map([
     ['browser', 121],
     ['usecase', 314],
@@ -54,7 +71,7 @@ test('strict repair applies scene-numbered diagram patches without regenerating 
     responses: {
       parse: async () => {
         apiCalls += 1;
-        return {output_parsed: {repairs: [{sceneNumber: 1, diagramSpec: repairedDiagram}]}};
+        return {output_parsed: {repairs: [{sceneNumber, diagramSpec: repairedDiagram}]}};
       },
     },
   };
@@ -63,8 +80,8 @@ test('strict repair applies scene-numbered diagram patches without regenerating 
   const result = await repairStrictStoryboard({
     filename: relative,
     validationReport: {
-      failures: [{scope: 'Scene 1 / Aurora node-gap', message: '[aurora:node-gap] browser,usecase'}],
-      auroraIssues: [{scene: 1, rule: 'node-gap', ids: ['browser', 'usecase'], progress: 0, measured: 0, detail: 'gap'}],
+      failures: [{scope: `Scene ${sceneNumber} / Aurora node-gap`, message: '[aurora:node-gap] browser,usecase'}],
+      auroraIssues: [{scene: sceneNumber, rule: 'node-gap', ids: ['browser', 'usecase'], progress: 0, measured: 0, detail: 'gap'}],
     },
     client,
     model: 'gpt-4.1-mini',
@@ -74,23 +91,27 @@ test('strict repair applies scene-numbered diagram patches without regenerating 
   assert.equal(apiCalls, 1);
   assert.equal(result.changed, true);
   assert.equal(repaired.scenes.length, original.scenes.length);
-  assert.deepEqual(repaired.scenes.slice(1), original.scenes.slice(1), 'unpatched scenes must be byte-for-byte equivalent data');
-  assert.equal(repaired.scenes[0].narration, original.scenes[0].narration);
-  assert.deepEqual(repaired.scenes[0].beats, original.scenes[0].beats);
-  assert.deepEqual(repaired.scenes[0].diagramSpec, repairedDiagram);
+  for (const [index, scene] of repaired.scenes.entries()) {
+    if (index === sceneIndex) continue;
+    assert.deepEqual(scene, original.scenes[index], `scene ${index + 1} must remain byte-for-byte equivalent data`);
+  }
+  assert.equal(repaired.scenes[sceneIndex].narration, original.scenes[0].narration);
+  assert.deepEqual(repaired.scenes[sceneIndex].beats, original.scenes[0].beats);
+  assert.deepEqual(repaired.scenes[sceneIndex].diagramSpec, repairedDiagram);
 });
 
 
 test('strict repair deterministically polishes a still-invalid AI geometry patch without a second API call', async (t) => {
   const source = path.join(repoRoot, 'shorts', 'content', 'usecase-domain-repository-seolgyebuteo-dongsiseongggaji', 'candidate-01.json');
   const original = JSON.parse(await fs.readFile(source, 'utf8'));
+  const {sceneIndex, sceneNumber, scene: architectureScene} = findArchitectureFlowScene(original);
   const fixtureDir = path.join(repoRoot, 'shorts', 'content', `.strict-polish-${process.pid}-${Date.now()}`);
   const fixture = path.join(fixtureDir, 'candidate-01.json');
   await fs.mkdir(fixtureDir, {recursive: true});
   await fs.writeFile(fixture, `${JSON.stringify(original, null, 2)}\n`, 'utf8');
   t.after(() => fs.rm(fixtureDir, {recursive: true, force: true}));
 
-  const invalidDiagram = structuredClone(original.scenes[0].diagramSpec);
+  const invalidDiagram = structuredClone(architectureScene.diagramSpec);
   const positions = new Map([
     ['browser', 125],
     ['usecase', 305],
@@ -102,7 +123,7 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
   }
 
   const invalidManifest = structuredClone(original);
-  invalidManifest.scenes[0].diagramSpec = invalidDiagram;
+  invalidManifest.scenes[sceneIndex].diagramSpec = invalidDiagram;
   const beforeIssues = collectAuroraStrictIssues(invalidManifest);
   assert.ok(beforeIssues.some((issue) => issue.rule === 'node-gap' && issue.ids.includes('browser') && issue.ids.includes('usecase')));
 
@@ -111,7 +132,7 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
     responses: {
       parse: async () => {
         apiCalls += 1;
-        return {output_parsed: {repairs: [{sceneNumber: 1, diagramSpec: invalidDiagram}]}};
+        return {output_parsed: {repairs: [{sceneNumber, diagramSpec: invalidDiagram}]}};
       },
     },
   };
@@ -120,8 +141,8 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
   const result = await repairStrictStoryboard({
     filename: relative,
     validationReport: {
-      failures: [{scope: 'Scene 1 / Aurora node-gap', message: '[aurora:node-gap] browser,usecase'}],
-      auroraIssues: [{scene: 1, rule: 'node-gap', ids: ['browser', 'usecase'], progress: 0, measured: 0, detail: 'gap'}],
+      failures: [{scope: `Scene ${sceneNumber} / Aurora node-gap`, message: '[aurora:node-gap] browser,usecase'}],
+      auroraIssues: [{scene: sceneNumber, rule: 'node-gap', ids: ['browser', 'usecase'], progress: 0, measured: 0, detail: 'gap'}],
     },
     client,
     model: 'gpt-4.1-mini',
@@ -131,15 +152,16 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
   assert.equal(apiCalls, 1, 'deterministic polish must not trigger a second paid repair call');
   assert.equal(result.changed, true);
   assert.deepEqual(collectAuroraStrictIssues(repaired), []);
-  assert.notDeepEqual(repaired.scenes[0].diagramSpec, invalidDiagram, 'invalid AI geometry should be deterministically adjusted');
-  assert.equal(repaired.scenes[0].narration, original.scenes[0].narration);
-  assert.deepEqual(repaired.scenes[0].beats, original.scenes[0].beats);
+  assert.notDeepEqual(repaired.scenes[sceneIndex].diagramSpec, invalidDiagram, 'invalid AI geometry should be deterministically adjusted');
+  assert.equal(repaired.scenes[sceneIndex].narration, original.scenes[0].narration);
+  assert.deepEqual(repaired.scenes[sceneIndex].beats, original.scenes[0].beats);
 });
 
 
 test('strict repair cannot claim success by changing renderer-owned connector width', async (t) => {
   const source = path.join(repoRoot, 'shorts', 'content', 'usecase-domain-repository-seolgyebuteo-dongsiseongggaji', 'candidate-01.json');
   const original = JSON.parse(await fs.readFile(source, 'utf8'));
+  const {sceneIndex, sceneNumber, scene: architectureScene} = findArchitectureFlowScene(original);
   const fixtureDir = path.join(repoRoot, 'shorts', 'content', `.strict-line-dot-${process.pid}-${Date.now()}`);
   const fixture = path.join(fixtureDir, 'candidate-01.json');
   await fs.mkdir(fixtureDir, {recursive: true});
@@ -152,12 +174,12 @@ test('strict repair cannot claim success by changing renderer-owned connector wi
     ['engine', 493],
     ['repository', 667],
   ]);
-  for (const node of invalid.scenes[0].diagramSpec.nodes) {
+  for (const node of invalid.scenes[sceneIndex].diagramSpec.nodes) {
     if (positions.has(node.id)) node.x = positions.get(node.id);
   }
   await fs.writeFile(fixture, `${JSON.stringify(invalid, null, 2)}\n`, 'utf8');
 
-  const connectorOnlyPatch = structuredClone(invalid.scenes[0].diagramSpec);
+  const connectorOnlyPatch = structuredClone(invalid.scenes[sceneIndex].diagramSpec);
   connectorOnlyPatch.nodes.find((node) => node.id === 'persist-flow').width = 400;
 
   let apiCalls = 0;
@@ -165,7 +187,7 @@ test('strict repair cannot claim success by changing renderer-owned connector wi
     responses: {
       parse: async () => {
         apiCalls += 1;
-        return {output_parsed: {repairs: [{sceneNumber: 1, diagramSpec: connectorOnlyPatch}]}};
+        return {output_parsed: {repairs: [{sceneNumber, diagramSpec: connectorOnlyPatch}]}};
       },
     },
   };
@@ -175,7 +197,7 @@ test('strict repair cannot claim success by changing renderer-owned connector wi
     () => repairStrictStoryboard({
       filename: relative,
       validationReport: {
-        failures: [{scope: 'Scene 1 / diagram layout', message: '[layout:line-dot] persist-flow'}],
+        failures: [{scope: `Scene ${sceneNumber} / diagram layout`, message: '[layout:line-dot] persist-flow'}],
         auroraIssues: [],
       },
       client,
@@ -187,8 +209,8 @@ test('strict repair cannot claim success by changing renderer-owned connector wi
 
   const after = JSON.parse(await fs.readFile(fixture, 'utf8'));
   assert.equal(
-    after.scenes[0].diagramSpec.nodes.find((node) => node.id === 'persist-flow').width,
-    invalid.scenes[0].diagramSpec.nodes.find((node) => node.id === 'persist-flow').width,
+    after.scenes[sceneIndex].diagramSpec.nodes.find((node) => node.id === 'persist-flow').width,
+    invalid.scenes[sceneIndex].diagramSpec.nodes.find((node) => node.id === 'persist-flow').width,
     'failed repair must not rewrite the candidate',
   );
 });
