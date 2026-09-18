@@ -95,8 +95,8 @@ test('strict repair applies scene-numbered diagram patches without regenerating 
     if (index === sceneIndex) continue;
     assert.deepEqual(scene, original.scenes[index], `scene ${index + 1} must remain byte-for-byte equivalent data`);
   }
-  assert.equal(repaired.scenes[sceneIndex].narration, original.scenes[0].narration);
-  assert.deepEqual(repaired.scenes[sceneIndex].beats, original.scenes[0].beats);
+  assert.equal(repaired.scenes[sceneIndex].narration, architectureScene.narration);
+  assert.deepEqual(repaired.scenes[sceneIndex].beats, architectureScene.beats);
   assert.deepEqual(repaired.scenes[sceneIndex].diagramSpec, repairedDiagram);
 });
 
@@ -153,8 +153,8 @@ test('strict repair deterministically polishes a still-invalid AI geometry patch
   assert.equal(result.changed, true);
   assert.deepEqual(collectAuroraStrictIssues(repaired), []);
   assert.notDeepEqual(repaired.scenes[sceneIndex].diagramSpec, invalidDiagram, 'invalid AI geometry should be deterministically adjusted');
-  assert.equal(repaired.scenes[sceneIndex].narration, original.scenes[0].narration);
-  assert.deepEqual(repaired.scenes[sceneIndex].beats, original.scenes[0].beats);
+  assert.equal(repaired.scenes[sceneIndex].narration, architectureScene.narration);
+  assert.deepEqual(repaired.scenes[sceneIndex].beats, architectureScene.beats);
 });
 
 
