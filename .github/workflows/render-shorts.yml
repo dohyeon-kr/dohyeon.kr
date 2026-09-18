@@ -55,7 +55,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          manifest="$(printf '%s\n' "${PR_BODY}" | sed -n 's/^- 대상: \`\([^\`]*\)\`$/\1/p' | head -n 1)"
+          manifest="$(printf '%s\n' "${PR_BODY}" | sed -n 's/^- 대상: `\([^`]*\)`$/\1/p' | head -n 1)"
           if [[ -z "${manifest}" ]]; then
             echo "::error title=Missing repair manifest::Could not resolve the repaired shorts manifest from the automatic repair PR body."
             exit 1
