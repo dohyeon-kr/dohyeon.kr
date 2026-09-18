@@ -58,6 +58,79 @@ class VisitStoreTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 store.increment_post("../ghost.db")
 
+    def test_post_likes_are_idempotent_per_visitor(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+            slug = "about-seamless-works"
+            visitor = "browser_0123456789abcdef"
+
+            self.assertEqual(store.get_post_likes(slug), {"total": 0})
+            self.assertEqual(
+                store.set_post_like(slug, visitor, True),
+                {"total": 1, "liked": True},
+            )
+            self.assertEqual(
+                store.set_post_like(slug, visitor, True),
+                {"total": 1, "liked": True},
+            )
+            self.assertEqual(
+                store.set_post_like(slug, "browser_fedcba9876543210", True),
+                {"total": 2, "liked": True},
+            )
+            self.assertEqual(
+                store.set_post_like(slug, visitor, False),
+                {"total": 1, "liked": False},
+            )
+            self.assertEqual(store.get_post_likes(slug), {"total": 1})
+
+    def test_rejects_invalid_post_like_payload(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+
+            with self.assertRaises(ValueError):
+                store.set_post_like("post", "short", True)
+            with self.assertRaises(ValueError):
+                store.set_post_like("post", "browser_0123456789abcdef", "yes")
+
+    def test_post_engagement_includes_views_comments_likes_and_shares(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+            slug = "post"
+            hidden_slug = "hidden-post"
+
+            store.increment_post(slug)
+            store.increment_post(slug)
+            store.set_post_like(slug, "browser_0123456789abcdef", True)
+            store.increment_post_share(slug)
+            store.increment_post_share(slug)
+            store.create_comment(slug, "reader", "visible comment")
+            hidden_comment, _ = store.create_comment(
+                hidden_slug, "reader", "hidden comment"
+            )
+            store.moderate_comment(hidden_comment["id"], True)
+
+            self.assertEqual(
+                store.post_engagement([slug, hidden_slug, "empty"]),
+                {
+                    slug: {"views": 2, "comments": 1, "likes": 1, "shares": 2},
+                    hidden_slug: {
+                        "views": 0,
+                        "comments": 0,
+                        "likes": 0,
+                        "shares": 0,
+                    },
+                    "empty": {"views": 0, "comments": 0, "likes": 0, "shares": 0},
+                },
+            )
+
+    def test_post_share_counter_increments(self) -> None:
+        with TemporaryDirectory() as directory:
+            store = VisitStore(Path(directory) / "visits.sqlite")
+
+            self.assertEqual(store.increment_post_share("post"), {"total": 1})
+            self.assertEqual(store.increment_post_share("post"), {"total": 2})
+            self.assertEqual(store.post_engagement(["post"])["post"]["shares"], 2)
+
     def test_anonymous_comment_lifecycle(self) -> None:
         with TemporaryDirectory() as directory:
             store = VisitStore(Path(directory) / "visits.sqlite")
