@@ -1,85 +1,33 @@
 <section class="project-promo" data-project-promo aria-label="프로젝트 광고" aria-live="off">
     <div class="project-promo__viewport">
-        <a class="project-promo__slide project-promo__slide--poli is-active"
+        <a class="project-promo__slide is-active"
            data-project-promo-slide
            href="https://poli.it.kr"
            target="_blank"
            rel="noopener noreferrer"
            aria-label="폴리 — 내 관심사로 받아보는 국회 소식, 새 탭에서 열기"
            aria-hidden="false">
-            <span class="project-promo__creative project-promo__creative--poli">
-                <span class="project-promo__poli-mascot" aria-hidden="true">
-                    <img src="https://poli.it.kr/brand/poli/avatar-v1/deliver.png"
-                         width="180"
-                         height="180"
-                         alt=""
-                         loading="eager">
-                </span>
-                <span class="project-promo__poli-message">
-                    <span class="project-promo__poli-wordmark" aria-label="poli">
-                        <svg viewBox="380 146 768 420" aria-hidden="true" focusable="false">
-                            <g fill="currentColor" fill-rule="evenodd">
-                                <path d="M 400,371 C 400,304 452,250 520,250 C 588,250 643,301 643,366 C 643,431 595,481 531,481 C 506,481 486,478 468,470 L 468,515 C 468,534 453,549 434,549 C 415,549 400,534 400,515 Z M 470,366 C 470,338 492,315 521,315 C 550,315 574,337 574,365 C 574,393 551,416 522,416 C 493,416 470,394 470,366 Z"/>
-                                <g transform="translate(4 0)">
-                                    <path d="M 687,291 C 676,280 677,262 687,251 C 699,236 720,239 734,251 L 740,261 C 762,254 787,254 810,261 C 820,240 838,235 853,243 C 871,252 875,271 866,287 L 861,294 C 883,315 895,341 895,372 C 895,440 842,491 775,491 C 708,491 656,440 656,373 C 656,340 667,313 687,291 Z M 721,373 C 721,343 744,319 774,319 C 804,319 829,342 829,373 C 829,403 805,427 775,427 C 745,427 721,403 721,373 Z"/>
-                                    <path d="M 919,207 C 919,184 936,167 959,167 C 981,167 998,184 998,207 L 998,397 C 998,416 1001,428 1012,437 C 1023,446 1027,459 1020,474 C 1015,486 1001,492 985,491 C 963,490 947,480 936,463 C 924,445 919,423 919,398 Z"/>
-                                    <path d="M 1043,324 C 1043,301 1060,284 1083,284 C 1106,284 1124,301 1124,324 L 1124,448 C 1124,471 1107,489 1084,489 C 1061,489 1043,471 1043,448 Z"/>
-                                    <path d="M 1041,230 C 1041,207 1059,190 1082,190 C 1105,190 1124,208 1124,230 C 1124,253 1106,271 1083,271 C 1060,271 1041,253 1041,230 Z"/>
-                                </g>
-                            </g>
-                        </svg>
-                    </span>
-                    <strong>내 관심사로 받아보는 국회 소식</strong>
-                    <span>궁금한 주제를 맡겨두면 관련 법안과 진행 소식을 모아볼 수 있어요.</span>
-                </span>
-                <span class="project-promo__poli-action">
-                    <span>poli.it.kr</span>
-                    <strong>폴리에서 보기 <span aria-hidden="true">→</span></strong>
-                </span>
-            </span>
+            <img class="project-promo__image"
+                 src="{{asset "images/project-ads/poli.webp"}}"
+                 width="876"
+                 height="76"
+                 alt="">
         </a>
 
-        <a class="project-promo__slide project-promo__slide--free-rider"
+        <a class="project-promo__slide"
            data-project-promo-slide
            href="https://dohyeon-kr.github.io/free-rider/"
            target="_blank"
            rel="noopener noreferrer"
-           aria-label="Free Rider API Client, 새 탭에서 열기"
+           aria-label="Free Rider — API 작업에 무임승차하세요, 새 탭에서 열기"
            aria-hidden="true"
            tabindex="-1">
-            <span class="project-promo__creative project-promo__creative--free-rider">
-                <span class="project-promo__rider-lockup">
-                    <img src="https://raw.githubusercontent.com/dohyeon-kr/free-rider/main/src/assets/free-rider-app-icon.png"
-                         width="44"
-                         height="44"
-                         alt=""
-                         loading="lazy">
-                    <span>
-                        <strong>Free Rider</strong>
-                        <small>API CLIENT</small>
-                    </span>
-                </span>
-                <span class="project-promo__rider-message">
-                    <strong>API 작업에 무임승차하세요.</strong>
-                    <span>서버·계정 없이 요청 실행부터 OpenAPI 동기화, 로컬 Git 작업까지.</span>
-                    <small>ALL FREE · OPEN SOURCE</small>
-                </span>
-                <span class="project-promo__rider-window" aria-hidden="true">
-                    <span class="project-promo__rider-windowbar">
-                        <i></i><i></i><i></i>
-                        <b>my-api</b>
-                    </span>
-                    <span class="project-promo__rider-urlbar">
-                        <b>GET</b>
-                        <code>https://api.example.com/users</code>
-                        <i>Send</i>
-                    </span>
-                    <span class="project-promo__rider-tabs">
-                        <b>Params</b><span>Headers</span><span>Body</span><span>Tests</span>
-                        <em>200 OK · 82 ms</em>
-                    </span>
-                </span>
-            </span>
+            <img class="project-promo__image"
+                 src="{{asset "images/project-ads/free-rider.webp"}}"
+                 width="876"
+                 height="76"
+                 alt=""
+                 loading="lazy">
         </a>
     </div>
 
