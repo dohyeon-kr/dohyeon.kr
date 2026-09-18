@@ -74,6 +74,7 @@ jobs:
         run: |
           set -euo pipefail
           gh workflow run render-shorts.yml \
+            --repo "${GITHUB_REPOSITORY}" \
             --ref main \
             --field engine=hyperframes \
             --field manifest="${MANIFEST}" \
