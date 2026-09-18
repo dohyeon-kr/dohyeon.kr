@@ -40,10 +40,10 @@ test('strict repair applies scene-numbered diagram patches without regenerating 
 
   const repairedDiagram = structuredClone(original.scenes[0].diagramSpec);
   const positions = new Map([
-    ['browser', 120],
-    ['usecase', 313],
-    ['engine', 493],
-    ['repository', 673],
+    ['browser', 121],
+    ['usecase', 314],
+    ['engine', 494],
+    ['repository', 674],
   ]);
   for (const node of repairedDiagram.nodes) {
     if (positions.has(node.id)) node.x = positions.get(node.id);
@@ -158,7 +158,7 @@ test('strict repair cannot claim success by changing renderer-owned connector wi
   await fs.writeFile(fixture, `${JSON.stringify(invalid, null, 2)}\n`, 'utf8');
 
   const connectorOnlyPatch = structuredClone(invalid.scenes[0].diagramSpec);
-  connectorOnlyPatch.nodes.find((node) => node.id === 'persist-flow').width = 999;
+  connectorOnlyPatch.nodes.find((node) => node.id === 'persist-flow').width = 400;
 
   let apiCalls = 0;
   const client = {
