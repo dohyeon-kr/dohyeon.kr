@@ -20,21 +20,74 @@ on:
         required: true
         default: false
         type: boolean
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 env:
   SHORTS_IMAGE_GENERATION: disabled
   HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
 concurrency:
-  group: shorts-render-${{ inputs.manifest }}
+  group: shorts-render-${{ inputs.manifest || github.event.pull_request.number || github.run_id }}
   cancel-in-progress: false
 
 jobs:
+  resume-after-strict-repair:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.user.login == 'github-actions[bot]' &&
+      startsWith(github.event.pull_request.head.ref, 'automation/aurora-strict-repair-')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Resolve repaired manifest
+        id: repair
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="$(printf '%s\n' "${PR_BODY}" | sed -n 's/^- 대상: `\([^`]*\)`$/\1/p' | head -n 1)"
+          if [[ -z "${manifest}" ]]; then
+            echo "::error title=Missing repair manifest::Could not resolve the repaired shorts manifest from the automatic repair PR body."
+            exit 1
+          fi
+          if [[ ! "${manifest}" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]]; then
+            echo "::error title=Invalid repair manifest::Unexpected manifest path: ${manifest}"
+            exit 1
+          fi
+          printf 'manifest=%s\n' "${manifest}" >> "${GITHUB_OUTPUT}"
+
+      - name: Re-run final render from repaired main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MANIFEST: ${{ steps.repair.outputs.manifest }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run render-shorts.yml \
+            --ref main \
+            --field engine=hyperframes \
+            --field manifest="${MANIFEST}" \
+            --field storyboard_approved=true
+          {
+            echo '## Automatic strict-repair rerender'
+            echo
+            echo "- merged repair PR: #${{ github.event.pull_request.number }}"
+            echo "- manifest: \`${MANIFEST}\`"
+            echo '- dispatched: \`render-shorts.yml\` on \`main\`'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
   render:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
