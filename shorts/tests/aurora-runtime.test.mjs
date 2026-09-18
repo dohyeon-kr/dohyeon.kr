@@ -29,6 +29,7 @@ const auroraManifest = () => ({
       imageQuery: null, comparisonLeft: null, comparisonRight: null, image: null,
       visual: {type: 'diagram', motif: 'request-flow', query: null, value: null, xLabel: null, yLabel: null},
       beats: [{text: '브라우저의 요청은 서비스와 저장소를 거칩니다.', emphasis: 'high', pauseAfterMs: 0, delivery: 'normal', visualPriority: 'high', keyword: '요청', visualCue: null}],
+      effects: [{type: 'flow-glow', target: 'request', startMs: 500, durationMs: 900, intensity: 1, color: '#ffffff', seed: 7}],
       diagramSpec: {
         version: 1,
         renderer: 'auto',
