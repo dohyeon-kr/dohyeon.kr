@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#000000">
     <title>{{meta_title}}</title>
     <link rel="stylesheet" href="{{asset "css/screen.css"}}">
-    <link rel="stylesheet" href="{{asset "css/project-promo-banner.css"}}">
     {{#is "post"}}
         {{#post}}
             {{#unless feature_image}}
@@ -29,7 +28,6 @@
 <body class="{{body_class}}">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="site-shell">
-        {{> "project-promo-banner"}}
         {{> "site-header"}}
         {{{body}}}
         {{> "site-footer"}}
@@ -43,7 +41,6 @@
     <script defer src="{{asset "js/generated-thumbnails.js"}}"></script>
     <script defer src="{{asset "js/infinite-scroll.js"}}"></script>
     <script defer src="{{asset "js/featured-carousel.js"}}"></script>
-    <script defer src="{{asset "js/project-promo-banner.js"}}"></script>
     <script defer src="{{asset "js/post-view-counter.js"}}"></script>
     <script defer src="{{asset "js/site-header.js"}}"></script>
     <script defer src="{{asset "js/visit-counter.js"}}"></script>
