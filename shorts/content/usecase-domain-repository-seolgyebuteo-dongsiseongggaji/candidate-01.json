@@ -113,7 +113,10 @@
             "fill": "none",
             "connector": {
               "source": "change",
-              "target": "usecase"
+              "target": "usecase",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -129,7 +132,10 @@
             "fill": "none",
             "connector": {
               "source": "change",
-              "target": "domain"
+              "target": "domain",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -145,7 +151,10 @@
             "fill": "none",
             "connector": {
               "source": "change",
-              "target": "repository"
+              "target": "repository",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           }
@@ -217,10 +226,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 17,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 17
         },
         {
           "type": "flow-glow",
@@ -229,10 +235,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 18,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 18
         },
         {
           "type": "flow-glow",
@@ -241,10 +244,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 19,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 19
         }
       ],
       "camera": {
@@ -366,7 +366,10 @@
             "fill": "none",
             "connector": {
               "source": "browser",
-              "target": "usecase"
+              "target": "usecase",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           },
@@ -382,7 +385,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "engine"
+              "target": "engine",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           },
@@ -398,7 +404,10 @@
             "fill": "none",
             "connector": {
               "source": "engine",
-              "target": "repository"
+              "target": "repository",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           }
@@ -470,10 +479,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 28,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 28
         },
         {
           "type": "flow-glow",
@@ -482,10 +488,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 29,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 29
         },
         {
           "type": "flow-glow",
@@ -494,10 +497,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 30,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 30
         }
       ],
       "camera": {
@@ -581,7 +581,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "domain"
+              "target": "domain",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
             },
             "strokeStyle": "solid"
           }
@@ -645,10 +648,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 39,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 39
         }
       ],
       "camera": {
@@ -756,7 +756,10 @@
             "fill": "none",
             "connector": {
               "source": "repository-read",
-              "target": "usecase"
+              "target": "usecase",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           },
@@ -771,7 +774,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "domain"
+              "target": "domain",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           },
@@ -786,7 +792,10 @@
             "fill": "none",
             "connector": {
               "source": "domain",
-              "target": "repository-write"
+              "target": "repository-write",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           }
@@ -850,10 +859,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 50,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 50
         },
         {
           "type": "flow-glow",
@@ -862,10 +868,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 51,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 51
         },
         {
           "type": "flow-glow",
@@ -874,10 +877,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 52,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 52
         }
       ],
       "camera": {
@@ -974,7 +974,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "engine"
+              "target": "engine",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
             },
             "strokeStyle": "solid"
           },
@@ -989,7 +992,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "repository"
+              "target": "repository",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 14
             },
             "strokeStyle": "dashed"
           }
@@ -1053,10 +1059,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 61,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 61
         },
         {
           "type": "flow-glow",
@@ -1065,10 +1068,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 62,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 62
         }
       ],
       "camera": {
@@ -1189,7 +1189,10 @@
             "fill": "none",
             "connector": {
               "source": "browser-a",
-              "target": "usecase-a"
+              "target": "usecase-a",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1204,7 +1207,10 @@
             "fill": "none",
             "connector": {
               "source": "browser-b",
-              "target": "usecase-b"
+              "target": "usecase-b",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1219,7 +1225,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase-a",
-              "target": "database"
+              "target": "database",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1234,7 +1243,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase-b",
-              "target": "database"
+              "target": "database",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           }
@@ -1314,10 +1326,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 72,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 72
         },
         {
           "type": "flow-glow",
@@ -1326,10 +1335,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 73,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 73
         },
         {
           "type": "flow-glow",
@@ -1338,10 +1344,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 74,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 74
         },
         {
           "type": "flow-glow",
@@ -1350,10 +1353,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 75,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 75
         }
       ],
       "camera": {
@@ -1463,7 +1463,10 @@
             "fill": "none",
             "connector": {
               "source": "browser-a",
-              "target": "repository-atomic"
+              "target": "repository-atomic",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1478,7 +1481,10 @@
             "fill": "none",
             "connector": {
               "source": "browser-b",
-              "target": "repository-atomic"
+              "target": "repository-atomic",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           },
@@ -1493,7 +1499,10 @@
             "fill": "none",
             "connector": {
               "source": "repository-atomic",
-              "target": "database"
+              "target": "database",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
             },
             "strokeStyle": "solid"
           }
@@ -1565,10 +1574,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 83,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 83
         },
         {
           "type": "flow-glow",
@@ -1577,10 +1583,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 84,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 84
         },
         {
           "type": "flow-glow",
@@ -1589,10 +1592,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 85,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 85
         }
       ],
       "camera": {
@@ -1676,7 +1676,10 @@
             "fill": "none",
             "connector": {
               "source": "usecase",
-              "target": "repository"
+              "target": "repository",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 16
             },
             "strokeStyle": "solid"
           }
@@ -1732,10 +1735,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 94,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 94
         }
       ],
       "camera": {
@@ -1848,7 +1848,10 @@
             "fill": "none",
             "connector": {
               "source": "restore",
-              "target": "compute"
+              "target": "compute",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           },
@@ -1864,7 +1867,10 @@
             "fill": "none",
             "connector": {
               "source": "compute",
-              "target": "record"
+              "target": "record",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 10
             },
             "strokeStyle": "solid"
           }
@@ -1936,10 +1942,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 105,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 105
         },
         {
           "type": "flow-glow",
@@ -1948,10 +1951,7 @@
           "durationMs": 1200,
           "intensity": 1,
           "color": "#ffffff",
-          "seed": 106,
-          "radius": 36,
-          "coreRadius": 5,
-          "trailLength": 42
+          "seed": 106
         }
       ],
       "camera": {
