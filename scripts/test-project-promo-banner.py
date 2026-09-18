@@ -25,6 +25,16 @@ def test_project_promo_banner_contract():
     assert 'data-project-promo-slide' in partial
     assert 'data-project-promo-toggle' in partial
 
+    # Each slide must read like a self-contained ad creative from the product,
+    # not a shared Monoliquid promo card.
+    assert 'project-promo__creative' in partial
+    assert 'project-promo__poli-wordmark' in partial
+    assert 'https://poli.it.kr/brand/poli/avatar-v1/deliver.png' in partial
+    assert 'project-promo__rider-lockup' in partial
+    assert 'https://raw.githubusercontent.com/dohyeon-kr/free-rider/main/src/assets/free-rider-app-icon.png' in partial
+    assert 'project-promo__rider-window' in partial
+    assert 'project-promo__rider-urlbar' in partial
+
     assert "prefers-reduced-motion: reduce" in script
     assert "pointerenter" in script
     assert "focusin" in script
@@ -34,6 +44,11 @@ def test_project_promo_banner_contract():
     assert ".project-promo" in styles
     assert ".project-promo__slide--poli" in styles
     assert ".project-promo__slide--free-rider" in styles
+    assert "#dfe7df" in styles
+    assert "#343936" in styles
+    assert "#0d0e11" in styles
+    assert "#d4ff00" in styles
+    assert "var(--pattern-blackmetal)" not in styles
     assert "@media (max-width:" in styles
 
 
