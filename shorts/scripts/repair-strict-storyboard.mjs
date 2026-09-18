@@ -7,7 +7,7 @@ import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
 import {CandidateSchema, SYSTEM_PROMPT} from './generate-candidates.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
-import {collectAuroraStrictIssues, formatAuroraStrictIssue} from './aurora-strict-layout.mjs';
+import {collectAuroraStrictIssues, formatAuroraStrictIssue, polishAuroraStrictLayout} from './aurora-strict-layout.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const contentRoot = path.join(repoRoot, 'shorts', 'content') + path.sep;
@@ -99,13 +99,21 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     repairedSceneNumbers.push(repair.sceneNumber);
   }
 
-  const improved = {
+  let improved = {
     ...original,
     status: 'candidate',
     style: {...original.style, safeArea: 'shorts-reels'},
     presenterOverlay: null,
     scenes: repairedScenes,
   };
+  assertRepairInvariants(original, improved);
+
+  const polished = polishAuroraStrictLayout(improved);
+  improved = polished.manifest;
+  for (const sceneNumber of polished.adjustedSceneNumbers) {
+    const spec = improved.scenes?.[sceneNumber - 1]?.diagramSpec;
+    if (spec) validateDiagram(spec);
+  }
   assertRepairInvariants(original, improved);
 
   const remaining = collectAuroraStrictIssues(improved);
@@ -129,7 +137,8 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     `- 대상: \`${filename}\``,
     `- 모델: \`${chosenModel}\``,
     '- API 호출: 1회 — 모든 strict 진단을 한 요청으로 처리',
-    `- 패치 장면: ${repairedSceneNumbers.length ? repairedSceneNumbers.join(', ') : '없음'}`,
+    `- AI 패치 장면: ${repairedSceneNumbers.length ? repairedSceneNumbers.join(', ') : '없음'}`,
+    `- deterministic polish 장면: ${polished.adjustedSceneNumbers.length ? polished.adjustedSceneNumbers.join(', ') : '없음'}`,
     `- 변경 발생: ${changed ? 'yes' : 'no'}`,
     '',
     '## 수집된 deterministic 진단',
@@ -159,7 +168,7 @@ export async function repairStrictStoryboard({filename, validationReport = null,
   if (process.env.GITHUB_OUTPUT) {
     await fs.appendFile(process.env.GITHUB_OUTPUT, `changed=${changed ? 'true' : 'false'}\nmodel=${chosenModel}\n`, 'utf8');
   }
-  return {changed, model: chosenModel, improved, diagnostics, repairedSceneNumbers};
+  return {changed, model: chosenModel, improved, diagnostics, repairedSceneNumbers, polishedSceneNumbers: polished.adjustedSceneNumbers};
 }
 
 async function main() {

@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {repairStrictStoryboard} from '../scripts/repair-strict-storyboard.mjs';
+import {collectAuroraStrictIssues} from '../scripts/aurora-strict-layout.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -69,4 +70,61 @@ test('strict repair applies scene-numbered diagram patches without regenerating 
   assert.equal(repaired.scenes[0].narration, original.scenes[0].narration);
   assert.deepEqual(repaired.scenes[0].beats, original.scenes[0].beats);
   assert.deepEqual(repaired.scenes[0].diagramSpec, repairedDiagram);
+});
+
+
+test('strict repair deterministically polishes a still-invalid AI geometry patch without a second API call', async (t) => {
+  const source = path.join(repoRoot, 'shorts', 'content', 'usecase-domain-repository-seolgyebuteo-dongsiseongggaji', 'candidate-01.json');
+  const original = JSON.parse(await fs.readFile(source, 'utf8'));
+  const fixtureDir = path.join(repoRoot, 'shorts', 'content', `.strict-polish-${process.pid}-${Date.now()}`);
+  const fixture = path.join(fixtureDir, 'candidate-01.json');
+  await fs.mkdir(fixtureDir, {recursive: true});
+  await fs.writeFile(fixture, `${JSON.stringify(original, null, 2)}\n`, 'utf8');
+  t.after(() => fs.rm(fixtureDir, {recursive: true, force: true}));
+
+  const invalidDiagram = structuredClone(original.scenes[0].diagramSpec);
+  const positions = new Map([
+    ['browser', 70],
+    ['usecase', 255],
+    ['engine', 475],
+    ['repository', 665],
+  ]);
+  for (const node of invalidDiagram.nodes) {
+    if (positions.has(node.id)) node.x = positions.get(node.id);
+  }
+
+  const invalidManifest = structuredClone(original);
+  invalidManifest.scenes[0].diagramSpec = invalidDiagram;
+  const beforeIssues = collectAuroraStrictIssues(invalidManifest);
+  assert.ok(beforeIssues.some((issue) => issue.rule === 'safe-area' && issue.ids.includes('browser')));
+  assert.ok(beforeIssues.some((issue) => issue.rule === 'node-gap' && issue.ids.includes('browser') && issue.ids.includes('usecase')));
+
+  let apiCalls = 0;
+  const client = {
+    responses: {
+      parse: async () => {
+        apiCalls += 1;
+        return {output_parsed: {repairs: [{sceneNumber: 1, diagramSpec: invalidDiagram}]}};
+      },
+    },
+  };
+
+  const relative = path.relative(repoRoot, fixture).split(path.sep).join('/');
+  const result = await repairStrictStoryboard({
+    filename: relative,
+    validationReport: {
+      failures: [{scope: 'Scene 1 / Aurora node-gap', message: '[aurora:node-gap] browser,usecase'}],
+      auroraIssues: [{scene: 1, rule: 'node-gap', ids: ['browser', 'usecase'], progress: 0, measured: 0, detail: 'gap'}],
+    },
+    client,
+    model: 'gpt-4.1-mini',
+  });
+
+  const repaired = JSON.parse(await fs.readFile(fixture, 'utf8'));
+  assert.equal(apiCalls, 1, 'deterministic polish must not trigger a second paid repair call');
+  assert.equal(result.changed, true);
+  assert.deepEqual(collectAuroraStrictIssues(repaired), []);
+  assert.notDeepEqual(repaired.scenes[0].diagramSpec, invalidDiagram, 'invalid AI geometry should be deterministically adjusted');
+  assert.equal(repaired.scenes[0].narration, original.scenes[0].narration);
+  assert.deepEqual(repaired.scenes[0].beats, original.scenes[0].beats);
 });
