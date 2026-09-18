@@ -1,0 +1,33 @@
+name: Post engagement check
+
+on:
+  pull_request:
+    paths:
+      - 'services/visit-counter/**'
+      - 'themes/monoliquid/post.hbs'
+      - 'themes/monoliquid/partials/post-card.hbs'
+      - 'themes/monoliquid/partials/featured-carousel.hbs'
+      - 'themes/monoliquid/assets/js/post-engagement.js'
+      - 'themes/monoliquid/assets/css/screen.css'
+      - 'themes/monoliquid/default.hbs'
+      - 'deploy/nginx/blog.dohyeon.kr.conf'
+      - '.github/workflows/post-engagement-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test engagement backend
+        run: python3 -m unittest discover -s services/visit-counter -p 'test_*.py' -v
+      - name: Check engagement JavaScript
+        run: node --check themes/monoliquid/assets/js/post-engagement.js
