@@ -83,6 +83,11 @@ class VisitStore:
                 );
                 CREATE INDEX IF NOT EXISTS post_likes_post
                     ON post_likes (post_slug, created_at);
+                CREATE TABLE IF NOT EXISTS post_shares (
+                    post_slug TEXT PRIMARY KEY,
+                    total INTEGER NOT NULL CHECK (total >= 0),
+                    updated_at TEXT NOT NULL
+                );
                 CREATE TABLE IF NOT EXISTS dashboard_meta (
                     key TEXT PRIMARY KEY, value TEXT NOT NULL
                 );
@@ -255,6 +260,69 @@ class VisitStore:
                 "SELECT COUNT(*) FROM post_likes WHERE post_slug = ?", (slug,)
             ).fetchone()[0]
         return {"total": int(total), "liked": liked}
+
+    def increment_post_share(self, slug: str) -> dict[str, int]:
+        if not self.valid_slug(slug):
+            raise ValueError("invalid post slug")
+        updated_at = datetime.now().astimezone().isoformat()
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                """
+                INSERT INTO post_shares (post_slug, total, updated_at)
+                VALUES (?, 1, ?)
+                ON CONFLICT(post_slug) DO UPDATE SET
+                    total = total + 1,
+                    updated_at = excluded.updated_at
+                """,
+                (slug, updated_at),
+            )
+            total = connection.execute(
+                "SELECT total FROM post_shares WHERE post_slug = ?", (slug,)
+            ).fetchone()[0]
+        return {"total": int(total)}
+
+    def post_engagement(self, slugs: object) -> dict[str, dict[str, int]]:
+        if not isinstance(slugs, list) or not 1 <= len(slugs) <= 100:
+            raise ValueError("invalid slugs")
+        if any(not isinstance(slug, str) or not self.valid_slug(slug) for slug in slugs):
+            raise ValueError("invalid slugs")
+        unique = list(dict.fromkeys(slugs))
+        placeholders = ",".join("?" for _ in unique)
+        with self._connect() as connection:
+            views = dict(connection.execute(
+                f"SELECT slug, total FROM stats_post_views WHERE slug IN ({placeholders})",
+                unique,
+            ))
+            likes = dict(connection.execute(
+                f"SELECT post_slug, COUNT(*) FROM post_likes WHERE post_slug IN ({placeholders}) GROUP BY post_slug",
+                unique,
+            ))
+            shares = dict(connection.execute(
+                f"SELECT post_slug, total FROM post_shares WHERE post_slug IN ({placeholders})",
+                unique,
+            ))
+            comments = dict(connection.execute(
+                f"""
+                SELECT c.post_slug, COUNT(*)
+                FROM anonymous_comments c
+                LEFT JOIN comment_moderation m ON m.comment_id = c.id
+                WHERE c.post_slug IN ({placeholders})
+                  AND c.status = 'visible'
+                  AND COALESCE(m.hidden, 0) = 0
+                GROUP BY c.post_slug
+                """,
+                unique,
+            ))
+        return {
+            slug: {
+                "views": int(views.get(slug, 0)),
+                "comments": int(comments.get(slug, 0)),
+                "likes": int(likes.get(slug, 0)),
+                "shares": int(shares.get(slug, 0)),
+            }
+            for slug in unique
+        }
 
     @staticmethod
     def normalize_comment(display_name: object, body: object) -> tuple[str, str]:
@@ -708,9 +776,8 @@ class VisitHandler(BaseHTTPRequestHandler):
     def _path(self) -> str:
         return urlsplit(self.path).path
 
-    def _post_like_slug(self) -> str | None:
+    def _post_action_slug(self, suffix: str) -> str | None:
         prefix = "/api/visit/post/"
-        suffix = "/like"
         path = self._path()
         if not path.startswith(prefix) or not path.endswith(suffix):
             return None
@@ -719,6 +786,12 @@ class VisitHandler(BaseHTTPRequestHandler):
         except UnicodeDecodeError:
             return None
         return slug if self.server.store.valid_slug(slug) else None
+
+    def _post_like_slug(self) -> str | None:
+        return self._post_action_slug("/like")
+
+    def _post_share_slug(self) -> str | None:
+        return self._post_action_slug("/share")
 
     def _post_slug(self) -> str | None:
         prefix = "/api/visit/post/"
@@ -806,6 +879,16 @@ class VisitHandler(BaseHTTPRequestHandler):
         if self._path() == "/api/visit":
             self._send_json(200, self.server.store.get())
             return
+        if self._path() == "/api/visit/engagement":
+            query = parse_qs(urlsplit(self.path).query)
+            slugs = [slug for slug in query.get("slugs", [""])[0].split(",") if slug]
+            try:
+                posts = self.server.store.post_engagement(slugs)
+            except ValueError:
+                self._send_json(400, {"error": "invalid_slugs"})
+                return
+            self._send_json(200, {"posts": posts})
+            return
         if self._path() == "/ghost/api/dashboard/google":
             if not self._is_ghost_admin():
                 self._send_json(401, {"error": "ghost_admin_required"})
@@ -890,6 +973,13 @@ class VisitHandler(BaseHTTPRequestHandler):
                 self._send_json(400, {"error": "invalid_like"})
                 return
             self._send_json(200, result)
+            return
+        share_slug = self._post_share_slug()
+        if share_slug is not None:
+            if not self._valid_origin():
+                self._send_json(403, {"error": "invalid_origin"})
+                return
+            self._send_json(200, self.server.store.increment_post_share(share_slug))
             return
         admin_comment_id = self._comment_admin_id()
         if admin_comment_id is not None:
