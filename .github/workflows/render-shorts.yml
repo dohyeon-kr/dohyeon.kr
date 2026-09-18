@@ -269,9 +269,32 @@ jobs:
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           cd "${PROJECT_DIR}"
+
+          set +e
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
+          check_status=${PIPESTATUS[0]}
+          set -e
+
+          if (( check_status == 0 )); then
+            exit 0
+          fi
+
+          if [[ ! -s check.json ]] || ! jq -e . check.json >/dev/null 2>&1; then
+            echo "::error title=HyperFrames visual check failed::Strict check exited ${check_status} without valid JSON diagnostics."
+            exit "${check_status}"
+          fi
+
+          error_count="$(jq '[.lint, .runtime, .layout, .motion, .contrast] | map(.errorCount // 0) | add // 0' check.json)"
+          warning_count="$(jq '[.lint, .runtime, .layout, .motion, .contrast] | map(.warningCount // 0) | add // 0' check.json)"
+
+          if (( error_count > 0 )); then
+            echo "::error title=HyperFrames visual check failed::Strict check found ${error_count} error(s) and ${warning_count} warning(s)."
+            exit "${check_status}"
+          fi
+
+          echo "::warning title=HyperFrames strict warnings::Strict check found ${warning_count} warning(s) and no errors; final render remains eligible."
 
       - name: Batch-repair rejected Aurora strict findings
         id: strict_repair
