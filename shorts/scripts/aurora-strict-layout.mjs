@@ -169,6 +169,201 @@ export function collectAuroraStrictIssues(manifest) {
   return [...issues.values()].sort((a, b) => a.scene - b.scene || a.rule.localeCompare(b.rule) || a.ids.join().localeCompare(b.ids.join()));
 }
 
+
+const diagramDxForPixels = (pixels) => pixels * 800 / stageWidth;
+const diagramDyForPixels = (pixels) => pixels * 560 / stageHeight;
+const POLISH_EPSILON = 1e-6;
+
+const visibleBoxAt = (spec, nodeId, progress) => {
+  const node = (spec.nodes ?? []).find((candidate) => candidate.id === nodeId && candidate.shape !== 'line');
+  if (!node) return null;
+  const state = nodeState(spec, node, progress);
+  if (!finite(state.opacity) || state.opacity <= .02) return null;
+  return renderedBox(state, spec);
+};
+
+const trackBounds = (spec, nodeId) => {
+  const boxes = sampleTimes(spec)
+    .map((progress) => visibleBoxAt(spec, nodeId, progress))
+    .filter(Boolean);
+  if (!boxes.length) return null;
+  return {
+    left: Math.min(...boxes.map((box) => box.left)),
+    right: Math.max(...boxes.map((box) => box.right)),
+    top: Math.min(...boxes.map((box) => box.top)),
+    bottom: Math.max(...boxes.map((box) => box.bottom)),
+  };
+};
+
+const shiftNodeTrack = (spec, nodeId, dxPixels = 0, dyPixels = 0) => {
+  if (Math.abs(dxPixels) < POLISH_EPSILON && Math.abs(dyPixels) < POLISH_EPSILON) return false;
+  const node = (spec.nodes ?? []).find((candidate) => candidate.id === nodeId && candidate.shape !== 'line');
+  if (!node) return false;
+  const dx = diagramDxForPixels(dxPixels);
+  const dy = diagramDyForPixels(dyPixels);
+  if (Math.abs(dx) >= POLISH_EPSILON) node.x = round(Number(node.x) + dx);
+  if (Math.abs(dy) >= POLISH_EPSILON) node.y = round(Number(node.y) + dy);
+  for (const event of spec.events ?? []) {
+    if (event.target !== nodeId) continue;
+    if (event.property === 'x' && Math.abs(dx) >= POLISH_EPSILON) {
+      event.from = round(Number(event.from) + dx);
+      event.to = round(Number(event.to) + dx);
+    }
+    if (event.property === 'y' && Math.abs(dy) >= POLISH_EPSILON) {
+      event.from = round(Number(event.from) + dy);
+      event.to = round(Number(event.to) + dy);
+    }
+  }
+  return true;
+};
+
+const moveTrackInsideStage = (spec, nodeId, inset = 1) => {
+  const bounds = trackBounds(spec, nodeId);
+  if (!bounds) return false;
+  const targetLeft = AURORA_GEOMETRY.stageLeft + inset;
+  const targetRight = AURORA_GEOMETRY.stageRight - inset;
+  const targetTop = AURORA_GEOMETRY.stageTop + inset;
+  const targetBottom = AURORA_GEOMETRY.stageBottom - inset;
+  let dx = 0;
+  let dy = 0;
+  if (bounds.left < targetLeft) dx += targetLeft - bounds.left;
+  if (bounds.right > targetRight) dx -= bounds.right - targetRight;
+  if (bounds.top < targetTop) dy += targetTop - bounds.top;
+  if (bounds.bottom > targetBottom) dy -= bounds.bottom - targetBottom;
+  return shiftNodeTrack(spec, nodeId, dx, dy);
+};
+
+const allocateSeparation = (required, roomA, roomB) => {
+  let moveA = Math.min(required / 2, Math.max(0, roomA));
+  let moveB = Math.min(required / 2, Math.max(0, roomB));
+  let remaining = Math.max(0, required - moveA - moveB);
+  const extraA = Math.min(remaining, Math.max(0, roomA - moveA));
+  moveA += extraA;
+  remaining -= extraA;
+  const extraB = Math.min(remaining, Math.max(0, roomB - moveB));
+  moveB += extraB;
+  remaining -= extraB;
+  return {moveA, moveB, remaining};
+};
+
+const separationCandidate = (spec, firstId, secondId, progress, axis, targetGap) => {
+  const first = visibleBoxAt(spec, firstId, progress);
+  const second = visibleBoxAt(spec, secondId, progress);
+  const firstTrack = trackBounds(spec, firstId);
+  const secondTrack = trackBounds(spec, secondId);
+  if (!first || !second || !firstTrack || !secondTrack) return null;
+
+  if (axis === 'x') {
+    const firstCenter = (first.left + first.right) / 2;
+    const secondCenter = (second.left + second.right) / 2;
+    const firstBefore = firstCenter <= secondCenter;
+    const separation = firstBefore ? second.left - first.right : first.left - second.right;
+    const required = Math.max(0, targetGap - separation);
+    const roomA = firstBefore
+      ? firstTrack.left - AURORA_GEOMETRY.stageLeft
+      : AURORA_GEOMETRY.stageRight - firstTrack.right;
+    const roomB = firstBefore
+      ? AURORA_GEOMETRY.stageRight - secondTrack.right
+      : secondTrack.left - AURORA_GEOMETRY.stageLeft;
+    const allocation = allocateSeparation(required, roomA, roomB);
+    return {
+      axis,
+      required,
+      remaining: allocation.remaining,
+      firstDelta: (firstBefore ? -1 : 1) * allocation.moveA,
+      secondDelta: (firstBefore ? 1 : -1) * allocation.moveB,
+    };
+  }
+
+  const firstCenter = (first.top + first.bottom) / 2;
+  const secondCenter = (second.top + second.bottom) / 2;
+  const firstBefore = firstCenter <= secondCenter;
+  const separation = firstBefore ? second.top - first.bottom : first.top - second.bottom;
+  const required = Math.max(0, targetGap - separation);
+  const roomA = firstBefore
+    ? firstTrack.top - AURORA_GEOMETRY.stageTop
+    : AURORA_GEOMETRY.stageBottom - firstTrack.bottom;
+  const roomB = firstBefore
+    ? AURORA_GEOMETRY.stageBottom - secondTrack.bottom
+    : secondTrack.top - AURORA_GEOMETRY.stageTop;
+  const allocation = allocateSeparation(required, roomA, roomB);
+  return {
+    axis,
+    required,
+    remaining: allocation.remaining,
+    firstDelta: (firstBefore ? -1 : 1) * allocation.moveA,
+    secondDelta: (firstBefore ? 1 : -1) * allocation.moveB,
+  };
+};
+
+const separateTracks = (spec, ids, progress, targetGap) => {
+  const [firstId, secondId] = ids;
+  const candidates = [
+    separationCandidate(spec, firstId, secondId, progress, 'x', targetGap),
+    separationCandidate(spec, firstId, secondId, progress, 'y', targetGap),
+  ].filter(Boolean);
+  if (!candidates.length) return false;
+  candidates.sort((a, b) =>
+    (a.remaining > .25) - (b.remaining > .25)
+    || a.remaining - b.remaining
+    || a.required - b.required
+    || a.axis.localeCompare(b.axis));
+  const best = candidates[0];
+  if (best.required < POLISH_EPSILON) return false;
+  if (best.axis === 'x') {
+    const movedA = shiftNodeTrack(spec, firstId, best.firstDelta, 0);
+    const movedB = shiftNodeTrack(spec, secondId, best.secondDelta, 0);
+    return movedA || movedB;
+  }
+  const movedA = shiftNodeTrack(spec, firstId, 0, best.firstDelta);
+  const movedB = shiftNodeTrack(spec, secondId, 0, best.secondDelta);
+  return movedA || movedB;
+};
+
+export function polishAuroraStrictLayout(manifest, {maxIterations = 120, safeInset = 1, gapMargin = 1} = {}) {
+  const polished = structuredClone(manifest);
+  polished.style = {...polished.style, safeArea: 'shorts-reels'};
+  const adjustedSceneNumbers = new Set();
+  const priority = {'safe-area-mode': 0, 'safe-area': 1, 'node-gap': 2};
+
+  for (let iteration = 0; iteration < maxIterations; iteration += 1) {
+    const issues = collectAuroraStrictIssues(polished);
+    if (!issues.length) {
+      return {manifest: polished, adjustedSceneNumbers: [...adjustedSceneNumbers].sort((a, b) => a - b)};
+    }
+    const issue = [...issues].sort((a, b) =>
+      (priority[a.rule] ?? 99) - (priority[b.rule] ?? 99)
+      || a.scene - b.scene
+      || a.ids.join('|').localeCompare(b.ids.join('|')))[0];
+
+    if (issue.rule === 'safe-area-mode') {
+      polished.style = {...polished.style, safeArea: 'shorts-reels'};
+      continue;
+    }
+
+    const scene = polished.scenes?.[issue.scene - 1];
+    const spec = scene?.diagramSpec;
+    if (!spec) break;
+
+    let changed = false;
+    if (issue.rule === 'safe-area' && issue.ids[0]) {
+      changed = moveTrackInsideStage(spec, issue.ids[0], safeInset);
+    } else if (issue.rule === 'node-gap' && issue.ids.length === 2) {
+      changed = separateTracks(
+        spec,
+        issue.ids,
+        issue.progress,
+        AURORA_GEOMETRY.minimumNodeGap + gapMargin,
+      );
+    }
+
+    if (!changed) break;
+    adjustedSceneNumbers.add(issue.scene);
+  }
+
+  return {manifest: polished, adjustedSceneNumbers: [...adjustedSceneNumbers].sort((a, b) => a - b)};
+}
+
 export const formatAuroraStrictIssue = (issue) =>
   `[aurora:${issue.rule}] scene=${issue.scene || 'manifest'} t=${Number(issue.progress).toFixed(3)}${issue.ids.length ? ` nodes=${issue.ids.join(',')}` : ''}: ${issue.detail}`;
 
