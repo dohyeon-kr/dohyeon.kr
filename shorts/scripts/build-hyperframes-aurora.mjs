@@ -102,6 +102,9 @@ function diagramMarkup(scene, sceneId) {
   }).join('');
 
   const connectorNodes = spec.nodes.filter(node => node.shape === 'line' && node.connector);
+  const flowEffects = new Map((scene.effects ?? [])
+    .filter(effect => effect.type === 'flow-glow')
+    .map(effect => [effect.target, effect]));
   const connections = connectorNodes.map(node => {
     const source = nodeById.get(node.connector.source);
     const target = nodeById.get(node.connector.target);
@@ -110,7 +113,16 @@ function diagramMarkup(scene, sceneId) {
     const t = auroraNodePosition(target);
     const accent = /hit|active|request|flow|persist|save|write/i.test(`${node.id} ${node.label}`) ? ' is-accent' : '';
     const points = `x1="${s.left.toFixed(2)}%" y1="${s.top.toFixed(2)}%" x2="${t.left.toFixed(2)}%" y2="${t.top.toFixed(2)}%"`;
-    return `<line id="${sceneId}-connection-${escapeHtml(node.id)}" class="ax-connector${accent}" data-ax-connection="${escapeHtml(node.id)}" ${points}/><line id="${sceneId}-pulse-${escapeHtml(node.id)}" class="ax-connector-pulse${accent}" data-ax-pulse="${escapeHtml(node.id)}" pathLength="1" ${points}/>`;
+    return `<line id="${sceneId}-connection-${escapeHtml(node.id)}" class="ax-connector${accent}" data-ax-connection="${escapeHtml(node.id)}" ${points}/>`;
+  }).join('');
+  const pulseMarks = connectorNodes.map(node => {
+    const source = nodeById.get(node.connector.source);
+    const target = nodeById.get(node.connector.target);
+    if (!source || !target) return '';
+    const s = auroraNodePosition(source);
+    const effect = flowEffects.get(node.id);
+    const core = /^#[0-9a-fA-F]{6}$/.test(effect?.color ?? '') ? effect.color : '#ffffff';
+    return `<i id="${sceneId}-pulse-${escapeHtml(node.id)}" class="ax-connector-pulse" data-ax-pulse="${escapeHtml(node.id)}" style="left:${s.left.toFixed(2)}%;top:${s.top.toFixed(2)}%;--ax-pulse-core:${core}"></i>`;
   }).join('');
 
   const timeline = [];
@@ -129,15 +141,42 @@ function diagramMarkup(scene, sceneId) {
   }
 
   const pulses = connectorNodes.map(node => {
+    const source = nodeById.get(node.connector.source);
+    const target = nodeById.get(node.connector.target);
+    if (!source || !target) return null;
+    const s = auroraNodePosition(source);
+    const t = auroraNodePosition(target);
+    const effect = flowEffects.get(node.id);
+    if (effect) {
+      return {
+        selector: `#${sceneId}-pulse-${node.id}`,
+        startMs: effect.startMs,
+        durationMs: effect.durationMs,
+        intensity: effect.intensity,
+        fromLeft: s.left,
+        fromTop: s.top,
+        toLeft: t.left,
+        toTop: t.top,
+      };
+    }
     const reveal = (spec.events ?? [])
       .filter(event => event.target === node.id && event.property === 'opacity')
       .sort((a, b) => a.start - b.start)[0];
     const start = clamp((reveal?.end ?? .28) + .04, .08, .82);
-    return {selector: `#${sceneId}-pulse-${node.id}`, start, end: clamp(start + .28, start + .08, .98)};
-  });
+    return {
+      selector: `#${sceneId}-pulse-${node.id}`,
+      start,
+      end: clamp(start + .28, start + .08, .98),
+      intensity: .98,
+      fromLeft: s.left,
+      fromTop: s.top,
+      toLeft: t.left,
+      toTop: t.top,
+    };
+  }).filter(Boolean);
 
   return {
-    markup: `<div class="ax-diagram"><svg class="ax-connector-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="ax-flow-gradient"><stop offset="0" stop-color="#765eff"/><stop offset="1" stop-color="#55ddff"/></linearGradient></defs>${connections}</svg>${objects}</div>`,
+    markup: `<div class="ax-diagram"><svg class="ax-connector-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="ax-flow-gradient"><stop offset="0" stop-color="#765eff"/><stop offset="1" stop-color="#55ddff"/></linearGradient></defs>${connections}</svg>${objects}${pulseMarks}</div>`,
     timeline,
     pulses,
   };
@@ -220,14 +259,20 @@ for (const [index, scene] of manifest.scenes.entries()) {
     timelineStatements.push(`tl.fromTo("${event.selector}", ${from}, ${to}, ${eventStart.toFixed(3)});`);
   }
   for (const pulse of diagram.pulses) {
-    const pulseStart = start + clamp(pulse.start, 0, 1) * duration;
-    const pulseDuration = Math.max(.16, (clamp(pulse.end, 0, 1) - clamp(pulse.start, 0, 1)) * duration);
-    const fadeIn = Math.min(.1, pulseDuration * .18);
-    const fadeOut = Math.min(.12, pulseDuration * .2);
-    timelineStatements.push(`tl.set("${pulse.selector}", {opacity:0, strokeDashoffset:0}, ${pulseStart.toFixed(3)});`);
-    timelineStatements.push(`tl.to("${pulse.selector}", {opacity:.98, duration:${fadeIn.toFixed(3)}, ease:"power1.out"}, ${pulseStart.toFixed(3)});`);
-    timelineStatements.push(`tl.to("${pulse.selector}", {strokeDashoffset:-1, duration:${pulseDuration.toFixed(3)}, ease:"none"}, ${pulseStart.toFixed(3)});`);
-    timelineStatements.push(`tl.to("${pulse.selector}", {opacity:0, duration:${fadeOut.toFixed(3)}, ease:"power1.out"}, ${Math.max(pulseStart, pulseStart + pulseDuration - fadeOut).toFixed(3)});`);
+    const explicit = Number.isFinite(pulse.startMs) && Number.isFinite(pulse.durationMs);
+    const offset = explicit ? clamp(pulse.startMs / 1000, 0, Math.max(0, duration - .12)) : clamp(pulse.start, 0, 1) * duration;
+    const pulseStart = start + offset;
+    const requestedDuration = explicit
+      ? Math.max(.16, pulse.durationMs / 1000)
+      : Math.max(.16, (clamp(pulse.end, 0, 1) - clamp(pulse.start, 0, 1)) * duration);
+    const pulseDuration = Math.min(requestedDuration, Math.max(.16, duration - offset - .04));
+    const fadeIn = Math.min(.12, pulseDuration * .16);
+    const fadeOut = Math.min(.16, pulseDuration * .2);
+    const opacity = clamp(Number(pulse.intensity ?? .98), 0, 1);
+    timelineStatements.push(`tl.set("${pulse.selector}", {left:"${pulse.fromLeft.toFixed(2)}%", top:"${pulse.fromTop.toFixed(2)}%", opacity:0, scale:.62}, ${pulseStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${pulse.selector}", {opacity:${opacity.toFixed(3)}, scale:1, duration:${fadeIn.toFixed(3)}, ease:"power2.out"}, ${pulseStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${pulse.selector}", {left:"${pulse.toLeft.toFixed(2)}%", top:"${pulse.toTop.toFixed(2)}%", duration:${pulseDuration.toFixed(3)}, ease:"none"}, ${pulseStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${pulse.selector}", {opacity:0, scale:.72, duration:${fadeOut.toFixed(3)}, ease:"power1.out"}, ${Math.max(pulseStart, pulseStart + pulseDuration - fadeOut).toFixed(3)});`);
   }
   for (const [cueIndex, cue] of caption.cues.entries()) {
     const cueStart = start + Math.max(0, cue.startSeconds);
