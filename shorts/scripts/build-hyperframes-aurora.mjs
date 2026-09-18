@@ -98,7 +98,8 @@ function diagramMarkup(scene, sceneId) {
     const role = inferAuroraRole(node);
     const p = auroraNodePosition(node);
     const label = compact(node.label) || node.id;
-    return `<div id="${sceneId}-object-${escapeHtml(node.id)}" class="ax-object ax-smoked-panel" data-ax-object="${escapeHtml(node.id)}" data-role="${role}" style="left:${p.left.toFixed(2)}%;top:${p.top.toFixed(2)}%;width:${p.width.toFixed(1)}px;min-height:${p.height.toFixed(1)}px">${iconMarkup(role)}<strong class="ax-object-label">${escapeHtml(label)}</strong><span class="ax-object-meta">${escapeHtml(role.toUpperCase())}</span></div>`;
+    const geometry = `left:${p.left.toFixed(2)}%;top:${p.top.toFixed(2)}%;width:${p.width.toFixed(1)}px;min-height:${p.height.toFixed(1)}px`;
+    return `<div id="${sceneId}-object-bg-${escapeHtml(node.id)}" class="ax-object-bg ax-smoked-panel" data-ax-object-bg="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}"></div><div id="${sceneId}-object-${escapeHtml(node.id)}" class="ax-object" data-ax-object="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}">${iconMarkup(role)}<strong class="ax-object-label">${escapeHtml(label)}</strong><span class="ax-object-meta">${escapeHtml(role.toUpperCase())}</span></div>`;
   }).join('');
 
   const connectorNodes = spec.nodes.filter(node => node.shape === 'line' && node.connector);
@@ -129,7 +130,9 @@ function diagramMarkup(scene, sceneId) {
   for (const event of spec.events ?? []) {
     const node = nodeById.get(event.target);
     if (!node) continue;
-    const selector = node.shape === 'line' ? `#${sceneId}-connection-${event.target}` : `#${sceneId}-object-${event.target}`;
+    const selector = node.shape === 'line'
+      ? `#${sceneId}-connection-${event.target}`
+      : `#${sceneId}-object-bg-${event.target},#${sceneId}-object-${event.target}`;
     let property = event.property;
     let from = event.from;
     let to = event.to;
