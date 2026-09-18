@@ -979,6 +979,9 @@ class VisitHandler(BaseHTTPRequestHandler):
             if not self._valid_origin():
                 self._send_json(403, {"error": "invalid_origin"})
                 return
+            if self._read_json(128) is None:
+                self._send_json(400, {"error": "invalid_request"})
+                return
             self._send_json(200, self.server.store.increment_post_share(share_slug))
             return
         admin_comment_id = self._comment_admin_id()
