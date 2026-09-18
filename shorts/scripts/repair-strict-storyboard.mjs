@@ -7,6 +7,7 @@ import {zodTextFormat} from 'openai/helpers/zod';
 import {z} from 'zod/v4';
 import {CandidateSchema, SYSTEM_PROMPT} from './generate-candidates.mjs';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
+import {validateDiagramLayout} from '../src/visuals/physics.ts';
 import {collectAuroraStrictIssues, formatAuroraStrictIssue, polishAuroraStrictLayout} from './aurora-strict-layout.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
@@ -35,6 +36,41 @@ const bodySceneEntries = (manifest) => (manifest.scenes ?? [])
   .map((scene, index) => ({scene, index}))
   .filter(({scene}) => !scene.commonPage);
 const stableString = (value) => `${JSON.stringify(value, null, 2)}\n`;
+
+const normalizeRendererOwnedConnectorGeometry = (originalSpec, repairedSpec) => {
+  const normalized = structuredClone(repairedSpec);
+  const originalLines = new Map((originalSpec?.nodes ?? [])
+    .filter((node) => node.shape === 'line' && node.connector)
+    .map((node) => [node.id, node]));
+
+  for (const node of normalized.nodes ?? []) {
+    const original = originalLines.get(node.id);
+    if (!original || node.shape !== 'line' || !node.connector) continue;
+    node.x = original.x;
+    node.y = original.y;
+    node.width = original.width;
+    node.height = original.height;
+    node.connector = structuredClone(original.connector);
+  }
+  return normalized;
+};
+
+const assertStoryboardDiagramLayout = (manifest) => {
+  const failures = [];
+  for (const [index, scene] of (manifest.scenes ?? []).entries()) {
+    if (!scene.diagramSpec) continue;
+    try {
+      validateDiagramLayout(validateDiagram(scene.diagramSpec));
+    } catch (error) {
+      failures.push(`Scene ${index + 1}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+  if (failures.length) {
+    throw new Error(
+      `Strict repair does not pass the same storyboard diagram layout validator used by render:\n${failures.join('\n')}`,
+    );
+  }
+};
 
 const assertRepairInvariants = (before, after) => {
   if (after.scenes.length !== before.scenes.length) throw new Error('Strict repair must preserve scene count');
@@ -73,6 +109,7 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     'Only include scenes whose diagram geometry needs to change. Do not add, delete, reorder, or rewrite scenes, narration, beats, headlines, or scene kinds. ' +
     'Move or resize non-line nodes so every rendered object stays inside the Aurora Shorts stage and every visible pair has at least 24px rendered-box separation across animation. ' +
     'Connectors are renderer-owned center-to-center edges; keep valid source/target node ids and do not attempt to compensate with sourceSide, targetSide, or gap. ' +
+    'Connector node x/y/width/height are renderer-owned and recomputed during validation, so never use those fields as a fix; move or resize the non-line source/target nodes instead. ' +
     'Prefer minimal geometry fixes. Resolve all diagnostics together rather than fixing only the first error.';
 
   const response = await openai.responses.parse({
@@ -94,7 +131,7 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     const entry = entries[repair.sceneNumber - 1];
     if (!entry) throw new Error(`Strict repair returned unknown scene ${repair.sceneNumber}`);
     if (!entry.scene.diagramSpec) throw new Error(`Scene ${repair.sceneNumber}: strict repair cannot add a diagram to a non-diagram scene`);
-    const diagramSpec = validateDiagram(repair.diagramSpec);
+    const diagramSpec = validateDiagram(normalizeRendererOwnedConnectorGeometry(entry.scene.diagramSpec, repair.diagramSpec));
     repairedScenes[entry.index] = {...repairedScenes[entry.index], diagramSpec};
     repairedSceneNumbers.push(repair.sceneNumber);
   }
@@ -121,6 +158,7 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     const message = remaining.map(formatAuroraStrictIssue).join('\n');
     throw new Error(`AI strict repair still violates deterministic Aurora geometry:\n${message}`);
   }
+  assertStoryboardDiagramLayout(improved);
 
   const before = stableString(original);
   const after = stableString(improved);
@@ -156,6 +194,7 @@ export async function repairStrictStoryboard({filename, validationReport = null,
     '## 재검증',
     '',
     '- Aurora deterministic geometry: PASS',
+    '- Storyboard diagram layout validator: PASS',
     '- scene count / order / narration / semantic beats / scene kind: 원본 보존',
     '- HyperFrames strict check: PR 검증 단계에서 다시 실행',
     '',
