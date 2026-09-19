@@ -25,7 +25,7 @@ on:
           - '0.25'
           - '1'
       manifest:
-        description: Candidate JSON path under shorts/content/
+        description: Candidate JSON path or post directory under shorts/content/
         required: true
         type: string
 
@@ -74,14 +74,15 @@ jobs:
           list_file="${RUNNER_TEMP}/shorts-manifests.txt"
           : > "${list_file}"
 
-          if [[ ! "${MANIFEST_INPUT}" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]]; then
-            echo "manifest must be a JSON path directly under shorts/content/<post>/" >&2
-            exit 1
+          resolved_manifest="$(node shorts/scripts/resolve-manifest-input.mjs "${MANIFEST_INPUT}")"
+          normalized_input="${MANIFEST_INPUT%/}"
+          if [[ "${resolved_manifest}" != "${normalized_input}" ]]; then
+            printf 'recovered=true\n' >> "${GITHUB_OUTPUT}"
+            printf 'recovered_from=%s\n' "${MANIFEST_INPUT}" >> "${GITHUB_OUTPUT}"
+          else
+            printf 'recovered=false\n' >> "${GITHUB_OUTPUT}"
           fi
-          if [[ ! -f "${MANIFEST_INPUT}" ]]; then
-            echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
-            exit 1
-          fi
+          MANIFEST_INPUT="${resolved_manifest}"
 
           template="$(jq -r '.style.template // .style.theme // ""' "${MANIFEST_INPUT}")"
           case "${ENGINE}" in
@@ -104,6 +105,7 @@ jobs:
           esac
 
           printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
+          printf 'manifest=%s\n' "${MANIFEST_INPUT}" >> "${GITHUB_OUTPUT}"
           printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
           printf 'template=%s\n' "${template}" >> "${GITHUB_OUTPUT}"
 
@@ -131,7 +133,7 @@ jobs:
 
       - name: Render scene snapshots with Remotion
         id: render_remotion
-        if: always() && inputs.engine == 'remotion'
+        if: always() && steps.manifests.outcome == 'success' && inputs.engine == 'remotion'
         continue-on-error: true
         env:
           LIST_FILE: ${{ steps.manifests.outputs.list_file }}
@@ -149,10 +151,10 @@ jobs:
 
       - name: Compile candidate to HyperFrames HTML
         id: hyperframes_build
-        if: always() && inputs.engine == 'hyperframes'
+        if: always() && steps.manifests.outcome == 'success' && inputs.engine == 'hyperframes'
         continue-on-error: true
         env:
-          MANIFEST_INPUT: ${{ inputs.manifest }}
+          MANIFEST_INPUT: ${{ steps.manifests.outputs.manifest }}
         run: node shorts/scripts/build-hyperframes.mjs "$MANIFEST_INPUT"
 
       - name: HyperFrames lint
@@ -204,12 +206,12 @@ jobs:
 
       - name: Batch-repair rejected Aurora strict findings
         id: strict_repair
-        if: always() && steps.manifests.outputs.template == 'aurora-explain' && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
+        if: always() && steps.manifests.outcome == 'success' && steps.manifests.outputs.template == 'aurora-explain' && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
         continue-on-error: true
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_STRICT_REPAIR_MODEL: ${{ vars.SHORTS_STRICT_REPAIR_MODEL || 'gpt-4.1-mini' }}
-          MANIFEST_INPUT: ${{ inputs.manifest }}
+          MANIFEST_INPUT: ${{ steps.manifests.outputs.manifest }}
           VALIDATION_REPORT: ${{ steps.validate.outputs.validation_report }}
           PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
         shell: bash
@@ -335,6 +337,10 @@ jobs:
         if: always()
         env:
           ENGINE: ${{ inputs.engine }}
+          MANIFEST_INPUT: ${{ inputs.manifest }}
+          RESOLVED_MANIFEST: ${{ steps.manifests.outputs.manifest }}
+          MANIFEST_RECOVERED: ${{ steps.manifests.outputs.recovered }}
+          MANIFEST_RESOLUTION_OUTCOME: ${{ steps.manifests.outcome }}
           VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
           REMOTION_RENDER_OUTCOME: ${{ steps.render_remotion.outcome }}
           HYPERFRAMES_BUILD_OUTCOME: ${{ steps.hyperframes_build.outcome }}
@@ -367,8 +373,14 @@ jobs:
             echo '### Storyboard batch diagnostics'
             echo
             echo "- engine: \`${ENGINE}\`"
+            echo "- requested manifest: \`${MANIFEST_INPUT}\`"
+            echo "- resolved manifest: \`${RESOLVED_MANIFEST:-unresolved}\`"
+            if [[ "${MANIFEST_RECOVERED}" == 'true' ]]; then
+              echo "- manifest recovery: \`directory -> default candidate\`"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
+          report 'manifest resolution' "$MANIFEST_RESOLUTION_OUTCOME"
           report 'validation' "$VALIDATE_OUTCOME"
           if [[ "$ENGINE" == 'remotion' ]]; then
             report 'Remotion storyboard render' "$REMOTION_RENDER_OUTCOME"
