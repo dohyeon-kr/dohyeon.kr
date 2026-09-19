@@ -98,9 +98,12 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-object="service"/);
   assert.match(html, /data-ax-object="db"/);
   assert.match(html, /class="ax-connector-layer" viewBox="0 0 800 560"/);
+  assert.match(html, /<div class="ax-stage"><div class="ax-camera">/);
   assert.match(html, /data-ax-connection="request"[^>]*x1="140\.00" y1="280\.00" x2="400\.00" y2="280\.00"/);
   assert.match(html, /data-ax-object-bg="browser"[^>]*style="left:17\.50%;top:50\.00%/);
   assert.match(html, /data-ax-pulse="request"/);
+  assert.match(css, /\.ax-connector-layer\{[^}]*width:100%[^}]*height:100%/);
+  assert.match(css, /\.ax-camera\{[^}]*position:absolute[^}]*inset:0[^}]*will-change:transform/);
   assert.match(css, /\.ax-connector\{[^}]*stroke-width:3\.25(?:px)?[;}]/);
   assert.match(css, /\.ax-connector\{[^}]*stroke-dasharray:12 14[;}]/);
   assert.match(css, /\.ax-connector\{[^}]*vector-effect:non-scaling-stroke/);
@@ -113,6 +116,8 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   const timelineSource = await fs.readFile(path.join(outputDir, 'timeline.js'), 'utf8');
   assert.match(timelineSource, /left:"17\.50%", top:"50\.00%"/);
   assert.match(timelineSource, /left:"50\.00%", top:"50\.00%", duration:0\.900/);
+  assert.match(timelineSource, /#scene-01-pulse-request"[^\n]*1\.478\);/, 'pulse must wait until the request line reveal has completed plus a short lead');
+  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:46\.9, y:0\.0, scale:1\.054[^\n]*1\.258\);/, 'diagram camera should move toward the active path before the pulse');
   assert.doesNotMatch(timelineSource, /strokeDashoffset/);
   assert.match(html, /class="ax-cta/);
   assert.match(html, /data-layout-allow-overflow/);
