@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {describeCandidate} from './describe-candidates.mjs';
+import {motionFrameNames, pathExists} from './storyboard-assets.mjs';
 
 const safeName = (value) => value.replace(/[^a-zA-Z0-9가-힣._-]+/g, '-').replace(/^-+|-+$/g, '');
 const segment = (value) => encodeURIComponent(value);
@@ -59,9 +60,10 @@ for (const manifestPath of manifests) {
     const heading = new RegExp(`(^## ${i + 1}\\. [^\\n]*\\n)`, 'm');
     const stem = name.replace(/\.png$/, '');
     let review = `![장면 ${i + 1}](${assetUrl(name)})`;
-    if (manifest.scenes[i].diagramSpec || manifest.scenes[i].backgroundVideo || manifest.scenes[i].presenter != null) {
-      for (const phase of ['initial', 'change']) await fs.access(path.join(directory, `${stem}-${phase}.png`));
-      review = `| 시작 | 변화 | 결과 |\n| --- | --- | --- |\n| ![시작](${assetUrl(`${stem}-initial.png`)}) | ![변화](${assetUrl(`${stem}-change.png`)}) | ![결과](${assetUrl(name)}) |`;
+    const motionNames = await motionFrameNames(directory, stem);
+    if (motionNames.length === 2) {
+      const [initialName, changeName] = motionNames;
+      review = `| 시작 | 변화 | 결과 |\n| --- | --- | --- |\n| ![시작](${assetUrl(initialName)}) | ![변화](${assetUrl(changeName)}) | ![결과](${assetUrl(name)}) |`;
     }
     description = description.replace(heading, `$1\n${review}\n\n[장면 이미지 열기](${assetUrl(name)})\n`);
   }
@@ -81,8 +83,9 @@ for (const manifestPath of manifests) {
     `[모아보기 JPG](${assetUrl(`${prefix}-contact-sheet.jpg`)}) · [장면별 PDF](${assetUrl(`${prefix}-storyboard.pdf`)})`,
     '',
   );
-  if (manifest.scenes.some(scene => scene.diagramSpec || scene.backgroundVideo || scene.presenter != null)) {
-    notes.push(`[시작 → 변화 → 결과 모아보기](${assetUrl(`${prefix}-motion-contact-sheet.jpg`)})`, '');
+  const motionSheetName = `${prefix}-motion-contact-sheet.jpg`;
+  if (await pathExists(path.join(directory, motionSheetName)) && assetUrls[motionSheetName]) {
+    notes.push(`[시작 → 변화 → 결과 모아보기](${assetUrl(motionSheetName)})`, '');
   }
   details.push(description);
 }

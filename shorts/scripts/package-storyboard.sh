@@ -20,8 +20,12 @@ while IFS= read -r -d '' storyboard_dir; do
   motion_frames=()
   for scene in "${scenes[@]}"; do
     stem="${scene%.png}"
-    if [[ -f "${stem}-initial.png" ]]; then
-      motion_frames+=("${stem}-initial.png" "${stem}-change.png" "${scene}")
+    initial="${stem}-initial.png"
+    change="${stem}-change.png"
+    if [[ -f "${initial}" && -f "${change}" ]]; then
+      motion_frames+=("${initial}" "${change}" "${scene}")
+    elif [[ -f "${initial}" || -f "${change}" ]]; then
+      echo "Incomplete optional motion storyboard frames for ${stem}; using final snapshot only." >&2
     fi
   done
   if [[ "${#motion_frames[@]}" -gt 0 ]]; then
