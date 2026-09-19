@@ -156,27 +156,30 @@ function diagramMarkup(scene, sceneId) {
     const s = auroraNodePosition(source);
     const t = auroraNodePosition(target);
     const effect = flowEffects.get(node.id);
+    const reveal = (spec.events ?? [])
+      .filter(event => event.target === node.id && event.property === 'opacity')
+      .sort((a, b) => a.start - b.start)[0];
+    const lineReady = clamp(reveal?.end ?? 0, 0, 1);
     if (effect) {
       return {
         selector: `#${sceneId}-pulse-${node.id}`,
         startMs: effect.startMs,
         durationMs: effect.durationMs,
         intensity: effect.intensity,
+        lineReady,
         fromLeft: s.left,
         fromTop: s.top,
         toLeft: t.left,
         toTop: t.top,
       };
     }
-    const reveal = (spec.events ?? [])
-      .filter(event => event.target === node.id && event.property === 'opacity')
-      .sort((a, b) => a.start - b.start)[0];
-    const start = clamp((reveal?.end ?? .28) + .04, .08, .82);
+    const start = clamp((reveal?.end ?? .28) + .12, .12, .82);
     return {
       selector: `#${sceneId}-pulse-${node.id}`,
       start,
       end: clamp(start + .28, start + .08, .98),
       intensity: .98,
+      lineReady,
       fromLeft: s.left,
       fromTop: s.top,
       toLeft: t.left,
@@ -251,7 +254,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
   else if (image) stage = `<div class="ax-photo-stage ax-smoked-panel"><div class="ax-media"><img src="${escapeHtml(image)}" alt=""/></div></div>`;
   else stage = `<div class="ax-statement"><div class="ax-statement-card ax-smoked-panel"><strong>${escapeHtml(heading)}</strong>${subline ? `<span>${escapeHtml(subline)}</span>` : ''}</div></div>`;
 
-  renderedScenes.push(`<section id="${id}" class="clip ax-scene" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage">${stage}</div>${caption.markup}</section>`);
+  renderedScenes.push(`<section id="${id}" class="clip ax-scene" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage"><div class="ax-camera">${stage}</div></div>${caption.markup}</section>`);
 
   const enter = start + .04;
   timelineStatements.push(`tl.from("#${id} .ax-topline", {y:-16, opacity:0, duration:.32, ease:"power2.out"}, ${enter.toFixed(3)});`);
@@ -267,9 +270,41 @@ for (const [index, scene] of manifest.scenes.entries()) {
     const to = JSON.stringify({[event.property]: event.to, duration: Number(eventDuration.toFixed(3)), ease: 'power2.inOut'});
     timelineStatements.push(`tl.fromTo("${event.selector}", ${from}, ${to}, ${eventStart.toFixed(3)});`);
   }
+  const camera = scene.camera ?? null;
+  const explicitCamera = Boolean(diagram.markup && camera && camera.motion && camera.motion !== 'static');
+  const autoFocusCamera = Boolean(diagram.markup && !explicitCamera && diagram.pulses.length);
+  let lastPulseEnd = start;
+
+  if (explicitCamera) {
+    const strength = camera.intensity === 'medium' ? 1 : .55;
+    const cameraStart = start + clamp(Number(camera.startProgress ?? 0), 0, 1) * duration;
+    const cameraEnd = start + clamp(Number(camera.endProgress ?? 1), 0, 1) * duration;
+    const cameraDuration = Math.max(.18, cameraEnd - cameraStart);
+    const origin = camera.target === 'endpoint' ? '78% 30%'
+      : camera.target === 'inflection' ? '52% 46%'
+      : camera.target === 'detail' ? '62% 42%'
+      : '50% 50%';
+    timelineStatements.push(`tl.set("#${id} .ax-camera", {transformOrigin:"${origin}"}, ${cameraStart.toFixed(3)});`);
+    if (camera.motion === 'push-in' || camera.motion === 'zoom') {
+      const maxScale = camera.motion === 'zoom' ? 1 + .24 * strength : 1 + .12 * strength;
+      timelineStatements.push(`tl.fromTo("#${id} .ax-camera", {x:0, y:0, scale:1}, {x:0, y:0, scale:${maxScale.toFixed(3)}, duration:${cameraDuration.toFixed(3)}, ease:"power2.inOut"}, ${cameraStart.toFixed(3)});`);
+    } else if (camera.motion === 'pull-out') {
+      const fromScale = 1 + .12 * strength;
+      timelineStatements.push(`tl.fromTo("#${id} .ax-camera", {x:0, y:0, scale:${fromScale.toFixed(3)}}, {x:0, y:0, scale:1, duration:${cameraDuration.toFixed(3)}, ease:"power2.inOut"}, ${cameraStart.toFixed(3)});`);
+    } else if (camera.motion === 'pan-left' || camera.motion === 'pan-right') {
+      const direction = camera.motion === 'pan-left' ? -1 : 1;
+      const x = 78 * strength * direction;
+      timelineStatements.push(`tl.fromTo("#${id} .ax-camera", {x:0, y:0, scale:1}, {x:${x.toFixed(1)}, y:0, scale:1.025, duration:${cameraDuration.toFixed(3)}, ease:"power2.inOut"}, ${cameraStart.toFixed(3)});`);
+    }
+  }
+
   for (const pulse of diagram.pulses) {
     const explicit = Number.isFinite(pulse.startMs) && Number.isFinite(pulse.durationMs);
-    const offset = explicit ? clamp(pulse.startMs / 1000, 0, Math.max(0, duration - .12)) : clamp(pulse.start, 0, 1) * duration;
+    const requestedOffset = explicit
+      ? clamp(pulse.startMs / 1000, 0, Math.max(0, duration - .12))
+      : clamp(pulse.start, 0, 1) * duration;
+    const lineReadyOffset = clamp(Number(pulse.lineReady ?? 0), 0, 1) * duration + .12;
+    const offset = clamp(Math.max(requestedOffset, lineReadyOffset), 0, Math.max(0, duration - .12));
     const pulseStart = start + offset;
     const requestedDuration = explicit
       ? Math.max(.16, pulse.durationMs / 1000)
@@ -282,7 +317,24 @@ for (const [index, scene] of manifest.scenes.entries()) {
     timelineStatements.push(`tl.to("${pulse.selector}", {opacity:${opacity.toFixed(3)}, scale:1, duration:${fadeIn.toFixed(3)}, ease:"power2.out"}, ${pulseStart.toFixed(3)});`);
     timelineStatements.push(`tl.to("${pulse.selector}", {left:"${pulse.toLeft.toFixed(2)}%", top:"${pulse.toTop.toFixed(2)}%", duration:${pulseDuration.toFixed(3)}, ease:"none"}, ${pulseStart.toFixed(3)});`);
     timelineStatements.push(`tl.to("${pulse.selector}", {opacity:0, scale:.72, duration:${fadeOut.toFixed(3)}, ease:"power1.out"}, ${Math.max(pulseStart, pulseStart + pulseDuration - fadeOut).toFixed(3)});`);
+    lastPulseEnd = Math.max(lastPulseEnd, pulseStart + pulseDuration);
+
+    if (autoFocusCamera) {
+      const focusLeft = (pulse.fromLeft + pulse.toLeft) / 2;
+      const focusTop = (pulse.fromTop + pulse.toTop) / 2;
+      const strength = scene.camera?.intensity === 'medium' ? 1 : .72;
+      const x = clamp((50 - focusLeft) / 100 * 912 * .44 * strength, -150, 150);
+      const y = clamp((50 - focusTop) / 100 * 1020 * .34 * strength, -135, 135);
+      const scale = 1 + .075 * strength;
+      const focusStart = Math.max(start + .58, pulseStart - .22);
+      timelineStatements.push(`tl.to("#${id} .ax-camera", {x:${x.toFixed(1)}, y:${y.toFixed(1)}, scale:${scale.toFixed(3)}, duration:.38, ease:"power2.inOut"}, ${focusStart.toFixed(3)});`);
+    }
   }
+
+  if (autoFocusCamera && lastPulseEnd + .5 < start + duration) {
+    timelineStatements.push(`tl.to("#${id} .ax-camera", {x:0, y:0, scale:1, duration:.44, ease:"power2.inOut"}, ${(lastPulseEnd + .08).toFixed(3)});`);
+  }
+
   for (const [cueIndex, cue] of caption.cues.entries()) {
     const cueStart = start + Math.max(0, cue.startSeconds);
     const cueEnd = start + Math.min(duration - .04, cue.endSeconds);
