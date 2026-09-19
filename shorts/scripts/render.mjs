@@ -34,7 +34,7 @@ const MIN_CAPTION_CHARS = 4;
 const TARGET_CAPTION_CHARS = 12;
 const MAX_CAPTION_CHARS = 16;
 const HARD_MAX_CAPTION_CHARS = 22;
-const TTS_RATE = Number(process.env.SHORTS_TTS_RATE || '1.5');
+const TTS_RATE = Number(process.env.SHORTS_TTS_RATE || '1.25');
 const STORYBOARD_FLAG = '--storyboard';
 const DEFAULT_PRESENTER_OVERLAY = Object.freeze({
   position: 'bottom-right',

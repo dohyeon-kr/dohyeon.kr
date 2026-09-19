@@ -201,7 +201,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
-          SHORTS_TTS_RATE: 1.5
+          SHORTS_TTS_RATE: 1.25
           MANIFEST: ${{ inputs.manifest }}
         run: node shorts/scripts/render.mjs "$MANIFEST" --prepare-audio
 
@@ -231,7 +231,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
           SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
-          SHORTS_TTS_RATE: 1.5
+          SHORTS_TTS_RATE: 1.25
           SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
           MANIFEST: ${{ inputs.manifest }}
         run: node shorts/scripts/render-reels.mjs "$MANIFEST"

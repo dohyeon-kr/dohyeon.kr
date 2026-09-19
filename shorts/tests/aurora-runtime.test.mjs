@@ -97,9 +97,12 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-object="browser"/);
   assert.match(html, /data-ax-object="service"/);
   assert.match(html, /data-ax-object="db"/);
-  assert.match(html, /data-ax-connection="request"[^>]*x1="17\.50%" y1="50\.00%" x2="50\.00%" y2="50\.00%"/);
+  assert.match(html, /class="ax-connector-layer" viewBox="0 0 800 560"/);
+  assert.match(html, /data-ax-connection="request"[^>]*x1="140\.00" y1="280\.00" x2="400\.00" y2="280\.00"/);
+  assert.match(html, /data-ax-object-bg="browser"[^>]*style="left:17\.50%;top:50\.00%/);
   assert.match(html, /data-ax-pulse="request"/);
-  assert.match(css, /\.ax-connector\{[^}]*stroke-width:1\.25(?:px)?[;}]/);
+  assert.match(css, /\.ax-connector\{[^}]*stroke-width:3\.25(?:px)?[;}]/);
+  assert.match(css, /\.ax-connector\{[^}]*stroke-dasharray:12 14[;}]/);
   assert.match(css, /\.ax-connector\{[^}]*vector-effect:non-scaling-stroke/);
   assert.match(html, /data-ax-object-bg="browser"/);
   assert.match(css, /\.ax-object-bg\{[^}]*z-index:1/);
@@ -179,6 +182,7 @@ test('Aurora final audio preparation keeps the composition presenter-less', asyn
   assert.match(source, /template\.id === 'aurora-explain'/);
   assert.match(source, /manifest\.presenterOverlay = null/);
   assert.match(source, /for \(const scene of manifest\.scenes\) scene\.presenter = null/);
+  assert.match(source, /SHORTS_TTS_RATE \|\| '1\.25'/);
 });
 
 test('shared storyboard and final workflows accept aurora-explain only on HyperFrames', async () => {
@@ -186,5 +190,9 @@ test('shared storyboard and final workflows accept aurora-explain only on HyperF
     const source = await fs.readFile(path.join(repoRoot, '.github', 'workflows', file), 'utf8');
     assert.match(source, /aurora-explain/);
     assert.match(source, /monoliquid-v2.*aurora-explain|aurora-explain.*monoliquid-v2/s);
+    if (file === 'render-shorts.yml') {
+      assert.match(source, /SHORTS_TTS_RATE:\s*1\.25/);
+      assert.doesNotMatch(source, /SHORTS_TTS_RATE:\s*1\.5/);
+    }
   }
 });
