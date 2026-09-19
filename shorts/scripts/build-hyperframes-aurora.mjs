@@ -113,7 +113,13 @@ function diagramMarkup(scene, sceneId) {
     const s = auroraNodePosition(source);
     const t = auroraNodePosition(target);
     const accent = /hit|active|request|flow|persist|save|write/i.test(`${node.id} ${node.label}`) ? ' is-accent' : '';
-    // Draw in the same canonical 800x560 coordinate system that defines node centers.\n    // This removes percentage/SVG viewport drift and guarantees center-to-center geometry.\n    const sx = s.left * 8;\n    const sy = s.top * 5.6;\n    const tx = t.left * 8;\n    const ty = t.top * 5.6;\n    const points = `x1="${sx.toFixed(2)}" y1="${sy.toFixed(2)}" x2="${tx.toFixed(2)}" y2="${ty.toFixed(2)}"`;
+    // Draw in the same canonical 800x560 coordinate system that defines node centers.
+    // This removes percentage/SVG viewport drift and guarantees center-to-center geometry.
+    const sx = s.left * 8;
+    const sy = s.top * 5.6;
+    const tx = t.left * 8;
+    const ty = t.top * 5.6;
+    const points = `x1="${sx.toFixed(2)}" y1="${sy.toFixed(2)}" x2="${tx.toFixed(2)}" y2="${ty.toFixed(2)}"`;
     return `<line id="${sceneId}-connection-${escapeHtml(node.id)}" class="ax-connector${accent}" data-ax-connection="${escapeHtml(node.id)}" ${points}/>`;
   }).join('');
   const pulseMarks = connectorNodes.map(node => {
