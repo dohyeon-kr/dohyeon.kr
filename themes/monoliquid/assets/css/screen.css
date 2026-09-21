@@ -1553,7 +1553,7 @@ iframe[src*="announcement-bar"] {
   border-left: 0;
 }
 
-.article > .ad-slot--banner {
+.featured-carousel + .ad-slot--banner {
   border-top: 0;
 }
 
