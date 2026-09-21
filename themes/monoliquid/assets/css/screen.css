@@ -1505,6 +1505,84 @@ iframe[src*="announcement-bar"] {
   }
 }
 
+
+/* Reserved ad inventory. AdSense markup can mount into [data-adsense-mount]. */
+.ad-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-frame);
+  background: var(--color-paper);
+}
+
+.ad-slot__label {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  color: var(--color-muted-2);
+  font-family: var(--font-extended);
+  font-size: 9px;
+  font-stretch: 125%;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.ad-slot__mount {
+  width: 100%;
+  min-height: inherit;
+}
+
+.ad-slot--banner {
+  min-height: 96px;
+}
+
+.ad-slot--feed {
+  min-height: 180px;
+}
+
+.post-grid > .ad-slot {
+  border-right: 0;
+  border-left: 0;
+}
+
+.article > .ad-slot--banner {
+  border-top: 0;
+}
+
+.ad-rail {
+  display: none;
+  position: absolute;
+  top: 160px;
+  width: 160px;
+}
+
+.ad-rail--left {
+  left: calc(50% - (var(--content-wide) / 2) - 184px);
+}
+
+.ad-rail--right {
+  right: calc(50% - (var(--content-wide) / 2) - 184px);
+}
+
+.ad-slot--rail {
+  width: 160px;
+  min-height: 600px;
+}
+
+@media (min-width: 1500px) {
+  .ad-rail {
+    display: block;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1605,6 +1683,14 @@ iframe[src*="announcement-bar"] {
   .gh-content {
     padding: 22px 14px;
     font-size: 16px;
+  }
+
+  .ad-slot--banner {
+    min-height: 100px;
+  }
+
+  .ad-slot--feed {
+    min-height: 140px;
   }
 }
 
