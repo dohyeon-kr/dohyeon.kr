@@ -194,6 +194,39 @@ function diagramMarkup(scene, sceneId) {
   };
 }
 
+function sceneEffectLayers(scene, sceneId) {
+  const nodeById = new Map((scene.diagramSpec?.nodes ?? []).map(node => [node.id, node]));
+  const stageMarkup = [];
+  const overlayMarkup = [];
+  const timeline = [];
+  for (const [index, effect] of (scene.effects ?? []).entries()) {
+    if (!['glow', 'light-leak'].includes(effect.type)) continue;
+    const node = nodeById.get(effect.target);
+    const position = node && node.shape !== 'line' ? auroraNodePosition(node) : null;
+    const color = /^#[0-9a-fA-F]{6}$/.test(effect.color ?? '') ? effect.color : '#ffffff';
+    const effectId = `${sceneId}-effect-${index}`;
+    if (effect.type === 'glow' && position) {
+      stageMarkup.push(`<i id="${effectId}" class="ax-target-glow" data-ax-effect="glow" data-ax-effect-target="${escapeHtml(effect.target)}" style="left:${position.left.toFixed(2)}%;top:${position.top.toFixed(2)}%;--ax-effect-color:${color};--ax-effect-radius:${Math.max(1, Number(effect.radius ?? 84)).toFixed(1)}px"></i>`);
+    }
+    if (effect.type === 'light-leak') {
+      const origin = Array.isArray(effect.origin) && effect.origin.length === 2
+        ? effect.origin
+        : position ? [position.left / 100, position.top / 100] : [.5, .5];
+      overlayMarkup.push(`<i id="${effectId}" class="ax-error-overlay" data-ax-effect="light-leak" data-ax-effect-target="${escapeHtml(effect.target)}" style="--ax-effect-color:${color};--ax-origin-x:${clamp(Number(origin[0]), 0, 1) * 100}%;--ax-origin-y:${clamp(Number(origin[1]), 0, 1) * 100}%"></i>`);
+    }
+    timeline.push({
+      id: effectId,
+      type: effect.type,
+      target: effect.target,
+      startMs: Number(effect.startMs ?? 0),
+      durationMs: Math.max(100, Number(effect.durationMs ?? 600)),
+      intensity: clamp(Number(effect.intensity ?? 1), 0, 1),
+      position,
+    });
+  }
+  return {stageMarkup: stageMarkup.join(''), overlayMarkup: overlayMarkup.join(''), timeline};
+}
+
 function ambientMarkup() {
   return `<div class="ax-ambient" data-layout-allow-overflow aria-hidden="true"><i class="ax-orb ax-orb--a" data-layout-allow-overflow></i><i class="ax-orb ax-orb--b" data-layout-allow-overflow></i><i class="ax-orb ax-orb--c" data-layout-allow-overflow></i></div>`;
 }
@@ -246,15 +279,16 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const heading = compact(scene.headline) || compact(candidate.candidate?.title) || 'Untitled';
   const subline = compact(scene.subline);
   const diagram = diagramMarkup(scene, id);
+  const sceneEffects = sceneEffectLayers(scene, id);
   const caption = sceneCaptionMarkup(scene, index);
   const preparedImage = scene.imagePath ? await copyPreparedMedia(scene.imagePath, `${id}-image`) : null;
   const image = preparedImage || scene.image?.originalUrl || scene.image?.thumbnailUrl || null;
   let stage = '';
-  if (diagram.markup) stage = diagram.markup;
+  if (diagram.markup) stage = `${diagram.markup}${sceneEffects.stageMarkup}`;
   else if (image) stage = `<div class="ax-photo-stage ax-smoked-panel"><div class="ax-media"><img src="${escapeHtml(image)}" alt=""/></div></div>`;
   else stage = `<div class="ax-statement"><div class="ax-statement-card ax-smoked-panel"><strong>${escapeHtml(heading)}</strong>${subline ? `<span>${escapeHtml(subline)}</span>` : ''}</div></div>`;
 
-  renderedScenes.push(`<section id="${id}" class="clip ax-scene" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage"><div class="ax-camera">${stage}</div></div>${caption.markup}</section>`);
+  renderedScenes.push(`<section id="${id}" class="clip ax-scene" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}${sceneEffects.overlayMarkup}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage"><div class="ax-camera"><div class="ax-camera-shake">${stage}</div></div></div>${caption.markup}</section>`);
 
   const enter = start + .04;
   timelineStatements.push(`tl.from("#${id} .ax-topline", {y:-16, opacity:0, duration:.32, ease:"power2.out"}, ${enter.toFixed(3)});`);
@@ -270,9 +304,26 @@ for (const [index, scene] of manifest.scenes.entries()) {
     const to = JSON.stringify({[event.property]: event.to, duration: Number(eventDuration.toFixed(3)), ease: 'power2.inOut'});
     timelineStatements.push(`tl.fromTo("${event.selector}", ${from}, ${to}, ${eventStart.toFixed(3)});`);
   }
+
+  for (const effect of sceneEffects.timeline) {
+    const maxOffset = Math.max(0, duration - .12);
+    const offset = clamp(effect.startMs / 1000, 0, maxOffset);
+    const effectStart = start + offset;
+    const effectDuration = Math.min(effect.durationMs / 1000, Math.max(.12, duration - offset - .02));
+    const fadeIn = Math.min(.18, effectDuration * .28);
+    const fadeOut = Math.min(.24, effectDuration * .32);
+    const peak = effect.type === 'light-leak' ? effect.intensity * .74 : effect.intensity;
+    timelineStatements.push(`tl.set("#${effect.id}", {opacity:0, scale:${effect.type === 'light-leak' ? '.94' : '.62'}}, ${effectStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("#${effect.id}", {opacity:${peak.toFixed(3)}, scale:1, duration:${fadeIn.toFixed(3)}, ease:"power2.out"}, ${effectStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("#${effect.id}", {opacity:0, scale:${effect.type === 'light-leak' ? '1.06' : '1.18'}, duration:${fadeOut.toFixed(3)}, ease:"power2.in"}, ${Math.max(effectStart + fadeIn, effectStart + effectDuration - fadeOut).toFixed(3)});`);
+  }
+
   const camera = scene.camera ?? null;
   const explicitCamera = Boolean(diagram.markup && camera && camera.motion && camera.motion !== 'static');
   const autoFocusCamera = Boolean(diagram.markup && !explicitCamera && diagram.pulses.length);
+  const errorShakeEnabled = (scene.choreography ?? []).includes('camera-error-shake');
+  const errorEffect = sceneEffects.timeline.find(effect => effect.type === 'light-leak')
+    ?? sceneEffects.timeline.find(effect => effect.type === 'glow');
   let lastPulseEnd = start;
 
   if (explicitCamera) {
@@ -333,6 +384,25 @@ for (const [index, scene] of manifest.scenes.entries()) {
 
   if (autoFocusCamera && lastPulseEnd + .5 < start + duration) {
     timelineStatements.push(`tl.to("#${id} .ax-camera", {x:0, y:0, scale:1, duration:.44, ease:"power2.inOut"}, ${(lastPulseEnd + .08).toFixed(3)});`);
+  }
+
+  if (errorShakeEnabled && errorEffect) {
+    const maxOffset = Math.max(0, duration - .48);
+    const shakeOffset = clamp(errorEffect.startMs / 1000, 0, maxOffset);
+    const shakeStart = start + shakeOffset;
+    const p = errorEffect.position ?? {left: 50, top: 50};
+    const focusX = clamp((50 - p.left) * 1.05, -32, 32);
+    const focusY = clamp((50 - p.top) * .78, -24, 24);
+    const origin = `${p.left.toFixed(1)}% ${p.top.toFixed(1)}%`;
+    const shakeSelector = `#${id} .ax-camera-shake`;
+    const focusStart = Math.max(start + .2, shakeStart - .22);
+    timelineStatements.push(`tl.set("${shakeSelector}", {transformOrigin:"${origin}"}, ${focusStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${focusX.toFixed(1)}, y:${focusY.toFixed(1)}, scale:1.065, rotation:0, duration:.22, ease:"power2.out"}, ${focusStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX - 15).toFixed(1)}, y:${(focusY + 2).toFixed(1)}, rotation:-.75, duration:.065, ease:"power1.inOut"}, ${shakeStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX + 13).toFixed(1)}, y:${(focusY - 2).toFixed(1)}, rotation:.62, duration:.07, ease:"power1.inOut"}, ${(shakeStart + .065).toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX - 8).toFixed(1)}, y:${(focusY + 1).toFixed(1)}, rotation:-.38, duration:.07, ease:"power1.inOut"}, ${(shakeStart + .135).toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX + 4).toFixed(1)}, y:${focusY.toFixed(1)}, rotation:.18, duration:.065, ease:"power1.inOut"}, ${(shakeStart + .205).toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:0, y:0, scale:1, rotation:0, duration:.34, ease:"power3.out"}, ${(shakeStart + .3).toFixed(3)});`);
   }
 
   for (const [cueIndex, cue] of caption.cues.entries()) {
