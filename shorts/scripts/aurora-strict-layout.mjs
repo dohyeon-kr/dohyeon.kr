@@ -18,6 +18,8 @@ const round = (value) => Number(Number(value).toFixed(3));
 
 export function inferAuroraRole(node) {
   const value = `${node?.id ?? ''} ${node?.label ?? ''}`.toLowerCase();
+  if (/checklist|requirements|todo|policy/.test(value)) return 'checklist';
+  if (/input|field|phone|otp|verification-code/.test(value)) return 'input';
   if (/browser|web|client|frontend/.test(value)) return 'browser';
   if (/terminal|cli|console/.test(value)) return 'terminal';
   if (/cache|redis/.test(value)) return 'cache';
@@ -26,7 +28,11 @@ export function inferAuroraRole(node) {
   return 'module';
 }
 
-const roleMinimumWidth = (role) => role === 'browser' ? 220 : role === 'datastore' || role === 'cache' ? 180 : 170;
+const roleMinimumWidth = (role) => role === 'browser' ? 220
+  : role === 'input' ? 280
+  : role === 'checklist' ? 260
+  : role === 'datastore' || role === 'cache' ? 180
+  : 170;
 
 export function auroraNodePosition(node) {
   const role = inferAuroraRole(node);
