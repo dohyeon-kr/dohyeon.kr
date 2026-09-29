@@ -1,0 +1,776 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-01",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/",
+    "title": "회원가입에 휴대폰 번호 인풋을 추가해주세요"
+  },
+  "candidate": {
+    "angle": "case-study",
+    "hook": "회원가입에 휴대폰 번호 인풋을 하나 추가해 주세요.",
+    "title": "인풋 하나를 추가하면\n무엇이 같이 생길까?",
+    "rationale": "프론트엔드 개발자가 한 줄의 요구사항을 바로 UI로 옮기지 않고, 목적·인증·입력 오류·API 계약·기존 회원 정책을 확인하면서 동일한 회원가입 화면을 점진적으로 완성하는 과정을 하나의 연속 애니메이션으로 보여준다. 장면을 컷으로 끊지 않고 입력 UI와 체크리스트가 같은 위치에서 상태를 바꾸며 성장하도록 구성한다.",
+    "viralScore": 88,
+    "suggestedCaption": "“회원가입에 휴대폰 번호 인풋을 추가해주세요.” 프론트엔드에서는 이 한 줄이 입력창 하나로 끝나지 않습니다. 왜 받는지, 인증이 필요한지, 어떤 오류를 처리할지, 서버와 어떤 계약을 맺을지, 기존 회원은 어떻게 할지에 따라 같은 화면이 계속 달라집니다.",
+    "hashtags": [
+      "#프론트엔드",
+      "#Frontend",
+      "#React",
+      "#UX",
+      "#개발자"
+    ]
+  },
+  "style": {
+    "theme": "aurora-explain",
+    "template": "aurora-explain",
+    "colorScheme": "dark",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "aurora-explain",
+    "motionLanguage": "finite-semantic",
+    "decorativeLabels": "forbidden"
+  },
+  "presenterOverlay": null,
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "회원가입 폼을 상징하는 휴대폰 번호 input 하나만 왼쪽에 놓이고 오른쪽 체크리스트 영역은 비어 있다.",
+        "trigger": "기획자의 한 줄 요청 뒤에 목적, 인증, 오류, API 계약, 기존 회원 정책 질문이 순서대로 추가된다.",
+        "change": "같은 좌표의 input이 기본 → 인증 필요 → 오류 → 정규화 → 인증 완료 상태로 끊김 없이 교체되고, 오른쪽 체크리스트도 같은 위치에서 항목이 누적되는 상태로 교체된다. 인증 요구가 생기면 OTP input이 아래로 추가된다. 오류 구간에서는 phone-input-error가 짧게 좌우·회전 진동하고 red light-leak이 화면 위에 순간적으로 겹친다. 각 단계 연결선의 pulse가 켜질 때 Aurora camera는 해당 input과 checklist 사이로 zoom/pan하여 다음 변화로 시선을 이동한다.",
+        "invariant": "회원가입 UI의 기본 좌표는 끝까지 유지한다. 컷 전환이나 새 화면 리셋 없이 한 타임라인에서 상태만 바뀐다. 오류 흔들림은 1초 이내의 짧은 피드백으로 끝나며 과도한 반복을 금지한다. headline과 자막은 카메라 흔들림 대상에서 제외한다.",
+        "result": "처음의 인풋 하나가 인증 UI와 오류 처리, API 계약, 기존 회원 정책 체크리스트까지 확장되어 프론트엔드가 완성해야 하는 실제 사용자 흐름으로 보인다."
+      },
+      "diagramSpec": {
+        "version": 1,
+        "renderer": "auto",
+        "physics": null,
+        "description": "한 회원가입 화면을 유지한 채 휴대폰 번호 input의 상태와 오른쪽 구현 체크리스트가 요구사항 질문에 따라 실시간으로 확장되는 연속 UI 애니메이션.",
+        "nodes": [
+          {
+            "id": "phone-input-basic",
+            "shape": "rect",
+            "label": "휴대폰 번호",
+            "x": 220,
+            "y": 175,
+            "width": 300,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "phone-input-auth",
+            "shape": "rect",
+            "label": "휴대폰 번호 · 인증 필요",
+            "x": 220,
+            "y": 175,
+            "width": 300,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "phone-input-error",
+            "shape": "rect",
+            "label": "010-12 · 잘못된 번호",
+            "x": 220,
+            "y": 175,
+            "width": 300,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "phone-input-normalized",
+            "shape": "rect",
+            "label": "010-1234-5678",
+            "x": 220,
+            "y": 175,
+            "width": 300,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "phone-input-verified",
+            "shape": "rect",
+            "label": "010-1234-5678 · 인증 완료",
+            "x": 220,
+            "y": 175,
+            "width": 300,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "otp-input",
+            "shape": "rect",
+            "label": "인증번호 6자리",
+            "x": 220,
+            "y": 390,
+            "width": 300,
+            "height": 130,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "checklist-purpose",
+            "shape": "rect",
+            "label": "✓ 목적 확인 · ☐ 필수 여부",
+            "x": 625,
+            "y": 280,
+            "width": 250,
+            "height": 340,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "checklist-auth",
+            "shape": "rect",
+            "label": "✓ 본인인증 · ☐ 재전송 · 만료",
+            "x": 625,
+            "y": 280,
+            "width": 250,
+            "height": 340,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "checklist-errors",
+            "shape": "rect",
+            "label": "✓ 포맷 · 붙여넣기 · ☐ 실패 · 중복",
+            "x": 625,
+            "y": 280,
+            "width": 250,
+            "height": 340,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "checklist-contract",
+            "shape": "rect",
+            "label": "✓ 서버 검증 · ✓ 400 · 409 처리",
+            "x": 625,
+            "y": 280,
+            "width": 250,
+            "height": 340,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "checklist-legacy",
+            "shape": "rect",
+            "label": "✓ 기존 회원 null · ✓ 신규 회원 필수?",
+            "x": 625,
+            "y": 280,
+            "width": 250,
+            "height": 340,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "flow-purpose",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 280,
+            "width": 10,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "phone-input-basic",
+              "target": "checklist-purpose",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "flow-auth",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 280,
+            "width": 10,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "phone-input-auth",
+              "target": "checklist-auth",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "flow-error",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 280,
+            "width": 10,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "phone-input-error",
+              "target": "checklist-errors",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "flow-contract",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 280,
+            "width": 10,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "phone-input-normalized",
+              "target": "checklist-contract",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "flow-legacy",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 280,
+            "width": 10,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "phone-input-verified",
+              "target": "checklist-legacy",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          }
+        ],
+        "events": [
+          {
+            "target": "phone-input-basic",
+            "property": "scale",
+            "from": 0.94,
+            "to": 1,
+            "start": 0.02,
+            "end": 0.06
+          },
+          {
+            "target": "checklist-purpose",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.08,
+            "end": 0.1
+          },
+          {
+            "target": "checklist-purpose",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.28,
+            "end": 0.3
+          },
+          {
+            "target": "flow-purpose",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.13
+          },
+          {
+            "target": "flow-purpose",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.26,
+            "end": 0.28
+          },
+          {
+            "target": "phone-input-basic",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.28,
+            "end": 0.3
+          },
+          {
+            "target": "phone-input-auth",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.32
+          },
+          {
+            "target": "phone-input-auth",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.46,
+            "end": 0.48
+          },
+          {
+            "target": "otp-input",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.32,
+            "end": 0.36
+          },
+          {
+            "target": "checklist-auth",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.3,
+            "end": 0.32
+          },
+          {
+            "target": "checklist-auth",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.44,
+            "end": 0.46
+          },
+          {
+            "target": "flow-auth",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.32,
+            "end": 0.35
+          },
+          {
+            "target": "flow-auth",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.43,
+            "end": 0.45
+          },
+          {
+            "target": "phone-input-error",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.48,
+            "end": 0.5
+          },
+          {
+            "target": "phone-input-error",
+            "property": "x",
+            "from": 220,
+            "to": 228,
+            "start": 0.5,
+            "end": 0.51
+          },
+          {
+            "target": "phone-input-error",
+            "property": "x",
+            "from": 228,
+            "to": 214,
+            "start": 0.51,
+            "end": 0.52
+          },
+          {
+            "target": "phone-input-error",
+            "property": "x",
+            "from": 214,
+            "to": 224,
+            "start": 0.52,
+            "end": 0.53
+          },
+          {
+            "target": "phone-input-error",
+            "property": "x",
+            "from": 224,
+            "to": 220,
+            "start": 0.53,
+            "end": 0.54
+          },
+          {
+            "target": "phone-input-error",
+            "property": "rotation",
+            "from": -1.2,
+            "to": 1.2,
+            "start": 0.5,
+            "end": 0.51
+          },
+          {
+            "target": "phone-input-error",
+            "property": "rotation",
+            "from": 1.2,
+            "to": -0.8,
+            "start": 0.51,
+            "end": 0.52
+          },
+          {
+            "target": "phone-input-error",
+            "property": "rotation",
+            "from": -0.8,
+            "to": 0.5,
+            "start": 0.52,
+            "end": 0.53
+          },
+          {
+            "target": "phone-input-error",
+            "property": "rotation",
+            "from": 0.5,
+            "to": 0,
+            "start": 0.53,
+            "end": 0.54
+          },
+          {
+            "target": "phone-input-error",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.6,
+            "end": 0.62
+          },
+          {
+            "target": "checklist-errors",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.46,
+            "end": 0.48
+          },
+          {
+            "target": "checklist-errors",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.64,
+            "end": 0.66
+          },
+          {
+            "target": "flow-error",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.53
+          },
+          {
+            "target": "flow-error",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.61,
+            "end": 0.63
+          },
+          {
+            "target": "phone-input-normalized",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.62,
+            "end": 0.64
+          },
+          {
+            "target": "phone-input-normalized",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.8,
+            "end": 0.82
+          },
+          {
+            "target": "checklist-contract",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.66,
+            "end": 0.68
+          },
+          {
+            "target": "checklist-contract",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.8,
+            "end": 0.82
+          },
+          {
+            "target": "flow-contract",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.68,
+            "end": 0.71
+          },
+          {
+            "target": "flow-contract",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.79,
+            "end": 0.81
+          },
+          {
+            "target": "phone-input-verified",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.82,
+            "end": 0.84
+          },
+          {
+            "target": "phone-input-verified",
+            "property": "scale",
+            "from": 0.97,
+            "to": 1.03,
+            "start": 0.84,
+            "end": 0.88
+          },
+          {
+            "target": "checklist-legacy",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.82,
+            "end": 0.84
+          },
+          {
+            "target": "flow-legacy",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.84,
+            "end": 0.87
+          },
+          {
+            "target": "flow-legacy",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.94,
+            "end": 0.97
+          }
+        ]
+      },
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "diagram",
+        "motif": "continuous-signup-requirement-expansion",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "한 줄짜리 휴대폰 번호 입력 요구가 프론트엔드 구현 범위로 확장되는 과정",
+        "relation": {
+          "type": "network-growth",
+          "description": "하나의 input에서 시작해 인증, validation, API 오류, 기존 회원 정책으로 고려 범위가 늘어난다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "살아 있는 회원가입 폼과 옆에서 자라는 구현 체크리스트",
+          "rationale": "슬라이드를 넘기기보다 같은 화면을 계속 변형해야 프론트엔드가 질문을 통해 요구사항을 구체화하는 과정을 직접 체감할 수 있다."
+        }
+      },
+      "transition": "none",
+      "transitionOptions": null,
+      "effects": [
+        {
+          "type": "flow-glow",
+          "target": "flow-purpose",
+          "startMs": 4500,
+          "durationMs": 1100,
+          "intensity": 0.9,
+          "color": "#ffffff",
+          "seed": 101
+        },
+        {
+          "type": "flow-glow",
+          "target": "flow-auth",
+          "startMs": 14500,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#55ddff",
+          "seed": 102
+        },
+        {
+          "type": "light-leak",
+          "target": "phone-input-error",
+          "startMs": 25500,
+          "durationMs": 900,
+          "intensity": 0.9,
+          "color": "#ff304f",
+          "seed": 103,
+          "origin": [
+            0.36,
+            0.47
+          ]
+        },
+        {
+          "type": "glow",
+          "target": "phone-input-error",
+          "startMs": 25700,
+          "durationMs": 1100,
+          "intensity": 1,
+          "color": "#ff304f",
+          "seed": 104,
+          "radius": 96
+        },
+        {
+          "type": "flow-glow",
+          "target": "flow-error",
+          "startMs": 26500,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ff687f",
+          "seed": 105
+        },
+        {
+          "type": "flow-glow",
+          "target": "flow-contract",
+          "startMs": 36500,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#55ddff",
+          "seed": 106
+        },
+        {
+          "type": "flow-glow",
+          "target": "flow-legacy",
+          "startMs": 45500,
+          "durationMs": 1200,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 107
+        }
+      ],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "keep-single-continuous-stage",
+        "morph-phone-input-in-place",
+        "grow-checklist-without-cut",
+        "add-otp-with-layout-shift",
+        "error-red-overlay",
+        "camera-error-shake",
+        "camera-follow-active-requirement",
+        "restore-camera-before-final-hold"
+      ],
+      "beats": [
+        {
+          "text": "기획자가 말합니다. 회원가입에 휴대폰 번호 인풋을 하나 추가해 주세요.",
+          "emphasis": "high",
+          "pauseAfterMs": 140,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "인풋 하나",
+          "visualCue": "phone-input-basic"
+        },
+        {
+          "text": "바로 만들기 전에 먼저 묻습니다. 이 번호는 왜 받나요? 연락처인가요, 본인 인증인가요?",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "왜 받나요",
+          "visualCue": "checklist-purpose"
+        },
+        {
+          "text": "본인 인증용이라는 답이 오면 화면이 달라집니다. 인증번호 발송, 재전송, 만료와 실패 상태가 같이 생깁니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "본인 인증",
+          "visualCue": "otp-input"
+        },
+        {
+          "text": "그다음은 입력 자체입니다. 하이픈을 직접 받는지, 붙여넣기는 어떻게 정규화할지, 잘못된 번호는 어디서 막을지 결정해야 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "잘못된 번호",
+          "visualCue": "phone-input-error"
+        },
+        {
+          "text": "입력이 틀리면 빨간 오류 상태가 겹치고 화면이 짧게 흔들립니다. 사용자의 시선은 문제 난 인풋으로 바로 모입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "drop",
+          "visualPriority": "high",
+          "keyword": "오류 상태",
+          "visualCue": "error-red-overlay"
+        },
+        {
+          "text": "그리고 서버와 계약합니다. 어떤 값으로 보내고, 서버가 무엇을 검증하고, 중복 번호를 400으로 볼지 409로 볼지도 정해야 합니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 160,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "서버와 계약",
+          "visualCue": "checklist-contract"
+        },
+        {
+          "text": "마지막으로 기존 회원을 봅니다. 기존 데이터에는 번호가 없는데 신규 회원만 필수라면, 그건 인풋 문제가 아니라 제품 정책입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "기존 회원",
+          "visualCue": "checklist-legacy"
+        },
+        {
+          "text": "프론트엔드에서 인풋 하나를 추가한다는 건, 컴포넌트 하나를 놓는 일이 아니라 사용자 흐름 하나를 완성하는 일입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 320,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "사용자 흐름",
+          "visualCue": "phone-input-verified"
+        }
+      ],
+      "headline": "회원가입에 휴대폰 번호\n인풋을 추가해주세요.",
+      "subline": "요구사항이 바뀔 때마다 같은 화면이 계속 변한다",
+      "narration": "기획자가 말합니다. 회원가입에 휴대폰 번호 인풋을 하나 추가해 주세요. 바로 만들기 전에 먼저 묻습니다. 이 번호는 왜 받나요? 연락처인가요, 본인 인증인가요? 본인 인증용이라는 답이 오면 화면이 달라집니다. 인증번호 발송, 재전송, 만료와 실패 상태가 같이 생깁니다. 그다음은 입력 자체입니다. 하이픈을 직접 받는지, 붙여넣기는 어떻게 정규화할지, 잘못된 번호는 어디서 막을지 결정해야 합니다. 입력이 틀리면 빨간 오류 상태가 겹치고 화면이 짧게 흔들립니다. 사용자의 시선은 문제 난 인풋으로 바로 모입니다. 그리고 서버와 계약합니다. 어떤 값으로 보내고, 서버가 무엇을 검증하고, 중복 번호를 400으로 볼지 409로 볼지도 정해야 합니다. 마지막으로 기존 회원을 봅니다. 기존 데이터에는 번호가 없는데 신규 회원만 필수라면, 그건 인풋 문제가 아니라 제품 정책입니다. 프론트엔드에서 인풋 하나를 추가한다는 건, 컴포넌트 하나를 놓는 일이 아니라 사용자 흐름 하나를 완성하는 일입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}
