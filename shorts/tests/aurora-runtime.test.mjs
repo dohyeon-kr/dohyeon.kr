@@ -29,7 +29,12 @@ const auroraManifest = () => ({
       imageQuery: null, comparisonLeft: null, comparisonRight: null, image: null,
       visual: {type: 'diagram', motif: 'request-flow', query: null, value: null, xLabel: null, yLabel: null},
       beats: [{text: '브라우저의 요청은 서비스와 저장소를 거칩니다.', emphasis: 'high', pauseAfterMs: 0, delivery: 'normal', visualPriority: 'high', keyword: '요청', visualCue: null}],
-      effects: [{type: 'flow-glow', target: 'request', startMs: 500, durationMs: 900, intensity: 1, color: '#ffffff', seed: 7}],
+      effects: [
+        {type: 'flow-glow', target: 'request', startMs: 500, durationMs: 900, intensity: 1, color: '#ffffff', seed: 7},
+        {type: 'light-leak', target: 'service', startMs: 1200, durationMs: 700, intensity: .9, color: '#ff304f', seed: 8, origin: [.5, .5]},
+        {type: 'glow', target: 'service', startMs: 1240, durationMs: 760, intensity: 1, color: '#ff304f', seed: 9, radius: 88},
+      ],
+      choreography: ['camera-error-shake'],
       diagramSpec: {
         version: 1,
         renderer: 'auto',
@@ -102,6 +107,12 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-connection="request"[^>]*x1="140\.00" y1="280\.00" x2="400\.00" y2="280\.00"/);
   assert.match(html, /data-ax-object-bg="browser"[^>]*style="left:17\.50%;top:50\.00%/);
   assert.match(html, /data-ax-pulse="request"/);
+  assert.match(html, /class="ax-camera-shake"/);
+  assert.match(html, /data-ax-effect="light-leak"[^>]*data-ax-effect-target="service"/);
+  assert.match(html, /data-ax-effect="glow"[^>]*data-ax-effect-target="service"/);
+  assert.match(css, /\.ax-camera-shake\{[^}]*will-change:transform/);
+  assert.match(css, /\.ax-error-overlay\{[^}]*mix-blend-mode:screen/);
+  assert.match(css, /\.ax-target-glow\{[^}]*radial-gradient/);
   assert.match(css, /\.ax-connector-layer\{[^}]*width:100%[^}]*height:100%/);
   assert.match(css, /\.ax-camera\{[^}]*position:absolute[^}]*inset:0[^}]*will-change:transform/);
   assert.match(css, /\.ax-connector\{[^}]*stroke-width:3\.25(?:px)?[;}]/);
@@ -118,6 +129,11 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(timelineSource, /left:"50\.00%", top:"50\.00%", duration:0\.900/);
   assert.match(timelineSource, /#scene-01-pulse-request"[^\n]*1\.478\);/, 'pulse must wait until the request line reveal has completed plus a short lead');
   assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:46\.9, y:0\.0, scale:1\.054[^\n]*1\.258\);/, 'diagram camera should move toward the active path before the pulse');
+  assert.match(timelineSource, /#scene-01-effect-1"[^\n]*opacity:0/);
+  assert.match(timelineSource, /#scene-01-effect-2"[^\n]*opacity:1\.000/);
+  assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*scale:1\.065/);
+  assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*rotation:-\.75/);
+  assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*x:0, y:0, scale:1, rotation:0/);
   assert.doesNotMatch(timelineSource, /strokeDashoffset/);
   assert.match(html, /class="ax-cta/);
   assert.match(html, /data-layout-allow-overflow/);
