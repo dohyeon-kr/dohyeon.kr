@@ -90,6 +90,40 @@ function iconMarkup(role) {
   return `<svg class="ax-object-icon" viewBox="0 0 72 64" aria-hidden="true"><rect class="shell" x="11" y="9" width="50" height="46" rx="12"/><rect class="panel" x="20" y="18" width="32" height="10" rx="4"/><rect class="panel" x="20" y="34" width="32" height="10" rx="4"/><circle class="accent" cx="25" cy="23" r="2"/><circle class="dot" cx="31" cy="23" r="1.7"/><path class="violet" d="M23 49h26"/></svg>`;
 }
 
+function semanticObjectMarkup(node, role, label) {
+  const identity = `${node.id} ${label}`.toLowerCase();
+  const stateClass = /error|invalid|fail|잘못|실패/.test(identity) ? ' is-error'
+    : /verified|success|complete|완료/.test(identity) ? ' is-success'
+    : '';
+  if (role === 'input') {
+    const parts = label.split(/\s*·\s*/).filter(Boolean);
+    const primary = parts[0] || label;
+    const status = parts.slice(1).join(' · ');
+    const fieldLabel = /otp|verification|인증번호/.test(identity) ? '인증번호' : '휴대폰 번호';
+    return {
+      stateClass,
+      markup: `<span class="ax-input-label">${escapeHtml(fieldLabel)}</span><div class="ax-input-control"><strong>${escapeHtml(primary)}</strong>${status ? `<em>${escapeHtml(status)}</em>` : ''}</div><span class="ax-object-meta">FORM FIELD</span>`,
+    };
+  }
+  if (role === 'checklist') {
+    const items = label.split(/\s*·\s*/).map(item => item.trim()).filter(Boolean);
+    const itemMarkup = items.map(item => {
+      const done = item.startsWith('✓');
+      const pending = item.startsWith('☐');
+      const text = item.replace(/^[✓☐]\s*/, '');
+      return `<li data-state="${done ? 'done' : pending ? 'pending' : 'neutral'}"><i>${done ? '✓' : pending ? '○' : '•'}</i><span>${escapeHtml(text)}</span></li>`;
+    }).join('');
+    return {
+      stateClass,
+      markup: `<span class="ax-checklist-kicker">IMPLEMENTATION CHECK</span><ul class="ax-checklist-items">${itemMarkup}</ul>`,
+    };
+  }
+  return {
+    stateClass,
+    markup: `${iconMarkup(role)}<strong class="ax-object-label">${escapeHtml(label)}</strong><span class="ax-object-meta">${escapeHtml(role.toUpperCase())}</span>`,
+  };
+}
+
 function diagramMarkup(scene, sceneId) {
   const spec = scene.diagramSpec;
   if (!spec?.nodes?.length) return {markup: '', timeline: [], pulses: []};
@@ -98,8 +132,9 @@ function diagramMarkup(scene, sceneId) {
     const role = inferAuroraRole(node);
     const p = auroraNodePosition(node);
     const label = compact(node.label) || node.id;
+    const semantic = semanticObjectMarkup(node, role, label);
     const geometry = `left:${p.left.toFixed(2)}%;top:${p.top.toFixed(2)}%;width:${p.width.toFixed(1)}px;min-height:${p.height.toFixed(1)}px`;
-    return `<div id="${sceneId}-object-bg-${escapeHtml(node.id)}" class="ax-object-bg ax-smoked-panel" data-ax-object-bg="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}"></div><div id="${sceneId}-object-${escapeHtml(node.id)}" class="ax-object" data-ax-object="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}">${iconMarkup(role)}<strong class="ax-object-label">${escapeHtml(label)}</strong><span class="ax-object-meta">${escapeHtml(role.toUpperCase())}</span></div>`;
+    return `<div id="${sceneId}-object-bg-${escapeHtml(node.id)}" class="ax-object-bg ax-smoked-panel${semantic.stateClass}" data-ax-object-bg="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}"></div><div id="${sceneId}-object-${escapeHtml(node.id)}" class="ax-object${semantic.stateClass}" data-ax-object="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}">${semantic.markup}</div>`;
   }).join('');
 
   const connectorNodes = spec.nodes.filter(node => node.shape === 'line' && node.connector);
