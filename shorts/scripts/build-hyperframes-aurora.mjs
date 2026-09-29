@@ -206,7 +206,7 @@ function sceneEffectLayers(scene, sceneId) {
     const color = /^#[0-9a-fA-F]{6}$/.test(effect.color ?? '') ? effect.color : '#ffffff';
     const effectId = `${sceneId}-effect-${index}`;
     if (effect.type === 'glow' && position) {
-      stageMarkup.push(`<i id="${effectId}" class="ax-target-glow" data-ax-effect="glow" data-ax-effect-target="${escapeHtml(effect.target)}" style="left:${position.left.toFixed(2)}%;top:${position.top.toFixed(2)}%;--ax-effect-color:${color};--ax-effect-radius:${Math.max(1, Number(effect.radius ?? 84)).toFixed(1)}px"></i>`);
+      stageMarkup.push(`<i id="${effectId}" class="ax-target-glow" data-ax-effect="glow" data-ax-effect-target="${escapeHtml(effect.target)}" style="left:${position.left.toFixed(2)}%;top:${position.top.toFixed(2)}%;--ax-effect-color:${color};--ax-effect-size:${(Math.max(1, Number(effect.radius ?? 84)) * 2).toFixed(1)}px"></i>`);
     }
     if (effect.type === 'light-leak') {
       const origin = Array.isArray(effect.origin) && effect.origin.length === 2
