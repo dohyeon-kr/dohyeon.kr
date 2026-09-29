@@ -29,7 +29,12 @@ const auroraManifest = () => ({
       imageQuery: null, comparisonLeft: null, comparisonRight: null, image: null,
       visual: {type: 'diagram', motif: 'request-flow', query: null, value: null, xLabel: null, yLabel: null},
       beats: [{text: '브라우저의 요청은 서비스와 저장소를 거칩니다.', emphasis: 'high', pauseAfterMs: 0, delivery: 'normal', visualPriority: 'high', keyword: '요청', visualCue: null}],
-      effects: [{type: 'flow-glow', target: 'request', startMs: 500, durationMs: 900, intensity: 1, color: '#ffffff', seed: 7}],
+      effects: [
+        {type: 'flow-glow', target: 'request', startMs: 500, durationMs: 900, intensity: 1, color: '#ffffff', seed: 7},
+        {type: 'light-leak', target: 'phone-input', startMs: 1200, durationMs: 700, intensity: .9, color: '#ff304f', seed: 8, origin: [.5, .5]},
+        {type: 'glow', target: 'phone-input', startMs: 1240, durationMs: 760, intensity: 1, color: '#ff304f', seed: 9, radius: 88},
+      ],
+      choreography: ['camera-error-shake'],
       diagramSpec: {
         version: 1,
         renderer: 'auto',
@@ -37,16 +42,16 @@ const auroraManifest = () => ({
         description: '브라우저 요청이 UseCase를 거쳐 DB에 저장되는 흐름',
         nodes: [
           {id: 'browser', shape: 'rect', label: 'Browser', x: 140, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
-          {id: 'service', shape: 'rect', label: 'UseCase', x: 400, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
-          {id: 'db', shape: 'rect', label: 'DB', x: 660, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
-          {id: 'request', shape: 'line', label: 'request', x: 270, y: 280, width: 70, height: 2, fill: 'none', connector: {source: 'browser', target: 'service', sourceSide: 'right', targetSide: 'left', gap: 12}, strokeStyle: 'solid'},
-          {id: 'persist', shape: 'line', label: 'persist', x: 530, y: 280, width: 70, height: 2, fill: 'none', connector: {source: 'service', target: 'db', sourceSide: 'right', targetSide: 'left', gap: 12}, strokeStyle: 'solid'},
+          {id: 'phone-input', shape: 'rect', label: '010-12 · 잘못된 번호', x: 400, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
+          {id: 'requirements-checklist', shape: 'rect', label: '✓ 목적 확인 · ☐ 중복', x: 660, y: 280, width: 190, height: 140, fill: 'none', connector: null, strokeStyle: 'solid'},
+          {id: 'request', shape: 'line', label: 'request', x: 270, y: 280, width: 70, height: 2, fill: 'none', connector: {source: 'browser', target: 'phone-input', sourceSide: 'right', targetSide: 'left', gap: 12}, strokeStyle: 'solid'},
+          {id: 'persist', shape: 'line', label: 'persist', x: 530, y: 280, width: 70, height: 2, fill: 'none', connector: {source: 'phone-input', target: 'requirements-checklist', sourceSide: 'right', targetSide: 'left', gap: 12}, strokeStyle: 'solid'},
         ],
         events: [
           {target: 'request', property: 'opacity', from: 0, to: 1, start: 0.15, end: 0.35},
-          {target: 'service', property: 'scale', from: 0.96, to: 1, start: 0.3, end: 0.5},
+          {target: 'phone-input', property: 'scale', from: 0.96, to: 1, start: 0.3, end: 0.5},
           {target: 'persist', property: 'opacity', from: 0, to: 1, start: 0.48, end: 0.68},
-          {target: 'db', property: 'opacity', from: 0.5, to: 1, start: 0.62, end: 0.82},
+          {target: 'requirements-checklist', property: 'opacity', from: 0.5, to: 1, start: 0.62, end: 0.82},
         ],
       },
     },
@@ -95,13 +100,25 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /class="ax-ambient/);
   assert.match(html, /class="ax-caption-zone/);
   assert.match(html, /data-ax-object="browser"/);
-  assert.match(html, /data-ax-object="service"/);
-  assert.match(html, /data-ax-object="db"/);
+  assert.match(html, /data-ax-object="phone-input"[^>]*data-role="input"/);
+  assert.match(html, /data-ax-object="requirements-checklist"[^>]*data-role="checklist"/);
+  assert.match(html, /class="ax-input-control"/);
+  assert.match(html, /class="ax-checklist-items"/);
+  assert.match(html, /data-state="done"/);
+  assert.match(html, /data-state="pending"/);
   assert.match(html, /class="ax-connector-layer" viewBox="0 0 800 560"/);
   assert.match(html, /<div class="ax-stage"><div class="ax-camera">/);
   assert.match(html, /data-ax-connection="request"[^>]*x1="140\.00" y1="280\.00" x2="400\.00" y2="280\.00"/);
   assert.match(html, /data-ax-object-bg="browser"[^>]*style="left:17\.50%;top:50\.00%/);
   assert.match(html, /data-ax-pulse="request"/);
+  assert.match(html, /class="ax-camera-shake"/);
+  assert.match(html, /data-ax-effect="light-leak"[^>]*data-ax-effect-target="phone-input"/);
+  assert.match(html, /data-ax-effect="glow"[^>]*data-ax-effect-target="phone-input"/);
+  assert.match(css, /\.ax-camera-shake\{[^}]*will-change:transform/);
+  assert.match(css, /\.ax-error-overlay\{[^}]*mix-blend-mode:screen/);
+  assert.match(css, /\.ax-target-glow\{[^}]*radial-gradient/);
+  assert.match(css, /\.ax-object\[data-role='input'\]\{[^}]*text-align:left/);
+  assert.match(css, /\.ax-object\[data-role='checklist'\]\{[^}]*justify-content:flex-start/);
   assert.match(css, /\.ax-connector-layer\{[^}]*width:100%[^}]*height:100%/);
   assert.match(css, /\.ax-camera\{[^}]*position:absolute[^}]*inset:0[^}]*will-change:transform/);
   assert.match(css, /\.ax-connector\{[^}]*stroke-width:3\.25(?:px)?[;}]/);
@@ -118,6 +135,11 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(timelineSource, /left:"50\.00%", top:"50\.00%", duration:0\.900/);
   assert.match(timelineSource, /#scene-01-pulse-request"[^\n]*1\.478\);/, 'pulse must wait until the request line reveal has completed plus a short lead');
   assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:46\.9, y:0\.0, scale:1\.054[^\n]*1\.258\);/, 'diagram camera should move toward the active path before the pulse');
+  assert.match(timelineSource, /#scene-01-effect-1"[^\n]*opacity:0/);
+  assert.match(timelineSource, /#scene-01-effect-2"[^\n]*opacity:1\.000/);
+  assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*scale:1\.065/);
+  assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*rotation:-\.75/);
+  assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*x:0, y:0, scale:1, rotation:0/);
   assert.doesNotMatch(timelineSource, /strokeDashoffset/);
   assert.match(html, /class="ax-cta/);
   assert.match(html, /data-layout-allow-overflow/);
@@ -140,7 +162,7 @@ test('aurora strict layout rejects diagram nodes whose rendered boxes are too cl
 
   const manifest = auroraManifest();
   manifest.scenes[0].diagramSpec.nodes.find(node => node.id === 'browser').x = 330;
-  manifest.scenes[0].diagramSpec.nodes.find(node => node.id === 'service').x = 430;
+  manifest.scenes[0].diagramSpec.nodes.find(node => node.id === 'phone-input').x = 430;
   const manifestPath = path.join(fixtureDir, 'candidate-01.json');
   await fs.writeFile(manifestPath, JSON.stringify(manifest));
   const result = spawnSync(process.execPath, [
