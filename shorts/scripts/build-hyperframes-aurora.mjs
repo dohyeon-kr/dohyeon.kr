@@ -90,6 +90,40 @@ function iconMarkup(role) {
   return `<svg class="ax-object-icon" viewBox="0 0 72 64" aria-hidden="true"><rect class="shell" x="11" y="9" width="50" height="46" rx="12"/><rect class="panel" x="20" y="18" width="32" height="10" rx="4"/><rect class="panel" x="20" y="34" width="32" height="10" rx="4"/><circle class="accent" cx="25" cy="23" r="2"/><circle class="dot" cx="31" cy="23" r="1.7"/><path class="violet" d="M23 49h26"/></svg>`;
 }
 
+function semanticObjectMarkup(node, role, label) {
+  const identity = `${node.id} ${label}`.toLowerCase();
+  const stateClass = /error|invalid|fail|잘못|실패/.test(identity) ? ' is-error'
+    : /verified|success|complete|완료/.test(identity) ? ' is-success'
+    : '';
+  if (role === 'input') {
+    const parts = label.split(/\s*·\s*/).filter(Boolean);
+    const primary = parts[0] || label;
+    const status = parts.slice(1).join(' · ');
+    const fieldLabel = /otp|verification|인증번호/.test(identity) ? '인증번호' : '휴대폰 번호';
+    return {
+      stateClass,
+      markup: `<span class="ax-input-label">${escapeHtml(fieldLabel)}</span><div class="ax-input-control"><strong>${escapeHtml(primary)}</strong>${status ? `<em>${escapeHtml(status)}</em>` : ''}</div><span class="ax-object-meta">FORM FIELD</span>`,
+    };
+  }
+  if (role === 'checklist') {
+    const items = label.split(/\s*·\s*/).map(item => item.trim()).filter(Boolean);
+    const itemMarkup = items.map(item => {
+      const done = item.startsWith('✓');
+      const pending = item.startsWith('☐');
+      const text = item.replace(/^[✓☐]\s*/, '');
+      return `<li data-state="${done ? 'done' : pending ? 'pending' : 'neutral'}"><i>${done ? '✓' : pending ? '○' : '•'}</i><span>${escapeHtml(text)}</span></li>`;
+    }).join('');
+    return {
+      stateClass,
+      markup: `<span class="ax-checklist-kicker">IMPLEMENTATION CHECK</span><ul class="ax-checklist-items">${itemMarkup}</ul>`,
+    };
+  }
+  return {
+    stateClass,
+    markup: `${iconMarkup(role)}<strong class="ax-object-label">${escapeHtml(label)}</strong><span class="ax-object-meta">${escapeHtml(role.toUpperCase())}</span>`,
+  };
+}
+
 function diagramMarkup(scene, sceneId) {
   const spec = scene.diagramSpec;
   if (!spec?.nodes?.length) return {markup: '', timeline: [], pulses: []};
@@ -98,8 +132,9 @@ function diagramMarkup(scene, sceneId) {
     const role = inferAuroraRole(node);
     const p = auroraNodePosition(node);
     const label = compact(node.label) || node.id;
+    const semantic = semanticObjectMarkup(node, role, label);
     const geometry = `left:${p.left.toFixed(2)}%;top:${p.top.toFixed(2)}%;width:${p.width.toFixed(1)}px;min-height:${p.height.toFixed(1)}px`;
-    return `<div id="${sceneId}-object-bg-${escapeHtml(node.id)}" class="ax-object-bg ax-smoked-panel" data-ax-object-bg="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}"></div><div id="${sceneId}-object-${escapeHtml(node.id)}" class="ax-object" data-ax-object="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}">${iconMarkup(role)}<strong class="ax-object-label">${escapeHtml(label)}</strong><span class="ax-object-meta">${escapeHtml(role.toUpperCase())}</span></div>`;
+    return `<div id="${sceneId}-object-bg-${escapeHtml(node.id)}" class="ax-object-bg ax-smoked-panel${semantic.stateClass}" data-ax-object-bg="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}"></div><div id="${sceneId}-object-${escapeHtml(node.id)}" class="ax-object${semantic.stateClass}" data-ax-object="${escapeHtml(node.id)}" data-role="${role}" style="${geometry}">${semantic.markup}</div>`;
   }).join('');
 
   const connectorNodes = spec.nodes.filter(node => node.shape === 'line' && node.connector);
@@ -194,6 +229,39 @@ function diagramMarkup(scene, sceneId) {
   };
 }
 
+function sceneEffectLayers(scene, sceneId) {
+  const nodeById = new Map((scene.diagramSpec?.nodes ?? []).map(node => [node.id, node]));
+  const stageMarkup = [];
+  const overlayMarkup = [];
+  const timeline = [];
+  for (const [index, effect] of (scene.effects ?? []).entries()) {
+    if (!['glow', 'light-leak'].includes(effect.type)) continue;
+    const node = nodeById.get(effect.target);
+    const position = node && node.shape !== 'line' ? auroraNodePosition(node) : null;
+    const color = /^#[0-9a-fA-F]{6}$/.test(effect.color ?? '') ? effect.color : '#ffffff';
+    const effectId = `${sceneId}-effect-${index}`;
+    if (effect.type === 'glow' && position) {
+      stageMarkup.push(`<i id="${effectId}" class="ax-target-glow" data-ax-effect="glow" data-ax-effect-target="${escapeHtml(effect.target)}" style="left:${position.left.toFixed(2)}%;top:${position.top.toFixed(2)}%;--ax-effect-color:${color};--ax-effect-size:${(Math.max(1, Number(effect.radius ?? 84)) * 2).toFixed(1)}px"></i>`);
+    }
+    if (effect.type === 'light-leak') {
+      const origin = Array.isArray(effect.origin) && effect.origin.length === 2
+        ? effect.origin
+        : position ? [position.left / 100, position.top / 100] : [.5, .5];
+      overlayMarkup.push(`<i id="${effectId}" class="ax-error-overlay" data-ax-effect="light-leak" data-ax-effect-target="${escapeHtml(effect.target)}" style="--ax-effect-color:${color};--ax-origin-x:${clamp(Number(origin[0]), 0, 1) * 100}%;--ax-origin-y:${clamp(Number(origin[1]), 0, 1) * 100}%"></i>`);
+    }
+    timeline.push({
+      id: effectId,
+      type: effect.type,
+      target: effect.target,
+      startMs: Number(effect.startMs ?? 0),
+      durationMs: Math.max(100, Number(effect.durationMs ?? 600)),
+      intensity: clamp(Number(effect.intensity ?? 1), 0, 1),
+      position,
+    });
+  }
+  return {stageMarkup: stageMarkup.join(''), overlayMarkup: overlayMarkup.join(''), timeline};
+}
+
 function ambientMarkup() {
   return `<div class="ax-ambient" data-layout-allow-overflow aria-hidden="true"><i class="ax-orb ax-orb--a" data-layout-allow-overflow></i><i class="ax-orb ax-orb--b" data-layout-allow-overflow></i><i class="ax-orb ax-orb--c" data-layout-allow-overflow></i></div>`;
 }
@@ -246,15 +314,16 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const heading = compact(scene.headline) || compact(candidate.candidate?.title) || 'Untitled';
   const subline = compact(scene.subline);
   const diagram = diagramMarkup(scene, id);
+  const sceneEffects = sceneEffectLayers(scene, id);
   const caption = sceneCaptionMarkup(scene, index);
   const preparedImage = scene.imagePath ? await copyPreparedMedia(scene.imagePath, `${id}-image`) : null;
   const image = preparedImage || scene.image?.originalUrl || scene.image?.thumbnailUrl || null;
   let stage = '';
-  if (diagram.markup) stage = diagram.markup;
+  if (diagram.markup) stage = `${diagram.markup}${sceneEffects.stageMarkup}`;
   else if (image) stage = `<div class="ax-photo-stage ax-smoked-panel"><div class="ax-media"><img src="${escapeHtml(image)}" alt=""/></div></div>`;
   else stage = `<div class="ax-statement"><div class="ax-statement-card ax-smoked-panel"><strong>${escapeHtml(heading)}</strong>${subline ? `<span>${escapeHtml(subline)}</span>` : ''}</div></div>`;
 
-  renderedScenes.push(`<section id="${id}" class="clip ax-scene" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage"><div class="ax-camera">${stage}</div></div>${caption.markup}</section>`);
+  renderedScenes.push(`<section id="${id}" class="clip ax-scene" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}${sceneEffects.overlayMarkup}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage"><div class="ax-camera"><div class="ax-camera-shake">${stage}</div></div></div>${caption.markup}</section>`);
 
   const enter = start + .04;
   timelineStatements.push(`tl.from("#${id} .ax-topline", {y:-16, opacity:0, duration:.32, ease:"power2.out"}, ${enter.toFixed(3)});`);
@@ -270,9 +339,26 @@ for (const [index, scene] of manifest.scenes.entries()) {
     const to = JSON.stringify({[event.property]: event.to, duration: Number(eventDuration.toFixed(3)), ease: 'power2.inOut'});
     timelineStatements.push(`tl.fromTo("${event.selector}", ${from}, ${to}, ${eventStart.toFixed(3)});`);
   }
+
+  for (const effect of sceneEffects.timeline) {
+    const maxOffset = Math.max(0, duration - .12);
+    const offset = clamp(effect.startMs / 1000, 0, maxOffset);
+    const effectStart = start + offset;
+    const effectDuration = Math.min(effect.durationMs / 1000, Math.max(.12, duration - offset - .02));
+    const fadeIn = Math.min(.18, effectDuration * .28);
+    const fadeOut = Math.min(.24, effectDuration * .32);
+    const peak = effect.type === 'light-leak' ? effect.intensity * .74 : effect.intensity;
+    timelineStatements.push(`tl.set("#${effect.id}", {opacity:0, scale:${effect.type === 'light-leak' ? '.94' : '.62'}}, ${effectStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("#${effect.id}", {opacity:${peak.toFixed(3)}, scale:1, duration:${fadeIn.toFixed(3)}, ease:"power2.out"}, ${effectStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("#${effect.id}", {opacity:0, scale:${effect.type === 'light-leak' ? '1.06' : '1.18'}, duration:${fadeOut.toFixed(3)}, ease:"power2.in"}, ${Math.max(effectStart + fadeIn, effectStart + effectDuration - fadeOut).toFixed(3)});`);
+  }
+
   const camera = scene.camera ?? null;
   const explicitCamera = Boolean(diagram.markup && camera && camera.motion && camera.motion !== 'static');
   const autoFocusCamera = Boolean(diagram.markup && !explicitCamera && diagram.pulses.length);
+  const errorShakeEnabled = (scene.choreography ?? []).includes('camera-error-shake');
+  const errorEffect = sceneEffects.timeline.find(effect => effect.type === 'light-leak')
+    ?? sceneEffects.timeline.find(effect => effect.type === 'glow');
   let lastPulseEnd = start;
 
   if (explicitCamera) {
@@ -333,6 +419,25 @@ for (const [index, scene] of manifest.scenes.entries()) {
 
   if (autoFocusCamera && lastPulseEnd + .5 < start + duration) {
     timelineStatements.push(`tl.to("#${id} .ax-camera", {x:0, y:0, scale:1, duration:.44, ease:"power2.inOut"}, ${(lastPulseEnd + .08).toFixed(3)});`);
+  }
+
+  if (errorShakeEnabled && errorEffect) {
+    const maxOffset = Math.max(0, duration - .48);
+    const shakeOffset = clamp(errorEffect.startMs / 1000, 0, maxOffset);
+    const shakeStart = start + shakeOffset;
+    const p = errorEffect.position ?? {left: 50, top: 50};
+    const focusX = clamp((50 - p.left) * 1.05, -32, 32);
+    const focusY = clamp((50 - p.top) * .78, -24, 24);
+    const origin = `${p.left.toFixed(1)}% ${p.top.toFixed(1)}%`;
+    const shakeSelector = `#${id} .ax-camera-shake`;
+    const focusStart = Math.max(start + .2, shakeStart - .22);
+    timelineStatements.push(`tl.set("${shakeSelector}", {transformOrigin:"${origin}"}, ${focusStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${focusX.toFixed(1)}, y:${focusY.toFixed(1)}, scale:1.065, rotation:0, duration:.22, ease:"power2.out"}, ${focusStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX - 15).toFixed(1)}, y:${(focusY + 2).toFixed(1)}, rotation:-.75, duration:.065, ease:"power1.inOut"}, ${shakeStart.toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX + 13).toFixed(1)}, y:${(focusY - 2).toFixed(1)}, rotation:.62, duration:.07, ease:"power1.inOut"}, ${(shakeStart + .065).toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX - 8).toFixed(1)}, y:${(focusY + 1).toFixed(1)}, rotation:-.38, duration:.07, ease:"power1.inOut"}, ${(shakeStart + .135).toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:${(focusX + 4).toFixed(1)}, y:${focusY.toFixed(1)}, rotation:.18, duration:.065, ease:"power1.inOut"}, ${(shakeStart + .205).toFixed(3)});`);
+    timelineStatements.push(`tl.to("${shakeSelector}", {x:0, y:0, scale:1, rotation:0, duration:.34, ease:"power3.out"}, ${(shakeStart + .3).toFixed(3)});`);
   }
 
   for (const [cueIndex, cue] of caption.cues.entries()) {
