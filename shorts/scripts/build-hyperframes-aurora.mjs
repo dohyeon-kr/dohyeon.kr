@@ -357,8 +357,8 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const explicitCamera = Boolean(diagram.markup && camera && camera.motion && camera.motion !== 'static');
   const autoFocusCamera = Boolean(diagram.markup && !explicitCamera && diagram.pulses.length);
   const errorShakeEnabled = (scene.choreography ?? []).includes('camera-error-shake');
-  const errorEffect = sceneEffects.timeline.find(effect => effect.type === 'light-leak')
-    ?? sceneEffects.timeline.find(effect => effect.type === 'glow');
+  const errorEffect = sceneEffects.timeline.find(effect => effect.type === 'glow' && effect.position)
+    ?? sceneEffects.timeline.find(effect => effect.type === 'light-leak');
   let lastPulseEnd = start;
 
   if (explicitCamera) {

@@ -31,8 +31,8 @@ const auroraManifest = () => ({
       beats: [{text: '브라우저의 요청은 서비스와 저장소를 거칩니다.', emphasis: 'high', pauseAfterMs: 0, delivery: 'normal', visualPriority: 'high', keyword: '요청', visualCue: null}],
       effects: [
         {type: 'flow-glow', target: 'request', startMs: 500, durationMs: 900, intensity: 1, color: '#ffffff', seed: 7},
-        {type: 'light-leak', target: 'phone-input', startMs: 1200, durationMs: 700, intensity: .9, color: '#ff304f', seed: 8, origin: [.5, .5]},
-        {type: 'glow', target: 'phone-input', startMs: 1240, durationMs: 760, intensity: 1, color: '#ff304f', seed: 9, radius: 88},
+        {type: 'light-leak', target: 'background', startMs: 1200, durationMs: 700, intensity: .9, color: '#ff304f', seed: 8},
+        {type: 'glow', target: 'phone-input', startMs: 1240, durationMs: 760, intensity: 1, color: '#ff304f', seed: 9},
       ],
       choreography: ['camera-error-shake'],
       diagramSpec: {
@@ -112,7 +112,7 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-object-bg="browser"[^>]*style="left:17\.50%;top:50\.00%/);
   assert.match(html, /data-ax-pulse="request"/);
   assert.match(html, /class="ax-camera-shake"/);
-  assert.match(html, /data-ax-effect="light-leak"[^>]*data-ax-effect-target="phone-input"/);
+  assert.match(html, /data-ax-effect="light-leak"[^>]*data-ax-effect-target="background"/);
   assert.match(html, /data-ax-effect="glow"[^>]*data-ax-effect-target="phone-input"/);
   assert.match(css, /\.ax-camera-shake\{[^}]*will-change:transform/);
   assert.match(css, /\.ax-error-overlay\{[^}]*mix-blend-mode:screen/);
