@@ -7,7 +7,7 @@
     "title": "회원가입에 휴대폰 번호 인풋을 추가해주세요"
   },
   "candidate": {
-    "angle": "case-study",
+    "angle": "question",
     "hook": "회원가입에 휴대폰 번호 인풋을 하나 추가해 주세요.",
     "title": "인풋 하나를 추가하면\n무엇이 같이 생길까?",
     "rationale": "프론트엔드 개발자가 한 줄의 요구사항을 바로 UI로 옮기지 않고, 목적·인증·입력 오류·API 계약·기존 회원 정책을 확인하면서 동일한 회원가입 화면을 점진적으로 완성하는 과정을 하나의 연속 애니메이션으로 보여준다. 장면을 컷으로 끊지 않고 입력 UI와 체크리스트가 같은 위치에서 상태를 바꾸며 성장하도록 구성한다.",
@@ -605,35 +605,13 @@
       "transitionOptions": null,
       "effects": [
         {
-          "type": "flow-glow",
-          "target": "flow-purpose",
-          "startMs": 4500,
-          "durationMs": 1100,
-          "intensity": 0.9,
-          "color": "#ffffff",
-          "seed": 101
-        },
-        {
-          "type": "flow-glow",
-          "target": "flow-auth",
-          "startMs": 14500,
-          "durationMs": 1200,
-          "intensity": 1,
-          "color": "#55ddff",
-          "seed": 102
-        },
-        {
           "type": "light-leak",
-          "target": "phone-input-error",
+          "target": "background",
           "startMs": 25500,
           "durationMs": 900,
           "intensity": 0.9,
           "color": "#ff304f",
-          "seed": 103,
-          "origin": [
-            0.36,
-            0.47
-          ]
+          "seed": 103
         },
         {
           "type": "glow",
@@ -642,35 +620,7 @@
           "durationMs": 1100,
           "intensity": 1,
           "color": "#ff304f",
-          "seed": 104,
-          "radius": 96
-        },
-        {
-          "type": "flow-glow",
-          "target": "flow-error",
-          "startMs": 26500,
-          "durationMs": 1200,
-          "intensity": 1,
-          "color": "#ff687f",
-          "seed": 105
-        },
-        {
-          "type": "flow-glow",
-          "target": "flow-contract",
-          "startMs": 36500,
-          "durationMs": 1200,
-          "intensity": 1,
-          "color": "#55ddff",
-          "seed": 106
-        },
-        {
-          "type": "flow-glow",
-          "target": "flow-legacy",
-          "startMs": 45500,
-          "durationMs": 1200,
-          "intensity": 1,
-          "color": "#ffffff",
-          "seed": 107
+          "seed": 104
         }
       ],
       "camera": {
