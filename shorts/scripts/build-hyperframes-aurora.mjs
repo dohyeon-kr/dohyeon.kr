@@ -22,12 +22,9 @@ const escapeHtml = value => String(value ?? '')
 const compact = value => String(value ?? '').replace(/\s+/g, ' ').trim();
 const safeName = value => String(value ?? '').replace(/[^a-zA-Z0-9가-힣._-]+/g, '-').replace(/^-+|-+$/g, '');
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-const hyperEase = easing => ({
-  smooth: 'power2.inOut',
-  'spring-soft': 'back.out(1.35)',
-  'spring-snappy': 'back.out(2.15)',
-  'spring-bouncy': 'elastic.out(1,0.42)',
-}[easing] ?? 'power2.inOut');
+const timelineEaseSource = easing => easing === 'smooth'
+  ? '"power3.out"'
+  : `springPreset("${easing}")`;
 const under = (file, root) => {
   const resolved = path.resolve(file);
   const normalizedRoot = path.resolve(root) + path.sep;
@@ -363,20 +360,20 @@ for (const [index, scene] of manifest.scenes.entries()) {
     const cueStart = start + clamp(Number(cue.at ?? 0), 0, 1) * duration;
     const cueDuration = Math.min(Math.max(.1, Number(cue.durationMs ?? 500) / 1000), Math.max(.1, start + duration - cueStart - .02));
     const strength = clamp(Number(cue.strength ?? .7), 0, 1);
-    const ease = hyperEase(cue.easing);
+    const ease = timelineEaseSource(cue.easing);
     const selector = `#${id}-object-bg-${cue.target},#${id}-object-${cue.target}`;
     if (cue.kind === 'pop') {
-      timelineStatements.push(`tl.fromTo("${selector}", {scale:${(1 - .11 * strength).toFixed(3)}, y:${(24 * strength).toFixed(1)}}, {scale:1, y:0, duration:${cueDuration.toFixed(3)}, ease:"${ease}"}, ${cueStart.toFixed(3)});`);
+      timelineStatements.push(`tl.fromTo("${selector}", {scale:${(1 - .11 * strength).toFixed(3)}, y:${(24 * strength).toFixed(1)}}, {scale:1, y:0, duration:${cueDuration.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
     } else if (cue.kind === 'grow') {
       const rise = Math.min(cueDuration * .62, cueDuration - .08);
-      timelineStatements.push(`tl.fromTo("${selector}", {scale:${(1 - .07 * strength).toFixed(3)}, y:${(16 * strength).toFixed(1)}}, {scale:${(1 + .09 * strength).toFixed(3)}, y:0, duration:${rise.toFixed(3)}, ease:"${ease}"}, ${cueStart.toFixed(3)});`);
+      timelineStatements.push(`tl.fromTo("${selector}", {scale:${(1 - .07 * strength).toFixed(3)}, y:${(16 * strength).toFixed(1)}}, {scale:${(1 + .09 * strength).toFixed(3)}, y:0, duration:${rise.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
       timelineStatements.push(`tl.to("${selector}", {scale:1, duration:${Math.max(.08, cueDuration - rise).toFixed(3)}, ease:"power2.out"}, ${(cueStart + rise).toFixed(3)});`);
     } else if (cue.kind === 'pulse') {
       const half = Math.max(.06, cueDuration / 2);
-      timelineStatements.push(`tl.to("${selector}", {scale:${(1 + .07 * strength).toFixed(3)}, duration:${half.toFixed(3)}, ease:"${ease}"}, ${cueStart.toFixed(3)});`);
+      timelineStatements.push(`tl.to("${selector}", {scale:${(1 + .07 * strength).toFixed(3)}, duration:${half.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
       timelineStatements.push(`tl.to("${selector}", {scale:1, duration:${Math.max(.06, cueDuration - half).toFixed(3)}, ease:"power2.out"}, ${(cueStart + half).toFixed(3)});`);
     } else {
-      timelineStatements.push(`tl.fromTo("${selector}", {y:${(18 * strength).toFixed(1)}, rotation:${(-1.4 * strength).toFixed(2)}}, {y:0, rotation:0, duration:${cueDuration.toFixed(3)}, ease:"${ease}"}, ${cueStart.toFixed(3)});`);
+      timelineStatements.push(`tl.fromTo("${selector}", {y:${(18 * strength).toFixed(1)}, rotation:${(-1.4 * strength).toFixed(2)}}, {y:0, rotation:0, duration:${cueDuration.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
     }
   }
 
@@ -415,10 +412,10 @@ for (const [index, scene] of manifest.scenes.entries()) {
       const y = clamp((50 - top) / 100 * stageHeight * scale * .56 + Number(keyframe.offsetY ?? 0), -300, 300);
       const cameraStart = start + clamp(Number(keyframe.at ?? 0), 0, 1) * duration;
       const cameraDuration = Math.min(Math.max(.1, Number(keyframe.durationMs ?? 600) / 1000), Math.max(.1, start + duration - cameraStart - .02));
-      const ease = hyperEase(keyframe.easing);
+      const ease = timelineEaseSource(keyframe.easing);
       const origin = `${left.toFixed(1)}% ${top.toFixed(1)}%`;
       timelineStatements.push(`tl.set("#${id} .ax-camera", {transformOrigin:"${origin}"}, ${cameraStart.toFixed(3)});`);
-      timelineStatements.push(`tl.to("#${id} .ax-camera", {x:${x.toFixed(1)}, y:${y.toFixed(1)}, scale:${scale.toFixed(3)}, duration:${cameraDuration.toFixed(3)}, ease:"${ease}"}, ${cameraStart.toFixed(3)});`);
+      timelineStatements.push(`tl.to("#${id} .ax-camera", {x:${x.toFixed(1)}, y:${y.toFixed(1)}, scale:${scale.toFixed(3)}, duration:${cameraDuration.toFixed(3)}, ease:${ease}}, ${cameraStart.toFixed(3)});`);
     }
   } else if (explicitCamera) {
     const strength = camera.intensity === 'medium' ? 1 : .55;
@@ -509,7 +506,37 @@ for (const [index, scene] of manifest.scenes.entries()) {
 }
 
 const totalDuration = cursor;
-const timelineSource = `window.populateAuroraTimeline = function populateAuroraTimeline(tl) {\n  ${timelineStatements.join('\n  ')}\n};\n`;
+const timelineSource = `function springEase({response=.5,dampingFraction=1}={}) {
+  const w=(2*Math.PI)/response;
+  const z=dampingFraction;
+  let pos;
+  if(z<1){
+    const wd=w*Math.sqrt(1-z*z);
+    pos=t=>1-Math.exp(-z*w*t)*(Math.cos(wd*t)+((z*w)/wd)*Math.sin(wd*t));
+  }else if(z>1){
+    const wo=w*Math.sqrt(z*z-1);
+    pos=t=>1-Math.exp(-z*w*t)*(Math.cosh(wo*t)+((z*w)/wo)*Math.sinh(wo*t));
+  }else{
+    pos=t=>1-Math.exp(-w*t)*(1+w*t);
+  }
+  const eps=.001;
+  const rate=z<=1?z*w:(z-Math.sqrt(z*z-1))*w;
+  const scan=12/rate;
+  const steps=2400;
+  let settle=scan;
+  for(let i=steps;i>=0;i--){
+    const t=i/steps*scan;
+    if(Math.abs(1-pos(t))>eps){settle=(i+1)/steps*scan;break;}
+  }
+  const end=pos(settle);
+  return p=>pos(p*settle)+p*(1-end);
+}
+function springPreset(name){
+  if(name==="spring-snappy") return springEase({response:.36,dampingFraction:.84});
+  if(name==="spring-bouncy") return springEase({response:.42,dampingFraction:.70});
+  return springEase({response:.48,dampingFraction:1});
+}
+window.populateAuroraTimeline = function populateAuroraTimeline(tl) {\n  ${timelineStatements.join('\n  ')}\n};\n`;
 const html = `<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8"/>\n<meta name="viewport" content="width=device-width,initial-scale=1"/>\n<title>${escapeHtml(candidate.candidate?.title || prefix)}</title>\n<link rel="stylesheet" href="tokens.css"/>\n<link rel="stylesheet" href="theme.css"/>\n</head>\n<body>\n<div id="aurora-explain" class="ax-theme" data-composition-id="aurora-explain" data-start="0" data-duration="${totalDuration.toFixed(3)}" data-track-index="0" data-width="1080" data-height="1920">\n${renderedScenes.join('\n')}\n${audioTracks.join('\n')}\n</div>\n<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>\n<script src="timeline.js"></script>\n<script>window.__timelines=window.__timelines||{};const tl=gsap.timeline({paused:true});window.populateAuroraTimeline(tl);window.__timelines["aurora-explain"]=tl;</script>\n</body>\n</html>\n`;
 
 await Promise.all([
