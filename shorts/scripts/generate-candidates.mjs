@@ -1,4 +1,5 @@
 import {NotebookUiMotionSchema} from '../src/visuals/notebook-ui-motion-schema.ts';
+import {HyperFramesMotionSchema} from '../src/hyperframes/motion-schema.ts';
 import {getTemplate} from '../src/templates/registry.ts';
 import {SYSTEM_PROMPT, VISUAL_SYSTEM_PROMPT, renderPrompt} from './shorts-prompts.mjs';
 import {withBlogCta} from './blog-cta.mjs';
@@ -110,6 +111,7 @@ const CameraSchema = z.object({
 
 const SceneSchema = z.object({
   uiMotion: NotebookUiMotionSchema.nullable().optional(),
+  hyperframesMotion: HyperFramesMotionSchema.nullable().optional(),
   presenter: GeneratedPresenterSchema.nullable(),
   backgroundVideo: BackgroundVideoSchema.nullable(),
   visualStory: z.object({initial: z.string(), trigger: z.string(), change: z.string(), invariant: z.string(), result: z.string()}).nullable(),
