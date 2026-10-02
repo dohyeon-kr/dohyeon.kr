@@ -744,7 +744,7 @@
             "offsetX": -12,
             "offsetY": -28,
             "durationMs": 900,
-            "easing": "spring-bouncy"
+            "easing": "spring-snappy"
           },
           {
             "at": 0.46,
@@ -762,7 +762,7 @@
             "offsetX": -34,
             "offsetY": 12,
             "durationMs": 760,
-            "easing": "spring-bouncy"
+            "easing": "spring-snappy"
           },
           {
             "at": 0.66,
@@ -849,7 +849,7 @@
             "kind": "pop",
             "strength": 1,
             "durationMs": 960,
-            "easing": "spring-bouncy"
+            "easing": "spring-snappy"
           },
           {
             "target": "checklist-errors",
@@ -857,7 +857,7 @@
             "kind": "grow",
             "strength": 0.85,
             "durationMs": 880,
-            "easing": "spring-bouncy"
+            "easing": "spring-snappy"
           },
           {
             "target": "phone-input-error",
@@ -865,7 +865,7 @@
             "kind": "pop",
             "strength": 0.9,
             "durationMs": 760,
-            "easing": "spring-bouncy"
+            "easing": "spring-snappy"
           },
           {
             "target": "phone-input-normalized",
@@ -897,7 +897,7 @@
             "kind": "grow",
             "strength": 0.9,
             "durationMs": 920,
-            "easing": "spring-bouncy"
+            "easing": "spring-snappy"
           }
         ]
       }
