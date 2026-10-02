@@ -19,3 +19,14 @@ Dark explanation-first HyperFrames theme.
 - When `choreography` contains `camera-error-shake`, the renderer uses the first light-leak/glow target as the focus origin, briefly zooms and shakes the diagram stage, then deterministically returns to rest.
 - Error camera motion applies only to the diagram stage. Headline and subtitle/caption zones remain stable so feedback reads as UI state, not an edit glitch.
 - No error effect may repeat indefinitely or use wall-clock/random motion.
+
+
+## Dynamic HyperFrames motion
+
+- Motion-heavy explanation scenes may set `hyperframesMotion.stage = "full-bleed"`. This removes the horizontal stage gutter while headline and caption safe areas stay fixed.
+- `cameraTrack` is a sequence, not a single camera command. Each keyframe focuses a diagram node (or center), carries the previous camera state forward, and may increase scale progressively through the scene.
+- Prefer progressive depth for expanding requirements: begin around 1.02–1.08, reach 1.3+ as constraints accumulate, and reserve 1.45–1.55 for the strongest implementation/error/policy moments. A final spring-soft pullback may restore context.
+- `spring-soft` is critically damped (no visible overshoot), `spring-snappy` is lightly under-damped (felt more than seen), and `spring-bouncy` is the rare stronger physical settle. All three use a deterministic closed-form spring curve and never loop.
+- `objectMotions` animate semantic objects independently of diagram geometry. Use `pop` for a new field, `grow` for accumulating requirements, `pulse` for emphasis, and `settle` for a short corrective arrival.
+- Do not reset camera framing between focus changes. The feeling should be one continuous camera travelling through a single living interface.
+- Full-bleed motion is allowed to visually bleed under the safe-area gutters, but captions/headlines must remain readable and stable.

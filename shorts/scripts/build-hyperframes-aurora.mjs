@@ -22,6 +22,9 @@ const escapeHtml = value => String(value ?? '')
 const compact = value => String(value ?? '').replace(/\s+/g, ' ').trim();
 const safeName = value => String(value ?? '').replace(/[^a-zA-Z0-9가-힣._-]+/g, '-').replace(/^-+|-+$/g, '');
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const timelineEaseSource = easing => easing === 'smooth'
+  ? '"power3.out"'
+  : `springPreset("${easing}")`;
 const under = (file, root) => {
   const resolved = path.resolve(file);
   const normalizedRoot = path.resolve(root) + path.sep;
@@ -92,9 +95,12 @@ function iconMarkup(role) {
 
 function semanticObjectMarkup(node, role, label) {
   const identity = `${node.id} ${label}`.toLowerCase();
-  const stateClass = /error|invalid|fail|잘못|실패/.test(identity) ? ' is-error'
-    : /verified|success|complete|완료/.test(identity) ? ' is-success'
-    : '';
+  const stateClasses = [];
+  if (/error|invalid|fail|잘못|실패/.test(identity)) stateClasses.push('is-error');
+  else if (/verified|success|complete|완료/.test(identity)) stateClasses.push('is-success');
+  else if (/normalized|정규화|010-\d{3,4}-\d{4}/.test(identity)) stateClasses.push('is-normalized');
+  else if (/auth|인증 필요|verification/.test(identity)) stateClasses.push('is-auth');
+  const stateClass = stateClasses.length ? ` ${stateClasses.join(' ')}` : '';
   if (role === 'input') {
     const parts = label.split(/\s*·\s*/).filter(Boolean);
     const primary = parts[0] || label;
@@ -126,8 +132,14 @@ function semanticObjectMarkup(node, role, label) {
 
 function diagramMarkup(scene, sceneId) {
   const spec = scene.diagramSpec;
-  if (!spec?.nodes?.length) return {markup: '', timeline: [], pulses: []};
+  if (!spec?.nodes?.length) return {markup: '', timeline: [], pulses: [], focusPoints: {}};
   const nodeById = new Map(spec.nodes.map(node => [node.id, node]));
+  const focusPoints = Object.fromEntries(spec.nodes
+    .filter(node => node.shape !== 'line')
+    .map(node => {
+      const p = auroraNodePosition(node);
+      return [node.id, {left: p.left, top: p.top}];
+    }));
   const objects = spec.nodes.filter(node => node.shape !== 'line').map(node => {
     const role = inferAuroraRole(node);
     const p = auroraNodePosition(node);
@@ -226,6 +238,7 @@ function diagramMarkup(scene, sceneId) {
     markup: `<div class="ax-diagram"><svg class="ax-connector-layer" viewBox="0 0 800 560" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="ax-flow-gradient"><stop offset="0" stop-color="#765eff"/><stop offset="1" stop-color="#55ddff"/></linearGradient></defs>${connections}</svg>${objects}${pulseMarks}</div>`,
     timeline,
     pulses,
+    focusPoints,
   };
 }
 
@@ -314,6 +327,8 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const heading = compact(scene.headline) || compact(candidate.candidate?.title) || 'Untitled';
   const subline = compact(scene.subline);
   const diagram = diagramMarkup(scene, id);
+  const hyperframesMotion = scene.hyperframesMotion ?? null;
+  const fullBleed = hyperframesMotion?.stage === 'full-bleed';
   const sceneEffects = sceneEffectLayers(scene, id);
   const caption = sceneCaptionMarkup(scene, index);
   const preparedImage = scene.imagePath ? await copyPreparedMedia(scene.imagePath, `${id}-image`) : null;
@@ -323,7 +338,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
   else if (image) stage = `<div class="ax-photo-stage ax-smoked-panel"><div class="ax-media"><img src="${escapeHtml(image)}" alt=""/></div></div>`;
   else stage = `<div class="ax-statement"><div class="ax-statement-card ax-smoked-panel"><strong>${escapeHtml(heading)}</strong>${subline ? `<span>${escapeHtml(subline)}</span>` : ''}</div></div>`;
 
-  renderedScenes.push(`<section id="${id}" class="clip ax-scene" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}${sceneEffects.overlayMarkup}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage"><div class="ax-camera"><div class="ax-camera-shake">${stage}</div></div></div>${caption.markup}</section>`);
+  renderedScenes.push(`<section id="${id}" class="clip ax-scene${fullBleed ? ' ax-scene--full-bleed' : ''}" data-start="${start.toFixed(3)}" data-duration="${duration.toFixed(3)}" data-track-index="${number}">${ambientMarkup()}${sceneEffects.overlayMarkup}<div class="ax-topline"><span>DLOG / ${escapeHtml(String(scene.kind || 'statement').toUpperCase())}</span><span>${String(number).padStart(2, '0')} / ${String(manifest.scenes.length).padStart(2, '0')}</span></div><div class="ax-heading"><h1>${escapeHtml(heading)}</h1>${subline ? `<p>${escapeHtml(subline)}</p>` : ''}</div><div class="ax-stage"><div class="ax-camera"><div class="ax-camera-shake">${stage}</div></div></div>${caption.markup}</section>`);
 
   const enter = start + .04;
   timelineStatements.push(`tl.from("#${id} .ax-topline", {y:-16, opacity:0, duration:.32, ease:"power2.out"}, ${enter.toFixed(3)});`);
@@ -340,6 +355,28 @@ for (const [index, scene] of manifest.scenes.entries()) {
     timelineStatements.push(`tl.fromTo("${event.selector}", ${from}, ${to}, ${eventStart.toFixed(3)});`);
   }
 
+  for (const cue of hyperframesMotion?.objectMotions ?? []) {
+    if (!diagram.focusPoints[cue.target]) continue;
+    const cueStart = start + clamp(Number(cue.at ?? 0), 0, 1) * duration;
+    const cueDuration = Math.min(Math.max(.1, Number(cue.durationMs ?? 500) / 1000), Math.max(.1, start + duration - cueStart - .02));
+    const strength = clamp(Number(cue.strength ?? .7), 0, 1);
+    const ease = timelineEaseSource(cue.easing);
+    const selector = `#${id}-object-bg-${cue.target},#${id}-object-${cue.target}`;
+    if (cue.kind === 'pop') {
+      timelineStatements.push(`tl.fromTo("${selector}", {scale:${(1 - .11 * strength).toFixed(3)}, y:${(24 * strength).toFixed(1)}}, {scale:1, y:0, duration:${cueDuration.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
+    } else if (cue.kind === 'grow') {
+      const rise = Math.min(cueDuration * .62, cueDuration - .08);
+      timelineStatements.push(`tl.fromTo("${selector}", {scale:${(1 - .07 * strength).toFixed(3)}, y:${(16 * strength).toFixed(1)}}, {scale:${(1 + .09 * strength).toFixed(3)}, y:0, duration:${rise.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
+      timelineStatements.push(`tl.to("${selector}", {scale:1, duration:${Math.max(.08, cueDuration - rise).toFixed(3)}, ease:"power2.out"}, ${(cueStart + rise).toFixed(3)});`);
+    } else if (cue.kind === 'pulse') {
+      const half = Math.max(.06, cueDuration / 2);
+      timelineStatements.push(`tl.to("${selector}", {scale:${(1 + .07 * strength).toFixed(3)}, duration:${half.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
+      timelineStatements.push(`tl.to("${selector}", {scale:1, duration:${Math.max(.06, cueDuration - half).toFixed(3)}, ease:"power2.out"}, ${(cueStart + half).toFixed(3)});`);
+    } else {
+      timelineStatements.push(`tl.fromTo("${selector}", {y:${(18 * strength).toFixed(1)}, rotation:${(-1.4 * strength).toFixed(2)}}, {y:0, rotation:0, duration:${cueDuration.toFixed(3)}, ease:${ease}}, ${cueStart.toFixed(3)});`);
+    }
+  }
+
   for (const effect of sceneEffects.timeline) {
     const maxOffset = Math.max(0, duration - .12);
     const offset = clamp(effect.startMs / 1000, 0, maxOffset);
@@ -354,14 +391,33 @@ for (const [index, scene] of manifest.scenes.entries()) {
   }
 
   const camera = scene.camera ?? null;
-  const explicitCamera = Boolean(diagram.markup && camera && camera.motion && camera.motion !== 'static');
-  const autoFocusCamera = Boolean(diagram.markup && !explicitCamera && diagram.pulses.length);
+  const cameraTrack = hyperframesMotion?.cameraTrack ?? [];
+  const hasCameraTrack = Boolean(diagram.markup && cameraTrack.length);
+  const explicitCamera = Boolean(diagram.markup && !hasCameraTrack && camera && camera.motion && camera.motion !== 'static');
+  const autoFocusCamera = Boolean(diagram.markup && !hasCameraTrack && !explicitCamera && diagram.pulses.length);
   const errorShakeEnabled = (scene.choreography ?? []).includes('camera-error-shake');
   const errorEffect = sceneEffects.timeline.find(effect => effect.type === 'glow' && effect.position)
     ?? sceneEffects.timeline.find(effect => effect.type === 'light-leak');
   let lastPulseEnd = start;
 
-  if (explicitCamera) {
+  if (hasCameraTrack) {
+    const stageWidth = fullBleed ? 1080 : 912;
+    const stageHeight = 1020;
+    for (const keyframe of [...cameraTrack].sort((a, b) => a.at - b.at)) {
+      const point = keyframe.target ? diagram.focusPoints[keyframe.target] : null;
+      const left = point?.left ?? 50;
+      const top = point?.top ?? 50;
+      const scale = clamp(Number(keyframe.scale ?? 1), 1, 1.75);
+      const x = clamp((50 - left) / 100 * stageWidth * scale * .72 + Number(keyframe.offsetX ?? 0), -360, 360);
+      const y = clamp((50 - top) / 100 * stageHeight * scale * .56 + Number(keyframe.offsetY ?? 0), -300, 300);
+      const cameraStart = start + clamp(Number(keyframe.at ?? 0), 0, 1) * duration;
+      const cameraDuration = Math.min(Math.max(.1, Number(keyframe.durationMs ?? 600) / 1000), Math.max(.1, start + duration - cameraStart - .02));
+      const ease = timelineEaseSource(keyframe.easing);
+      const origin = `${left.toFixed(1)}% ${top.toFixed(1)}%`;
+      timelineStatements.push(`tl.set("#${id} .ax-camera", {transformOrigin:"${origin}"}, ${cameraStart.toFixed(3)});`);
+      timelineStatements.push(`tl.to("#${id} .ax-camera", {x:${x.toFixed(1)}, y:${y.toFixed(1)}, scale:${scale.toFixed(3)}, duration:${cameraDuration.toFixed(3)}, ease:${ease}}, ${cameraStart.toFixed(3)});`);
+    }
+  } else if (explicitCamera) {
     const strength = camera.intensity === 'medium' ? 1 : .55;
     const cameraStart = start + clamp(Number(camera.startProgress ?? 0), 0, 1) * duration;
     const cameraEnd = start + clamp(Number(camera.endProgress ?? 1), 0, 1) * duration;
@@ -450,7 +506,37 @@ for (const [index, scene] of manifest.scenes.entries()) {
 }
 
 const totalDuration = cursor;
-const timelineSource = `window.populateAuroraTimeline = function populateAuroraTimeline(tl) {\n  ${timelineStatements.join('\n  ')}\n};\n`;
+const timelineSource = `function springEase({response=.5,dampingFraction=1}={}) {
+  const w=(2*Math.PI)/response;
+  const z=dampingFraction;
+  let pos;
+  if(z<1){
+    const wd=w*Math.sqrt(1-z*z);
+    pos=t=>1-Math.exp(-z*w*t)*(Math.cos(wd*t)+((z*w)/wd)*Math.sin(wd*t));
+  }else if(z>1){
+    const wo=w*Math.sqrt(z*z-1);
+    pos=t=>1-Math.exp(-z*w*t)*(Math.cosh(wo*t)+((z*w)/wo)*Math.sinh(wo*t));
+  }else{
+    pos=t=>1-Math.exp(-w*t)*(1+w*t);
+  }
+  const eps=.001;
+  const rate=z<=1?z*w:(z-Math.sqrt(z*z-1))*w;
+  const scan=12/rate;
+  const steps=2400;
+  let settle=scan;
+  for(let i=steps;i>=0;i--){
+    const t=i/steps*scan;
+    if(Math.abs(1-pos(t))>eps){settle=(i+1)/steps*scan;break;}
+  }
+  const end=pos(settle);
+  return p=>pos(p*settle)+p*(1-end);
+}
+function springPreset(name){
+  if(name==="spring-snappy") return springEase({response:.36,dampingFraction:.84});
+  if(name==="spring-bouncy") return springEase({response:.42,dampingFraction:.70});
+  return springEase({response:.48,dampingFraction:1});
+}
+window.populateAuroraTimeline = function populateAuroraTimeline(tl) {\n  ${timelineStatements.join('\n  ')}\n};\n`;
 const html = `<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8"/>\n<meta name="viewport" content="width=device-width,initial-scale=1"/>\n<title>${escapeHtml(candidate.candidate?.title || prefix)}</title>\n<link rel="stylesheet" href="tokens.css"/>\n<link rel="stylesheet" href="theme.css"/>\n</head>\n<body>\n<div id="aurora-explain" class="ax-theme" data-composition-id="aurora-explain" data-start="0" data-duration="${totalDuration.toFixed(3)}" data-track-index="0" data-width="1080" data-height="1920">\n${renderedScenes.join('\n')}\n${audioTracks.join('\n')}\n</div>\n<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>\n<script src="timeline.js"></script>\n<script>window.__timelines=window.__timelines||{};const tl=gsap.timeline({paused:true});window.populateAuroraTimeline(tl);window.__timelines["aurora-explain"]=tl;</script>\n</body>\n</html>\n`;
 
 await Promise.all([

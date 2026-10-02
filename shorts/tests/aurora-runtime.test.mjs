@@ -14,7 +14,7 @@ const auroraManifest = () => ({
   status: 'candidate',
   source: {url: 'https://blog.dohyeon.kr/example', title: 'Example'},
   candidate: {
-    angle: 'explain', hook: '요청은 어디로 흐를까요?', title: 'Aurora runtime fixture',
+    angle: 'question', hook: '요청은 어디로 흐를까요?', title: 'Aurora runtime fixture',
     rationale: 'runtime fixture', viralScore: 0, suggestedCaption: '', hashtags: [],
   },
   style: {
@@ -35,6 +35,16 @@ const auroraManifest = () => ({
         {type: 'glow', target: 'phone-input', startMs: 1240, durationMs: 760, intensity: 1, color: '#ff304f', seed: 9},
       ],
       choreography: ['camera-error-shake'],
+      hyperframesMotion: {
+        stage: 'full-bleed',
+        cameraTrack: [
+          {at: .12, target: 'phone-input', scale: 1.28, offsetX: 0, offsetY: 0, durationMs: 700, easing: 'spring-snappy'},
+          {at: .52, target: 'requirements-checklist', scale: 1.4, offsetX: 0, offsetY: 0, durationMs: 800, easing: 'spring-bouncy'},
+        ],
+        objectMotions: [
+          {target: 'phone-input', at: .3, kind: 'pop', strength: .8, durationMs: 700, easing: 'spring-snappy'},
+        ],
+      },
       diagramSpec: {
         version: 1,
         renderer: 'auto',
@@ -111,10 +121,12 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-connection="request"[^>]*x1="140\.00" y1="280\.00" x2="400\.00" y2="280\.00"/);
   assert.match(html, /data-ax-object-bg="browser"[^>]*style="left:17\.50%;top:50\.00%/);
   assert.match(html, /data-ax-pulse="request"/);
+  assert.match(html, /class="clip ax-scene ax-scene--full-bleed"/);
   assert.match(html, /class="ax-camera-shake"/);
   assert.match(html, /data-ax-effect="light-leak"[^>]*data-ax-effect-target="background"/);
   assert.match(html, /data-ax-effect="glow"[^>]*data-ax-effect-target="phone-input"/);
   assert.match(css, /\.ax-camera-shake\{[^}]*will-change:transform/);
+  assert.match(css, /\.ax-scene--full-bleed \.ax-stage\{[^}]*left:0[^}]*right:0[^}]*overflow:visible/);
   assert.match(css, /\.ax-error-overlay\{[^}]*mix-blend-mode:screen/);
   assert.match(css, /\.ax-target-glow\{[^}]*radial-gradient/);
   assert.match(css, /\.ax-object\[data-role='input'\]\{[^}]*text-align:left/);
@@ -134,7 +146,11 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(timelineSource, /left:"17\.50%", top:"50\.00%"/);
   assert.match(timelineSource, /left:"50\.00%", top:"50\.00%", duration:0\.900/);
   assert.match(timelineSource, /#scene-01-pulse-request"[^\n]*1\.478\);/, 'pulse must wait until the request line reveal has completed plus a short lead');
-  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:46\.9, y:0\.0, scale:1\.054[^\n]*1\.258\);/, 'diagram camera should move toward the active path before the pulse');
+  assert.match(timelineSource, /function springEase\(/, 'timeline should include the seek-safe damped spring helper');
+  assert.match(timelineSource, /spring-snappy[^\n]*dampingFraction:\.84/, 'snappy spring should use a lightly under-damped physical settle');
+  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*scale:1\.280[^\n]*ease:springPreset\("spring-snappy"\)/, 'camera track should use the physical snappy spring');
+  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:-353\.8[^\n]*scale:1\.400[^\n]*ease:springPreset\("spring-bouncy"\)/, 'camera track should pan dynamically toward the checklist');
+  assert.match(timelineSource, /#scene-01-object-bg-phone-input,#scene-01-object-phone-input"[^\n]*ease:springPreset\("spring-snappy"\)/, 'object motion should use spring easing');
   assert.match(timelineSource, /#scene-01-effect-1"[^\n]*opacity:0/);
   assert.match(timelineSource, /#scene-01-effect-2"[^\n]*opacity:1\.000/);
   assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*scale:1\.065/);
