@@ -146,3 +146,56 @@ jobs:
           ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 smoke.mp4 | grep -qx '1080x1920'
           duration="$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 smoke.mp4)"
           awk -v duration="$duration" 'BEGIN { exit !(duration > 1) }'
+
+
+  render-signup-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        with:
+          node-version: 24.18.0
+      - run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+      - name: Ensure media tools are available
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+      - name: Build actual signup candidate
+        id: signup
+        shell: bash
+        run: |
+          set -euo pipefail
+          node shorts/scripts/build-hyperframes.mjs shorts/content/signup-phone-number-input/candidate-01.json
+          echo "project_dir=shorts/.tmp/hyperframes/signup-phone-number-input-candidate-01" >> "$GITHUB_OUTPUT"
+      - name: Lint and inspect actual signup candidate
+        env:
+          PROJECT_DIR: ${{ steps.signup.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$PROJECT_DIR"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" inspect --samples 24 --json | tee inspect.json
+      - name: Render actual signup candidate
+        env:
+          PROJECT_DIR: ${{ steps.signup.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$PROJECT_DIR"
+          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality standard --fps 30 --output signup-phone-preview.mp4 --strict
+          test -s signup-phone-preview.mp4
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 signup-phone-preview.mp4 | grep -qx '1080x1920'
+          ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 signup-phone-preview.mp4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
+        with:
+          name: aurora-signup-preview-${{ github.run_id }}
+          path: |
+            ${{ steps.signup.outputs.project_dir }}/signup-phone-preview.mp4
+            ${{ steps.signup.outputs.project_dir }}/inspect.json
+          retention-days: 7
