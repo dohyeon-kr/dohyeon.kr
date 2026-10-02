@@ -2,6 +2,7 @@ import type {BackgroundVideo} from './video/schema';
 import type {PresenterOverlaySpec} from './presenter/overlay';
 import type {PresenterSpec} from './presenter/schema';
 import type {DiagramSpec} from './visuals/diagram-spec';
+import type {HyperFramesMotionSpec} from './hyperframes/motion-schema';
 export type SceneKind = 'hero' | 'photo' | 'compare' | 'statement' | 'outro';
 
 export type SceneLayout =
@@ -122,6 +123,7 @@ export type CandidateScene = {
   visualStory?: {initial: string; trigger: string; change: string; invariant: string; result: string} | null;
   diagramSpec?: DiagramSpec | null;
   uiMotion?: import('./visuals/notebook-ui-motion').NotebookUiMotionSpec | null;
+  hyperframesMotion?: HyperFramesMotionSpec | null;
   kind: SceneKind;
   layout?: SceneLayout;
   visual?: SceneVisual;
@@ -161,7 +163,7 @@ export type CandidateManifest = {
   };
   style: {
     template?: import('./templates/registry').TemplateId;
-    theme: 'monochrome-editorial' | 'monochrome-editorial-dark' | 'monoliquid-v2' | 'notebook-grid';
+    theme: 'monochrome-editorial' | 'monochrome-editorial-dark' | 'monoliquid-v2' | 'notebook-grid' | 'aurora-explain';
     colorScheme?: 'light' | 'dark';
     imagePlacement?: 'upper-right';
     textPlacement?: 'lower-left';
