@@ -180,7 +180,11 @@ jobs:
           set -euo pipefail
           cd "$PROJECT_DIR"
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
+          set +e
           npx --yes "hyperframes@${HYPERFRAMES_VERSION}" inspect --samples 24 --json | tee inspect.json
+          inspect_status=${PIPESTATUS[0]}
+          set -e
+          echo "HyperFrames inspect exit status: ${inspect_status} (findings retained; render continues)"
       - name: Render actual signup candidate
         env:
           PROJECT_DIR: ${{ steps.signup.outputs.project_dir }}
