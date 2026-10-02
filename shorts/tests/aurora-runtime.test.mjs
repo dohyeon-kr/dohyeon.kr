@@ -146,9 +146,11 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(timelineSource, /left:"17\.50%", top:"50\.00%"/);
   assert.match(timelineSource, /left:"50\.00%", top:"50\.00%", duration:0\.900/);
   assert.match(timelineSource, /#scene-01-pulse-request"[^\n]*1\.478\);/, 'pulse must wait until the request line reveal has completed plus a short lead');
-  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*scale:1\.280[^\n]*ease:"back\.out\(2\.15\)"/, 'camera track should use snappy spring easing');
-  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:-353\.8[^\n]*scale:1\.400[^\n]*ease:"elastic\.out\(1,0\.42\)"/, 'camera track should pan dynamically toward the checklist');
-  assert.match(timelineSource, /#scene-01-object-bg-phone-input,#scene-01-object-phone-input"[^\n]*ease:"back\.out\(2\.15\)"/, 'object motion should use spring easing');
+  assert.match(timelineSource, /function springEase\(/, 'timeline should include the seek-safe damped spring helper');
+  assert.match(timelineSource, /spring-snappy[^\n]*dampingFraction:\.84/, 'snappy spring should use a lightly under-damped physical settle');
+  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*scale:1\.280[^\n]*ease:springPreset\("spring-snappy"\)/, 'camera track should use the physical snappy spring');
+  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:-353\.8[^\n]*scale:1\.400[^\n]*ease:springPreset\("spring-bouncy"\)/, 'camera track should pan dynamically toward the checklist');
+  assert.match(timelineSource, /#scene-01-object-bg-phone-input,#scene-01-object-phone-input"[^\n]*ease:springPreset\("spring-snappy"\)/, 'object motion should use spring easing');
   assert.match(timelineSource, /#scene-01-effect-1"[^\n]*opacity:0/);
   assert.match(timelineSource, /#scene-01-effect-2"[^\n]*opacity:1\.000/);
   assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*scale:1\.065/);
