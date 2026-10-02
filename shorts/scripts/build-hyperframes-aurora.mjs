@@ -98,9 +98,12 @@ function iconMarkup(role) {
 
 function semanticObjectMarkup(node, role, label) {
   const identity = `${node.id} ${label}`.toLowerCase();
-  const stateClass = /error|invalid|fail|잘못|실패/.test(identity) ? ' is-error'
-    : /verified|success|complete|완료/.test(identity) ? ' is-success'
-    : '';
+  const stateClasses = [];
+  if (/error|invalid|fail|잘못|실패/.test(identity)) stateClasses.push('is-error');
+  else if (/verified|success|complete|완료/.test(identity)) stateClasses.push('is-success');
+  else if (/normalized|정규화|010-\d{3,4}-\d{4}/.test(identity)) stateClasses.push('is-normalized');
+  else if (/auth|인증 필요|verification/.test(identity)) stateClasses.push('is-auth');
+  const stateClass = stateClasses.length ? ` ${stateClasses.join(' ')}` : '';
   if (role === 'input') {
     const parts = label.split(/\s*·\s*/).filter(Boolean);
     const primary = parts[0] || label;
