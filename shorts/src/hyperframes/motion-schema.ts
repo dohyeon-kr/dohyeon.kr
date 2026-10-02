@@ -33,3 +33,18 @@ export const HyperFramesMotionSchema = z.object({
 }).strict();
 
 export type HyperFramesMotionSpec = z.infer<typeof HyperFramesMotionSchema>;
+
+export function validateHyperFramesMotion(value: unknown, diagramNodeIds: readonly string[] = []) {
+  if (value == null) return null;
+  const spec = HyperFramesMotionSchema.parse(value);
+  const ids = new Set(diagramNodeIds);
+  for (const keyframe of spec.cameraTrack) {
+    if (keyframe.target && !ids.has(keyframe.target)) {
+      throw new Error(`Unknown HyperFrames camera target: ${keyframe.target}`);
+    }
+  }
+  for (const cue of spec.objectMotions) {
+    if (!ids.has(cue.target)) throw new Error(`Unknown HyperFrames object target: ${cue.target}`);
+  }
+  return spec;
+}
