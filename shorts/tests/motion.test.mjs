@@ -9,6 +9,7 @@ import {validateSceneMotion} from '../src/motion/validate.ts';
 import {light, motionScene, motionGalleryProps} from '../src/motion-preview.ts';
 import {describeCandidate} from '../scripts/describe-candidates.mjs';
 import {GeneratedLightEffectSchema, GeneratedTransitionOptionsSchema} from '../scripts/generated-motion-schema.mjs';
+import {HyperFramesMotionSchema} from '../src/hyperframes/motion-schema.ts';
 
 test('pulse uses elapsed time, fades at both boundaries and supports reverse seeking', () => {
   const effect = light('flow-glow', 'connection', {startMs: 1000, durationMs: 1000, intensity: .8});
@@ -59,4 +60,21 @@ test('generation schema is strict and storyboard names effects and timing', () =
   assert.match(md, /블러 디졸브/);
   assert.match(md, /경로를 흐르는 빛/);
   assert.match(md, /700ms부터 1800ms/);
+});
+
+test('HyperFrames motion supports full-bleed spring tracks and validates semantic targets', () => {
+  const motion = {
+    stage: 'full-bleed',
+    cameraTrack: [
+      {at: .1, target: 'input', scale: 1.28, offsetX: 0, offsetY: 0, durationMs: 700, easing: 'spring-snappy'},
+      {at: .6, target: 'result', scale: 1.46, offsetX: 20, offsetY: -12, durationMs: 900, easing: 'spring-bouncy'},
+    ],
+    objectMotions: [
+      {target: 'result', at: .55, kind: 'grow', strength: .9, durationMs: 800, easing: 'spring-bouncy'},
+    ],
+  };
+  assert.doesNotThrow(() => HyperFramesMotionSchema.parse(motion));
+  assert.doesNotThrow(() => validateSceneMotion(motionScene({hyperframesMotion: motion})));
+  assert.throws(() => validateSceneMotion(motionScene({hyperframesMotion: {...motion, cameraTrack: [{...motion.cameraTrack[0], target: 'missing'}]}})));
+  assert.throws(() => HyperFramesMotionSchema.parse({...motion, cameraTrack: [{...motion.cameraTrack[0], scale: 2}]}));
 });
