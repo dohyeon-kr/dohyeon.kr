@@ -1,0 +1,53 @@
+name: Signup approved audio only
+
+# Branch-only review workflow. No release, tag, PR, deployment or video upload.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: signup-approved-audio-once
+  cancel-in-progress: false
+
+jobs:
+  audio:
+    if: github.ref == 'refs/heads/codex/signup-video-v2' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.18.0
+      - name: Install approved audio dependencies
+        run: |
+          npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+      - name: Verify the fixed request before exposing the connection
+        run: node shorts/scripts/prepare-signup-body-once.mjs --preflight
+      - name: Generate body and align once
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SIGNUP_AUDIO_APPROVED_MAX_USD: '0.10'
+          SHORTS_IMAGE_GENERATION: disabled
+        run: node shorts/scripts/prepare-signup-body-once.mjs
+      - name: Preserve only generated speech and timing for local rendering
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: signup-approved-body-${{ github.run_id }}
+          path: |
+            shorts/.tmp/signup-audio-once/body.wav
+            shorts/.tmp/signup-audio-once/body-raw.wav
+            shorts/.tmp/signup-audio-once/body-prepared.json
+            shorts/.tmp/signup-audio-once/transcription.json
+            shorts/.tmp/signup-audio-once/receipt.json
+          retention-days: 1
+          if-no-files-found: ignore

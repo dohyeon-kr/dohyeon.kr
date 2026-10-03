@@ -1,3 +1,4 @@
+import {alignSignupSpans} from './signup-word-alignment.mjs';
 import {withBlogCta, BLOG_CTA_ID} from './blog-cta.mjs';
 import {captionsFromBeatTimings, estimatedBeatTimings} from './caption-alignment.mjs';
 
@@ -60,6 +61,7 @@ export function resolveSignupModel(candidate, prepared) {
     validateAlignedScene(scene);
     // The same cues are written to the HTML and the existing release-sidecar manifest.
     scene.captions = captionsFromBeatTimings(scene.beats, scene.beatTimings, {phraseLevel: true});
+    if(scene.captionWords){const measured=alignSignupSpans(scene.captions.map(c=>c.text),scene.captionWords);scene.captions=scene.captions.map((c,j)=>({...c,...measured.timings[j]}));}
     if (normalized(scene.captions.map(c => c.text).join(' ')) !== normalized(scene.narration)) {
       throw new Error('Caption text does not preserve narration.');
     }

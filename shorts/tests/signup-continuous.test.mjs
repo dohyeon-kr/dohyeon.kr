@@ -77,3 +77,28 @@ test('the strengthened script refuses the old speech and spells out responsibili
   assert.match(candidate.scenes[0].beats[4].text,/인증 완료 여부/);
   assert.match(candidate.scenes[0].beats[4].text,/요청 형식/);
 });
+
+
+test('approved audio workflow cannot publish or automatically retry',async()=>{
+  const workflow=await fs.readFile(path.join(root,'shorts/hyperframes/signup-phone-number-input-v2/approved-audio-workflow.yml'),'utf8');
+  assert.match(workflow,/contents: read/);
+  assert.match(workflow,/github.run_attempt == 1/);
+  assert.match(workflow,/refs\/heads\/codex\/signup-video-v2/);
+  assert.doesNotMatch(workflow,/contents: write|pull-requests: write|gh release|publish-video-release|create-pull-request|workflow run/);
+  assert.equal((workflow.match(/secrets.OPENAI_API_KEY/g)||[]).length,1);
+  const preflight=spawnSync(process.execPath,['shorts/scripts/prepare-signup-body-once.mjs','--preflight'],{cwd:root,encoding:'utf8'});
+  assert.equal(preflight.status,0,preflight.stderr);
+  const plan=JSON.parse(preflight.stdout);assert.equal(plan.speechCalls,1);assert.equal(plan.transcriptionCalls,1);assert.equal(plan.automaticRetries,0);assert.equal(plan.approvedMaxUsd,.10);
+});
+
+
+test('measured server boundary survives a small ASR substitution',async()=>{
+  const {alignSignupSpans}=await import('../scripts/signup-word-alignment.mjs');
+  const spans=['화면 검사입니다.','서버는 중복 번호를 확인합니다.'];
+  const words=[{word:'화면',start:0,end:.5},{word:'검사입니다',start:.6,end:1},{word:'서버는',start:1.2,end:1.6},{word:'중북',start:1.7,end:2},{word:'번호를',start:2.1,end:2.5},{word:'확인합니다',start:2.6,end:3}];
+  // Longer surrounding text keeps the substitution within the bounded tolerance.
+  spans[0]='화면 검사는 입력 오류를 빠르게 알려주는 역할입니다.';
+  words.splice(0,2,{word:'화면 검사는 입력 오류를 빠르게 알려주는 역할입니다',start:0,end:1});
+  const result=alignSignupSpans(spans,words);assert.equal(result.timings[1].startSeconds,1.2);assert.equal(result.editDistance,1);
+  assert.throws(()=>alignSignupSpans(['완전히 다른 문장'],words),/differs too much/);
+});
