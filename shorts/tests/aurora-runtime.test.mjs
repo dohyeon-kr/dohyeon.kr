@@ -150,7 +150,7 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(timelineSource, /function springEase\(/, 'timeline should include the seek-safe damped spring helper');
   assert.match(timelineSource, /spring-snappy[^\n]*dampingFraction:\.84/, 'snappy spring should use a lightly under-damped physical settle');
   assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*scale:1\.280[^\n]*ease:springPreset\("spring-snappy"\)/, 'camera track should use the physical snappy spring');
-  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:-160\.0[^\n]*scale:1\.400[^\n]*ease:springPreset\("spring-bouncy"\)/, 'camera track should pan dynamically while staying inside the bounded framing range');
+  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:-110\.0[^\n]*scale:1\.400[^\n]*ease:springPreset\("spring-bouncy"\)/, 'camera track should pan dynamically while staying inside the bounded framing range');
   assert.match(timelineSource, /transformOrigin:"50% 50%"/, 'camera-track zoom should use the viewport center so the opposite semantic panel remains visible');
   assert.match(timelineSource, /#scene-01-object-bg-phone-input,#scene-01-object-phone-input"[^\n]*ease:springPreset\("spring-snappy"\)/, 'object motion should use spring easing');
   assert.match(timelineSource, /tl\.set\("#scene-01-connection-request", \{"opacity":0\}, 0\.000\);/, 'future diagram states must be initialized before their first tween');
