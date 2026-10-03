@@ -420,7 +420,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
       const left = point?.left ?? 50;
       const top = point?.top ?? 50;
       const scale = clamp(Number(keyframe.scale ?? 1), 1, 1.55);
-      const x = clamp((50 - left) / 100 * stageWidth * scale * .38 + Number(keyframe.offsetX ?? 0), -160, 160);
+      const x = clamp((50 - left) / 100 * stageWidth * scale * .28 + Number(keyframe.offsetX ?? 0), -110, 110);
       const y = clamp((50 - top) / 100 * stageHeight * scale * .42 + Number(keyframe.offsetY ?? 0), -170, 170);
       const cameraStart = start + clamp(Number(keyframe.at ?? 0), 0, 1) * duration;
       const cameraDuration = Math.min(Math.max(.1, Number(keyframe.durationMs ?? 600) / 1000), Math.max(.1, start + duration - cameraStart - .02));
