@@ -121,7 +121,7 @@ function semanticObjectMarkup(node, role, label) {
     }).join('');
     return {
       stateClass,
-      markup: `<span class="ax-checklist-kicker">IMPLEMENTATION CHECK</span><ul class="ax-checklist-items">${itemMarkup}</ul>`,
+      markup: `<span class="ax-checklist-kicker">FE CHECKS</span><ul class="ax-checklist-items">${itemMarkup}</ul>`,
     };
   }
   return {
@@ -347,6 +347,18 @@ for (const [index, scene] of manifest.scenes.entries()) {
   timelineStatements.push(`tl.fromTo("#${id} .ax-orb--a", {scale:.86, opacity:.1}, {scale:1.08, opacity:.28, duration:${Math.min(1.15, duration / 2).toFixed(2)}, ease:"power1.inOut"}, ${(start + .1).toFixed(3)});`);
   timelineStatements.push(`tl.fromTo("#${id} .ax-orb--b", {scale:.92, opacity:.08}, {scale:1.12, opacity:.22, duration:${Math.min(1.35, duration / 2).toFixed(2)}, ease:"power1.inOut"}, ${(start + .24).toFixed(3)});`);
 
+  // Establish every animated property at its first declared "from" value before
+  // the scene starts moving. Without this, future snapshots render at CSS defaults
+  // (notably opacity:1) until their own tween begins, which stacks every state.
+  const firstStateByProperty = new Map();
+  for (const event of [...diagram.timeline].sort((a, b) => a.start - b.start)) {
+    const key = `${event.selector}::${event.property}`;
+    if (!firstStateByProperty.has(key)) firstStateByProperty.set(key, event);
+  }
+  for (const event of firstStateByProperty.values()) {
+    timelineStatements.push(`tl.set("${event.selector}", ${JSON.stringify({[event.property]: event.from})}, ${start.toFixed(3)});`);
+  }
+
   for (const event of diagram.timeline) {
     const eventStart = start + clamp(event.start, 0, 1) * duration;
     const eventDuration = Math.max(.04, (clamp(event.end, 0, 1) - clamp(event.start, 0, 1)) * duration);
@@ -407,13 +419,15 @@ for (const [index, scene] of manifest.scenes.entries()) {
       const point = keyframe.target ? diagram.focusPoints[keyframe.target] : null;
       const left = point?.left ?? 50;
       const top = point?.top ?? 50;
-      const scale = clamp(Number(keyframe.scale ?? 1), 1, 1.75);
-      const x = clamp((50 - left) / 100 * stageWidth * scale * .72 + Number(keyframe.offsetX ?? 0), -360, 360);
-      const y = clamp((50 - top) / 100 * stageHeight * scale * .56 + Number(keyframe.offsetY ?? 0), -300, 300);
+      const scale = clamp(Number(keyframe.scale ?? 1), 1, 1.55);
+      const x = clamp((50 - left) / 100 * stageWidth * scale * .28 + Number(keyframe.offsetX ?? 0), -110, 110);
+      const y = clamp((50 - top) / 100 * stageHeight * scale * .42 + Number(keyframe.offsetY ?? 0), -170, 170);
       const cameraStart = start + clamp(Number(keyframe.at ?? 0), 0, 1) * duration;
       const cameraDuration = Math.min(Math.max(.1, Number(keyframe.durationMs ?? 600) / 1000), Math.max(.1, start + duration - cameraStart - .02));
       const ease = timelineEaseSource(keyframe.easing);
-      const origin = `${left.toFixed(1)}% ${top.toFixed(1)}%`;
+      // Zoom around the viewport center; semantic focus is expressed by pan.
+      // Target-origin zoom pushes the opposite panel off-canvas in two-column flows.
+      const origin = '50% 50%';
       timelineStatements.push(`tl.set("#${id} .ax-camera", {transformOrigin:"${origin}"}, ${cameraStart.toFixed(3)});`);
       timelineStatements.push(`tl.to("#${id} .ax-camera", {x:${x.toFixed(1)}, y:${y.toFixed(1)}, scale:${scale.toFixed(3)}, duration:${cameraDuration.toFixed(3)}, ease:${ease}}, ${cameraStart.toFixed(3)});`);
     }

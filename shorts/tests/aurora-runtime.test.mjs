@@ -114,6 +114,7 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(html, /data-ax-object="requirements-checklist"[^>]*data-role="checklist"/);
   assert.match(html, /class="ax-input-control"/);
   assert.match(html, /class="ax-checklist-items"/);
+  assert.match(html, />FE CHECKS<\/span>/);
   assert.match(html, /data-state="done"/);
   assert.match(html, /data-state="pending"/);
   assert.match(html, /class="ax-connector-layer" viewBox="0 0 800 560"/);
@@ -149,8 +150,11 @@ test('aurora-explain compiles through the shared HyperFrames entry point', async
   assert.match(timelineSource, /function springEase\(/, 'timeline should include the seek-safe damped spring helper');
   assert.match(timelineSource, /spring-snappy[^\n]*dampingFraction:\.84/, 'snappy spring should use a lightly under-damped physical settle');
   assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*scale:1\.280[^\n]*ease:springPreset\("spring-snappy"\)/, 'camera track should use the physical snappy spring');
-  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:-353\.8[^\n]*scale:1\.400[^\n]*ease:springPreset\("spring-bouncy"\)/, 'camera track should pan dynamically toward the checklist');
+  assert.match(timelineSource, /#scene-01 \.ax-camera"[^\n]*x:-110\.0[^\n]*scale:1\.400[^\n]*ease:springPreset\("spring-bouncy"\)/, 'camera track should pan dynamically while staying inside the bounded framing range');
+  assert.match(timelineSource, /transformOrigin:"50% 50%"/, 'camera-track zoom should use the viewport center so the opposite semantic panel remains visible');
   assert.match(timelineSource, /#scene-01-object-bg-phone-input,#scene-01-object-phone-input"[^\n]*ease:springPreset\("spring-snappy"\)/, 'object motion should use spring easing');
+  assert.match(timelineSource, /tl\.set\("#scene-01-connection-request", \{"opacity":0\}, 0\.000\);/, 'future diagram states must be initialized before their first tween');
+  assert.match(timelineSource, /tl\.set\("#scene-01-object-bg-requirements-checklist,#scene-01-object-requirements-checklist", \{"opacity":0\.5\}, 0\.000\);/, 'first semantic state must be applied at scene start');
   assert.match(timelineSource, /#scene-01-effect-1"[^\n]*opacity:0/);
   assert.match(timelineSource, /#scene-01-effect-2"[^\n]*opacity:1\.000/);
   assert.match(timelineSource, /#scene-01 \.ax-camera-shake"[^\n]*scale:1\.065/);
