@@ -9,5 +9,9 @@ if (!videoArg || !projectArg) throw new Error('Usage: node shorts/scripts/mix-hy
 const video = path.resolve(repoRoot, videoArg);
 const project = path.resolve(repoRoot, projectArg);
 const manifest = JSON.parse(await fs.readFile(path.join(project, 'manifest.json'), 'utf8'));
-await mixBgm(video, manifest.scenes);
-console.log(`Mixed repository BGM/SFX into ${path.relative(repoRoot, video)}.`);
+if (manifest.audioAlreadyMixed === true && manifest.scenes?.[0]?.visual?.motif === 'signup-phone-number-input-v2') {
+  console.log('Retained recovered release audio; skipped duplicate BGM/SFX mixing.');
+} else {
+  await mixBgm(video, manifest.scenes);
+  console.log(`Mixed repository BGM/SFX into ${path.relative(repoRoot, video)}.`);
+}

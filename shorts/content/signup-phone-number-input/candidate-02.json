@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 3,
+  "id": "candidate-02",
+  "status": "candidate",
+  "source": {
+    "url": "https://blog.dohyeon.kr/",
+    "title": "회원가입에 휴대폰 번호 인풋을 추가해주세요"
+  },
+  "candidate": {
+    "angle": "question",
+    "hook": "회원가입에 휴대폰 번호 인풋을 하나 추가해 주세요.",
+    "title": "인풋 하나를 추가하면\n무엇이 같이 생길까?",
+    "rationale": "같은 휴대폰 입력 요소에 기능을 누적한다. 화면의 빠른 입력 안내와 서버의 재검증·인증 확인을 구분하고, 요청 형식과 오류 사유를 구체적인 예시로 보여준다. 자막과 모션은 일치하는 prepared 음성의 beat 시각을 따른다.",
+    "viralScore": 88,
+    "suggestedCaption": "“회원가입에 휴대폰 번호 인풋을 추가해주세요.” 프론트엔드에서는 이 한 줄이 입력창 하나로 끝나지 않습니다. 왜 받는지, 인증이 필요한지, 어떤 오류를 처리할지, 서버와 어떤 계약을 맺을지, 기존 회원은 어떻게 할지에 따라 같은 화면이 계속 달라집니다.",
+    "hashtags": [
+      "#프론트엔드",
+      "#Frontend",
+      "#React",
+      "#UX",
+      "#개발자"
+    ]
+  },
+  "style": {
+    "theme": "aurora-explain",
+    "template": "aurora-explain",
+    "colorScheme": "dark",
+    "subtitles": "burned-in",
+    "safeArea": "shorts-reels",
+    "artDirection": "aurora-explain",
+    "motionLanguage": "finite-semantic",
+    "decorativeLabels": "forbidden"
+  },
+  "presenterOverlay": null,
+  "scenes": [
+    {
+      "presenter": null,
+      "backgroundVideo": null,
+      "visualStory": {
+        "initial": "화면 중앙의 큰 회원가입 폼에 휴대폰 번호 입력창 하나가 놓인다.",
+        "trigger": "목적, 인증, 입력 정규화, 서버 검증과 오류 응답, 기존 회원 정책이 순서대로 구체화된다.",
+        "change": "준비된 beat 경계에 맞춰 같은 input의 값·오류·인증 상태가 바뀐다. 인증 필드가 추가되면서 폼 배경이 늘어나고 카메라가 연속해서 이동한다.",
+        "invariant": "전화번호 input DOM은 본문 내내 유지한다. 제목과 자막은 고정된 안전 영역에 놓고, 폼 외곽만 화면 경계를 넘을 수 있다.",
+        "result": "처음의 인풋 하나가 인증 UI와 오류 처리, API 계약, 기존 회원 정책 체크리스트까지 확장되어 프론트엔드가 완성해야 하는 실제 사용자 흐름으로 보인다."
+      },
+      "diagramSpec": null,
+      "kind": "hero",
+      "layout": "diagram-centered",
+      "visual": {
+        "type": "none",
+        "motif": "signup-phone-number-input-v2",
+        "query": null,
+        "value": null,
+        "xLabel": null,
+        "yLabel": null
+      },
+      "visualIntent": {
+        "concept": "한 줄짜리 휴대폰 번호 입력 요구가 프론트엔드 구현 범위로 확장되는 과정",
+        "relation": {
+          "type": "network-growth",
+          "description": "하나의 input에서 시작해 인증, validation, API 오류, 기존 회원 정책으로 고려 범위가 늘어난다."
+        },
+        "strategy": {
+          "type": "spatial-diagram",
+          "metaphor": "하나의 회원가입 폼에 기능과 정책이 점진적으로 추가된다.",
+          "rationale": "단일 입력 요소가 커지고 상태가 바뀌는 것이 주제이므로 별도 사진이나 B-roll로 끊지 않는다. signup-phone-number-input-v2 구성이 명시적 렌더 계약이다."
+        }
+      },
+      "transition": "none",
+      "transitionOptions": null,
+      "effects": [],
+      "camera": {
+        "motion": "static",
+        "target": "center",
+        "intensity": "medium",
+        "startProgress": 0,
+        "endProgress": 1
+      },
+      "choreography": [
+        "persistent-phone-input",
+        "grow-auth-fields",
+        "validate-input-in-place",
+        "reveal-server-contract",
+        "compare-member-policy",
+        "complete-user-flow"
+      ],
+      "beats": [
+        {
+          "text": "기획자가 말합니다. 회원가입에 휴대폰 번호 인풋을 하나 추가해 주세요.",
+          "emphasis": "high",
+          "pauseAfterMs": 140,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "인풋 하나",
+          "visualCue": "phone-input-basic"
+        },
+        {
+          "text": "바로 만들기 전에 먼저 묻습니다. 이 번호는 왜 받나요? 연락처인가요, 본인 인증인가요?",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "왜 받나요",
+          "visualCue": "checklist-purpose"
+        },
+        {
+          "text": "본인 인증용이라는 답이 오면 화면이 달라집니다. 인증번호 발송, 재전송, 만료와 실패 상태가 같이 생깁니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "push",
+          "visualPriority": "high",
+          "keyword": "본인 인증",
+          "visualCue": "otp-input"
+        },
+        {
+          "text": "입력창은 하이픈과 공백을 걷어 내고, 길이가 맞는지 바로 알려줍니다. 하지만 화면의 검사만 믿을 수는 없습니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 120,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "잘못된 번호",
+          "visualCue": "phone-input-error"
+        },
+        {
+          "text": "서버는 번호 형식을 다시 검사하고, 인증 완료 여부를 확인합니다. 숫자만 보낼지 국가 코드를 붙일지, 요청 형식도 맞춥니다. 중복 번호와 인증 만료는 구분해서 응답하고, 화면은 그 이유를 보여줍니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 220,
+          "delivery": "normal",
+          "visualPriority": "high",
+          "keyword": "검증과 오류 응답",
+          "visualCue": "checklist-contract"
+        },
+        {
+          "text": "마지막으로 기존 회원을 봅니다. 기존 데이터에는 번호가 없는데 신규 회원만 필수라면, 그건 인풋 문제가 아니라 제품 정책입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 180,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "기존 회원",
+          "visualCue": "checklist-legacy"
+        },
+        {
+          "text": "프론트엔드에서 인풋 하나를 추가한다는 건, 컴포넌트 하나를 놓는 일이 아니라 사용자 흐름 하나를 완성하는 일입니다.",
+          "emphasis": "high",
+          "pauseAfterMs": 320,
+          "delivery": "hold",
+          "visualPriority": "high",
+          "keyword": "사용자 흐름",
+          "visualCue": "phone-input-verified"
+        }
+      ],
+      "headline": "",
+      "subline": null,
+      "narration": "기획자가 말합니다. 회원가입에 휴대폰 번호 인풋을 하나 추가해 주세요. 바로 만들기 전에 먼저 묻습니다. 이 번호는 왜 받나요? 연락처인가요, 본인 인증인가요? 본인 인증용이라는 답이 오면 화면이 달라집니다. 인증번호 발송, 재전송, 만료와 실패 상태가 같이 생깁니다. 입력창은 하이픈과 공백을 걷어 내고, 길이가 맞는지 바로 알려줍니다. 하지만 화면의 검사만 믿을 수는 없습니다. 서버는 번호 형식을 다시 검사하고, 인증 완료 여부를 확인합니다. 숫자만 보낼지 국가 코드를 붙일지, 요청 형식도 맞춥니다. 중복 번호와 인증 만료는 구분해서 응답하고, 화면은 그 이유를 보여줍니다. 마지막으로 기존 회원을 봅니다. 기존 데이터에는 번호가 없는데 신규 회원만 필수라면, 그건 인풋 문제가 아니라 제품 정책입니다. 프론트엔드에서 인풋 하나를 추가한다는 건, 컴포넌트 하나를 놓는 일이 아니라 사용자 흐름 하나를 완성하는 일입니다.",
+      "comparisonLeft": null,
+      "comparisonRight": null,
+      "imageQuery": null,
+      "image": null
+    }
+  ]
+}

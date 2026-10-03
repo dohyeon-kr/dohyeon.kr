@@ -1,0 +1,14 @@
+node_modules/
+assets/narration-edit.wav
+assets/gsap.min.js
+assets/pretendard-variable.woff2
+renders/
+snapshots/
+output/
+.hyperframes/
+index.html
+timeline.js
+timing.json
+captions.srt
+
+node_modules

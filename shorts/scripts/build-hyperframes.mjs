@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import {getHyperframesTheme} from './hyperframes-themes.mjs';
+import {isSignupComposition} from './signup-continuous-model.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.join(repoRoot, 'shorts');
@@ -16,4 +17,6 @@ if (!manifestPath.startsWith(contentRoot) || path.extname(manifestPath) !== '.js
 const candidate = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
 const themeId = candidate.style?.template ?? candidate.style?.theme;
 const theme = getHyperframesTheme(themeId);
-await import(new URL(theme.builder, import.meta.url));
+// Only the explicitly authored signup motif selects the persistent form renderer.
+// Existing Aurora candidates and every other theme retain their existing builder.
+await import(new URL(isSignupComposition(candidate) ? './build-hyperframes-signup.mjs' : theme.builder, import.meta.url));

@@ -1,404 +1,53 @@
-name: Render blog shorts
+name: Signup approved audio only
 
+# Branch-only review workflow. No release, tag, PR, deployment or video upload.
 on:
   workflow_dispatch:
-    inputs:
-      engine:
-        description: Final render engine
-        required: true
-        default: remotion
-        type: choice
-        options:
-          - remotion
-          - hyperframes
-      manifest:
-        description: Candidate JSON path under shorts/content/
-        required: true
-        type: string
-      storyboard_approved:
-        description: I reviewed and approved every storyboard scene
-        required: true
-        default: false
-        type: boolean
-      repair_pass:
-        description: Internal strict auto-repair retry guard
-        required: false
-        default: '0'
-        type: string
-  pull_request:
-    types: [closed]
-    branches:
-      - main
-
-env:
-  SHORTS_IMAGE_GENERATION: disabled
-  HYPERFRAMES_VERSION: '0.8.40'
 
 permissions:
-  actions: write
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
-  group: shorts-render-${{ inputs.manifest || github.event.pull_request.number || github.run_id }}
+  group: signup-approved-audio-once
   cancel-in-progress: false
 
 jobs:
-  resume-after-strict-repair:
-    if: >-
-      github.event_name == 'pull_request' &&
-      github.event.pull_request.merged == true &&
-      github.event.pull_request.user.login == 'github-actions[bot]' &&
-      startsWith(github.event.pull_request.head.ref, 'automation/aurora-strict-repair-')
+  audio:
+    if: github.ref == 'refs/heads/codex/signup-video-v2' && github.run_attempt == 1
     runs-on: ubuntu-latest
-
+    timeout-minutes: 10
     steps:
-      - name: Resolve repaired manifest
-        id: repair
-        env:
-          PR_BODY: ${{ github.event.pull_request.body }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          manifest="$(printf '%s\n' "${PR_BODY}" | sed -n 's/^- 대상: `\([^`]*\)`$/\1/p' | head -n 1)"
-          if [[ -z "${manifest}" ]]; then
-            echo "::error title=Missing repair manifest::Could not resolve the repaired shorts manifest from the automatic repair PR body."
-            exit 1
-          fi
-          if [[ ! "${manifest}" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]]; then
-            echo "::error title=Invalid repair manifest::Unexpected manifest path: ${manifest}"
-            exit 1
-          fi
-          printf 'manifest=%s\n' "${manifest}" >> "${GITHUB_OUTPUT}"
-
-      - name: Re-run final render from repaired main
-        env:
-          GH_TOKEN: ${{ github.token }}
-          MANIFEST: ${{ steps.repair.outputs.manifest }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          gh workflow run render-shorts.yml \
-            --repo "${GITHUB_REPOSITORY}" \
-            --ref main \
-            --field engine=hyperframes \
-            --field manifest="${MANIFEST}" \
-            --field storyboard_approved=true \
-            --field repair_pass=1
-          {
-            echo '## Automatic strict-repair rerender'
-            echo
-            echo "- merged repair PR: #${{ github.event.pull_request.number }}"
-            echo "- manifest: \`${MANIFEST}\`"
-            echo '- dispatched: \`render-shorts.yml\` on \`main\`'
-          } >> "${GITHUB_STEP_SUMMARY}"
-
-  render:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          fetch-depth: 2
-
-      - name: Setup Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24.18.0
-
-      - name: Install shorts dependencies
-        run: npm --prefix shorts install --ignore-scripts --no-audit --no-fund
-
-      - name: Ensure audio and video tools are available
+      - name: Install approved audio dependencies
         run: |
-          if ! command -v ffprobe >/dev/null 2>&1 || ! command -v ffmpeg >/dev/null 2>&1; then
+          npm --prefix shorts install --ignore-scripts --no-audit --no-fund
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
             sudo apt-get update
             sudo apt-get install -y ffmpeg
           fi
-          ffmpeg -version
-          ffprobe -version
-
-      - name: Resolve manifest and engine
-        id: manifests
-        env:
-          MANIFEST_INPUT: ${{ inputs.manifest }}
-          ENGINE: ${{ inputs.engine }}
-          STORYBOARD_APPROVED: ${{ inputs.storyboard_approved }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          list_file="${RUNNER_TEMP}/shorts-manifests.txt"
-          : > "${list_file}"
-
-          if [[ "${STORYBOARD_APPROVED}" != "true" ]]; then
-            echo "Final rendering requires explicit storyboard approval." >&2
-            exit 1
-          fi
-          if [[ ! "${MANIFEST_INPUT}" =~ ^shorts/content/[^/]+/[^/]+\.json$ ]]; then
-            echo "manifest must be a JSON path directly under shorts/content/<post>/" >&2
-            exit 1
-          fi
-          if [[ ! -f "${MANIFEST_INPUT}" ]]; then
-            echo "manifest does not exist: ${MANIFEST_INPUT}" >&2
-            exit 1
-          fi
-
-          template="$(jq -r '.style.template // .style.theme // ""' "${MANIFEST_INPUT}")"
-          case "${ENGINE}" in
-            remotion)
-              if [[ "${template}" == "monoliquid-v2" || "${template}" == "aurora-explain" ]]; then
-                echo "::error title=Engine/template mismatch::monoliquid-v2 and aurora-explain require engine=hyperframes."
-                exit 1
-              fi
-              ;;
-            hyperframes)
-              if [[ "${template}" != "monoliquid-v2" && "${template}" != "aurora-explain" ]]; then
-                echo "::error title=Engine/template mismatch::engine=hyperframes requires style.template=monoliquid-v2 or aurora-explain; received ${template:-<none>}."
-                exit 1
-              fi
-              ;;
-            *)
-              echo "unsupported engine: ${ENGINE}" >&2
-              exit 1
-              ;;
-          esac
-
-          printf '%s\n' "${MANIFEST_INPUT}" > "${list_file}"
-          printf 'list_file=%s\n' "${list_file}" >> "${GITHUB_OUTPUT}"
-          printf 'template=%s\n' "${template}" >> "${GITHUB_OUTPUT}"
-
-      - name: Validate selected storyboard before paid rendering
-        id: validate
-        continue-on-error: true
-        env:
-          MANIFEST: ${{ inputs.manifest }}
-        shell: bash
-        run: |
-          set -uo pipefail
-          report_file="${RUNNER_TEMP}/storyboard-validation.json"
-          set +e
-          node shorts/scripts/validate-storyboard.mjs "${MANIFEST}" "--report=${report_file}"
-          status=$?
-          set -e
-          printf 'validation_report=%s\n' "${report_file}" >> "${GITHUB_OUTPUT}"
-          exit "${status}"
-
-      - name: Restore completed speech and alignment
-        if: steps.validate.outcome == 'success'
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: shorts/.cache/audio
-          key: shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-
-
-      - name: Prepare missing TTS and alignment before video render
-        id: audio
-        if: steps.validate.outcome == 'success'
+      - name: Verify the fixed request before exposing the connection
+        run: node shorts/scripts/prepare-signup-body-once.mjs --preflight
+      - name: Generate body and align once
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
-          SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
-          SHORTS_TTS_RATE: 1.25
-          MANIFEST: ${{ inputs.manifest }}
-        run: node shorts/scripts/render.mjs "$MANIFEST" --prepare-audio
-
-      - name: Save completed audio even if preparation failed
-        if: ${{ always() && steps.audio.outcome != 'skipped' && steps.audio.outcome != '' }}
-        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: shorts/.cache/audio
-          key: shorts-audio-v1-${{ runner.os }}-${{ inputs.manifest }}-${{ github.run_id }}-${{ github.run_attempt }}
-
-      # Artifacts are not a normal delivery path. Keep only this short-lived
-      # emergency bundle when paid TTS preparation itself fails.
-      - name: Preserve failed audio recovery bundle
-        if: ${{ failure() && steps.audio.outcome == 'failure' }}
-        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
-        with:
-          name: shorts-audio-recovery-${{ github.run_id }}-${{ github.run_attempt }}
-          path: shorts/.cache/audio/*
-          include-hidden-files: true
-          if-no-files-found: ignore
-          retention-days: 3
-
-      - name: Render selected reel with Remotion
-        if: inputs.engine == 'remotion' && steps.validate.outcome == 'success'
-        env:
-          SHORTS_AUDIO_CACHE_ONLY: 'true'
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          SHORTS_TTS_MODEL: ${{ vars.SHORTS_TTS_MODEL }}
-          SHORTS_TTS_VOICE: ${{ vars.SHORTS_TTS_VOICE }}
-          SHORTS_TTS_RATE: 1.25
-          SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
-          MANIFEST: ${{ inputs.manifest }}
-        run: node shorts/scripts/render-reels.mjs "$MANIFEST"
-
-      - name: Compile prepared candidate to HyperFrames HTML
-        id: hyperframes_build
-        if: inputs.engine == 'hyperframes' && steps.validate.outcome == 'success'
-        env:
-          MANIFEST: ${{ inputs.manifest }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          slug="$(basename "$(dirname "${MANIFEST}")")"
-          candidate="$(jq -r '.id // empty' "${MANIFEST}")"
-          if [[ -z "${candidate}" ]]; then candidate="$(basename "${MANIFEST}" .json)"; fi
-          prepared="shorts/.tmp/${slug}-${candidate}.json"
-          test -f "${prepared}" || { echo "prepared render manifest missing: ${prepared}" >&2; exit 1; }
-          node shorts/scripts/build-hyperframes.mjs "${MANIFEST}" "--prepared=${prepared}"
-
-      - name: HyperFrames lint
-        if: inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
-        env:
-          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd "${PROJECT_DIR}"
-          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" lint --verbose
-
-      - name: HyperFrames visual check
-        id: hyperframes_check
-        if: inputs.engine == 'hyperframes' && steps.hyperframes_build.outcome == 'success'
-        continue-on-error: true
-        env:
-          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
-        shell: bash
-        run: |
-          set -uo pipefail
-          cd "${PROJECT_DIR}"
-
-          set +e
-          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" check --strict --json | tee check.json
-          check_status=${PIPESTATUS[0]}
-          set -e
-
-          if (( check_status == 0 )); then
-            exit 0
-          fi
-
-          if [[ ! -s check.json ]] || ! jq -e . check.json >/dev/null 2>&1; then
-            echo "::error title=HyperFrames visual check failed::Strict check exited ${check_status} without valid JSON diagnostics."
-            exit "${check_status}"
-          fi
-
-          error_count="$(jq '[.lint, .runtime, .layout, .motion, .contrast] | map(.errorCount // 0) | add // 0' check.json)"
-          warning_count="$(jq '[.lint, .runtime, .layout, .motion, .contrast] | map(.warningCount // 0) | add // 0' check.json)"
-
-          if (( error_count > 0 )); then
-            echo "::error title=HyperFrames visual check failed::Strict check found ${error_count} error(s) and ${warning_count} warning(s)."
-            exit "${check_status}"
-          fi
-
-          echo "::warning title=HyperFrames strict warnings::Strict check found ${warning_count} warning(s) and no errors; final render remains eligible."
-
-      - name: Batch-repair rejected Aurora strict findings
-        id: strict_repair
-        if: always() && steps.manifests.outputs.template == 'aurora-explain' && inputs.repair_pass != '1' && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
-        continue-on-error: true
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          SHORTS_STRICT_REPAIR_MODEL: ${{ vars.SHORTS_STRICT_REPAIR_MODEL || 'gpt-4.1-mini' }}
-          MANIFEST_INPUT: ${{ inputs.manifest }}
-          VALIDATION_REPORT: ${{ steps.validate.outputs.validation_report }}
-          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          args=("${MANIFEST_INPUT}" "--validation=${VALIDATION_REPORT}" "--report=shorts/out/aurora-strict-repair.md")
-          if [[ -n "${PROJECT_DIR:-}" && -f "${PROJECT_DIR}/check.json" ]]; then
-            args+=("--hyperframes=${PROJECT_DIR}/check.json")
-          fi
-          node shorts/scripts/repair-strict-storyboard.mjs "${args[@]}"
-
-      - name: Open Aurora strict improvement PR
-        id: strict_repair_pr
-        if: always() && steps.strict_repair.outcome == 'success' && steps.strict_repair.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        with:
-          token: ${{ github.token }}
-          commit-message: 'fix(shorts): batch-repair Aurora strict findings'
-          branch: automation/aurora-strict-repair-${{ github.run_id }}
-          delete-branch: true
-          title: 'fix: batch-repair rejected Aurora final render'
-          body-path: shorts/out/aurora-strict-repair.md
-          add-paths: |
-            shorts/content/**
-
-      - name: Reject failed strict evaluation after repair proposal
-        if: always() && (steps.validate.outcome == 'failure' || steps.hyperframes_check.outcome == 'failure')
-        env:
-          REPAIR_PR_URL: ${{ steps.strict_repair_pr.outputs.pull-request-url }}
-          REPAIR_PASS: ${{ inputs.repair_pass }}
-        shell: bash
-        run: |
-          if [[ "${REPAIR_PASS:-0}" == "1" ]]; then
-            echo "::error title=Strict render rejected after automatic repair::Automatic strict repair was already attempted once; refusing to open another repair PR."
-          elif [[ -n "${REPAIR_PR_URL}" ]]; then
-            echo "::error title=Strict render rejected::An automatic improvement PR was opened: ${REPAIR_PR_URL}"
-          else
-            echo "::error title=Strict render rejected::Strict validation failed; no final video will be published."
-          fi
-          exit 1
-
-      - name: Render selected reel with HyperFrames
-        if: inputs.engine == 'hyperframes' && steps.hyperframes_check.outcome == 'success'
-        env:
-          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
-          PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "${GITHUB_WORKSPACE}/shorts/out"
-          cd "${PROJECT_DIR}"
-          npx --yes "hyperframes@${HYPERFRAMES_VERSION}" render --quality high --fps 30 --output "${GITHUB_WORKSPACE}/shorts/out/${PREFIX}.mp4" --strict
-
-      - name: Mix repository BGM and sound cues for HyperFrames
-        if: inputs.engine == 'hyperframes' && steps.hyperframes_check.outcome == 'success'
-        env:
-          SHORTS_BGM_TRACK: ${{ vars.SHORTS_BGM_TRACK }}
-          SHORTS_SFX: ${{ vars.SHORTS_SFX }}
-          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
-          PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
-        run: node shorts/scripts/mix-hyperframes-bgm.mjs "shorts/out/${PREFIX}.mp4" "$PROJECT_DIR"
-
-      - name: Write HyperFrames release sidecars
-        if: inputs.engine == 'hyperframes' && steps.hyperframes_check.outcome == 'success'
-        env:
-          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
-        run: node shorts/scripts/write-hyperframes-release-assets.mjs "${{ inputs.manifest }}" "$PROJECT_DIR" shorts/out
-
-      - name: Update this reel's final release
-        if: steps.validate.outcome == 'success' && (inputs.engine != 'hyperframes' || steps.hyperframes_check.outcome == 'success')
-        env:
-          GH_TOKEN: ${{ github.token }}
-          SOURCE_RUN_ID: ${{ github.run_id }}
-          SOURCE_SHA: ${{ github.sha }}
-        run: node shorts/scripts/publish-video-release.mjs shorts/out "${{ inputs.manifest }}"
-
-      - name: Render summary
+          SIGNUP_AUDIO_APPROVED_MAX_USD: '0.10'
+          SHORTS_IMAGE_GENERATION: disabled
+        run: node shorts/scripts/prepare-signup-body-once.mjs
+      - name: Preserve only generated speech and timing for local rendering
         if: always()
-        env:
-          ENGINE: ${{ inputs.engine }}
-          PROJECT_DIR: ${{ steps.hyperframes_build.outputs.project_dir }}
-          PREFIX: ${{ steps.hyperframes_build.outputs.prefix }}
-          STRICT_REPAIR_PR_URL: ${{ steps.strict_repair_pr.outputs.pull-request-url }}
-        shell: bash
-        run: |
-          {
-            echo '## Shorts final render'
-            echo
-            echo "- engine: ${ENGINE}"
-            if [[ "${ENGINE}" == "hyperframes" ]]; then
-              echo "- HyperFrames: ${HYPERFRAMES_VERSION}"
-              echo "- reel: ${PREFIX:-not-built}"
-              echo "- project: ${PROJECT_DIR:-not-built}"
-            fi
-            if [[ -n "${STRICT_REPAIR_PR_URL}" ]]; then
-              echo "- strict improvement PR: ${STRICT_REPAIR_PR_URL}"
-            fi
-          } >> "${GITHUB_STEP_SUMMARY}"
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: signup-approved-body-${{ github.run_id }}
+          path: |
+            shorts/.tmp/signup-audio-once/body.wav
+            shorts/.tmp/signup-audio-once/body-raw.wav
+            shorts/.tmp/signup-audio-once/body-prepared.json
+            shorts/.tmp/signup-audio-once/transcription.json
+            shorts/.tmp/signup-audio-once/receipt.json
+          retention-days: 1
+          if-no-files-found: ignore

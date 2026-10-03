@@ -1,0 +1,16 @@
+{
+  "name": "signup-phone-number-input-v2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ../../scripts/build-hyperframes.mjs shorts/content/signup-phone-number-input/candidate-02.json",
+    "verify": "node verify.mjs",
+    "check": "hyperframes check ../../.tmp/hyperframes/signup-phone-number-input-candidate-02",
+    "render": "hyperframes render ../../.tmp/hyperframes/signup-phone-number-input-candidate-02 --fps 30 --quality standard --output renders/signup-phone-number-input-candidate-02-preview.mp4"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "hyperframes": "0.8.114",
+    "playwright-core": "1.63.0"
+  }
+}

@@ -69,7 +69,7 @@ await fs.writeFile(path.join(outputDir, `${prefix}-SCRIPT.txt`), narrationScript
 const media = [
   `# Media sources — ${candidate.candidate?.title ?? prefix}`,
   '',
-  'Renderer: HyperFrames / monoliquid-v2',
+  `Renderer: HyperFrames / ${candidate.scenes?.[0]?.visual?.motif === 'signup-phone-number-input-v2' ? 'signup-phone-number-input-v2' : candidate.style?.template ?? candidate.style?.theme ?? 'monoliquid-v2'}`,
   '',
   `Blog source: ${candidate.source?.url ?? ''}`,
   '',
