@@ -420,12 +420,14 @@ for (const [index, scene] of manifest.scenes.entries()) {
       const left = point?.left ?? 50;
       const top = point?.top ?? 50;
       const scale = clamp(Number(keyframe.scale ?? 1), 1, 1.55);
-      const x = clamp((50 - left) / 100 * stageWidth * scale * .58 + Number(keyframe.offsetX ?? 0), -240, 240);
-      const y = clamp((50 - top) / 100 * stageHeight * scale * .48 + Number(keyframe.offsetY ?? 0), -190, 190);
+      const x = clamp((50 - left) / 100 * stageWidth * scale * .38 + Number(keyframe.offsetX ?? 0), -160, 160);
+      const y = clamp((50 - top) / 100 * stageHeight * scale * .42 + Number(keyframe.offsetY ?? 0), -170, 170);
       const cameraStart = start + clamp(Number(keyframe.at ?? 0), 0, 1) * duration;
       const cameraDuration = Math.min(Math.max(.1, Number(keyframe.durationMs ?? 600) / 1000), Math.max(.1, start + duration - cameraStart - .02));
       const ease = timelineEaseSource(keyframe.easing);
-      const origin = `${left.toFixed(1)}% ${top.toFixed(1)}%`;
+      // Zoom around the viewport center; semantic focus is expressed by pan.
+      // Target-origin zoom pushes the opposite panel off-canvas in two-column flows.
+      const origin = '50% 50%';
       timelineStatements.push(`tl.set("#${id} .ax-camera", {transformOrigin:"${origin}"}, ${cameraStart.toFixed(3)});`);
       timelineStatements.push(`tl.to("#${id} .ax-camera", {x:${x.toFixed(1)}, y:${y.toFixed(1)}, scale:${scale.toFixed(3)}, duration:${cameraDuration.toFixed(3)}, ease:${ease}}, ${cameraStart.toFixed(3)});`);
     }
