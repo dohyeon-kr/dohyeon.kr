@@ -95,7 +95,12 @@ export async function repairStrictStoryboard({filename, validationReport = null,
 
   const entries = bodySceneEntries(original);
   const originalScenes = entries.map(({scene}) => scene);
-  const inputCandidate = CandidateSchema.parse({...original.candidate, scenes: originalScenes});
+  // The repair input is expected to be invalid by definition. Parsing it with
+  // CandidateSchema here prevents the repair pass from ever seeing schema-level
+  // geometry failures (for example nodes outside the generated stage bounds).
+  // Keep the rejected candidate raw; repaired diagramSpecs are schema-validated
+  // by StrictRepairSchema and validateDiagram below before anything is written.
+  const inputCandidate = {...original.candidate, scenes: originalScenes};
   const deterministic = validationReport ?? {auroraIssues: collectAuroraStrictIssues(original)};
   const hyperframes = hyperframesReport ?? null;
   const chosenModel = model || process.env.SHORTS_STRICT_REPAIR_MODEL || DEFAULT_MODEL;
