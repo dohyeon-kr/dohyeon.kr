@@ -49,61 +49,792 @@
         "physics": null,
         "description": "주소창의 URL 요청이 DNS와 네트워크를 지나 HTTP 응답으로 돌아오고, HTML 파싱과 asset 로딩, DOM/CSSOM, Render Tree, Layout, Paint, Hydration을 거쳐 interactive page가 되는 전체 스트림.",
         "nodes": [
-          {"id":"browser","shape":"rect","label":"example.com","x":92,"y":240,"width":180,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"dns","shape":"rect","label":"DNS","x":300,"y":240,"width":120,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"connection","shape":"rect","label":"TCP / QUIC","x":455,"y":240,"width":150,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"tls","shape":"rect","label":"TLS","x":640,"y":240,"width":110,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"http","shape":"rect","label":"HTTP","x":785,"y":240,"width":120,"height":110,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"html","shape":"rect","label":"HTML","x":350,"y":170,"width":130,"height":100,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"css","shape":"rect","label":"CSS","x":190,"y":360,"width":110,"height":90,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"js","shape":"rect","label":"JavaScript","x":325,"y":360,"width":130,"height":90,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"font","shape":"rect","label":"Font","x":480,"y":360,"width":110,"height":90,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"image","shape":"rect","label":"Image","x":615,"y":360,"width":110,"height":90,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"dom","shape":"rect","label":"DOM","x":250,"y":500,"width":120,"height":95,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"cssom","shape":"rect","label":"CSSOM","x":420,"y":500,"width":120,"height":95,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"render-tree","shape":"rect","label":"Render Tree","x":590,"y":500,"width":150,"height":95,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"layout","shape":"rect","label":"Layout","x":340,"y":645,"width":130,"height":95,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"paint","shape":"rect","label":"Paint + Composite","x":525,"y":645,"width":180,"height":95,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"hydration","shape":"rect","label":"Hydration","x":365,"y":790,"width":150,"height":95,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"interactive","shape":"rect","label":"Interactive","x":570,"y":790,"width":150,"height":95,"fill":"none","connector":null,"strokeStyle":"solid"},
-          {"id":"f-url-dns","shape":"line","label":"","x":250,"y":295,"width":40,"height":2,"fill":"none","connector":{"source":"browser","target":"dns","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
-          {"id":"f-dns-conn","shape":"line","label":"","x":420,"y":295,"width":35,"height":2,"fill":"none","connector":{"source":"dns","target":"connection","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
-          {"id":"f-conn-tls","shape":"line","label":"","x":605,"y":295,"width":35,"height":2,"fill":"none","connector":{"source":"connection","target":"tls","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
-          {"id":"f-tls-http","shape":"line","label":"","x":750,"y":295,"width":35,"height":2,"fill":"none","connector":{"source":"tls","target":"http","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
-          {"id":"f-http-html","shape":"line","label":"","x":660,"y":220,"width":40,"height":2,"fill":"none","connector":{"source":"http","target":"html","sourceSide":"left","targetSide":"right","gap":12},"strokeStyle":"dashed"},
-          {"id":"f-html-css","shape":"line","label":"","x":330,"y":320,"width":30,"height":2,"fill":"none","connector":{"source":"html","target":"css","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"dashed"},
-          {"id":"f-html-js","shape":"line","label":"","x":390,"y":320,"width":30,"height":2,"fill":"none","connector":{"source":"html","target":"js","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"dashed"},
-          {"id":"f-html-font","shape":"line","label":"","x":450,"y":320,"width":30,"height":2,"fill":"none","connector":{"source":"html","target":"font","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"dashed"},
-          {"id":"f-html-image","shape":"line","label":"","x":510,"y":320,"width":30,"height":2,"fill":"none","connector":{"source":"html","target":"image","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"dashed"},
-          {"id":"f-html-dom","shape":"line","label":"","x":350,"y":450,"width":30,"height":2,"fill":"none","connector":{"source":"html","target":"dom","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"solid"},
-          {"id":"f-css-cssom","shape":"line","label":"","x":360,"y":450,"width":30,"height":2,"fill":"none","connector":{"source":"css","target":"cssom","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"solid"},
-          {"id":"f-dom-render","shape":"line","label":"","x":420,"y":545,"width":30,"height":2,"fill":"none","connector":{"source":"dom","target":"render-tree","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
-          {"id":"f-cssom-render","shape":"line","label":"","x":520,"y":545,"width":30,"height":2,"fill":"none","connector":{"source":"cssom","target":"render-tree","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
-          {"id":"f-render-layout","shape":"line","label":"","x":520,"y":610,"width":30,"height":2,"fill":"none","connector":{"source":"render-tree","target":"layout","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"solid"},
-          {"id":"f-layout-paint","shape":"line","label":"","x":475,"y":690,"width":30,"height":2,"fill":"none","connector":{"source":"layout","target":"paint","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"},
-          {"id":"f-js-hydration","shape":"line","label":"","x":405,"y":610,"width":30,"height":2,"fill":"none","connector":{"source":"js","target":"hydration","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"dashed"},
-          {"id":"f-paint-interactive","shape":"line","label":"","x":620,"y":750,"width":30,"height":2,"fill":"none","connector":{"source":"paint","target":"interactive","sourceSide":"bottom","targetSide":"top","gap":12},"strokeStyle":"solid"},
-          {"id":"f-hydration-interactive","shape":"line","label":"","x":520,"y":838,"width":30,"height":2,"fill":"none","connector":{"source":"hydration","target":"interactive","sourceSide":"right","targetSide":"left","gap":12},"strokeStyle":"solid"}
+          {
+            "id": "browser",
+            "shape": "rect",
+            "label": "example.com",
+            "x": 115,
+            "y": 90,
+            "width": 140,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "dns",
+            "shape": "rect",
+            "label": "DNS",
+            "x": 305,
+            "y": 90,
+            "width": 120,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "connection",
+            "shape": "rect",
+            "label": "TCP / QUIC",
+            "x": 500,
+            "y": 90,
+            "width": 140,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "tls",
+            "shape": "rect",
+            "label": "TLS",
+            "x": 680,
+            "y": 90,
+            "width": 110,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "http",
+            "shape": "rect",
+            "label": "HTTP",
+            "x": 680,
+            "y": 90,
+            "width": 120,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "html",
+            "shape": "rect",
+            "label": "HTML",
+            "x": 115,
+            "y": 235,
+            "width": 130,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "css",
+            "shape": "rect",
+            "label": "CSS",
+            "x": 305,
+            "y": 235,
+            "width": 110,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "js",
+            "shape": "rect",
+            "label": "JavaScript",
+            "x": 500,
+            "y": 235,
+            "width": 130,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "font",
+            "shape": "rect",
+            "label": "Font",
+            "x": 680,
+            "y": 235,
+            "width": 110,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "image",
+            "shape": "rect",
+            "label": "Image",
+            "x": 680,
+            "y": 235,
+            "width": 110,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "dom",
+            "shape": "rect",
+            "label": "DOM",
+            "x": 115,
+            "y": 380,
+            "width": 120,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "cssom",
+            "shape": "rect",
+            "label": "CSSOM",
+            "x": 305,
+            "y": 380,
+            "width": 120,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "render-tree",
+            "shape": "rect",
+            "label": "Render Tree",
+            "x": 500,
+            "y": 380,
+            "width": 140,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "layout",
+            "shape": "rect",
+            "label": "Layout",
+            "x": 115,
+            "y": 510,
+            "width": 130,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "paint",
+            "shape": "rect",
+            "label": "Paint + Composite",
+            "x": 305,
+            "y": 510,
+            "width": 140,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "hydration",
+            "shape": "rect",
+            "label": "Hydration",
+            "x": 500,
+            "y": 510,
+            "width": 140,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "interactive",
+            "shape": "rect",
+            "label": "Interactive",
+            "x": 680,
+            "y": 510,
+            "width": 140,
+            "height": 90,
+            "fill": "none",
+            "connector": null,
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-url-dns",
+            "shape": "line",
+            "label": "",
+            "x": 250,
+            "y": 295,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "browser",
+              "target": "dns",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-dns-conn",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 295,
+            "width": 35,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "dns",
+              "target": "connection",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-conn-tls",
+            "shape": "line",
+            "label": "",
+            "x": 605,
+            "y": 295,
+            "width": 35,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "connection",
+              "target": "tls",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-tls-http",
+            "shape": "line",
+            "label": "",
+            "x": 750,
+            "y": 295,
+            "width": 35,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "tls",
+              "target": "http",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-http-html",
+            "shape": "line",
+            "label": "",
+            "x": 660,
+            "y": 220,
+            "width": 40,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "http",
+              "target": "html",
+              "sourceSide": "left",
+              "targetSide": "right",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "f-html-css",
+            "shape": "line",
+            "label": "",
+            "x": 330,
+            "y": 320,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "html",
+              "target": "css",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "f-html-js",
+            "shape": "line",
+            "label": "",
+            "x": 390,
+            "y": 320,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "html",
+              "target": "js",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "f-html-font",
+            "shape": "line",
+            "label": "",
+            "x": 450,
+            "y": 320,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "html",
+              "target": "font",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "f-html-image",
+            "shape": "line",
+            "label": "",
+            "x": 510,
+            "y": 320,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "html",
+              "target": "image",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "f-html-dom",
+            "shape": "line",
+            "label": "",
+            "x": 350,
+            "y": 450,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "html",
+              "target": "dom",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-css-cssom",
+            "shape": "line",
+            "label": "",
+            "x": 360,
+            "y": 450,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "css",
+              "target": "cssom",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-dom-render",
+            "shape": "line",
+            "label": "",
+            "x": 420,
+            "y": 545,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "dom",
+              "target": "render-tree",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-cssom-render",
+            "shape": "line",
+            "label": "",
+            "x": 520,
+            "y": 545,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "cssom",
+              "target": "render-tree",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-render-layout",
+            "shape": "line",
+            "label": "",
+            "x": 520,
+            "y": 610,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "render-tree",
+              "target": "layout",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-layout-paint",
+            "shape": "line",
+            "label": "",
+            "x": 475,
+            "y": 690,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "layout",
+              "target": "paint",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-js-hydration",
+            "shape": "line",
+            "label": "",
+            "x": 405,
+            "y": 610,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "js",
+              "target": "hydration",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "dashed"
+          },
+          {
+            "id": "f-paint-interactive",
+            "shape": "line",
+            "label": "",
+            "x": 620,
+            "y": 750,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "paint",
+              "target": "interactive",
+              "sourceSide": "bottom",
+              "targetSide": "top",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          },
+          {
+            "id": "f-hydration-interactive",
+            "shape": "line",
+            "label": "",
+            "x": 520,
+            "y": 838,
+            "width": 30,
+            "height": 2,
+            "fill": "none",
+            "connector": {
+              "source": "hydration",
+              "target": "interactive",
+              "sourceSide": "right",
+              "targetSide": "left",
+              "gap": 12
+            },
+            "strokeStyle": "solid"
+          }
         ],
         "events": [
-          {"target":"f-url-dns","property":"opacity","from":0,"to":1,"start":0.05,"end":0.1},
-          {"target":"f-dns-conn","property":"opacity","from":0,"to":1,"start":0.1,"end":0.15},
-          {"target":"f-conn-tls","property":"opacity","from":0,"to":1,"start":0.15,"end":0.2},
-          {"target":"f-tls-http","property":"opacity","from":0,"to":1,"start":0.2,"end":0.25},
-          {"target":"html","property":"opacity","from":0,"to":1,"start":0.26,"end":0.31},
-          {"target":"f-http-html","property":"opacity","from":0,"to":1,"start":0.27,"end":0.33},
-          {"target":"css","property":"opacity","from":0,"to":1,"start":0.34,"end":0.39},
-          {"target":"js","property":"opacity","from":0,"to":1,"start":0.35,"end":0.4},
-          {"target":"font","property":"opacity","from":0,"to":1,"start":0.36,"end":0.41},
-          {"target":"image","property":"opacity","from":0,"to":1,"start":0.37,"end":0.42},
-          {"target":"dom","property":"opacity","from":0,"to":1,"start":0.4,"end":0.46},
-          {"target":"cssom","property":"opacity","from":0,"to":1,"start":0.41,"end":0.47},
-          {"target":"render-tree","property":"opacity","from":0,"to":1,"start":0.5,"end":0.56},
-          {"target":"layout","property":"opacity","from":0,"to":1,"start":0.6,"end":0.66},
-          {"target":"paint","property":"opacity","from":0,"to":1,"start":0.68,"end":0.74},
-          {"target":"hydration","property":"opacity","from":0,"to":1,"start":0.76,"end":0.82},
-          {"target":"interactive","property":"opacity","from":0,"to":1,"start":0.86,"end":0.93},
-          {"target":"interactive","property":"scale","from":0.96,"to":1.05,"start":0.88,"end":0.96}
+          {
+            "target": "f-url-dns",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.05,
+            "end": 0.1
+          },
+          {
+            "target": "f-dns-conn",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.1,
+            "end": 0.15
+          },
+          {
+            "target": "f-conn-tls",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.15,
+            "end": 0.2
+          },
+          {
+            "target": "f-tls-http",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.2,
+            "end": 0.25
+          },
+          {
+            "target": "html",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.26,
+            "end": 0.31
+          },
+          {
+            "target": "f-http-html",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.27,
+            "end": 0.33
+          },
+          {
+            "target": "css",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.34,
+            "end": 0.39
+          },
+          {
+            "target": "js",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.35,
+            "end": 0.4
+          },
+          {
+            "target": "font",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.36,
+            "end": 0.41
+          },
+          {
+            "target": "image",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.51,
+            "end": 0.55
+          },
+          {
+            "target": "dom",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.4,
+            "end": 0.46
+          },
+          {
+            "target": "cssom",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.41,
+            "end": 0.47
+          },
+          {
+            "target": "render-tree",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.5,
+            "end": 0.56
+          },
+          {
+            "target": "layout",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.6,
+            "end": 0.66
+          },
+          {
+            "target": "paint",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.68,
+            "end": 0.74
+          },
+          {
+            "target": "hydration",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.76,
+            "end": 0.82
+          },
+          {
+            "target": "interactive",
+            "property": "opacity",
+            "from": 0,
+            "to": 1,
+            "start": 0.86,
+            "end": 0.93
+          },
+          {
+            "target": "browser",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.22,
+            "end": 0.26
+          },
+          {
+            "target": "dns",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.22,
+            "end": 0.26
+          },
+          {
+            "target": "connection",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.22,
+            "end": 0.26
+          },
+          {
+            "target": "tls",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.22,
+            "end": 0.26
+          },
+          {
+            "target": "font",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.47,
+            "end": 0.5
+          },
+          {
+            "target": "image",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.47,
+            "end": 0.5
+          },
+          {
+            "target": "html",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.49,
+            "end": 0.52
+          },
+          {
+            "target": "css",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.49,
+            "end": 0.52
+          },
+          {
+            "target": "js",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.49,
+            "end": 0.52
+          },
+          {
+            "target": "dom",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.62,
+            "end": 0.66
+          },
+          {
+            "target": "cssom",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.62,
+            "end": 0.66
+          },
+          {
+            "target": "render-tree",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.62,
+            "end": 0.66
+          },
+          {
+            "target": "layout",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.8,
+            "end": 0.83
+          },
+          {
+            "target": "paint",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.8,
+            "end": 0.83
+          },
+          {
+            "target": "hydration",
+            "property": "opacity",
+            "from": 1,
+            "to": 0,
+            "start": 0.94,
+            "end": 0.97
+          }
         ]
       },
       "kind": "hero",
@@ -119,7 +850,7 @@
       "visualIntent": {
         "concept": "도메인 입력에서 interactive page까지 이어지는 전체 브라우저 스트림",
         "relation": {
-          "type": "pipeline",
+          "type": "flow",
           "description": "네트워크 요청 흐름이 HTML 수신 이후 브라우저 내부 파싱과 렌더링 흐름으로 확장된다."
         },
         "strategy": {
@@ -131,46 +862,187 @@
       "transition": "fade",
       "transitionOptions": null,
       "effects": [
-        {"type":"flow-glow","target":"f-url-dns","startMs":350,"durationMs":700,"intensity":1,"color":"#ffffff","seed":201},
-        {"type":"flow-glow","target":"f-dns-conn","startMs":900,"durationMs":700,"intensity":1,"color":"#ffffff","seed":202},
-        {"type":"flow-glow","target":"f-conn-tls","startMs":1450,"durationMs":700,"intensity":1,"color":"#ffffff","seed":203},
-        {"type":"flow-glow","target":"f-tls-http","startMs":2000,"durationMs":700,"intensity":1,"color":"#ffffff","seed":204},
-        {"type":"flow-glow","target":"f-http-html","startMs":2700,"durationMs":800,"intensity":1,"color":"#ffffff","seed":205},
-        {"type":"flow-glow","target":"f-html-css","startMs":3500,"durationMs":900,"intensity":0.9,"color":"#ffffff","seed":206},
-        {"type":"flow-glow","target":"f-html-js","startMs":3650,"durationMs":900,"intensity":0.9,"color":"#ffffff","seed":207},
-        {"type":"flow-glow","target":"f-html-font","startMs":3800,"durationMs":900,"intensity":0.9,"color":"#ffffff","seed":208},
-        {"type":"flow-glow","target":"f-html-image","startMs":3950,"durationMs":900,"intensity":0.9,"color":"#ffffff","seed":209},
-        {"type":"flow-glow","target":"f-dom-render","startMs":5100,"durationMs":800,"intensity":1,"color":"#ffffff","seed":210},
-        {"type":"flow-glow","target":"f-cssom-render","startMs":5250,"durationMs":800,"intensity":1,"color":"#ffffff","seed":211},
-        {"type":"flow-glow","target":"f-layout-paint","startMs":6800,"durationMs":850,"intensity":1,"color":"#ffffff","seed":212},
-        {"type":"flow-glow","target":"f-hydration-interactive","startMs":8200,"durationMs":850,"intensity":1,"color":"#ffffff","seed":213}
+        {
+          "type": "flow-glow",
+          "target": "f-url-dns",
+          "startMs": 350,
+          "durationMs": 700,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 201
+        },
+        {
+          "type": "flow-glow",
+          "target": "f-dns-conn",
+          "startMs": 900,
+          "durationMs": 700,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 202
+        },
+        {
+          "type": "flow-glow",
+          "target": "f-conn-tls",
+          "startMs": 1450,
+          "durationMs": 700,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 203
+        },
+        {
+          "type": "flow-glow",
+          "target": "f-tls-http",
+          "startMs": 2000,
+          "durationMs": 700,
+          "intensity": 1,
+          "color": "#ffffff",
+          "seed": 204
+        }
       ],
       "hyperframesMotion": {
         "stage": "full-bleed",
         "cameraTrack": [
-          {"target":"browser","start":0,"end":0.08,"scale":1.08,"offsetX":-80,"offsetY":0},
-          {"target":"connection","start":0.08,"end":0.25,"scale":1.14,"offsetX":0,"offsetY":0},
-          {"target":"html","start":0.25,"end":0.4,"scale":1.2,"offsetX":0,"offsetY":-40},
-          {"target":"render-tree","start":0.4,"end":0.68,"scale":1.28,"offsetX":0,"offsetY":30},
-          {"target":"paint","start":0.68,"end":0.84,"scale":1.34,"offsetX":0,"offsetY":40},
-          {"target":"interactive","start":0.84,"end":1,"scale":1.4,"offsetX":0,"offsetY":60}
+          {
+            "at": 0,
+            "target": "browser",
+            "scale": 1.08,
+            "offsetX": -80,
+            "offsetY": 0,
+            "durationMs": 650,
+            "easing": "spring-snappy"
+          },
+          {
+            "at": 0.12,
+            "target": "connection",
+            "scale": 1.14,
+            "offsetX": 0,
+            "offsetY": 0,
+            "durationMs": 700,
+            "easing": "spring-snappy"
+          },
+          {
+            "at": 0.28,
+            "target": "html",
+            "scale": 1.2,
+            "offsetX": 0,
+            "offsetY": -40,
+            "durationMs": 750,
+            "easing": "spring-snappy"
+          },
+          {
+            "at": 0.5,
+            "target": "render-tree",
+            "scale": 1.28,
+            "offsetX": 0,
+            "offsetY": 30,
+            "durationMs": 800,
+            "easing": "spring-snappy"
+          },
+          {
+            "at": 0.7,
+            "target": "paint",
+            "scale": 1.34,
+            "offsetX": 0,
+            "offsetY": 40,
+            "durationMs": 800,
+            "easing": "spring-snappy"
+          },
+          {
+            "at": 0.86,
+            "target": "interactive",
+            "scale": 1.4,
+            "offsetX": 0,
+            "offsetY": 60,
+            "durationMs": 900,
+            "easing": "spring-soft"
+          }
         ],
         "objectMotions": [
-          {"target":"html","motion":"pop","spring":"spring-snappy"},
-          {"target":"css","motion":"grow","spring":"spring-soft"},
-          {"target":"js","motion":"grow","spring":"spring-soft"},
-          {"target":"font","motion":"grow","spring":"spring-soft"},
-          {"target":"image","motion":"grow","spring":"spring-soft"},
-          {"target":"dom","motion":"grow","spring":"spring-soft"},
-          {"target":"cssom","motion":"grow","spring":"spring-soft"},
-          {"target":"render-tree","motion":"settle","spring":"spring-soft"},
-          {"target":"paint","motion":"pop","spring":"spring-snappy"},
-          {"target":"interactive","motion":"pop","spring":"spring-bouncy"}
+          {
+            "target": "html",
+            "at": 0.28,
+            "kind": "pop",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-snappy"
+          },
+          {
+            "target": "css",
+            "at": 0.36,
+            "kind": "grow",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-soft"
+          },
+          {
+            "target": "js",
+            "at": 0.37,
+            "kind": "grow",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-soft"
+          },
+          {
+            "target": "font",
+            "at": 0.38,
+            "kind": "grow",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-soft"
+          },
+          {
+            "target": "image",
+            "at": 0.39,
+            "kind": "grow",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-soft"
+          },
+          {
+            "target": "dom",
+            "at": 0.43,
+            "kind": "grow",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-soft"
+          },
+          {
+            "target": "cssom",
+            "at": 0.44,
+            "kind": "grow",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-soft"
+          },
+          {
+            "target": "render-tree",
+            "at": 0.52,
+            "kind": "settle",
+            "strength": 0.8,
+            "durationMs": 800,
+            "easing": "spring-soft"
+          },
+          {
+            "target": "paint",
+            "at": 0.7,
+            "kind": "pop",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-snappy"
+          },
+          {
+            "target": "interactive",
+            "at": 0.88,
+            "kind": "pop",
+            "strength": 0.8,
+            "durationMs": 700,
+            "easing": "spring-bouncy"
+          }
         ]
       },
       "camera": {
         "motion": "push-in",
-        "target": "browser-request-to-interactive-page",
+        "target": "subject",
         "intensity": "medium",
         "startProgress": 0,
         "endProgress": 1
