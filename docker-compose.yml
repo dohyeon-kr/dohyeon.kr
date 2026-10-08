@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     environment:
-      url: ${GHOST_URL:-https://blog.dohyeon.kr}
+      url: https://dohyeon.kr
       NODE_ENV: ${GHOST_NODE_ENV:-development}
       database__client: sqlite3
       database__connection__filename: /var/lib/ghost/content/data/ghost.db
