@@ -140,3 +140,10 @@ All non-empty notebook headlines, regardless of fitted size, share the diagram's
 100ms scribble filter. Only the glyph edges shift slightly; font metrics, line breaks
 and placement stay unchanged. Captions, sublines, diagram labels and the
 common CTA remain unfiltered. The existing bottom-right presenter stays visible.
+
+
+## Pilot: Declarative Dither v1 (not yet a registered template)
+
+The 2026-11-09 organization/growth reel “권한에 맞는 책임감” establishes a reusable **declarative-dither** art direction: monochrome spaced Bayer dots, slowly morphing abstract shapes in the top ~60% of the vertical canvas, and Korean narration with static large typography. Apply it selectively to opening questions, pivotal claims and conclusions; keep explanations in meaningful diagrams/photos.
+
+The [pilot specification and safe-area contract](../pilots/declarative-dither/README.md) include 1080×1920 Reels text boundaries, Instagram profile-grid cover crop, a measured 9-scene layout fixture and a dependency-free checker/SVG overlay generator. These guide-only boundaries are **not an Instagram platform guarantee**. Do not claim the renderer supports `declarative-dither-v1` or add it to the template selector until a concrete renderer, integration tests and workflows are implemented.
