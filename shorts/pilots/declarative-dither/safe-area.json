@@ -1,0 +1,44 @@
+{
+  "pilot": "declarative-dither-v1",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "reels": {
+    "criticalContent": {
+      "left": 96,
+      "top": 270,
+      "right": 920,
+      "bottom": 1530
+    },
+    "background": {
+      "left": 0,
+      "top": 0,
+      "right": 1080,
+      "bottom": 1920
+    },
+    "ditherStage": {
+      "left": 96,
+      "top": 320,
+      "right": 984,
+      "bottom": 1110
+    }
+  },
+  "cover": {
+    "profileGridCenter4to5": {
+      "left": 0,
+      "top": 285,
+      "right": 1080,
+      "bottom": 1635
+    },
+    "criticalContent": {
+      "left": 96,
+      "top": 365,
+      "right": 920,
+      "bottom": 1560
+    }
+  },
+  "annotationOnly": true,
+  "caveat": "Conservative visual review baseline; not official Instagram fixed safe-area; recheck against actual UI and devices."
+}
