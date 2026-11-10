@@ -29,6 +29,12 @@
 </head>
 <body class="{{body_class}}">
     <a class="skip-link" href="#main-content">Skip to content</a>
+    {{#is "home"}}
+        {{> "ad-rails"}}
+    {{/is}}
+    {{#is "post"}}
+        {{> "ad-rails"}}
+    {{/is}}
     <div class="site-shell">
         {{> "site-header"}}
         {{{body}}}

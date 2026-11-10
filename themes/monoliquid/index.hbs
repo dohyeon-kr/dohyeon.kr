@@ -26,11 +26,14 @@
 
             {{#unless pagination.prev}}
                 {{> "featured-carousel"}}
+                {{> "ad-slot" variant="banner" placement="home-top"}}
             {{/unless}}
 
             {{#foreach posts to="5"}}
                 {{> "post-card"}}
             {{/foreach}}
+
+            {{> "ad-slot" variant="feed" placement="home-feed"}}
 
             {{#foreach posts from="6"}}
                 {{> "post-card"}}
