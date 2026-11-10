@@ -101,7 +101,67 @@
         34.5,
         "stable sphere"
       ]
-    ]
+    ],
+    "title": "권한에 맞는 책임감",
+    "theme": "monochrome-editorial-dark",
+    "resolution": [
+      720,
+      1280
+    ],
+    "fps": 30
   },
-  "integration": "Reference only. Not a candidate JSON or registered template; implement renderer+workflow+tests before registering."
+  "integration": "Reference only. Not a candidate JSON or registered template; implement renderer+workflow+tests before registering.",
+  "kind": "pilot-reference",
+  "registeredRenderer": false,
+  "production": {
+    "resolution": [
+      1080,
+      1920
+    ],
+    "fps": 30,
+    "safeArea": "shorts-reels"
+  },
+  "safeAreas": {
+    "reelsCritical": {
+      "left": 96,
+      "top": 270,
+      "right": 920,
+      "bottom": 1530
+    },
+    "ditherStage": {
+      "left": 96,
+      "top": 320,
+      "right": 984,
+      "bottom": 1110
+    },
+    "coverCritical": {
+      "left": 96,
+      "top": 365,
+      "right": 920,
+      "bottom": 1560
+    },
+    "grid4x5": {
+      "left": 0,
+      "top": 285,
+      "right": 1080,
+      "bottom": 1635
+    }
+  },
+  "dither": {
+    "algorithm": "bayer8x8",
+    "dotSpacingAt1080": 15.45,
+    "visualShare": 0.6,
+    "deterministic": true
+  },
+  "audioQuality": {
+    "source": "prefer-original-WAV",
+    "minimumIntermediateOpusKbps": 96,
+    "recommendedIntermediateOpusKbps": 128,
+    "minimumFinalAacKbps": 160,
+    "recommendedFinalAacKbps": 192,
+    "sampleRateHz": 48000,
+    "requiredSingleFile": true,
+    "verifyDecodedAudio": true
+  },
+  "note": "Reference only. Respect shorts/docs/creative-system.md, narration-style.md and templates.md; do not pass as production candidate manifest."
 }
