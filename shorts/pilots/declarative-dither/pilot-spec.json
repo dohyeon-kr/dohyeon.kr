@@ -1,0 +1,107 @@
+{
+  "id": "declarative-dither-v1",
+  "status": "pilot-reference-not-registered",
+  "title": "권한에 맞는 책임감",
+  "category": "organization-growth",
+  "visual": {
+    "canvas": [
+      1080,
+      1920
+    ],
+    "fps": 30,
+    "palette": [
+      "#08090A",
+      "#F2F3F4",
+      "#A5A7A9"
+    ],
+    "geometry": "finite morphing blob -> torus -> branching particles -> stable sphere",
+    "stageFraction": 0.6,
+    "dither": {
+      "algorithm": "8x8-bayer-ordered",
+      "spacingAt1080Pixels": 15.45,
+      "radiusAt1080Pixels": [
+        3,
+        4.5
+      ],
+      "deterministic": true
+    },
+    "typography": "large legible Korean below art, stationary while narrated",
+    "camera": "gentle finite zoom/pan; no idle random loops"
+  },
+  "narrative": {
+    "arc": [
+      "question",
+      "context",
+      "contrast",
+      "choices",
+      "insight",
+      "answer"
+    ],
+    "voice": "natural Korean ~합니다/~입니다",
+    "captions": "one or two lines, phrase timing",
+    "ending": "answer opening question; common CTA remains separate in production"
+  },
+  "pilot": {
+    "durationSeconds": 34.5,
+    "narrationSeconds": 33.6,
+    "coverHook": "내 책임은 어디까지일까요?",
+    "message": "내 권한 밖의 결과는 내려놓고, 내 권한 안의 선택에 책임진다.",
+    "scenes": [
+      [
+        "question",
+        0,
+        2.75,
+        "soft blob"
+      ],
+      [
+        "context",
+        2.75,
+        5.76,
+        "compressed blob"
+      ],
+      [
+        "contrast",
+        5.76,
+        11.08,
+        "compressed blob"
+      ],
+      [
+        "turn",
+        11.08,
+        13.6,
+        "torus"
+      ],
+      [
+        "action",
+        13.6,
+        17.83,
+        "torus"
+      ],
+      [
+        "choice",
+        17.83,
+        21.22,
+        "branch"
+      ],
+      [
+        "insight",
+        21.22,
+        27.1,
+        "branch"
+      ],
+      [
+        "boundary",
+        27.1,
+        30.08,
+        "return sphere"
+      ],
+      [
+        "answer",
+        30.08,
+        34.5,
+        "stable sphere"
+      ]
+    ]
+  },
+  "integration": "Reference only. Not a candidate JSON or registered template; implement renderer+workflow+tests before registering."
+}
