@@ -35,10 +35,9 @@ jobs:
           curl -fLSs --retry 3 'https://resource2.heygen.ai/text_to_speech/21194a54e6e9464ba166fcf9ec563045/9f774d1a93b84a26aa3da3cf5ddf6135/id=bfaa77c19ba146c28e0df87e22bd5537.wav' -o assets/narration.wav
           ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 assets/narration.wav
       - name: HyperFrames diagnostic
-        continue-on-error: true
         run: |
           npx hyperframes lint > output/lint.txt 2>&1
-          npx hyperframes check > output/check.txt 2>&1
+          npx hyperframes check --at 1.8,13.0,22.0,31.0,41.0 --snapshots > output/check.txt 2>&1
           npx hyperframes snapshot --at 1.8,13.0,22.0,31.0,41.0 > output/snapshot.txt 2>&1
       - name: Render HyperFrames MP4
         run: |
