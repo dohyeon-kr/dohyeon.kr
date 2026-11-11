@@ -77,3 +77,15 @@ ffmpeg -v error -i final.mp4 -map 0:a:0 -t 5 -f null -
 프로덕션 최종 렌더는 `shorts/prompts/README.md` 지침대로 1080×1920/30fps 및 공통 CTA와 별도 검증을 따른다.
 
 상위 정책: [narration-style](../../docs/narration-style.md), [creative-system](../../docs/creative-system.md), [templates](../../docs/templates.md), [shared prompts](../../prompts/README.md).
+
+## HyperFrames 릴스 고정 프리셋 — 2026-11-11
+
+[hyperframes-reel-preset.json](hyperframes-reel-preset.json)은 새 **수동 제작 릴스에서 우선 재사용할 프리셋**을 기록한다. 「추정 해상도 향상 기법」 릴스의 HyperFrames 버전을 기준으로 아래 사항을 고정한다.
+
+- **목소리**: 한국어 HeyGen Voice `Velvet Scholar` (`voice_id=9f774d1a93b84a26aa3da3cf5ddf6135`). 해당 음성이 활성화되어 있고 무료 허용량 내일 때 우선 사용한다. 무료 MCP의 `heygen-voice-1-turbo-free`는 일일/서비스 한도가 있으므로 **영구 무료·무제한이라고 가정하지 않는다**. 비용 발생 가능 시 무단으로 유료 전환하거나 다른 음성으로 바꾸지 않고, 대체 무료/로컬 한국어 TTS를 명시해 선택한다.
+- **그림과 모션**: HyperFrames + seekable HTML/CSS/GSAP, 어두운 모노크롬, 위쪽의 의미 있는 Bayer 8×8 디더링 오브젝트와 큰 숫자·주요 구간 그래프에만 디더링 적용. 본문 한글·눈금·라벨은 선명하게 유지한다.
+- **한글/안전영역**: Pretendard, 도형 스테이지와 타이포 영역 분리. 표·숫자·눈금 간 겹침, 사각형 넘침을 허용하지 않는다. 1080×1920에서 핵심 문구 `x=96..920, y=270..1530`, 커버의 4:5 크롭을 별도 점검한다.
+- **설명형 SNS 캡션**: 일화의 반복이나 내레이션 전사가 아니라 기법의 정의·활용법·짧은 예제·종료 기준·한계를 독자가 바로 적용할 수 있게 설명한다.
+- **품질 게이트**: HyperFrames `lint`, `check`, 씬·전환 구간 `snapshot`, 글자 실측, 48kHz AAC 오디오 트랙/음량 확인 후 음성과 영상이 합쳐진 MP4를 전달한다.
+
+**적용 범위 주의:** 이 JSON은 후속 제작 시 참조할 명시적 기본값이며, 현재 `src/templates/registry.ts`에 등록된 자동 렌더링 템플릿도 아니고 GitHub Actions가 자동으로 HeyGen TTS를 호출하는 기능도 아니다. 자동 적용을 원한다면 렌더러·설정 로더·시크릿/비용·CI를 별도로 구현하고 검증해야 한다.
