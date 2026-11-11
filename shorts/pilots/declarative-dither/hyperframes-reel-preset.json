@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "id": "dohyeon-kr/declarative-dither-hyperframes-v1",
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-11-11",
   "status": "reference-preset-not-auto-registered",
   "intent": "Default preference for future manually authored DOHYEON KR Instagram reels; not yet automatically applied by the repository's automated shorts pipeline.",
@@ -43,7 +43,7 @@
   "visual": {
     "style": "Monochrome editorial Declarative Dither",
     "composition": "Reference from authority/responsibility pilot: header and thin rule; large upper dither object; divider; independent lower headline and short explanation; unobtrusive footer.",
-    "dither": "8x8 Bayer ordered-dither dots, coherent deformation; apply to large meaning-bearing shapes, leading numbers and primary chart bands only.",
+    "dither": "Dynamic 8x8 Bayer ordered dithering, recomputed from time-varying continuous-tone source at render time; never treat moving pre-dithered art as the primary effect.",
     "keepSharp": [
       "all explanatory Korean text",
       "subtitle/caption text",
@@ -77,6 +77,32 @@
         "right": 920,
         "bottom": 1560
       }
+    },
+    "dynamicDither": {
+      "requirement": "required for primary dither hero/meaningful numeric and graph scenes",
+      "temporalMode": "per-frame render-time quantization; render(timeSeconds) must be seekable and deterministic",
+      "source": "continuous-tone geometry plus meaningful animated luminance/alpha gradients, lighting and shadows",
+      "pipeline": [
+        "generate continuous-tone shape/gradient/light at timeline time t",
+        "apply final spatial transform and sample in output/screen-space grid",
+        "compute Bayer 8x8 threshold per sample/pixel on current frame",
+        "composite sharp Korean body text, small labels, captions and ticks afterward"
+      ],
+      "implementation": [
+        "Canvas 2D + OffscreenCanvas",
+        "WebGL fragment shader",
+        "equivalent deterministic per-frame buffer renderer"
+      ],
+      "spatialPattern": "screen-space anchored ordered matrix; consistent cell size and pixel alignment across frames",
+      "avoid": [
+        "pre-dithered PNG/SVG moved, cropped or scaled as the only effect",
+        "static CSS dot pattern masked into shape without per-frame recomputation",
+        "random frame-to-frame noise, flashing or jitter that does not follow luminance",
+        "flat solid objects with no meaningful gradient or light change"
+      ],
+      "gradientGuidance": "Prefer directional/radial light gradients, animated highlights, soft alpha transitions, evolving shadows and meaningful brightness ramps. This is functional tonal data, not decorative UI gradients.",
+      "exception": "Cropping may be used for composition, but never substitutes for per-frame re-dithering.",
+      "reference": "shorts/pilots/declarative-dither/dynamic-dithering.md"
     }
   },
   "narration": {
@@ -113,12 +139,16 @@
     "every key glyph and chart label inside measured safe bounds with no collisions",
     "cover 4:5 crop review",
     "final audio included and validated",
-    "working accessible delivery URL"
+    "working accessible delivery URL",
+    "dynamic dithering proof: compare frames with changing gradient/light and confirm dot density/distribution recomputes, not only transformed static pattern",
+    "deterministic seek test: same timestamp produces identical dither frame",
+    "verify no random flicker and crisp Korean labels after dither pass"
   ],
   "references": [
     "shorts/pilots/declarative-dither/README.md",
     "shorts/hyperframes/monoliquid-v2/DESIGN.md",
     "shorts/docs/narration-style.md",
-    "shorts/docs/hyperframes-monoliquid-v2.md"
+    "shorts/docs/hyperframes-monoliquid-v2.md",
+    "shorts/pilots/declarative-dither/dynamic-dithering.md"
   ]
 }
