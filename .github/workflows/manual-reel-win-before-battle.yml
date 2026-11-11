@@ -29,6 +29,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
           mkdir -p assets output
+          cp node_modules/gsap/dist/gsap.min.js assets/gsap.min.js
           curl -fLSs --retry 3 'https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2' -o assets/PretendardVariable.woff2
       - name: Retrieve original Velvet Scholar narration
         run: |
