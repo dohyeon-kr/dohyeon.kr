@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "id": "dohyeon-kr/declarative-dither-hyperframes-v1",
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-11-11",
   "status": "reference-preset-not-auto-registered",
   "intent": "Default preference for future manually authored DOHYEON KR Instagram reels; not yet automatically applied by the repository's automated shorts pipeline.",
@@ -103,7 +103,35 @@
       "gradientGuidance": "Prefer directional/radial light gradients, animated highlights, soft alpha transitions, evolving shadows and meaningful brightness ramps. This is functional tonal data, not decorative UI gradients.",
       "exception": "Cropping may be used for composition, but never substitutes for per-frame re-dithering.",
       "reference": "shorts/pilots/declarative-dither/dynamic-dithering.md"
-    }
+    },
+    "approvedStyleReference": {
+      "reel": "uncommon_sight EP.06 — 만족한 돼지와 불만족한 소크라테스",
+      "publishedUrl": "https://www.instagram.com/uncommon_sight/reel/Dfl54iqB1io/",
+      "document": "shorts/pilots/declarative-dither/uncommon-sight-ep06-style.md",
+      "keep": "Dark monochrome editorial atmosphere, dynamic gradient-driven Bayer dithering, restrained flowing motion, sharp Korean typography, designed irregular label placement.",
+      "improve": "Diagram sophistication and explanatory depth: meaningful branching, flow, grouped endpoints, partial activation, comparison baselines and temporal state changes, rather than repetitive circles or simple bars.",
+      "scope": "Reference for future manually authored reels; not automatically implemented in the HyperFrames compiler."
+    },
+    "diagramDirection": {
+      "priority": "Explain a concrete relation, comparison, or state transition; never use abstract geometry merely as decoration.",
+      "techniques": [
+        "hierarchical networks and branching",
+        "flow along paths with progressive activation",
+        "meaningful grouping and endpoint labels",
+        "side-by-side structures sharing a common comparison baseline",
+        "multiple connected views of one semantic structure",
+        "subtle gradient/light and dither changes tied to the data state"
+      ],
+      "avoid": [
+        "repeated isolated circles or bars without a semantic relationship",
+        "decorative fan of lines with no explained endpoints",
+        "adding more strokes as a substitute for explanatory detail",
+        "labels scattered without a link to their referenced path"
+      ],
+      "labelPlacement": "Intentionally irregular but deterministic, with collision detection, safe-area constraints, and clear relation to the corresponding geometry.",
+      "reference": "shorts/pilots/declarative-dither/uncommon-sight-ep06-style.md"
+    },
+    "coverRule": "Full-bleed 9:16 cover with no internal 3:4 image/letterbox; verify 4:5 profile crop and title safe area separately."
   },
   "narration": {
     "primary": {
@@ -142,13 +170,18 @@
     "working accessible delivery URL",
     "dynamic dithering proof: compare frames with changing gradient/light and confirm dot density/distribution recomputes, not only transformed static pattern",
     "deterministic seek test: same timestamp produces identical dither frame",
-    "verify no random flicker and crisp Korean labels after dither pass"
+    "verify no random flicker and crisp Korean labels after dither pass",
+    "diagram meaning gate: each diagram must explain a relationship, comparison, or temporal state change; reject purely decorative simple circles/bars",
+    "diagram richness gate: verify path hierarchy, grouping, endpoints, flow progression and comparison baseline are understandable without overcomplicating",
+    "irregular labels must be deterministic, meaningful and collision-free at sampled intermediate frames",
+    "cover full-bleed 9:16 with no letterboxing or inner 3:4 padding, plus 4:5 crop check"
   ],
   "references": [
     "shorts/pilots/declarative-dither/README.md",
     "shorts/hyperframes/monoliquid-v2/DESIGN.md",
     "shorts/docs/narration-style.md",
     "shorts/docs/hyperframes-monoliquid-v2.md",
-    "shorts/pilots/declarative-dither/dynamic-dithering.md"
+    "shorts/pilots/declarative-dither/dynamic-dithering.md",
+    "shorts/pilots/declarative-dither/uncommon-sight-ep06-style.md"
   ]
 }
