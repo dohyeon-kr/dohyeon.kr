@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "dohyeon-kr/declarative-dither-hyperframes-v1",
+  "version": 1,
+  "updatedAt": "2026-11-11",
+  "status": "reference-preset-not-auto-registered",
+  "intent": "Default preference for future manually authored DOHYEON KR Instagram reels; not yet automatically applied by the repository's automated shorts pipeline.",
+  "engine": {
+    "preferred": "HyperFrames",
+    "versionTested": "0.9.31",
+    "implementation": "deterministic HTML/CSS/GSAP; HyperFrames lint/check/snapshot/render",
+    "size": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30
+    },
+    "palette": {
+      "background": "#090a0b",
+      "foreground": "#f4f4f3",
+      "muted": "#a5a6a8",
+      "rule": "#45474a"
+    },
+    "typography": {
+      "korean": "Pretendard",
+      "english": "Archivo Expanded",
+      "largeTitlePx": [
+        88,
+        103
+      ],
+      "supportingTextPx": [
+        42,
+        52
+      ],
+      "maxTextLines": 2,
+      "avoid": [
+        "text overlap",
+        "overflow outside rectangles",
+        "bouncy motion",
+        "tiny labels"
+      ]
+    }
+  },
+  "visual": {
+    "style": "Monochrome editorial Declarative Dither",
+    "composition": "Reference from authority/responsibility pilot: header and thin rule; large upper dither object; divider; independent lower headline and short explanation; unobtrusive footer.",
+    "dither": "8x8 Bayer ordered-dither dots, coherent deformation; apply to large meaning-bearing shapes, leading numbers and primary chart bands only.",
+    "keepSharp": [
+      "all explanatory Korean text",
+      "subtitle/caption text",
+      "small labels",
+      "ticks",
+      "body copy"
+    ],
+    "chartRule": "Keep graph labels separate from numeric glyphs and plot fill; use non-overlapping box measured via browser.",
+    "safeAreasPx": {
+      "reelCriticalText": {
+        "left": 96,
+        "top": 270,
+        "right": 920,
+        "bottom": 1530
+      },
+      "ditherStage": {
+        "left": 96,
+        "top": 320,
+        "right": 984,
+        "bottom": 1110
+      },
+      "coverCentralCrop4x5": {
+        "left": 0,
+        "top": 285,
+        "right": 1080,
+        "bottom": 1635
+      },
+      "coverCriticalText": {
+        "left": 96,
+        "top": 365,
+        "right": 920,
+        "bottom": 1560
+      }
+    }
+  },
+  "narration": {
+    "primary": {
+      "provider": "HeyGen Voice",
+      "name": "Velvet Scholar",
+      "voiceId": "9f774d1a93b84a26aa3da3cf5ddf6135",
+      "language": "ko",
+      "modelWhenAvailableOnFreeMcp": "heygen-voice-1-turbo-free"
+    },
+    "instruction": "Use this exact voice ID for new reels when available within the connected HeyGen account's quota, unless the user requests another voice. Free-tier access is daily/availability limited, not perpetual unlimited usage.",
+    "fallback": "Do not silently change voice or incur paid charges if the free tier is exhausted. Prefer a user-approved locally runnable/free Korean TTS, and label the change.",
+    "delivery": "Measured speech WAV/PCM source preferred; one combined MP4 with actual narration and soft original ambient sound.",
+    "quality": {
+      "audioCodec": "AAC",
+      "sampleRateHz": 48000,
+      "minBitrateKbps": 160,
+      "targetBitrateKbps": 192,
+      "peakDbfsAtMost": -1,
+      "avoidLossyIntermediate": true,
+      "verify": "ffprobe streams/duration, decode and listen beginning/middle/end"
+    }
+  },
+  "writing": {
+    "narrationStyle": "Natural Korean ~합니다/~입니다, informative and observational; preserve author's experience, avoid generic motivational voice.",
+    "instagramCaptionStyle": "Explanatory practical caption (설명형), rather than merely restating autobiography or the full narration. Explain the technique, small actionable example, use cases, limits and a few relevant hashtags.",
+    "cover": "Question hook, not an answer-first spoiler.",
+    "narrative": "Concrete lived problem → reason vague estimation is costly → yes/no binary comparisons → choose stopping resolution → real-world use"
+  },
+  "qualityGate": [
+    "HyperFrames lint",
+    "HyperFrames check, including runtime/layout/contrast",
+    "multiple snapshots including all numeric steps and first/last frames",
+    "every key glyph and chart label inside measured safe bounds with no collisions",
+    "cover 4:5 crop review",
+    "final audio included and validated",
+    "working accessible delivery URL"
+  ],
+  "references": [
+    "shorts/pilots/declarative-dither/README.md",
+    "shorts/hyperframes/monoliquid-v2/DESIGN.md",
+    "shorts/docs/narration-style.md",
+    "shorts/docs/hyperframes-monoliquid-v2.md"
+  ]
+}
