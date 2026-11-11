@@ -83,6 +83,21 @@ Minimal. Return to the core sentence or CTA. A final literal metaphor such as an
 
 When `presenterOverlay` is present, render the presenter persistently in the bottom-right circular frame on non-CTA scenes. It is a supporting anchor, not the primary visual. It must not cover the headline, captions or critical photo/video subjects. The shared CTA may hide it with `hideOnCommonCta`.
 
+
+## Dynamic Dithering (Declarative Dither Reels)
+
+For reels explicitly using the Declarative Dither style, **primary dither objects must be re-quantized from an animated continuous-tone source at render time**, not animated as a pre-dithered PNG, SVG, or CSS dot mask. This is a specialized motion primitive; ordinary Monoliquid v2 photo, diagram, and typography scenes are unaffected.
+
+- Build shape geometry and **meaningful animated lighting/luminance/alpha gradients** first; update the tone source at each seekable HyperFrames time `t`.
+- Apply Bayer 8×8 ordered dithering **after the current frame's geometry/lighting/transforms**, in the output/screen-space sampling grid (Canvas/OffscreenCanvas or a deterministic fragment shader).
+- Keep the threshold matrix spatially anchored and frame output deterministic. Avoid arbitrary random flicker or perpetual effects. Camera crop/scale is allowed for framing, but it cannot substitute for actual temporal changes in dot density/distribution.
+- Reserve dithering for large meaning-bearing forms, large numbers and primary chart fills. Overlay Korean headlines, subtitles, small numbers, axes and explanatory labels **sharp** after the dither pass. Respect reel/cover safe areas and measured text boxes.
+- Verify two frames with changing light/gradient produce **new dot distributions**, not merely moved or resized identical dot patterns. HyperFrames `lint`/`check` alone cannot certify this.
+
+This use of gradients is **functional tone data for quantization**, not decorative gradient UI; the general ban on gratuitous gradients remains in force.
+
+Full contract: [dynamic-dithering.md](../../pilots/declarative-dither/dynamic-dithering.md). Preset: [hyperframes-reel-preset.json](../../pilots/declarative-dither/hyperframes-reel-preset.json). These are reference standards; do not claim the current compiler implements this shader until it is wired and tested.
+
 ## Motion
 
 - Build the hero/end layout first; animation starts from that known layout.
