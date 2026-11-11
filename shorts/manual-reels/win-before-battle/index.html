@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,initial-scale=1">
+<title>이기고 나서 싸우는 사람 · DOHYEON KR</title>
+<style>
+@font-face {font-family:Pretendard;src:url('./assets/PretendardVariable.woff2') format('woff2');font-weight:100 900;font-display:block}
+* {box-sizing:border-box}
+html,body {margin:0;width:1080px;height:1920px;overflow:hidden;background:#090a0b;color:#f4f4f3;font-family:Pretendard,'Noto Sans CJK KR',sans-serif}
+#root {width:1080px;height:1920px;position:relative;overflow:hidden;background:#090a0b}
+#field {position:absolute;inset:0;z-index:0;width:1080px;height:1920px}
+#paper {position:absolute;inset:0;z-index:2;pointer-events:none}
+#kicker {position:absolute;left:96px;top:270px;width:824px;font-size:30px;line-height:1.35;letter-spacing:-0.03em;font-weight:600;color:#a5a6a8}
+#top-rule {position:absolute;left:96px;top:344px;width:888px;height:2px;background:#45474a}
+#divider {position:absolute;left:96px;top:1150px;width:824px;height:2px;background:#45474a}
+#headline {position:absolute;left:96px;top:1193px;width:824px;height:248px;font-size:84px;line-height:1.17;letter-spacing:-.045em;font-weight:850;word-break:keep-all;overflow:visible;color:#f4f4f3}
+#headline .hline {display:block;white-space:nowrap}
+#support {position:absolute;left:96px;top:1453px;width:824px;min-height:60px;font-size:36px;line-height:1.3;letter-spacing:-.03em;color:#a5a6a8}
+#brand {position:absolute;left:96px;top:1631px;font-size:24px;font-weight:650;letter-spacing:.06em;color:#8e9093}
+#page-rule {position:absolute;left:96px;top:1600px;width:824px;height:1px;background:#45474a}
+#frame {position:absolute;inset:18px;border:1px solid #242628;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="win-before-battle" data-width="1080" data-height="1920" data-start="0" data-duration="43.8">
+<div class="clip" data-start="0" data-duration="43.8" data-track-index="0" style="position:absolute;inset:0">
+<canvas id="field" width="1080" height="1920" aria-hidden="true"></canvas>
+<div id="paper">
+  <div id="kicker">손자병법 · 군형(軍形)</div><div id="top-rule"></div>
+  <div id="divider"></div>
+  <div id="headline"><span class="hline" id="line1"></span><span class="hline" id="line2"></span></div>
+  <div id="support"></div><div id="page-rule"></div><div id="brand">DOHYEON KR</div>
+  <div id="frame"></div>
+</div>
+</div>
+</div>
+<script src="./node_modules/gsap/dist/gsap.min.js"></script>
+<script>
+(function(){
+'use strict';
+const WIDTH=1080,HEIGHT=1920,STEP=15.45,END=43.8;
+const scenes=[
+ {s:0,e:3.328,head:['왜 승리를 위해','무리해야 할까요?'],support:'이기기 위한 노력의 방향',kind:'strained'},
+ {s:3.328,e:9.472,head:['버티고, 감수하고','마지막에 뒤집는다'],support:'결과를 뒤집는 데 집중할 때',kind:'risk'},
+ {s:9.472,e:16.035,head:['이기는 군대는 먼저','이길 조건을 만든다'],support:'손자병법 · 승병선승이후구전',kind:'ring'},
+ {s:16.035,e:19.730,head:['과거의 승률은','결과의 기록입니다'],support:'얼마나 이겼는가',kind:'past'},
+ {s:19.730,e:25.234,head:['더 중요한 건','현재의 역량입니다'],support:'지금 승산을 높이는 선택',kind:'ability'},
+ {s:25.234,e:29.650,head:['실력을 쌓고','선택지를 만들면'],support:'내가 바꿀 수 있는 조건부터',kind:'options'},
+ {s:29.650,e:33.997,head:['위험은 줄어들고','승산은 높아집니다'],support:'좋은 상태가 선택의 부담을 줄인다',kind:'curve'},
+ {s:33.997,e:39.180,head:['무리하지 않고도','이길 수 있는 상태'],support:'비상한 노력 대신 축적된 조건',kind:'stable'},
+ {s:39.180,e:43.8,head:['승리는 싸우기 전에','시작됩니다'],support:'먼저 이기고, 그 뒤에 싸운다',kind:'final'}
+];
+const bayer=[
+ [0,48,12,60,3,51,15,63],[32,16,44,28,35,19,47,31],
+ [8,56,4,52,11,59,7,55],[40,24,36,20,43,27,39,23],
+ [2,50,14,62,1,49,13,61],[34,18,46,30,33,17,45,29],
+ [10,58,6,54,9,57,5,53],[42,26,38,22,41,25,37,21]
+];
+const c=document.getElementById('field'),ctx=c.getContext('2d',{alpha:false});
+const h1=document.getElementById('line1'),h2=document.getElementById('line2'),support=document.getElementById('support');
+const headline=document.getElementById('headline');
+let selected=-1;
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function smooth(a,b,v){const x=clamp((v-a)/(b-a),0,1);return x*x*(3-2*x)}
+function norm(x,y){return Math.sqrt(x*x+y*y)}
+function lamp(x,y,progress,t){
+ const lx=-.48+1.10*progress,ly=-.50+.72*progress;
+ const d=norm(x-lx,y-ly);
+ return clamp(.23+.36*(1-d/2.0)+.60*Math.exp(-d*d*3.6)+.045*Math.cos(1.7*t+x*2.2),0,1);
+}
+function sphere(x,y,cx,cy,rx,ry,progress,t){
+ const dx=(x-cx)/rx,dy=(y-cy)/ry;
+ const r=norm(dx,dy);
+ const a=1-smooth(.83,1.02,r);
+ const shading=.38+.34*Math.sqrt(Math.max(0,1-r*r))+.40*(dx*(-.65+progress)+dy*(-.36+.5*progress));
+ return clamp(a*clamp(shading,0,1)*(.55+.80*lamp(dx,dy,progress,t)),0,1);
+}
+function tone(kind,x,y,u,t) {
+ const breathing=.04*Math.sin((t+1)*.5);
+ if(kind==='strained'){
+   return sphere(x,y,.12,.05,.55,.72,u*.6,t)*(.60+.15*u);
+ }
+ if(kind==='risk'){
+   const dx=x-(.36-1.00*u),dy=y+.25-.52*u;
+   let core=sphere(x,y,.36-1.00*u,-.25+.52*u,.37,.45,u,t);
+   const slope=smooth(-.85,.8,x+.65*y)*.20;
+   return clamp(core+Math.max(0,slope-.13)*smooth(.2,.8,u),0,1);
+ }
+ if(kind==='ring'){
+   const r=norm(x*1.03,y*.97),gap=Math.abs(r-(.53+.06*u));
+   const ring=1-smooth(.10,.19,gap);
+   const core=sphere(x,y,.07,-.03,.40,.42,u,t)*(.13+.21*u);
+   return clamp(ring*(.42+.60*lamp(x,y,u,t))+core,0,1);
+ }
+ if(kind==='past'){
+   // Result bars: a changing present-tone field from static screen coordinates.
+   const bands=[.35,.55,.27,.72,.46],bx=(x+.83)/.34;
+   const id=Math.floor(bx);
+   const bar=id>=0&&id<5 && Math.abs(bx-id-.5)<.30 && y>.75-1.7*bands[id];
+   return bar?clamp(.20+.74*lamp(x,y,u,t),0,1):0;
+ }
+ if(kind==='ability'){
+   return sphere(x,y,0,.04,.60,.69,u,t)*(.42+.52*u);
+ }
+ if(kind==='options'){
+   const paths=[-.55,0,.55];
+   let best=0;
+   for(let i=0;i<3;i++){
+      const cx=paths[i]*(.45+.35*u);
+      const cy=-.20+(.35*(i-1))*u;
+      best=Math.max(best,sphere(x,y,cx,cy,.25,.30,u,t));
+   }
+   return best;
+ }
+ if(kind==='curve'){
+   const fx=-.8+1.6*u;
+   const yCurve=.55-1.05*smooth(-.9,.85,x);
+   const ridge=1-smooth(.04,.12,Math.abs(y-yCurve));
+   const spotlight=sphere(x,y,fx,.55-1.05*smooth(-.9,.85,fx),.22,.25,u,t);
+   return clamp(ridge*(.4+.52*lamp(x,y,u,t))+spotlight*.82,0,1);
+ }
+ if(kind==='stable'){
+   return sphere(x,y,0,0,.58,.63,u,t)*(.77+.17*u);
+ }
+ if(kind==='final'){
+   const glow=sphere(x,y,0,-.05,.57,.60,1,t)*(.88+.07*u);
+   const halo=(1-smooth(.03,.11,Math.abs(norm(x,y)-.71)))*(.25+.33*u)*lamp(x,y,u,t);
+   return clamp(glow+halo,0,1);
+ }
+ return 0;
+}
+function textFor(s){
+  h1.textContent=s.head[0];h2.textContent=s.head[1];support.textContent=s.support;
+  // Keep both lines inside fixed x=96..920 safe area; actual browser measures Korean glyphs.
+  let px=88;
+  headline.style.fontSize=px+'px';
+  while(px>=58 && (h1.scrollWidth>824||h2.scrollWidth>824)){
+    px-=2;headline.style.fontSize=px+'px';
+  }
+}
+function renderFrame(t){
+ t=clamp(t,0,END);
+ let index=scenes.length-1;
+ for(let i=0;i<scenes.length;i++){if(t<scenes[i].e){index=i;break}}
+ const s=scenes[index],u=clamp((t-s.s)/(s.e-s.s),0,1);
+ if(index!==selected){selected=index;textFor(s)}
+ ctx.fillStyle='#090a0b';ctx.fillRect(0,0,WIDTH,HEIGHT);
+ ctx.fillStyle='#f4f4f3';
+ const x0=105,y0=376,nx=Math.floor((975-x0)/STEP),ny=Math.floor((1100-y0)/STEP);
+ // Screen-space anchored 8x8 Bayer ordered dithering of the CURRENT continuous-tone field.
+ // The matrix stays fixed while gradient, lighting, geometry vary by render time.
+ for(let row=0;row<=ny;row++){
+   const py=y0+row*STEP,yn=(py-739)/353;
+   for(let col=0;col<=nx;col++){
+     const px=x0+col*STEP,xn=(px-540)/365;
+     const lum=tone(s.kind,xn,yn,u,t);
+     const threshold=(bayer[row%8][col%8]+.5)/64;
+     if(lum>threshold){
+       const rad=STEP*.235;
+       ctx.beginPath();ctx.arc(px,py,rad,0,Math.PI*2);ctx.fill();
+     }
+   }
+ }
+ // Meaning-bearing crisp vectors after the dither field; text is a separate sharp DOM layer.
+ if(s.kind==='curve'){
+   ctx.strokeStyle='#929498';ctx.lineWidth=2;
+   ctx.beginPath();ctx.moveTo(158,1028);ctx.lineTo(938,1028);ctx.stroke();
+   ctx.beginPath();ctx.moveTo(158,1028);ctx.lineTo(158,462);ctx.stroke();
+ }
+ if(s.kind==='risk'){
+   ctx.strokeStyle='#45474a';ctx.lineWidth=3;
+   ctx.beginPath();ctx.moveTo(195,1010);ctx.lineTo(852,516);ctx.stroke();
+ }
+}
+const playhead={t:0};
+const tl=gsap.timeline({paused:true});
+tl.to(playhead,{t:END,duration:END,ease:'none',onUpdate:function(){renderFrame(playhead.t)}},0);
+window.__timelines=window.__timelines||{};
+window.__timelines['win-before-battle']=tl;
+window.renderDitherAt=renderFrame;
+renderFrame(0);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){selected=-1;renderFrame(playhead.t)});
+})();
+</script>
+</body>
+</html>
