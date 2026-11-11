@@ -160,3 +160,11 @@ The full HyperFrames CLI pass requires the CLI/Chrome environment and is run by 
 - `.github/workflows/storyboard-shorts.yml` — shared storyboard workflow with engine selection
 - `.github/workflows/render-shorts.yml` — shared final render workflow with engine selection
 - `.github/workflows/review-storyboard.yml` — shared AI review with renderer-specific preview rerender
+
+## Dynamic dither follow-up (not yet implemented in compiler)
+
+The `Declarative Dither` manual-reel preset now requires **per-frame gradient-driven Bayer ordered dithering** for its primary shapes, large numbers and primary graph bands. A moving static dot mask is not sufficient. The render should generate continuous-tone lighting/gradient at time `t`, then quantize in screen space, then overlay crisp Korean typography. The dither pattern must be deterministic for arbitrary HyperFrames seeks, and the quality gate must compare dot density/distribution across different lighting states.
+
+This is a **production design contract**, not an assertion of current `build-hyperframes.mjs` support. Implementing it in the automatic compiler requires a bounded render primitive, manifest wiring, and tests. Do not silently treat the existing CSS dot backgrounds or animated static SVG points as conforming dynamic dithering.
+
+See [dynamic-dithering.md](../pilots/declarative-dither/dynamic-dithering.md) and [the reel preset](../pilots/declarative-dither/hyperframes-reel-preset.json).
