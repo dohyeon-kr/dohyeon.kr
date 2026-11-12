@@ -280,7 +280,13 @@ for (const [index, scene] of manifest.scenes.entries()) {
   timelineStatements.push(`tl.from("#${id} .ml-headline", {y:42, opacity:0, duration:.52, ease:"power3.out"}, ${(enter + 0.06).toFixed(3)});`);
   if (subline) timelineStatements.push(`tl.from("#${id} .ml-subline", {y:28, opacity:0, duration:.42, ease:"power2.out"}, ${(enter + 0.16).toFixed(3)});`);
   timelineStatements.push(`tl.from("#${id} .ml-rule", {scaleX:0, duration:.42, ease:"power2.out"}, ${(enter + 0.22).toFixed(3)});`);
-  if (body.length || fullBleedImage) timelineStatements.push(`tl.from("#${id} .ml-primary-visual", {y:26, opacity:0, scale:.985, duration:.5, ease:"power2.out"}, ${(enter + 0.26).toFixed(3)});`);
+  if (body.length || fullBleedImage) {
+    const lockedGrid = ditherMode === 'photo' || ditherMode === 'object';
+    // Screen-space Bayer cells must not be scaled or translated as an entrance.
+    const from = lockedGrid ? '{opacity:0, duration:.5, ease:"power2.out"}'
+      : '{y:26, opacity:0, scale:.985, duration:.5, ease:"power2.out"}';
+    timelineStatements.push(`tl.from("#${id} .ml-primary-visual", ${from}, ${(enter + 0.26).toFixed(3)});`);
+  }
   if (image && ditherMode !== "photo") timelineStatements.push(`tl.from("#${id} .ml-image", {scale:1.025, duration:.8, ease:"power2.out"}, ${(enter + 0.28).toFixed(3)});`);
   if (presenterVisible) timelineStatements.push(`tl.from("#${id} .ml-presenter-overlay", {y:18, opacity:0, duration:.34, ease:"power2.out"}, ${(enter + 0.22).toFixed(3)});`);
   for (const [cueIndex, cue] of captions.entries()) {
