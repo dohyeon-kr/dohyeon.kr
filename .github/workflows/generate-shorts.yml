@@ -27,6 +27,14 @@ on:
           - 'monoliquid-v2'
           - 'aurora-explain'
           - 'notebook-grid'
+      reel_profile:
+        description: 'Approved dark dither profile (used only with monoliquid-v2)'
+        required: true
+        default: dev_dohyeon
+        type: choice
+        options:
+          - dev_dohyeon
+          - uncommon_sight
       candidate_count:
         description: Number of independent shorts candidates
         required: true
@@ -78,6 +86,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SHORTS_TEXT_MODEL: ${{ vars.SHORTS_TEXT_MODEL }}
           SHORTS_TEMPLATE: ${{ inputs.template }}
+          SHORTS_REEL_PROFILE: ${{ inputs.reel_profile }}
           SHORTS_ADDITIONAL_REQUEST: ${{ inputs.additional_request }}
           POST_URL: ${{ inputs.post_url }}
           CANDIDATE_COUNT: ${{ inputs.candidate_count }}
