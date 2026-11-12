@@ -182,7 +182,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
 
   const preparedImage = scene.imagePath ? await copyPreparedMedia(scene.imagePath, `${id}-image`) : null;
   let previewImage = scene.image ?? null;
-  if (!preparedArg && !previewImage && scene.visual?.type === 'photo') {
+  if (!preparedArg && !previewImage && !scene.imagePath && scene.visual?.type === 'photo') {
     const query = compact(scene.visual?.query || scene.imageQuery);
     if (query) previewImage = await previewPhotoSearch(query);
   }
