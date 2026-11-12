@@ -202,18 +202,7 @@ body { font-family: var(--ml-font-sans); color: var(--ml-ink); overflow: hidden;
   background: var(--ml-paper-2);
 }
 
-.ml-image-wrap::after {
-  content: "IMAGE / MONO";
-  position: absolute;
-  right: 18px;
-  bottom: 14px;
-  padding: 5px 8px;
-  background: var(--ml-ink);
-  color: var(--ml-canvas);
-  font-family: var(--ml-font-extended);
-  font-size: 18px;
-  letter-spacing: .08em;
-}
+
 
 .ml-image {
   width: 100%;
@@ -350,3 +339,77 @@ body { font-family: var(--ml-font-sans); color: var(--ml-ink); overflow: hidden;
 .ml-tick::after { width: 2px; height: 22px; top: 0; left: 10px; }
 .ml-tick--tl { top: 36px; left: 36px; }
 .ml-tick--br { right: 36px; bottom: 36px; }
+
+/* Locked Declarative Dither profile. Only used when a manifest opts into
+ * style.reelProfile; existing Monoliquid videos remain unchanged. */
+.ml-reel {
+  --ml-canvas: #090a0b;
+  --ml-paper: #111214;
+  --ml-paper-2: #17181a;
+  --ml-ink: #f4f4f3;
+  --ml-line: #45474a;
+  --ml-muted: #a5a6a8;
+  --ml-safe-x: 96px;
+  --ml-safe-top: 225px;
+  --ml-safe-bottom: 520px;
+  --ml-title: 96px;
+  --ml-body: 46px;
+  --ml-caption: 45px;
+}
+.ml-reel .ml-scene { background: #090a0b; color: #f4f4f3; }
+.ml-reel .ml-topline { font-family: "Archivo Expanded", "Pretendard", sans-serif; font-size: 21px; }
+.ml-reel .ml-headline { font-family: "Pretendard", sans-serif; line-height: 1.08; font-weight: 850; }
+.ml-reel .ml-subline { font-family: "Pretendard", sans-serif; line-height: 1.28; }
+.ml-reel .ml-image-wrap { border: 0; background: #090a0b; max-height: 760px; }
+.ml-reel .ml-scene--fullbleed { background: #090a0b; }
+.ml-reel .ml-scene--fullbleed .ml-headline,
+.ml-reel .ml-scene--fullbleed .ml-subline { position: relative; z-index: 3; }
+.ml-reel .ml-caption-zone {
+  position: absolute;
+  top: 1360px;
+  bottom: auto;
+  left: 96px;
+  right: 160px;
+  height: 155px;
+  min-height: 0;
+  padding-top: 10px;
+  border-top: 0;
+  z-index: 9;
+}
+.ml-reel .ml-caption {
+  top: 10px;
+  inset: 10px auto auto 0;
+  max-width: 100%;
+  width: max-content;
+  font-family: "Pretendard", sans-serif;
+  font-size: 45px;
+  font-weight: 800;
+  line-height: 1.13;
+  letter-spacing: -.025em;
+  padding: 8px 14px 7px;
+  background: #f4f4f3;
+  color: #090a0b;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  overflow-wrap: break-word;
+}
+.ml-reel--uncommon_sight .ml-headline { font-weight: 800; }
+.ml-reel--uncommon_sight .ml-topline { letter-spacing: .045em; }
+.ml-reel .ml-dither-stage { position: relative; overflow: hidden; background: #090a0b; }
+.ml-reel .ml-object-stage { height: 620px; width: 100%; }
+.ml-reel .ml-dither-source {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ml-reel .ml-dither-canvas {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #090a0b;
+}
