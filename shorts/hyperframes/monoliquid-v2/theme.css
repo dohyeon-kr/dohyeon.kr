@@ -396,6 +396,7 @@ body { font-family: var(--ml-font-sans); color: var(--ml-ink); overflow: hidden;
 .ml-reel--uncommon_sight .ml-headline { font-weight: 800; }
 .ml-reel--uncommon_sight .ml-topline { letter-spacing: .045em; }
 .ml-reel .ml-dither-stage { position: relative; overflow: hidden; background: #090a0b; }
+.ml-reel .ml-fullbleed-media.ml-dither-stage { position: absolute; inset: 0; }
 .ml-reel .ml-object-stage { height: 620px; width: 100%; }
 .ml-reel .ml-dither-source {
   position: absolute;
