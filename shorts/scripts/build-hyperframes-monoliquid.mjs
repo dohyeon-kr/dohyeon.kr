@@ -9,6 +9,7 @@ import {createPhotoSearch} from './resolve-visuals.mjs';
 import {loadVideoCatalog, validateVideoSelection, acquireVideo, prepareVideo} from './video-assets.mjs';
 import {videoFrameCount} from '../src/video/schema.ts';
 import {presenterDefinitions, presenterMarkup as renderPresenterMarkup, presenterTimeline} from './hyperframes-presenter.mjs';
+import {validateReelManifest, ditherModeOf, REEL_BRAND_VERSION, REEL_TOKENS} from './reel-brand-contract.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.join(repoRoot, 'shorts');
@@ -65,6 +66,7 @@ if (preparedArg) {
 } else {
   manifest = withBlogCta(structuredClone(candidate));
 }
+const reelProfile = validateReelManifest(manifest);
 
 const slug = safeName(path.basename(path.dirname(manifestPath)));
 const candidateId = safeName(candidate.id || path.basename(manifestPath, '.json'));
@@ -83,6 +85,7 @@ await Promise.all([
   fs.copyFile(path.join(themeRoot, 'tokens.css'), path.join(outputDir, 'tokens.css')),
   fs.copyFile(path.join(themeRoot, 'theme.css'), path.join(outputDir, 'theme.css')),
   fs.copyFile(path.join(themeRoot, 'presenter.svg'), path.join(outputDir, 'presenter.svg')),
+  fs.copyFile(path.join(themeRoot, 'reel-dither.js'), path.join(outputDir, 'reel-dither.js')),
   fs.copyFile(path.join(repoRoot, 'themes', 'monoliquid', 'assets', 'fonts', 'pretendard-variable.woff2'), path.join(outputDir, 'fonts', 'pretendard-variable.woff2')),
   fs.copyFile(path.join(repoRoot, 'themes', 'monoliquid', 'assets', 'fonts', 'archivo-expanded-black-latin.woff2'), path.join(outputDir, 'fonts', 'archivo-expanded-black-latin.woff2')),
   ...['Pretendard-Bold.woff', 'Pretendard-Regular.woff'].map(name =>
@@ -185,6 +188,10 @@ for (const [index, scene] of manifest.scenes.entries()) {
   }
   const previewScene = previewImage === scene.image ? scene : {...scene, image: previewImage};
   const image = preparedImage ?? (!preparedArg ? await downloadPreviewImage(previewScene, `${id}-image`) : null);
+  const ditherMode = reelProfile ? ditherModeOf(scene) : 'none';
+  if (ditherMode === 'photo' && !image) {
+    throw new Error(`Scene ${number}: photo dithering cannot continue without a resolved, licensed image asset.`);
+  }
   const preparedVideo = scene.videoPath ? await copyPreparedMedia(scene.videoPath, `${id}-background`) : null;
   const backgroundVideo = preparedVideo ?? (scene.backgroundVideo ? await prepareBackgroundVideo(scene, `${id}-background`) : null);
   const audio = scene.audioPath ? await copyPreparedMedia(scene.audioPath, `${id}-audio`) : null;
@@ -194,7 +201,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const comparisonLeft = compact(scene.comparisonLeft);
   const comparisonRight = compact(scene.comparisonRight);
   const visualLabel = compact(scene.visual?.value || scene.visual?.motif || scene.visualIntent?.concept);
-  const sourceLabel = `DLOG / ${kind.toUpperCase()}`;
+  const sourceLabel = reelProfile ? reelProfile.overline : `DLOG / ${kind.toUpperCase()}`;
   const fullBleedImage = scene.layout === 'photo-full-bleed' && Boolean(image);
   const fullBleed = fullBleedImage || Boolean(backgroundVideo);
   const presenterVisible = Boolean(manifest.presenterOverlay);
@@ -210,8 +217,14 @@ for (const [index, scene] of manifest.scenes.entries()) {
     const labels = [headline, subline || visualLabel || '관계', comparisonRight || '결과'].filter(Boolean).slice(0, 3);
     while (labels.length < 3) labels.push(['입력', '변화', '결과'][labels.length]);
     body.push(`<div class="ml-diagram ml-primary-visual">${labels.map(label => `<div class="ml-node">${escapeHtml(label)}</div>`).join('')}</div>`);
+  } else if (ditherMode === 'object') {
+    const motif = compact(scene.visual?.motif);
+    body.push(`<div class="ml-object-stage ml-primary-visual ml-dither-stage"><canvas class="ml-dither-canvas" data-dither-kind="object" data-dither-motif="${escapeHtml(motif)}" aria-label="${escapeHtml(motif)}"></canvas></div>`);
   } else if (image && !fullBleedImage) {
-    body.push(`<div class="ml-image-wrap ml-primary-visual"><img class="ml-image" src="${escapeHtml(image)}" alt="" /></div>`);
+    const photo = ditherMode === 'photo'
+      ? `<img class="ml-dither-source" src="${escapeHtml(image)}" alt="" /><canvas class="ml-dither-canvas" data-dither-kind="photo" aria-hidden="true"></canvas>`
+      : `<img class="ml-image" src="${escapeHtml(image)}" alt="" />`;
+    body.push(`<div class="ml-image-wrap ml-primary-visual${ditherMode === 'photo' ? ' ml-dither-stage' : ''}">${photo}</div>`);
   }
 
   const captions = Array.isArray(scene.captions) && scene.captions.length
@@ -224,7 +237,9 @@ for (const [index, scene] of manifest.scenes.entries()) {
   const sceneClasses = ['clip', 'ml-scene', `ml-scene--${kind}`, fullBleed ? 'ml-scene--fullbleed' : '', backgroundVideo ? 'ml-scene--video' : ''].filter(Boolean).join(' ');
   const sceneStyle = backgroundVideo ? ` style="--ml-video-overlay-opacity:${overlayOpacity};"` : '';
   const fullBleedMarkup = fullBleedImage
-    ? `<div class="ml-fullbleed-media ml-primary-visual" data-layout-ignore><img class="ml-image ml-fullbleed-image" src="${escapeHtml(image)}" alt="" /></div>`
+    ? ditherMode === 'photo'
+      ? `<div class="ml-fullbleed-media ml-primary-visual ml-dither-stage" data-layout-ignore><img class="ml-dither-source" src="${escapeHtml(image)}" alt="" /><canvas class="ml-dither-canvas" data-dither-kind="photo" aria-hidden="true"></canvas></div>`
+      : `<div class="ml-fullbleed-media ml-primary-visual" data-layout-ignore><img class="ml-image ml-fullbleed-image" src="${escapeHtml(image)}" alt="" /></div>`
     : '';
   const presenterMarkup = presenterVisible
     ? renderPresenterMarkup()
@@ -266,7 +281,7 @@ for (const [index, scene] of manifest.scenes.entries()) {
   if (subline) timelineStatements.push(`tl.from("#${id} .ml-subline", {y:28, opacity:0, duration:.42, ease:"power2.out"}, ${(enter + 0.16).toFixed(3)});`);
   timelineStatements.push(`tl.from("#${id} .ml-rule", {scaleX:0, duration:.42, ease:"power2.out"}, ${(enter + 0.22).toFixed(3)});`);
   if (body.length || fullBleedImage) timelineStatements.push(`tl.from("#${id} .ml-primary-visual", {y:26, opacity:0, scale:.985, duration:.5, ease:"power2.out"}, ${(enter + 0.26).toFixed(3)});`);
-  if (image) timelineStatements.push(`tl.from("#${id} .ml-image", {scale:1.025, duration:.8, ease:"power2.out"}, ${(enter + 0.28).toFixed(3)});`);
+  if (image && ditherMode !== "photo") timelineStatements.push(`tl.from("#${id} .ml-image", {scale:1.025, duration:.8, ease:"power2.out"}, ${(enter + 0.28).toFixed(3)});`);
   if (presenterVisible) timelineStatements.push(`tl.from("#${id} .ml-presenter-overlay", {y:18, opacity:0, duration:.34, ease:"power2.out"}, ${(enter + 0.22).toFixed(3)});`);
   for (const [cueIndex, cue] of captions.entries()) {
     const cueStart = start + Math.max(0, cue.startSeconds);
@@ -281,7 +296,9 @@ for (const [index, scene] of manifest.scenes.entries()) {
 }
 
 const totalDuration = cursor;
-const compositionClassAttr = candidate.style?.colorScheme === 'dark' ? ' class="ml-theme--dark"' : '';
+const compositionClassAttr = reelProfile
+  ? ` class="ml-theme--dark ml-reel ml-reel--${reelProfile.id}" data-reel-brand-version="${REEL_BRAND_VERSION}"`
+  : candidate.style?.colorScheme === 'dark' ? ' class="ml-theme--dark"' : '';
 const ctaFonts = renderToStaticMarkup(createElement(BlogCtaFontFaces, {fontUrl: value => value}));
 // Caption alignment adds two timeline commands per cue. Keep generated motion
 // separate from composition markup so check --strict does not reject otherwise
@@ -312,11 +329,14 @@ const html = `<!doctype html>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
   <script src="timeline.js"></script>
+  <script src="reel-dither.js"></script>
   <script>
     window.__timelines = window.__timelines || {};
     const tl = gsap.timeline({paused:true});
     window.populateMonoliquidTimeline(tl);
+    if (window.renderReelDither) tl.eventCallback("onUpdate", () => window.renderReelDither(tl.time()));
     window.__timelines["monoliquid-v2"] = tl;
+    if (window.renderReelDither) window.renderReelDither(0);
   </script>
 </body>
 </html>\n`;
@@ -326,6 +346,7 @@ await Promise.all([
   fs.writeFile(path.join(outputDir, 'timeline.js'), timelineSource, 'utf8'),
   fs.writeFile(path.join(outputDir, 'timings.json'), `${JSON.stringify({prefix, manifest: manifestArg, totalDurationSeconds: totalDuration, scenes: timings}, null, 2)}\n`, 'utf8'),
   fs.writeFile(path.join(outputDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8'),
+  ...(reelProfile ? [fs.writeFile(path.join(outputDir, 'reel-brand.json'), `${JSON.stringify({version: REEL_BRAND_VERSION, profile: reelProfile, tokens: REEL_TOKENS, modalities: manifest.scenes.map(scene => ditherModeOf(scene))}, null, 2)}\n`, 'utf8')] : []),
 ]);
 
 if (process.env.GITHUB_OUTPUT) {
