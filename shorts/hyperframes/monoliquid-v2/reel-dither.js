@@ -98,7 +98,7 @@
           const dy = row / rows - beamY;
           const spot = Math.exp(-(dx*dx + dy*dy) / .16);
           const edge = clamp(Math.min(col / cols, row / rows, 1-col/cols, 1-row/rows) * 8);
-          luminance = clamp((base - .06) * (1.04 + .52 * spot)) * edge;
+          luminance = clamp((base - .06) * (1.04 + .52 * spot)) * edge * (pixels[offset+3] / 255);
         } else {
           const x = (col - cols/2) / scale;
           const y = (row - rows/2) / scale;
