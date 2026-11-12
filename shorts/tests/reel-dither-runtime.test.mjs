@@ -26,7 +26,7 @@ function makeRuntime(kind) {
   };
   const doc = {
     querySelectorAll: selector =>
-      selector === '.ml-dither-canvas' ? [canvas] : selector === 'img.ml-dither-source' ? [image] : [],
+      selector === '.ml-dither-canvas' ? [canvas] : selector === 'img.ml-dither-source' && kind === 'photo' ? [image] : [],
     createElement: () => ({
       width:0, height:0,
       getContext: () => ({
