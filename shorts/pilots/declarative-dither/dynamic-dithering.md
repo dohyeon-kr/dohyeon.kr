@@ -78,4 +78,9 @@ function renderDither(timeSeconds, outputWidth, outputHeight) {
 - [README.md](README.md): 서사, 안전영역, 나레이션과 품질 게이트.
 - [Monoliquid v2 DESIGN](../../hyperframes/monoliquid-v2/DESIGN.md): 공통 디자인 규칙.
 
-**현 상태:** 위 사항은 제작 표준/회고다. 저장소의 기존 `shorts/scripts/build-hyperframes.mjs` 컴파일러와 이미 렌더된 영상에 자동 적용되지는 않는다. 실제 자동 적용을 위해서는 렌더 프리미티브, 시각 테스트 및 컴파일러 연결을 별도 구현해야 한다.
+**2026-11-13 현재:** `style.reelProfile`이 명시된 새 Monoliquid v2 릴스는
+`shorts/hyperframes/monoliquid-v2/reel-dither.js`를 통해 **사진과 지원되는 구체/링/blob 심벌**에
+seek-safe Bayer 동적 디더링을 적용한다. 문서만 존재하던 이전 상태와 달리 해당 경로는
+HyperFrames 컴파일러에 연결되었다. 단, 범용 `diagramSpec` 노드/복잡한 그래프의 동적
+디더링, 실제 게시물 시각 유사도 자동 채점, 전면적인 3D 회전은 여전히 미구현이다.
+기존 영상은 변경되지 않으며, 테스트 통과가 실제 시각 품질의 자동 보증은 아니다.
