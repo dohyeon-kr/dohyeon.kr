@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "id": "dohyeon-kr/declarative-dither-hyperframes-v1",
-  "version": 3,
-  "updatedAt": "2026-11-11",
-  "status": "reference-preset-not-auto-registered",
-  "intent": "Default preference for future manually authored DOHYEON KR Instagram reels; not yet automatically applied by the repository's automated shorts pipeline.",
+  "version": 4,
+  "updatedAt": "2026-11-13",
+  "status": "partially-enforced-runtime-photo-and-semantic-object",
+  "intent": "Reference preset plus a real HyperFrames opt-in profile. New generated monoliquid-v2 candidates use dev_dohyeon by default; SHORTS_REEL_PROFILE=uncommon_sight selects the philosophy account. Existing candidates without style.reelProfile are unchanged.",
   "engine": {
     "preferred": "HyperFrames",
     "versionTested": "0.9.31",
@@ -183,5 +183,25 @@
     "shorts/docs/hyperframes-monoliquid-v2.md",
     "shorts/pilots/declarative-dither/dynamic-dithering.md",
     "shorts/pilots/declarative-dither/uncommon-sight-ep06-style.md"
-  ]
+  ],
+  "enforcement": {
+    "contractSource": "shorts/scripts/reel-brand-contract.mjs",
+    "runtime": "shorts/hyperframes/monoliquid-v2/reel-dither.js",
+    "activation": "style.template=monoliquid-v2, style.colorScheme=dark, style.reelProfile=dev_dohyeon|uncommon_sight",
+    "implemented": [
+      "dark monochrome editorial tokens and Pretendard-first captions",
+      "consistent compact 45px Korean subtitle box and 1080x1920 canvas",
+      "per-frame screen-space Bayer 8x8 dithering of sourced photos",
+      "per-frame Bayer dithering for approved sphere/ring/blob semantic symbols",
+      "strict profile and photo-source validation with regression tests"
+    ],
+    "stillPending": [
+      "full arbitrary diagramSpec per-frame Bayer fill and graph quantization",
+      "automated Instagram publish/crop verification",
+      "automated visual similarity scoring against Instagram reference frames",
+      "enforcing the chosen HeyGen voice in an end-to-end TTS account integration",
+      "measured 90% no-touch success over 20 or more diverse new reels"
+    ],
+    "modalityRule": "Photo for concrete experiences/objects when a usable licensed asset exists, diagram for relationships/causality, symbol only for explicitly supported meaningful motifs. No numeric photo quota."
+  }
 }

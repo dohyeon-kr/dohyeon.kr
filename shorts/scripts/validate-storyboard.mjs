@@ -9,6 +9,7 @@ import {validateScenePresenter} from '../src/presenter/schema.ts';
 import {validateDiagram} from '../src/visuals/diagram-spec.ts';
 import {withBlogCta} from './blog-cta.mjs';
 import {collectAuroraStrictIssues, formatAuroraStrictIssue} from './aurora-strict-layout.mjs';
+import {validateReelManifest} from './reel-brand-contract.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const shortsRoot = path.resolve(import.meta.dirname, '..');
@@ -63,6 +64,7 @@ const main = async () => {
     template = resolveTemplate(manifest);
   });
   check('Manifest / presenter overlay', () => validatePresenterOverlay(manifest));
+  check('Manifest / reel brand', () => validateReelManifest(manifest));
   if (template && manifest.scenes.some((scene) => scene.uiMotion) && template.id !== 'notebook-grid') {
     failures.push({scope: 'Manifest / uiMotion', message: 'uiMotion requires notebook-grid'});
     console.error('::error title=Manifest / uiMotion::uiMotion requires notebook-grid');

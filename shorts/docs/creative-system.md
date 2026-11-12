@@ -460,3 +460,17 @@ Static frames demonstrate layout and sampled states, not audio timing or smooth 
 ## 선택형 템플릿
 
 템플릿 목록·선택 API와 노트 그리드의 레이아웃·사진 삽입 규칙은 [templates.md](templates.md)를 따른다. `style.template=notebook-grid`에서는 미색 종이·주황 구획선·흰 인화지 여백·반투명 PNG 테이프 규칙이 기본 흑백 배경과 사진 풀블리드 정책보다 우선한다. 내레이션·사진 출처·한글 간격·도식 의미 보존 규칙은 유지한다.
+
+## Implementation note: account-locked photo dither (2026-11-13)
+
+For approved monochrome Declarative Dither reels, the first-party
+`reel-brand-contract.mjs` defines `dev_dohyeon` and `uncommon_sight`
+profiles sharing one locked palette, typography, caption and screen-space Bayer
+grid. A **concrete photo** in an experience/observation scene is not
+merely desaturated: it is redithered in `reel-dither.js` using its original
+luminance plus a time-varying soft light. The image must be sourced.
+A relationship diagram is still chosen for reasoning, but the general bounded
+Monoliquid diagram renderer is **not yet** a complete dynamic dither engine.
+The brand contract is a guardrail; it does not force the same visual metaphor
+or a photo quota across every scene. See
+`shorts/docs/hyperframes-monoliquid-v2.md` for exact scope and limitations.

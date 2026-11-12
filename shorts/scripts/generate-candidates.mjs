@@ -1,6 +1,7 @@
 import {NotebookUiMotionSchema} from '../src/visuals/notebook-ui-motion-schema.ts';
 import {HyperFramesMotionSchema} from '../src/hyperframes/motion-schema.ts';
 import {getTemplate} from '../src/templates/registry.ts';
+import {reelProfileOf} from './reel-brand-contract.mjs';
 import {SYSTEM_PROMPT, VISUAL_SYSTEM_PROMPT, renderPrompt} from './shorts-prompts.mjs';
 import {withBlogCta} from './blog-cta.mjs';
 import {GeneratedPresenterSchema} from '../src/presenter/schema.ts';
@@ -298,9 +299,16 @@ const main = async () => {
         artDirection: 'monochrome-editorial-motion',
         motionLanguage: 'sharp-subtle',
         decorativeLabels: 'forbidden',
+        ...(template.id === 'monoliquid-v2' ? {
+          colorScheme: 'dark',
+          // New Monoliquid reels default to the approved dev_dohyeon profile.
+          // Set SHORTS_REEL_PROFILE=uncommon_sight for philosophy releases.
+          reelProfile: process.env.SHORTS_REEL_PROFILE || 'dev_dohyeon',
+        } : {}),
       },
       scenes: candidate.scenes,
     });
+    reelProfileOf(manifest.style);
     manifest.scenes.forEach((scene, i) => validateSceneMotion(scene, manifest.scenes[i - 1]));
     await fs.writeFile(path.join(outputDir, `${manifest.id}.json`), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
   }
