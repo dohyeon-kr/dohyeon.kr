@@ -161,3 +161,53 @@ test('monoliquid-v2 emits prepared background video as a root-level HyperFrames 
   const sceneMarkup = html.slice(sceneIndex, html.indexOf('</section>', sceneIndex));
   assert.doesNotMatch(sceneMarkup, /<video\b/, 'background video must not be nested inside a timed scene section');
 });
+
+test('approved reel profiles use one locked layout and photo/object Bayer renderer', async t => {
+  const suffix = `${process.pid}-${Date.now()}-dither`;
+  const fixtureDir = path.join(shortsRoot, 'content', `.reel-brand-test-${suffix}`);
+  const publicImageName = `.reel-brand-test-${suffix}.svg`;
+  await fs.mkdir(fixtureDir, {recursive: true});
+  await fs.writeFile(path.join(shortsRoot, 'public', publicImageName),
+    '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240"><rect width="320" height="240" fill="#ddd"/><circle cx="160" cy="120" r="72" fill="#333"/></svg>');
+  const outputs = [];
+  t.after(async () => {
+    await Promise.all([
+      fs.rm(fixtureDir, {recursive: true, force: true}),
+      fs.rm(path.join(shortsRoot, 'public', publicImageName), {force: true}),
+      ...outputs.map(dir => fs.rm(dir, {recursive: true, force: true})),
+    ]);
+  });
+  for (const profile of ['dev_dohyeon', 'uncommon_sight']) {
+    const photos = {...fixtureScene(0), kind:'photo', layout:'photo-strip', imagePath:publicImageName,
+      visual:{type:'photo', motif:null, query:'vintage CRT television', value:null, xLabel:null, yLabel:null}};
+    const object = {...fixtureScene(1), kind:'statement',
+      visual:{type:'symbol', motif:'sphere', query:null, value:null, xLabel:null, yLabel:null}};
+    const manifest = candidateManifest([photos, object]);
+    manifest.style.reelProfile = profile;
+    const manifestPath = path.join(fixtureDir, `${profile}.json`);
+    const outputDir = path.join(shortsRoot, '.tmp', `reel-brand-test-${profile}-${suffix}`);
+    outputs.push(outputDir);
+    await fs.writeFile(manifestPath, JSON.stringify(manifest));
+    const result = spawnSync(process.execPath, [
+      path.join(shortsRoot, 'scripts', 'build-hyperframes.mjs'),
+      path.relative(repoRoot, manifestPath),
+      `--output=${path.relative(repoRoot, outputDir)}`,
+    ], {cwd: repoRoot, encoding:'utf8'});
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const html = await fs.readFile(path.join(outputDir, 'index.html'), 'utf8');
+    const css = await fs.readFile(path.join(outputDir, 'theme.css'), 'utf8');
+    const runtime = await fs.readFile(path.join(outputDir, 'reel-dither.js'), 'utf8');
+    const brand = JSON.parse(await fs.readFile(path.join(outputDir, 'reel-brand.json'), 'utf8'));
+    assert.match(html, new RegExp(`ml-reel--${profile}`));
+    assert.match(html, /data-dither-kind="photo"/);
+    assert.match(html, /data-dither-kind="object"/);
+    assert.match(html, /window.renderReelDither\(tl.time\(\)\)/);
+    assert.match(css, /\.ml-reel \.ml-caption-zone[\s\S]*?top: 1360px/);
+    assert.doesNotMatch(css, /IMAGE \/ MONO/);
+    assert.match(runtime, /const BAYER = /);
+    assert.doesNotMatch(runtime, /Math\.random|Date\.now|requestAnimationFrame/);
+    assert.deepEqual(brand.modalities, ['photo', 'object', 'none']);
+    assert.equal(brand.tokens.captionPx, 45);
+    assert.equal(brand.profile.id, profile);
+  }
+});
