@@ -161,10 +161,48 @@ The full HyperFrames CLI pass requires the CLI/Chrome environment and is run by 
 - `.github/workflows/render-shorts.yml` — shared final render workflow with engine selection
 - `.github/workflows/review-storyboard.yml` — shared AI review with renderer-specific preview rerender
 
-## Dynamic dither follow-up (not yet implemented in compiler)
+## Declarative Dither runtime · 2026-11-13
 
-The `Declarative Dither` manual-reel preset now requires **per-frame gradient-driven Bayer ordered dithering** for its primary shapes, large numbers and primary graph bands. A moving static dot mask is not sufficient. The render should generate continuous-tone lighting/gradient at time `t`, then quantize in screen space, then overlay crisp Korean typography. The dither pattern must be deterministic for arbitrary HyperFrames seeks, and the quality gate must compare dot density/distribution across different lighting states.
+New `monoliquid-v2` candidates select `style.reelProfile=dev_dohyeon` by default.
+Choose `uncommon_sight` explicitly via the **Generate blog shorts** workflow's
+`reel_profile` input, or `SHORTS_REEL_PROFILE=uncommon_sight` locally.
+Older manifests without a `reelProfile` retain the original Monoliquid look.
 
-This is a **production design contract**, not an assertion of current `build-hyperframes.mjs` support. Implementing it in the automatic compiler requires a bounded render primitive, manifest wiring, and tests. Do not silently treat the existing CSS dot backgrounds or animated static SVG points as conforming dynamic dithering.
+The renderer now imports `scripts/reel-brand-contract.mjs`, which validates
+profile, dark palette, concrete photo sources and shared identity tokens.
+`hyperframes/monoliquid-v2/reel-dither.js` draws sourced photographs and
+explicit sphere/ring/blob symbols from their continuous-tone source **at the
+current seek time**. A changing light field and screen-anchored 8×8 Bayer
+matrix re-quantize visible dots; old pre-dithered images are not merely moved.
+Blurred or noisy typography is not permitted. `reel-brand.json` is emitted
+with every branded compilation, recording the contract, profile and per-scene
+modalities. Missing photos are fatal rather than silently turning into icons.
 
-See [dynamic-dithering.md](../pilots/declarative-dither/dynamic-dithering.md) and [the reel preset](../pilots/declarative-dither/hyperframes-reel-preset.json).
+The photo decision is semantic, not an arbitrary percentage. Prefer photographs
+for concrete experiences/objects (wallet, CRT television, door, hand, room)
+and diagrams for causality, change, structure and comparison. It is fine to
+use multiple photographs or none in a specific reel when that serves the story.
+Photos must have resolved usage rights and be normalized to the same Bayer
+grid, dark monochrome and caption treatment as other scenes.
+
+**Current boundary:** arbitrary graph/diagram `diagramSpec` is still rendered
+by the existing bounded Monoliquid relation renderer, **not** re-quantized
+with dynamic Bayer. 3D orbital camera reconstruction, automated Instagram
+publishing/crop QA and automatic visual-similarity scores against approved
+reference reels are also not implemented. HeyGen's preferred `Velvet Scholar`
+voice is documented but is not forced by the HyperFrames compiler.
+Do not claim a 90% no-touch pass rate until a varied 20-reel review records it.
+
+### Acceptance checklist
+
+1. Style profile matches the intended Instagram account and
+   `reel-brand.json` lists expected photo/object/diagram modalities.
+2. `node --test shorts/tests/reel-brand-contract.test.mjs
+   shorts/tests/reel-dither-runtime.test.mjs shorts/tests/hyperframes-build.test.mjs`
+   passes. The runtime tests check identical-frame determinism and different
+   dot distributions under changed lighting.
+3. Run HyperFrames `lint`, `check --strict`, preview and final MP4 inspection
+   using the existing shared storyboard/render workflows.
+4. Inspect representative **intermediate** lighting frames, text overlap,
+   1080×1920 video, 4:5 profile crop, the 45px caption box and voice/audio
+   integrity before publication. The unit suite alone cannot certify the look.
