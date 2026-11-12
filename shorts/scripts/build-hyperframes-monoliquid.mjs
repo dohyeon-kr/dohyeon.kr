@@ -329,7 +329,7 @@ const html = `<!doctype html>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
   <script src="timeline.js"></script>
-  <script src="reel-dither.js"></script>
+  ${reelProfile ? '<script src="reel-dither.js"></script>' : ''}
   <script>
     window.__timelines = window.__timelines || {};
     const tl = gsap.timeline({paused:true});
